@@ -76,6 +76,7 @@ COMPONENTS = [
     ("Samsara",                "IOT",            "IOT",       0.0, "USD"),
     ("Rubrik",                 "RBRK",           "RBRK",      0.0, "USD"),
     ("Decagon",                "DECAGON",        "DECAGON",   0.0, "USD"),
+    ("\u7845\u57fa\u667a\u80fd", "硅基智能",       "SILICONINTELLIGENCE", 0.0, "USD"),
     ("\u62fc\u591a\u591a",      "PDD",            "PDD",       0.0, "USD"),
     ("\u7ebd\u7ea6\u65f6\u62a5", "NYT",           "NYT",       0.0, "USD"),
     ("\u6bd4\u4e9a\u8fea",      "BYD",            "002594.SZ", 0.0, "CNY"),
