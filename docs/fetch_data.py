@@ -271,38 +271,6 @@ def normalize_tnx(df: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
-def futures_price_to_implied_rate(df: pd.DataFrame) -> pd.DataFrame:
-    # 30-Day Fed Funds futures are quoted as 100 minus the expected
-    # average effective fed funds rate for the delivery month.
-    if df.empty:
-        return df
-    out = pd.DataFrame(index=df.index)
-    out["Open"] = 100.0 - df["Open"]
-    out["High"] = 100.0 - df["Low"]
-    out["Low"] = 100.0 - df["High"]
-    out["Close"] = 100.0 - df["Close"]
-    return out[["Open", "High", "Low", "Close"]]
-
-
-def fetch_fed_funds_apr27(start: str, end: str) -> tuple[pd.DataFrame, str, str]:
-    # Yahoo sometimes exposes only the continuous ZQ contract. Try the named
-    # Apr-2027 symbols first, then fall back to the continuous contract.
-    candidates = [
-        ("ZQJ27.CBT", "Yahoo Finance named contract"),
-        ("ZQJ2027.CBT", "Yahoo Finance named contract"),
-        ("ZQJ27.CME", "Yahoo Finance named contract"),
-        ("ZQ=F", "Yahoo Finance continuous 30-Day Fed Funds futures fallback"),
-    ]
-    for ticker, source_note in candidates:
-        print(f"Fetching Fed Funds Apr27 ({ticker}) ...")
-        df = fetch_ohlc(ticker, start, end)
-        if not df.empty:
-            return futures_price_to_implied_rate(df), ticker, source_note
-    return pd.DataFrame(columns=["Open", "High", "Low", "Close"]), "ZQJ27", (
-        "Synthetic fallback used because named and continuous yfinance tickers returned no data."
-    )
-
-
 def main():
     script_dir = Path(__file__).resolve().parent
     ap = argparse.ArgumentParser()
@@ -367,15 +335,6 @@ def main():
         raise SystemExit("US10Y yield data missing; cannot align ^TNX.")
     print("Building yield CN10Y synthetic curve ...")
     cn10y_aligned = generate_synthetic_yield(common, 1010, 2.85, 0.025, -0.0005, 1.5, 4.0)
-    print("Fetching Fed Funds Apr '27 implied rate (ZQJ27) ...")
-    fed_funds, fed_funds_source, fed_funds_note = fetch_fed_funds_apr27(args.start, args.end)
-    if fed_funds.empty:
-        print("  WARNING: empty Fed Funds futures result; using synthetic fallback")
-        fed_funds = generate_synthetic_yield(common, 202704, 3.08, 0.018, -0.00015, 1.0, 6.0)
-    fed_funds_aligned = fed_funds.reindex(common).ffill().bfill()
-    if fed_funds_aligned.isna().any().any():
-        raise SystemExit("Fed Funds Apr27 implied-rate data missing; cannot align ZQJ27.")
-
     # 4) Align each component; back/forward-fill late-IPO gaps
     components_out = []
     pending_components = []
@@ -474,16 +433,6 @@ def main():
                 "ticker": "^TNX",
                 "data": to_records(us10y_aligned),
             },
-            "FEDFUNDS_APR27": {
-                "name": "Fed Funds Apr '27 Implied Rate",
-                "ticker": "ZQJ27",
-                "source_ticker": fed_funds_source,
-                "source_note": fed_funds_note,
-                "quote_formula": "implied_rate = 100 - futures_price",
-                "barchart_url": "https://www.barchart.com/futures/quotes/ZQJ27/interactive-chart",
-                "tradingview_symbol": "CBOT:ZQJ2027",
-                "data": to_records(fed_funds_aligned),
-            },
         },
     }
     with open(args.out, "w") as f:
@@ -508,9 +457,6 @@ def main():
           f"{cn10y_aligned['Close'].iloc[-1]:.3f}%")
     print(f"  US10Y:      {us10y_aligned['Close'].iloc[0]:.3f}% \u2192 "
           f"{us10y_aligned['Close'].iloc[-1]:.3f}%")
-    print(f"  ZQJ27:      {fed_funds_aligned['Close'].iloc[0]:.3f}% \u2192 "
-          f"{fed_funds_aligned['Close'].iloc[-1]:.3f}% implied "
-          f"(source: {fed_funds_source})")
 
 
 if __name__ == "__main__":
