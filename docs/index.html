@@ -896,7 +896,7 @@
   <div class="container">
     <h1>AI 无人机 <span style="color:#5e9eff;font-size:0.6em;font-weight:300;letter-spacing:2px;margin-left:8px">AI DRONE PORTFOLIO</span></h1>
     <div class="manifesto">
-      <div class="manifesto-tag">组合栏目 · PORTFOLIO CHANNELS · 8 PORTFOLIOS</div>
+      <div class="manifesto-tag">组合栏目 · PORTFOLIO CHANNELS · 9 PORTFOLIOS</div>
       <div class="manifesto-sort">
         <span class="manifesto-sort-label">组合排序</span>
         <div class="components-rank-toggle" id="portfolio-rank-group" aria-label="Portfolio ranking mode">
@@ -910,6 +910,11 @@
           <span class="pillar-num">①</span>
           <span class="pillar-cat pillar-cat--realized">组合</span>
           <span class="pillar-text"><span class="m-key">AI 无人机</span><span class="pillar-en">AI Drone Portfolio</span></span>
+        </li>
+        <li class="pillar pillar--breakthrough" data-portfolio="slm">
+          <span class="pillar-num">②</span>
+          <span class="pillar-cat pillar-cat--breakthrough">组合</span>
+          <span class="pillar-text"><span class="m-key">自有小型语言模型</span><span class="pillar-en">Small Language Model Portfolio</span></span>
         </li>
         <li class="pillar pillar--pending" data-portfolio="china-leading">
           <span class="pillar-num">③</span>
@@ -927,7 +932,7 @@
           <span class="pillar-text"><span class="m-key">电池指数</span><span class="pillar-en">Battery Index</span></span>
         </li>
       </ol>
-      <div class="manifesto-footer">先推出八个组合栏目，后续可继续扩展更多主题组合。<span class="manifesto-footer-en">Launching eight portfolio channels first, with room for more themes later.</span></div>
+      <div class="manifesto-footer">先推出九个组合栏目，后续可继续扩展更多主题组合。<span class="manifesto-footer-en">Launching nine portfolio channels first, with room for more themes later.</span></div>
     </div>
 
     <div class="meta-strip">
@@ -1607,6 +1612,46 @@
             seed: 8821, base: 18.0, vol: 0.045, drift: 0.00100 },
         ],
       },
+      "slm": {
+        name: "自有小型语言模型",
+        nameEn: "Small Language Model Portfolio",
+        tag: "策略 · CRM / CRWD / GWRE / IOT / RBRK / PLTR · 各 16.67%",
+        tagEn: "STRATEGY · CRM / CRWD / GWRE / IOT / RBRK / PLTR · 16.67 EACH",
+        footer: "六只企业软件股票等权配置，聚焦自有数据、智能体工具、垂直行业云和企业韧性需求驱动的小型语言模型落地场景。",
+        footerEn: "Equal-weight exposure to six enterprise-software names focused on proprietary data, agent tools, vertical cloud, and resilience-driven SLM deployment.",
+        components: [
+          { name: "Salesforce",                     short: "CRM",            ticker: "CRM",       weight: 1 / 6, ccy: "USD", sleeve: "US", status: "active",
+            concept: "智能体开发工具 + 企业数据云",
+            conceptEn: "Agent developer tools + enterprise data cloud",
+            marketCap: 260.0,
+            seed: 1999, base: 145, vol: 0.024, drift: 0.00038 },
+          { name: "CrowdStrike",                    short: "CRWD",           ticker: "CRWD",      weight: 1 / 6, ccy: "USD", sleeve: "US", status: "active",
+            concept: "安全模块扩张 + AI 原生防护",
+            conceptEn: "Security-module expansion + AI-native protection",
+            marketCap: 115.0,
+            seed: 2011, base: 105, vol: 0.034, drift: 0.00055 },
+          { name: "Guidewire",                      short: "GWRE",           ticker: "GWRE",      weight: 1 / 6, ccy: "USD", sleeve: "US", status: "active",
+            concept: "保险核心系统云转型 + AI 增量",
+            conceptEn: "Insurance core-system cloud shift + AI expansion",
+            marketCap: 20.0,
+            seed: 2012, base: 65, vol: 0.023, drift: 0.00034 },
+          { name: "Samsara",                        short: "IOT",            ticker: "IOT",       weight: 1 / 6, ccy: "USD", sleeve: "US", status: "active",
+            concept: "物联网数据闭环 + ROI 驱动 AI",
+            conceptEn: "IoT data loop + ROI-driven AI",
+            marketCap: 23.0,
+            seed: 2021, base: 12, vol: 0.038, drift: 0.00062 },
+          { name: "Rubrik",                         short: "RBRK",           ticker: "RBRK",      weight: 1 / 6, ccy: "USD", sleeve: "US", status: "active",
+            concept: "Agent Cloud + 身份安全 + 企业韧性",
+            conceptEn: "Agent Cloud + identity security + cyber resilience",
+            marketCap: 20.0,
+            seed: 2024, base: 32, vol: 0.042, drift: 0.00070 },
+          { name: "Palantir Technologies",          short: "PLTR",           ticker: "PLTR",      weight: 1 / 6, ccy: "USD", sleeve: "US", status: "active",
+            concept: "私有数据平台 + 运营级 AI 编排",
+            conceptEn: "Private data platform + operational AI orchestration",
+            marketCap: 350.0,
+            seed: 5003, base: 7.8, vol: 0.045, drift: 0.00115 },
+        ],
+      },
       "china-leading": {
         name: "中国景气指数",
         nameEn: "China Prosperity Index",
@@ -1887,6 +1932,24 @@
           { date: "2026-05-05", category: "market", label: "Neros 预上市观察", en: "Neros pre-listing watch",
             desc: "Neros Technologies 暂无公开 ticker,作为 AI 无人机中的战术 FPV 与本土化制造预上市观察项;公开行情出现后自动加入等权计算。",
             desc_en: "Neros Technologies has no public ticker yet and is tracked as a tactical FPV drone and domestic-manufacturing pre-listing watch name; once public quote data appears, it automatically joins the equal-weight calculation." },
+        ],
+      },
+      "slm": {
+        header: "自有小型语言模型事件",
+        headerEn: "Small Language Model Milestones",
+        milestones: [
+          { date: "2022-11-30", category: "llm", label: "SLM 组合起点", en: "SLM portfolio start",
+            desc: "以统一 T₀ 追踪企业软件公司把自有数据、工作流和行业知识转化为小型语言模型与智能体产品的能力。",
+            desc_en: "Uses the shared T0 to track enterprise software companies turning proprietary data, workflows, and industry knowledge into SLM and agent products." },
+          { date: "2024-04-25", category: "market", label: "Rubrik 上市", en: "Rubrik IPO",
+            desc: "Rubrik 上市后，数据安全、身份安全和企业韧性需求进入可跟踪的公开市场曲线。",
+            desc_en: "Rubrik's IPO brings data security, identity security, and enterprise resilience demand into the public-market curve." },
+          { date: "2025-09-24", category: "product", label: "智能体开发工具线", en: "Agent developer-tool line",
+            desc: "Salesforce、Palantir 等企业软件平台把智能体工具、私有数据和业务流程连接起来，形成 SLM 落地的核心场景。",
+            desc_en: "Salesforce, Palantir, and other enterprise-software platforms connect agent tools, private data, and business workflows as core SLM deployment contexts." },
+          { date: "2026-02-20", category: "infra", label: "垂直行业云与安全模块扩张", en: "Vertical cloud and security-module expansion",
+            desc: "Guidewire、Samsara、CrowdStrike 和 Rubrik 分别代表行业云、物联网数据、端点安全与企业韧性的增量 AI 市场。",
+            desc_en: "Guidewire, Samsara, CrowdStrike, and Rubrik represent incremental AI markets across vertical cloud, IoT data, endpoint security, and enterprise resilience." },
         ],
       },
       "china-leading": {
@@ -2217,6 +2280,7 @@
     function portfolioStyleClass(key) {
       return {
         drone: "pillar--realized",
+        slm: "pillar--breakthrough",
         "china-leading": "pillar--pending",
         blockchain: "pillar--partial",
         battery: "pillar--breakthrough",
@@ -2361,7 +2425,7 @@
         `${portfolio.nameEn} <span style="color:#5e9eff;font-size:0.6em;font-weight:300;letter-spacing:2px;margin-left:8px">${portfolio.name}</span>`
       );
 
-      document.querySelector(".manifesto-tag").textContent = t("组合栏目 · 先推出 8 个组合", "PORTFOLIO CHANNELS · 8 PORTFOLIOS");
+      document.querySelector(".manifesto-tag").textContent = t("组合栏目 · 先推出 9 个组合", "PORTFOLIO CHANNELS · 9 PORTFOLIOS");
       document.querySelector("#portfolio-rank-group").previousElementSibling.textContent = t("组合排序", "Sort Portfolios");
       document.querySelector('#portfolio-rank-group button[data-portfolio-rank="default"]').textContent = t("默认", "Default");
       document.querySelector('#portfolio-rank-group button[data-portfolio-rank="mcap"]').textContent = t("市值", "Market Cap");
