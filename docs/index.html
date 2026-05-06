@@ -2227,18 +2227,12 @@
       }[key] || "pillar--realized";
     }
 
-    function portfolioCategoryKey(key) {
-      return new Set([
-        "china-leading",
-        "battery",
-        "china-property",
-      ]).has(key) ? "china" : "global";
+    function portfolioCategoryKey() {
+      return "global";
     }
 
-    function portfolioCategoryLabel(key) {
-      return key === "china"
-        ? t("中国指数", "China Indexes")
-        : t("全球 / 主题指数", "Global / Theme Indexes");
+    function portfolioCategoryLabel() {
+      return t("全球 / 主题指数", "Global / Theme Indexes");
     }
 
     function portfolioComponentsForKey(key) {
@@ -2301,7 +2295,7 @@
       };
       const numbers = ["①", "②", "③", "④", "⑤", "⑥", "⑦", "⑧", "⑨", "⑩", "⑪", "⑫", "⑬"];
       const rows = portfolioRows().sort(sorters[currentPortfolioRank] || sorters.default);
-      const groups = ["china", "global"];
+      const groups = ["global"];
       let counter = 0;
       document.querySelector(".manifesto-pillars").innerHTML = groups.map((groupKey) => {
         const groupRows = rows.filter((row) => portfolioCategoryKey(row.key) === groupKey);
