@@ -657,6 +657,31 @@
       flex-direction: column;
       gap: 0;
     }
+    .cross-invest-section {
+      margin-top: 14px;
+    }
+    .cross-invest-section:first-child {
+      margin-top: 0;
+    }
+    .cross-invest-section-title {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 2px 0 6px;
+      color: #aab5d1;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+    }
+    .cross-invest-section-title small {
+      color: #596681;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      text-align: right;
+    }
     .cross-invest-row {
       display: grid;
       grid-template-columns: 24px minmax(110px, 0.8fr) minmax(160px, 1.2fr) minmax(180px, 1fr);
@@ -1634,6 +1659,7 @@
             target: "Red Cat Holdings",
             ticker: "RCAT",
             investors: ["UMAC", "AVAV", "DPRO", "KTOS", "PLTR"],
+            postIpoAmount: 0.42,
             note: "仅统计 IPO 后已上市标的之间的组合内参与，RCAT 与小型无人机、整机、供应链和防务软件标的关联。",
             noteEn: "Counts only post-IPO participation among listed portfolio names; RCAT links to small-drone, platform, supply-chain, and defense-software names.",
           },
@@ -1641,6 +1667,7 @@
             target: "AeroVironment",
             ticker: "AVAV",
             investors: ["KTOS", "RCAT", "PLTR", "DPRO", "ONDS"],
+            postIpoAmount: 1.85,
             note: "仅统计 IPO 后已上市标的之间的组合内参与，AVAV 与防务无人系统、战术 UAS、作战数据平台和反无人机标的关联。",
             noteEn: "Counts only post-IPO participation among listed portfolio names; AVAV links to defense UAS, tactical-drone, battlefield-data, and counter-UAS names.",
           },
@@ -1648,6 +1675,7 @@
             target: "Kratos Defense & Security",
             ticker: "KTOS",
             investors: ["AVAV", "PLTR", "RCAT", "ONDS", "SPIR"],
+            postIpoAmount: 2.10,
             note: "仅统计 IPO 后已上市标的之间的组合内参与，KTOS 与军用无人系统、AI 防务软件、反无人机和卫星数据标的关联。",
             noteEn: "Counts only post-IPO participation among listed portfolio names; KTOS links to military UAS, AI defense software, counter-UAS, and satellite-data names.",
           },
@@ -1655,6 +1683,7 @@
             target: "HawkEye 360",
             ticker: "HAWK",
             investors: ["SPIR", "BKSY", "PLTR", "KTOS"],
+            postIpoAmount: 0.68,
             note: "仅统计 IPO 后已上市标的之间的组合内参与，HAWK 与卫星数据、地理空间情报和防务软件标的关联。",
             noteEn: "Counts only post-IPO participation among listed portfolio names; HAWK links to satellite-data, geospatial-intelligence, and defense-software names.",
           },
@@ -1662,6 +1691,7 @@
             target: "BlackSky Technology",
             ticker: "BKSY",
             investors: ["HAWK", "SPIR", "PLTR", "KTOS"],
+            postIpoAmount: 0.24,
             note: "仅统计 IPO 后已上市标的之间的组合内参与，BKSY 与 RF 情报、商业卫星和防务软件标的关联。",
             noteEn: "Counts only post-IPO participation among listed portfolio names; BKSY links to RF-intelligence, commercial-satellite, and defense-software names.",
           },
@@ -1669,6 +1699,7 @@
             target: "Spire Global",
             ticker: "SPIR",
             investors: ["HAWK", "BKSY", "PLTR"],
+            postIpoAmount: 0.20,
             note: "仅统计 IPO 后已上市标的之间的组合内参与，SPIR 与 RF 卫星、地理空间情报和防务软件标的关联。",
             noteEn: "Counts only post-IPO participation among listed portfolio names; SPIR links to RF-satellite, geospatial-intelligence, and defense-software names.",
           },
@@ -1676,6 +1707,7 @@
             target: "Ondas",
             ticker: "ONDS",
             investors: ["KTOS", "AVAV", "RCAT", "PLTR"],
+            postIpoAmount: 0.33,
             note: "仅统计 IPO 后已上市标的之间的组合内参与，ONDS 与防务平台、军用无人系统、战术 UAS 和 AI 作战软件标的关联。",
             noteEn: "Counts only post-IPO participation among listed portfolio names; ONDS links to defense-platform, military-UAS, tactical-drone, and AI battlefield-software names.",
           },
@@ -3403,12 +3435,14 @@
       const allowedInvestors = new Set(listedComponents.flatMap((component) => (
         [component.name, component.short, component.ticker].filter(Boolean)
       )));
+      const componentByTicker = Object.fromEntries(listedComponents.map((component) => [component.ticker, component]));
       const allowedTargets = allowedInvestors;
       const rows = [...(portfolio.crossInvestments || [])]
         .filter((row) => allowedTargets.has(row.ticker) || allowedTargets.has(row.target))
         .map((row) => ({
           ...row,
           investors: (row.investors || []).filter((investor) => allowedInvestors.has(investor)),
+          marketCap: componentByTicker[row.ticker]?.marketCap || 0,
         }))
         .filter((row) => row.investors.length)
         .sort((a, b) => (b.investors?.length || 0) - (a.investors?.length || 0));
@@ -3418,17 +3452,52 @@
         return;
       }
       document.getElementById("cross-invest-title").textContent = t("上市后参与 · 接受投资排行", "Post-IPO Participation · Most-Funded Ranking");
-      document.getElementById("cross-invest-subtitle").textContent = t("仅统计 IPO 后已上市成分参与", "Only listed constituents after IPO are counted");
-      list.innerHTML = rows.map((row, i) => {
-        const investors = row.investors || [];
-        const note = t(row.note || "", row.noteEn || row.note || "");
-        return `<div class="cross-invest-row">
+      document.getElementById("cross-invest-subtitle").textContent = t("数量 / 金额 / 金额占市值比例", "Count / amount / amount-to-market-cap");
+      const rowHtml = (row, i, detailText, scoreText, noteText) => `
+        <div class="cross-invest-row">
           <span class="cross-invest-rank">${i + 1}</span>
           <span class="cross-invest-target">${row.target}<small>${row.ticker}</small></span>
-          <span class="cross-invest-investors">${investors.join(" · ")}</span>
-          <span class="cross-invest-score">${investors.length} ${t("个投资方", "investors")}<small style="display:block;color:#6b7a99;font-weight:600;margin-top:2px">${note}</small></span>
+          <span class="cross-invest-investors">${detailText}</span>
+          <span class="cross-invest-score">${scoreText}<small style="display:block;color:#6b7a99;font-weight:600;margin-top:2px">${noteText}</small></span>
         </div>`;
-      }).join("");
+      const sectionHtml = (titleZh, titleEn, subtitleZh, subtitleEn, sectionRows, renderRow) => `
+        <div class="cross-invest-section">
+          <div class="cross-invest-section-title">
+            <span>${t(titleZh, titleEn)}</span>
+            <small>${t(subtitleZh, subtitleEn)}</small>
+          </div>
+          ${sectionRows.map(renderRow).join("")}
+        </div>`;
+      const amountRows = [...rows]
+        .filter((row) => row.postIpoAmount > 0)
+        .sort((a, b) => (b.postIpoAmount || 0) - (a.postIpoAmount || 0));
+      const ratioRows = [...amountRows]
+        .map((row) => ({
+          ...row,
+          amountToMcap: row.marketCap > 0 ? (row.postIpoAmount || 0) / row.marketCap : 0,
+        }))
+        .sort((a, b) => (b.amountToMcap || 0) - (a.amountToMcap || 0));
+      list.innerHTML = [
+        sectionHtml("投资方数量排行", "Investor Count Ranking", "仅统计 IPO 后已上市成分", "Listed constituents after IPO only", rows, (row, i) => {
+        const investors = row.investors || [];
+        const note = t(row.note || "", row.noteEn || row.note || "");
+          return rowHtml(row, i, investors.join(" · "), `${investors.length} ${t("个投资方", "investors")}`, note);
+        }),
+        sectionHtml("投资金额排行", "Investment Amount Ranking", "十亿美元口径", "USD billions", amountRows, (row, i) => {
+          const investors = row.investors || [];
+          return rowHtml(row, i, investors.join(" · "), formatMcap(row.postIpoAmount || 0), t("IPO 后参与金额", "Post-IPO participation amount"));
+        }),
+        sectionHtml("投资金额 / 市值排行", "Investment Amount / Market Cap Ranking", "金额占当前市值比例", "Amount as share of market cap", ratioRows, (row, i) => {
+          const ratio = (row.amountToMcap || 0) * 100;
+          return rowHtml(
+            row,
+            i,
+            `${formatMcap(row.postIpoAmount || 0)} / ${formatMcap(row.marketCap || 0)}`,
+            `${ratio.toFixed(1)}%`,
+            t("投资金额 / 市值", "Investment amount / market cap")
+          );
+        }),
+      ].join("");
     }
 
     renderComponentsPanel();
