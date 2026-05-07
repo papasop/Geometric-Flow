@@ -2519,9 +2519,12 @@
     }
 
     function renderAssetButtons() {
+      const sortedComponents = [...COMPONENTS_CONFIG].sort((a, b) => (
+        (b.marketCap || 0) - (a.marketCap || 0) || (b.weight || 0) - (a.weight || 0)
+      ));
       const buttons = [
         `<button data-asset="INDEX" class="${currentChartAsset === "INDEX" ? "active" : ""}"><span class="btn-main">${t("指数", "Index")}</span><span class="btn-sub">Index</span></button>`,
-        ...COMPONENTS_CONFIG.map((component) => `
+        ...sortedComponents.map((component) => `
           <button data-asset="${component.ticker}" class="${currentChartAsset === component.ticker ? "active" : ""}">
             <span class="btn-main">${component.short}</span><span class="btn-sub">${formatWeightPct(component.weight)}</span>
           </button>
