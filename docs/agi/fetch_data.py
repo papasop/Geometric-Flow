@@ -82,6 +82,7 @@ COMPONENTS = [
     ("\u7ebd\u7ea6\u65f6\u62a5", "NYT",           "NYT",       0.0, "USD"),
     ("\u6bd4\u4e9a\u8fea",      "BYD",            "002594.SZ", 0.0, "CNY"),
     ("\u8d35\u5dde\u8305\u53f0", "MOUTAI",        "600519.SS", 0.0, "CNY"),
+    ("\u7f8e\u7684\u96c6\u56e2", "美的",          "000333.SZ", 0.0, "CNY"),
     ("TRON",                   "TRX",            "TRX-USD",   0.0, "USD"),
     ("Hyperliquid",            "HYPE",           "HYPE32196-USD", 0.0, "USD"),
     ("Sky Protocol",           "SKY",            "SKY33038-USD", 0.0, "USD"),
