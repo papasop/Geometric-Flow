@@ -75,6 +75,7 @@ COMPONENTS = [
     ("Guidewire",              "GWRE",           "GWRE",      0.0, "USD"),
     ("Samsara",                "IOT",            "IOT",       0.0, "USD"),
     ("Rubrik",                 "RBRK",           "RBRK",      0.0, "USD"),
+    ("ServiceNow",             "NOW",            "NOW",       0.0, "USD"),
     ("Decagon",                "DECAGON",        "DECAGON",   0.0, "USD"),
     ("\u7845\u57fa\u667a\u80fd", "硅基智能",       "SILICONINTELLIGENCE", 0.0, "USD"),
     ("\u62fc\u591a\u591a",      "PDD",            "PDD",       0.0, "USD"),
