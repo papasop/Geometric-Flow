@@ -1112,8 +1112,8 @@
         <div class="components-list" id="components-list"></div>
         <div class="cross-invest-panel" id="cross-invest-panel" hidden>
           <div class="cross-invest-header">
-            <span id="cross-invest-title">交叉入股 · 接受投资排行</span>
-            <span id="cross-invest-subtitle">按接受投资方数量排序</span>
+            <span id="cross-invest-title">上市后参与 · 接受投资排行</span>
+            <span id="cross-invest-subtitle">仅统计 IPO 后已上市成分参与</span>
           </div>
           <div class="cross-invest-list" id="cross-invest-list"></div>
         </div>
@@ -1631,74 +1631,53 @@
         equalWeightTradable: true,
         crossInvestments: [
           {
-            target: "SpaceX",
-            ticker: "SPACEX",
-            investors: ["PLTR", "KTOS", "AVAV", "SPIR", "HAWK", "BKSY", "RCAT", "ONDS"],
-            note: "组合内航天、卫星情报、防务软件和无人系统标的对 SpaceX 预上市主题形成最多关联。",
-            noteEn: "Within the portfolio, space, satellite-intelligence, defense-software, and unmanned-systems names form the broadest SpaceX pre-listing linkage.",
-          },
-          {
-            target: "Skydio",
-            ticker: "SKYDIO",
-            investors: ["RCAT", "AVAV", "DPRO", "UMAC", "PLTR", "KTOS"],
-            note: "组合内战术无人机、整机、零部件和防务软件标的对 Skydio 预上市主题形成关联。",
-            noteEn: "Within the portfolio, tactical-drone, platform, component, and defense-software names link most directly to Skydio's pre-listing theme.",
-          },
-          {
             target: "Red Cat Holdings",
             ticker: "RCAT",
             investors: ["UMAC", "AVAV", "DPRO", "KTOS", "PLTR"],
-            note: "组合内小型无人机、整机平台、供应链和防务软件标的与 RCAT 主题重叠。",
-            noteEn: "Small-drone, platform, supply-chain, and defense-software names inside the portfolio overlap with RCAT's theme.",
+            note: "仅统计 IPO 后已上市标的之间的组合内参与，RCAT 与小型无人机、整机、供应链和防务软件标的关联。",
+            noteEn: "Counts only post-IPO participation among listed portfolio names; RCAT links to small-drone, platform, supply-chain, and defense-software names.",
           },
           {
             target: "AeroVironment",
             ticker: "AVAV",
             investors: ["KTOS", "RCAT", "PLTR", "DPRO", "ONDS"],
-            note: "组合内防务无人系统、战术 UAS、作战数据平台和反无人机标的与 AVAV 主题关联。",
-            noteEn: "Defense UAS, tactical-drone, battlefield-data, and counter-UAS names inside the portfolio link to AVAV's theme.",
+            note: "仅统计 IPO 后已上市标的之间的组合内参与，AVAV 与防务无人系统、战术 UAS、作战数据平台和反无人机标的关联。",
+            noteEn: "Counts only post-IPO participation among listed portfolio names; AVAV links to defense UAS, tactical-drone, battlefield-data, and counter-UAS names.",
           },
           {
             target: "Kratos Defense & Security",
             ticker: "KTOS",
             investors: ["AVAV", "PLTR", "RCAT", "ONDS", "SPIR"],
-            note: "组合内军用无人系统、AI 防务软件、反无人机和卫星数据标的与 KTOS 主题关联。",
-            noteEn: "Military UAS, AI defense software, counter-UAS, and satellite-data names inside the portfolio link to KTOS's theme.",
+            note: "仅统计 IPO 后已上市标的之间的组合内参与，KTOS 与军用无人系统、AI 防务软件、反无人机和卫星数据标的关联。",
+            noteEn: "Counts only post-IPO participation among listed portfolio names; KTOS links to military UAS, AI defense software, counter-UAS, and satellite-data names.",
           },
           {
             target: "HawkEye 360",
             ticker: "HAWK",
-            investors: ["SPIR", "BKSY", "PLTR", "KTOS", "SPACEX"],
-            note: "组合内卫星数据、地理空间情报、防务软件和航天平台标的与 HAWK 主题关联。",
-            noteEn: "Satellite-data, geospatial-intelligence, defense-software, and space-platform names inside the portfolio link to HAWK's theme.",
+            investors: ["SPIR", "BKSY", "PLTR", "KTOS"],
+            note: "仅统计 IPO 后已上市标的之间的组合内参与，HAWK 与卫星数据、地理空间情报和防务软件标的关联。",
+            noteEn: "Counts only post-IPO participation among listed portfolio names; HAWK links to satellite-data, geospatial-intelligence, and defense-software names.",
           },
           {
             target: "BlackSky Technology",
             ticker: "BKSY",
-            investors: ["HAWK", "SPIR", "PLTR", "KTOS", "SPACEX"],
-            note: "组合内 RF 情报、商业卫星、防务软件和航天平台标的与 BKSY 主题关联。",
-            noteEn: "RF-intelligence, commercial-satellite, defense-software, and space-platform names inside the portfolio link to BKSY's theme.",
+            investors: ["HAWK", "SPIR", "PLTR", "KTOS"],
+            note: "仅统计 IPO 后已上市标的之间的组合内参与，BKSY 与 RF 情报、商业卫星和防务软件标的关联。",
+            noteEn: "Counts only post-IPO participation among listed portfolio names; BKSY links to RF-intelligence, commercial-satellite, and defense-software names.",
           },
           {
             target: "Spire Global",
             ticker: "SPIR",
-            investors: ["HAWK", "BKSY", "SPACEX", "PLTR", "UNSEENLABS"],
-            note: "组合内 RF 卫星、地理空间情报、航天平台和防务软件标的与 SPIR 主题关联。",
-            noteEn: "RF-satellite, geospatial-intelligence, space-platform, and defense-software names inside the portfolio link to SPIR's theme.",
-          },
-          {
-            target: "Unseenlabs",
-            ticker: "UNSEENLABS",
-            investors: ["HAWK", "SPIR", "BKSY", "SPACEX"],
-            note: "组合内 RF 卫星、商业卫星、地理空间情报和航天平台标的与 Unseenlabs 预上市主题关联。",
-            noteEn: "RF-satellite, commercial-satellite, geospatial-intelligence, and space-platform names inside the portfolio link to Unseenlabs's pre-listing theme.",
+            investors: ["HAWK", "BKSY", "PLTR"],
+            note: "仅统计 IPO 后已上市标的之间的组合内参与，SPIR 与 RF 卫星、地理空间情报和防务软件标的关联。",
+            noteEn: "Counts only post-IPO participation among listed portfolio names; SPIR links to RF-satellite, geospatial-intelligence, and defense-software names.",
           },
           {
             target: "Ondas",
             ticker: "ONDS",
             investors: ["KTOS", "AVAV", "RCAT", "PLTR"],
-            note: "组合内防务平台、军用无人系统、战术 UAS 和 AI 作战软件标的与 ONDS 反无人机主题关联。",
-            noteEn: "Defense-platform, military-UAS, tactical-drone, and AI battlefield-software names inside the portfolio link to ONDS's counter-UAS theme.",
+            note: "仅统计 IPO 后已上市标的之间的组合内参与，ONDS 与防务平台、军用无人系统、战术 UAS 和 AI 作战软件标的关联。",
+            noteEn: "Counts only post-IPO participation among listed portfolio names; ONDS links to defense-platform, military-UAS, tactical-drone, and AI battlefield-software names.",
           },
         ],
         components: [
@@ -3420,10 +3399,13 @@
       const list = document.getElementById("cross-invest-list");
       if (!panel || !list) return;
       const portfolio = activePortfolio();
-      const allowedInvestors = new Set((portfolio.components || []).flatMap((component) => (
+      const listedComponents = (portfolio.components || []).filter((component) => component.status === "active");
+      const allowedInvestors = new Set(listedComponents.flatMap((component) => (
         [component.name, component.short, component.ticker].filter(Boolean)
       )));
+      const allowedTargets = allowedInvestors;
       const rows = [...(portfolio.crossInvestments || [])]
+        .filter((row) => allowedTargets.has(row.ticker) || allowedTargets.has(row.target))
         .map((row) => ({
           ...row,
           investors: (row.investors || []).filter((investor) => allowedInvestors.has(investor)),
@@ -3435,8 +3417,8 @@
         list.innerHTML = "";
         return;
       }
-      document.getElementById("cross-invest-title").textContent = t("交叉入股 · 接受投资排行", "Cross-Holdings · Most-Funded Ranking");
-      document.getElementById("cross-invest-subtitle").textContent = t("按接受投资方数量排序", "Sorted by investor count");
+      document.getElementById("cross-invest-title").textContent = t("上市后参与 · 接受投资排行", "Post-IPO Participation · Most-Funded Ranking");
+      document.getElementById("cross-invest-subtitle").textContent = t("仅统计 IPO 后已上市成分参与", "Only listed constituents after IPO are counted");
       list.innerHTML = rows.map((row, i) => {
         const investors = row.investors || [];
         const note = t(row.note || "", row.noteEn || row.note || "");
