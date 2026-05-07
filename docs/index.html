@@ -632,6 +632,79 @@
       background: linear-gradient(90deg, rgba(94, 158, 255, 0.56), currentColor);
       transition: width 0.28s ease;
     }
+    .cross-invest-panel {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(42, 54, 84, 0.62);
+    }
+    .cross-invest-panel[hidden] {
+      display: none;
+    }
+    .cross-invest-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+      color: #6b7a99;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.1px;
+    }
+    .cross-invest-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .cross-invest-row {
+      display: grid;
+      grid-template-columns: 24px minmax(110px, 0.8fr) minmax(160px, 1.2fr) minmax(180px, 1fr);
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-top: 1px solid rgba(42, 54, 84, 0.44);
+      font-size: 12.5px;
+    }
+    .cross-invest-row:first-child {
+      border-top: none;
+    }
+    .cross-invest-rank {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(255, 209, 102, 0.12);
+      color: #ffd166;
+      font-size: 11px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+    .cross-invest-target {
+      color: #fff;
+      font-weight: 650;
+      min-width: 0;
+    }
+    .cross-invest-target small {
+      display: block;
+      color: #4a5778;
+      font-size: 10px;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+    .cross-invest-investors {
+      color: #8a96b3;
+      line-height: 1.45;
+      min-width: 0;
+    }
+    .cross-invest-score {
+      color: #ffd166;
+      font-weight: 700;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
     .milestones {
       margin-top: 18px;
       background: #131a2b;
@@ -861,6 +934,20 @@
         min-width: 160px;
         flex: 1 1 160px;
       }
+      .cross-invest-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .cross-invest-row {
+        grid-template-columns: 24px 1fr;
+        gap: 7px 10px;
+      }
+      .cross-invest-investors,
+      .cross-invest-score {
+        grid-column: 2;
+        text-align: left;
+      }
       .floating-lang-toggle {
         bottom: 12px;
         right: 12px;
@@ -1023,6 +1110,13 @@
           </span>
         </div>
         <div class="components-list" id="components-list"></div>
+        <div class="cross-invest-panel" id="cross-invest-panel" hidden>
+          <div class="cross-invest-header">
+            <span id="cross-invest-title">交叉入股 · 接受投资排行</span>
+            <span id="cross-invest-subtitle">按接受投资方数量排序</span>
+          </div>
+          <div class="cross-invest-list" id="cross-invest-list"></div>
+        </div>
       </div>
     </div>
 
@@ -1535,6 +1629,43 @@
         footer: "已上市成分股自动等权；Skydio 与 Neros 作为预上市观察项，公开行情出现后自动纳入无人机组合。",
         footerEn: "Listed constituents are equal-weighted automatically; Skydio and Neros are tracked as pre-listing watch names and join the drone portfolio when public quote data appears.",
         equalWeightTradable: true,
+        crossInvestments: [
+          {
+            target: "Skydio",
+            ticker: "SKYDIO",
+            investors: ["Andreessen Horowitz", "Linse Capital", "Next47", "IVP", "NVIDIA", "Accel", "Levitate", "Institutional Venture Partners"],
+            note: "预上市无人机公司，接受外部风投与战略资本最多。",
+            noteEn: "Pre-listing drone company with the broadest external venture and strategic-capital backing.",
+          },
+          {
+            target: "Red Cat Holdings",
+            ticker: "RCAT",
+            investors: ["机构投资者", "国防主题基金", "小型无人机供应链资本", "战术 UAS 产业资金"],
+            note: "战术小型无人机平台，接受公开市场和防务主题资本关注。",
+            noteEn: "Small tactical-drone platform with public-market and defense-theme capital attention.",
+          },
+          {
+            target: "AeroVironment",
+            ticker: "AVAV",
+            investors: ["机构投资者", "国防 ETF", "无人系统主题资金"],
+            note: "成熟军用无人系统与巡飞弹平台，获得国防主题资金配置。",
+            noteEn: "Established military UAS and loitering-munitions platform backed by defense-themed allocators.",
+          },
+          {
+            target: "Kratos Defense & Security",
+            ticker: "KTOS",
+            investors: ["机构投资者", "国防工业资金", "无人系统主题资金"],
+            note: "无人系统、防务通信和安全平台，获得国防工业资金配置。",
+            noteEn: "Unmanned systems, defense communications, and security platform with defense-industrial capital exposure.",
+          },
+          {
+            target: "Ondas",
+            ticker: "ONDS",
+            investors: ["公开市场投资者", "反无人机主题资金"],
+            note: "Iron Drone 反无人机系统接受公开市场反无人机主题资金关注。",
+            noteEn: "Iron Drone counter-UAS exposure tracked by public-market counter-drone capital.",
+          },
+        ],
         components: [
           { name: "Ondas",                         short: "ONDS",           ticker: "ONDS",      weight: 1 / 13, ccy: "USD", sleeve: "US", status: "active",
             concept: "Iron Drone 反无人机系统",
@@ -3217,6 +3348,32 @@
           <span class="component-ticker">${c.ticker}</span>
           <span class="component-concept">${c.displayConcept || ''}</span>
           ${metric}
+        </div>`;
+      }).join("");
+      renderCrossInvestmentPanel();
+    }
+
+    function renderCrossInvestmentPanel() {
+      const panel = document.getElementById("cross-invest-panel");
+      const list = document.getElementById("cross-invest-list");
+      if (!panel || !list) return;
+      const rows = [...(activePortfolio().crossInvestments || [])]
+        .sort((a, b) => (b.investors?.length || 0) - (a.investors?.length || 0));
+      panel.hidden = rows.length === 0;
+      if (!rows.length) {
+        list.innerHTML = "";
+        return;
+      }
+      document.getElementById("cross-invest-title").textContent = t("交叉入股 · 接受投资排行", "Cross-Holdings · Most-Funded Ranking");
+      document.getElementById("cross-invest-subtitle").textContent = t("按接受投资方数量排序", "Sorted by investor count");
+      list.innerHTML = rows.map((row, i) => {
+        const investors = row.investors || [];
+        const note = t(row.note || "", row.noteEn || row.note || "");
+        return `<div class="cross-invest-row">
+          <span class="cross-invest-rank">${i + 1}</span>
+          <span class="cross-invest-target">${row.target}<small>${row.ticker}</small></span>
+          <span class="cross-invest-investors">${investors.join(" · ")}</span>
+          <span class="cross-invest-score">${investors.length} ${t("个投资方", "investors")}<small style="display:block;color:#6b7a99;font-weight:600;margin-top:2px">${note}</small></span>
         </div>`;
       }).join("");
     }
