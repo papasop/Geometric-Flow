@@ -2291,12 +2291,41 @@
     let currentComponentRank = "weight";
     let currentPortfolioRank = "default";
     let currentEventCategory = "all";
-    let popoverLang = (() => {
+    const LANG_STORAGE_KEY = "aiIndexPopoverLang";
+    const LANG_MANUAL_KEY = "aiIndexPopoverLangManual";
+    const CHINESE_REGION_CODES = new Set(["CN", "HK", "MO", "TW"]);
+    const IP_LANGUAGE_ENDPOINTS = [
+      {
+        url: "https://ipapi.co/json/",
+        country: (data) => data?.country_code,
+      },
+      {
+        url: "https://ipwho.is/",
+        country: (data) => data?.country_code,
+      },
+      {
+        url: "https://get.geojs.io/v1/ip/country.json",
+        country: (data) => data?.country,
+      },
+    ];
+
+    function browserPreferredLanguage() {
+      const languages = navigator.languages?.length ? navigator.languages : [navigator.language || ""];
+      return languages.some((lang) => /^zh\b/i.test(lang)) ? "zh" : "en";
+    }
+
+    function storedManualLanguage() {
       try {
-        return localStorage.getItem("aiIndexPopoverLang") || "zh";
+        if (localStorage.getItem(LANG_MANUAL_KEY) !== "1") return null;
+        const stored = localStorage.getItem(LANG_STORAGE_KEY);
+        return stored === "en" ? "en" : stored === "zh" ? "zh" : null;
       } catch (_) {
-        return "zh";
+        return null;
       }
+    }
+
+    let popoverLang = (() => {
+      return storedManualLanguage() || browserPreferredLanguage();
     })();
 
     // Default zoom per period — show full window in all modes so T₀
@@ -3218,11 +3247,14 @@
       renderMilestoneTitles();
     }
 
-    function setPopoverLanguage(lang) {
+    function setPopoverLanguage(lang, options = {}) {
       popoverLang = lang === "en" ? "en" : "zh";
-      try {
-        localStorage.setItem("aiIndexPopoverLang", popoverLang);
-      } catch (_) {}
+      if (options.persist) {
+        try {
+          localStorage.setItem(LANG_STORAGE_KEY, popoverLang);
+          localStorage.setItem(LANG_MANUAL_KEY, "1");
+        } catch (_) {}
+      }
       document.documentElement.dataset.popoverLang = popoverLang;
       popoverLangGroup.querySelectorAll("button").forEach((btn) => {
         btn.classList.toggle("active", btn.dataset.lang === popoverLang);
@@ -3237,9 +3269,42 @@
     popoverLangGroup.addEventListener("click", (e) => {
       const btn = e.target.closest("button[data-lang]");
       if (!btn) return;
-      setPopoverLanguage(btn.dataset.lang);
+      setPopoverLanguage(btn.dataset.lang, { persist: true });
     });
-    setPopoverLanguage(popoverLang);
+
+    async function fetchJsonWithTimeout(url, timeoutMs = 1800) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), timeoutMs);
+      try {
+        const res = await fetch(url, { signal: controller.signal, cache: "no-store" });
+        if (!res.ok) return null;
+        return await res.json();
+      } catch (_) {
+        return null;
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+
+    async function detectLanguageFromIp() {
+      for (const endpoint of IP_LANGUAGE_ENDPOINTS) {
+        const data = await fetchJsonWithTimeout(endpoint.url);
+        const country = endpoint.country(data)?.toUpperCase();
+        if (country) return CHINESE_REGION_CODES.has(country) ? "zh" : "en";
+      }
+      return browserPreferredLanguage();
+    }
+
+    async function initializeAutoLanguage() {
+      setPopoverLanguage(popoverLang);
+      if (storedManualLanguage()) return;
+      const detected = await detectLanguageFromIp();
+      if (detected !== popoverLang && !storedManualLanguage()) {
+        setPopoverLanguage(detected);
+      }
+    }
+
+    initializeAutoLanguage();
 
     function isPopoverControlTarget(node) {
       return Boolean(node && popoverLangGroup.contains(node));
