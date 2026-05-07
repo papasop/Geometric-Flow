@@ -70,6 +70,7 @@ COMPONENTS = [
     {"name": "Palladyne AI", "short": "PDYN", "ticker": "PDYN", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "AeroVironment", "short": "AVAV", "ticker": "AVAV", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "Palantir Technologies", "short": "PLTR", "ticker": "PLTR", "ccy": "USD", "sleeve": "US", "status": "active"},
+    {"name": "HawkEye 360", "short": "HAWK", "ticker": "HAWK", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "Salesforce", "short": "CRM", "ticker": "CRM", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "CrowdStrike", "short": "CRWD", "ticker": "CRWD", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "Guidewire", "short": "GWRE", "ticker": "GWRE", "ccy": "USD", "sleeve": "US", "status": "active"},
@@ -88,6 +89,7 @@ COMPONENTS = [
     {"name": "\u535a\u62d3\u751f\u7269", "short": "\u535a\u62d3\u751f\u7269", "ticker": "688767.SS", "ccy": "CNY", "sleeve": "CN", "status": "active"},
     {"name": "Skydio", "short": "SKYDIO", "ticker": "SKYDIO", "ccy": "USD", "sleeve": "US", "status": "prelist"},
     {"name": "Neros Technologies", "short": "NEROS", "ticker": "NEROS", "ccy": "USD", "sleeve": "US", "status": "prelist"},
+    {"name": "SpaceX", "short": "SPACEX", "ticker": "SPACEX", "ccy": "USD", "sleeve": "US", "status": "prelist"},
     {"name": "\u62fc\u591a\u591a", "short": "PDD", "ticker": "PDD", "ccy": "USD", "sleeve": "CN", "status": "active"},
     {"name": "\u7ebd\u7ea6\u65f6\u62a5", "short": "NYT", "ticker": "NYT", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "\u6bd4\u4e9a\u8fea", "short": "BYD", "ticker": "002594.SZ", "ccy": "CNY", "sleeve": "CN", "status": "active"},
@@ -123,19 +125,20 @@ COMPONENTS = [
 ]
 
 TARGET_WEIGHTS = {
-    "ONDS": 1 / 13,
-    "UMAC": 1 / 13,
-    "THEON.AS": 1 / 13,
-    "KOPN": 1 / 13,
-    "RCAT": 1 / 13,
-    "SWMR": 1 / 13,
-    "DPRO": 1 / 13,
-    "LPTH": 1 / 13,
-    "SPAI": 1 / 13,
-    "KTOS": 1 / 13,
-    "PDYN": 1 / 13,
-    "AVAV": 1 / 13,
-    "PLTR": 1 / 13,
+    "ONDS": 1 / 14,
+    "UMAC": 1 / 14,
+    "THEON.AS": 1 / 14,
+    "KOPN": 1 / 14,
+    "RCAT": 1 / 14,
+    "SWMR": 1 / 14,
+    "DPRO": 1 / 14,
+    "LPTH": 1 / 14,
+    "SPAI": 1 / 14,
+    "KTOS": 1 / 14,
+    "PDYN": 1 / 14,
+    "AVAV": 1 / 14,
+    "PLTR": 1 / 14,
+    "HAWK": 1 / 14,
     "CRM": 0.0,
     "CRWD": 0.0,
     "GWRE": 0.0,
@@ -154,6 +157,7 @@ TARGET_WEIGHTS = {
     "688767.SS": 0.0,
     "SKYDIO": 0.0,
     "NEROS": 0.0,
+    "SPACEX": 0.0,
     "PDD": 0.0,
     "NYT": 0.0,
     "002594.SZ": 0.0,
@@ -197,6 +201,8 @@ TICKER_CONTINUATIONS = {
     # Neros Technologies has no public ticker yet; these placeholders keep the
     # pre-listing watch ready to activate if either symbol becomes available.
     "NEROS": ["NEROS", "NROS"],
+    # SpaceX is private; keep common placeholders ready for a future listing.
+    "SPACEX": ["SPACEX", "SPACE"],
 }
 
 
