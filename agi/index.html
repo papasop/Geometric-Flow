@@ -896,7 +896,7 @@
   <div class="container">
     <h1>无人机 <span style="color:#5e9eff;font-size:0.6em;font-weight:300;letter-spacing:2px;margin-left:8px">DRONE PORTFOLIO</span></h1>
     <div class="manifesto">
-      <div class="manifesto-tag">组合栏目 · PORTFOLIO CHANNELS · 9 PORTFOLIOS</div>
+      <div class="manifesto-tag">组合栏目 · PORTFOLIO CHANNELS · 10 PORTFOLIOS</div>
       <div class="manifesto-sort">
         <span class="manifesto-sort-label">组合排序</span>
         <div class="components-rank-toggle" id="portfolio-rank-group" aria-label="Portfolio ranking mode">
@@ -921,8 +921,13 @@
           <span class="pillar-cat pillar-cat--pending">组合</span>
           <span class="pillar-text"><span class="m-key">中国景气指数</span><span class="pillar-en">China Prosperity Index</span></span>
         </li>
-        <li class="pillar pillar--partial" data-portfolio="blockchain">
+        <li class="pillar pillar--realized" data-portfolio="hantavirus">
           <span class="pillar-num">④</span>
+          <span class="pillar-cat pillar-cat--realized">组合</span>
+          <span class="pillar-text"><span class="m-key">汉坦病毒组合</span><span class="pillar-en">Hantavirus Portfolio</span></span>
+        </li>
+        <li class="pillar pillar--partial" data-portfolio="blockchain">
+          <span class="pillar-num">⑤</span>
           <span class="pillar-cat pillar-cat--partial">组合</span>
           <span class="pillar-text"><span class="m-key">RWA 指数</span><span class="pillar-en">RWA Index</span></span>
         </li>
@@ -932,7 +937,7 @@
           <span class="pillar-text"><span class="m-key">电池指数</span><span class="pillar-en">Battery Index</span></span>
         </li>
       </ol>
-      <div class="manifesto-footer">先推出九个组合栏目，后续可继续扩展更多主题组合。<span class="manifesto-footer-en">Launching nine portfolio channels first, with room for more themes later.</span></div>
+      <div class="manifesto-footer">先推出十个组合栏目，后续可继续扩展更多主题组合。<span class="manifesto-footer-en">Launching ten portfolio channels first, with room for more themes later.</span></div>
     </div>
 
     <div class="meta-strip">
@@ -1711,6 +1716,51 @@
             seed: 333, base: 55, vol: 0.018, drift: 0.00016 },
         ],
       },
+      "hantavirus": {
+        name: "汉坦病毒组合",
+        nameEn: "Hantavirus Portfolio",
+        tag: "策略 · MRNA / 万泰生物 / 达安基因 / 热景生物 / 之江生物 / 硕世生物 / 博拓生物 · 各 14.29%",
+        tagEn: "STRATEGY · MRNA / WANTAI / DAAN / HOTGEN / LIFERIVER / BIOPERFECTUS / BIOTEST · 14.29 EACH",
+        footer: "七只股票等权配置，覆盖 mRNA 平台、汉坦病毒抗体检测、核酸检测、POCT 快速检测和国际市场筛查产品。",
+        footerEn: "Equal-weight exposure to mRNA platforms, hantavirus antibody tests, nucleic-acid diagnostics, POCT rapid testing, and international screening products.",
+        components: [
+          { name: "Moderna",                        short: "MRNA",           ticker: "MRNA",      weight: 1 / 7, ccy: "USD", sleeve: "US", status: "active",
+            concept: "mRNA 平台 · 病毒疫苗技术储备",
+            conceptEn: "mRNA platform · viral-vaccine technology base",
+            marketCap: 10.0,
+            seed: 9018, base: 170, vol: 0.046, drift: -0.00010 },
+          { name: "万泰生物",                       short: "万泰生物",       ticker: "603392.SS", weight: 1 / 7, ccy: "CNY", sleeve: "CN", status: "active",
+            concept: "汉坦病毒抗体检测试剂盒 · 病毒诊断",
+            conceptEn: "Hantavirus antibody test kits · viral diagnostics",
+            marketCap: 12.0,
+            seed: 3392, base: 95, vol: 0.030, drift: -0.00002 },
+          { name: "达安基因",                       short: "达安基因",       ticker: "002030.SZ", weight: 1 / 7, ccy: "CNY", sleeve: "CN", status: "active",
+            concept: "汉坦病毒核酸检测试剂盒 · PCR",
+            conceptEn: "Hantavirus nucleic-acid test kits · PCR",
+            marketCap: 1.2,
+            seed: 2030, base: 16, vol: 0.030, drift: -0.00008 },
+          { name: "热景生物",                       short: "热景生物",       ticker: "688068.SS", weight: 1 / 7, ccy: "CNY", sleeve: "CN", status: "active",
+            concept: "抗体检测产品 · 胶体金 / 化学发光",
+            conceptEn: "Antibody tests · colloidal gold / chemiluminescence",
+            marketCap: 0.45,
+            seed: 8068, base: 42, vol: 0.040, drift: -0.00012 },
+          { name: "之江生物",                       short: "之江生物",       ticker: "688317.SS", weight: 1 / 7, ccy: "CNY", sleeve: "CN", status: "active",
+            concept: "汉坦病毒核酸检测 · 欧盟 CE",
+            conceptEn: "Hantavirus nucleic-acid tests · EU CE",
+            marketCap: 0.55,
+            seed: 8317, base: 38, vol: 0.036, drift: -0.00010 },
+          { name: "硕世生物",                       short: "硕世生物",       ticker: "688399.SS", weight: 1 / 7, ccy: "CNY", sleeve: "CN", status: "active",
+            concept: "传染病检测产品线 · 核酸试剂储备",
+            conceptEn: "Infectious-disease diagnostics · nucleic-acid kit reserve",
+            marketCap: 0.45,
+            seed: 8399, base: 48, vol: 0.036, drift: -0.00010 },
+          { name: "博拓生物",                       short: "博拓生物",       ticker: "688767.SS", weight: 1 / 7, ccy: "CNY", sleeve: "CN", status: "active",
+            concept: "POCT 快速检测 · 出口产品",
+            conceptEn: "POCT rapid tests · export products",
+            marketCap: 0.38,
+            seed: 8767, base: 32, vol: 0.034, drift: -0.00010 },
+        ],
+      },
       "blockchain": {
         name: "RWA 指数",
         nameEn: "RWA Index",
@@ -2020,6 +2070,21 @@
           { date: "2026-05-08", category: "market", label: "美的集团加入景气线", en: "Midea joins prosperity line",
             desc: "美的集团加入中国景气指数，补充智能制造、家电消费与中国制造业龙头敞口。",
             desc_en: "Midea Group joins the China prosperity index, adding intelligent manufacturing, home-appliance consumption, and Chinese manufacturing-leader exposure." },
+        ],
+      },
+      "hantavirus": {
+        header: "汉坦病毒组合事件",
+        headerEn: "Hantavirus Portfolio Milestones",
+        milestones: [
+          { date: "2022-11-30", category: "market", label: "汉坦病毒组合起点", en: "Hantavirus portfolio start",
+            desc: "以统一 T₀ 追踪汉坦病毒诊断、核酸检测、抗体检测、POCT 快速检测与病毒疫苗技术平台的公开市场表现。",
+            desc_en: "Uses the shared T0 to track public-market exposure to hantavirus diagnostics, nucleic-acid testing, antibody testing, POCT rapid diagnostics, and viral-vaccine technology platforms." },
+          { date: "2026-05-08", category: "diagnostics", label: "诊断产品线组合", en: "Diagnostics product-line basket",
+            desc: "万泰生物、达安基因、热景生物、之江生物、硕世生物和博拓生物分别覆盖抗体检测、PCR 核酸检测、POCT 快检和海外筛查产品线。",
+            desc_en: "Wantai, Daan Gene, Hotgen, Liferiver, Bioperfectus, and Biotest cover antibody testing, PCR nucleic-acid diagnostics, POCT rapid tests, and overseas screening product lines." },
+          { date: "2026-05-08", category: "biotech", label: "MRNA mRNA 平台", en: "MRNA mRNA platform",
+            desc: "Moderna 作为 mRNA 技术平台代表，补充病毒性疾病疫苗和快速研发平台敞口。",
+            desc_en: "Moderna represents mRNA technology exposure, adding viral-disease vaccine and rapid-development platform optionality." },
         ],
       },
       "blockchain": {
@@ -2334,6 +2399,7 @@
         drone: "pillar--realized",
         slm: "pillar--breakthrough",
         "china-leading": "pillar--pending",
+        hantavirus: "pillar--realized",
         blockchain: "pillar--partial",
         battery: "pillar--breakthrough",
         "china-property": "pillar--partial",
@@ -2477,7 +2543,7 @@
         `${portfolio.nameEn} <span style="color:#5e9eff;font-size:0.6em;font-weight:300;letter-spacing:2px;margin-left:8px">${portfolio.name}</span>`
       );
 
-      document.querySelector(".manifesto-tag").textContent = t("组合栏目 · 先推出 9 个组合", "PORTFOLIO CHANNELS · 9 PORTFOLIOS");
+      document.querySelector(".manifesto-tag").textContent = t("组合栏目 · 先推出 10 个组合", "PORTFOLIO CHANNELS · 10 PORTFOLIOS");
       document.querySelector("#portfolio-rank-group").previousElementSibling.textContent = t("组合排序", "Sort Portfolios");
       document.querySelector('#portfolio-rank-group button[data-portfolio-rank="default"]').textContent = t("默认", "Default");
       document.querySelector('#portfolio-rank-group button[data-portfolio-rank="mcap"]').textContent = t("市值", "Market Cap");
