@@ -8,20 +8,19 @@ index.html.
 Index inception: 2022-11-30 (ChatGPT public launch). Base = 100.
 
 Index composition:
-    Ondas                   ONDS       USD    7.14%
-    Unusual Machines        UMAC       USD    7.14%
-    Theon International     THEON.AS   EUR    7.14%
-    Kopin                   KOPN       USD    7.14%
-    Red Cat Holdings        RCAT       USD    7.14%
-    Swarmer                 SWMR       USD    7.14%
-    LightPath Technologies  LPTH       USD    7.14%
-    Kratos Defense          KTOS       USD    7.14%
-    Elbit Systems           ESLT       USD    7.14%
-    AeroVironment           AVAV       USD    7.14%
-    Palantir                PLTR       USD    7.14%
-    HawkEye 360             HAWK       USD    7.14%
-    BlackSky Technology     BKSY       USD    7.14%
-    Spire Global            SPIR       USD    7.14%
+    Ondas                   ONDS       USD    7.69%
+    Unusual Machines        UMAC       USD    7.69%
+    Theon International     THEON.AS   EUR    7.69%
+    Kopin                   KOPN       USD    7.69%
+    Red Cat Holdings        RCAT       USD    7.69%
+    Swarmer                 SWMR       USD    7.69%
+    LightPath Technologies  LPTH       USD    7.69%
+    Kratos Defense          KTOS       USD    7.69%
+    Elbit Systems           ESLT       USD    7.69%
+    AeroVironment           AVAV       USD    7.69%
+    HawkEye 360             HAWK       USD    7.69%
+    BlackSky Technology     BKSY       USD    7.69%
+    Spire Global            SPIR       USD    7.69%
 
 Additional portfolio data pool:
     拼多多                  PDD        USD
@@ -118,20 +117,20 @@ COMPONENTS = [
 ]
 
 TARGET_WEIGHTS = {
-    "ONDS": 1 / 14,
-    "UMAC": 1 / 14,
-    "THEON.AS": 1 / 14,
-    "KOPN": 1 / 14,
-    "RCAT": 1 / 14,
-    "SWMR": 1 / 14,
-    "LPTH": 1 / 14,
-    "KTOS": 1 / 14,
-    "ESLT": 1 / 14,
-    "AVAV": 1 / 14,
-    "PLTR": 1 / 14,
-    "HAWK": 1 / 14,
-    "BKSY": 1 / 14,
-    "SPIR": 1 / 14,
+    "ONDS": 1 / 13,
+    "UMAC": 1 / 13,
+    "THEON.AS": 1 / 13,
+    "KOPN": 1 / 13,
+    "RCAT": 1 / 13,
+    "SWMR": 1 / 13,
+    "LPTH": 1 / 13,
+    "KTOS": 1 / 13,
+    "ESLT": 1 / 13,
+    "AVAV": 1 / 13,
+    "PLTR": 0.0,
+    "HAWK": 1 / 13,
+    "BKSY": 1 / 13,
+    "SPIR": 1 / 13,
     "CRM": 0.0,
     "CRWD": 0.0,
     "GWRE": 0.0,
