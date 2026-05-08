@@ -8,19 +8,16 @@ index.html.
 Index inception: 2022-11-30 (ChatGPT public launch). Base = 100.
 
 Index composition:
-    Ondas                   ONDS       USD    7.69%
-    Unusual Machines        UMAC       USD    7.69%
-    Theon International     THEON.AS   EUR    7.69%
-    Kopin                   KOPN       USD    7.69%
-    Red Cat Holdings        RCAT       USD    7.69%
-    Swarmer                 SWMR       USD    7.69%
-    LightPath Technologies  LPTH       USD    7.69%
-    Kratos Defense          KTOS       USD    7.69%
-    Elbit Systems           ESLT       USD    7.69%
-    AeroVironment           AVAV       USD    7.69%
-    HawkEye 360             HAWK       USD    7.69%
-    BlackSky Technology     BKSY       USD    7.69%
-    Spire Global            SPIR       USD    7.69%
+    Ondas                   ONDS       USD    10.00%
+    Unusual Machines        UMAC       USD    10.00%
+    Theon International     THEON.AS   EUR    10.00%
+    Kopin                   KOPN       USD    10.00%
+    Red Cat Holdings        RCAT       USD    10.00%
+    Swarmer                 SWMR       USD    10.00%
+    LightPath Technologies  LPTH       USD    10.00%
+    Kratos Defense          KTOS       USD    10.00%
+    Elbit Systems           ESLT       USD    10.00%
+    AeroVironment           AVAV       USD    10.00%
 
 Additional portfolio data pool:
     拼多多                  PDD        USD
@@ -117,20 +114,20 @@ COMPONENTS = [
 ]
 
 TARGET_WEIGHTS = {
-    "ONDS": 1 / 13,
-    "UMAC": 1 / 13,
-    "THEON.AS": 1 / 13,
-    "KOPN": 1 / 13,
-    "RCAT": 1 / 13,
-    "SWMR": 1 / 13,
-    "LPTH": 1 / 13,
-    "KTOS": 1 / 13,
-    "ESLT": 1 / 13,
-    "AVAV": 1 / 13,
+    "ONDS": 1 / 10,
+    "UMAC": 1 / 10,
+    "THEON.AS": 1 / 10,
+    "KOPN": 1 / 10,
+    "RCAT": 1 / 10,
+    "SWMR": 1 / 10,
+    "LPTH": 1 / 10,
+    "KTOS": 1 / 10,
+    "ESLT": 1 / 10,
+    "AVAV": 1 / 10,
     "PLTR": 0.0,
-    "HAWK": 1 / 13,
-    "BKSY": 1 / 13,
-    "SPIR": 1 / 13,
+    "HAWK": 0.0,
+    "BKSY": 0.0,
+    "SPIR": 0.0,
     "CRM": 0.0,
     "CRWD": 0.0,
     "GWRE": 0.0,
