@@ -1765,7 +1765,9 @@
             noteEn: "Counts only post-IPO listed portfolio investors: THEON's $15M strategic investment plus the $41M PIPE joined by THEON, ONDS, and UMAC.",
             events: [
               { date: "2025-08-11", amount: 0.015, investors: ["THEON"], label: "THEON 战略投资 KOPN", labelEn: "THEON strategic investment in KOPN" },
-              { date: "2025-09-29", amount: 0.041, investors: ["THEON", "ONDS", "UMAC"], label: "THEON / ONDS / UMAC 参与 KOPN PIPE", labelEn: "THEON / ONDS / UMAC join KOPN PIPE" },
+              { date: "2025-09-29", amount: 0.041, investors: ["THEON"], label: "THEON 参与 KOPN PIPE", labelEn: "THEON joins KOPN PIPE" },
+              { date: "2025-09-29", amount: 0.041, investors: ["ONDS"], label: "ONDS 参与 KOPN PIPE", labelEn: "ONDS joins KOPN PIPE" },
+              { date: "2025-09-29", amount: 0.041, investors: ["UMAC"], label: "UMAC 参与 KOPN PIPE", labelEn: "UMAC joins KOPN PIPE" },
             ],
           },
           {
@@ -3491,7 +3493,7 @@
     function renderComponentInvestmentEvents(ticker) {
       const events = investmentEventsForTicker(ticker);
       if (!events.length) return "";
-      const rows = events.slice(0, 3).map((event) => {
+      const rows = events.map((event) => {
         const isTarget = event.targetTicker === ticker;
         const role = isTarget ? t("接受投资", "Receives") : t("投资参与", "Investor");
         const counterpart = isTarget
@@ -3502,10 +3504,7 @@
           <span>${role} · ${counterpart} · ${formatMcap(event.amount || 0)}</span>
         </span>`;
       }).join("");
-      const more = events.length > 3
-        ? `<span class="component-invest-event"><b>+${events.length - 3}</b><span>${t("更多投资事件已在走势图标注", "more investment events marked on the chart")}</span></span>`
-        : "";
-      return `<div class="component-invest-events">${rows}${more}</div>`;
+      return `<div class="component-invest-events">${rows}</div>`;
     }
 
     function getComponentRows() {
