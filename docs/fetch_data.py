@@ -124,8 +124,6 @@ COMPONENTS = [
     {"name": "Apple", "short": "Apple", "ticker": "AAPL", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "Coca-Cola", "short": "\u53ef\u53e3\u53ef\u4e50", "ticker": "KO", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "\u6ce1\u6ce1\u739b\u7279", "short": "\u6ce1\u6ce1\u739b\u7279", "ticker": "9992.HK", "ccy": "HKD", "sleeve": "CN", "status": "active"},
-    {"name": "\u745e\u58eb\u6cd5\u90ce", "short": "CHF", "ticker": "CHF=X", "ccy": "USD", "sleeve": "FX", "status": "active"},
-    {"name": "\u4ee5\u8272\u5217\u8c22\u514b\u5c14", "short": "ILS", "ticker": "ILS=X", "ccy": "USD", "sleeve": "FX", "status": "active"},
 ]
 
 TARGET_WEIGHTS = {
@@ -192,8 +190,6 @@ TARGET_WEIGHTS = {
     "AAPL": 0.0,
     "KO": 0.0,
     "9992.HK": 0.0,
-    "CHF=X": 0.0,
-    "ILS=X": 0.0,
 }
 
 SYNTHETIC_FALLBACKS = {}
