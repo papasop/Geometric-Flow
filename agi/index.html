@@ -529,30 +529,6 @@
       font-weight: 700;
       font-variant-numeric: tabular-nums;
     }
-    .component-weight {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      min-width: 38px;
-      height: 22px;
-      padding: 0 8px;
-      border-radius: 4px;
-      background: rgba(94, 158, 255, 0.15);
-      color: #5e9eff;
-      font-size: 11px;
-      font-weight: 700;
-      font-variant-numeric: tabular-nums;
-    }
-    .component-weight.weight-major {
-      background: rgba(255, 209, 102, 0.18);
-      color: #ffd166;
-    }
-    .component-weight.weight-prelist {
-      background: rgba(255, 209, 102, 0.10);
-      color: #ffd166;
-      border: 1px solid rgba(255, 209, 102, 0.24);
-    }
     .component-name {
       color: #fff;
       font-weight: 500;
@@ -1100,19 +1076,19 @@
         <div class="control-group" id="asset-group">
           <span class="control-group-label">标的</span>
           <button data-asset="INDEX" class="active"><span class="btn-main">指数</span><span class="btn-sub">Index</span></button>
-          <button data-asset="ONDS"><span class="btn-main">ONDS</span><span class="btn-sub">7.69%</span></button>
-          <button data-asset="UMAC"><span class="btn-main">UMAC</span><span class="btn-sub">7.69%</span></button>
-          <button data-asset="THEON.AS"><span class="btn-main">THEON</span><span class="btn-sub">7.69%</span></button>
-          <button data-asset="KOPN"><span class="btn-main">KOPN</span><span class="btn-sub">7.69%</span></button>
-          <button data-asset="RCAT"><span class="btn-main">RCAT</span><span class="btn-sub">7.69%</span></button>
-          <button data-asset="SWMR"><span class="btn-main">SWMR</span><span class="btn-sub">7.69%</span></button>
-          <button data-asset="DPRO"><span class="btn-main">DPRO</span><span class="btn-sub">7.69%</span></button>
-          <button data-asset="LPTH"><span class="btn-main">LPTH</span><span class="btn-sub">7.69%</span></button>
-          <button data-asset="SPAI"><span class="btn-main">SPAI</span><span class="btn-sub">7.69%</span></button>
-          <button data-asset="KTOS"><span class="btn-main">KTOS</span><span class="btn-sub">7.69%</span></button>
-          <button data-asset="PDYN"><span class="btn-main">PDYN</span><span class="btn-sub">7.69%</span></button>
-          <button data-asset="AVAV"><span class="btn-main">AVAV</span><span class="btn-sub">7.69%</span></button>
-          <button data-asset="PLTR"><span class="btn-main">PLTR</span><span class="btn-sub">7.69%</span></button>
+          <button data-asset="ONDS"><span class="btn-main">ONDS</span></button>
+          <button data-asset="UMAC"><span class="btn-main">UMAC</span></button>
+          <button data-asset="THEON.AS"><span class="btn-main">THEON</span></button>
+          <button data-asset="KOPN"><span class="btn-main">KOPN</span></button>
+          <button data-asset="RCAT"><span class="btn-main">RCAT</span></button>
+          <button data-asset="SWMR"><span class="btn-main">SWMR</span></button>
+          <button data-asset="DPRO"><span class="btn-main">DPRO</span></button>
+          <button data-asset="LPTH"><span class="btn-main">LPTH</span></button>
+          <button data-asset="SPAI"><span class="btn-main">SPAI</span></button>
+          <button data-asset="KTOS"><span class="btn-main">KTOS</span></button>
+          <button data-asset="PDYN"><span class="btn-main">PDYN</span></button>
+          <button data-asset="AVAV"><span class="btn-main">AVAV</span></button>
+          <button data-asset="PLTR"><span class="btn-main">PLTR</span></button>
           <button data-asset="SKYDIO" disabled><span class="btn-main">Skydio</span><span class="btn-sub">预上市</span></button>
           <button data-asset="NEROS" disabled><span class="btn-main">Neros</span><span class="btn-sub">预上市</span></button>
         </div>
@@ -1123,8 +1099,7 @@
           <div class="components-title-block">
             <span class="components-header-title">成分股 · COMPONENTS · 各自代表的 AI 子赛道</span>
             <div class="components-rank-toggle" id="components-rank-group" aria-label="Components ranking mode">
-              <button data-rank="weight" class="active">权重</button>
-              <button data-rank="mcap">市值</button>
+              <button data-rank="mcap" class="active">市值</button>
               <button data-rank="return">总涨幅</button>
               <button data-rank="contribution">贡献</button>
               <button data-rank="investors">投资方</button>
@@ -2579,7 +2554,7 @@
     let currentRebalance = "PERIODIC";
     let currentPeriodDays = 5;          // 5 trading days = 1 calendar week
     let currentChartAsset = "INDEX";
-    let currentComponentRank = "weight";
+    let currentComponentRank = "mcap";
     let currentPortfolioRank = "default";
     let currentEventCategory = "all";
     const LANG_STORAGE_KEY = "aiIndexPopoverLang";
@@ -2687,7 +2662,7 @@
       COMPONENTS_CONFIG = PORTFOLIOS[currentPortfolioKey].components;
       CONFIG_BY_TICKER = Object.fromEntries(COMPONENTS_CONFIG.map((c) => [c.ticker, c]));
       if (!investmentRanksEnabled() && investmentRankKeys().includes(currentComponentRank)) {
-        currentComponentRank = "weight";
+        currentComponentRank = "mcap";
       }
     }
 
@@ -2924,7 +2899,7 @@
         `<button data-asset="INDEX" class="${currentChartAsset === "INDEX" ? "active" : ""}"><span class="btn-main">${t("指数", "Index")}</span><span class="btn-sub">Index</span></button>`,
         ...sortedComponents.map((component) => `
           <button data-asset="${component.ticker}" class="${currentChartAsset === component.ticker ? "active" : ""}">
-            <span class="btn-main">${component.short}</span><span class="btn-sub">${formatWeightPct(component.weight)}</span>
+            <span class="btn-main">${component.short}</span>
           </button>
         `),
       ];
@@ -2990,7 +2965,6 @@
       document.querySelector('#event-group button[data-event="public-health"] .btn-main').textContent = t("公共卫生", "Health");
 
       document.querySelector(".components-header-title").textContent = t("成分股 · 各自代表的 AI 子赛道", "COMPONENTS · AI subsector represented by each holding");
-      document.querySelector('[data-rank="weight"]').textContent = t("权重", "Weight");
       document.querySelector('[data-rank="mcap"]').textContent = t("市值", "Market Cap");
       document.querySelector('[data-rank="return"]').textContent = t("总涨幅", "Return");
       document.querySelector('[data-rank="contribution"]').textContent = t("贡献", "Contribution");
@@ -3080,16 +3054,8 @@
         const ticker = btn.dataset.asset;
         if (ticker === "INDEX") return;
         const component = rawData.components.find((c) => c.ticker === ticker);
-        const config = CONFIG_BY_TICKER[ticker] || {};
         const isTradable = Boolean(component?.data?.length && component.status !== "prelist");
         btn.disabled = !isTradable;
-        const sub = btn.querySelector(".btn-sub");
-        if (!sub) return;
-        if (isTradable) {
-          sub.textContent = formatWeightPct(component.weight || 0);
-        } else if (config.status === "prelist") {
-          sub.textContent = t("预上市", "Pre");
-        }
       });
     }
 
@@ -3557,18 +3523,16 @@
       }
       document.getElementById("components-list").hidden = false;
       const sorters = {
-        weight: (a, b) => (a.status === "prelist") - (b.status === "prelist") || b.weight - a.weight || b.marketCap - a.marketCap,
         mcap: (a, b) => (a.status === "prelist") - (b.status === "prelist") || b.marketCap - a.marketCap,
         return: (a, b) => (a.status === "prelist") - (b.status === "prelist") || b.totalReturn - a.totalReturn,
         contribution: (a, b) => (a.status === "prelist") - (b.status === "prelist") || b.contribution - a.contribution,
       };
-      rows.sort(sorters[currentComponentRank] || sorters.weight);
+      rows.sort(sorters[currentComponentRank] || sorters.mcap);
       const metricValue = (c) => {
-        if (currentComponentRank === "weight") return c.weight * 100;
         if (currentComponentRank === "mcap") return c.marketCap;
         if (currentComponentRank === "return") return Math.abs(c.totalReturn);
         if (currentComponentRank === "contribution") return Math.abs(c.contribution);
-        return c.weight * 100;
+        return c.marketCap;
       };
       const maxMetric = currentComponentRank === "mcap"
         ? Math.max(totalMcap, 0.0001)
@@ -3581,22 +3545,17 @@
         </span>`;
       };
       document.getElementById("components-list").innerHTML = rows.map((c, i) => {
-        const isMajor = c.weight >= 0.5;
         const isPrelist = c.status === "prelist";
-        const wPct = formatWeightPct(c.weight);
         const prelistLabel = t(c.preListingNote || "预上市代码", c.preListingNoteEn || "Pre-listing code");
         const metric = isPrelist
           ? metricBar(c, t("预上市", "Pre-listing"), prelistLabel)
-          : currentComponentRank === "weight"
-            ? metricBar(c, wPct, t("权重", "Weight"))
-            : currentComponentRank === "return"
+          : currentComponentRank === "return"
             ? metricBar(c, formatSignedPct(c.totalReturn), t("总涨幅", "Return"), c.totalReturn >= 0 ? "up" : "down")
             : currentComponentRank === "contribution"
               ? metricBar(c, formatContribution(c.contribution), t("贡献", "Contribution"), c.contribution >= 0 ? "up" : "down")
               : metricBar(c, formatMcap(c.marketCap), `${c.mcapPct.toFixed(1)}%`);
         return `<div class="component-row${isPrelist ? ' component-row--prelist' : ''}">
           <span class="component-rank">${i + 1}</span>
-          <span class="component-weight${isMajor ? ' weight-major' : ''}${isPrelist ? ' weight-prelist' : ''}">${isPrelist ? t("候选", "Watch") : wPct}</span>
           <span class="component-name">${c.displayName}</span>
           <span class="component-ticker">${c.ticker}</span>
           <span class="component-concept">${c.displayConcept || ''}</span>
@@ -3609,7 +3568,7 @@
     function updateComponentRankControls() {
       const enabled = investmentRanksEnabled();
       if (!enabled && investmentRankKeys().includes(currentComponentRank)) {
-        currentComponentRank = "weight";
+        currentComponentRank = "mcap";
       }
       document.querySelectorAll("#components-rank-group button[data-rank]").forEach((btn) => {
         const isInvestmentRank = investmentRankKeys().includes(btn.dataset.rank);
