@@ -8,23 +8,20 @@ index.html.
 Index inception: 2022-11-30 (ChatGPT public launch). Base = 100.
 
 Index composition:
-    Ondas                   ONDS       USD    5.88%
-    Unusual Machines        UMAC       USD    5.88%
-    Theon International     THEON.AS   EUR    5.88%
-    Kopin                   KOPN       USD    5.88%
-    Red Cat Holdings        RCAT       USD    5.88%
-    Swarmer                 SWMR       USD    5.88%
-    Draganfly               DPRO       USD    5.88%
-    LightPath Technologies  LPTH       USD    5.88%
-    Safe Pro Group          SPAI       USD    5.88%
-    Kratos Defense          KTOS       USD    5.88%
-    Elbit Systems           ESLT       USD    5.88%
-    Palladyne AI            PDYN       USD    5.88%
-    AeroVironment           AVAV       USD    5.88%
-    Palantir                PLTR       USD    5.88%
-    HawkEye 360             HAWK       USD    5.88%
-    BlackSky Technology     BKSY       USD    5.88%
-    Spire Global            SPIR       USD    5.88%
+    Ondas                   ONDS       USD    7.14%
+    Unusual Machines        UMAC       USD    7.14%
+    Theon International     THEON.AS   EUR    7.14%
+    Kopin                   KOPN       USD    7.14%
+    Red Cat Holdings        RCAT       USD    7.14%
+    Swarmer                 SWMR       USD    7.14%
+    LightPath Technologies  LPTH       USD    7.14%
+    Kratos Defense          KTOS       USD    7.14%
+    Elbit Systems           ESLT       USD    7.14%
+    AeroVironment           AVAV       USD    7.14%
+    Palantir                PLTR       USD    7.14%
+    HawkEye 360             HAWK       USD    7.14%
+    BlackSky Technology     BKSY       USD    7.14%
+    Spire Global            SPIR       USD    7.14%
 
 Additional portfolio data pool:
     拼多多                  PDD        USD
@@ -67,12 +64,9 @@ COMPONENTS = [
     {"name": "Kopin", "short": "KOPN", "ticker": "KOPN", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "Red Cat Holdings", "short": "RCAT", "ticker": "RCAT", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "Swarmer", "short": "SWMR", "ticker": "SWMR", "ccy": "USD", "sleeve": "US", "status": "active"},
-    {"name": "Draganfly", "short": "DPRO", "ticker": "DPRO", "ccy": "USD", "sleeve": "CA", "status": "active"},
     {"name": "LightPath Technologies", "short": "LPTH", "ticker": "LPTH", "ccy": "USD", "sleeve": "US", "status": "active"},
-    {"name": "Safe Pro Group", "short": "SPAI", "ticker": "SPAI", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "Kratos Defense & Security Solutions", "short": "KTOS", "ticker": "KTOS", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "Elbit Systems", "short": "ESLT", "ticker": "ESLT", "ccy": "USD", "sleeve": "IL", "status": "active"},
-    {"name": "Palladyne AI", "short": "PDYN", "ticker": "PDYN", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "AeroVironment", "short": "AVAV", "ticker": "AVAV", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "Palantir Technologies", "short": "PLTR", "ticker": "PLTR", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "HawkEye 360", "short": "HAWK", "ticker": "HAWK", "ccy": "USD", "sleeve": "US", "status": "active"},
@@ -130,23 +124,20 @@ COMPONENTS = [
 ]
 
 TARGET_WEIGHTS = {
-    "ONDS": 1 / 17,
-    "UMAC": 1 / 17,
-    "THEON.AS": 1 / 17,
-    "KOPN": 1 / 17,
-    "RCAT": 1 / 17,
-    "SWMR": 1 / 17,
-    "DPRO": 1 / 17,
-    "LPTH": 1 / 17,
-    "SPAI": 1 / 17,
-    "KTOS": 1 / 17,
-    "ESLT": 1 / 17,
-    "PDYN": 1 / 17,
-    "AVAV": 1 / 17,
-    "PLTR": 1 / 17,
-    "HAWK": 1 / 17,
-    "BKSY": 1 / 17,
-    "SPIR": 1 / 17,
+    "ONDS": 1 / 14,
+    "UMAC": 1 / 14,
+    "THEON.AS": 1 / 14,
+    "KOPN": 1 / 14,
+    "RCAT": 1 / 14,
+    "SWMR": 1 / 14,
+    "LPTH": 1 / 14,
+    "KTOS": 1 / 14,
+    "ESLT": 1 / 14,
+    "AVAV": 1 / 14,
+    "PLTR": 1 / 14,
+    "HAWK": 1 / 14,
+    "BKSY": 1 / 14,
+    "SPIR": 1 / 14,
     "CRM": 0.0,
     "CRWD": 0.0,
     "GWRE": 0.0,
