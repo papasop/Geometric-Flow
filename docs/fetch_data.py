@@ -202,6 +202,13 @@ TARGET_WEIGHTS = {
 
 SYNTHETIC_FALLBACKS = {}
 
+LISTING_START_OVERRIDES = {
+    # ALOY was BLBX before REalloys closed its merger. The combined REalloys
+    # company began trading as ALOY on Nasdaq on 2026-02-25, so trim the
+    # inherited shell history to avoid charting the old business.
+    "ALOY": "2026-02-25",
+}
+
 TICKER_CONTINUATIONS = {
     # Skydio has no public ticker yet. Try likely placeholders so the
     # pre-listing watch can activate automatically if either symbol appears.
@@ -285,7 +292,11 @@ def fetch_component_ohlc(ticker: str, start: str, end: str) -> pd.DataFrame:
             parts.append(df)
     if not parts:
         return pd.DataFrame(columns=["Open", "High", "Low", "Close"])
-    return pd.concat(parts).sort_index().groupby(level=0).last()
+    out = pd.concat(parts).sort_index().groupby(level=0).last()
+    listing_start = LISTING_START_OVERRIDES.get(ticker)
+    if listing_start:
+        out = out[out.index >= listing_start]
+    return out
 
 
 def fetch_fx(ticker: str, start: str, end: str) -> pd.Series:
