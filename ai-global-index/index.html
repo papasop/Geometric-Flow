@@ -1117,6 +1117,7 @@
         <button data-event="paper"><span class="btn-main">论文</span><span class="btn-sub">Paper</span></button>
         <button data-event="remarks"><span class="btn-main">言论</span><span class="btn-sub">Remarks</span></button>
         <button data-event="investment"><span class="btn-main">投资</span><span class="btn-sub">Investment</span></button>
+        <button data-event="public-health"><span class="btn-main">公共卫生</span><span class="btn-sub">Health</span></button>
       </div>
     </div>
 
@@ -1577,6 +1578,48 @@
         color: "#6ee7f9",
         bg: "rgba(110, 231, 249, 0.14)",
         line: "rgba(110, 231, 249, 0.30)",
+      },
+      "public-health": {
+        zh: "公共卫生",
+        en: "Public Health",
+        color: "#ff8fb3",
+        bg: "rgba(255, 143, 179, 0.15)",
+        line: "rgba(255, 143, 179, 0.34)",
+      },
+      diagnostics: {
+        zh: "诊断检测",
+        en: "Diagnostics",
+        color: "#9ee493",
+        bg: "rgba(158, 228, 147, 0.14)",
+        line: "rgba(158, 228, 147, 0.32)",
+      },
+      biotech: {
+        zh: "生物科技",
+        en: "Biotech",
+        color: "#c7a6ff",
+        bg: "rgba(199, 166, 255, 0.14)",
+        line: "rgba(199, 166, 255, 0.32)",
+      },
+      consumer: {
+        zh: "消费",
+        en: "Consumer",
+        color: "#ffcf7a",
+        bg: "rgba(255, 207, 122, 0.14)",
+        line: "rgba(255, 207, 122, 0.32)",
+      },
+      macro: {
+        zh: "宏观",
+        en: "Macro",
+        color: "#a8b3cf",
+        bg: "rgba(168, 179, 207, 0.14)",
+        line: "rgba(168, 179, 207, 0.32)",
+      },
+      media: {
+        zh: "媒体",
+        en: "Media",
+        color: "#7dd3fc",
+        bg: "rgba(125, 211, 252, 0.14)",
+        line: "rgba(125, 211, 252, 0.30)",
       },
       supply: {
         zh: "供应链",
@@ -2959,6 +3002,7 @@
       document.querySelector('#event-group button[data-event="paper"] .btn-main').textContent = t("论文", "Paper");
       document.querySelector('#event-group button[data-event="remarks"] .btn-main').textContent = t("言论", "Remarks");
       document.querySelector('#event-group button[data-event="investment"] .btn-main').textContent = t("投资", "Investment");
+      document.querySelector('#event-group button[data-event="public-health"] .btn-main').textContent = t("公共卫生", "Health");
 
       document.querySelector(".components-header-title").textContent = t("成分股 · 各自代表的 AI 子赛道", "COMPONENTS · AI subsector represented by each holding");
       document.querySelector('[data-rank="weight"]').textContent = t("权重", "Weight");
