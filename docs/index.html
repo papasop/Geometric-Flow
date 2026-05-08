@@ -498,6 +498,9 @@
       flex-direction: column;
       gap: 0;
     }
+    .components-list[hidden] {
+      display: none;
+    }
     .component-row {
       display: flex;
       align-items: center;
@@ -1122,6 +1125,9 @@
               <button data-rank="mcap">市值</button>
               <button data-rank="return">总涨幅</button>
               <button data-rank="contribution">贡献</button>
+              <button data-rank="investors">投资方</button>
+              <button data-rank="investment">投资金额</button>
+              <button data-rank="investment-ratio">投资/市值</button>
             </div>
           </div>
           <span class="components-header-total">
@@ -1134,11 +1140,6 @@
           <div class="cross-invest-header">
             <span id="cross-invest-title">上市后参与 · 接受投资排行</span>
             <span id="cross-invest-subtitle">仅统计 IPO 后已上市成分参与</span>
-          </div>
-          <div class="components-rank-toggle" id="cross-invest-rank-group" aria-label="Post-IPO investment ranking mode">
-            <button data-cross-rank="count" class="active">投资方</button>
-            <button data-cross-rank="amount">投资金额</button>
-            <button data-cross-rank="ratio">投资/市值</button>
           </div>
           <div class="cross-invest-list" id="cross-invest-list"></div>
         </div>
@@ -2493,7 +2494,6 @@
     let currentPeriodDays = 5;          // 5 trading days = 1 calendar week
     let currentChartAsset = "INDEX";
     let currentComponentRank = "weight";
-    let currentCrossInvestRank = "count";
     let currentPortfolioRank = "default";
     let currentEventCategory = "all";
     const LANG_STORAGE_KEY = "aiIndexPopoverLang";
@@ -2828,14 +2828,9 @@
       document.querySelector('[data-rank="mcap"]').textContent = t("市值", "Market Cap");
       document.querySelector('[data-rank="return"]').textContent = t("总涨幅", "Return");
       document.querySelector('[data-rank="contribution"]').textContent = t("贡献", "Contribution");
-      const crossLabels = {
-        count: t("投资方", "Investors"),
-        amount: t("投资金额", "Amount"),
-        ratio: t("投资/市值", "Amount/MCap"),
-      };
-      document.querySelectorAll("#cross-invest-rank-group button").forEach((btn) => {
-        btn.textContent = crossLabels[btn.dataset.crossRank] || btn.textContent;
-      });
+      document.querySelector('[data-rank="investors"]').textContent = t("投资方", "Investors");
+      document.querySelector('[data-rank="investment"]').textContent = t("投资金额", "Amount");
+      document.querySelector('[data-rank="investment-ratio"]').textContent = t("投资/市值", "Amount/MCap");
       document.getElementById("total-mcap-label").textContent = t("总市值 / TOTAL CAP", "TOTAL MARKET CAP");
       const eventTheme = activeEventTheme();
       document.querySelector(".milestones-header").textContent = t(eventTheme.header, eventTheme.headerEn);
@@ -3317,14 +3312,6 @@
       currentComponentRank = btn.dataset.rank;
       renderComponentsPanel();
     });
-    document.getElementById("cross-invest-rank-group").addEventListener("click", (e) => {
-      const btn = e.target.closest("button[data-cross-rank]");
-      if (!btn) return;
-      document.querySelectorAll("#cross-invest-rank-group button").forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
-      currentCrossInvestRank = btn.dataset.crossRank;
-      renderCrossInvestmentPanel();
-    });
     window.addEventListener("resize", () => chart.resize());
 
     // ============================================================
@@ -3392,6 +3379,14 @@
     function renderComponentsPanel() {
       const rows = getComponentRows();
       const totalMcap = rows.reduce((s, c) => s + (c.marketCap || 0), 0);
+      const isInvestmentRank = ["investors", "investment", "investment-ratio"].includes(currentComponentRank);
+      document.getElementById("total-mcap").textContent = formatMcap(totalMcap);
+      if (isInvestmentRank) {
+        document.getElementById("components-list").hidden = true;
+        renderCrossInvestmentPanel();
+        return;
+      }
+      document.getElementById("components-list").hidden = false;
       const sorters = {
         weight: (a, b) => (a.status === "prelist") - (b.status === "prelist") || b.weight - a.weight || b.marketCap - a.marketCap,
         mcap: (a, b) => (a.status === "prelist") - (b.status === "prelist") || b.marketCap - a.marketCap,
@@ -3416,7 +3411,6 @@
           <span class="component-bar" aria-hidden="true"><span class="component-bar-fill"></span></span>
         </span>`;
       };
-      document.getElementById("total-mcap").textContent = formatMcap(totalMcap);
       document.getElementById("components-list").innerHTML = rows.map((c, i) => {
         const isMajor = c.weight >= 0.5;
         const isPrelist = c.status === "prelist";
@@ -3463,18 +3457,19 @@
         }))
         .filter((row) => row.investors.length)
         .sort((a, b) => (b.investors?.length || 0) - (a.investors?.length || 0));
-      panel.hidden = rows.length === 0;
+      const isInvestmentRank = ["investors", "investment", "investment-ratio"].includes(currentComponentRank);
+      panel.hidden = rows.length === 0 || !isInvestmentRank;
       if (!rows.length) {
         list.innerHTML = "";
         return;
       }
       document.getElementById("cross-invest-title").textContent = t("上市后参与 · 接受投资排行", "Post-IPO Participation · Most-Funded Ranking");
       const subtitles = {
-        count: t("按接受投资方数量排序", "Sorted by investor count"),
-        amount: t("按 IPO 后参与金额排序", "Sorted by post-IPO participation amount"),
-        ratio: t("按投资金额 / 市值排序", "Sorted by investment amount / market cap"),
+        investors: t("按接受投资方数量排序", "Sorted by investor count"),
+        investment: t("按 IPO 后参与金额排序", "Sorted by post-IPO participation amount"),
+        "investment-ratio": t("按投资金额 / 市值排序", "Sorted by investment amount / market cap"),
       };
-      document.getElementById("cross-invest-subtitle").textContent = subtitles[currentCrossInvestRank] || subtitles.count;
+      document.getElementById("cross-invest-subtitle").textContent = subtitles[currentComponentRank] || subtitles.investors;
       const rowHtml = (row, i, detailText, scoreText, noteText) => `
         <div class="cross-invest-row">
           <span class="cross-invest-rank">${i + 1}</span>
@@ -3491,12 +3486,12 @@
           amountToMcap: row.marketCap > 0 ? (row.postIpoAmount || 0) / row.marketCap : 0,
         }))
         .sort((a, b) => (b.amountToMcap || 0) - (a.amountToMcap || 0));
-      if (currentCrossInvestRank === "amount") {
+      if (currentComponentRank === "investment") {
         list.innerHTML = amountRows.map((row, i) => {
           const investors = row.investors || [];
           return rowHtml(row, i, investors.join(" · "), formatMcap(row.postIpoAmount || 0), t("IPO 后参与金额", "Post-IPO participation amount"));
         }).join("");
-      } else if (currentCrossInvestRank === "ratio") {
+      } else if (currentComponentRank === "investment-ratio") {
         list.innerHTML = ratioRows.map((row, i) => {
           const ratio = (row.amountToMcap || 0) * 100;
           return rowHtml(
