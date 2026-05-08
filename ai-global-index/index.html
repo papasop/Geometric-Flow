@@ -572,31 +572,6 @@
       flex: 1;
       min-width: 0;
     }
-    .component-invest-events {
-      flex: 1 1 100%;
-      margin-left: 70px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      color: #6b7a99;
-      font-size: 11.5px;
-      line-height: 1.45;
-    }
-    .component-invest-event {
-      display: flex;
-      align-items: baseline;
-      gap: 7px;
-      min-width: 0;
-    }
-    .component-invest-event b {
-      color: #ffd166;
-      font-weight: 700;
-      font-variant-numeric: tabular-nums;
-      white-space: nowrap;
-    }
-    .component-invest-event span {
-      min-width: 0;
-    }
     .component-mcap {
       color: #ffd166;
       font-size: 12.5px;
@@ -3532,30 +3507,6 @@
       return normalizeBarForComponent(component, bar).close * convRate(component.ccy, currentCurrency, rawData.fx, idx);
     }
 
-    function investmentEventsForTicker(ticker) {
-      return investmentEvents(activePortfolio())
-        .filter((event) => event.tickers?.includes(ticker))
-        .sort((a, b) => new Date(a.date) - new Date(b.date));
-    }
-
-    function renderComponentInvestmentEvents(ticker) {
-      if (currentComponentRank !== "weight") return "";
-      const events = investmentEventsForTicker(ticker);
-      if (!events.length) return "";
-      const rows = events.map((event) => {
-        const isTarget = event.targetTicker === ticker;
-        const role = isTarget ? t("接受投资", "Receives") : t("投资参与", "Investor");
-        const counterpart = isTarget
-          ? event.investorTickers.join(" / ")
-          : event.targetTicker;
-        return `<span class="component-invest-event">
-          <b>${event.date}</b>
-          <span>${role} · ${counterpart} · ${formatMcap(event.amount || 0)}</span>
-        </span>`;
-      }).join("");
-      return `<div class="component-invest-events">${rows}</div>`;
-    }
-
     function getComponentRows() {
       const rawComponents = rawData?.components?.length ? rawData.components : [];
       const seenTickers = new Set(rawComponents.map((c) => c.ticker));
@@ -3643,7 +3594,6 @@
           <span class="component-ticker">${c.ticker}</span>
           <span class="component-concept">${c.displayConcept || ''}</span>
           ${metric}
-          ${renderComponentInvestmentEvents(c.ticker)}
         </div>`;
       }).join("");
       renderCrossInvestmentPanel();
