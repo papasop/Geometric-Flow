@@ -635,99 +635,6 @@
       background: linear-gradient(90deg, rgba(94, 158, 255, 0.56), currentColor);
       transition: width 0.28s ease;
     }
-    .cross-invest-panel {
-      margin-top: 18px;
-      padding-top: 16px;
-      border-top: 1px solid rgba(42, 54, 84, 0.62);
-    }
-    .cross-invest-panel[hidden] {
-      display: none;
-    }
-    .cross-invest-header {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 8px;
-      color: #6b7a99;
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1.1px;
-    }
-    .cross-invest-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      margin-top: 10px;
-    }
-    .cross-invest-section-title {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 2px 0 6px;
-      color: #aab5d1;
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 0.7px;
-      text-transform: uppercase;
-    }
-    .cross-invest-section-title small {
-      color: #596681;
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.4px;
-      text-align: right;
-    }
-    .cross-invest-row {
-      display: grid;
-      grid-template-columns: 24px minmax(110px, 0.8fr) minmax(160px, 1.2fr) minmax(180px, 1fr);
-      align-items: center;
-      gap: 12px;
-      padding: 10px 0;
-      border-top: 1px solid rgba(42, 54, 84, 0.44);
-      font-size: 12.5px;
-    }
-    .cross-invest-row:first-child {
-      border-top: none;
-    }
-    .cross-invest-rank {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background: rgba(255, 209, 102, 0.12);
-      color: #ffd166;
-      font-size: 11px;
-      font-weight: 800;
-      font-variant-numeric: tabular-nums;
-    }
-    .cross-invest-target {
-      color: #fff;
-      font-weight: 650;
-      min-width: 0;
-    }
-    .cross-invest-target small {
-      display: block;
-      color: #4a5778;
-      font-size: 10px;
-      font-weight: 600;
-      margin-top: 2px;
-    }
-    .cross-invest-investors {
-      color: #8a96b3;
-      line-height: 1.45;
-      min-width: 0;
-    }
-    .cross-invest-score {
-      color: #ffd166;
-      font-weight: 700;
-      text-align: right;
-      font-variant-numeric: tabular-nums;
-    }
     .milestones {
       margin-top: 18px;
       background: #131a2b;
@@ -957,20 +864,6 @@
         min-width: 160px;
         flex: 1 1 160px;
       }
-      .cross-invest-header {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 4px;
-      }
-      .cross-invest-row {
-        grid-template-columns: 24px 1fr;
-        gap: 7px 10px;
-      }
-      .cross-invest-investors,
-      .cross-invest-score {
-        grid-column: 2;
-        text-align: left;
-      }
       .floating-lang-toggle {
         bottom: 12px;
         right: 12px;
@@ -1128,9 +1021,6 @@
               <button data-rank="mcap">市值</button>
               <button data-rank="return">总涨幅</button>
               <button data-rank="contribution">贡献</button>
-              <button data-rank="investors">投资方</button>
-              <button data-rank="investment">投资金额</button>
-              <button data-rank="investment-ratio">投资/市值</button>
             </div>
           </div>
           <span class="components-header-total">
@@ -1139,13 +1029,6 @@
           </span>
         </div>
         <div class="components-list" id="components-list"></div>
-        <div class="cross-invest-panel" id="cross-invest-panel" hidden>
-          <div class="cross-invest-header">
-            <span id="cross-invest-title">上市后参与 · 接受投资排行</span>
-            <span id="cross-invest-subtitle">仅统计 IPO 后已上市成分参与</span>
-          </div>
-          <div class="cross-invest-list" id="cross-invest-list"></div>
-        </div>
       </div>
     </div>
 
@@ -2578,7 +2461,7 @@
     }
 
     function investmentRankKeys() {
-      return ["investors", "investment", "investment-ratio"];
+      return [];
     }
 
     function investmentRanksEnabled() {
@@ -2870,9 +2753,6 @@
       document.querySelector('[data-rank="mcap"]').textContent = t("市值", "Market Cap");
       document.querySelector('[data-rank="return"]').textContent = t("总涨幅", "Return");
       document.querySelector('[data-rank="contribution"]').textContent = t("贡献", "Contribution");
-      document.querySelector('[data-rank="investors"]').textContent = t("投资方", "Investors");
-      document.querySelector('[data-rank="investment"]').textContent = t("投资金额", "Amount");
-      document.querySelector('[data-rank="investment-ratio"]').textContent = t("投资/市值", "Amount/MCap");
       updateComponentRankControls();
       document.getElementById("total-mcap-label").textContent = t("总市值 / TOTAL CAP", "TOTAL MARKET CAP");
       const eventTheme = activeEventTheme();
@@ -3483,7 +3363,6 @@
           ${metric}
         </div>`;
       }).join("");
-      renderCrossInvestmentPanel();
     }
 
     function updateComponentRankControls() {
@@ -3496,73 +3375,6 @@
         btn.hidden = isInvestmentRank && !enabled;
         btn.classList.toggle("active", btn.dataset.rank === currentComponentRank);
       });
-      const panel = document.getElementById("cross-invest-panel");
-      if (panel && !enabled) panel.hidden = true;
-    }
-
-    function renderCrossInvestmentPanel() {
-      const panel = document.getElementById("cross-invest-panel");
-      const list = document.getElementById("cross-invest-list");
-      if (!panel || !list) return;
-      if (!investmentRanksEnabled()) {
-        panel.hidden = true;
-        list.innerHTML = "";
-        return;
-      }
-      const rows = normalizeInvestmentRows()
-        .sort((a, b) => (b.investors?.length || 0) - (a.investors?.length || 0));
-      const isInvestmentRank = investmentRankKeys().includes(currentComponentRank);
-      panel.hidden = rows.length === 0 || !isInvestmentRank;
-      if (!rows.length) {
-        list.innerHTML = "";
-        return;
-      }
-      document.getElementById("cross-invest-title").textContent = t("上市后参与 · 接受投资排行", "Post-IPO Participation · Most-Funded Ranking");
-      const subtitles = {
-        investors: t("按接受投资方数量排序", "Sorted by investor count"),
-        investment: t("按 IPO 后参与金额排序", "Sorted by post-IPO participation amount"),
-        "investment-ratio": t("按投资金额 / 市值排序", "Sorted by investment amount / market cap"),
-      };
-      document.getElementById("cross-invest-subtitle").textContent = subtitles[currentComponentRank] || subtitles.investors;
-      const rowHtml = (row, i, detailText, scoreText, noteText) => `
-        <div class="cross-invest-row">
-          <span class="cross-invest-rank">${i + 1}</span>
-          <span class="cross-invest-target">${row.target}<small>${row.ticker}</small></span>
-          <span class="cross-invest-investors">${detailText}</span>
-          <span class="cross-invest-score">${scoreText}<small style="display:block;color:#6b7a99;font-weight:600;margin-top:2px">${noteText}</small></span>
-        </div>`;
-      const amountRows = [...rows]
-        .filter((row) => row.postIpoAmount > 0)
-        .sort((a, b) => (b.postIpoAmount || 0) - (a.postIpoAmount || 0));
-      const ratioRows = [...amountRows]
-        .map((row) => ({
-          ...row,
-          amountToMcap: row.marketCap > 0 ? (row.postIpoAmount || 0) / row.marketCap : 0,
-        }))
-        .sort((a, b) => (b.amountToMcap || 0) - (a.amountToMcap || 0));
-      if (currentComponentRank === "investment") {
-        list.innerHTML = amountRows.map((row, i) => {
-          const investors = row.investors || [];
-          return rowHtml(row, i, investors.join(" · "), formatMcap(row.postIpoAmount || 0), t("IPO 后参与金额", "Post-IPO participation amount"));
-        }).join("");
-      } else if (currentComponentRank === "investment-ratio") {
-        list.innerHTML = ratioRows.map((row, i) => {
-          const ratio = (row.amountToMcap || 0) * 100;
-          return rowHtml(
-            row,
-            i,
-            `${formatMcap(row.postIpoAmount || 0)} / ${formatMcap(row.marketCap || 0)}`,
-            `${ratio.toFixed(1)}%`,
-            t("投资金额 / 市值", "Investment amount / market cap")
-          );
-        }).join("");
-      } else {
-        list.innerHTML = rows.map((row, i) => {
-        const investors = row.investors || [];
-        const note = t(row.note || "", row.noteEn || row.note || "");
-          return rowHtml(row, i, investors.join(" · "), `${investors.length} ${t("个投资方", "investors")}`, note);
-        }).join("");
-      }
     }
 
     renderComponentsPanel();
