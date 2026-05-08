@@ -1006,7 +1006,7 @@
   <div class="container">
     <h1>无人机 <span style="color:#5e9eff;font-size:0.6em;font-weight:300;letter-spacing:2px;margin-left:8px">DRONE PORTFOLIO</span></h1>
     <div class="manifesto">
-      <div class="manifesto-tag">组合栏目 · PORTFOLIO CHANNELS · 10 PORTFOLIOS</div>
+      <div class="manifesto-tag">组合栏目 · PORTFOLIO CHANNELS · 9 PORTFOLIOS</div>
       <div class="manifesto-sort">
         <span class="manifesto-sort-label">组合排序</span>
         <div class="components-rank-toggle" id="portfolio-rank-group" aria-label="Portfolio ranking mode">
@@ -1047,7 +1047,7 @@
           <span class="pillar-text"><span class="m-key">电池指数</span><span class="pillar-en">Battery Index</span></span>
         </li>
       </ol>
-      <div class="manifesto-footer">先推出十个组合栏目，后续可继续扩展更多主题组合。<span class="manifesto-footer-en">Launching ten portfolio channels first, with room for more themes later.</span></div>
+      <div class="manifesto-footer">先推出九个组合栏目，后续可继续扩展更多主题组合。<span class="manifesto-footer-en">Launching nine portfolio channels first, with room for more themes later.</span></div>
     </div>
 
     <div class="meta-strip">
@@ -2168,26 +2168,6 @@
             seed: 1851, base: 35, vol: 0.018, drift: 0.00016 },
         ],
       },
-      "strong-currency": {
-        name: "强势货币指数",
-        nameEn: "Strong Currency Index",
-        tag: "策略 · 瑞士法郎 50% / 以色列谢克尔 50%",
-        tagEn: "STRATEGY · SWISS FRANC 50 / ISRAELI SHEKEL 50",
-        footer: "两种强势货币等权配置，以兑美元升值为上涨方向；原始 USD/CHF 与 USD/ILS 汇率在指数中取倒数。",
-        footerEn: "Equal-weight exposure to two strong currencies, rising when they appreciate versus USD; raw USD/CHF and USD/ILS quotes are inverted in the index.",
-        components: [
-          { name: "瑞士法郎",                       short: "CHF",           ticker: "CHF=X", weight: 0.50, ccy: "USD", sleeve: "FX", status: "active", inverseQuote: true,
-            concept: "避险货币 + 低通胀信用",
-            conceptEn: "Safe-haven currency + low-inflation credibility",
-            marketCap: 0,
-            seed: 756, base: 0.95, vol: 0.006, drift: -0.00002 },
-          { name: "以色列谢克尔",                   short: "ILS",           ticker: "ILS=X", weight: 0.50, ccy: "USD", sleeve: "FX", status: "active", inverseQuote: true,
-            concept: "科技经济体货币 + 外储韧性",
-            conceptEn: "Technology-economy currency + reserve resilience",
-            marketCap: 0,
-            seed: 376, base: 3.45, vol: 0.008, drift: -0.00001 },
-        ],
-      },
     };
 
     const PORTFOLIO_EVENT_THEMES = {
@@ -2423,24 +2403,6 @@
           { date: "2023-12-27", category: "media", label: "NYT 新闻品牌与内容定价", en: "NYT news brand and content pricing",
             desc: "纽约时报代表新闻品牌、订阅关系与 AI 时代内容授权定价权。",
             desc_en: "The New York Times represents news-brand equity, subscription relationships, and content-licensing pricing power in the AI era." },
-        ],
-      },
-      "strong-currency": {
-        header: "强势货币事件",
-        headerEn: "Strong Currency Milestones",
-        milestones: [
-          { date: "2022-11-30", category: "macro", label: "强势货币指数起点", en: "Strong currency index start",
-            desc: "以统一 T₀ 追踪瑞士法郎与以色列谢克尔兑美元的相对强弱，指数上涨代表本币兑美元升值。",
-            desc_en: "Uses the shared T₀ to track Swiss franc and Israeli shekel strength versus USD; the index rises when the currencies appreciate." },
-          { date: "2023-03-19", category: "macro", label: "瑞士金融避险线", en: "Swiss safe-haven line",
-            desc: "瑞士法郎代表低通胀、避险资产和央行信用，在金融压力阶段常体现防御属性。",
-            desc_en: "The Swiss franc represents low inflation, safe-haven demand, and central-bank credibility, often behaving defensively during financial stress." },
-          { date: "2024-04-15", category: "macro", label: "谢克尔风险溢价", en: "Shekel risk premium",
-            desc: "以色列谢克尔受科技资本流动、地缘风险和外汇储备干预预期共同影响。",
-            desc_en: "The Israeli shekel is shaped by technology-capital flows, geopolitical risk, and expectations around FX-reserve intervention." },
-          { date: "2025-09-17", category: "macro", label: "美元周期对照", en: "Dollar-cycle comparison",
-            desc: "强势货币指数用于观察美元周期中，非美元高信用货币的相对韧性。",
-            desc_en: "The strong currency index tracks the relative resilience of high-credibility non-USD currencies through dollar cycles." },
         ],
       },
     };
@@ -2739,7 +2701,6 @@
         "china-property": "pillar--partial",
         "no-yield": "pillar--partial",
         brand: "pillar--realized",
-        "strong-currency": "pillar--breakthrough",
       }[key] || "pillar--realized";
     }
 
@@ -2880,7 +2841,7 @@
         `${portfolio.nameEn} <span style="color:#5e9eff;font-size:0.6em;font-weight:300;letter-spacing:2px;margin-left:8px">${portfolio.name}</span>`
       );
 
-      document.querySelector(".manifesto-tag").textContent = t("组合栏目 · 先推出 10 个组合", "PORTFOLIO CHANNELS · 10 PORTFOLIOS");
+      document.querySelector(".manifesto-tag").textContent = t("组合栏目 · 先推出 9 个组合", "PORTFOLIO CHANNELS · 9 PORTFOLIOS");
       document.querySelector("#portfolio-rank-group").previousElementSibling.textContent = t("组合排序", "Sort Portfolios");
       document.querySelector('#portfolio-rank-group button[data-portfolio-rank="default"]').textContent = t("默认", "Default");
       document.querySelector('#portfolio-rank-group button[data-portfolio-rank="mcap"]').textContent = t("市值", "Market Cap");
