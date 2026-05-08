@@ -203,6 +203,10 @@ TARGET_WEIGHTS = {
 SYNTHETIC_FALLBACKS = {}
 
 LISTING_START_OVERRIDES = {
+    # USAR was IPXX before USA Rare Earth completed its SPAC business
+    # combination. USA Rare Earth began trading as USAR on Nasdaq on
+    # 2025-03-14, so trim inherited SPAC history.
+    "USAR": "2025-03-14",
     # ALOY was BLBX before REalloys closed its merger. The combined REalloys
     # company began trading as ALOY on Nasdaq on 2026-02-25, so trim the
     # inherited shell history to avoid charting the old business.

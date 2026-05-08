@@ -2064,6 +2064,7 @@
       "us-rare-earth": {
         name: "美国稀土组合",
         nameEn: "US Rare Earth Portfolio",
+        respectInception: true,
         tag: "策略 · MP / USAR / CRML / ALOY · 各 25%",
         tagEn: "STRATEGY · MP / USAR / CRML / ALOY · 25 EACH",
         footer: "四只美股等权配置，覆盖美国稀土矿山、关键金属、本土磁材与稀土加工链条。",
@@ -2387,6 +2388,9 @@
           { date: "2022-11-30", category: "supply", label: "美国稀土组合起点", en: "US rare-earth portfolio start",
             desc: "以统一 T₀ 追踪美国上市稀土矿山、关键金属与本土磁材供应链。",
             desc_en: "Uses the shared T0 to track US-listed rare-earth mines, critical metals, and domestic magnet supply-chain exposure." },
+          { date: "2025-03-14", category: "supply", label: "USAR 开始交易", en: "USAR begins trading",
+            desc: "USA Rare Earth 完成与 Inflection Point Acquisition Corp. II 的业务合并后，以 USAR 在 Nasdaq 开始交易。",
+            desc_en: "USA Rare Earth began trading on Nasdaq as USAR after completing its business combination with Inflection Point Acquisition Corp. II." },
           { date: "2024-04-15", category: "supply", label: "CRML 关键金属线", en: "CRML critical-metals line",
             desc: "Critical Metals 补充关键金属、稀土与锂资源敞口，让组合不只集中在单一美国矿山。",
             desc_en: "Critical Metals adds critical-metal, rare-earth, and lithium-resource exposure, broadening the portfolio beyond a single US mine." },
@@ -3063,16 +3067,17 @@
 
     function convertedComponentPriceSeries(component) {
       if (!component?.data?.length) return [];
-      return component.data.map((bar, i) => {
+      return component.data.flatMap((bar, i) => {
+        if (component.inception && bar.date < component.inception) return [];
         const r = convRate(component.ccy, currentCurrency, rawData.fx, i);
         const b = normalizeBarForComponent(component, bar);
-        return {
+        return [{
           date: bar.date,
           open: b.open * r,
           high: b.high * r,
           low: b.low * r,
           close: b.close * r,
-        };
+        }];
       });
     }
 
@@ -3478,7 +3483,10 @@
         let totalReturn = 0;
         let contribution = 0;
         if (rawData?.fx && component.data?.length && merged.status !== "prelist") {
-          const first = componentCloseInCurrency(component, 0);
+          const startIdx = component.inception
+            ? Math.max(0, component.data.findIndex((bar) => bar.date >= component.inception))
+            : 0;
+          const first = componentCloseInCurrency(component, startIdx);
           const last = componentCloseInCurrency(component, component.data.length - 1);
           totalReturn = first ? (last / first - 1) * 100 : 0;
           contribution = merged.weight * totalReturn;
