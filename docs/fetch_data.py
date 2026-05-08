@@ -203,6 +203,10 @@ TARGET_WEIGHTS = {
 SYNTHETIC_FALLBACKS = {}
 
 LISTING_START_OVERRIDES = {
+    # CRML was SZZL before Critical Metals completed its business combination.
+    # Critical Metals began trading as CRML on Nasdaq on 2024-02-28, so trim
+    # inherited SPAC history.
+    "CRML": "2024-02-28",
     # USAR was IPXX before USA Rare Earth completed its SPAC business
     # combination. USA Rare Earth began trading as USAR on Nasdaq on
     # 2025-03-14, so trim inherited SPAC history.
