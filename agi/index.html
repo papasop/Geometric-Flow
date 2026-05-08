@@ -3547,6 +3547,7 @@
     }
 
     function renderComponentInvestmentEvents(ticker) {
+      if (currentComponentRank !== "weight") return "";
       const events = investmentEventsForTicker(ticker);
       if (!events.length) return "";
       const rows = events.map((event) => {
