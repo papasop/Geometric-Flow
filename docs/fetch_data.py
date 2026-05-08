@@ -22,6 +22,7 @@ Index composition:
 Additional portfolio data pool:
     拼多多                  PDD        USD
     纽约时报                NYT        USD
+    Rocket Lab              RKLB       USD
     比亚迪                  002594.SZ  CNY
     贵州茅台                600519.SS  CNY
 Calendar handling
@@ -61,6 +62,7 @@ COMPONENTS = [
     {"name": "Elbit Systems", "short": "ESLT", "ticker": "ESLT", "ccy": "USD", "sleeve": "IL", "status": "active"},
     {"name": "AeroVironment", "short": "AVAV", "ticker": "AVAV", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "Palantir Technologies", "short": "PLTR", "ticker": "PLTR", "ccy": "USD", "sleeve": "US", "status": "active"},
+    {"name": "Rocket Lab", "short": "RKLB", "ticker": "RKLB", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "HawkEye 360", "short": "HAWK", "ticker": "HAWK", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "BlackSky Technology", "short": "BKSY", "ticker": "BKSY", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "Spire Global", "short": "SPIR", "ticker": "SPIR", "ccy": "USD", "sleeve": "US", "status": "active"},
@@ -125,6 +127,7 @@ TARGET_WEIGHTS = {
     "ESLT": 1 / 10,
     "AVAV": 1 / 10,
     "PLTR": 0.0,
+    "RKLB": 0.0,
     "HAWK": 0.0,
     "BKSY": 0.0,
     "SPIR": 0.0,
