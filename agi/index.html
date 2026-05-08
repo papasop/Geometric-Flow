@@ -1006,7 +1006,7 @@
   <div class="container">
     <h1>无人机 <span style="color:#5e9eff;font-size:0.6em;font-weight:300;letter-spacing:2px;margin-left:8px">DRONE PORTFOLIO</span></h1>
     <div class="manifesto">
-      <div class="manifesto-tag">组合栏目 · PORTFOLIO CHANNELS · 9 PORTFOLIOS</div>
+      <div class="manifesto-tag">组合栏目 · PORTFOLIO CHANNELS · 10 PORTFOLIOS</div>
       <div class="manifesto-sort">
         <span class="manifesto-sort-label">组合排序</span>
         <div class="components-rank-toggle" id="portfolio-rank-group" aria-label="Portfolio ranking mode">
@@ -1046,8 +1046,13 @@
           <span class="pillar-cat pillar-cat--breakthrough">组合</span>
           <span class="pillar-text"><span class="m-key">电池指数</span><span class="pillar-en">Battery Index</span></span>
         </li>
+        <li class="pillar pillar--breakthrough" data-portfolio="us-rare-earth">
+          <span class="pillar-num">⑦</span>
+          <span class="pillar-cat pillar-cat--breakthrough">组合</span>
+          <span class="pillar-text"><span class="m-key">美国稀土组合</span><span class="pillar-en">US Rare Earth Portfolio</span></span>
+        </li>
       </ol>
-      <div class="manifesto-footer">先推出九个组合栏目，后续可继续扩展更多主题组合。<span class="manifesto-footer-en">Launching nine portfolio channels first, with room for more themes later.</span></div>
+      <div class="manifesto-footer">先推出十个组合栏目，后续可继续扩展更多主题组合。<span class="manifesto-footer-en">Launching ten portfolio channels first, with room for more themes later.</span></div>
     </div>
 
     <div class="meta-strip">
@@ -2056,6 +2061,41 @@
             seed: 2580, base: 8, vol: 0.032, drift: 0.00014 },
         ],
       },
+      "us-rare-earth": {
+        name: "美国稀土组合",
+        nameEn: "US Rare Earth Portfolio",
+        tag: "策略 · MP / USAR / UUUU / CRML / ALOY · 各 20%",
+        tagEn: "STRATEGY · MP / USAR / UUUU / CRML / ALOY · 20 EACH",
+        footer: "五只美股等权配置，覆盖美国稀土矿山、磁材、关键金属、独居石与稀土加工链条。",
+        footerEn: "Equal-weight exposure to five US-listed rare-earth names across mines, magnets, critical metals, monazite feedstock, and processing.",
+        components: [
+          { name: "MP Materials",                   short: "MP",             ticker: "MP", weight: 0.20, ccy: "USD", sleeve: "US", status: "active",
+            concept: "Mountain Pass 稀土矿 + 磁材一体化",
+            conceptEn: "Mountain Pass rare-earth mine + magnet integration",
+            marketCap: 12.3,
+            seed: 2020, base: 28, vol: 0.038, drift: 0.00045 },
+          { name: "USA Rare Earth",                 short: "USAR",           ticker: "USAR", weight: 0.20, ccy: "USD", sleeve: "US", status: "active",
+            concept: "Round Top 稀土项目 + 美国磁材供应链",
+            conceptEn: "Round Top rare-earth project + US magnet supply chain",
+            marketCap: 5.75,
+            seed: 2019, base: 12, vol: 0.050, drift: 0.00055 },
+          { name: "Energy Fuels",                   short: "UUUU",           ticker: "UUUU", weight: 0.20, ccy: "USD", sleeve: "US", status: "active",
+            concept: "独居石处理 + 稀土元素 + 铀资源",
+            conceptEn: "Monazite processing + rare earths + uranium resources",
+            marketCap: 5.84,
+            seed: 1987, base: 6, vol: 0.040, drift: 0.00042 },
+          { name: "Critical Metals",                short: "CRML",           ticker: "CRML", weight: 0.20, ccy: "USD", sleeve: "US", status: "active",
+            concept: "关键金属 + 稀土与锂资源",
+            conceptEn: "Critical metals + rare earth and lithium resources",
+            marketCap: 1.1,
+            seed: 2022, base: 8, vol: 0.055, drift: 0.00048 },
+          { name: "REalloys",                       short: "ALOY",           ticker: "ALOY", weight: 0.20, ccy: "USD", sleeve: "US", status: "active",
+            concept: "稀土金属 + 永磁材料",
+            conceptEn: "Rare-earth metals + permanent magnets",
+            marketCap: 0.78,
+            seed: 2025, base: 13, vol: 0.052, drift: 0.00044 },
+        ],
+      },
       "china-property": {
         name: "香港地产公用指数",
         nameEn: "Hong Kong Property & Utilities Index",
@@ -2343,6 +2383,24 @@
           { date: "2024-09-24", category: "policy", label: "新能源产业政策窗口", en: "NEV policy window",
             desc: "中国资产与新能源产业政策预期改善,动力电池龙头估值对利率、需求和出口预期更敏感。",
             desc_en: "Improved China-asset and NEV policy expectations make battery leaders more sensitive to rates, demand, and export assumptions." },
+        ],
+      },
+      "us-rare-earth": {
+        header: "美国稀土组合事件",
+        headerEn: "US Rare Earth Milestones",
+        milestones: [
+          { date: "2022-11-30", category: "supply", label: "美国稀土组合起点", en: "US rare-earth portfolio start",
+            desc: "以统一 T₀ 追踪美国上市稀土、关键金属、独居石处理与永磁材料链条。",
+            desc_en: "Uses the shared T0 to track US-listed rare-earth, critical-metal, monazite-processing, and permanent-magnet supply-chain exposure." },
+          { date: "2024-04-15", category: "supply", label: "CRML 关键金属线", en: "CRML critical-metals line",
+            desc: "Critical Metals 补充关键金属、稀土与锂资源敞口，让组合不只集中在单一美国矿山。",
+            desc_en: "Critical Metals adds critical-metal, rare-earth, and lithium-resource exposure, broadening the portfolio beyond a single US mine." },
+          { date: "2025-04-14", category: "supply", label: "ALOY 稀土磁材线", en: "ALOY rare-earth magnet line",
+            desc: "REalloys 代表北美稀土金属和永磁材料方向，补充中下游磁材加工敞口。",
+            desc_en: "REalloys represents North American rare-earth metals and permanent-magnet exposure, adding midstream and downstream processing." },
+          { date: "2026-05-08", category: "policy", label: "美国稀土供应链", en: "US rare-earth supply chain",
+            desc: "MP、USAR、UUUU、CRML 与 ALOY 共同构成美国稀土、关键矿物和磁材供应链观察篮子。",
+            desc_en: "MP, USAR, UUUU, CRML, and ALOY form a watch basket for US rare-earth, critical-mineral, and magnet supply chains." },
         ],
       },
       "china-property": {
@@ -2698,6 +2756,7 @@
         hantavirus: "pillar--realized",
         blockchain: "pillar--partial",
         battery: "pillar--breakthrough",
+        "us-rare-earth": "pillar--breakthrough",
         "china-property": "pillar--partial",
         "no-yield": "pillar--partial",
         brand: "pillar--realized",
@@ -2841,7 +2900,7 @@
         `${portfolio.nameEn} <span style="color:#5e9eff;font-size:0.6em;font-weight:300;letter-spacing:2px;margin-left:8px">${portfolio.name}</span>`
       );
 
-      document.querySelector(".manifesto-tag").textContent = t("组合栏目 · 先推出 9 个组合", "PORTFOLIO CHANNELS · 9 PORTFOLIOS");
+      document.querySelector(".manifesto-tag").textContent = t("组合栏目 · 先推出 10 个组合", "PORTFOLIO CHANNELS · 10 PORTFOLIOS");
       document.querySelector("#portfolio-rank-group").previousElementSibling.textContent = t("组合排序", "Sort Portfolios");
       document.querySelector('#portfolio-rank-group button[data-portfolio-rank="default"]').textContent = t("默认", "Default");
       document.querySelector('#portfolio-rank-group button[data-portfolio-rank="mcap"]').textContent = t("市值", "Market Cap");
