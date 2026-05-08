@@ -28,10 +28,6 @@ Additional portfolio data pool:
     纽约时报                NYT        USD
     比亚迪                  002594.SZ  CNY
     贵州茅台                600519.SS  CNY
-    TRON                    TRX-USD    USD
-    Hyperliquid             HYPE32196-USD USD
-    Sky Protocol            SKY33038-USD USD
-
 Calendar handling
 -----------------
 Each component trades on a different exchange with a different holiday
@@ -93,9 +89,6 @@ COMPONENTS = [
     {"name": "\u6bd4\u4e9a\u8fea", "short": "BYD", "ticker": "002594.SZ", "ccy": "CNY", "sleeve": "CN", "status": "active"},
     {"name": "\u8d35\u5dde\u8305\u53f0", "short": "MOUTAI", "ticker": "600519.SS", "ccy": "CNY", "sleeve": "CN", "status": "active"},
     {"name": "\u7f8e\u7684\u96c6\u56e2", "short": "\u7f8e\u7684", "ticker": "000333.SZ", "ccy": "CNY", "sleeve": "CN", "status": "active"},
-    {"name": "TRON", "short": "TRX", "ticker": "TRX-USD", "ccy": "USD", "sleeve": "CRYPTO", "status": "active"},
-    {"name": "Hyperliquid", "short": "HYPE", "ticker": "HYPE32196-USD", "ccy": "USD", "sleeve": "CRYPTO", "status": "active"},
-    {"name": "Sky Protocol", "short": "SKY", "ticker": "SKY33038-USD", "ccy": "USD", "sleeve": "CRYPTO", "status": "active"},
     {"name": "\u5b81\u5fb7\u65f6\u4ee3", "short": "CATL", "ticker": "300750.SZ", "ccy": "CNY", "sleeve": "CN", "status": "active"},
     {"name": "\u6b23\u65fa\u8fbe", "short": "\u6b23\u65fa\u8fbe", "ticker": "300207.SZ", "ccy": "CNY", "sleeve": "CN", "status": "active"},
     {"name": "\u9f0e\u80dc\u65b0\u6750", "short": "\u9f0e\u80dc\u65b0\u6750", "ticker": "603876.SS", "ccy": "CNY", "sleeve": "CN", "status": "active"},
@@ -159,9 +152,6 @@ TARGET_WEIGHTS = {
     "002594.SZ": 0.0,
     "600519.SS": 0.0,
     "000333.SZ": 0.0,
-    "TRX-USD": 0.0,
-    "HYPE32196-USD": 0.0,
-    "SKY33038-USD": 0.0,
     "300750.SZ": 0.0,
     "300207.SZ": 0.0,
     "603876.SS": 0.0,
