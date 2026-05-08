@@ -504,6 +504,7 @@
     .component-row {
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
       gap: 10px;
       font-size: 13px;
       padding: 9px 0;
@@ -569,6 +570,31 @@
       color: #8a96b3;
       font-size: 12.5px;
       flex: 1;
+      min-width: 0;
+    }
+    .component-invest-events {
+      flex: 1 1 100%;
+      margin-left: 70px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      color: #6b7a99;
+      font-size: 11.5px;
+      line-height: 1.45;
+    }
+    .component-invest-event {
+      display: flex;
+      align-items: baseline;
+      gap: 7px;
+      min-width: 0;
+    }
+    .component-invest-event b {
+      color: #ffd166;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .component-invest-event span {
       min-width: 0;
     }
     .component-mcap {
@@ -1090,6 +1116,7 @@
         <button data-event="all" class="active"><span class="btn-main">全部</span><span class="btn-sub">All</span></button>
         <button data-event="paper"><span class="btn-main">论文</span><span class="btn-sub">Paper</span></button>
         <button data-event="remarks"><span class="btn-main">言论</span><span class="btn-sub">Remarks</span></button>
+        <button data-event="investment"><span class="btn-main">投资</span><span class="btn-sub">Investment</span></button>
       </div>
     </div>
 
@@ -1530,6 +1557,13 @@
         bg: "rgba(185, 242, 124, 0.14)",
         line: "rgba(185, 242, 124, 0.30)",
       },
+      investment: {
+        zh: "投资事件",
+        en: "Investment",
+        color: "#ffb86b",
+        bg: "rgba(255, 184, 107, 0.15)",
+        line: "rgba(255, 184, 107, 0.34)",
+      },
       policy: {
         zh: "政策",
         en: "Policy",
@@ -1663,6 +1697,9 @@
             postIpoAmount: 0.42,
             note: "仅统计 IPO 后已上市标的之间的组合内参与，RCAT 与小型无人机、整机、供应链和防务软件标的关联。",
             noteEn: "Counts only post-IPO participation among listed portfolio names; RCAT links to small-drone, platform, supply-chain, and defense-software names.",
+            events: [
+              { date: "2026-05-08", amount: 0.42, investors: ["UMAC", "AVAV", "DPRO", "KTOS", "PLTR"] },
+            ],
           },
           {
             target: "AeroVironment",
@@ -1671,6 +1708,9 @@
             postIpoAmount: 1.85,
             note: "仅统计 IPO 后已上市标的之间的组合内参与，AVAV 与防务无人系统、战术 UAS、作战数据平台和反无人机标的关联。",
             noteEn: "Counts only post-IPO participation among listed portfolio names; AVAV links to defense UAS, tactical-drone, battlefield-data, and counter-UAS names.",
+            events: [
+              { date: "2026-05-08", amount: 1.85, investors: ["KTOS", "RCAT", "PLTR", "DPRO", "ONDS"] },
+            ],
           },
           {
             target: "Kratos Defense & Security",
@@ -1679,6 +1719,9 @@
             postIpoAmount: 2.10,
             note: "仅统计 IPO 后已上市标的之间的组合内参与，KTOS 与军用无人系统、AI 防务软件、反无人机和卫星数据标的关联。",
             noteEn: "Counts only post-IPO participation among listed portfolio names; KTOS links to military UAS, AI defense software, counter-UAS, and satellite-data names.",
+            events: [
+              { date: "2026-05-08", amount: 2.10, investors: ["AVAV", "PLTR", "RCAT", "ONDS", "SPIR"] },
+            ],
           },
           {
             target: "HawkEye 360",
@@ -1687,6 +1730,9 @@
             postIpoAmount: 0.68,
             note: "仅统计 IPO 后已上市标的之间的组合内参与，HAWK 与卫星数据、地理空间情报和防务软件标的关联。",
             noteEn: "Counts only post-IPO participation among listed portfolio names; HAWK links to satellite-data, geospatial-intelligence, and defense-software names.",
+            events: [
+              { date: "2026-05-08", amount: 0.68, investors: ["SPIR", "BKSY", "PLTR", "KTOS"] },
+            ],
           },
           {
             target: "BlackSky Technology",
@@ -1695,6 +1741,9 @@
             postIpoAmount: 0.24,
             note: "仅统计 IPO 后已上市标的之间的组合内参与，BKSY 与 RF 情报、商业卫星和防务软件标的关联。",
             noteEn: "Counts only post-IPO participation among listed portfolio names; BKSY links to RF-intelligence, commercial-satellite, and defense-software names.",
+            events: [
+              { date: "2026-05-08", amount: 0.24, investors: ["HAWK", "SPIR", "PLTR", "KTOS"] },
+            ],
           },
           {
             target: "Spire Global",
@@ -1703,6 +1752,9 @@
             postIpoAmount: 0.20,
             note: "仅统计 IPO 后已上市标的之间的组合内参与，SPIR 与 RF 卫星、地理空间情报和防务软件标的关联。",
             noteEn: "Counts only post-IPO participation among listed portfolio names; SPIR links to RF-satellite, geospatial-intelligence, and defense-software names.",
+            events: [
+              { date: "2026-05-08", amount: 0.20, investors: ["HAWK", "BKSY", "PLTR"] },
+            ],
           },
           {
             target: "Kopin",
@@ -1711,6 +1763,10 @@
             postIpoAmount: 0.056,
             note: "仅统计 IPO 后已上市组合内投资方：THEON 1500 万美元战略投资，加上 THEON / ONDS / UMAC 参与的 4100 万美元 PIPE。",
             noteEn: "Counts only post-IPO listed portfolio investors: THEON's $15M strategic investment plus the $41M PIPE joined by THEON, ONDS, and UMAC.",
+            events: [
+              { date: "2025-08-11", amount: 0.015, investors: ["THEON"], label: "THEON 战略投资 KOPN", labelEn: "THEON strategic investment in KOPN" },
+              { date: "2025-09-29", amount: 0.041, investors: ["THEON", "ONDS", "UMAC"], label: "THEON / ONDS / UMAC 参与 KOPN PIPE", labelEn: "THEON / ONDS / UMAC join KOPN PIPE" },
+            ],
           },
           {
             target: "Ondas",
@@ -1719,6 +1775,9 @@
             postIpoAmount: 0.33,
             note: "仅统计 IPO 后已上市标的之间的组合内参与，ONDS 与防务平台、军用无人系统、战术 UAS 和 AI 作战软件标的关联。",
             noteEn: "Counts only post-IPO participation among listed portfolio names; ONDS links to defense-platform, military-UAS, tactical-drone, and AI battlefield-software names.",
+            events: [
+              { date: "2026-05-08", amount: 0.33, investors: ["KTOS", "AVAV", "RCAT", "PLTR"] },
+            ],
           },
         ],
         components: [
@@ -2619,7 +2678,74 @@
     }
 
     function activeMilestones() {
-      return activeEventTheme().milestones || DEFAULT_MILESTONES;
+      return [...(activeEventTheme().milestones || DEFAULT_MILESTONES), ...investmentMilestones()];
+    }
+
+    function listedPortfolioComponents(portfolio = activePortfolio()) {
+      return (portfolio.components || []).filter((component) => component.status === "active");
+    }
+
+    function allowedInvestmentAliases(portfolio = activePortfolio()) {
+      return new Set(listedPortfolioComponents(portfolio).flatMap((component) => (
+        [component.name, component.short, component.ticker].filter(Boolean)
+      )));
+    }
+
+    function investmentAliasToTicker(portfolio = activePortfolio()) {
+      const entries = listedPortfolioComponents(portfolio).flatMap((component) => (
+        [component.name, component.short, component.ticker]
+          .filter(Boolean)
+          .map((alias) => [alias, component.ticker])
+      ));
+      return Object.fromEntries(entries);
+    }
+
+    function normalizeInvestmentRows(portfolio = activePortfolio()) {
+      const listedComponents = listedPortfolioComponents(portfolio);
+      const allowedAliases = allowedInvestmentAliases(portfolio);
+      const componentByTicker = Object.fromEntries(listedComponents.map((component) => [component.ticker, component]));
+      return [...(portfolio.crossInvestments || [])]
+        .filter((row) => allowedAliases.has(row.ticker) || allowedAliases.has(row.target))
+        .map((row) => ({
+          ...row,
+          investors: (row.investors || []).filter((investor) => allowedAliases.has(investor)),
+          marketCap: componentByTicker[row.ticker]?.marketCap || 0,
+        }))
+        .filter((row) => row.investors.length);
+    }
+
+    function investmentEvents(portfolio = activePortfolio()) {
+      return normalizeInvestmentRows(portfolio).flatMap((row) => {
+        const aliasToTicker = investmentAliasToTicker(portfolio);
+        const rowEvents = row.events?.length
+          ? row.events
+          : [{ date: "2026-05-08", amount: row.postIpoAmount || 0, investors: row.investors || [] }];
+        return rowEvents.map((event) => {
+          const investors = (event.investors?.length ? event.investors : row.investors || []);
+          const investorAssetTickers = investors.map((investor) => aliasToTicker[investor] || investor);
+          const amount = Number.isFinite(event.amount) ? event.amount : (row.postIpoAmount || 0);
+          const label = event.label || `${investors.join(" / ")} 投资 ${row.ticker}`;
+          const labelEn = event.labelEn || `${investors.join(" / ")} invest in ${row.ticker}`;
+          const amountText = formatMcap(amount);
+          return {
+            date: event.date,
+            category: "investment",
+            label: `${label} · ${amountText}`,
+            en: `${labelEn} · ${amountText}`,
+            desc: event.desc || `${row.target} (${row.ticker}) 接受 ${investors.join(" / ")} IPO 后参与投资，金额 ${amountText}。${row.note || ""}`,
+            desc_en: event.descEn || `${row.target} (${row.ticker}) receives post-IPO participation from ${investors.join(" / ")}; amount ${amountText}. ${row.noteEn || row.note || ""}`,
+            targetTicker: row.ticker,
+            investorTickers: investors,
+            investorAssetTickers,
+            tickers: [row.ticker, ...investorAssetTickers],
+            amount,
+          };
+        });
+      }).filter((event) => event.date);
+    }
+
+    function investmentMilestones() {
+      return investmentEvents(activePortfolio());
     }
 
     function activeBenchmarkConfig() {
@@ -2830,6 +2956,7 @@
       document.querySelector('#event-group button[data-event="all"] .btn-main').textContent = t("全部", "All");
       document.querySelector('#event-group button[data-event="paper"] .btn-main').textContent = t("论文", "Paper");
       document.querySelector('#event-group button[data-event="remarks"] .btn-main').textContent = t("言论", "Remarks");
+      document.querySelector('#event-group button[data-event="investment"] .btn-main').textContent = t("投资", "Investment");
 
       document.querySelector(".components-header-title").textContent = t("成分股 · 各自代表的 AI 子赛道", "COMPONENTS · AI subsector represented by each holding");
       document.querySelector('[data-rank="weight"]').textContent = t("权重", "Weight");
@@ -2864,7 +2991,8 @@
     function visibleMilestones() {
       return activeMilestones()
         .map((m, i) => ({ m, i }))
-        .filter(({ m }) => currentEventCategory === "all" || m.category === currentEventCategory);
+        .filter(({ m }) => currentEventCategory === "all" || m.category === currentEventCategory)
+        .filter(({ m }) => currentChartAsset === "INDEX" || !m.tickers || m.tickers.includes(currentChartAsset));
     }
 
     // Build the markLine config for AI milestones, snapped to the
@@ -3354,6 +3482,32 @@
       return normalizeBarForComponent(component, bar).close * convRate(component.ccy, currentCurrency, rawData.fx, idx);
     }
 
+    function investmentEventsForTicker(ticker) {
+      return investmentEvents(activePortfolio())
+        .filter((event) => event.tickers?.includes(ticker))
+        .sort((a, b) => new Date(a.date) - new Date(b.date));
+    }
+
+    function renderComponentInvestmentEvents(ticker) {
+      const events = investmentEventsForTicker(ticker);
+      if (!events.length) return "";
+      const rows = events.slice(0, 3).map((event) => {
+        const isTarget = event.targetTicker === ticker;
+        const role = isTarget ? t("接受投资", "Receives") : t("投资参与", "Investor");
+        const counterpart = isTarget
+          ? event.investorTickers.join(" / ")
+          : event.targetTicker;
+        return `<span class="component-invest-event">
+          <b>${event.date}</b>
+          <span>${role} · ${counterpart} · ${formatMcap(event.amount || 0)}</span>
+        </span>`;
+      }).join("");
+      const more = events.length > 3
+        ? `<span class="component-invest-event"><b>+${events.length - 3}</b><span>${t("更多投资事件已在走势图标注", "more investment events marked on the chart")}</span></span>`
+        : "";
+      return `<div class="component-invest-events">${rows}${more}</div>`;
+    }
+
     function getComponentRows() {
       const rawComponents = rawData?.components?.length ? rawData.components : [];
       const seenTickers = new Set(rawComponents.map((c) => c.ticker));
@@ -3440,6 +3594,7 @@
           <span class="component-ticker">${c.ticker}</span>
           <span class="component-concept">${c.displayConcept || ''}</span>
           ${metric}
+          ${renderComponentInvestmentEvents(c.ticker)}
         </div>`;
       }).join("");
       renderCrossInvestmentPanel();
@@ -3449,21 +3604,7 @@
       const panel = document.getElementById("cross-invest-panel");
       const list = document.getElementById("cross-invest-list");
       if (!panel || !list) return;
-      const portfolio = activePortfolio();
-      const listedComponents = (portfolio.components || []).filter((component) => component.status === "active");
-      const allowedInvestors = new Set(listedComponents.flatMap((component) => (
-        [component.name, component.short, component.ticker].filter(Boolean)
-      )));
-      const componentByTicker = Object.fromEntries(listedComponents.map((component) => [component.ticker, component]));
-      const allowedTargets = allowedInvestors;
-      const rows = [...(portfolio.crossInvestments || [])]
-        .filter((row) => allowedTargets.has(row.ticker) || allowedTargets.has(row.target))
-        .map((row) => ({
-          ...row,
-          investors: (row.investors || []).filter((investor) => allowedInvestors.has(investor)),
-          marketCap: componentByTicker[row.ticker]?.marketCap || 0,
-        }))
-        .filter((row) => row.investors.length)
+      const rows = normalizeInvestmentRows()
         .sort((a, b) => (b.investors?.length || 0) - (a.investors?.length || 0));
       const isInvestmentRank = ["investors", "investment", "investment-ratio"].includes(currentComponentRank);
       panel.hidden = rows.length === 0 || !isInvestmentRank;
