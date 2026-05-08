@@ -127,6 +127,7 @@ COMPONENTS = [
     {"name": "MP Materials", "short": "MP", "ticker": "MP", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "USA Rare Earth", "short": "USAR", "ticker": "USAR", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "Critical Metals", "short": "CRML", "ticker": "CRML", "ccy": "USD", "sleeve": "US", "status": "active"},
+    {"name": "REalloys", "short": "ALOY", "ticker": "ALOY", "ccy": "USD", "sleeve": "US", "status": "active"},
 ]
 
 TARGET_WEIGHTS = {
@@ -196,6 +197,7 @@ TARGET_WEIGHTS = {
     "MP": 0.0,
     "USAR": 0.0,
     "CRML": 0.0,
+    "ALOY": 0.0,
 }
 
 SYNTHETIC_FALLBACKS = {}
