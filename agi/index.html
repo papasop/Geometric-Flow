@@ -2712,10 +2712,21 @@
       currentPortfolioKey = PORTFOLIOS[key] ? key : "drone";
       COMPONENTS_CONFIG = PORTFOLIOS[currentPortfolioKey].components;
       CONFIG_BY_TICKER = Object.fromEntries(COMPONENTS_CONFIG.map((c) => [c.ticker, c]));
+      if (!investmentRanksEnabled() && investmentRankKeys().includes(currentComponentRank)) {
+        currentComponentRank = "weight";
+      }
     }
 
     function activePortfolio() {
       return PORTFOLIOS[currentPortfolioKey] || PORTFOLIOS.drone;
+    }
+
+    function investmentRankKeys() {
+      return ["investors", "investment", "investment-ratio"];
+    }
+
+    function investmentRanksEnabled() {
+      return currentPortfolioKey === "drone";
     }
 
     function activeEventTheme() {
@@ -3012,6 +3023,7 @@
       document.querySelector('[data-rank="investors"]').textContent = t("投资方", "Investors");
       document.querySelector('[data-rank="investment"]').textContent = t("投资金额", "Amount");
       document.querySelector('[data-rank="investment-ratio"]').textContent = t("投资/市值", "Amount/MCap");
+      updateComponentRankControls();
       document.getElementById("total-mcap-label").textContent = t("总市值 / TOTAL CAP", "TOTAL MARKET CAP");
       const eventTheme = activeEventTheme();
       document.querySelector(".milestones-header").textContent = t(eventTheme.header, eventTheme.headerEn);
@@ -3489,9 +3501,9 @@
     document.getElementById("components-rank-group").addEventListener("click", (e) => {
       const btn = e.target.closest("button[data-rank]");
       if (!btn) return;
-      document.querySelectorAll("#components-rank-group button").forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
+      if (btn.hidden) return;
       currentComponentRank = btn.dataset.rank;
+      updateComponentRankControls();
       renderComponentsPanel();
     });
     window.addEventListener("resize", () => chart.resize());
@@ -3582,11 +3594,12 @@
     }
 
     function renderComponentsPanel() {
+      updateComponentRankControls();
       const rows = getComponentRows();
       const totalMcap = rows.reduce((s, c) => s + (c.marketCap || 0), 0);
-      const isInvestmentRank = ["investors", "investment", "investment-ratio"].includes(currentComponentRank);
+      const isInvestmentRank = investmentRankKeys().includes(currentComponentRank);
       document.getElementById("total-mcap").textContent = formatMcap(totalMcap);
-      if (isInvestmentRank) {
+      if (isInvestmentRank && investmentRanksEnabled()) {
         document.getElementById("components-list").hidden = true;
         renderCrossInvestmentPanel();
         return;
@@ -3643,13 +3656,32 @@
       renderCrossInvestmentPanel();
     }
 
+    function updateComponentRankControls() {
+      const enabled = investmentRanksEnabled();
+      if (!enabled && investmentRankKeys().includes(currentComponentRank)) {
+        currentComponentRank = "weight";
+      }
+      document.querySelectorAll("#components-rank-group button[data-rank]").forEach((btn) => {
+        const isInvestmentRank = investmentRankKeys().includes(btn.dataset.rank);
+        btn.hidden = isInvestmentRank && !enabled;
+        btn.classList.toggle("active", btn.dataset.rank === currentComponentRank);
+      });
+      const panel = document.getElementById("cross-invest-panel");
+      if (panel && !enabled) panel.hidden = true;
+    }
+
     function renderCrossInvestmentPanel() {
       const panel = document.getElementById("cross-invest-panel");
       const list = document.getElementById("cross-invest-list");
       if (!panel || !list) return;
+      if (!investmentRanksEnabled()) {
+        panel.hidden = true;
+        list.innerHTML = "";
+        return;
+      }
       const rows = normalizeInvestmentRows()
         .sort((a, b) => (b.investors?.length || 0) - (a.investors?.length || 0));
-      const isInvestmentRank = ["investors", "investment", "investment-ratio"].includes(currentComponentRank);
+      const isInvestmentRank = investmentRankKeys().includes(currentComponentRank);
       panel.hidden = rows.length === 0 || !isInvestmentRank;
       if (!rows.length) {
         list.innerHTML = "";
