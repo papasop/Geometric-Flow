@@ -914,11 +914,6 @@
           <span class="pillar-cat pillar-cat--realized">组合</span>
           <span class="pillar-text"><span class="m-key">无人机</span><span class="pillar-en">Drone Portfolio</span></span>
         </li>
-        <li class="pillar pillar--breakthrough" data-portfolio="slm">
-          <span class="pillar-num">②</span>
-          <span class="pillar-cat pillar-cat--breakthrough">组合</span>
-          <span class="pillar-text"><span class="m-key">Palantir 商业化</span><span class="pillar-en">Palantir Commercialization Portfolio</span></span>
-        </li>
         <li class="pillar pillar--pending" data-portfolio="china-leading">
           <span class="pillar-num">③</span>
           <span class="pillar-cat pillar-cat--pending">组合</span>
@@ -1759,31 +1754,6 @@
             seed: 7117, base: 30.0, vol: 0.040, drift: 0.00100 },
         ],
       },
-      "slm": {
-        name: "Palantir 商业化",
-        nameEn: "Palantir Commercialization Portfolio",
-        tag: "策略 · PLTR / PDD / 迈富时 · 各 33.33%",
-        tagEn: "STRATEGY · PLTR / PDD / MAIFU · 33.33 EACH",
-        footer: "三只已上市股票等权配置；聚焦 Palantir 商业化：私有数据、平台交易、企业 SaaS 与业务流程智能体化。",
-        footerEn: "Equal-weight exposure to three listed names; focused on Palantir commercialization: proprietary data, platform transactions, enterprise SaaS, and agentic business workflows.",
-        components: [
-          { name: "Palantir Technologies",          short: "PLTR",           ticker: "PLTR",      weight: 1 / 3, ccy: "USD", sleeve: "US", status: "active",
-            concept: "私有数据平台 + 运营级 AI 编排",
-            conceptEn: "Private data platform + operational AI orchestration",
-            marketCap: 350.0,
-            seed: 5003, base: 7.8, vol: 0.045, drift: 0.00115 },
-          { name: "拼多多",                         short: "PDD",            ticker: "PDD",       weight: 1 / 3, ccy: "USD", sleeve: "CN", status: "active",
-            concept: "平台交易数据 + AI 生产力",
-            conceptEn: "Platform transaction data + AI productivity",
-            marketCap: 165.0,
-            seed: 200, base: 80, vol: 0.030, drift: 0.00040 },
-          { name: "迈富时",                         short: "迈富时",         ticker: "2556.HK", weight: 1 / 3, ccy: "HKD", sleeve: "CN", status: "active",
-            concept: "AI 营销科技 + 企业 SaaS",
-            conceptEn: "AI marketing technology + enterprise SaaS",
-            marketCap: 0.8,
-            seed: 2556, base: 3.2, vol: 0.050, drift: 0.00012 },
-        ],
-      },
       "china-leading": {
         name: "中国景气指数",
         nameEn: "China Prosperity Index",
@@ -2096,24 +2066,6 @@
           { date: "2026-05-08", category: "market", label: "Unseenlabs 预上市观察", en: "Unseenlabs pre-listing watch",
             desc: "Unseenlabs 暂无公开 ticker，作为欧洲 RF 卫星情报和海事信号定位预上市观察项；公开行情出现后自动加入等权计算。",
             desc_en: "Unseenlabs has no public ticker yet and is tracked as a European RF satellite-intelligence and maritime-signal geolocation pre-listing watch name; once public quote data appears, it automatically joins the equal-weight calculation." },
-        ],
-      },
-      "slm": {
-        header: "Palantir 商业化事件",
-        headerEn: "Palantir Commercialization Milestones",
-        milestones: [
-          { date: "2022-11-30", category: "llm", label: "Palantir 商业化起点", en: "Palantir commercialization portfolio start",
-            desc: "以统一 T₀ 追踪企业软件公司把自有数据、营销触点、工作流和行业知识转化为智能体产品与商业转化能力。",
-            desc_en: "Uses the shared T0 to track enterprise software companies turning proprietary data, marketing touchpoints, workflows, and industry knowledge into agent products and conversion capability." },
-          { date: "2025-09-24", category: "product", label: "智能体开发工具线", en: "Agent developer-tool line",
-            desc: "Palantir 商业化强调把智能体工具、私有数据和业务流程连接起来，形成可运营、可度量、可落地的企业 AI 场景。",
-            desc_en: "Palantir commercialization connects agent tools, proprietary data, and business workflows into operational, measurable, deployable enterprise AI contexts." },
-          { date: "2026-05-07", category: "market", label: "PDD 加入 Palantir 商业化", en: "PDD joins Palantir commercialization",
-            desc: "PDD 加入 Palantir 商业化组合，补充平台交易数据、消费履约和 AI 生产力敞口。",
-            desc_en: "PDD joins the Palantir commercialization portfolio, adding exposure to platform transaction data, consumer fulfillment, and AI productivity." },
-          { date: "2026-05-07", category: "market", label: "迈富时加入 Palantir 商业化", en: "Maifu joins Palantir commercialization",
-            desc: "迈富时加入 Palantir 商业化组合，补充 AI 营销科技、企业 SaaS 与中国 ToB 软件敞口。",
-            desc_en: "Maifu joins the Palantir commercialization portfolio, adding exposure to AI marketing technology, enterprise SaaS, and Chinese B2B software." },
         ],
       },
       "china-leading": {
@@ -2554,7 +2506,6 @@
     function portfolioStyleClass(key) {
       return {
         drone: "pillar--realized",
-        slm: "pillar--breakthrough",
         "china-leading": "pillar--pending",
         hantavirus: "pillar--realized",
         "satellite-intel": "pillar--partial",
