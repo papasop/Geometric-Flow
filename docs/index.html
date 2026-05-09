@@ -899,7 +899,7 @@
   <div class="container">
     <h1>无人机 <span style="color:#5e9eff;font-size:0.6em;font-weight:300;letter-spacing:2px;margin-left:8px">DRONE PORTFOLIO</span></h1>
     <div class="manifesto">
-      <div class="manifesto-tag">组合栏目 · PORTFOLIO CHANNELS · 11 PORTFOLIOS</div>
+      <div class="manifesto-tag">组合栏目 · PORTFOLIO CHANNELS · 12 PORTFOLIOS</div>
       <div class="manifesto-sort">
         <span class="manifesto-sort-label">组合排序</span>
         <div class="components-rank-toggle" id="portfolio-rank-group" aria-label="Portfolio ranking mode">
@@ -934,6 +934,11 @@
           <span class="pillar-cat pillar-cat--breakthrough">组合</span>
           <span class="pillar-text"><span class="m-key">贝克兄弟顾问组合</span><span class="pillar-en">Baker Bros Advisors Portfolio</span></span>
         </li>
+        <li class="pillar pillar--breakthrough" data-portfolio="ai-software">
+          <span class="pillar-num">⑦</span>
+          <span class="pillar-cat pillar-cat--breakthrough">组合</span>
+          <span class="pillar-text"><span class="m-key">AI 软件组合</span><span class="pillar-en">AI Software Portfolio</span></span>
+        </li>
         <li class="pillar pillar--breakthrough" data-portfolio="battery">
           <span class="pillar-num">⑤</span>
           <span class="pillar-cat pillar-cat--breakthrough">组合</span>
@@ -950,7 +955,7 @@
           <span class="pillar-text"><span class="m-key">太空情报</span><span class="pillar-en">Space Intelligence Portfolio</span></span>
         </li>
       </ol>
-      <div class="manifesto-footer">先推出十个组合栏目，后续可继续扩展更多主题组合。<span class="manifesto-footer-en">Launching ten portfolio channels first, with room for more themes later.</span></div>
+      <div class="manifesto-footer">先推出十二个组合栏目，后续可继续扩展更多主题组合。<span class="manifesto-footer-en">Launching twelve portfolio channels first, with room for more themes later.</span></div>
     </div>
 
     <div class="meta-strip">
@@ -1772,6 +1777,46 @@
             preListingNote: "预上市 · 暂无公开 ticker",
             preListingNoteEn: "Pre-listing · no public ticker yet",
             seed: 7117, base: 30.0, vol: 0.040, drift: 0.00100 },
+        ],
+      },
+      "ai-software": {
+        name: "AI 软件组合",
+        nameEn: "AI Software Portfolio",
+        tag: "Ives 软件赢家 · PLTR / CRM / MDB / PEGA / SNOW / ESTC · 各 16.67%",
+        tagEn: "IVES SOFTWARE WINNERS · PLTR / CRM / MDB / PEGA / SNOW / ESTC · 16.67 EACH",
+        footer: "六只股票等权配置，覆盖企业 AI 平台、智能体 CRM、开发者数据平台、企业流程自动化、AI 数据云与搜索/可观测性基础设施。",
+        footerEn: "Equal-weight exposure to six software names across enterprise AI platforms, agentic CRM, developer data platforms, workflow automation, AI data cloud, and search/observability infrastructure.",
+        components: [
+          { name: "Palantir Technologies",          short: "PLTR",           ticker: "PLTR", weight: 1 / 6, ccy: "USD", sleeve: "US", status: "active",
+            concept: "企业 AI 平台 · AIP · 作战/商业数据操作系统",
+            conceptEn: "Enterprise AI platform · AIP · defense and commercial data OS",
+            marketCap: 350.0,
+            seed: 5003, base: 7.8, vol: 0.045, drift: 0.00115 },
+          { name: "Salesforce",                     short: "CRM",            ticker: "CRM", weight: 1 / 6, ccy: "USD", sleeve: "US", status: "active",
+            concept: "Agentforce · CRM 数据云 · 企业智能体",
+            conceptEn: "Agentforce · CRM data cloud · enterprise agents",
+            marketCap: 250.0,
+            seed: 1999, base: 150, vol: 0.024, drift: 0.00020 },
+          { name: "MongoDB",                        short: "MDB",            ticker: "MDB", weight: 1 / 6, ccy: "USD", sleeve: "US", status: "active",
+            concept: "开发者数据库 · AI 应用数据层",
+            conceptEn: "Developer database · AI application data layer",
+            marketCap: 30.0,
+            seed: 2009, base: 190, vol: 0.038, drift: 0.00022 },
+          { name: "Pegasystems",                    short: "PEGA",           ticker: "PEGA", weight: 1 / 6, ccy: "USD", sleeve: "US", status: "active",
+            concept: "企业流程自动化 · 决策 AI",
+            conceptEn: "Enterprise workflow automation · decisioning AI",
+            marketCap: 7.5,
+            seed: 1983, base: 45, vol: 0.030, drift: 0.00018 },
+          { name: "Snowflake",                      short: "SNOW",           ticker: "SNOW", weight: 1 / 6, ccy: "USD", sleeve: "US", status: "active",
+            concept: "AI 数据云 · 企业数据基础设施",
+            conceptEn: "AI data cloud · enterprise data infrastructure",
+            marketCap: 75.0,
+            seed: 2012, base: 150, vol: 0.040, drift: 0.00020 },
+          { name: "Elastic",                        short: "ESTC",           ticker: "ESTC", weight: 1 / 6, ccy: "USD", sleeve: "EU", status: "active",
+            concept: "搜索 · 可观测性 · 安全数据平台",
+            conceptEn: "Search · observability · security data platform",
+            marketCap: 12.0,
+            seed: 2018, base: 75, vol: 0.035, drift: 0.00018 },
         ],
       },
       "china-leading": {
@@ -3029,6 +3074,24 @@
             desc_en: "Unseenlabs has no public ticker yet and is tracked as a European RF satellite-intelligence and maritime-signal geolocation pre-listing watch name; once public quote data appears, it automatically joins the equal-weight calculation." },
         ],
       },
+      "ai-software": {
+        header: "AI 软件组合事件",
+        headerEn: "AI Software Portfolio Milestones",
+        milestones: [
+          { date: "2022-11-30", category: "product", label: "AI 软件组合起点", en: "AI software portfolio start",
+            desc: "以统一 T₀ 追踪企业 AI 平台、CRM 智能体、开发者数据平台、自动化、数据云与搜索/可观测性软件的相对表现。",
+            desc_en: "Uses the shared T0 to track enterprise AI platforms, CRM agents, developer data platforms, automation, data cloud, and search/observability software." },
+          { date: "2025-03-05", category: "market", label: "Ives 软件赢家名单", en: "Ives software winners list",
+            desc: "Dan Ives 指出 AI 革命从 Nvidia 与云厂商扩散到软件层，Palantir 与 Salesforce 是最佳软件受益者，MongoDB、Pegasystems、Snowflake 与 Elastic 等供应商也具备进入赢家行列的条件。",
+            desc_en: "Dan Ives argues that the AI revolution is spreading from Nvidia and hyperscalers into software; Palantir and Salesforce are the leading software plays, while MongoDB, Pegasystems, Snowflake, and Elastic are also positioned to join the winners." },
+          { date: "2025-06-05", category: "product", label: "PLTR / CRM 企业智能体主线", en: "PLTR / CRM enterprise-agent line",
+            desc: "PLTR 代表 AIP 与企业数据操作系统，CRM 代表 Agentforce 与客户数据云，构成组合的企业智能体主线。",
+            desc_en: "PLTR represents AIP and enterprise data operating systems, while CRM represents Agentforce and customer-data cloud, forming the portfolio's enterprise-agent spine." },
+          { date: "2025-06-05", category: "product", label: "MDB / SNOW / ESTC 数据基础设施", en: "MDB / SNOW / ESTC data infrastructure",
+            desc: "MDB、SNOW 与 ESTC 分别覆盖应用数据库、AI 数据云、搜索/可观测性与安全数据平台。",
+            desc_en: "MDB, SNOW, and ESTC cover application databases, AI data cloud, and search/observability/security data platforms." },
+        ],
+      },
       "china-leading": {
         header: "中国景气指数事件",
         headerEn: "China Prosperity Milestones",
@@ -3504,6 +3567,7 @@
         hantavirus: "pillar--realized",
         biotech: "pillar--breakthrough",
         "baker-bros": "pillar--breakthrough",
+        "ai-software": "pillar--breakthrough",
         "satellite-intel": "pillar--partial",
         battery: "pillar--breakthrough",
         "us-rare-earth": "pillar--breakthrough",
@@ -3650,7 +3714,7 @@
         `${portfolio.nameEn} <span style="color:#5e9eff;font-size:0.6em;font-weight:300;letter-spacing:2px;margin-left:8px">${portfolio.name}</span>`
       );
 
-      document.querySelector(".manifesto-tag").textContent = t("组合栏目 · 先推出 11 个组合", "PORTFOLIO CHANNELS · 11 PORTFOLIOS");
+      document.querySelector(".manifesto-tag").textContent = t("组合栏目 · 先推出 12 个组合", "PORTFOLIO CHANNELS · 12 PORTFOLIOS");
       document.querySelector("#portfolio-rank-group").previousElementSibling.textContent = t("组合排序", "Sort Portfolios");
       document.querySelector('#portfolio-rank-group button[data-portfolio-rank="default"]').textContent = t("默认", "Default");
       document.querySelector('#portfolio-rank-group button[data-portfolio-rank="mcap"]').textContent = t("市值", "Market Cap");
