@@ -1157,7 +1157,60 @@
     //
     //  All three start at base = 100 on the inception day.
     // ============================================================
+    function buildRatioIndex(components, fx, currency, formula) {
+      const N = components[0].data.length;
+      const dates = components[0].data.map((d) => d.date);
+      const byTicker = Object.fromEntries(components.map((c) => [c.ticker, c]));
+      const tlt = byTicker.TLT;
+      const btc = byTicker["BTC-USD"];
+      const gld = byTicker.GLD;
+      if (formula !== "TLT_OVER_BTC_GLD" || !tlt || !btc || !gld) return null;
+
+      const convert = (component, i) => {
+        const rate = convRate(component.ccy, currency, fx, i);
+        const bar = normalizeBarForComponent(component, component.data[i]);
+        return {
+          open: bar.open * rate,
+          high: bar.high * rate,
+          low: bar.low * rate,
+          close: bar.close * rate,
+        };
+      };
+      const base = {
+        tlt: convert(tlt, 0).close,
+        btc: convert(btc, 0).close,
+        gld: convert(gld, 0).close,
+      };
+      const rel = (component, baseClose, i) => {
+        const bar = convert(component, i);
+        return {
+          open: bar.open / baseClose,
+          high: bar.high / baseClose,
+          low: bar.low / baseClose,
+          close: bar.close / baseClose,
+        };
+      };
+      const valueAt = (i, field) => {
+        const a = rel(tlt, base.tlt, i);
+        const b = rel(btc, base.btc, i);
+        const c = rel(gld, base.gld, i);
+        return a[field] / (b[field] + c[field]);
+      };
+      const baseRatio = valueAt(0, "close") || 1;
+      return dates.map((date, i) => {
+        const open = (valueAt(i, "open") / baseRatio) * 100;
+        const close = (valueAt(i, "close") / baseRatio) * 100;
+        const high = (rel(tlt, base.tlt, i).high / (rel(btc, base.btc, i).low + rel(gld, base.gld, i).low) / baseRatio) * 100;
+        const low = (rel(tlt, base.tlt, i).low / (rel(btc, base.btc, i).high + rel(gld, base.gld, i).high) / baseRatio) * 100;
+        return { date, open, high: Math.max(high, open, close), low: Math.min(low, open, close), close };
+      });
+    }
+
     function buildIndex(components, fx, currency, rebalanceMode, periodDays, options = {}) {
+      if (options.ratioFormula) {
+        const ratio = buildRatioIndex(components, fx, currency, options.ratioFormula);
+        if (ratio) return ratio;
+      }
       const N = components[0].data.length;
       const dates = components[0].data.map((d) => d.date);
 
@@ -1904,20 +1957,26 @@
         ],
       },
       "no-yield": {
-        name: "无收益指数",
-        nameEn: "No-Yield Asset Index",
+        name: "通缩指数",
+        nameEn: "Deflation Index",
         continuousAggregate: true,
-        tag: "策略 · Bitcoin 50% / GLD 50%",
-        tagEn: "STRATEGY · BITCOIN 50 / GLD 50",
-        footer: "两类无现金流资产配置：比特币与黄金 ETF，观察数字稀缺性和硬资产锚的组合表现。",
-        footerEn: "Exposure to two non-cash-flow assets: Bitcoin and gold ETF, tracking digital scarcity and hard-asset ballast.",
+        ratioFormula: "TLT_OVER_BTC_GLD",
+        tag: "公式 · TLT / (Bitcoin + GLD)",
+        tagEn: "FORMULA · TLT / (BITCOIN + GLD)",
+        footer: "以 TLT 相对 Bitcoin 与 GLD 的归一化比值观察通缩/久期资产相对稀缺资产的表现。",
+        footerEn: "Tracks the normalized ratio of TLT versus Bitcoin plus GLD, comparing duration/deflation exposure against scarcity assets.",
         components: [
-          { name: "Bitcoin",                        short: "Bitcoin",       ticker: "BTC-USD", weight: 0.50, ccy: "USD", sleeve: "CRYPTO", status: "active",
+          { name: "iShares 20+ Year Treasury Bond ETF", short: "TLT",       ticker: "TLT", weight: 0.50, ccy: "USD", sleeve: "US", status: "active",
+            concept: "长期美债 ETF · 久期 / 通缩资产",
+            conceptEn: "Long-duration US Treasury ETF · duration / deflation exposure",
+            marketCap: 55.0,
+            seed: 20, base: 102, vol: 0.012, drift: -0.00005 },
+          { name: "Bitcoin",                        short: "Bitcoin",       ticker: "BTC-USD", weight: 0.25, ccy: "USD", sleeve: "CRYPTO", status: "active",
             concept: "数字黄金 + 稀缺性资产",
             conceptEn: "Digital gold + scarcity asset",
             marketCap: 1700.0,
             seed: 21000000, base: 16500, vol: 0.032, drift: 0.00055 },
-          { name: "SPDR Gold Shares",               short: "GLD",           ticker: "GLD", weight: 0.50, ccy: "USD", sleeve: "US", status: "active",
+          { name: "SPDR Gold Shares",               short: "GLD",           ticker: "GLD", weight: 0.25, ccy: "USD", sleeve: "US", status: "active",
             concept: "黄金 ETF + 硬资产锚",
             conceptEn: "Gold ETF + hard-asset anchor",
             marketCap: 95.0,
@@ -2172,18 +2231,21 @@
         ],
       },
       "no-yield": {
-        header: "无收益资产事件",
-        headerEn: "No-Yield Asset Milestones",
+        header: "通缩指数事件",
+        headerEn: "Deflation Index Milestones",
         milestones: [
-          { date: "2022-11-30", category: "market", label: "无收益指数起点", en: "No-yield index start",
-            desc: "以统一 T₀ 追踪 Bitcoin 与 GLD 的组合表现，把数字稀缺性和黄金硬资产锚放在同一条曲线。",
-            desc_en: "Uses the shared T₀ to track Bitcoin and GLD together across digital scarcity and gold." },
+          { date: "2022-11-30", category: "market", label: "通缩指数起点", en: "Deflation index start",
+            desc: "以统一 T₀ 追踪 TLT / (Bitcoin + GLD) 的归一化比值，观察长期美债相对稀缺资产的强弱。",
+            desc_en: "Uses the shared T0 to track the normalized TLT / (Bitcoin + GLD) ratio, comparing long-duration Treasuries against scarcity assets." },
           { date: "2024-01-10", category: "market", label: "现货比特币 ETF 获批", en: "Spot Bitcoin ETF approval",
             desc: "现货比特币 ETF 获批后，比特币从链上资产进一步进入传统资产配置框架。",
             desc_en: "After spot Bitcoin ETFs are approved, Bitcoin moves further into traditional asset-allocation frameworks." },
           { date: "2025-04-21", category: "macro", label: "黄金硬资产锚", en: "Gold hard-asset anchor",
             desc: "GLD 代表黄金敞口，在通胀、实际利率和货币信用变化中提供硬资产锚。",
             desc_en: "GLD represents gold exposure, providing a hard-asset anchor across inflation, real rates, and monetary credibility regimes." },
+          { date: "2026-05-09", category: "macro", label: "TLT 通缩分子", en: "TLT deflation numerator",
+            desc: "TLT 作为长期美债久期资产，放在分子端衡量通缩/降息交易相对 Bitcoin 与 GLD 的表现。",
+            desc_en: "TLT sits in the numerator as long-duration Treasury exposure, measuring deflation/rate-cut trades against Bitcoin and GLD." },
         ],
       },
       "brand": {
