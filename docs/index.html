@@ -1590,66 +1590,6 @@
         footer: "已上市成分股自动等权；Skydio 与 Neros 作为预上市观察项，公开行情出现后自动纳入无人机组合。",
         footerEn: "Listed constituents are equal-weighted automatically; Skydio and Neros are tracked as pre-listing watch names and join the drone portfolio when public quote data appears.",
         equalWeightTradable: true,
-        crossInvestments: [
-          {
-            target: "Red Cat Holdings",
-            ticker: "RCAT",
-            investors: ["UMAC", "AVAV", "KTOS"],
-            postIpoAmount: 0.42,
-            note: "仅统计 IPO 后已上市标的之间的组合内参与，RCAT 与小型无人机、整机和供应链标的关联。",
-            noteEn: "Counts only post-IPO participation among listed portfolio names; RCAT links to small-drone, platform, and supply-chain names.",
-            events: [
-              { date: "2026-05-08", amount: 0.42, investors: ["UMAC", "AVAV", "KTOS"] },
-            ],
-          },
-          {
-            target: "AeroVironment",
-            ticker: "AVAV",
-            investors: ["KTOS", "RCAT", "ONDS"],
-            postIpoAmount: 1.85,
-            note: "仅统计 IPO 后已上市标的之间的组合内参与，AVAV 与防务无人系统、战术 UAS 和反无人机标的关联。",
-            noteEn: "Counts only post-IPO participation among listed portfolio names; AVAV links to defense UAS, tactical-drone, and counter-UAS names.",
-            events: [
-              { date: "2026-05-08", amount: 1.85, investors: ["KTOS", "RCAT", "ONDS"] },
-            ],
-          },
-          {
-            target: "Kratos Defense & Security",
-            ticker: "KTOS",
-            investors: ["AVAV", "RCAT", "ONDS"],
-            postIpoAmount: 2.10,
-            note: "仅统计 IPO 后已上市标的之间的组合内参与，KTOS 与军用无人系统和反无人机标的关联。",
-            noteEn: "Counts only post-IPO participation among listed portfolio names; KTOS links to military UAS and counter-UAS names.",
-            events: [
-              { date: "2026-05-08", amount: 2.10, investors: ["AVAV", "RCAT", "ONDS"] },
-            ],
-          },
-          {
-            target: "Kopin",
-            ticker: "KOPN",
-            investors: ["THEON", "ONDS", "UMAC"],
-            postIpoAmount: 0.056,
-            note: "仅统计 IPO 后已上市组合内投资方：THEON 1500 万美元战略投资，加上 THEON / ONDS / UMAC 参与的 4100 万美元 PIPE。",
-            noteEn: "Counts only post-IPO listed portfolio investors: THEON's $15M strategic investment plus the $41M PIPE joined by THEON, ONDS, and UMAC.",
-            events: [
-              { date: "2025-08-11", amount: 0.015, investors: ["THEON"], label: "THEON 战略投资 KOPN", labelEn: "THEON strategic investment in KOPN" },
-              { date: "2025-09-29", amount: 0.041, investors: ["THEON"], label: "THEON 参与 KOPN PIPE", labelEn: "THEON joins KOPN PIPE" },
-              { date: "2025-09-29", amount: 0.041, investors: ["ONDS"], label: "ONDS 参与 KOPN PIPE", labelEn: "ONDS joins KOPN PIPE" },
-              { date: "2025-09-29", amount: 0.041, investors: ["UMAC"], label: "UMAC 参与 KOPN PIPE", labelEn: "UMAC joins KOPN PIPE" },
-            ],
-          },
-          {
-            target: "Ondas",
-            ticker: "ONDS",
-            investors: ["KTOS", "AVAV", "RCAT"],
-            postIpoAmount: 0.33,
-            note: "仅统计 IPO 后已上市标的之间的组合内参与，ONDS 与防务平台、军用无人系统和战术 UAS 标的关联。",
-            noteEn: "Counts only post-IPO participation among listed portfolio names; ONDS links to defense-platform, military-UAS, and tactical-drone names.",
-            events: [
-              { date: "2026-05-08", amount: 0.33, investors: ["KTOS", "AVAV", "RCAT"] },
-            ],
-          },
-        ],
         components: [
           { name: "Ondas",                         short: "ONDS",           ticker: "ONDS",      weight: 1 / 10, ccy: "USD", sleeve: "US", status: "active",
             concept: "Iron Drone 反无人机系统",
