@@ -924,6 +924,11 @@
           <span class="pillar-cat pillar-cat--realized">组合</span>
           <span class="pillar-text"><span class="m-key">汉坦病毒组合</span><span class="pillar-en">Hantavirus Portfolio</span></span>
         </li>
+        <li class="pillar pillar--breakthrough" data-portfolio="biotech">
+          <span class="pillar-num">⑤</span>
+          <span class="pillar-cat pillar-cat--breakthrough">组合</span>
+          <span class="pillar-text"><span class="m-key">生物科技公司组合</span><span class="pillar-en">Biotech Company Portfolio</span></span>
+        </li>
         <li class="pillar pillar--breakthrough" data-portfolio="battery">
           <span class="pillar-num">⑤</span>
           <span class="pillar-cat pillar-cat--breakthrough">组合</span>
@@ -1809,6 +1814,46 @@
             seed: 2030, base: 16, vol: 0.030, drift: -0.00008 },
         ],
       },
+      "biotech": {
+        name: "生物科技公司组合",
+        nameEn: "Biotech Company Portfolio",
+        tag: "策略 · XBI / ARKG / ABCL / DNA / PSNL / CRSP · 各 16.67%",
+        tagEn: "STRATEGY · XBI / ARKG / ABCL / DNA / PSNL / CRSP · 16.67 EACH",
+        footer: "六个标的等权配置，覆盖生物科技 ETF、基因组创新、抗体发现、DNA 编程、精准医疗与基因编辑。",
+        footerEn: "Equal-weight exposure to biotech ETFs, genomic innovation, antibody discovery, DNA programming, precision medicine, and gene editing.",
+        components: [
+          { name: "SPDR S&P Biotech ETF",           short: "XBI",            ticker: "XBI", weight: 1 / 6, ccy: "USD", sleeve: "US", status: "active",
+            concept: "生物科技等权 ETF · 行业 beta",
+            conceptEn: "Equal-weight biotech ETF · sector beta",
+            marketCap: 6.5,
+            seed: 2006, base: 80, vol: 0.025, drift: 0.00010 },
+          { name: "ARK Genomic Revolution ETF",     short: "ARKG",           ticker: "ARKG", weight: 1 / 6, ccy: "USD", sleeve: "US", status: "active",
+            concept: "基因组创新 ETF · 合成生物 / 基因治疗",
+            conceptEn: "Genomic innovation ETF · synthetic biology / gene therapy",
+            marketCap: 1.4,
+            seed: 2014, base: 30, vol: 0.030, drift: 0.00008 },
+          { name: "AbCellera Biologics",            short: "ABCL",           ticker: "ABCL", weight: 1 / 6, ccy: "USD", sleeve: "CA", status: "active",
+            concept: "抗体药物发现平台 · 大药企合作",
+            conceptEn: "Antibody-drug discovery platform · pharma partnerships",
+            marketCap: 1.1,
+            seed: 2020, base: 8, vol: 0.045, drift: 0.00010 },
+          { name: "Ginkgo Bioworks",                short: "DNA",            ticker: "DNA", weight: 1 / 6, ccy: "USD", sleeve: "US", status: "active",
+            concept: "DNA 编程技术 · 合成生物平台",
+            conceptEn: "DNA programming technology · synthetic-biology platform",
+            marketCap: 0.8,
+            seed: 2021, base: 2.5, vol: 0.055, drift: -0.00005 },
+          { name: "Personalis",                     short: "PSNL",           ticker: "PSNL", weight: 1 / 6, ccy: "USD", sleeve: "US", status: "active",
+            concept: "精准医疗 · 个体化癌症治疗",
+            conceptEn: "Precision medicine · personalized cancer treatment",
+            marketCap: 0.4,
+            seed: 2019, base: 3.2, vol: 0.050, drift: 0.00006 },
+          { name: "CRISPR Therapeutics",            short: "CRSP",           ticker: "CRSP", weight: 1 / 6, ccy: "USD", sleeve: "CH", status: "active",
+            concept: "基因编辑龙头 · CRISPR 疗法",
+            conceptEn: "Gene-editing leader · CRISPR therapeutics",
+            marketCap: 5.5,
+            seed: 2016, base: 55, vol: 0.035, drift: 0.00014 },
+        ],
+      },
       "battery": {
         name: "电池指数",
         nameEn: "Battery Index",
@@ -2118,6 +2163,30 @@
           { date: "2026-05-08", category: "biotech", label: "MRNA mRNA 平台", en: "MRNA mRNA platform",
             desc: "Moderna 作为 mRNA 技术平台代表，补充病毒性疾病疫苗和快速研发平台敞口。",
             desc_en: "Moderna represents mRNA technology exposure, adding viral-disease vaccine and rapid-development platform optionality." },
+        ],
+      },
+      "biotech": {
+        header: "生物科技公司组合事件",
+        headerEn: "Biotech Company Portfolio Milestones",
+        milestones: [
+          { date: "2022-11-30", category: "biotech", label: "生物科技组合起点", en: "Biotech portfolio start",
+            desc: "以统一 T₀ 追踪 XBI、ARKG、ABCL、DNA、PSNL、CRSP，覆盖生物科技 beta、基因组创新、抗体平台、DNA 编程、精准医疗和基因编辑。",
+            desc_en: "Uses the shared T0 to track XBI, ARKG, ABCL, DNA, PSNL, and CRSP across biotech beta, genomic innovation, antibody platforms, DNA programming, precision medicine, and gene editing." },
+          { date: "2025-10-17", category: "market", label: "TraderGoku 生物科技观察", en: "TraderGoku biotech watch",
+            desc: "TraderGoku 提到 XBI、ARKG 以及 ABCL、DNA、PSNL、CRSP 等生物科技标的，组合据此建立为生物科技公司篮子。",
+            desc_en: "TraderGoku highlights XBI, ARKG, ABCL, DNA, PSNL, and CRSP; the portfolio is built as a biotech company basket from that watchlist." },
+          { date: "2025-10-17", category: "biotech", label: "ABCL 抗体药物平台", en: "ABCL antibody-drug platform",
+            desc: "ABCL 代表抗体药物开发平台和大型药企合作对象，纳入平台型生物技术敞口。",
+            desc_en: "ABCL represents antibody-drug discovery platforms and large-pharma partnership exposure." },
+          { date: "2025-10-17", category: "biotech", label: "DNA 编程与 GOOGL 合作", en: "DNA programming and GOOGL partnership",
+            desc: "DNA 代表 DNA 编程技术与合成生物平台，并补充 Google 战略合作相关敞口。",
+            desc_en: "DNA represents DNA programming and synthetic-biology platforms, with exposure to its Google strategic partnership." },
+          { date: "2025-10-17", category: "biotech", label: "PSNL 精准医疗", en: "PSNL precision medicine",
+            desc: "PSNL 代表精准医疗与个体化癌症治疗，补充临床管线和肿瘤检测方向。",
+            desc_en: "PSNL represents precision medicine and personalized cancer treatment, adding clinical-pipeline and oncology-testing exposure." },
+          { date: "2025-10-17", category: "biotech", label: "CRSP 基因编辑", en: "CRSP gene editing",
+            desc: "CRSP 代表 CRISPR 基因编辑龙头敞口，覆盖基因疗法商业化与平台型创新。",
+            desc_en: "CRSP represents CRISPR gene-editing leadership across gene-therapy commercialization and platform innovation." },
         ],
       },
       "battery": {
@@ -2524,6 +2593,7 @@
         drone: "pillar--realized",
         "china-leading": "pillar--pending",
         hantavirus: "pillar--realized",
+        biotech: "pillar--breakthrough",
         "satellite-intel": "pillar--partial",
         battery: "pillar--breakthrough",
         "us-rare-earth": "pillar--breakthrough",
