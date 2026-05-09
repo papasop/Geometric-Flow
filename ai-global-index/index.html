@@ -899,7 +899,7 @@
   <div class="container">
     <h1>无人机 <span style="color:#5e9eff;font-size:0.6em;font-weight:300;letter-spacing:2px;margin-left:8px">DRONE PORTFOLIO</span></h1>
     <div class="manifesto">
-      <div class="manifesto-tag">组合栏目 · PORTFOLIO CHANNELS · 10 PORTFOLIOS</div>
+      <div class="manifesto-tag">组合栏目 · PORTFOLIO CHANNELS · 11 PORTFOLIOS</div>
       <div class="manifesto-sort">
         <span class="manifesto-sort-label">组合排序</span>
         <div class="components-rank-toggle" id="portfolio-rank-group" aria-label="Portfolio ranking mode">
@@ -928,6 +928,11 @@
           <span class="pillar-num">⑤</span>
           <span class="pillar-cat pillar-cat--breakthrough">组合</span>
           <span class="pillar-text"><span class="m-key">生物科技公司组合</span><span class="pillar-en">Biotech Company Portfolio</span></span>
+        </li>
+        <li class="pillar pillar--breakthrough" data-portfolio="baker-bros">
+          <span class="pillar-num">⑥</span>
+          <span class="pillar-cat pillar-cat--breakthrough">组合</span>
+          <span class="pillar-text"><span class="m-key">贝克兄弟顾问组合</span><span class="pillar-en">Baker Bros Advisors Portfolio</span></span>
         </li>
         <li class="pillar pillar--breakthrough" data-portfolio="battery">
           <span class="pillar-num">⑤</span>
@@ -2063,6 +2068,66 @@
             seed: 3306, base: 9, vol: 0.022, drift: 0.00016 },
         ],
       },
+      "baker-bros": {
+        name: "贝克兄弟顾问组合",
+        nameEn: "Baker Bros Advisors Portfolio",
+        tag: "Q4 2025 13F 前十大持仓 · INCY / ONC / MDGL / INSM / ACAD / CELC / RVMD / KYMR / SMMT / RYTM",
+        tagEn: "Q4 2025 13F TOP 10 · INCY / ONC / MDGL / INSM / ACAD / CELC / RVMD / KYMR / SMMT / RYTM",
+        footer: "按 Baker Bros. Advisors Q4 2025 13F 前十大持仓金额归一化配置，聚焦生物医药、罕见病、肿瘤、代谢与靶向蛋白降解。",
+        footerEn: "Normalized exposure to Baker Bros. Advisors' Q4 2025 13F top ten holdings, focused on biopharma, rare disease, oncology, metabolic disease, and targeted protein degradation.",
+        components: [
+          { name: "Incyte",                         short: "INCY",           ticker: "INCY", weight: 0.237801, ccy: "USD", sleeve: "US", status: "active",
+            concept: "肿瘤 / 炎症药物 · Baker Bros 最大持仓",
+            conceptEn: "Oncology / inflammation medicines · Baker Bros largest holding",
+            marketCap: 19.0,
+            seed: 1991, base: 80, vol: 0.022, drift: 0.00010 },
+          { name: "BeOne Medicines",                short: "ONC",            ticker: "ONC", weight: 0.209347, ccy: "USD", sleeve: "CN", status: "active",
+            concept: "全球肿瘤药物平台 · 原百济神州",
+            conceptEn: "Global oncology-drug platform · formerly BeiGene",
+            marketCap: 28.0,
+            seed: 2010, base: 220, vol: 0.030, drift: 0.00016 },
+          { name: "Madrigal Pharmaceuticals",       short: "MDGL",           ticker: "MDGL", weight: 0.097671, ccy: "USD", sleeve: "US", status: "active",
+            concept: "NASH / MASH 代谢疾病药物",
+            conceptEn: "NASH / MASH metabolic-disease therapeutics",
+            marketCap: 12.0,
+            seed: 2011, base: 170, vol: 0.040, drift: 0.00018 },
+          { name: "Insmed",                         short: "INSM",           ticker: "INSM", weight: 0.089855, ccy: "USD", sleeve: "US", status: "active",
+            concept: "罕见病 / 肺部疾病药物",
+            conceptEn: "Rare disease / pulmonary-disease medicines",
+            marketCap: 32.0,
+            seed: 1999, base: 25, vol: 0.032, drift: 0.00020 },
+          { name: "ACADIA Pharmaceuticals",         short: "ACAD",           ticker: "ACAD", weight: 0.089728, ccy: "USD", sleeve: "US", status: "active",
+            concept: "中枢神经系统药物 · 长期持仓",
+            conceptEn: "CNS medicines · long-duration holding",
+            marketCap: 4.5,
+            seed: 1993, base: 18, vol: 0.030, drift: 0.00006 },
+          { name: "Celcuity",                       short: "CELC",           ticker: "CELC", weight: 0.067043, ccy: "USD", sleeve: "US", status: "active",
+            concept: "肿瘤精准治疗 · PI3K / AKT 通路",
+            conceptEn: "Precision oncology · PI3K / AKT pathway",
+            marketCap: 4.0,
+            seed: 2012, base: 25, vol: 0.045, drift: 0.00022 },
+          { name: "Revolution Medicines",           short: "RVMD",           ticker: "RVMD", weight: 0.058978, ccy: "USD", sleeve: "US", status: "active",
+            concept: "RAS 靶向肿瘤药物",
+            conceptEn: "RAS-targeted oncology medicines",
+            marketCap: 9.0,
+            seed: 2014, base: 35, vol: 0.040, drift: 0.00020 },
+          { name: "Kymera Therapeutics",            short: "KYMR",           ticker: "KYMR", weight: 0.052753, ccy: "USD", sleeve: "US", status: "active",
+            concept: "靶向蛋白降解平台",
+            conceptEn: "Targeted protein-degradation platform",
+            marketCap: 5.0,
+            seed: 2015, base: 32, vol: 0.045, drift: 0.00016 },
+          { name: "Summit Therapeutics",            short: "SMMT",           ticker: "SMMT", weight: 0.049844, ccy: "USD", sleeve: "US", status: "active",
+            concept: "肿瘤免疫药物 · 双抗敞口",
+            conceptEn: "Immuno-oncology medicines · bispecific exposure",
+            marketCap: 18.0,
+            seed: 2003, base: 12, vol: 0.050, drift: 0.00024 },
+          { name: "Rhythm Pharmaceuticals",         short: "RYTM",           ticker: "RYTM", weight: 0.046979, ccy: "USD", sleeve: "US", status: "active",
+            concept: "罕见遗传性肥胖症药物",
+            conceptEn: "Rare genetic obesity medicines",
+            marketCap: 5.5,
+            seed: 2008, base: 45, vol: 0.035, drift: 0.00018 },
+        ],
+      },
     };
 
     const PORTFOLIO_EVENT_THEMES = {
@@ -2325,6 +2390,24 @@
           { date: "2026-05-08", category: "consumer", label: "江南布衣加入品牌指数", en: "JNBY joins Brand Index",
             desc: "江南布衣补充中国设计师服装、会员运营与中高端生活方式品牌敞口。",
             desc_en: "JNBY adds exposure to Chinese designer apparel, membership operations, and upper-mid lifestyle branding." },
+        ],
+      },
+      "baker-bros": {
+        header: "贝克兄弟顾问组合事件",
+        headerEn: "Baker Bros Advisors Portfolio Milestones",
+        milestones: [
+          { date: "2022-11-30", category: "biotech", label: "贝克兄弟组合起点", en: "Baker Bros portfolio start",
+            desc: "以统一 T₀ 追踪 Baker Bros. Advisors 前十大 13F 持仓的公开市场表现，覆盖肿瘤、罕见病、代谢疾病、中枢神经和蛋白降解平台。",
+            desc_en: "Uses the shared T0 to track the public-market performance of Baker Bros. Advisors' top ten 13F holdings across oncology, rare disease, metabolic disease, CNS, and protein-degradation platforms." },
+          { date: "2026-02-17", category: "market", label: "Q4 2025 13F 披露", en: "Q4 2025 13F filing",
+            desc: "Baker Bros. Advisors Q4 2025 13F 披露 86 个多头、约 170.8 亿美元 13F 市值；本组合采用前十大持仓金额归一化配置。",
+            desc_en: "Baker Bros. Advisors' Q4 2025 13F discloses 86 long positions and about $17.08B in 13F market value; this portfolio normalizes the top ten holdings by position value." },
+          { date: "2026-02-17", category: "biotech", label: "INCY / ONC 核心仓位", en: "INCY / ONC core positions",
+            desc: "INCY 与 ONC 是贝克兄弟前两大持仓，代表肿瘤、炎症和全球肿瘤药物平台主线。",
+            desc_en: "INCY and ONC are the top two Baker Bros positions, representing oncology, inflammation, and global oncology-drug platform exposure." },
+          { date: "2026-02-17", category: "biotech", label: "MDGL / INSM / ACAD 第二梯队", en: "MDGL / INSM / ACAD second tier",
+            desc: "MDGL、INSM、ACAD 补充代谢疾病、罕见病和中枢神经系统药物敞口。",
+            desc_en: "MDGL, INSM, and ACAD add metabolic-disease, rare-disease, and CNS medicine exposure." },
         ],
       },
     };
@@ -2612,6 +2695,7 @@
         "china-leading": "pillar--pending",
         hantavirus: "pillar--realized",
         biotech: "pillar--breakthrough",
+        "baker-bros": "pillar--breakthrough",
         "satellite-intel": "pillar--partial",
         battery: "pillar--breakthrough",
         "us-rare-earth": "pillar--breakthrough",
@@ -2758,7 +2842,7 @@
         `${portfolio.nameEn} <span style="color:#5e9eff;font-size:0.6em;font-weight:300;letter-spacing:2px;margin-left:8px">${portfolio.name}</span>`
       );
 
-      document.querySelector(".manifesto-tag").textContent = t("组合栏目 · 先推出 10 个组合", "PORTFOLIO CHANNELS · 10 PORTFOLIOS");
+      document.querySelector(".manifesto-tag").textContent = t("组合栏目 · 先推出 11 个组合", "PORTFOLIO CHANNELS · 11 PORTFOLIOS");
       document.querySelector("#portfolio-rank-group").previousElementSibling.textContent = t("组合排序", "Sort Portfolios");
       document.querySelector('#portfolio-rank-group button[data-portfolio-rank="default"]').textContent = t("默认", "Default");
       document.querySelector('#portfolio-rank-group button[data-portfolio-rank="mcap"]').textContent = t("市值", "Market Cap");
