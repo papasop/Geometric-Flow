@@ -32,39 +32,6 @@
       font-size: 28px;
       letter-spacing: 0.5px;
     }
-    .top-mode-bar {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 14px;
-      margin-bottom: 8px;
-    }
-    .top-mode-toggle {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 4px;
-      background: #101726;
-      border: 1px solid #1d2740;
-      border-radius: 8px;
-      flex: 0 0 auto;
-    }
-    .top-mode-toggle button {
-      border: 0;
-      border-radius: 5px;
-      padding: 7px 12px;
-      background: transparent;
-      color: #8a96b3;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.4px;
-      cursor: pointer;
-    }
-    .top-mode-toggle button.active {
-      background: #5e9eff;
-      color: #06101f;
-      box-shadow: 0 6px 18px rgba(94, 158, 255, 0.18);
-    }
     .news-view {
       display: none;
       margin: 4px 0 22px;
@@ -1028,16 +995,6 @@
       box-shadow: inset 0 0 0 1px rgba(94, 158, 255, 0.42);
     }
     @media (max-width: 640px) {
-      .top-mode-bar {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-      .top-mode-toggle {
-        width: 100%;
-      }
-      .top-mode-toggle button {
-        flex: 1;
-      }
       .component-row {
         flex-wrap: wrap;
         gap: 7px 9px;
@@ -1084,13 +1041,6 @@
   </div>
 
   <div class="container">
-    <div class="top-mode-bar">
-      <div class="top-mode-toggle" id="top-mode-toggle" aria-label="Page mode">
-        <button data-top-mode="investment" class="active">投资</button>
-        <button data-top-mode="news">新闻</button>
-      </div>
-    </div>
-
     <div class="news-view" id="news-view">
       <div class="news-header">新闻摘要 · NEWS DIGEST</div>
       <div class="news-grid"></div>
@@ -3159,7 +3109,6 @@
 };
 
     let currentPortfolioKey = "drone";
-    let currentTopMode = "investment";
     let COMPONENTS_CONFIG = PORTFOLIOS[currentPortfolioKey].components;
     let CONFIG_BY_TICKER = Object.fromEntries(COMPONENTS_CONFIG.map((c) => [c.ticker, c]));
     let liveNewsItems = [];
@@ -3698,26 +3647,12 @@
       `).join("");
     }
 
-    function renderTopMode() {
-      document.querySelectorAll("#top-mode-toggle button[data-top-mode]").forEach((btn) => {
-        btn.classList.toggle("active", btn.dataset.topMode === currentTopMode);
-      });
-      const investmentActive = currentTopMode === "investment";
-      document.querySelectorAll(".investment-view").forEach((el) => {
-        el.style.display = investmentActive ? "" : "none";
-      });
-      document.getElementById("news-view")?.classList.toggle("active", !investmentActive);
-    }
-
     function renderStaticLanguage() {
       const portfolio = activePortfolio();
       document.querySelector(".floating-lang-toggle").title = t("页面语言 / 悬浮窗语言", "Page Language / Popover Language");
-      document.querySelector('#top-mode-toggle button[data-top-mode="investment"]').textContent = t("投资", "Invest");
-      document.querySelector('#top-mode-toggle button[data-top-mode="news"]').textContent = t("新闻", "News");
       document.querySelector("#news-view .news-header").textContent = t("新闻摘要 · NEWS DIGEST", "NEWS DIGEST · 新闻摘要");
       renderNewsSources();
       renderPortfolioNewsTicker();
-      renderTopMode();
 
       document.querySelector(".manifesto-tag").textContent = t("组合栏目 · 先推出 12 个组合", "PORTFOLIO CHANNELS · 12 PORTFOLIOS");
       document.querySelector("#portfolio-rank-group").previousElementSibling.textContent = t("组合排序", "Sort Portfolios");
@@ -4207,12 +4142,6 @@
       currentChartAsset = btn.dataset.asset;
       renderMilestoneList();
       render();
-    });
-    document.getElementById("top-mode-toggle").addEventListener("click", (e) => {
-      const btn = e.target.closest("button[data-top-mode]");
-      if (!btn) return;
-      currentTopMode = btn.dataset.topMode;
-      renderTopMode();
     });
     document.querySelector(".manifesto-pillars").addEventListener("click", (e) => {
       const row = e.target.closest("li[data-portfolio]");
