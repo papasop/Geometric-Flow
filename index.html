@@ -1003,15 +1003,13 @@
         <div class="control-group" id="asset-group">
           <span class="control-group-label">标的</span>
           <button data-asset="INDEX" class="active"><span class="btn-main">指数</span><span class="btn-sub">Index</span></button>
-          <button data-asset="ONDS"><span class="btn-main">ONDS</span><span class="btn-sub">7.69%</span></button>
-          <button data-asset="UMAC"><span class="btn-main">UMAC</span><span class="btn-sub">7.69%</span></button>
-          <button data-asset="THEON.AS"><span class="btn-main">THEON</span><span class="btn-sub">7.69%</span></button>
-          <button data-asset="KOPN"><span class="btn-main">KOPN</span><span class="btn-sub">7.69%</span></button>
-          <button data-asset="RCAT"><span class="btn-main">RCAT</span><span class="btn-sub">7.69%</span></button>
-          <button data-asset="SWMR"><span class="btn-main">SWMR</span><span class="btn-sub">7.69%</span></button>
-          <button data-asset="LPTH"><span class="btn-main">LPTH</span><span class="btn-sub">7.69%</span></button>
-          <button data-asset="KTOS"><span class="btn-main">KTOS</span><span class="btn-sub">7.69%</span></button>
-          <button data-asset="AVAV"><span class="btn-main">AVAV</span><span class="btn-sub">7.69%</span></button>
+          <button data-asset="ONDS"><span class="btn-main">ONDS</span><span class="btn-sub">12.5%</span></button>
+          <button data-asset="UMAC"><span class="btn-main">UMAC</span><span class="btn-sub">12.5%</span></button>
+          <button data-asset="KOPN"><span class="btn-main">KOPN</span><span class="btn-sub">12.5%</span></button>
+          <button data-asset="RCAT"><span class="btn-main">RCAT</span><span class="btn-sub">12.5%</span></button>
+          <button data-asset="SWMR"><span class="btn-main">SWMR</span><span class="btn-sub">12.5%</span></button>
+          <button data-asset="KTOS"><span class="btn-main">KTOS</span><span class="btn-sub">12.5%</span></button>
+          <button data-asset="AVAV"><span class="btn-main">AVAV</span><span class="btn-sub">12.5%</span></button>
           <button data-asset="SKYDIO" disabled><span class="btn-main">Skydio</span><span class="btn-sub">预上市</span></button>
           <button data-asset="NEROS" disabled><span class="btn-main">Neros</span><span class="btn-sub">预上市</span></button>
         </div>
@@ -1643,58 +1641,48 @@
       "drone": {
         name: "无人机",
         nameEn: "Drone Portfolio",
-        tag: "策略 · ONDS / UMAC / THEON / KOPN / RCAT / SWMR / LPTH / KTOS / ESLT / AVAV · Skydio / Neros 预上市观察",
-        tagEn: "STRATEGY · ONDS / UMAC / THEON / KOPN / RCAT / SWMR / LPTH / KTOS / ESLT / AVAV · SKYDIO / NEROS PRE-LISTING WATCH",
+        tag: "策略 · ONDS / UMAC / KOPN / RCAT / SWMR / KTOS / ESLT / AVAV · Skydio / Neros 预上市观察",
+        tagEn: "STRATEGY · ONDS / UMAC / KOPN / RCAT / SWMR / KTOS / ESLT / AVAV · SKYDIO / NEROS PRE-LISTING WATCH",
         footer: "已上市成分股自动等权；Skydio 与 Neros 作为预上市观察项，公开行情出现后自动纳入无人机组合。",
         footerEn: "Listed constituents are equal-weighted automatically; Skydio and Neros are tracked as pre-listing watch names and join the drone portfolio when public quote data appears.",
         equalWeightTradable: true,
         components: [
-          { name: "Ondas",                         short: "ONDS",           ticker: "ONDS",      weight: 1 / 10, ccy: "USD", sleeve: "US", status: "active",
+          { name: "Ondas",                         short: "ONDS",           ticker: "ONDS",      weight: 1 / 8, ccy: "USD", sleeve: "US", status: "active",
             concept: "Iron Drone 反无人机系统",
             conceptEn: "Iron Drone counter-UAS systems",
             marketCap: 4.5,
             seed: 413, base: 1.2, vol: 0.055, drift: 0.00110 },
-          { name: "Unusual Machines",              short: "UMAC",           ticker: "UMAC",      weight: 1 / 10, ccy: "USD", sleeve: "US", status: "active",
+          { name: "Unusual Machines",              short: "UMAC",           ticker: "UMAC",      weight: 1 / 8, ccy: "USD", sleeve: "US", status: "active",
             concept: "无人机零部件供应商",
             conceptEn: "Drone component supplier",
             marketCap: 0.7,
             seed: 909, base: 4.8, vol: 0.065, drift: 0.00130 },
-          { name: "Theon International",           short: "THEON",          ticker: "THEON.AS",  weight: 1 / 10, ccy: "EUR", sleeve: "EU", status: "active",
-            concept: "军用夜视 · 热成像 · ISR",
-            conceptEn: "Military night vision · thermal imaging · ISR",
-            marketCap: 2.5,
-            seed: 1997, base: 12.5, vol: 0.026, drift: 0.00075 },
-          { name: "Kopin",                         short: "KOPN",           ticker: "KOPN",      weight: 1 / 10, ccy: "USD", sleeve: "US", status: "active",
+          { name: "Kopin",                         short: "KOPN",           ticker: "KOPN",      weight: 1 / 8, ccy: "USD", sleeve: "US", status: "active",
             concept: "军用微显示 · 头显光学",
             conceptEn: "Microdisplays · defense wearable optics",
             marketCap: 0.52,
             seed: 405, base: 1.6, vol: 0.045, drift: 0.00095 },
-          { name: "Red Cat Holdings",              short: "RCAT",           ticker: "RCAT",      weight: 1 / 10, ccy: "USD", sleeve: "US", status: "active",
+          { name: "Red Cat Holdings",              short: "RCAT",           ticker: "RCAT",      weight: 1 / 8, ccy: "USD", sleeve: "US", status: "active",
             concept: "军用小型无人机 · 战术 UAS",
             conceptEn: "Small tactical UAS · defense drones",
             marketCap: 1.5,
             seed: 1214, base: 1.1, vol: 0.058, drift: 0.00115 },
-          { name: "Swarmer",                       short: "SWMR",           ticker: "SWMR",      weight: 1 / 10, ccy: "USD", sleeve: "US", status: "active",
+          { name: "Swarmer",                       short: "SWMR",           ticker: "SWMR",      weight: 1 / 8, ccy: "USD", sleeve: "US", status: "active",
             concept: "无人机蜂群 AI · 自主协同软件",
             conceptEn: "Drone swarm AI · autonomous coordination software",
             marketCap: 0.45,
             seed: 3176, base: 29.5, vol: 0.072, drift: 0.00120 },
-          { name: "LightPath Technologies",         short: "LPTH",           ticker: "LPTH",      weight: 1 / 10, ccy: "USD", sleeve: "US", status: "active",
-            concept: "红外光学 · 热成像组件",
-            conceptEn: "Infrared optics · thermal imaging components",
-            marketCap: 0.81,
-            seed: 9147, base: 2.2, vol: 0.050, drift: 0.00105 },
-          { name: "Kratos Defense & Security Solutions", short: "KTOS",     ticker: "KTOS",      weight: 1 / 10, ccy: "USD", sleeve: "US", status: "active",
+          { name: "Kratos Defense & Security Solutions", short: "KTOS",     ticker: "KTOS",      weight: 1 / 8, ccy: "USD", sleeve: "US", status: "active",
             concept: "无人系统 · 防务安全平台",
             conceptEn: "Unmanned systems · defense security platforms",
             marketCap: 14.0,
             seed: 1085, base: 10.2, vol: 0.038, drift: 0.00100 },
-          { name: "Elbit Systems",                  short: "ESLT",           ticker: "ESLT",      weight: 1 / 10, ccy: "USD", sleeve: "IL", status: "active",
+          { name: "Elbit Systems",                  short: "ESLT",           ticker: "ESLT",      weight: 1 / 8, ccy: "USD", sleeve: "IL", status: "active",
             concept: "铁束（Iron Beam）激光防御",
             conceptEn: "Iron Beam laser defense",
             marketCap: 43.2,
             seed: 9721, base: 260.0, vol: 0.024, drift: 0.00075 },
-          { name: "AeroVironment",                  short: "AVAV",           ticker: "AVAV",      weight: 1 / 10, ccy: "USD", sleeve: "US", status: "active",
+          { name: "AeroVironment",                  short: "AVAV",           ticker: "AVAV",      weight: 1 / 8, ccy: "USD", sleeve: "US", status: "active",
             concept: "无人机系统 · 巡飞弹",
             conceptEn: "UAS platforms · loitering munitions",
             marketCap: 9.8,
@@ -2796,14 +2784,11 @@
         headerEn: "AI Drone Milestones",
         milestones: [
           { date: "2022-11-30", category: "defense", label: "无人机指数起点", en: "Drone index start",
-            desc: "以 ChatGPT 公开发布日作为组合统一 T₀,把后续防务无人机、反无人机与军用光学事件放到同一条归一化时间线上。",
-            desc_en: "Uses ChatGPT's public launch date as the shared T₀, placing defense-drone, counter-UAS, and military-optics events on one normalized timeline." },
+            desc: "以 ChatGPT 公开发布日作为组合统一 T₀,把后续防务无人机、反无人机与防空体系事件放到同一条归一化时间线上。",
+            desc_en: "Uses ChatGPT's public launch date as the shared T₀, placing defense-drone, counter-UAS, and air-defense events on one normalized timeline." },
           { date: "2024-02-14", category: "market", label: "UMAC 历史行情起点", en: "UMAC trading history begins",
             desc: "UMAC 在数据池中的可用行情从这一天开始,代表无人机零部件供应链进入组合可跟踪区间。",
             desc_en: "UMAC's available data begins on this date, bringing drone component supply-chain exposure into the tracked portfolio window." },
-          { date: "2024-02-07", category: "defense", label: "THEON 历史行情起点", en: "THEON trading history begins",
-            desc: "Theon International 的可用历史行情从这一天开始,军用夜视、热成像与 ISR 光学进入组合事件轴。",
-            desc_en: "Theon International's available trading data begins, adding military night-vision, thermal imaging, and ISR optics to the event axis." },
           { date: "2025-09-01", category: "defense", label: "Iron Drone 订单主题", en: "Iron Drone order theme",
             desc: "Ondas 持续向国防客户销售 Iron Drone 反无人机系统,订单验证反无人机从概念走向真实采购。",
             desc_en: "Ondas continues selling Iron Drone counter-UAS systems to defense customers, validating the shift from concept to procurement." },
@@ -2813,9 +2798,6 @@
           { date: "2026-03-17", category: "defense", label: "SWMR 蜂群软件上市", en: "SWMR swarm software IPO",
             desc: "Swarmer 代表无人机蜂群 AI 与自主协同软件,把软件定义无人系统纳入组合主题。",
             desc_en: "Swarmer represents drone-swarm AI and autonomous coordination software, adding software-defined unmanned systems to the theme." },
-          { date: "2026-05-05", category: "defense", label: "LPTH 光学组件主题", en: "LPTH optics component theme",
-            desc: "LightPath Technologies 纳入无人机,补充红外光学、热成像和防务视觉组件侧的供应链敞口。",
-            desc_en: "LightPath Technologies joins the drone portfolio, adding supply-chain exposure to infrared optics, thermal imaging, and defense vision components." },
           { date: "2026-05-06", category: "defense", label: "KTOS 防务无人系统", en: "KTOS defense unmanned systems",
             desc: "Kratos Defense & Security Solutions 纳入无人机,补充无人系统、靶机、防务通信与安全平台敞口。",
             desc_en: "Kratos Defense & Security Solutions joins the drone portfolio, adding exposure to unmanned systems, target drones, defense communications, and security platforms." },
@@ -3524,7 +3506,6 @@
     }
 
     function countryFlag(component) {
-      if (component.ticker === "THEON.AS") return "🇳🇱";
       if (component.ccy === "CNY") return "🇨🇳";
       if (component.ccy === "HKD") return "🇭🇰";
       return "🇺🇸";
