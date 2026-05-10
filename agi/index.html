@@ -2951,6 +2951,9 @@
           { date: "2023-08-29", category: "market", label: "PDD 国际化叙事强化", en: "PDD globalization narrative",
             desc: "拼多多与跨境电商叙事强化,平台消费从国内效率竞争延展到全球化增长。",
             desc_en: "PDD's cross-border commerce narrative strengthens, extending platform consumption from domestic efficiency to global growth." },
+          { date: "2026-03-25", category: "market", label: "PDD 新拼姆计划", en: "PDD Xinpinmu plan", tickers: ["PDD"],
+            desc: "拼多多宣布组建“新拼姆”，开启品牌自营；一期注资 150 亿元，未来三年计划投入 1000 亿元，整合拼多多与 Temu 供应链资源。",
+            desc_en: "PDD announces Xinpinmu, moving into in-house brands; the first phase injects RMB 15B, with RMB 100B planned over three years to integrate PDD and Temu supply-chain resources." },
           { date: "2024-09-24", category: "policy", label: "中国资产政策拐点", en: "China asset policy pivot",
             desc: "政策与流动性预期推动中国资产重新定价,影响平台、消费和 ToB 软件资产的共同风险偏好。",
             desc_en: "Policy and liquidity expectations reprice China assets, affecting shared risk appetite across platform, consumer, and ToB software assets." },
@@ -4034,6 +4037,7 @@
       document.querySelectorAll("#asset-group button").forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
       currentChartAsset = btn.dataset.asset;
+      renderMilestoneList();
       render();
     });
     document.querySelector(".manifesto-pillars").addEventListener("click", (e) => {
