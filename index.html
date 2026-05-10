@@ -3568,11 +3568,43 @@
     }
 
     function localizedNewsTitle(item) {
-      return t(item.titleZh || item.title || "", item.titleEn || item.title || item.titleZh || "");
+      return popoverLang === "en"
+        ? (item.titleEn || item.title || item.titleZh || "")
+        : (item.titleZh || item.title || item.titleEn || "");
     }
 
     function localizedNewsSummary(item) {
-      return t(item.summaryZh || item.summary || "", item.summaryEn || item.summary || item.summaryZh || "");
+      return popoverLang === "en"
+        ? (item.summaryEn || item.summary || item.summaryZh || "")
+        : (item.summaryZh || item.summary || item.summaryEn || "");
+    }
+
+    const NEWS_SOURCE_LABELS = {
+      Reuters: { zh: "路透社", en: "Reuters" },
+      AP: { zh: "美联社", en: "Associated Press" },
+      BBC: { zh: "BBC 新闻", en: "BBC News" },
+      CNBC: { zh: "CNBC", en: "CNBC" },
+      MarketWatch: { zh: "MarketWatch", en: "MarketWatch" },
+      "SEC filings": { zh: "SEC 文件", en: "SEC filings" },
+      "SEC press": { zh: "SEC 新闻稿", en: "SEC press releases" },
+      "Defense.gov": { zh: "美国国防部", en: "Defense.gov" },
+      NASA: { zh: "NASA", en: "NASA" },
+      ESA: { zh: "欧空局 ESA", en: "ESA" },
+      WHO: { zh: "世界卫生组织", en: "WHO" },
+      Nasdaq: { zh: "Nasdaq 公告", en: "Nasdaq announcements" },
+      NYSE: { zh: "NYSE 公告", en: "NYSE announcements" },
+      "Palantir IR": { zh: "Palantir 投资者关系", en: "Palantir IR" },
+      "CrowdStrike IR": { zh: "CrowdStrike 投资者关系", en: "CrowdStrike IR" },
+      "MP Materials IR": { zh: "MP Materials 投资者关系", en: "MP Materials IR" },
+      Official: { zh: "官方源", en: "Official sources" },
+      Exchange: { zh: "交易所公告", en: "Exchange announcements" },
+      IR: { zh: "公司投资者关系", en: "Company Investor Relations" },
+    };
+
+    function localizedNewsSource(item) {
+      const source = item.source || "NEWS";
+      const mapped = NEWS_SOURCE_LABELS[source] || {};
+      return t(item.zhSource || mapped.zh || source, item.enSource || mapped.en || source);
     }
 
     function portfolioNewsKeywords(portfolio = activePortfolio(), key = currentPortfolioKey) {
@@ -3613,7 +3645,7 @@
       document.getElementById("portfolio-news-updated").textContent = formatNewsDate(newsMeta?.generatedAt);
       track.innerHTML = doubled.map((item) => `
         <a class="portfolio-news-card" href="${escapeHtml(item.url || "#")}" target="_blank" rel="noopener noreferrer">
-          <span>${escapeHtml(item.source || "NEWS")}</span>
+          <span>${escapeHtml(localizedNewsSource(item))}</span>
           <b>${escapeHtml(localizedNewsTitle(item))}</b>
           <p>${escapeHtml(localizedNewsSummary(item))}</p>
         </a>
@@ -3636,7 +3668,7 @@
       const items = (liveNewsItems.length ? liveNewsItems.slice(0, 24) : FALLBACK_NEWS_ITEMS);
       grid.innerHTML = items.map((item) => `
         <a class="news-source" href="${escapeHtml(item.url || "#")}" target="_blank" rel="noopener noreferrer">
-          <span class="news-kicker">${escapeHtml(item.source || "NEWS")} · ${escapeHtml(t(item.zhSource || item.source || "新闻源", item.enSource || item.source || "News Source"))}</span>
+          <span class="news-kicker">${escapeHtml(localizedNewsSource(item))}</span>
           <strong>${escapeHtml(localizedNewsTitle(item))}</strong>
           <p>${escapeHtml(localizedNewsSummary(item))}</p>
           <span class="news-link-text">${t("原文链接", "Source link")}</span>
