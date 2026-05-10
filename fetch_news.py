@@ -32,7 +32,6 @@ SOURCES = [
     {"name": "BBC", "url": "https://feeds.bbci.co.uk/news/rss.xml"},
     {"name": "CNBC", "url": "https://www.cnbc.com/id/100003114/device/rss/rss.html"},
     {"name": "MarketWatch", "url": "https://feeds.content.dowjones.io/public/rss/mw_topstories"},
-    {"name": "Yahoo Finance", "url": "https://finance.yahoo.com/news/rssindex"},
     {"name": "SEC filings", "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&CIK=&type=&company=&dateb=&owner=include&start=0&count=40&output=atom"},
     {"name": "SEC press", "url": "https://www.sec.gov/news/pressreleases.rss"},
     {"name": "Defense.gov", "url": "https://www.defense.gov/DesktopModules/ArticleCS/RSS.ashx?ContentType=1&Site=945&Category=675"},
