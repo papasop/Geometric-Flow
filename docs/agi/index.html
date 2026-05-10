@@ -498,11 +498,16 @@
       justify-content: flex-start;
       gap: 8px;
       margin-bottom: 12px;
-      overflow-x: auto;
+      flex-wrap: wrap;
+      overflow: visible;
       padding-bottom: 2px;
     }
     .chart-top-controls .control-group {
       flex-shrink: 0;
+    }
+    #asset-group {
+      max-width: 100%;
+      overflow-x: auto;
     }
     .compact-control {
       position: relative;
@@ -538,10 +543,11 @@
     .compact-control[open] .compact-control-caret {
       transform: rotate(180deg);
     }
+    .compact-control[open] {
+      align-self: flex-start;
+      flex-direction: column;
+    }
     .compact-control-menu {
-      position: absolute;
-      top: calc(100% + 6px);
-      right: 0;
       z-index: 50;
       display: grid;
       gap: 4px;
@@ -1183,7 +1189,7 @@
         </details>
         <details class="control-group compact-control" id="type-group">
           <summary>
-            <span class="control-group-label">图型</span>
+            <span class="control-group-label">图形</span>
             <span class="compact-control-current" id="type-current">K线</span>
             <span class="compact-control-caret">▼</span>
           </summary>
@@ -3798,7 +3804,7 @@
         W: t("周", "Week"),
         M: t("月", "Month"),
       }[currentPeriod] || t("日", "Day");
-      document.querySelector("#type-group .control-group-label").textContent = t("图型", "Chart");
+      document.querySelector("#type-group .control-group-label").textContent = t("图形", "Chart");
       document.querySelector('#type-group button[data-type="candle"] .btn-main').textContent = t("K线", "Candle");
       document.querySelector('#type-group button[data-type="line"] .btn-main').textContent = t("折线", "Line");
       document.getElementById("type-current").textContent = currentType === "line" ? t("折线", "Line") : t("K线", "Candle");
@@ -4225,9 +4231,34 @@
       });
     }
 
+    function setupCompactControl(id) {
+      const details = document.getElementById(id);
+      const summary = details?.querySelector("summary");
+      if (!details || !summary) return;
+      summary.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const nextOpen = !details.open;
+        document.querySelectorAll(".compact-control").forEach((control) => {
+          if (control !== details) control.open = false;
+        });
+        details.open = nextOpen;
+      });
+    }
+
+    setupCompactControl("period-group");
+    setupCompactControl("type-group");
+    document.addEventListener("click", (e) => {
+      if (e.target.closest(".compact-control")) return;
+      document.querySelectorAll(".compact-control").forEach((control) => {
+        control.open = false;
+      });
+    });
+
     document.getElementById("period-group").addEventListener("click", (e) => {
       const btn = e.target.closest("button[data-period]");
       if (!btn) return;
+      e.stopPropagation();
       document.querySelectorAll("#period-group button").forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
       currentPeriod = btn.dataset.period;
@@ -4238,6 +4269,7 @@
     document.getElementById("type-group").addEventListener("click", (e) => {
       const btn = e.target.closest("button[data-type]");
       if (!btn) return;
+      e.stopPropagation();
       document.querySelectorAll("#type-group button").forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
       currentType = btn.dataset.type;
