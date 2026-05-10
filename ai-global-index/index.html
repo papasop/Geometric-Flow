@@ -492,12 +492,61 @@
     .chart-top-controls {
       display: flex;
       justify-content: flex-start;
+      gap: 8px;
       margin-bottom: 12px;
       overflow-x: auto;
       padding-bottom: 2px;
     }
     .chart-top-controls .control-group {
       flex-shrink: 0;
+    }
+    .compact-control {
+      position: relative;
+      align-items: center;
+      overflow: visible;
+    }
+    .compact-control summary {
+      list-style: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      min-width: 92px;
+      color: #8a96b3;
+      cursor: pointer;
+      user-select: none;
+    }
+    .compact-control summary::-webkit-details-marker {
+      display: none;
+    }
+    .compact-control-current {
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .compact-control-caret {
+      color: #5e9eff;
+      font-size: 10px;
+      margin-left: auto;
+      transition: transform 0.16s ease;
+    }
+    .compact-control[open] .compact-control-caret {
+      transform: rotate(180deg);
+    }
+    .compact-control-menu {
+      position: absolute;
+      top: calc(100% + 6px);
+      right: 0;
+      z-index: 50;
+      display: grid;
+      gap: 4px;
+      min-width: 126px;
+      padding: 6px;
+      background: #0f1525;
+      border: 1px solid #253250;
+      border-radius: 10px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.34);
     }
     #chart { height: 720px; }
     .stats {
@@ -1134,20 +1183,6 @@
       </div>
     </div>
 
-    <div class="controls investment-view">
-      <div class="control-group" id="period-group">
-        <span class="control-group-label">周期</span>
-        <button data-period="D" class="active"><span class="btn-main">日</span><span class="btn-sub">Day</span></button>
-        <button data-period="W"><span class="btn-main">周</span><span class="btn-sub">Week</span></button>
-        <button data-period="M"><span class="btn-main">月</span><span class="btn-sub">Month</span></button>
-      </div>
-      <div class="control-group" id="type-group">
-        <span class="control-group-label">图型</span>
-        <button data-type="candle" class="active"><span class="btn-main">K线</span><span class="btn-sub">Candle</span></button>
-        <button data-type="line"><span class="btn-main">折线</span><span class="btn-sub">Line</span></button>
-      </div>
-    </div>
-
     <div class="chart-container investment-view">
       <div class="chart-top-controls">
         <div class="control-group" id="asset-group">
@@ -1163,6 +1198,29 @@
           <button data-asset="SKYDIO" disabled><span class="btn-main">Skydio</span><span class="btn-sub">预上市</span></button>
           <button data-asset="NEROS" disabled><span class="btn-main">Neros</span><span class="btn-sub">预上市</span></button>
         </div>
+        <details class="control-group compact-control" id="period-group">
+          <summary>
+            <span class="control-group-label">周期</span>
+            <span class="compact-control-current" id="period-current">日</span>
+            <span class="compact-control-caret">▼</span>
+          </summary>
+          <div class="compact-control-menu">
+            <button data-period="D" class="active"><span class="btn-main">日</span><span class="btn-sub">Day</span></button>
+            <button data-period="W"><span class="btn-main">周</span><span class="btn-sub">Week</span></button>
+            <button data-period="M"><span class="btn-main">月</span><span class="btn-sub">Month</span></button>
+          </div>
+        </details>
+        <details class="control-group compact-control" id="type-group">
+          <summary>
+            <span class="control-group-label">图型</span>
+            <span class="compact-control-current" id="type-current">K线</span>
+            <span class="compact-control-caret">▼</span>
+          </summary>
+          <div class="compact-control-menu">
+            <button data-type="candle" class="active"><span class="btn-main">K线</span><span class="btn-sub">Candle</span></button>
+            <button data-type="line"><span class="btn-main">折线</span><span class="btn-sub">Line</span></button>
+          </div>
+        </details>
       </div>
       <div id="chart"></div>
       <div class="components-panel">
@@ -3706,9 +3764,15 @@
       document.querySelector('#period-group button[data-period="D"] .btn-main').textContent = t("日", "Day");
       document.querySelector('#period-group button[data-period="W"] .btn-main').textContent = t("周", "Week");
       document.querySelector('#period-group button[data-period="M"] .btn-main').textContent = t("月", "Month");
+      document.getElementById("period-current").textContent = {
+        D: t("日", "Day"),
+        W: t("周", "Week"),
+        M: t("月", "Month"),
+      }[currentPeriod] || t("日", "Day");
       document.querySelector("#type-group .control-group-label").textContent = t("图型", "Chart");
       document.querySelector('#type-group button[data-type="candle"] .btn-main').textContent = t("K线", "Candle");
       document.querySelector('#type-group button[data-type="line"] .btn-main').textContent = t("折线", "Line");
+      document.getElementById("type-current").textContent = currentType === "line" ? t("折线", "Line") : t("K线", "Candle");
       document.querySelector("#asset-group .control-group-label").textContent = t("标的", "Asset");
       renderAssetButtons();
       document.querySelector('#asset-group button[data-asset="INDEX"] .btn-main').textContent = t("指数", "Index");
@@ -4133,19 +4197,23 @@
     }
 
     document.getElementById("period-group").addEventListener("click", (e) => {
-      const btn = e.target.closest("button");
+      const btn = e.target.closest("button[data-period]");
       if (!btn) return;
       document.querySelectorAll("#period-group button").forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
       currentPeriod = btn.dataset.period;
+      document.getElementById("period-current").textContent = btn.querySelector(".btn-main")?.textContent || "";
+      document.getElementById("period-group").open = false;
       render();
     });
     document.getElementById("type-group").addEventListener("click", (e) => {
-      const btn = e.target.closest("button");
+      const btn = e.target.closest("button[data-type]");
       if (!btn) return;
       document.querySelectorAll("#type-group button").forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
       currentType = btn.dataset.type;
+      document.getElementById("type-current").textContent = btn.querySelector(".btn-main")?.textContent || "";
+      document.getElementById("type-group").open = false;
       render();
     });
     document.getElementById("asset-group").addEventListener("click", (e) => {
