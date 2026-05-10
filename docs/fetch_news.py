@@ -171,6 +171,24 @@ def link_of(node: ET.Element) -> str:
     return ""
 
 
+def author_of(node: ET.Element) -> str:
+    direct = text_of(node, [
+        "author",
+        "creator",
+        "{http://purl.org/dc/elements/1.1/}creator",
+        "{http://purl.org/dc/terms/}creator",
+    ])
+    if direct:
+        return clean_text(direct, 80)
+    for child in node:
+        if child.tag.rsplit("}", 1)[-1].lower() != "author":
+            continue
+        for grandchild in child:
+            if grandchild.tag.rsplit("}", 1)[-1].lower() == "name" and grandchild.text:
+                return clean_text(grandchild.text, 80)
+    return ""
+
+
 def parse_html_page(source: dict[str, str], data: bytes) -> list[dict[str, str]]:
     page = data.decode("utf-8", errors="ignore")
     items = []
@@ -192,6 +210,7 @@ def parse_html_page(source: dict[str, str], data: bytes) -> list[dict[str, str]]
             "title": body,
             "summary": body,
             "url": url,
+            "author": source["name"],
             "publishedAt": None,
         })
         if len(items) >= 18:
@@ -217,6 +236,7 @@ def parse_feed(source: dict[str, str], data: bytes) -> list[dict[str, str]]:
         title = clean_text(text_of(node, ["title", "{http://www.w3.org/2005/Atom}title"]), 180)
         summary = clean_text(text_of(node, ["description", "summary", "content", "{http://www.w3.org/2005/Atom}summary", "{http://purl.org/rss/1.0/modules/content/}encoded"]))
         url = link_of(node)
+        author = author_of(node) or source["name"]
         published = parse_date(text_of(node, ["pubDate", "published", "updated", "{http://www.w3.org/2005/Atom}published", "{http://www.w3.org/2005/Atom}updated"]))
         if title and url:
             items.append({
@@ -224,6 +244,7 @@ def parse_feed(source: dict[str, str], data: bytes) -> list[dict[str, str]]:
                 "title": title,
                 "summary": summary or title,
                 "url": url,
+                "author": author,
                 "publishedAt": published,
             })
     return items
