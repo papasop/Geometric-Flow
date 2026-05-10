@@ -1146,14 +1146,6 @@
         <button data-type="candle" class="active"><span class="btn-main">K线</span><span class="btn-sub">Candle</span></button>
         <button data-type="line"><span class="btn-main">折线</span><span class="btn-sub">Line</span></button>
       </div>
-      <div class="control-group" id="event-group">
-        <span class="control-group-label">事件</span>
-        <button data-event="all" class="active"><span class="btn-main">全部</span><span class="btn-sub">All</span></button>
-        <button data-event="paper"><span class="btn-main">论文</span><span class="btn-sub">Paper</span></button>
-        <button data-event="remarks"><span class="btn-main">言论</span><span class="btn-sub">Remarks</span></button>
-        <button data-event="investment"><span class="btn-main">投资</span><span class="btn-sub">Investment</span></button>
-        <button data-event="public-health"><span class="btn-main">公共卫生</span><span class="btn-sub">Health</span></button>
-      </div>
     </div>
 
     <div class="chart-container investment-view">
@@ -3722,13 +3714,6 @@
       document.querySelector('#asset-group button[data-asset="INDEX"] .btn-main').textContent = t("指数", "Index");
       document.querySelector('#asset-group button[data-asset="INDEX"] .btn-sub').textContent = t("Index", "Index");
       updateAssetControls();
-      document.querySelector("#event-group .control-group-label").textContent = t("事件", "Events");
-      document.querySelector('#event-group button[data-event="all"] .btn-main').textContent = t("全部", "All");
-      document.querySelector('#event-group button[data-event="paper"] .btn-main').textContent = t("论文", "Paper");
-      document.querySelector('#event-group button[data-event="remarks"] .btn-main').textContent = t("言论", "Remarks");
-      document.querySelector('#event-group button[data-event="investment"] .btn-main').textContent = t("投资", "Investment");
-      document.querySelector('#event-group button[data-event="public-health"] .btn-main').textContent = t("公共卫生", "Health");
-
       document.querySelector(".components-header-title").textContent = t("成分股 · 各自代表的 AI 子赛道", "COMPONENTS · AI subsector represented by each holding");
       document.querySelector('[data-rank="weight"]').textContent = t("权重", "Weight");
       document.querySelector('[data-rank="mcap"]').textContent = t("市值", "Market Cap");
@@ -4182,7 +4167,6 @@
       setPortfolioConfig(row.dataset.portfolio);
       currentChartAsset = "INDEX";
       currentEventCategory = "all";
-      document.querySelectorAll("#event-group button").forEach((b) => b.classList.toggle("active", b.dataset.event === "all"));
       activeIdx = null;
       hidePopover();
       rawData = portfolioDataFromPool(dataPool);
@@ -4199,17 +4183,6 @@
       btn.classList.add("active");
       currentPortfolioRank = btn.dataset.portfolioRank;
       renderPortfolioList();
-    });
-    document.getElementById("event-group").addEventListener("click", (e) => {
-      const btn = e.target.closest("button[data-event]");
-      if (!btn) return;
-      document.querySelectorAll("#event-group button").forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
-      currentEventCategory = btn.dataset.event;
-      activeIdx = null;
-      hidePopover();
-      renderMilestoneList();
-      if (rawData) render();
     });
     document.getElementById("components-rank-group").addEventListener("click", (e) => {
       const btn = e.target.closest("button[data-rank]");
