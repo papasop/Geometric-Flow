@@ -32,6 +32,97 @@
       font-size: 28px;
       letter-spacing: 0.5px;
     }
+    .top-mode-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 8px;
+    }
+    .top-mode-bar h1 {
+      margin: 0;
+      min-width: 0;
+    }
+    .top-mode-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px;
+      background: #101726;
+      border: 1px solid #1d2740;
+      border-radius: 8px;
+      flex: 0 0 auto;
+    }
+    .top-mode-toggle button {
+      border: 0;
+      border-radius: 5px;
+      padding: 7px 12px;
+      background: transparent;
+      color: #8a96b3;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      cursor: pointer;
+    }
+    .top-mode-toggle button.active {
+      background: #5e9eff;
+      color: #06101f;
+      box-shadow: 0 6px 18px rgba(94, 158, 255, 0.18);
+    }
+    .news-view {
+      display: none;
+      margin: 4px 0 22px;
+      padding: 18px 22px;
+      background: linear-gradient(180deg, rgba(19, 26, 43, 0.96) 0%, rgba(16, 23, 38, 0.82) 100%);
+      border: 1px solid #1d2740;
+      border-left: 3px solid #5e9eff;
+      border-radius: 8px;
+    }
+    .news-view.active {
+      display: block;
+    }
+    .news-header {
+      color: #5e9eff;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+    }
+    .news-source {
+      display: block;
+      min-height: 76px;
+      padding: 13px 14px;
+      background: #0f1626;
+      border: 1px solid #1d2740;
+      border-radius: 7px;
+      text-decoration: none;
+      color: #dce6f7;
+      transition: border-color 0.16s ease, transform 0.16s ease, background 0.16s ease;
+    }
+    .news-source:hover {
+      transform: translateY(-1px);
+      border-color: rgba(94, 158, 255, 0.55);
+      background: #121b2e;
+    }
+    .news-source strong {
+      display: block;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .news-source span {
+      display: block;
+      color: #6b7a99;
+      font-size: 11px;
+      line-height: 1.45;
+    }
     /* === Manifesto block === */
     .manifesto {
       margin: 4px 0 20px;
@@ -851,6 +942,16 @@
       box-shadow: inset 0 0 0 1px rgba(94, 158, 255, 0.42);
     }
     @media (max-width: 640px) {
+      .top-mode-bar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+      .top-mode-toggle {
+        width: 100%;
+      }
+      .top-mode-toggle button {
+        flex: 1;
+      }
       .component-row {
         flex-wrap: wrap;
         gap: 7px 9px;
@@ -897,8 +998,61 @@
   </div>
 
   <div class="container">
-    <h1>无人机 <span style="color:#5e9eff;font-size:0.6em;font-weight:300;letter-spacing:2px;margin-left:8px">DRONE PORTFOLIO</span></h1>
-    <div class="manifesto">
+    <div class="top-mode-bar">
+      <h1 id="page-title">无人机 <span style="color:#5e9eff;font-size:0.6em;font-weight:300;letter-spacing:2px;margin-left:8px">DRONE PORTFOLIO</span></h1>
+      <div class="top-mode-toggle" id="top-mode-toggle" aria-label="Page mode">
+        <button data-top-mode="investment" class="active">投资</button>
+        <button data-top-mode="news">新闻</button>
+      </div>
+    </div>
+
+    <div class="news-view" id="news-view">
+      <div class="news-header">新闻源头 · NEWS SOURCES</div>
+      <div class="news-grid">
+        <a class="news-source" href="https://www.nytimes.com/" target="_blank" rel="noopener noreferrer">
+          <strong>NYT · 纽约时报</strong>
+          <span>全球新闻、商业、科技与深度调查</span>
+        </a>
+        <a class="news-source" href="https://www.wsj.com/" target="_blank" rel="noopener noreferrer">
+          <strong>WSJ · 华尔街日报</strong>
+          <span>市场、公司、宏观与金融新闻</span>
+        </a>
+        <a class="news-source" href="https://www.bbc.com/news" target="_blank" rel="noopener noreferrer">
+          <strong>BBC News</strong>
+          <span>国际新闻、地缘政治与公共事件</span>
+        </a>
+        <a class="news-source" href="https://www.cnn.com/" target="_blank" rel="noopener noreferrer">
+          <strong>CNN</strong>
+          <span>美国与全球突发新闻、政治和商业</span>
+        </a>
+        <a class="news-source" href="https://abcnews.go.com/" target="_blank" rel="noopener noreferrer">
+          <strong>ABC News</strong>
+          <span>美国新闻、国际事件与电视新闻源</span>
+        </a>
+        <a class="news-source" href="https://www.reuters.com/" target="_blank" rel="noopener noreferrer">
+          <strong>Reuters · 路透社</strong>
+          <span>全球市场、公司、政策与即时通讯社新闻</span>
+        </a>
+        <a class="news-source" href="https://apnews.com/" target="_blank" rel="noopener noreferrer">
+          <strong>AP · 美联社</strong>
+          <span>基础事实报道、突发新闻与国际通讯社</span>
+        </a>
+        <a class="news-source" href="https://www.bloomberg.com/" target="_blank" rel="noopener noreferrer">
+          <strong>Bloomberg · 彭博</strong>
+          <span>金融市场、公司、债券、货币与终端新闻</span>
+        </a>
+        <a class="news-source" href="https://www.ft.com/" target="_blank" rel="noopener noreferrer">
+          <strong>Financial Times · 金融时报</strong>
+          <span>全球商业、金融、经济与产业分析</span>
+        </a>
+        <a class="news-source" href="https://www.economist.com/" target="_blank" rel="noopener noreferrer">
+          <strong>The Economist · 经济学人</strong>
+          <span>全球宏观、地缘政治与长期趋势分析</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="manifesto investment-view">
       <div class="manifesto-tag">组合栏目 · PORTFOLIO CHANNELS · 12 PORTFOLIOS</div>
       <div class="manifesto-sort">
         <span class="manifesto-sort-label">组合排序</span>
@@ -953,7 +1107,7 @@
       <div class="manifesto-footer">先推出十二个组合栏目，后续可继续扩展更多主题组合。<span class="manifesto-footer-en">Launching twelve portfolio channels first, with room for more themes later.</span></div>
     </div>
 
-    <div class="meta-strip">
+    <div class="meta-strip investment-view">
       <div class="meta-item">
         <div class="meta-label">起点 INCEPTION</div>
         <div class="meta-value">T<sub>0</sub> · 2022-11-30</div>
@@ -976,7 +1130,7 @@
       </div>
     </div>
 
-    <div class="controls">
+    <div class="controls investment-view">
       <div class="control-group" id="period-group">
         <span class="control-group-label">周期</span>
         <button data-period="D" class="active"><span class="btn-main">日</span><span class="btn-sub">Day</span></button>
@@ -998,7 +1152,7 @@
       </div>
     </div>
 
-    <div class="chart-container">
+    <div class="chart-container investment-view">
       <div class="chart-top-controls">
         <div class="control-group" id="asset-group">
           <span class="control-group-label">标的</span>
@@ -1035,14 +1189,14 @@
       </div>
     </div>
 
-    <div class="stats" id="stats"></div>
+    <div class="stats investment-view" id="stats"></div>
 
-    <div class="milestones">
+    <div class="milestones investment-view">
       <div class="milestones-header">AI 大事记 · AI Era Milestones</div>
       <div class="milestones-list" id="milestones-list"></div>
     </div>
 
-    <div class="footer">
+    <div class="footer investment-view">
       Data: 内置合成示例数据 (synthetic seeded sample, 含 CNY/USD) · 替换真实数据请用 <code>fetch_data.py</code> 生成 <code>data.json</code>
     </div>
   </div>
@@ -2951,8 +3105,21 @@
 };
 
     let currentPortfolioKey = "drone";
+    let currentTopMode = "investment";
     let COMPONENTS_CONFIG = PORTFOLIOS[currentPortfolioKey].components;
     let CONFIG_BY_TICKER = Object.fromEntries(COMPONENTS_CONFIG.map((c) => [c.ticker, c]));
+    const NEWS_SOURCES = [
+      { name: "NYT", zh: "纽约时报", en: "The New York Times", url: "https://www.nytimes.com/", descZh: "全球新闻、商业、科技与深度调查", descEn: "Global news, business, technology, and investigations" },
+      { name: "WSJ", zh: "华尔街日报", en: "The Wall Street Journal", url: "https://www.wsj.com/", descZh: "市场、公司、宏观与金融新闻", descEn: "Markets, companies, macro, and financial news" },
+      { name: "BBC", zh: "BBC 新闻", en: "BBC News", url: "https://www.bbc.com/news", descZh: "国际新闻、地缘政治与公共事件", descEn: "International news, geopolitics, and public events" },
+      { name: "CNN", zh: "CNN", en: "CNN", url: "https://www.cnn.com/", descZh: "美国与全球突发新闻、政治和商业", descEn: "US and global breaking news, politics, and business" },
+      { name: "ABC", zh: "ABC 新闻", en: "ABC News", url: "https://abcnews.go.com/", descZh: "美国新闻、国际事件与电视新闻源", descEn: "US news, international events, and broadcast news" },
+      { name: "Reuters", zh: "路透社", en: "Reuters", url: "https://www.reuters.com/", descZh: "全球市场、公司、政策与即时通讯社新闻", descEn: "Global markets, companies, policy, and wire-service news" },
+      { name: "AP", zh: "美联社", en: "Associated Press", url: "https://apnews.com/", descZh: "基础事实报道、突发新闻与国际通讯社", descEn: "Fact-led reporting, breaking news, and global wire coverage" },
+      { name: "Bloomberg", zh: "彭博", en: "Bloomberg", url: "https://www.bloomberg.com/", descZh: "金融市场、公司、债券、货币与终端新闻", descEn: "Financial markets, companies, bonds, currencies, and terminal news" },
+      { name: "FT", zh: "金融时报", en: "Financial Times", url: "https://www.ft.com/", descZh: "全球商业、金融、经济与产业分析", descEn: "Global business, finance, economics, and industry analysis" },
+      { name: "Economist", zh: "经济学人", en: "The Economist", url: "https://www.economist.com/", descZh: "全球宏观、地缘政治与长期趋势分析", descEn: "Global macro, geopolitics, and long-term trend analysis" },
+    ];
 
     async function loadData() {
       try {
@@ -3372,13 +3539,40 @@
       return popoverLang === "en" ? en : zh;
     }
 
+    function renderNewsSources() {
+      const grid = document.querySelector("#news-view .news-grid");
+      if (!grid) return;
+      grid.innerHTML = NEWS_SOURCES.map((source) => `
+        <a class="news-source" href="${source.url}" target="_blank" rel="noopener noreferrer">
+          <strong>${source.name} · ${t(source.zh, source.en)}</strong>
+          <span>${t(source.descZh, source.descEn)}</span>
+        </a>
+      `).join("");
+    }
+
+    function renderTopMode() {
+      document.querySelectorAll("#top-mode-toggle button[data-top-mode]").forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.topMode === currentTopMode);
+      });
+      const investmentActive = currentTopMode === "investment";
+      document.querySelectorAll(".investment-view").forEach((el) => {
+        el.style.display = investmentActive ? "" : "none";
+      });
+      document.getElementById("news-view")?.classList.toggle("active", !investmentActive);
+    }
+
     function renderStaticLanguage() {
       const portfolio = activePortfolio();
       document.querySelector(".floating-lang-toggle").title = t("页面语言 / 悬浮窗语言", "Page Language / Popover Language");
-      document.querySelector("h1").innerHTML = t(
+      document.querySelector("#page-title").innerHTML = t(
         `${portfolio.name} <span style="color:#5e9eff;font-size:0.6em;font-weight:300;letter-spacing:2px;margin-left:8px">${portfolio.nameEn.toUpperCase()}</span>`,
         `${portfolio.nameEn} <span style="color:#5e9eff;font-size:0.6em;font-weight:300;letter-spacing:2px;margin-left:8px">${portfolio.name}</span>`
       );
+      document.querySelector('#top-mode-toggle button[data-top-mode="investment"]').textContent = t("投资", "Invest");
+      document.querySelector('#top-mode-toggle button[data-top-mode="news"]').textContent = t("新闻", "News");
+      document.querySelector("#news-view .news-header").textContent = t("新闻源头 · NEWS SOURCES", "NEWS SOURCES · 新闻源头");
+      renderNewsSources();
+      renderTopMode();
 
       document.querySelector(".manifesto-tag").textContent = t("组合栏目 · 先推出 12 个组合", "PORTFOLIO CHANNELS · 12 PORTFOLIOS");
       document.querySelector("#portfolio-rank-group").previousElementSibling.textContent = t("组合排序", "Sort Portfolios");
@@ -3867,6 +4061,12 @@
       currentChartAsset = btn.dataset.asset;
       renderMilestoneList();
       render();
+    });
+    document.getElementById("top-mode-toggle").addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-top-mode]");
+      if (!btn) return;
+      currentTopMode = btn.dataset.topMode;
+      renderTopMode();
     });
     document.querySelector(".manifesto-pillars").addEventListener("click", (e) => {
       const row = e.target.closest("li[data-portfolio]");
