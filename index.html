@@ -3603,16 +3603,15 @@
     function synthesizedChineseNewsTitle(item) {
       if (item.titleZh) return item.titleZh;
       const portfolioText = newsPortfolioLabels(item).join(" / ");
-      return `${portfolioText} · ${localizedNewsSource(item)}摘要`;
+      return `${portfolioText} · ${localizedNewsSource(item)}新闻更新`;
     }
 
     function synthesizedChineseNewsSummary(item) {
       if (item.summaryZh) return item.summaryZh;
       const portfolioText = newsPortfolioLabels(item).join(" / ");
-      const rawTitle = item.title || item.titleEn || item.summary || "";
-      const tags = (item.tags || []).slice(0, 4).join(" / ");
-      const tagText = tags ? `关键词：${tags}。` : "";
-      return shortenText(`${localizedNewsSource(item)}新闻匹配到${portfolioText}。${tagText}英文原题：${rawTitle}`, 180);
+      const tags = (item.tags || []).slice(0, 4);
+      const tagText = tags.length ? `匹配关键词：${tags.join(" / ")}。` : "";
+      return shortenText(`${localizedNewsSource(item)}发布相关报道，系统按关键词归入${portfolioText}。${tagText}点击卡片可查看原文。`, 180);
     }
 
     function localizedNewsTitle(item) {
@@ -3636,11 +3635,16 @@
         .filter((token) => token.length >= 2))];
     }
 
+    function newsTextHasKeyword(text, keyword) {
+      const escaped = keyword.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      return new RegExp(`(^|[^a-z0-9])${escaped}([^a-z0-9]|$)`, "i").test(text);
+    }
+
     function newsMatchesPortfolio(item, portfolio = activePortfolio(), key = currentPortfolioKey) {
       if ((item.matchedPortfolios || []).includes(key) || (item.matchedPortfolios || []).includes("all")) return true;
       const text = [item.title, item.titleZh, item.titleEn, item.summary, item.summaryZh, item.summaryEn, item.source, ...(item.tags || [])]
         .join(" ").toLowerCase();
-      return portfolioNewsKeywords(portfolio, key).some((keyword) => text.includes(keyword));
+      return portfolioNewsKeywords(portfolio, key).some((keyword) => newsTextHasKeyword(text, keyword));
     }
 
     function activePortfolioNews(limit = 12) {
