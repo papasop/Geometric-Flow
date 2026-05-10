@@ -110,6 +110,33 @@
       border-radius: 8px;
       overflow: hidden;
     }
+    .portfolio-news-row {
+      display: block !important;
+      margin: 4px 0 13px 98px;
+      color: inherit;
+      line-height: 1;
+    }
+    .portfolio-news-inline {
+      margin: 0;
+      padding: 8px 10px;
+      background: #0d1423;
+      border-color: #1a2440;
+    }
+    .portfolio-news-inline .portfolio-news-header {
+      margin-bottom: 6px;
+      font-size: 9px;
+    }
+    .portfolio-news-inline .portfolio-news-card {
+      width: 250px;
+      min-height: 92px;
+      padding: 9px 10px;
+    }
+    .portfolio-news-inline .portfolio-news-card b {
+      font-size: 11px;
+    }
+    .portfolio-news-inline .portfolio-news-card p {
+      font-size: 10px;
+    }
     .portfolio-news-header {
       display: flex;
       align-items: center;
@@ -1112,16 +1139,6 @@
         </li>
       </ol>
       <div class="manifesto-footer">先推出十二个组合栏目，后续可继续扩展更多主题组合。<span class="manifesto-footer-en">Launching twelve portfolio channels first, with room for more themes later.</span></div>
-    </div>
-
-    <div class="portfolio-news-strip investment-view" id="portfolio-news-strip">
-      <div class="portfolio-news-header">
-        <span id="portfolio-news-title">组合新闻 · 滚动摘要</span>
-        <span class="portfolio-news-updated" id="portfolio-news-updated">news.json</span>
-      </div>
-      <div class="portfolio-news-viewport">
-        <div class="portfolio-news-track" id="portfolio-news-track"></div>
-      </div>
     </div>
 
     <div class="chart-container investment-view">
@@ -3512,7 +3529,7 @@
               <span class="m-key">${name}</span><span class="pillar-en">${subName}</span>
               <span class="pillar-meta"><span>${mcapLabel} <b>${formatMcap(row.totalMcap)}</b></span><span>${returnLabel} <b>${formatSignedPct(row.totalReturn)}</b></span></span>
             </span>
-          </li>`;
+          </li>${portfolioNewsStripHtml(row.key, row.portfolio)}`;
         }).join("");
         return `<li class="portfolio-category">${portfolioCategoryLabel(groupKey)}</li>${items}`;
       }).join("");
@@ -3591,39 +3608,39 @@
       return text.length > max ? `${text.slice(0, max - 1)}…` : text;
     }
 
-    function newsPortfolioLabels(item) {
+    function newsPortfolioLabels(item, fallbackKey = currentPortfolioKey) {
       const keys = (item.matchedPortfolios || []).filter((key) => PORTFOLIOS[key]);
-      const selected = keys.includes(currentPortfolioKey)
-        ? [currentPortfolioKey]
+      const selected = keys.includes(fallbackKey)
+        ? [fallbackKey]
         : keys.slice(0, 2);
-      const fallback = [currentPortfolioKey].filter((key) => PORTFOLIOS[key]);
+      const fallback = [fallbackKey].filter((key) => PORTFOLIOS[key]);
       return (selected.length ? selected : fallback).map((key) => PORTFOLIOS[key].name);
     }
 
-    function synthesizedChineseNewsTitle(item) {
+    function synthesizedChineseNewsTitle(item, fallbackKey = currentPortfolioKey) {
       if (item.titleZh) return item.titleZh;
-      const portfolioText = newsPortfolioLabels(item).join(" / ");
+      const portfolioText = newsPortfolioLabels(item, fallbackKey).join(" / ");
       return `${portfolioText} · ${localizedNewsSource(item)}新闻更新`;
     }
 
-    function synthesizedChineseNewsSummary(item) {
+    function synthesizedChineseNewsSummary(item, fallbackKey = currentPortfolioKey) {
       if (item.summaryZh) return item.summaryZh;
-      const portfolioText = newsPortfolioLabels(item).join(" / ");
+      const portfolioText = newsPortfolioLabels(item, fallbackKey).join(" / ");
       const tags = (item.tags || []).slice(0, 4);
       const tagText = tags.length ? `匹配关键词：${tags.join(" / ")}。` : "";
       return shortenText(`${localizedNewsSource(item)}发布相关报道，系统按关键词归入${portfolioText}。${tagText}点击卡片可查看原文。`, 180);
     }
 
-    function localizedNewsTitle(item) {
+    function localizedNewsTitle(item, fallbackKey = currentPortfolioKey) {
       return popoverLang === "en"
-        ? (item.titleEn || item.title || item.titleZh || synthesizedChineseNewsTitle(item))
-        : synthesizedChineseNewsTitle(item);
+        ? (item.titleEn || item.title || item.titleZh || synthesizedChineseNewsTitle(item, fallbackKey))
+        : synthesizedChineseNewsTitle(item, fallbackKey);
     }
 
-    function localizedNewsSummary(item) {
+    function localizedNewsSummary(item, fallbackKey = currentPortfolioKey) {
       return popoverLang === "en"
         ? (item.summaryEn || item.summary || item.summaryZh || item.title || "")
-        : synthesizedChineseNewsSummary(item);
+        : synthesizedChineseNewsSummary(item, fallbackKey);
     }
 
     function portfolioNewsKeywords(portfolio = activePortfolio(), key = currentPortfolioKey) {
@@ -3653,6 +3670,12 @@
       return (matched.length ? matched : source).slice(0, limit);
     }
 
+    function portfolioNewsForKey(key, portfolio, limit = 6) {
+      const source = liveNewsItems.length ? liveNewsItems : FALLBACK_NEWS_ITEMS;
+      const matched = source.filter((item) => newsMatchesPortfolio(item, portfolio, key));
+      return (matched.length ? matched : source).slice(0, limit);
+    }
+
     function formatNewsDate(value) {
       if (!value) return "news.json";
       const d = new Date(value);
@@ -3660,20 +3683,30 @@
       return d.toISOString().slice(0, 16).replace("T", " ") + " UTC";
     }
 
-    function renderPortfolioNewsTicker() {
-      const track = document.getElementById("portfolio-news-track");
-      if (!track) return;
-      const items = activePortfolioNews(12);
+    function portfolioNewsStripHtml(key, portfolio) {
+      const items = portfolioNewsForKey(key, portfolio, 6);
+      if (!items.length) return "";
       const doubled = items.concat(items);
-      document.getElementById("portfolio-news-title").textContent = t("组合新闻 · 滚动摘要", "Portfolio News · Scrolling Digest");
-      document.getElementById("portfolio-news-updated").textContent = formatNewsDate(newsMeta?.generatedAt);
-      track.innerHTML = doubled.map((item) => `
+      const updated = formatNewsDate(newsMeta?.generatedAt);
+      return `<li class="portfolio-news-row" data-news-for="${escapeHtml(key)}">
+        <div class="portfolio-news-strip portfolio-news-inline">
+          <div class="portfolio-news-header">
+            <span>${escapeHtml(t("组合新闻 · 滚动摘要", "Portfolio News · Scrolling Digest"))}</span>
+            <span class="portfolio-news-updated">${escapeHtml(updated)}</span>
+          </div>
+          <div class="portfolio-news-viewport">
+            <div class="portfolio-news-track">
+              ${doubled.map((item) => `
         <a class="portfolio-news-card" href="${escapeHtml(item.url || "#")}" target="_blank" rel="noopener noreferrer">
           <span>${escapeHtml(localizedNewsSource(item))}</span>
-          <b>${escapeHtml(localizedNewsTitle(item))}</b>
-          <p>${escapeHtml(localizedNewsSummary(item))}</p>
+          <b>${escapeHtml(localizedNewsTitle(item, key))}</b>
+          <p>${escapeHtml(localizedNewsSummary(item, key))}</p>
         </a>
-      `).join("");
+              `).join("")}
+            </div>
+          </div>
+        </div>
+      </li>`;
     }
 
     async function loadNewsData() {
@@ -3705,7 +3738,6 @@
       document.querySelector(".floating-lang-toggle").title = t("页面语言 / 悬浮窗语言", "Page Language / Popover Language");
       document.querySelector("#news-view .news-header").textContent = t("新闻摘要 · NEWS DIGEST", "NEWS DIGEST · 新闻摘要");
       renderNewsSources();
-      renderPortfolioNewsTicker();
 
       document.querySelector(".manifesto-tag").textContent = t("组合栏目 · 先推出 12 个组合", "PORTFOLIO CHANNELS · 12 PORTFOLIOS");
       document.querySelector("#portfolio-rank-group").previousElementSibling.textContent = t("组合排序", "Sort Portfolios");
@@ -3713,7 +3745,6 @@
       document.querySelector('#portfolio-rank-group button[data-portfolio-rank="mcap"]').textContent = t("市值", "Market Cap");
       document.querySelector('#portfolio-rank-group button[data-portfolio-rank="return"]').textContent = t("历史表现", "Performance");
       renderPortfolioList();
-      renderPortfolioNewsTicker();
       document.querySelector(".manifesto-footer").innerHTML = t(
         `${portfolio.footer}<span class="manifesto-footer-en">${portfolio.footerEn}</span>`,
         `${portfolio.footerEn}<span class="manifesto-footer-en">${portfolio.footer}</span>`
@@ -4185,6 +4216,7 @@
       render();
     });
     document.querySelector(".manifesto-pillars").addEventListener("click", (e) => {
+      if (e.target.closest(".portfolio-news-row")) return;
       const row = e.target.closest("li[data-portfolio]");
       if (!row) return;
       if (row.dataset.portfolio === currentPortfolioKey) {
