@@ -100,6 +100,17 @@ PORTFOLIO_KEYWORDS = {
     ],
 }
 
+NEWS_OVERRIDES = [
+    {
+        "title_contains": "Big Tech’s AI spending is depriving investors of juicy payouts",
+        "author": "Bill Peters",
+        "firstPublishedAt": "2026-05-10T14:00:00Z",
+        "updatedAt": "2026-05-10T20:13:00Z",
+        "matchedPortfolios": ["ai-software", "no-yield"],
+        "tags": ["AI capex", "buybacks", "Goldman Sachs", "S&P 500"],
+    },
+]
+
 
 def clean_text(value: str | None, limit: int = 320) -> str:
     value = html.unescape(value or "")
@@ -234,6 +245,24 @@ def classify(item: dict[str, str]) -> tuple[list[str], list[str]]:
     return matched, sorted(set(tags))[:10]
 
 
+def apply_news_overrides(item: dict[str, object]) -> None:
+    title = str(item.get("title") or "")
+    for override in NEWS_OVERRIDES:
+        if override["title_contains"] not in title:
+            continue
+        for key, value in override.items():
+            if key == "title_contains":
+                continue
+            if key == "matchedPortfolios":
+                existing = item.get("matchedPortfolios") or []
+                item[key] = sorted(set([*existing, *value]))
+            elif key == "tags":
+                existing = item.get("tags") or []
+                item[key] = sorted(set([*existing, *value]))[:10]
+            else:
+                item[key] = value
+
+
 def main() -> int:
     seen = set()
     items: list[dict[str, object]] = []
@@ -252,6 +281,7 @@ def main() -> int:
                 matched, tags = classify(item)
                 item["matchedPortfolios"] = matched
                 item["tags"] = tags
+                apply_news_overrides(item)
                 items.append(item)
                 kept += 1
             source_status.append({"name": source["name"], "url": source["url"], "status": "ok", "count": kept})

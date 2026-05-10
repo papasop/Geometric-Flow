@@ -193,6 +193,13 @@
       letter-spacing: 0.8px;
       text-transform: uppercase;
     }
+    .portfolio-news-card .news-card-meta {
+      color: #6b7a99;
+      font-size: 9.5px;
+      font-weight: 650;
+      letter-spacing: 0.2px;
+      text-transform: none;
+    }
     .portfolio-news-card p {
       margin: 0;
       color: #8a96b3;
@@ -3683,6 +3690,28 @@
       return d.toISOString().slice(0, 16).replace("T", " ") + " UTC";
     }
 
+    function shortNewsDate(value) {
+      if (!value) return "";
+      const d = new Date(value);
+      if (Number.isNaN(d.getTime())) return "";
+      return d.toISOString().slice(0, 10);
+    }
+
+    function localizedNewsMeta(item) {
+      const parts = [];
+      if (item.author) parts.push(item.author);
+      const updated = shortNewsDate(item.updatedAt);
+      const first = shortNewsDate(item.firstPublishedAt || item.publishedAt);
+      if (popoverLang === "en") {
+        if (updated) parts.push(`Updated ${updated}`);
+        else if (first) parts.push(`Published ${first}`);
+      } else {
+        if (updated) parts.push(`更新 ${updated}`);
+        else if (first) parts.push(`发布 ${first}`);
+      }
+      return parts.join(" · ");
+    }
+
     function portfolioNewsStripHtml(key, portfolio) {
       const items = portfolioNewsForKey(key, portfolio, 6);
       if (!items.length) return "";
@@ -3700,6 +3729,7 @@
         <a class="portfolio-news-card" href="${escapeHtml(item.url || "#")}" target="_blank" rel="noopener noreferrer">
           <span>${escapeHtml(localizedNewsSource(item))}</span>
           <b>${escapeHtml(localizedNewsTitle(item, key))}</b>
+          <span class="news-card-meta">${escapeHtml(localizedNewsMeta(item))}</span>
           <p>${escapeHtml(localizedNewsSummary(item, key))}</p>
         </a>
               `).join("")}
