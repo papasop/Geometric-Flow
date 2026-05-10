@@ -367,42 +367,6 @@
       color: #4a5778;
       font-size: 10.5px;
     }
-    /* === Meta strip (replaces subtitle) === */
-    .meta-strip {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 12px;
-      margin: 4px 0 22px;
-    }
-    .meta-item {
-      background: linear-gradient(180deg, #131a2b 0%, #10172690 100%);
-      border: 1px solid #1d2740;
-      border-radius: 10px;
-      padding: 14px 18px;
-      transition: border-color 0.18s ease;
-    }
-    .meta-item:hover { border-color: #2a3654; }
-    .meta-label {
-      color: #6b7a99;
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 1.8px;
-      margin-bottom: 8px;
-    }
-    .meta-value {
-      color: #fff;
-      font-size: 17px;
-      font-weight: 600;
-      font-variant-numeric: tabular-nums;
-      letter-spacing: 0.3px;
-      line-height: 1.2;
-    }
-    .meta-value sub {
-      font-size: 0.7em;
-      color: #ffd166;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-    }
     .meta-detail {
       color: #4a5778;
       font-size: 11px;
@@ -1157,29 +1121,6 @@
       </div>
       <div class="portfolio-news-viewport">
         <div class="portfolio-news-track" id="portfolio-news-track"></div>
-      </div>
-    </div>
-
-    <div class="meta-strip investment-view">
-      <div class="meta-item">
-        <div class="meta-label">起点 INCEPTION</div>
-        <div class="meta-value">T<sub>0</sub> · 2022-11-30</div>
-        <div class="meta-detail">ChatGPT 公开发布日</div>
-      </div>
-      <div class="meta-item">
-        <div class="meta-label">基准 BASE</div>
-        <div class="meta-value">100.00</div>
-        <div class="meta-detail">归一化起点</div>
-      </div>
-      <div class="meta-item">
-        <div class="meta-label">计价 QUOTE</div>
-        <div class="meta-value" id="ccy-display">USD</div>
-        <div class="meta-detail" id="ccy-detail">FX 历史汇率折算</div>
-      </div>
-      <div class="meta-item">
-        <div class="meta-label">再平衡 REBALANCE</div>
-        <div class="meta-value" id="rebal-display">Weekly</div>
-        <div class="meta-detail" id="rebal-detail">每 5 个交易日重置权重</div>
       </div>
     </div>
 
@@ -3744,21 +3685,6 @@
         `${portfolio.footer}<span class="manifesto-footer-en">${portfolio.footerEn}</span>`,
         `${portfolio.footerEn}<span class="manifesto-footer-en">${portfolio.footer}</span>`
       );
-
-      const metaLabels = document.querySelectorAll(".meta-label");
-      const metaDetails = document.querySelectorAll(".meta-detail");
-      if (metaLabels.length >= 4) {
-        metaLabels[0].textContent = t("起点", "INCEPTION");
-        metaLabels[1].textContent = t("基准", "BASE");
-        metaLabels[2].textContent = t("计价", "QUOTE");
-        metaLabels[3].textContent = t("再平衡", "REBALANCE");
-      }
-      if (metaDetails.length >= 4) {
-        metaDetails[0].textContent = t("ChatGPT 公开发布日", "ChatGPT public launch date");
-        metaDetails[1].textContent = t("归一化起点", "Normalized starting point");
-        metaDetails[2].textContent = t("FX 历史汇率折算", "Converted with historical FX");
-        metaDetails[3].textContent = t("每 5 个交易日重置权重", "Weights reset every 5 trading days");
-      }
 
       document.querySelector("#period-group .control-group-label").textContent = t("周期", "Period");
       document.querySelector('#period-group button[data-period="D"] .btn-main').textContent = t("日", "Day");
