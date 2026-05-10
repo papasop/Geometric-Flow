@@ -35,13 +35,9 @@
     .top-mode-bar {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-end;
       gap: 14px;
       margin-bottom: 8px;
-    }
-    .top-mode-bar h1 {
-      margin: 0;
-      min-width: 0;
     }
     .top-mode-toggle {
       display: inline-flex;
@@ -1015,7 +1011,6 @@
 
   <div class="container">
     <div class="top-mode-bar">
-      <h1 id="page-title">无人机 <span style="color:#5e9eff;font-size:0.6em;font-weight:300;letter-spacing:2px;margin-left:8px">DRONE PORTFOLIO</span></h1>
       <div class="top-mode-toggle" id="top-mode-toggle" aria-label="Page mode">
         <button data-top-mode="investment" class="active">投资</button>
         <button data-top-mode="news">新闻</button>
@@ -3601,10 +3596,6 @@
     function renderStaticLanguage() {
       const portfolio = activePortfolio();
       document.querySelector(".floating-lang-toggle").title = t("页面语言 / 悬浮窗语言", "Page Language / Popover Language");
-      document.querySelector("#page-title").innerHTML = t(
-        `${portfolio.name} <span style="color:#5e9eff;font-size:0.6em;font-weight:300;letter-spacing:2px;margin-left:8px">${portfolio.nameEn.toUpperCase()}</span>`,
-        `${portfolio.nameEn} <span style="color:#5e9eff;font-size:0.6em;font-weight:300;letter-spacing:2px;margin-left:8px">${portfolio.name}</span>`
-      );
       document.querySelector('#top-mode-toggle button[data-top-mode="investment"]').textContent = t("投资", "Invest");
       document.querySelector('#top-mode-toggle button[data-top-mode="news"]').textContent = t("新闻", "News");
       document.querySelector("#news-view .news-header").textContent = t("新闻内容 · NEWS BRIEFS", "NEWS BRIEFS · 新闻内容");
