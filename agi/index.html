@@ -91,13 +91,15 @@
     }
     .news-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 12px;
     }
     .news-source {
-      display: block;
-      min-height: 76px;
-      padding: 13px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 170px;
+      padding: 15px 16px;
       background: #0f1626;
       border: 1px solid #1d2740;
       border-radius: 7px;
@@ -110,18 +112,32 @@
       border-color: rgba(94, 158, 255, 0.55);
       background: #121b2e;
     }
+    .news-kicker {
+      color: #5e9eff;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.1px;
+      text-transform: uppercase;
+    }
     .news-source strong {
       display: block;
       color: #fff;
-      font-size: 14px;
+      font-size: 15px;
+      line-height: 1.35;
       font-weight: 700;
-      margin-bottom: 4px;
     }
-    .news-source span {
-      display: block;
-      color: #6b7a99;
+    .news-source p {
+      margin: 0;
+      color: #a9b5cc;
+      font-size: 12px;
+      line-height: 1.55;
+    }
+    .news-link-text {
+      margin-top: auto;
+      color: #ffd166;
       font-size: 11px;
-      line-height: 1.45;
+      font-weight: 700;
+      letter-spacing: 0.4px;
     }
     /* === Manifesto block === */
     .manifesto {
@@ -1007,49 +1023,8 @@
     </div>
 
     <div class="news-view" id="news-view">
-      <div class="news-header">新闻源头 · NEWS SOURCES</div>
-      <div class="news-grid">
-        <a class="news-source" href="https://www.nytimes.com/" target="_blank" rel="noopener noreferrer">
-          <strong>NYT · 纽约时报</strong>
-          <span>全球新闻、商业、科技与深度调查</span>
-        </a>
-        <a class="news-source" href="https://www.wsj.com/" target="_blank" rel="noopener noreferrer">
-          <strong>WSJ · 华尔街日报</strong>
-          <span>市场、公司、宏观与金融新闻</span>
-        </a>
-        <a class="news-source" href="https://www.bbc.com/news" target="_blank" rel="noopener noreferrer">
-          <strong>BBC News</strong>
-          <span>国际新闻、地缘政治与公共事件</span>
-        </a>
-        <a class="news-source" href="https://www.cnn.com/" target="_blank" rel="noopener noreferrer">
-          <strong>CNN</strong>
-          <span>美国与全球突发新闻、政治和商业</span>
-        </a>
-        <a class="news-source" href="https://abcnews.go.com/" target="_blank" rel="noopener noreferrer">
-          <strong>ABC News</strong>
-          <span>美国新闻、国际事件与电视新闻源</span>
-        </a>
-        <a class="news-source" href="https://www.reuters.com/" target="_blank" rel="noopener noreferrer">
-          <strong>Reuters · 路透社</strong>
-          <span>全球市场、公司、政策与即时通讯社新闻</span>
-        </a>
-        <a class="news-source" href="https://apnews.com/" target="_blank" rel="noopener noreferrer">
-          <strong>AP · 美联社</strong>
-          <span>基础事实报道、突发新闻与国际通讯社</span>
-        </a>
-        <a class="news-source" href="https://www.bloomberg.com/" target="_blank" rel="noopener noreferrer">
-          <strong>Bloomberg · 彭博</strong>
-          <span>金融市场、公司、债券、货币与终端新闻</span>
-        </a>
-        <a class="news-source" href="https://www.ft.com/" target="_blank" rel="noopener noreferrer">
-          <strong>Financial Times · 金融时报</strong>
-          <span>全球商业、金融、经济与产业分析</span>
-        </a>
-        <a class="news-source" href="https://www.economist.com/" target="_blank" rel="noopener noreferrer">
-          <strong>The Economist · 经济学人</strong>
-          <span>全球宏观、地缘政治与长期趋势分析</span>
-        </a>
-      </div>
+      <div class="news-header">新闻内容 · NEWS BRIEFS</div>
+      <div class="news-grid"></div>
     </div>
 
     <div class="manifesto investment-view">
@@ -3108,17 +3083,77 @@
     let currentTopMode = "investment";
     let COMPONENTS_CONFIG = PORTFOLIOS[currentPortfolioKey].components;
     let CONFIG_BY_TICKER = Object.fromEntries(COMPONENTS_CONFIG.map((c) => [c.ticker, c]));
-    const NEWS_SOURCES = [
-      { name: "NYT", zh: "纽约时报", en: "The New York Times", url: "https://www.nytimes.com/", descZh: "全球新闻、商业、科技与深度调查", descEn: "Global news, business, technology, and investigations" },
-      { name: "WSJ", zh: "华尔街日报", en: "The Wall Street Journal", url: "https://www.wsj.com/", descZh: "市场、公司、宏观与金融新闻", descEn: "Markets, companies, macro, and financial news" },
-      { name: "BBC", zh: "BBC 新闻", en: "BBC News", url: "https://www.bbc.com/news", descZh: "国际新闻、地缘政治与公共事件", descEn: "International news, geopolitics, and public events" },
-      { name: "CNN", zh: "CNN", en: "CNN", url: "https://www.cnn.com/", descZh: "美国与全球突发新闻、政治和商业", descEn: "US and global breaking news, politics, and business" },
-      { name: "ABC", zh: "ABC 新闻", en: "ABC News", url: "https://abcnews.go.com/", descZh: "美国新闻、国际事件与电视新闻源", descEn: "US news, international events, and broadcast news" },
-      { name: "Reuters", zh: "路透社", en: "Reuters", url: "https://www.reuters.com/", descZh: "全球市场、公司、政策与即时通讯社新闻", descEn: "Global markets, companies, policy, and wire-service news" },
-      { name: "AP", zh: "美联社", en: "Associated Press", url: "https://apnews.com/", descZh: "基础事实报道、突发新闻与国际通讯社", descEn: "Fact-led reporting, breaking news, and global wire coverage" },
-      { name: "Bloomberg", zh: "彭博", en: "Bloomberg", url: "https://www.bloomberg.com/", descZh: "金融市场、公司、债券、货币与终端新闻", descEn: "Financial markets, companies, bonds, currencies, and terminal news" },
-      { name: "FT", zh: "金融时报", en: "Financial Times", url: "https://www.ft.com/", descZh: "全球商业、金融、经济与产业分析", descEn: "Global business, finance, economics, and industry analysis" },
-      { name: "Economist", zh: "经济学人", en: "The Economist", url: "https://www.economist.com/", descZh: "全球宏观、地缘政治与长期趋势分析", descEn: "Global macro, geopolitics, and long-term trend analysis" },
+    const NEWS_ITEMS = [
+      {
+        source: "NYT", zhSource: "纽约时报", enSource: "The New York Times", url: "https://www.nytimes.com/",
+        titleZh: "科技巨头、监管与资本市场的长期叙事",
+        titleEn: "Big tech, regulation, and the long arc of capital markets",
+        summaryZh: "关注 AI、平台经济、全球政治与社会结构变化，适合作为科技和宏观叙事的深度背景源。",
+        summaryEn: "Tracks AI, platform economics, global politics, and social-structure shifts as deep background for technology and macro narratives.",
+      },
+      {
+        source: "WSJ", zhSource: "华尔街日报", enSource: "The Wall Street Journal", url: "https://www.wsj.com/",
+        titleZh: "公司财报、交易、信用周期与产业链变化",
+        titleEn: "Earnings, deals, credit cycles, and supply-chain change",
+        summaryZh: "重点看企业盈利、资本开支、并购、信贷条件和华尔街资金定价，是投资视角的核心新闻源。",
+        summaryEn: "Focuses on earnings, capex, M&A, credit conditions, and Wall Street pricing as a core investor news source.",
+      },
+      {
+        source: "BBC", zhSource: "BBC 新闻", enSource: "BBC News", url: "https://www.bbc.com/news",
+        titleZh: "全球地缘政治、公共事件与国际秩序",
+        titleEn: "Global geopolitics, public events, and international order",
+        summaryZh: "用于观察战争、选举、公共卫生、能源和社会冲突等跨区域事件，补充美国媒体之外的全球视角。",
+        summaryEn: "Useful for tracking war, elections, public health, energy, and social conflict with a broader global lens.",
+      },
+      {
+        source: "CNN", zhSource: "CNN", enSource: "CNN", url: "https://www.cnn.com/",
+        titleZh: "美国政治、突发新闻与大众舆论节奏",
+        titleEn: "US politics, breaking news, and mainstream sentiment rhythm",
+        summaryZh: "适合捕捉美国政治议程、突发事件和大众媒体叙事速度，帮助判断新闻热度扩散。",
+        summaryEn: "Captures US political agenda-setting, breaking events, and the speed at which mainstream narratives spread.",
+      },
+      {
+        source: "ABC", zhSource: "ABC 新闻", enSource: "ABC News", url: "https://abcnews.go.com/",
+        titleZh: "电视新闻源、美国社会事件与公共议题",
+        titleEn: "Broadcast news, US social events, and public issues",
+        summaryZh: "补充美国电视新闻网络视角，覆盖社会议题、法律事件、政治采访和国际突发新闻。",
+        summaryEn: "Adds a US broadcast-news perspective across social issues, legal events, political interviews, and breaking global stories.",
+      },
+      {
+        source: "Reuters", zhSource: "路透社", enSource: "Reuters", url: "https://www.reuters.com/",
+        titleZh: "事实优先的公司、市场、政策和全球快讯",
+        titleEn: "Fact-first company, market, policy, and global wires",
+        summaryZh: "适合核对公司公告、政策变化、战争进展、商品与宏观数据，作为事件确认的基础源。",
+        summaryEn: "Useful for verifying company announcements, policy shifts, war developments, commodities, and macro data.",
+      },
+      {
+        source: "AP", zhSource: "美联社", enSource: "Associated Press", url: "https://apnews.com/",
+        titleZh: "基础事实报道与全球突发事件底稿",
+        titleEn: "Baseline fact reporting and global breaking-news copy",
+        summaryZh: "覆盖政治、灾害、法院、国际与公共安全事件，适合作为非观点化事实底稿。",
+        summaryEn: "Covers politics, disasters, courts, international affairs, and public-safety events as a non-opinionated fact base.",
+      },
+      {
+        source: "Bloomberg", zhSource: "彭博", enSource: "Bloomberg", url: "https://www.bloomberg.com/",
+        titleZh: "资产价格、宏观交易、公司融资与政策信号",
+        titleEn: "Asset prices, macro trades, corporate finance, and policy signals",
+        summaryZh: "重点跟踪利率、外汇、债券、商品、股票和企业融资，是市场交易节奏的重要新闻源。",
+        summaryEn: "Tracks rates, FX, bonds, commodities, equities, and corporate finance as a market-rhythm source.",
+      },
+      {
+        source: "FT", zhSource: "金融时报", enSource: "Financial Times", url: "https://www.ft.com/",
+        titleZh: "全球商业、金融体系、产业政策与资本流动",
+        titleEn: "Global business, financial systems, industrial policy, and capital flows",
+        summaryZh: "适合理解欧洲、亚洲、跨国公司、监管和资本流向背后的结构性变化。",
+        summaryEn: "Helps interpret structural shifts behind Europe, Asia, multinationals, regulation, and capital flows.",
+      },
+      {
+        source: "Economist", zhSource: "经济学人", enSource: "The Economist", url: "https://www.economist.com/",
+        titleZh: "长期宏观、制度竞争、科技扩散与文明尺度趋势",
+        titleEn: "Long-run macro, institutional competition, technology diffusion, and civilizational trends",
+        summaryZh: "用于抽象长期变量：国家能力、技术扩散、人口结构、全球贸易和制度竞争。",
+        summaryEn: "Frames long-run variables: state capacity, technology diffusion, demographics, global trade, and institutional competition.",
+      },
     ];
 
     async function loadData() {
@@ -3542,10 +3577,12 @@
     function renderNewsSources() {
       const grid = document.querySelector("#news-view .news-grid");
       if (!grid) return;
-      grid.innerHTML = NEWS_SOURCES.map((source) => `
-        <a class="news-source" href="${source.url}" target="_blank" rel="noopener noreferrer">
-          <strong>${source.name} · ${t(source.zh, source.en)}</strong>
-          <span>${t(source.descZh, source.descEn)}</span>
+      grid.innerHTML = NEWS_ITEMS.map((item) => `
+        <a class="news-source" href="${item.url}" target="_blank" rel="noopener noreferrer">
+          <span class="news-kicker">${item.source} · ${t(item.zhSource, item.enSource)}</span>
+          <strong>${t(item.titleZh, item.titleEn)}</strong>
+          <p>${t(item.summaryZh, item.summaryEn)}</p>
+          <span class="news-link-text">${t("打开原文", "Open source")}</span>
         </a>
       `).join("");
     }
@@ -3570,7 +3607,7 @@
       );
       document.querySelector('#top-mode-toggle button[data-top-mode="investment"]').textContent = t("投资", "Invest");
       document.querySelector('#top-mode-toggle button[data-top-mode="news"]').textContent = t("新闻", "News");
-      document.querySelector("#news-view .news-header").textContent = t("新闻源头 · NEWS SOURCES", "NEWS SOURCES · 新闻源头");
+      document.querySelector("#news-view .news-header").textContent = t("新闻内容 · NEWS BRIEFS", "NEWS BRIEFS · 新闻内容");
       renderNewsSources();
       renderTopMode();
 
