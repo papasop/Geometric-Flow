@@ -223,7 +223,11 @@ def classify(item: dict[str, str]) -> tuple[list[str], list[str]]:
     matched = []
     tags = []
     for portfolio, keywords in PORTFOLIO_KEYWORDS.items():
-        hits = [keyword for keyword in keywords if keyword.lower() in text]
+        hits = []
+        for keyword in keywords:
+            keyword_l = keyword.lower()
+            if re.search(rf"(?<![a-z0-9]){re.escape(keyword_l)}(?![a-z0-9])", text):
+                hits.append(keyword)
         if hits:
             matched.append(portfolio)
             tags.extend(hits[:3])
