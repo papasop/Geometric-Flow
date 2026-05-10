@@ -3558,18 +3558,6 @@
       }[ch]));
     }
 
-    function localizedNewsTitle(item) {
-      return popoverLang === "en"
-        ? (item.titleEn || item.title || item.titleZh || "")
-        : (item.titleZh || item.title || item.titleEn || "");
-    }
-
-    function localizedNewsSummary(item) {
-      return popoverLang === "en"
-        ? (item.summaryEn || item.summary || item.summaryZh || "")
-        : (item.summaryZh || item.summary || item.summaryEn || "");
-    }
-
     const NEWS_SOURCE_LABELS = {
       Reuters: { zh: "路透社", en: "Reuters" },
       AP: { zh: "美联社", en: "Associated Press" },
@@ -3596,6 +3584,47 @@
       const source = item.source || "NEWS";
       const mapped = NEWS_SOURCE_LABELS[source] || {};
       return t(item.zhSource || mapped.zh || source, item.enSource || mapped.en || source);
+    }
+
+    function shortenText(value, max = 150) {
+      const text = String(value || "").trim();
+      return text.length > max ? `${text.slice(0, max - 1)}…` : text;
+    }
+
+    function newsPortfolioLabels(item) {
+      const keys = (item.matchedPortfolios || []).filter((key) => PORTFOLIOS[key]);
+      const selected = keys.includes(currentPortfolioKey)
+        ? [currentPortfolioKey]
+        : keys.slice(0, 2);
+      const fallback = [currentPortfolioKey].filter((key) => PORTFOLIOS[key]);
+      return (selected.length ? selected : fallback).map((key) => PORTFOLIOS[key].name);
+    }
+
+    function synthesizedChineseNewsTitle(item) {
+      if (item.titleZh) return item.titleZh;
+      const portfolioText = newsPortfolioLabels(item).join(" / ");
+      return `${portfolioText} · ${localizedNewsSource(item)}摘要`;
+    }
+
+    function synthesizedChineseNewsSummary(item) {
+      if (item.summaryZh) return item.summaryZh;
+      const portfolioText = newsPortfolioLabels(item).join(" / ");
+      const rawTitle = item.title || item.titleEn || item.summary || "";
+      const tags = (item.tags || []).slice(0, 4).join(" / ");
+      const tagText = tags ? `关键词：${tags}。` : "";
+      return shortenText(`${localizedNewsSource(item)}新闻匹配到${portfolioText}。${tagText}英文原题：${rawTitle}`, 180);
+    }
+
+    function localizedNewsTitle(item) {
+      return popoverLang === "en"
+        ? (item.titleEn || item.title || item.titleZh || synthesizedChineseNewsTitle(item))
+        : synthesizedChineseNewsTitle(item);
+    }
+
+    function localizedNewsSummary(item) {
+      return popoverLang === "en"
+        ? (item.summaryEn || item.summary || item.summaryZh || item.title || "")
+        : synthesizedChineseNewsSummary(item);
     }
 
     function portfolioNewsKeywords(portfolio = activePortfolio(), key = currentPortfolioKey) {
