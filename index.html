@@ -1018,7 +1018,7 @@
     </div>
 
     <div class="news-view" id="news-view">
-      <div class="news-header">新闻内容 · NEWS BRIEFS</div>
+      <div class="news-header">新闻摘要 · NEWS DIGEST</div>
       <div class="news-grid"></div>
     </div>
 
@@ -3577,7 +3577,7 @@
           <span class="news-kicker">${item.source} · ${t(item.zhSource, item.enSource)}</span>
           <strong>${t(item.titleZh, item.titleEn)}</strong>
           <p>${t(item.summaryZh, item.summaryEn)}</p>
-          <span class="news-link-text">${t("打开原文", "Open source")}</span>
+          <span class="news-link-text">${t("原文链接", "Source link")}</span>
         </a>
       `).join("");
     }
@@ -3598,7 +3598,7 @@
       document.querySelector(".floating-lang-toggle").title = t("页面语言 / 悬浮窗语言", "Page Language / Popover Language");
       document.querySelector('#top-mode-toggle button[data-top-mode="investment"]').textContent = t("投资", "Invest");
       document.querySelector('#top-mode-toggle button[data-top-mode="news"]').textContent = t("新闻", "News");
-      document.querySelector("#news-view .news-header").textContent = t("新闻内容 · NEWS BRIEFS", "NEWS BRIEFS · 新闻内容");
+      document.querySelector("#news-view .news-header").textContent = t("新闻摘要 · NEWS DIGEST", "NEWS DIGEST · 新闻摘要");
       renderNewsSources();
       renderTopMode();
 
