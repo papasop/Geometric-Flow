@@ -95,6 +95,12 @@
       font-size: 12px;
       line-height: 1.55;
     }
+    .news-source .news-card-meta {
+      color: #7f8aa5;
+      font-size: 11px;
+      font-weight: 650;
+      letter-spacing: 0.2px;
+    }
     .news-link-text {
       margin-top: auto;
       color: #ffd166;
@@ -3699,15 +3705,17 @@
 
     function localizedNewsMeta(item) {
       const parts = [];
-      if (item.author) parts.push(item.author);
+      const author = item.author || localizedNewsSource(item);
       const updated = shortNewsDate(item.updatedAt);
       const first = shortNewsDate(item.firstPublishedAt || item.publishedAt);
       if (popoverLang === "en") {
-        if (updated) parts.push(`Updated ${updated}`);
-        else if (first) parts.push(`Published ${first}`);
+        parts.push(`Author ${author}`);
+        if (updated) parts.push(`Time ${updated}`);
+        else parts.push(`Time ${first || "N/A"}`);
       } else {
-        if (updated) parts.push(`更新 ${updated}`);
-        else if (first) parts.push(`发布 ${first}`);
+        parts.push(`作者 ${author}`);
+        if (updated) parts.push(`时间 ${updated}`);
+        else parts.push(`时间 ${first || "未提供"}`);
       }
       return parts.join(" · ");
     }
@@ -3757,6 +3765,7 @@
         <a class="news-source" href="${escapeHtml(item.url || "#")}" target="_blank" rel="noopener noreferrer">
           <span class="news-kicker">${escapeHtml(localizedNewsSource(item))}</span>
           <strong>${escapeHtml(localizedNewsTitle(item))}</strong>
+          <span class="news-card-meta">${escapeHtml(localizedNewsMeta(item))}</span>
           <p>${escapeHtml(localizedNewsSummary(item))}</p>
           <span class="news-link-text">${t("原文链接", "Source link")}</span>
         </a>
