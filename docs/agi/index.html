@@ -4422,9 +4422,9 @@
       });
     });
 
-    document.getElementById("period-group").addEventListener("click", (e) => {
+    document.querySelector("#period-group .compact-control-menu").addEventListener("click", (e) => {
       const btn = e.target.closest("button[data-period]");
-      if (!btn) return;
+      if (!btn || !e.currentTarget.contains(btn)) return;
       e.preventDefault();
       e.stopPropagation();
       e.stopImmediatePropagation();
@@ -4435,9 +4435,9 @@
       document.getElementById("period-group").open = false;
       renderChartOnly();
     });
-    document.getElementById("type-group").addEventListener("click", (e) => {
+    document.querySelector("#type-group .compact-control-menu").addEventListener("click", (e) => {
       const btn = e.target.closest("button[data-type]");
-      if (!btn) return;
+      if (!btn || !e.currentTarget.contains(btn)) return;
       e.preventDefault();
       e.stopPropagation();
       e.stopImmediatePropagation();
