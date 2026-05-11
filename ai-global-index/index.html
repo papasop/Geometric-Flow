@@ -1211,6 +1211,8 @@
               <button data-rank="return">总涨幅</button>
               <button data-rank="contribution">贡献</button>
               <button data-rank="grossMargin" hidden>毛利率</button>
+              <button data-rank="revenue" hidden>销售额</button>
+              <button data-rank="freeCashFlow" hidden>自由现金流</button>
             </div>
           </div>
           <span class="components-header-total">
@@ -2820,6 +2822,8 @@
             concept: "高端白酒 + 稀缺品牌定价权",
             conceptEn: "Premium baijiu + scarce brand pricing power",
             grossMargin: 91.8,
+            revenueUsdB: 24.2,
+            freeCashFlowUsdB: 12.6,
             grossMarginPeriod: "FY2025",
             marketCap: 260.0,
             seed: 519, base: 1550, vol: 0.018, drift: 0.00010 },
@@ -2827,6 +2831,8 @@
             concept: "消费电子生态 + 服务收入",
             conceptEn: "Consumer-electronics ecosystem + services revenue",
             grossMargin: 46.9,
+            revenueUsdB: 408.6,
+            freeCashFlowUsdB: 104.0,
             grossMarginPeriod: "FY2025",
             marketCap: 3000.0,
             seed: 1984, base: 145, vol: 0.020, drift: 0.00024 },
@@ -2834,6 +2840,8 @@
             concept: "全球饮料品牌 + 分销网络",
             conceptEn: "Global beverage brand + distribution network",
             grossMargin: 60.8,
+            revenueUsdB: 47.1,
+            freeCashFlowUsdB: 9.8,
             grossMarginPeriod: "FY2025",
             marketCap: 285.0,
             seed: 1886, base: 62, vol: 0.010, drift: 0.00008 },
@@ -2841,6 +2849,8 @@
             concept: "潮玩 IP + 情绪消费",
             conceptEn: "Collectible IP + emotional consumption",
             grossMargin: 66.8,
+            revenueUsdB: 2.0,
+            freeCashFlowUsdB: 0.4,
             grossMarginPeriod: "FY2025",
             marketCap: 40.0,
             seed: 9992, base: 22, vol: 0.035, drift: 0.00025 },
@@ -2848,6 +2858,8 @@
             concept: "新闻品牌 + 内容订阅",
             conceptEn: "News brand + content subscriptions",
             grossMargin: 49.6,
+            revenueUsdB: 2.7,
+            freeCashFlowUsdB: 0.3,
             grossMarginPeriod: "FY2025",
             marketCap: 9.0,
             seed: 1851, base: 35, vol: 0.018, drift: 0.00016 },
@@ -2855,6 +2867,8 @@
             concept: "设计师服装品牌 + 高粘性会员",
             conceptEn: "Designer-apparel brand + sticky membership base",
             grossMargin: 65.9,
+            revenueUsdB: 0.7,
+            freeCashFlowUsdB: 0.1,
             grossMarginPeriod: "FY2025",
             marketCap: 1.3,
             seed: 3306, base: 9, vol: 0.022, drift: 0.00016 },
@@ -4034,6 +4048,8 @@
       document.querySelector('[data-rank="return"]').textContent = t("总涨幅", "Return");
       document.querySelector('[data-rank="contribution"]').textContent = t("贡献", "Contribution");
       document.querySelector('[data-rank="grossMargin"]').textContent = t("毛利率", "Gross Margin");
+      document.querySelector('[data-rank="revenue"]').textContent = t("销售额", "Revenue");
+      document.querySelector('[data-rank="freeCashFlow"]').textContent = t("自由现金流", "Free Cash Flow");
       updateComponentRankControls();
       document.getElementById("total-mcap-label").textContent = t("总市值 / TOTAL CAP", "TOTAL MARKET CAP");
       const eventTheme = activeEventTheme();
@@ -4577,6 +4593,13 @@
       return (Math.abs(pct - Math.round(pct)) < 0.01 ? pct.toFixed(0) : pct.toFixed(2)) + "%";
     }
 
+    function formatFinancialB(value) {
+      if (!Number.isFinite(value)) return "—";
+      if (Math.abs(value) >= 100) return `$${value.toFixed(0)}B`;
+      if (Math.abs(value) >= 10) return `$${value.toFixed(1)}B`;
+      return `$${value.toFixed(2)}B`;
+    }
+
     function componentCloseInCurrency(component, idx) {
       const bar = component.data[idx];
       return normalizeBarForComponent(component, bar).close * convRate(component.ccy, currentCurrency, rawData.fx, idx);
@@ -4633,6 +4656,8 @@
         return: (a, b) => (a.status === "prelist") - (b.status === "prelist") || b.totalReturn - a.totalReturn,
         contribution: (a, b) => (a.status === "prelist") - (b.status === "prelist") || b.contribution - a.contribution,
         grossMargin: (a, b) => (a.status === "prelist") - (b.status === "prelist") || (b.grossMargin || 0) - (a.grossMargin || 0),
+        revenue: (a, b) => (a.status === "prelist") - (b.status === "prelist") || (b.revenueUsdB || 0) - (a.revenueUsdB || 0),
+        freeCashFlow: (a, b) => (a.status === "prelist") - (b.status === "prelist") || (b.freeCashFlowUsdB || 0) - (a.freeCashFlowUsdB || 0),
       };
       rows.sort(sorters[currentComponentRank] || sorters.weight);
       const metricValue = (c) => {
@@ -4641,6 +4666,8 @@
         if (currentComponentRank === "return") return Math.abs(c.totalReturn);
         if (currentComponentRank === "contribution") return Math.abs(c.contribution);
         if (currentComponentRank === "grossMargin") return c.grossMargin || 0;
+        if (currentComponentRank === "revenue") return c.revenueUsdB || 0;
+        if (currentComponentRank === "freeCashFlow") return Math.abs(c.freeCashFlowUsdB || 0);
         return c.weight * 100;
       };
       const maxMetric = currentComponentRank === "mcap"
@@ -4668,6 +4695,10 @@
               ? metricBar(c, formatContribution(c.contribution), t("贡献", "Contribution"), c.contribution >= 0 ? "up" : "down")
               : currentComponentRank === "grossMargin"
                 ? metricBar(c, `${(c.grossMargin || 0).toFixed(1)}%`, t(`财报毛利率 · ${c.grossMarginPeriod || "FY"}`, `Gross Margin · ${c.grossMarginPeriod || "FY"}`))
+              : currentComponentRank === "revenue"
+                ? metricBar(c, formatFinancialB(c.revenueUsdB), t(`销售额 · ${c.grossMarginPeriod || "FY"} · USD`, `Revenue · ${c.grossMarginPeriod || "FY"} · USD`))
+              : currentComponentRank === "freeCashFlow"
+                ? metricBar(c, formatFinancialB(c.freeCashFlowUsdB), t(`自由现金流 · ${c.grossMarginPeriod || "FY"} · USD`, `Free Cash Flow · ${c.grossMarginPeriod || "FY"} · USD`), (c.freeCashFlowUsdB || 0) >= 0 ? "up" : "down")
               : metricBar(c, formatMcap(c.marketCap), `${c.mcapPct.toFixed(1)}%`);
         return `<div class="component-row${isPrelist ? ' component-row--prelist' : ''}">
           <span class="component-rank">${i + 1}</span>
@@ -4682,15 +4713,16 @@
 
     function updateComponentRankControls() {
       const enabled = investmentRanksEnabled();
+      const brandFinancialRanks = ["grossMargin", "revenue", "freeCashFlow"];
       if (!enabled && investmentRankKeys().includes(currentComponentRank)) {
         currentComponentRank = "weight";
       }
-      if (currentComponentRank === "grossMargin" && currentPortfolioKey !== "brand") {
+      if (brandFinancialRanks.includes(currentComponentRank) && currentPortfolioKey !== "brand") {
         currentComponentRank = "weight";
       }
       document.querySelectorAll("#components-rank-group button[data-rank]").forEach((btn) => {
         const isInvestmentRank = investmentRankKeys().includes(btn.dataset.rank);
-        const isBrandRank = btn.dataset.rank === "grossMargin";
+        const isBrandRank = brandFinancialRanks.includes(btn.dataset.rank);
         btn.hidden = (isInvestmentRank && !enabled) || (isBrandRank && currentPortfolioKey !== "brand");
         btn.classList.toggle("active", btn.dataset.rank === currentComponentRank);
       });
