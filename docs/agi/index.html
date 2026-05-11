@@ -3672,6 +3672,12 @@
       WWD: { zh: "WWD", en: "WWD" },
       "MINING.COM": { zh: "MINING.COM", en: "MINING.COM" },
       "Mining Technology": { zh: "Mining Technology", en: "Mining Technology" },
+      "Lidar Magazine": { zh: "Lidar Magazine", en: "Lidar Magazine" },
+      "The Robot Report": { zh: "The Robot Report", en: "The Robot Report" },
+      Electrek: { zh: "Electrek", en: "Electrek" },
+      "Automotive World": { zh: "Automotive World", en: "Automotive World" },
+      "Robotics & Automation News": { zh: "Robotics & Automation News", en: "Robotics & Automation News" },
+      "Autonomous Vehicle International": { zh: "Autonomous Vehicle International", en: "Autonomous Vehicle International" },
       "Barron's Technology": { zh: "巴伦科技", en: "Barron's Technology" },
       "Barron's Markets": { zh: "巴伦市场", en: "Barron's Markets" },
       SpaceNews: { zh: "SpaceNews", en: "SpaceNews" },
@@ -3707,8 +3713,10 @@
         "spir", "planet labs", "l3harris", "lhx", "spacex", "unseenlabs", "palantir", "pltr"
       ],
       "lidar-camera": [
-        "lidar", "liDAR", "laser radar", "laser camera", "3d sensing", "3d sensor",
-        "autonomous driving perception", "robotic vision", "automotive lidar",
+        "lidar", "laser radar", "laser camera", "3d sensing", "3d sensor", "3d perception",
+        "autonomous driving perception", "robotic vision", "automotive lidar", "adas sensor",
+        "machine vision", "vision system", "perception sensor", "autonomous vehicle",
+        "self-driving", "driverless", "robotaxi",
         "激光雷达", "激光摄像头", "自动驾驶感知", "机器人视觉", "速腾聚创", "robosense",
         "02498", "禾赛", "hesai", "02525", "图达通", "innovusion", "02665", "ouster", "oust"
       ],
@@ -3776,6 +3784,10 @@
     const BRAND_NEWS_EXCLUDE_KEYWORDS = [
       "chip", "chips", "semiconductor", "semiconductors", "foundry", "wafer",
       "tsmc", "nvidia", "gpu", "ai accelerator", "advanced packaging"
+    ];
+
+    const LIDAR_NEWS_EXCLUDE_KEYWORDS = [
+      "chip industry week", "semiconductor", "semiconductors"
     ];
 
     function localizedNewsSource(item) {
@@ -3848,6 +3860,9 @@
     function portfolioMatchedNewsKeywords(item, key = currentPortfolioKey, portfolio = PORTFOLIOS[key] || activePortfolio()) {
       const text = newsSearchText(item);
       if (key === "brand" && BRAND_NEWS_EXCLUDE_KEYWORDS.some((keyword) => newsTextHasKeyword(text, keyword))) {
+        return [];
+      }
+      if (key === "lidar-camera" && LIDAR_NEWS_EXCLUDE_KEYWORDS.some((keyword) => newsTextHasKeyword(text, keyword))) {
         return [];
       }
       return portfolioNewsKeywords(portfolio, key).filter((keyword) => newsTextHasKeyword(text, keyword));

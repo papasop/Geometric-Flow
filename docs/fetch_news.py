@@ -65,6 +65,12 @@ OFFICIAL_SOURCES = [
     {"name": "WWD", "url": "https://wwd.com/feed/"},
     {"name": "MINING.COM", "url": "https://www.mining.com/feed/"},
     {"name": "Mining Technology", "url": "https://www.mining-technology.com/feed/"},
+    {"name": "Lidar Magazine", "url": "https://lidarmag.com/feed/"},
+    {"name": "The Robot Report", "url": "https://www.therobotreport.com/feed/"},
+    {"name": "Electrek", "url": "https://electrek.co/feed/"},
+    {"name": "Automotive World", "url": "https://www.automotiveworld.com/feed/"},
+    {"name": "Robotics & Automation News", "url": "https://roboticsandautomationnews.com/feed/"},
+    {"name": "Autonomous Vehicle International", "url": "https://www.autonomousvehicleinternational.com/feed"},
     {"name": "SpaceNews", "url": "https://spacenews.com/feed/"},
     {"name": "Defense News", "url": "https://www.defensenews.com/arc/outboundfeeds/rss/?outputType=xml"},
     {"name": "C4ISRNET", "url": "https://www.c4isrnet.com/arc/outboundfeeds/rss/?outputType=xml"},
@@ -94,6 +100,13 @@ PORTFOLIO_KEYWORDS = {
         "satellite", "space", "geospatial", "imagery", "isr", "rf", "signal intelligence",
         "palantir", "pltr", "blacksky", "bksy", "spire", "spir", "rocket lab", "rklb",
         "planet labs", "l3harris", "lhx", "spacex", "unseenlabs", "nasa", "esa",
+    ],
+    "lidar-camera": [
+        "lidar", "laser radar", "laser camera", "3d sensing", "3d sensor", "3d perception",
+        "autonomous driving perception", "robotic vision", "automotive lidar", "adas sensor",
+        "machine vision", "vision system", "perception sensor", "autonomous vehicle",
+        "self-driving", "driverless", "robotaxi", "robosense", "速腾聚创", "02498",
+        "hesai", "禾赛", "02525", "innovusion", "图达通", "02665", "ouster", "oust",
     ],
     "ai-software": [
         "saas", "software", "agent", "ai", "cloud", "salesforce", "crm", "snowflake", "snow",
@@ -149,6 +162,14 @@ BRAND_EXCLUDE_KEYWORDS = [
     "chip", "chips", "semiconductor", "semiconductors", "foundry", "wafer",
     "tsmc", "nvidia", "gpu", "ai accelerator", "advanced packaging",
 ]
+
+LIDAR_EXCLUDE_KEYWORDS = [
+    "chip industry week", "semiconductor", "semiconductors",
+]
+
+SOURCE_PORTFOLIO_MATCHES = {
+    "Lidar Magazine": ["lidar-camera"],
+}
 
 NEWS_OVERRIDES = [
     {
@@ -461,10 +482,14 @@ def fetch_event_registry(api_key: str) -> tuple[list[dict[str, object]], list[di
 
 def classify(item: dict[str, str]) -> tuple[list[str], list[str]]:
     text = " ".join([item.get("source", ""), item.get("title", ""), item.get("summary", "")]).lower()
-    matched = []
+    matched = list(SOURCE_PORTFOLIO_MATCHES.get(item.get("source", ""), []))
     tags = []
+    if matched:
+        tags.append(item.get("source", "industry source"))
     for portfolio, keywords in PORTFOLIO_KEYWORDS.items():
         if portfolio == "brand" and any(keyword in text for keyword in BRAND_EXCLUDE_KEYWORDS):
+            continue
+        if portfolio == "lidar-camera" and any(keyword in text for keyword in LIDAR_EXCLUDE_KEYWORDS):
             continue
         hits = []
         for keyword in keywords:
@@ -474,7 +499,7 @@ def classify(item: dict[str, str]) -> tuple[list[str], list[str]]:
         if hits:
             matched.append(portfolio)
             tags.extend(hits[:3])
-    return matched, sorted(set(tags))[:10]
+    return sorted(set(matched)), sorted(set(tags))[:10]
 
 
 def apply_news_overrides(item: dict[str, object]) -> None:
@@ -540,7 +565,7 @@ def main() -> int:
         except (urllib.error.URLError, TimeoutError, socket.timeout, ET.ParseError, ValueError, OSError) as exc:
             source_status.append({"name": source["name"], "url": source["url"], "status": "error", "error": str(exc)[:180], "count": 0})
 
-    items.sort(key=lambda item: item.get("publishedAt") or "", reverse=True)
+    items.sort(key=lambda item: (bool(item.get("matchedPortfolios")), item.get("publishedAt") or ""), reverse=True)
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "strategy": {
