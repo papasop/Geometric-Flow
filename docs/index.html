@@ -109,7 +109,7 @@
       letter-spacing: 0.4px;
     }
     .portfolio-news-strip {
-      margin: -6px 0 18px;
+      margin: 0;
       padding: 12px 14px;
       background: #0f1626;
       border: 1px solid #1d2740;
@@ -118,7 +118,8 @@
     }
     .portfolio-news-row {
       display: block !important;
-      margin: 4px 0 13px 98px;
+      grid-column: 1 / -1;
+      margin: 8px 0 0 98px;
       color: inherit;
       line-height: 1;
     }
@@ -3548,7 +3549,8 @@
               <span class="m-key">${name}</span><span class="pillar-en">${subName}</span>
               <span class="pillar-meta"><span>${mcapLabel} <b>${formatMcap(row.totalMcap)}</b></span><span>${returnLabel} <b>${formatSignedPct(row.totalReturn)}</b></span></span>
             </span>
-          </li>${portfolioNewsStripHtml(row.key, row.portfolio)}`;
+            ${portfolioNewsStripHtml(row.key, row.portfolio)}
+          </li>`;
         }).join("");
         return `<li class="portfolio-category">${portfolioCategoryLabel(groupKey)}</li>${items}`;
       }).join("");
@@ -3804,7 +3806,7 @@
       if (!items.length) return "";
       const doubled = items.concat(items);
       const updated = formatNewsDate(newsMeta?.generatedAt);
-      return `<li class="portfolio-news-row" data-news-for="${escapeHtml(key)}">
+      return `<div class="portfolio-news-row" data-news-for="${escapeHtml(key)}">
         <div class="portfolio-news-strip portfolio-news-inline">
           <div class="portfolio-news-header">
             <span>${escapeHtml(t("组合新闻 · 滚动摘要", "Portfolio News · Scrolling Digest"))}</span>
@@ -3823,7 +3825,7 @@
             </div>
           </div>
         </div>
-      </li>`;
+      </div>`;
     }
 
     async function loadNewsData() {
