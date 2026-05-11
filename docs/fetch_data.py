@@ -68,6 +68,10 @@ COMPONENTS = [
     {"name": "Spire Global", "short": "SPIR", "ticker": "SPIR", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "Planet Labs", "short": "PL", "ticker": "PL", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "L3Harris Technologies", "short": "LHX", "ticker": "LHX", "ccy": "USD", "sleeve": "US", "status": "active"},
+    {"name": "速腾聚创", "short": "速腾聚创", "ticker": "02498.HK", "ccy": "HKD", "sleeve": "CN", "status": "active"},
+    {"name": "禾赛-W", "short": "禾赛", "ticker": "02525.HK", "ccy": "HKD", "sleeve": "CN", "status": "active"},
+    {"name": "图达通", "short": "图达通", "ticker": "02665.HK", "ccy": "HKD", "sleeve": "CN", "status": "active"},
+    {"name": "Ouster", "short": "OUST", "ticker": "OUST", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "Salesforce", "short": "CRM", "ticker": "CRM", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "MongoDB", "short": "MDB", "ticker": "MDB", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "Pegasystems", "short": "PEGA", "ticker": "PEGA", "ccy": "USD", "sleeve": "US", "status": "active"},
@@ -294,6 +298,10 @@ TARGET_WEIGHTS = {
     "SPIR": 0.0,
     "PL": 0.0,
     "LHX": 0.0,
+    "02498.HK": 0.0,
+    "02525.HK": 0.0,
+    "02665.HK": 0.0,
+    "OUST": 0.0,
     "CRM": 0.0,
     "MDB": 0.0,
     "PEGA": 0.0,
@@ -575,6 +583,11 @@ TICKER_CONTINUATIONS = {
     "SPACEX": ["SPACEX", "SPACE"],
     # Unseenlabs is private; this placeholder keeps the watch ready to activate.
     "UNSEENLABS": ["UNSEENLABS"],
+    # Hong Kong exchange codes are sometimes entered with a leading zero in the
+    # UI, while Yahoo's chart endpoint uses the four-digit exchange code.
+    "02498.HK": ["2498.HK"],
+    "02525.HK": ["2525.HK"],
+    "02665.HK": ["2665.HK"],
 }
 
 
