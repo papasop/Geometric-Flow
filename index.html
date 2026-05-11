@@ -3763,7 +3763,12 @@
 
     function synthesizedChineseNewsTitle(item, fallbackKey = currentPortfolioKey) {
       if (item.titleZh) return item.titleZh;
-      return item.title || item.titleEn || `${newsPortfolioLabels(item, fallbackKey).join(" / ")} · ${localizedNewsSource(item)}新闻更新`;
+      const portfolioText = newsPortfolioLabels(item, fallbackKey).join(" / ");
+      const originalTitle = item.title || item.titleEn || "";
+      if (originalTitle) {
+        return `${portfolioText} · ${localizedNewsSource(item)}｜${shortenText(originalTitle, 96)}`;
+      }
+      return `${portfolioText} · ${localizedNewsSource(item)}新闻更新`;
     }
 
     function synthesizedChineseNewsSummary(item, fallbackKey = currentPortfolioKey) {
