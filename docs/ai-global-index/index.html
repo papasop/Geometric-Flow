@@ -213,70 +213,6 @@
       font-size: 11px;
       line-height: 1.45;
     }
-    .portfolio-heat-row {
-      grid-column: 1 / -1;
-      margin: 8px 0 8px;
-      padding: 8px 10px;
-      background: #0d1423;
-      border: 1px solid #1a2440;
-      border-radius: 8px;
-    }
-    .portfolio-heat-header {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      color: #26a69a;
-      font-size: 9px;
-      font-weight: 800;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-      margin-bottom: 7px;
-    }
-    .portfolio-heat-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-    .portfolio-heat-periods {
-      display: grid;
-      gap: 7px;
-    }
-    .portfolio-heat-period {
-      display: grid;
-      grid-template-columns: 42px 1fr;
-      align-items: center;
-      gap: 8px;
-    }
-    .portfolio-heat-period-title {
-      color: #8a96b3;
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
-    }
-    .portfolio-heat-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      min-height: 28px;
-      padding: 5px 8px;
-      background: #101a2d;
-      border: 1px solid #22304d;
-      border-radius: 6px;
-      color: #dce6f7;
-      font-size: 11px;
-      font-weight: 700;
-    }
-    .portfolio-heat-chip b {
-      color: #26a69a;
-      font-size: 10px;
-      font-weight: 800;
-    }
-    .portfolio-heat-chip span {
-      color: #7f8aa5;
-      font-size: 10px;
-      font-weight: 700;
-    }
     @keyframes news-scroll {
       from { transform: translateX(0); }
       to { transform: translateX(-50%); }
@@ -4117,93 +4053,6 @@
         .filter((alias, index, all) => alias.length >= 2 && all.indexOf(alias) === index);
     }
 
-    const HEAT_PERIODS = [
-      { key: "D", zh: "日", en: "Day", days: 1 },
-      { key: "W", zh: "周", en: "Week", days: 7 },
-      { key: "M", zh: "月", en: "Month", days: 30 },
-    ];
-
-    function newsItemTimeMs(item) {
-      const value = item.updatedAt || item.firstPublishedAt || item.publishedAt;
-      const ms = value ? new Date(value).getTime() : NaN;
-      return Number.isFinite(ms) ? ms : 0;
-    }
-
-    function newsHeatAnchorMs(items) {
-      const metaMs = newsMeta?.generatedAt ? new Date(newsMeta.generatedAt).getTime() : NaN;
-      if (Number.isFinite(metaMs)) return metaMs;
-      return Math.max(...items.map(newsItemTimeMs), Date.now());
-    }
-
-    function heatItemsForPeriod(items, period) {
-      const anchor = newsHeatAnchorMs(items);
-      const cutoff = anchor - period.days * 24 * 60 * 60 * 1000;
-      return items.filter((item) => {
-        const ms = newsItemTimeMs(item);
-        return ms && ms >= cutoff && ms <= anchor + 60 * 60 * 1000;
-      });
-    }
-
-    function portfolioCompanyHeatRanking(key, portfolio, period = HEAT_PERIODS[2], limit = 5) {
-      if (!["drone", "ai-software"].includes(key)) return [];
-      const items = heatItemsForPeriod(portfolioNewsForKey(key, portfolio, 120), period);
-      const rows = (portfolio.components || [])
-        .filter((component) => component.status !== "prelist")
-        .map((component) => {
-          const aliases = componentNewsAliases(component);
-          const sources = new Set();
-          const mentions = [];
-          items.forEach((item) => {
-            const text = newsSearchText(item);
-            if (aliases.some((alias) => newsTextHasKeyword(text, alias))) {
-              sources.add(item.author || item.source || "NEWS");
-              mentions.push(item);
-            }
-          });
-          return {
-            component,
-            sourceCount: sources.size,
-            mentionCount: mentions.length,
-          };
-        })
-        .filter((row) => row.sourceCount >= 2)
-        .sort((a, b) => b.sourceCount - a.sourceCount || b.mentionCount - a.mentionCount || (b.component.marketCap || 0) - (a.component.marketCap || 0));
-      return rows.slice(0, limit);
-    }
-
-    function componentHeatCode(component) {
-      return String(component.ticker || component.short || component.name || "")
-        .replace(/\.(HK|SS|SZ|T|AS)$/i, "")
-        .toUpperCase();
-    }
-
-    function portfolioCompanyHeatRankingHtml(key, portfolio) {
-      if (!["drone", "ai-software"].includes(key)) return "";
-      return `<div class="portfolio-heat-row" data-heat-for="${escapeHtml(key)}">
-        <div class="portfolio-heat-header">
-          <span>${escapeHtml(t("公司热度排名", "Company Heat Ranking"))}</span>
-          <span>${escapeHtml(t("按日 / 周 / 月不同新闻源数", "By unique sources over day / week / month"))}</span>
-        </div>
-        <div class="portfolio-heat-periods">
-          ${HEAT_PERIODS.map((period) => {
-            const rows = portfolioCompanyHeatRanking(key, portfolio, period);
-            return `<div class="portfolio-heat-period">
-              <span class="portfolio-heat-period-title">${escapeHtml(t(period.zh, period.en))}</span>
-              <div class="portfolio-heat-list">
-                ${rows.length ? rows.map((row, index) => `
-                  <span class="portfolio-heat-chip">
-                    <b>${index + 1}</b>
-                    ${escapeHtml(componentHeatCode(row.component))}
-                    <span>${escapeHtml(t(`${row.sourceCount} 源`, `${row.sourceCount} sources`))}</span>
-                  </span>
-                `).join("") : `<span class="portfolio-heat-chip"><span>${escapeHtml(t("暂无公司多源提及", "No multi-source company mentions yet"))}</span></span>`}
-              </div>
-            </div>`;
-          }).join("")}
-        </div>
-      </div>`;
-    }
-
     function formatNewsDate(value) {
       if (!value) return "news.json";
       const d = new Date(value);
@@ -4246,7 +4095,6 @@
             <span>${escapeHtml(t("组合新闻 · 滚动摘要", "Portfolio News · Scrolling Digest"))}</span>
             <span class="portfolio-news-updated">${escapeHtml(updated)}</span>
           </div>
-          ${portfolioCompanyHeatRankingHtml(key, portfolio)}
           <div class="portfolio-news-viewport">
             <div class="portfolio-news-track">
               ${doubled.map((item) => `
