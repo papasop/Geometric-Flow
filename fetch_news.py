@@ -65,6 +65,10 @@ OFFICIAL_SOURCES = [
     {"name": "WWD", "url": "https://wwd.com/feed/"},
     {"name": "MINING.COM", "url": "https://www.mining.com/feed/"},
     {"name": "Mining Technology", "url": "https://www.mining-technology.com/feed/"},
+    {"name": "Rare Earth News · Industry", "url": "https://news.google.com/rss/search?q=%22US%20rare%20earth%22%20OR%20%22rare%20earth%20elements%22%20OR%20%22critical%20minerals%22%20OR%20%22neodymium%20magnet%22&hl=en-US&gl=US&ceid=US:en"},
+    {"name": "Rare Earth News · MP", "url": "https://news.google.com/rss/search?q=%22MP%20Materials%22%20OR%20%22Mountain%20Pass%22%20%22rare%20earth%22&hl=en-US&gl=US&ceid=US:en"},
+    {"name": "Rare Earth News · USAR", "url": "https://news.google.com/rss/search?q=%22USA%20Rare%20Earth%22%20OR%20%22USAR%22%20%22Round%20Top%22&hl=en-US&gl=US&ceid=US:en"},
+    {"name": "Rare Earth News · CRML", "url": "https://news.google.com/rss/search?q=%22Critical%20Metals%20Corp%22%20OR%20%22CRML%22%20%22rare%20earth%22&hl=en-US&gl=US&ceid=US:en"},
     {"name": "Lidar Magazine", "url": "https://lidarmag.com/feed/"},
     {"name": "The Robot Report", "url": "https://www.therobotreport.com/feed/"},
     {"name": "Electrek", "url": "https://electrek.co/feed/"},
@@ -190,6 +194,21 @@ SOURCE_REQUIRED_KEYWORDS = {
         "the new york times company", "valuation", "earnings", "subscription",
         "subscribers", "revenue",
     ],
+    "Rare Earth News · Industry": [
+        "us rare earth", "u.s. rare earth", "united states rare earth",
+        "american rare earth", "us critical minerals", "u.s. critical minerals",
+        "united states critical minerals", "usmca", "mp materials",
+        "mountain pass", "usa rare earth", "round top", "critical metals corp", "crml",
+    ],
+    "Rare Earth News · MP": [
+        "mp materials", "mountain pass", "rare earth", "magnet", "defense department",
+    ],
+    "Rare Earth News · USAR": [
+        "usa rare earth", "usar", "round top", "rare earth", "magnet",
+    ],
+    "Rare Earth News · CRML": [
+        "critical metals corp", "crml", "rare earth", "critical minerals", "critical metals",
+    ],
 }
 
 EXCLUDED_NEWS_KEYWORDS = [
@@ -210,6 +229,11 @@ SOURCE_PORTFOLIO_MATCHES = {
     "Brand News · JNBY": ["brand"],
     "China Prosperity · PDD": ["china-leading"],
     "China Prosperity · Maifu": ["china-leading"],
+    "MP Materials IR": ["us-rare-earth"],
+    "Rare Earth News · Industry": ["us-rare-earth"],
+    "Rare Earth News · MP": ["us-rare-earth"],
+    "Rare Earth News · USAR": ["us-rare-earth"],
+    "Rare Earth News · CRML": ["us-rare-earth"],
 }
 
 NEWS_OVERRIDES = [
