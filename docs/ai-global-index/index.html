@@ -1304,8 +1304,8 @@
     //  to 100 at start, optionally FX-adjusted to a target currency.
     // ============================================================
     //
-    //  components: [{ weight, ccy: "CNY"|"HKD"|"USD", data: [bar, ...] }, ...]
-    //  fx:         { CNY: [{date, rate}], HKD: [{date, rate}] }
+    //  components: [{ weight, ccy: "CNY"|"HKD"|"JPY"|"USD", data: [bar, ...] }, ...]
+    //  fx:         { CNY: [{date, rate}], HKD: [{date, rate}], JPY: [{date, rate}] }
     //              rate is units-per-USD (yfinance convention for X=Y tickers)
     //  currency:   "USD" | "CNY" | "LOCAL"
     //
@@ -1830,52 +1830,57 @@
       "drone": {
         name: "无人机",
         nameEn: "Drone Portfolio",
-        tag: "策略 · ONDS / UMAC / KOPN / RCAT / SWMR / KTOS / ESLT / AVAV · Skydio / Neros 预上市观察",
-        tagEn: "STRATEGY · ONDS / UMAC / KOPN / RCAT / SWMR / KTOS / ESLT / AVAV · SKYDIO / NEROS PRE-LISTING WATCH",
+        tag: "策略 · ONDS / UMAC / KOPN / RCAT / SWMR / KTOS / ESLT / AVAV / 278A · Skydio / Neros 预上市观察",
+        tagEn: "STRATEGY · ONDS / UMAC / KOPN / RCAT / SWMR / KTOS / ESLT / AVAV / 278A · SKYDIO / NEROS PRE-LISTING WATCH",
         footer: "已上市成分股自动等权；Skydio 与 Neros 作为预上市观察项，公开行情出现后自动纳入无人机组合。",
         footerEn: "Listed constituents are equal-weighted automatically; Skydio and Neros are tracked as pre-listing watch names and join the drone portfolio when public quote data appears.",
         equalWeightTradable: true,
         components: [
-          { name: "Ondas",                         short: "ONDS",           ticker: "ONDS",      weight: 1 / 8, ccy: "USD", sleeve: "US", status: "active",
+          { name: "Ondas",                         short: "ONDS",           ticker: "ONDS",      weight: 1 / 9, ccy: "USD", sleeve: "US", status: "active",
             concept: "Iron Drone 反无人机系统",
             conceptEn: "Iron Drone counter-UAS systems",
             marketCap: 4.5,
             seed: 413, base: 1.2, vol: 0.055, drift: 0.00110 },
-          { name: "Unusual Machines",              short: "UMAC",           ticker: "UMAC",      weight: 1 / 8, ccy: "USD", sleeve: "US", status: "active",
+          { name: "Unusual Machines",              short: "UMAC",           ticker: "UMAC",      weight: 1 / 9, ccy: "USD", sleeve: "US", status: "active",
             concept: "无人机零部件供应商",
             conceptEn: "Drone component supplier",
             marketCap: 0.7,
             seed: 909, base: 4.8, vol: 0.065, drift: 0.00130 },
-          { name: "Kopin",                         short: "KOPN",           ticker: "KOPN",      weight: 1 / 8, ccy: "USD", sleeve: "US", status: "active",
+          { name: "Kopin",                         short: "KOPN",           ticker: "KOPN",      weight: 1 / 9, ccy: "USD", sleeve: "US", status: "active",
             concept: "军用微显示 · 头显光学",
             conceptEn: "Microdisplays · defense wearable optics",
             marketCap: 0.52,
             seed: 405, base: 1.6, vol: 0.045, drift: 0.00095 },
-          { name: "Red Cat Holdings",              short: "RCAT",           ticker: "RCAT",      weight: 1 / 8, ccy: "USD", sleeve: "US", status: "active",
+          { name: "Red Cat Holdings",              short: "RCAT",           ticker: "RCAT",      weight: 1 / 9, ccy: "USD", sleeve: "US", status: "active",
             concept: "军用小型无人机 · 战术 UAS",
             conceptEn: "Small tactical UAS · defense drones",
             marketCap: 1.5,
             seed: 1214, base: 1.1, vol: 0.058, drift: 0.00115 },
-          { name: "Swarmer",                       short: "SWMR",           ticker: "SWMR",      weight: 1 / 8, ccy: "USD", sleeve: "US", status: "active",
+          { name: "Swarmer",                       short: "SWMR",           ticker: "SWMR",      weight: 1 / 9, ccy: "USD", sleeve: "US", status: "active",
             concept: "无人机蜂群 AI · 自主协同软件",
             conceptEn: "Drone swarm AI · autonomous coordination software",
             marketCap: 0.45,
             seed: 3176, base: 29.5, vol: 0.072, drift: 0.00120 },
-          { name: "Kratos Defense & Security Solutions", short: "KTOS",     ticker: "KTOS",      weight: 1 / 8, ccy: "USD", sleeve: "US", status: "active",
+          { name: "Kratos Defense & Security Solutions", short: "KTOS",     ticker: "KTOS",      weight: 1 / 9, ccy: "USD", sleeve: "US", status: "active",
             concept: "无人系统 · 防务安全平台",
             conceptEn: "Unmanned systems · defense security platforms",
             marketCap: 14.0,
             seed: 1085, base: 10.2, vol: 0.038, drift: 0.00100 },
-          { name: "Elbit Systems",                  short: "ESLT",           ticker: "ESLT",      weight: 1 / 8, ccy: "USD", sleeve: "IL", status: "active",
+          { name: "Elbit Systems",                  short: "ESLT",           ticker: "ESLT",      weight: 1 / 9, ccy: "USD", sleeve: "IL", status: "active",
             concept: "铁束（Iron Beam）激光防御",
             conceptEn: "Iron Beam laser defense",
             marketCap: 43.2,
             seed: 9721, base: 260.0, vol: 0.024, drift: 0.00075 },
-          { name: "AeroVironment",                  short: "AVAV",           ticker: "AVAV",      weight: 1 / 8, ccy: "USD", sleeve: "US", status: "active",
+          { name: "AeroVironment",                  short: "AVAV",           ticker: "AVAV",      weight: 1 / 9, ccy: "USD", sleeve: "US", status: "active",
             concept: "无人机系统 · 巡飞弹",
             conceptEn: "UAS platforms · loitering munitions",
             marketCap: 9.8,
             seed: 7281, base: 85.0, vol: 0.035, drift: 0.00095 },
+          { name: "Terra Drone",                    short: "278A",           ticker: "278A.T",    weight: 1 / 9, ccy: "JPY", sleeve: "JP", status: "active",
+            concept: "日本无人机平台 · 空中移动基础设施",
+            conceptEn: "Japan drone platform · aerial mobility infrastructure",
+            marketCap: 1.1,
+            seed: 2781, base: 16400.0, vol: 0.050, drift: 0.00100 },
           { name: "Skydio",                        short: "SKYDIO",         ticker: "SKYDIO",    weight: 0, ccy: "USD", sleeve: "US", status: "prelist",
             concept: "自主无人机 · 国防与公共安全",
             conceptEn: "Autonomous drones · defense and public safety",
@@ -2905,6 +2910,9 @@
           { date: "2026-05-06", category: "defense", label: "AVAV 无人机系统", en: "AVAV unmanned systems",
             desc: "AeroVironment 纳入无人机,补充军用无人机系统、巡飞弹与战术 ISR 平台敞口。",
             desc_en: "AeroVironment joins the drone portfolio, adding military UAS, loitering munitions, and tactical ISR platform exposure." },
+          { date: "2026-05-11", category: "market", label: "278A 东京无人机", en: "278A Tokyo drone exposure",
+            desc: "Terra Drone 纳入无人机组合，使用东京交易所 278A.T 日元行情，并通过 JPY/USD 汇率折算到美元指数。",
+            desc_en: "Terra Drone joins the drone portfolio using TSE 278A.T JPY quotes, converted into the USD index through JPY/USD FX." },
           { date: "2026-05-05", category: "market", label: "Skydio 预上市观察", en: "Skydio pre-listing watch",
             desc: "Skydio 暂无公开 ticker,作为无人机预上市观察项;公开行情出现后自动加入等权计算。",
             desc_en: "Skydio has no public ticker yet and is tracked as a pre-listing watch name; once public quote data appears, it automatically joins the equal-weight calculation." },
@@ -3267,6 +3275,7 @@
           CNY: generateFX(2024, 7.05, 0.0035, 0.000020, dates),  // CNY per USD: 7.05 -> ~7.15
           HKD: generateFX(2022, 7.80, 0.0008, 0,        dates),  // HKD/USD peg: ~7.80
           EUR: generateFX(2027, 0.92, 0.0025, 0,        dates),  // EUR per USD
+          JPY: generateFX(2028, 155.0, 0.0040, 0,       dates),  // JPY per USD
         },
         benchmarks: {
           NASDAQ: {
@@ -3397,6 +3406,7 @@
       if (!out.CNY && dates.length) out.CNY = generateFX(2024, 7.05, 0.0035, 0.000020, dates);
       if (!out.HKD && dates.length) out.HKD = generateFX(2022, 7.80, 0.0008, 0, dates);
       if (!out.EUR && dates.length) out.EUR = generateFX(2027, 0.92, 0.0025, 0, dates);
+      if (!out.JPY && dates.length) out.JPY = generateFX(2028, 155.0, 0.0040, 0, dates);
       return out;
     }
 
@@ -3638,6 +3648,7 @@
     function countryFlag(component) {
       if (component.ccy === "CNY") return "🇨🇳";
       if (component.ccy === "HKD") return "🇭🇰";
+      if (component.ccy === "JPY") return "🇯🇵";
       return "🇺🇸";
     }
 

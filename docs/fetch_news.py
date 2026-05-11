@@ -105,6 +105,7 @@ PORTFOLIO_KEYWORDS = {
         "drone", "uav", "uas", "counter-uas", "counter drone", "autonomous", "defense",
         "ondas", "onds", "unusual machines", "umac", "kopin", "kopn", "red cat", "rcat",
         "kratos", "ktos", "aerovironment", "avav", "iron beam", "elbit", "eslt", "skydio",
+        "terra drone", "278a", "japan drone", "utm", "unmanned traffic management",
     ],
     "satellite-intel": [
         "satellite", "space", "geospatial", "imagery", "isr", "rf", "signal intelligence",
