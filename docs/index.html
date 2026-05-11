@@ -215,7 +215,7 @@
     }
     .portfolio-heat-row {
       grid-column: 1 / -1;
-      margin: 8px 0 0 98px;
+      margin: 8px 0 8px;
       padding: 8px 10px;
       background: #0d1423;
       border: 1px solid #1a2440;
@@ -3729,7 +3729,6 @@
               <span class="m-key">${name}</span>${flags ? `<span class="portfolio-flags">${flags}</span>` : ""}<span class="pillar-en">${subName}</span>
               <span class="pillar-meta"><span>${mcapLabel} <b>${formatMcap(row.totalMcap)}</b></span><span>${returnLabel} <b>${formatSignedPct(row.totalReturn)}</b></span></span>
             </span>
-            ${portfolioCompanyHeatRankingHtml(row.key, row.portfolio)}
             ${portfolioNewsStripHtml(row.key, row.portfolio)}
           </li>`;
         }).join("");
@@ -4074,9 +4073,15 @@
             mentionCount: mentions.length,
           };
         })
-        .filter((row) => row.sourceCount > 0)
+        .filter((row) => row.sourceCount >= 2)
         .sort((a, b) => b.sourceCount - a.sourceCount || b.mentionCount - a.mentionCount || (b.component.marketCap || 0) - (a.component.marketCap || 0));
       return rows.slice(0, limit);
+    }
+
+    function componentHeatCode(component) {
+      return String(component.ticker || component.short || component.name || "")
+        .replace(/\.(HK|SS|SZ|T|AS)$/i, "")
+        .toUpperCase();
     }
 
     function portfolioCompanyHeatRankingHtml(key, portfolio) {
@@ -4091,7 +4096,7 @@
           ${rows.map((row, index) => `
             <span class="portfolio-heat-chip">
               <b>${index + 1}</b>
-              ${escapeHtml(t(row.component.short || row.component.name, row.component.short || row.component.name))}
+              ${escapeHtml(componentHeatCode(row.component))}
               <span>${escapeHtml(t(`${row.sourceCount} 源`, `${row.sourceCount} sources`))}</span>
             </span>
           `).join("")}
@@ -4141,6 +4146,7 @@
             <span>${escapeHtml(t("组合新闻 · 滚动摘要", "Portfolio News · Scrolling Digest"))}</span>
             <span class="portfolio-news-updated">${escapeHtml(updated)}</span>
           </div>
+          ${portfolioCompanyHeatRankingHtml(key, portfolio)}
           <div class="portfolio-news-viewport">
             <div class="portfolio-news-track">
               ${doubled.map((item) => `
