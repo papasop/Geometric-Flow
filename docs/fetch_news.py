@@ -106,7 +106,7 @@ SOURCES = OFFICIAL_SOURCES
 
 PORTFOLIO_KEYWORDS = {
     "drone": [
-        "drone", "uav", "uas", "counter-uas", "counter drone", "autonomous", "defense",
+        "drone", "uav", "uas", "counter-uas", "counter drone",
         "ondas", "onds", "unusual machines", "umac", "kopin", "kopn", "red cat", "rcat",
         "kratos", "ktos", "aerovironment", "avav", "iron beam", "elbit", "eslt", "skydio",
         "terra drone", "278a", "japan drone", "utm", "unmanned traffic management",
@@ -520,7 +520,9 @@ def fetch_event_registry(api_key: str) -> tuple[list[dict[str, object]], list[di
                     continue
                 enrich_title_fields(parsed)
                 matched, tags = classify(parsed)
-                parsed["matchedPortfolios"] = sorted(set([portfolio, *matched]))
+                if portfolio not in matched:
+                    continue
+                parsed["matchedPortfolios"] = matched
                 parsed["tags"] = tags
                 apply_news_overrides(parsed)
                 items.append(parsed)
