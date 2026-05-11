@@ -270,7 +270,6 @@ COMPONENTS = [
     {"name": "\u8fc8\u5bcc\u65f6", "short": "\u8fc8\u5bcc\u65f6", "ticker": "2556.HK", "ccy": "HKD", "sleeve": "CN", "status": "active"},
     {"name": "\u9e70\u666e\u7cbe\u5bc6", "short": "\u9e70\u666e\u7cbe\u5bc6", "ticker": "1286.HK", "ccy": "HKD", "sleeve": "CN", "status": "active"},
     {"name": "\u6d25\u4e0a\u673a\u5e8a\u4e2d\u56fd", "short": "\u6d25\u4e0a\u673a\u5e8a", "ticker": "1651.HK", "ccy": "HKD", "sleeve": "CN", "status": "active"},
-    {"name": "\u54c8\u5c14\u6ee8\u7535\u6c14", "short": "\u54c8\u5c14\u6ee8\u7535\u6c14", "ticker": "1133.HK", "ccy": "HKD", "sleeve": "CN", "status": "active"},
     {"name": "iShares 20+ Year Treasury Bond ETF", "short": "TLT", "ticker": "TLT", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "Bitcoin", "short": "Bitcoin", "ticker": "BTC-USD", "ccy": "USD", "sleeve": "CRYPTO", "status": "active"},
     {"name": "Ethereum", "short": "ETH", "ticker": "ETH-USD", "ccy": "USD", "sleeve": "CRYPTO", "status": "active"},
