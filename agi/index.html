@@ -3745,7 +3745,7 @@
     }
 
     function newsSearchText(item) {
-      return [item.title, item.titleZh, item.titleEn, item.summary, item.summaryZh, item.summaryEn, item.source, ...(item.tags || [])]
+      return [item.title, item.titleZh, item.titleEn, item.summary, item.summaryZh, item.summaryEn, item.url]
         .join(" ").toLowerCase();
     }
 
