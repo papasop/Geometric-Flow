@@ -85,6 +85,14 @@ OFFICIAL_SOURCES = [
     {"name": "Palantir IR", "url": "https://investors.palantir.com/news-events/press-releases/rss"},
     {"name": "CrowdStrike IR", "url": "https://ir.crowdstrike.com/news-releases/rss"},
     {"name": "MP Materials IR", "url": "https://investors.mpmaterials.com/news-releases/news-release-details/rss"},
+    {"name": "Apple Newsroom", "url": "https://www.apple.com/newsroom/rss-feed.rss"},
+    {"name": "Coca-Cola IR", "url": "https://investors.coca-colacompany.com/news-events/press-releases/rss"},
+    {"name": "Brand News · Apple", "url": "https://news.google.com/rss/search?q=%22Apple%22%20AAPL%20iPhone&hl=en-US&gl=US&ceid=US:en"},
+    {"name": "Brand News · Coca-Cola", "url": "https://news.google.com/rss/search?q=%22Coca-Cola%22%20KO&hl=en-US&gl=US&ceid=US:en"},
+    {"name": "Brand News · NYT", "url": "https://news.google.com/rss/search?q=%22New%20York%20Times%20Company%22%20OR%20%22NYSE%3ANYT%22%20OR%20%22NYT%20stock%22&hl=en-US&gl=US&ceid=US:en"},
+    {"name": "Brand News · Pop Mart", "url": "https://news.google.com/rss/search?q=%22Pop%20Mart%22&hl=en-US&gl=US&ceid=US:en"},
+    {"name": "Brand News · Moutai", "url": "https://news.google.com/rss/search?q=%22Kweichow%20Moutai%22&hl=en-US&gl=US&ceid=US:en"},
+    {"name": "Brand News · JNBY", "url": "https://news.google.com/rss/search?q=%22Jiangnan%20Buyi%22&hl=en-US&gl=US&ceid=US:en"},
 ]
 
 # Backward-compatible alias for older callers/comments.
@@ -167,8 +175,28 @@ LIDAR_EXCLUDE_KEYWORDS = [
     "chip industry week", "semiconductor", "semiconductors",
 ]
 
+SOURCE_REQUIRED_KEYWORDS = {
+    "Brand News · NYT": [
+        "new york times company", "nyse:nyt", "nyt stock", "nyt shares",
+        "the new york times company", "valuation", "earnings", "subscription",
+        "subscribers", "revenue",
+    ],
+}
+
+EXCLUDED_NEWS_KEYWORDS = [
+    "yahoo finance",
+]
+
 SOURCE_PORTFOLIO_MATCHES = {
     "Lidar Magazine": ["lidar-camera"],
+    "Apple Newsroom": ["brand"],
+    "Coca-Cola IR": ["brand"],
+    "Brand News · Apple": ["brand"],
+    "Brand News · Coca-Cola": ["brand"],
+    "Brand News · NYT": ["brand"],
+    "Brand News · Pop Mart": ["brand"],
+    "Brand News · Moutai": ["brand"],
+    "Brand News · JNBY": ["brand"],
 }
 
 NEWS_OVERRIDES = [
@@ -482,8 +510,15 @@ def fetch_event_registry(api_key: str) -> tuple[list[dict[str, object]], list[di
 
 def classify(item: dict[str, str]) -> tuple[list[str], list[str]]:
     text = " ".join([item.get("source", ""), item.get("title", ""), item.get("summary", "")]).lower()
+    if any(keyword in text for keyword in EXCLUDED_NEWS_KEYWORDS):
+        return [], []
+    required = SOURCE_REQUIRED_KEYWORDS.get(item.get("source", ""))
+    if required and not any(keyword in text for keyword in required):
+        return [], []
     matched = list(SOURCE_PORTFOLIO_MATCHES.get(item.get("source", ""), []))
     tags = []
+    if "brand" in matched and any(keyword in text for keyword in BRAND_EXCLUDE_KEYWORDS):
+        matched = [portfolio for portfolio in matched if portfolio != "brand"]
     if matched:
         tags.append(item.get("source", "industry source"))
     for portfolio, keywords in PORTFOLIO_KEYWORDS.items():
