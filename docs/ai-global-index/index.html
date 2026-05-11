@@ -3694,6 +3694,14 @@
       "Palantir IR": { zh: "Palantir 投资者关系", en: "Palantir IR" },
       "CrowdStrike IR": { zh: "CrowdStrike 投资者关系", en: "CrowdStrike IR" },
       "MP Materials IR": { zh: "MP Materials 投资者关系", en: "MP Materials IR" },
+      "Apple Newsroom": { zh: "Apple Newsroom", en: "Apple Newsroom" },
+      "Coca-Cola IR": { zh: "Coca-Cola 投资者关系", en: "Coca-Cola IR" },
+      "Brand News · Apple": { zh: "品牌新闻 · Apple", en: "Brand News · Apple" },
+      "Brand News · Coca-Cola": { zh: "品牌新闻 · Coca-Cola", en: "Brand News · Coca-Cola" },
+      "Brand News · NYT": { zh: "品牌新闻 · NYT", en: "Brand News · NYT" },
+      "Brand News · Pop Mart": { zh: "品牌新闻 · 泡泡玛特", en: "Brand News · Pop Mart" },
+      "Brand News · Moutai": { zh: "品牌新闻 · 茅台", en: "Brand News · Moutai" },
+      "Brand News · JNBY": { zh: "品牌新闻 · 江南布衣", en: "Brand News · JNBY" },
       Official: { zh: "官方源", en: "Official sources" },
       Exchange: { zh: "交易所公告", en: "Exchange announcements" },
       IR: { zh: "公司投资者关系", en: "Company Investor Relations" },
@@ -3869,6 +3877,16 @@
     }
 
     function newsMatchesPortfolio(item, portfolio = activePortfolio(), key = currentPortfolioKey) {
+      if ((item.matchedPortfolios || []).includes(key)) {
+        const text = newsSearchText(item);
+        if (key === "brand" && BRAND_NEWS_EXCLUDE_KEYWORDS.some((keyword) => newsTextHasKeyword(text, keyword))) {
+          return false;
+        }
+        if (key === "lidar-camera" && LIDAR_NEWS_EXCLUDE_KEYWORDS.some((keyword) => newsTextHasKeyword(text, keyword))) {
+          return false;
+        }
+        return true;
+      }
       return portfolioMatchedNewsKeywords(item, key, portfolio).length > 0;
     }
 
