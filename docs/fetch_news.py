@@ -79,6 +79,8 @@ OFFICIAL_SOURCES = [
     {"name": "Defense News", "url": "https://www.defensenews.com/arc/outboundfeeds/rss/?outputType=xml"},
     {"name": "C4ISRNET", "url": "https://www.c4isrnet.com/arc/outboundfeeds/rss/?outputType=xml"},
     {"name": "Breaking Defense", "url": "https://breakingdefense.com/feed/"},
+    {"name": "Drone News · Companies", "url": "https://news.google.com/rss/search?q=%22Ondas%22%20OR%20%22Unusual%20Machines%22%20OR%20%22Kopin%22%20OR%20%22Red%20Cat%20Holdings%22%20OR%20%22Kratos%20Defense%22%20OR%20%22Elbit%20Systems%22%20OR%20%22AeroVironment%22%20OR%20%22Terra%20Drone%22&hl=en-US&gl=US&ceid=US:en"},
+    {"name": "Drone News · Tickers", "url": "https://news.google.com/rss/search?q=ONDS%20OR%20UMAC%20OR%20KOPN%20OR%20RCAT%20OR%20KTOS%20OR%20ESLT%20OR%20AVAV%20OR%20%22278A%22&hl=en-US&gl=US&ceid=US:en"},
     {"name": "Fierce Biotech", "url": "https://www.fiercebiotech.com/rss/biotech/xml"},
     {"name": "BioPharma Dive", "url": "https://www.biopharmadive.com/feeds/news/"},
     {"name": "Endpoints News", "url": "https://endpoints.news/feed/"},
@@ -369,6 +371,7 @@ def author_of(node: ET.Element) -> str:
     direct = text_of(node, [
         "author",
         "creator",
+        "source",
         "{http://purl.org/dc/elements/1.1/}creator",
         "{http://purl.org/dc/terms/}creator",
     ])
