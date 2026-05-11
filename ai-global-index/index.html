@@ -3820,6 +3820,8 @@
       "Defense News": { zh: "Defense News", en: "Defense News" },
       C4ISRNET: { zh: "C4ISRNET", en: "C4ISRNET" },
       "Breaking Defense": { zh: "Breaking Defense", en: "Breaking Defense" },
+      "Drone News · Companies": { zh: "无人机新闻 · 公司", en: "Drone News · Companies" },
+      "Drone News · Tickers": { zh: "无人机新闻 · 代码", en: "Drone News · Tickers" },
       "Fierce Biotech": { zh: "Fierce Biotech", en: "Fierce Biotech" },
       "BioPharma Dive": { zh: "BioPharma Dive", en: "BioPharma Dive" },
       "Endpoints News": { zh: "Endpoints News", en: "Endpoints News" },
@@ -4063,7 +4065,7 @@
           items.forEach((item) => {
             const text = newsSearchText(item);
             if (aliases.some((alias) => newsTextHasKeyword(text, alias))) {
-              sources.add(item.source || "NEWS");
+              sources.add(item.author || item.source || "NEWS");
               mentions.push(item);
             }
           });
@@ -4085,21 +4087,21 @@
     }
 
     function portfolioCompanyHeatRankingHtml(key, portfolio) {
+      if (key !== "drone") return "";
       const rows = portfolioCompanyHeatRanking(key, portfolio);
-      if (!rows.length) return "";
       return `<div class="portfolio-heat-row" data-heat-for="${escapeHtml(key)}">
         <div class="portfolio-heat-header">
           <span>${escapeHtml(t("公司热度排名", "Company Heat Ranking"))}</span>
           <span>${escapeHtml(t("按滚动新闻不同来源数", "By unique sources in portfolio news"))}</span>
         </div>
         <div class="portfolio-heat-list">
-          ${rows.map((row, index) => `
+          ${rows.length ? rows.map((row, index) => `
             <span class="portfolio-heat-chip">
               <b>${index + 1}</b>
               ${escapeHtml(componentHeatCode(row.component))}
               <span>${escapeHtml(t(`${row.sourceCount} 源`, `${row.sourceCount} sources`))}</span>
             </span>
-          `).join("")}
+          `).join("") : `<span class="portfolio-heat-chip"><span>${escapeHtml(t("暂无公司多源提及", "No multi-source company mentions yet"))}</span></span>`}
         </div>
       </div>`;
     }
