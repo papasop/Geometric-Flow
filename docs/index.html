@@ -4429,14 +4429,13 @@
       const details = document.getElementById(id);
       const summary = details?.querySelector("summary");
       if (!details || !summary) return;
+      details.addEventListener("click", (e) => {
+        e.stopPropagation();
+      }, true);
       summary.addEventListener("click", (e) => {
         e.preventDefault();
         e.stopPropagation();
-        const nextOpen = !details.open;
-        document.querySelectorAll(".compact-control").forEach((control) => {
-          if (control !== details) control.open = false;
-        });
-        details.open = nextOpen;
+        details.open = !details.open;
       });
     }
 
