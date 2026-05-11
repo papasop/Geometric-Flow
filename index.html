@@ -213,6 +213,53 @@
       font-size: 11px;
       line-height: 1.45;
     }
+    .portfolio-heat-row {
+      grid-column: 1 / -1;
+      margin: 8px 0 0 98px;
+      padding: 8px 10px;
+      background: #0d1423;
+      border: 1px solid #1a2440;
+      border-radius: 8px;
+    }
+    .portfolio-heat-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      color: #26a69a;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      margin-bottom: 7px;
+    }
+    .portfolio-heat-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .portfolio-heat-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 28px;
+      padding: 5px 8px;
+      background: #101a2d;
+      border: 1px solid #22304d;
+      border-radius: 6px;
+      color: #dce6f7;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .portfolio-heat-chip b {
+      color: #26a69a;
+      font-size: 10px;
+      font-weight: 800;
+    }
+    .portfolio-heat-chip span {
+      color: #7f8aa5;
+      font-size: 10px;
+      font-weight: 700;
+    }
     @keyframes news-scroll {
       from { transform: translateX(0); }
       to { transform: translateX(-50%); }
@@ -3630,6 +3677,7 @@
               <span class="m-key">${name}</span><span class="pillar-en">${subName}</span>
               <span class="pillar-meta"><span>${mcapLabel} <b>${formatMcap(row.totalMcap)}</b></span><span>${returnLabel} <b>${formatSignedPct(row.totalReturn)}</b></span></span>
             </span>
+            ${portfolioCompanyHeatRankingHtml(row.key, row.portfolio)}
             ${portfolioNewsStripHtml(row.key, row.portfolio)}
           </li>`;
         }).join("");
@@ -3939,6 +3987,64 @@
       const source = liveNewsItems.length ? liveNewsItems : FALLBACK_NEWS_ITEMS;
       const matched = source.filter((item) => newsMatchesPortfolio(item, portfolio, key));
       return matched.slice(0, limit);
+    }
+
+    function componentNewsAliases(component) {
+      return [
+        component.name,
+        component.short,
+        component.ticker,
+        String(component.ticker || "").replace(/\.(HK|SS|SZ|T|AS)$/i, ""),
+      ]
+        .map((alias) => String(alias || "").trim().toLowerCase())
+        .filter((alias, index, all) => alias.length >= 2 && all.indexOf(alias) === index);
+    }
+
+    function portfolioCompanyHeatRanking(key, portfolio, limit = 5) {
+      if (key !== "drone") return [];
+      const items = portfolioNewsForKey(key, portfolio, 48);
+      const rows = (portfolio.components || [])
+        .filter((component) => component.status !== "prelist")
+        .map((component) => {
+          const aliases = componentNewsAliases(component);
+          const sources = new Set();
+          const mentions = [];
+          items.forEach((item) => {
+            const text = newsSearchText(item);
+            if (aliases.some((alias) => newsTextHasKeyword(text, alias))) {
+              sources.add(item.source || "NEWS");
+              mentions.push(item);
+            }
+          });
+          return {
+            component,
+            sourceCount: sources.size,
+            mentionCount: mentions.length,
+          };
+        })
+        .filter((row) => row.sourceCount > 0)
+        .sort((a, b) => b.sourceCount - a.sourceCount || b.mentionCount - a.mentionCount || (b.component.marketCap || 0) - (a.component.marketCap || 0));
+      return rows.slice(0, limit);
+    }
+
+    function portfolioCompanyHeatRankingHtml(key, portfolio) {
+      const rows = portfolioCompanyHeatRanking(key, portfolio);
+      if (!rows.length) return "";
+      return `<div class="portfolio-heat-row" data-heat-for="${escapeHtml(key)}">
+        <div class="portfolio-heat-header">
+          <span>${escapeHtml(t("公司热度排名", "Company Heat Ranking"))}</span>
+          <span>${escapeHtml(t("按滚动新闻不同来源数", "By unique sources in portfolio news"))}</span>
+        </div>
+        <div class="portfolio-heat-list">
+          ${rows.map((row, index) => `
+            <span class="portfolio-heat-chip">
+              <b>${index + 1}</b>
+              ${escapeHtml(t(row.component.short || row.component.name, row.component.short || row.component.name))}
+              <span>${escapeHtml(t(`${row.sourceCount} 源`, `${row.sourceCount} sources`))}</span>
+            </span>
+          `).join("")}
+        </div>
+      </div>`;
     }
 
     function formatNewsDate(value) {
