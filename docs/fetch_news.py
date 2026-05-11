@@ -93,6 +93,8 @@ OFFICIAL_SOURCES = [
     {"name": "Brand News · Pop Mart", "url": "https://news.google.com/rss/search?q=%22Pop%20Mart%22&hl=en-US&gl=US&ceid=US:en"},
     {"name": "Brand News · Moutai", "url": "https://news.google.com/rss/search?q=%22Kweichow%20Moutai%22&hl=en-US&gl=US&ceid=US:en"},
     {"name": "Brand News · JNBY", "url": "https://news.google.com/rss/search?q=%22Jiangnan%20Buyi%22&hl=en-US&gl=US&ceid=US:en"},
+    {"name": "China Prosperity · PDD", "url": "https://news.google.com/rss/search?q=%22PDD%20Holdings%22%20OR%20Pinduoduo%20OR%20Temu&hl=en-US&gl=US&ceid=US:en"},
+    {"name": "China Prosperity · Maifu", "url": "https://news.google.com/rss/search?q=%22Maifu%20Technology%22%20OR%20%22%E8%BF%88%E5%AF%8C%E6%97%B6%22%20OR%20%2202556.HK%22&hl=en-US&gl=US&ceid=US:en"},
 ]
 
 # Backward-compatible alias for older callers/comments.
@@ -127,8 +129,8 @@ PORTFOLIO_KEYWORDS = {
         "datadog", "ddog", "synopsys", "snps", "cadence", "cdns",
     ],
     "china-leading": [
-        "pdd", "pinduoduo", "temu", "maifushi", "maifu", "2556", "china", "e-commerce",
-        "marketing automation", "midea", "byd",
+        "pdd holdings", "pdd", "pinduoduo", "拼多多", "temu", "新拼姆",
+        "maifu technology", "maifushi", "maifu", "迈富时", "02556", "2556.hk", "2556",
     ],
     "biotech": [
         "biotech", "biotechnology", "pharma", "drug", "therapy", "clinical", "fda",
@@ -176,6 +178,12 @@ LIDAR_EXCLUDE_KEYWORDS = [
 ]
 
 SOURCE_REQUIRED_KEYWORDS = {
+    "China Prosperity · PDD": [
+        "pdd holdings", "pinduoduo", "pdd)", "pdd ", "temu named", "temu offers",
+        "temu seller", "temu sellers", "temu marketplace", "temu app", "temu ecommerce",
+        "temu e-commerce", "temu platform", "temu sales", "temu revenue", "temu logistics",
+        "temu supply chain", "temu certification", "temu trusted", "temu uk",
+    ],
     "Brand News · NYT": [
         "new york times company", "nyse:nyt", "nyt stock", "nyt shares",
         "the new york times company", "valuation", "earnings", "subscription",
@@ -184,7 +192,9 @@ SOURCE_REQUIRED_KEYWORDS = {
 }
 
 EXCLUDED_NEWS_KEYWORDS = [
-    "yahoo finance",
+    "yahoo finance", " - yahoo",
+    "temu lex luthor", "from temu", "looks like a bmw from temu",
+    "temu benson boone", "temu range rover",
 ]
 
 SOURCE_PORTFOLIO_MATCHES = {
@@ -197,6 +207,8 @@ SOURCE_PORTFOLIO_MATCHES = {
     "Brand News · Pop Mart": ["brand"],
     "Brand News · Moutai": ["brand"],
     "Brand News · JNBY": ["brand"],
+    "China Prosperity · PDD": ["china-leading"],
+    "China Prosperity · Maifu": ["china-leading"],
 }
 
 NEWS_OVERRIDES = [
