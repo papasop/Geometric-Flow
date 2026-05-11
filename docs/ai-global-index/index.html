@@ -4350,6 +4350,13 @@
       updateAssetControls();
     }
 
+    function renderChartOnly() {
+      const chartData = getChartData();
+      const data = chartData.data;
+      chart.setOption(buildOption(data, currentType, chartData.label), true);
+      updateStats(data);
+    }
+
     function scrollToChart() {
       const chartSection = document.querySelector(".chart-container");
       if (!chartSection) return;
@@ -4385,24 +4392,28 @@
     document.getElementById("period-group").addEventListener("click", (e) => {
       const btn = e.target.closest("button[data-period]");
       if (!btn) return;
+      e.preventDefault();
       e.stopPropagation();
+      e.stopImmediatePropagation();
       document.querySelectorAll("#period-group button").forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
       currentPeriod = btn.dataset.period;
       document.getElementById("period-current").textContent = btn.querySelector(".btn-main")?.textContent || "";
       document.getElementById("period-group").open = false;
-      render();
+      renderChartOnly();
     });
     document.getElementById("type-group").addEventListener("click", (e) => {
       const btn = e.target.closest("button[data-type]");
       if (!btn) return;
+      e.preventDefault();
       e.stopPropagation();
+      e.stopImmediatePropagation();
       document.querySelectorAll("#type-group button").forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
       currentType = btn.dataset.type;
       document.getElementById("type-current").textContent = btn.querySelector(".btn-main")?.textContent || "";
       document.getElementById("type-group").open = false;
-      render();
+      renderChartOnly();
     });
     document.getElementById("asset-group").addEventListener("click", (e) => {
       const btn = e.target.closest("button[data-asset]");
