@@ -1107,7 +1107,7 @@
     </div>
 
     <div class="manifesto investment-view">
-      <div class="manifesto-tag">组合栏目 · PORTFOLIO CHANNELS · 12 PORTFOLIOS</div>
+      <div class="manifesto-tag">组合栏目 · PORTFOLIO CHANNELS · 13 PORTFOLIOS</div>
       <div class="manifesto-sort">
         <span class="manifesto-sort-label">组合排序</span>
         <div class="components-rank-toggle" id="portfolio-rank-group" aria-label="Portfolio ranking mode">
@@ -1158,7 +1158,7 @@
           <span class="pillar-text"><span class="m-key">太空情报</span><span class="pillar-en">Space Intelligence Portfolio</span></span>
         </li>
       </ol>
-      <div class="manifesto-footer">先推出十二个组合栏目，后续可继续扩展更多主题组合。<span class="manifesto-footer-en">Launching twelve portfolio channels first, with room for more themes later.</span></div>
+      <div class="manifesto-footer">先推出十三个组合栏目，后续可继续扩展更多主题组合。<span class="manifesto-footer-en">Launching thirteen portfolio channels first, with room for more themes later.</span></div>
     </div>
 
     <div class="chart-container investment-view">
@@ -1946,6 +1946,36 @@
             preListingNote: "预上市 · 暂无公开 ticker",
             preListingNoteEn: "Pre-listing · no public ticker yet",
             seed: 7117, base: 30.0, vol: 0.040, drift: 0.00100 },
+        ],
+      },
+      "lidar-camera": {
+        name: "激光摄像头组合",
+        nameEn: "LiDAR Camera Portfolio",
+        tag: "策略 · 速腾聚创 / 禾赛-W / 图达通 / Ouster · 各 25%",
+        tagEn: "STRATEGY · ROBOSENSE / HESAI-W / INNOVUSION / OUSTER · 25 EACH",
+        footer: "四只股票等权配置，覆盖车载激光雷达、机器人视觉、自动驾驶感知与 3D 激光摄像头传感器。",
+        footerEn: "Equal-weight exposure to four LiDAR and laser-camera names across automotive LiDAR, robotic vision, autonomous-driving perception, and 3D sensing.",
+        components: [
+          { name: "速腾聚创",                       short: "速腾聚创",       ticker: "02498.HK", weight: 1 / 4, ccy: "HKD", sleeve: "CN", status: "active",
+            concept: "车载激光雷达 · 机器人视觉感知",
+            conceptEn: "Automotive LiDAR · robotic vision perception",
+            marketCap: 1.8,
+            seed: 2498, base: 18, vol: 0.045, drift: 0.00018 },
+          { name: "禾赛-W",                         short: "禾赛",           ticker: "02525.HK", weight: 1 / 4, ccy: "HKD", sleeve: "CN", status: "active",
+            concept: "激光雷达传感器 · 自动驾驶感知",
+            conceptEn: "LiDAR sensors · autonomous-driving perception",
+            marketCap: 3.5,
+            seed: 2525, base: 28, vol: 0.048, drift: 0.00020 },
+          { name: "图达通",                         short: "图达通",         ticker: "02665.HK", weight: 1 / 4, ccy: "HKD", sleeve: "CN", status: "active",
+            concept: "高性能激光雷达 · 智能驾驶",
+            conceptEn: "High-performance LiDAR · intelligent driving",
+            marketCap: 0.8,
+            seed: 2665, base: 12, vol: 0.052, drift: 0.00016 },
+          { name: "Ouster",                         short: "OUST",           ticker: "OUST", weight: 1 / 4, ccy: "USD", sleeve: "US", status: "active",
+            concept: "数字激光雷达 · 工业与机器人 3D 感知",
+            conceptEn: "Digital LiDAR · industrial and robotic 3D perception",
+            marketCap: 1.1,
+            seed: 2021, base: 7, vol: 0.060, drift: 0.00018 },
         ],
       },
       "ai-software": {
@@ -2897,6 +2927,21 @@
             desc_en: "Unseenlabs has no public ticker yet and is tracked as a European RF satellite-intelligence and maritime-signal geolocation pre-listing watch name; once public quote data appears, it automatically joins the equal-weight calculation." },
         ],
       },
+      "lidar-camera": {
+        header: "激光摄像头事件",
+        headerEn: "LiDAR Camera Milestones",
+        milestones: [
+          { date: "2022-11-30", category: "technology", label: "激光摄像头组合起点", en: "LiDAR camera portfolio start",
+            desc: "以统一 T₀ 追踪车载激光雷达、机器人视觉、自动驾驶感知与 3D 激光摄像头传感器公司的相对表现。",
+            desc_en: "Uses the shared T0 to track automotive LiDAR, robotic vision, autonomous-driving perception, and 3D sensing companies." },
+          { date: "2026-05-11", category: "technology", label: "速腾聚创 / 禾赛 / 图达通", en: "RoboSense / Hesai / Innovusion",
+            desc: "三只港股成分覆盖中国车载激光雷达和智能驾驶感知供应链。",
+            desc_en: "Three Hong Kong-listed constituents cover China's automotive LiDAR and intelligent-driving perception supply chain." },
+          { date: "2026-05-11", category: "technology", label: "OUST 数字激光雷达", en: "OUST digital LiDAR",
+            desc: "Ouster 补充美国数字激光雷达、工业、机器人和 3D 感知敞口。",
+            desc_en: "Ouster adds US-listed digital LiDAR exposure across industrial, robotics, and 3D sensing markets." },
+        ],
+      },
       "ai-software": {
         header: "SaaS 事件",
         headerEn: "SaaS Portfolio Milestones",
@@ -3453,6 +3498,7 @@
         "ai-software": "pillar--breakthrough",
         "cybersecurity": "pillar--breakthrough",
         "satellite-intel": "pillar--partial",
+        "lidar-camera": "pillar--breakthrough",
         battery: "pillar--breakthrough",
         "us-rare-earth": "pillar--breakthrough",
         "china-property": "pillar--partial",
@@ -3630,6 +3676,12 @@
         "rf signals", "signal intelligence", "signals intelligence", "isr", "earth observation",
         "rocket lab", "rklb", "hawkeye 360", "hawk", "blacksky", "bksy", "spire global",
         "spir", "planet labs", "l3harris", "lhx", "spacex", "unseenlabs", "palantir", "pltr"
+      ],
+      "lidar-camera": [
+        "lidar", "liDAR", "laser radar", "laser camera", "3d sensing", "3d sensor",
+        "autonomous driving perception", "robotic vision", "automotive lidar",
+        "激光雷达", "激光摄像头", "自动驾驶感知", "机器人视觉", "速腾聚创", "robosense",
+        "02498", "禾赛", "hesai", "02525", "图达通", "innovusion", "02665", "ouster", "oust"
       ],
       "ai-software": [
         "saas", "enterprise software", "ai software", "ai application", "agentforce",
@@ -3859,7 +3911,7 @@
       document.querySelector("#news-view .news-header").textContent = t("新闻摘要 · NEWS DIGEST", "NEWS DIGEST · 新闻摘要");
       renderNewsSources();
 
-      document.querySelector(".manifesto-tag").textContent = t("组合栏目 · 先推出 12 个组合", "PORTFOLIO CHANNELS · 12 PORTFOLIOS");
+      document.querySelector(".manifesto-tag").textContent = t("组合栏目 · 先推出 13 个组合", "PORTFOLIO CHANNELS · 13 PORTFOLIOS");
       document.querySelector("#portfolio-rank-group").previousElementSibling.textContent = t("组合排序", "Sort Portfolios");
       document.querySelector('#portfolio-rank-group button[data-portfolio-rank="default"]').textContent = t("默认", "Default");
       document.querySelector('#portfolio-rank-group button[data-portfolio-rank="mcap"]').textContent = t("市值", "Market Cap");
