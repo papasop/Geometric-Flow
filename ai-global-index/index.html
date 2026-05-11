@@ -237,6 +237,23 @@
       flex-wrap: wrap;
       gap: 6px;
     }
+    .portfolio-heat-periods {
+      display: grid;
+      gap: 7px;
+    }
+    .portfolio-heat-period {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      align-items: center;
+      gap: 8px;
+    }
+    .portfolio-heat-period-title {
+      color: #8a96b3;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
     .portfolio-heat-chip {
       display: inline-flex;
       align-items: center;
@@ -4058,9 +4075,36 @@
         .filter((alias, index, all) => alias.length >= 2 && all.indexOf(alias) === index);
     }
 
-    function portfolioCompanyHeatRanking(key, portfolio, limit = 5) {
+    const HEAT_PERIODS = [
+      { key: "D", zh: "日", en: "Day", days: 1 },
+      { key: "W", zh: "周", en: "Week", days: 7 },
+      { key: "M", zh: "月", en: "Month", days: 30 },
+    ];
+
+    function newsItemTimeMs(item) {
+      const value = item.updatedAt || item.firstPublishedAt || item.publishedAt;
+      const ms = value ? new Date(value).getTime() : NaN;
+      return Number.isFinite(ms) ? ms : 0;
+    }
+
+    function newsHeatAnchorMs(items) {
+      const metaMs = newsMeta?.generatedAt ? new Date(newsMeta.generatedAt).getTime() : NaN;
+      if (Number.isFinite(metaMs)) return metaMs;
+      return Math.max(...items.map(newsItemTimeMs), Date.now());
+    }
+
+    function heatItemsForPeriod(items, period) {
+      const anchor = newsHeatAnchorMs(items);
+      const cutoff = anchor - period.days * 24 * 60 * 60 * 1000;
+      return items.filter((item) => {
+        const ms = newsItemTimeMs(item);
+        return ms && ms >= cutoff && ms <= anchor + 60 * 60 * 1000;
+      });
+    }
+
+    function portfolioCompanyHeatRanking(key, portfolio, period = HEAT_PERIODS[2], limit = 5) {
       if (!["drone", "ai-software"].includes(key)) return [];
-      const items = portfolioNewsForKey(key, portfolio, 48);
+      const items = heatItemsForPeriod(portfolioNewsForKey(key, portfolio, 120), period);
       const rows = (portfolio.components || [])
         .filter((component) => component.status !== "prelist")
         .map((component) => {
@@ -4093,20 +4137,27 @@
 
     function portfolioCompanyHeatRankingHtml(key, portfolio) {
       if (!["drone", "ai-software"].includes(key)) return "";
-      const rows = portfolioCompanyHeatRanking(key, portfolio);
       return `<div class="portfolio-heat-row" data-heat-for="${escapeHtml(key)}">
         <div class="portfolio-heat-header">
           <span>${escapeHtml(t("公司热度排名", "Company Heat Ranking"))}</span>
-          <span>${escapeHtml(t("按滚动新闻不同来源数", "By unique sources in portfolio news"))}</span>
+          <span>${escapeHtml(t("按日 / 周 / 月不同新闻源数", "By unique sources over day / week / month"))}</span>
         </div>
-        <div class="portfolio-heat-list">
-          ${rows.length ? rows.map((row, index) => `
-            <span class="portfolio-heat-chip">
-              <b>${index + 1}</b>
-              ${escapeHtml(componentHeatCode(row.component))}
-              <span>${escapeHtml(t(`${row.sourceCount} 源`, `${row.sourceCount} sources`))}</span>
-            </span>
-          `).join("") : `<span class="portfolio-heat-chip"><span>${escapeHtml(t("暂无公司多源提及", "No multi-source company mentions yet"))}</span></span>`}
+        <div class="portfolio-heat-periods">
+          ${HEAT_PERIODS.map((period) => {
+            const rows = portfolioCompanyHeatRanking(key, portfolio, period);
+            return `<div class="portfolio-heat-period">
+              <span class="portfolio-heat-period-title">${escapeHtml(t(period.zh, period.en))}</span>
+              <div class="portfolio-heat-list">
+                ${rows.length ? rows.map((row, index) => `
+                  <span class="portfolio-heat-chip">
+                    <b>${index + 1}</b>
+                    ${escapeHtml(componentHeatCode(row.component))}
+                    <span>${escapeHtml(t(`${row.sourceCount} 源`, `${row.sourceCount} sources`))}</span>
+                  </span>
+                `).join("") : `<span class="portfolio-heat-chip"><span>${escapeHtml(t("暂无公司多源提及", "No multi-source company mentions yet"))}</span></span>`}
+              </div>
+            </div>`;
+          }).join("")}
         </div>
       </div>`;
     }
