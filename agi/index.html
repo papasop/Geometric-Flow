@@ -4024,7 +4024,7 @@
         if (key === "lidar-camera" && LIDAR_NEWS_EXCLUDE_KEYWORDS.some((keyword) => newsTextHasKeyword(text, keyword))) {
           return false;
         }
-        return true;
+        return portfolioMatchedNewsKeywords(item, key, portfolio).length > 0;
       }
       return portfolioMatchedNewsKeywords(item, key, portfolio).length > 0;
     }
