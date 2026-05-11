@@ -3187,6 +3187,9 @@
     let liveNewsItems = [];
     let newsMeta = null;
     const FALLBACK_NEWS_ITEMS = [
+      { source: "Event Registry", zhSource: "Event Registry", enSource: "Event Registry", url: "https://eventregistry.org/",
+        titleZh: "统一新闻层 · 多语言文章 / 事件 / 实体匹配", titleEn: "Unified news layer · multilingual article, event, and entity matching",
+        summaryZh: "作为组合新闻的主入口，按公司名、代码、主题关键词和语言筛选新闻，再由官方源补充确认。", summaryEn: "Primary portfolio-news entrypoint: matches by company names, tickers, theme keywords, and language, then supplements with official sources." },
       { source: "Reuters", zhSource: "路透社", enSource: "Reuters", url: "https://www.reuters.com/",
         titleZh: "事实优先的市场、公司与政策快讯", titleEn: "Fact-first market, company, and policy wires",
         summaryZh: "用于核对公司公告、宏观政策、地缘政治、商品与全球市场事件。", summaryEn: "Used to verify company announcements, macro policy, geopolitics, commodities, and global market events." },
@@ -3643,6 +3646,7 @@
     }
 
     const NEWS_SOURCE_LABELS = {
+      "Event Registry": { zh: "Event Registry", en: "Event Registry" },
       Reuters: { zh: "路透社", en: "Reuters" },
       AP: { zh: "美联社", en: "Associated Press" },
       BBC: { zh: "BBC 新闻", en: "BBC News" },

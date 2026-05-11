@@ -1,11 +1,17 @@
 #!/usr/bin/env python3
-"""Fetch portfolio news from public RSS/Atom sources into docs/news.json."""
+"""Fetch portfolio news into docs/news.json.
+
+Event Registry is the primary unified news layer when EVENT_REGISTRY_API_KEY is
+available. Official RSS/Atom sources (SEC, IR, NASA, Defense.gov, WHO, etc.)
+are always used as the confirmation/supplement layer.
+"""
 
 from __future__ import annotations
 
 import email.utils
 import html
 import json
+import os
 import re
 import socket
 import sys
@@ -20,13 +26,17 @@ from urllib.parse import urljoin
 
 ROOT = Path(__file__).resolve().parent
 OUT = ROOT / "news.json"
+VERSIONED_OUT = ROOT / "news-a8febb0.json"
 
 USER_AGENT = (
     "EntropyAI/1.0 (portfolio-news; https://papasop.github.io/AGI/; "
     "contact: public-site-maintainer)"
 )
 
-SOURCES = [
+EVENT_REGISTRY_ENDPOINT = "https://eventregistry.org/api/v1/article/getArticles"
+EVENT_REGISTRY_MAX_PER_TOPIC = 18
+
+OFFICIAL_SOURCES = [
     {"name": "Reuters", "url": "https://www.reuters.com/arc/outboundfeeds/rss/?outputType=xml"},
     {"name": "AP", "url": "https://apnews.com/hub/ap-top-news?output=rss"},
     {"name": "BBC", "url": "https://feeds.bbci.co.uk/news/rss.xml"},
@@ -44,6 +54,9 @@ SOURCES = [
     {"name": "CrowdStrike IR", "url": "https://ir.crowdstrike.com/news-releases/rss"},
     {"name": "MP Materials IR", "url": "https://investors.mpmaterials.com/news-releases/news-release-details/rss"},
 ]
+
+# Backward-compatible alias for older callers/comments.
+SOURCES = OFFICIAL_SOURCES
 
 PORTFOLIO_KEYWORDS = {
     "drone": [
@@ -145,6 +158,22 @@ def fetch_url(url: str) -> bytes:
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT, "Accept": "application/rss+xml, application/atom+xml, application/xml, text/xml, */*"})
     with urllib.request.urlopen(req, timeout=8) as response:
         return response.read()
+
+
+def post_json(url: str, payload: dict[str, object]) -> dict[str, object]:
+    encoded = json.dumps(payload).encode("utf-8")
+    req = urllib.request.Request(
+        url,
+        data=encoded,
+        headers={
+            "User-Agent": USER_AGENT,
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+        },
+        method="POST",
+    )
+    with urllib.request.urlopen(req, timeout=12) as response:
+        return json.loads(response.read().decode("utf-8", errors="replace"))
 
 
 def text_of(node: ET.Element, names: list[str]) -> str:
@@ -250,6 +279,106 @@ def parse_feed(source: dict[str, str], data: bytes) -> list[dict[str, str]]:
     return items
 
 
+def event_registry_query_for(portfolio: str, keywords: list[str]) -> str:
+    # Keep the query focused. Broad one-letter tickers and ultra-generic terms
+    # create noisy cross-portfolio matches, so skip them at the API layer and
+    # let the local classifier do final matching.
+    terms = []
+    for keyword in keywords:
+        cleaned = re.sub(r"\s+", " ", keyword.strip())
+        if len(cleaned) < 3:
+            continue
+        if cleaned.lower() in {"ai", "rf", "ev", "us", "cn", "hk"}:
+            continue
+        terms.append(cleaned)
+    preferred = terms[:10]
+    return " OR ".join(f'"{term}"' if " " in term else term for term in preferred) or portfolio
+
+
+def parse_event_registry_article(article: dict[str, object], portfolio: str) -> dict[str, object] | None:
+    title = clean_text(str(article.get("title") or ""), 180)
+    url = str(article.get("url") or "").strip()
+    if not title or not url:
+        return None
+    source = article.get("source")
+    source_name = ""
+    if isinstance(source, dict):
+        source_name = clean_text(str(source.get("title") or source.get("uri") or ""), 80)
+    authors = article.get("authors")
+    author = ""
+    if isinstance(authors, list) and authors:
+        first_author = authors[0]
+        if isinstance(first_author, dict):
+            author = clean_text(str(first_author.get("name") or ""), 80)
+        else:
+            author = clean_text(str(first_author), 80)
+    body = clean_text(str(article.get("body") or article.get("summary") or ""), 320)
+    published = parse_date(str(article.get("dateTimePub") or article.get("dateTime") or article.get("date") or ""))
+    return {
+        "source": source_name or "Event Registry",
+        "via": "Event Registry",
+        "title": title,
+        "summary": body or title,
+        "url": url,
+        "author": author or source_name or "Event Registry",
+        "publishedAt": published,
+        "matchedPortfolios": [portfolio],
+    }
+
+
+def fetch_event_registry(api_key: str) -> tuple[list[dict[str, object]], list[dict[str, object]]]:
+    items: list[dict[str, object]] = []
+    source_status: list[dict[str, object]] = []
+    for portfolio, keywords in PORTFOLIO_KEYWORDS.items():
+        query = event_registry_query_for(portfolio, keywords)
+        payload = {
+            "apiKey": api_key,
+            "action": "getArticles",
+            "resultType": "articles",
+            "keyword": query,
+            "lang": ["eng", "zho"],
+            "articlesSortBy": "date",
+            "articlesCount": EVENT_REGISTRY_MAX_PER_TOPIC,
+            "articlesIncludeArticleConcepts": True,
+            "articlesIncludeArticleCategories": True,
+            "articlesIncludeArticleImage": False,
+        }
+        try:
+            data = post_json(EVENT_REGISTRY_ENDPOINT, payload)
+            results = (((data.get("articles") or {}) if isinstance(data, dict) else {}).get("results") or [])
+            kept = 0
+            for article in results:
+                if not isinstance(article, dict):
+                    continue
+                parsed = parse_event_registry_article(article, portfolio)
+                if not parsed:
+                    continue
+                matched, tags = classify(parsed)
+                parsed["matchedPortfolios"] = sorted(set([portfolio, *matched]))
+                parsed["tags"] = tags
+                apply_news_overrides(parsed)
+                items.append(parsed)
+                kept += 1
+            source_status.append({
+                "name": "Event Registry",
+                "portfolio": portfolio,
+                "query": query,
+                "status": "ok",
+                "count": kept,
+            })
+            time.sleep(0.25)
+        except (urllib.error.URLError, TimeoutError, socket.timeout, ValueError, OSError) as exc:
+            source_status.append({
+                "name": "Event Registry",
+                "portfolio": portfolio,
+                "query": query,
+                "status": "error",
+                "error": str(exc)[:180],
+                "count": 0,
+            })
+    return items, source_status
+
+
 def classify(item: dict[str, str]) -> tuple[list[str], list[str]]:
     text = " ".join([item.get("source", ""), item.get("title", ""), item.get("summary", "")]).lower()
     matched = []
@@ -289,7 +418,25 @@ def main() -> int:
     items: list[dict[str, object]] = []
     source_status = []
 
-    for source in SOURCES:
+    event_registry_key = os.environ.get("EVENT_REGISTRY_API_KEY", "").strip()
+    if event_registry_key:
+        event_items, event_status = fetch_event_registry(event_registry_key)
+        source_status.extend(event_status)
+        for item in event_items:
+            key = (item.get("url") or item.get("title") or "").lower()
+            if not key or key in seen:
+                continue
+            seen.add(key)
+            items.append(item)
+    else:
+        source_status.append({
+            "name": "Event Registry",
+            "status": "skipped",
+            "count": 0,
+            "note": "Set EVENT_REGISTRY_API_KEY to enable the unified primary news layer.",
+        })
+
+    for source in OFFICIAL_SOURCES:
         try:
             raw = fetch_url(source["url"])
             parsed = parse_feed(source, raw)
@@ -313,11 +460,17 @@ def main() -> int:
     items.sort(key=lambda item: item.get("publishedAt") or "", reverse=True)
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "strategy": {
+            "primary": "Event Registry",
+            "primaryEnabled": bool(event_registry_key),
+            "supplements": ["SEC", "Company IR", "NASA", "Defense.gov", "WHO", "Reuters", "AP", "BBC", "CNBC", "MarketWatch"],
+        },
         "sources": source_status,
         "items": items[:200],
     }
     OUT.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"wrote {OUT} with {len(payload['items'])} items from {sum(1 for s in source_status if s['status'] == 'ok')} sources")
+    VERSIONED_OUT.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(f"wrote {OUT} and {VERSIONED_OUT} with {len(payload['items'])} items from {sum(1 for s in source_status if s['status'] == 'ok')} sources")
     return 0
 
 
