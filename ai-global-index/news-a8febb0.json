@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-11T04:03:12.926659Z",
+  "generatedAt": "2026-05-11T04:50:17.540084Z",
   "strategy": {
     "primary": "Event Registry",
     "primaryEnabled": false,
@@ -63,8 +63,9 @@
     {
       "name": "CNBC",
       "url": "https://www.cnbc.com/id/100003114/device/rss/rss.html",
-      "status": "ok",
-      "count": 24
+      "status": "error",
+      "error": "The read operation timed out",
+      "count": 0
     },
     {
       "name": "MarketWatch",
@@ -184,6 +185,18 @@
       "count": 10
     },
     {
+      "name": "MINING.COM",
+      "url": "https://www.mining.com/feed/",
+      "status": "ok",
+      "count": 24
+    },
+    {
+      "name": "Mining Technology",
+      "url": "https://www.mining-technology.com/feed/",
+      "status": "ok",
+      "count": 10
+    },
+    {
       "name": "SpaceNews",
       "url": "https://spacenews.com/feed/",
       "status": "ok",
@@ -272,6 +285,62 @@
   ],
   "items": [
     {
+      "source": "SCMP Business",
+      "title": "Hong Kong chip stocks extend their rally as they ride the global semiconductor wave",
+      "summary": "Hong Kong chip stocks extended their rally on Monday morning, riding a global semiconductor wave after Wall Street’s Philadelphia Semiconductor Index surged last week, and continued momentum in China’s home-grown AI chip sector kept investor appetite elevated. Montage Technology led the pack with a 15.81 per cent jump",
+      "url": "https://www.scmp.com/business/markets/article/3353091/hong-kong-chip-stocks-extend-their-rally-they-ride-global-semiconductor-wave?utm_source=rss_feed",
+      "author": "Julie Zhang",
+      "publishedAt": "2026-05-11T04:03:42Z",
+      "titleEn": "Hong Kong chip stocks extend their rally as they ride the global semiconductor wave",
+      "titleZh": "香港芯片股在全球半导体浪潮中延续涨势",
+      "matchedPortfolios": [
+        "ai-software",
+        "china-leading",
+        "china-property"
+      ],
+      "tags": [
+        "ai",
+        "china",
+        "hong kong"
+      ]
+    },
+    {
+      "source": "WWD",
+      "title": "EXCLUSIVE: Canada’s Largest Redevelopment Draws Compelling Luxury Lineup",
+      "summary": "Alexander Wang, Brunello Cucinelli, Canada Goose, Christian Louboutin, Dolce & Gabbana, Harry Rosen, Loewe, Longchamp, Loro Piana and Louis Vuitton are among the brands opening in Vancouver's giant mixed-use project.",
+      "url": "https://wwd.com/business-news/real-estate/canadas-largest-redevelopment-vancouver-oakridge-park-retail-real-estate-1238938894/",
+      "author": "David Moin",
+      "publishedAt": "2026-05-11T04:01:00Z",
+      "titleEn": "EXCLUSIVE: Canada’s Largest Redevelopment Draws Compelling Luxury Lineup",
+      "titleZh": "独家：加拿大最大的重建项目吸引了引人注目的豪华阵容",
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
+      "source": "WWD",
+      "title": "Quince Projects Doubling Men’s Sales by Next Year",
+      "summary": "The DTC essentials brand believes menswear can account for 40 percent of its $1 billion volume by 2027.",
+      "url": "https://wwd.com/menswear-news/mens-retail-business/quince-mens-sales-christopher-sung-1238943946/",
+      "author": "Jean E. Palmieri",
+      "publishedAt": "2026-05-11T04:01:00Z",
+      "titleEn": "Quince Projects Doubling Men’s Sales by Next Year",
+      "titleZh": "Quince 计划明年将男装销量翻一番",
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
+      "source": "WWD",
+      "title": "Tiffany x CFDA Expands Jewelry Designer Initiative With Addition of Scholarship",
+      "summary": "The luxury jeweler and the CFDA are broadening their emerging talent initiative for a second year, adding a new scholarship and internship program aimed at early-career jewelry design students.",
+      "url": "https://wwd.com/accessories-news/jewelry/tiffany-x-cfda-expand-jewelry-designer-award-scholarship-1238947415/",
+      "author": "Thomas Waller",
+      "publishedAt": "2026-05-11T04:01:00Z",
+      "titleEn": "Tiffany x CFDA Expands Jewelry Designer Initiative With Addition of Scholarship",
+      "titleZh": "蒂芙尼 (Tiffany) x CFDA 扩大珠宝设计师计划并增加奖学金",
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
       "source": "WWD",
       "title": "Barena Venezia Opens First Flagship in Venice",
       "summary": "The 538-square-foot store is located inside the storied Palazzo Regina Vittoria, a stone’s throw from St. Mark’s Square.",
@@ -280,6 +349,18 @@
       "publishedAt": "2026-05-11T04:01:00Z",
       "titleEn": "Barena Venezia Opens First Flagship in Venice",
       "titleZh": "Barena Venezia 在威尼斯开设第一家旗舰店",
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
+      "source": "WWD",
+      "title": "Makeup by Mario, Sephora Team Up on Content Series",
+      "summary": "Mario Dedivanovic will be starring in a new episodic content series, a joint effort between his brand and the beauty retail giant.",
+      "url": "https://wwd.com/beauty-industry-news/color-cosmetics/makeup-by-mario-sephora-content-series-1238947810/",
+      "author": "Jmansowwd",
+      "publishedAt": "2026-05-11T04:01:00Z",
+      "titleEn": "Makeup by Mario, Sephora Team Up on Content Series",
+      "titleZh": "马里奥 (Mario) 化妆与丝芙兰 (Sephora) 合作推出内容系列",
       "matchedPortfolios": [],
       "tags": []
     },
@@ -352,20 +433,16 @@
       "tags": []
     },
     {
-      "source": "CNBC",
-      "title": "Iran says it will 'never bow' as Trump rejects peace counteroffer, prolonging Middle East conflict",
-      "summary": "Washington has sought to press Beijing to lean on Tehran to reopen the strait, though China's appetite to act as a pressure mechanism remains unclear.",
-      "url": "https://www.cnbc.com/2026/05/11/iran-war-trump-negotiation-hormuz-nuclear-talks.html",
-      "author": "CNBC",
-      "publishedAt": "2026-05-11T02:21:44Z",
-      "titleEn": "Iran says it will 'never bow' as Trump rejects peace counteroffer, prolonging Middle East conflict",
-      "titleZh": "伊朗表示“永远不会屈服”，因为特朗普拒绝和平还价，延长中东冲突",
-      "matchedPortfolios": [
-        "china-leading"
-      ],
-      "tags": [
-        "china"
-      ]
+      "source": "BBC",
+      "title": "Dua Lipa sues Samsung for $15m over use of her image on TV boxes",
+      "summary": "The pop star's legal team alleges a photograph of her face was used on Samsung television boxes without permission.",
+      "url": "https://www.bbc.com/news/articles/ce9pvp210zdo?at_medium=RSS&at_campaign=rss",
+      "author": "BBC",
+      "publishedAt": "2026-05-11T02:48:53Z",
+      "titleEn": "Dua Lipa sues Samsung for $15m over use of her image on TV boxes",
+      "titleZh": "杜阿·利帕 (Dua Lipa) 因电视盒子上使用她的照片而起诉三星，索赔 1500 万美元",
+      "matchedPortfolios": [],
+      "tags": []
     },
     {
       "source": "WWD",
@@ -392,38 +469,6 @@
       "tags": []
     },
     {
-      "source": "CNBC",
-      "title": "Do you need a chief AI officer? Here's how the tech is changing boardrooms",
-      "summary": "AI may now be coming for the C-suite, according to a report published Monday by IBM, which found that most companies were now staffing chief AI officer roles.",
-      "url": "https://www.cnbc.com/2026/05/11/heres-how-artificial-intelligence-is-changing-boardrooms.html",
-      "author": "CNBC",
-      "publishedAt": "2026-05-11T02:10:29Z",
-      "titleEn": "Do you need a chief AI officer? Here's how the tech is changing boardrooms",
-      "titleZh": "您需要首席人工智能官吗？以下是科技如何改变董事会",
-      "matchedPortfolios": [
-        "ai-software"
-      ],
-      "tags": [
-        "ai"
-      ]
-    },
-    {
-      "source": "CNBC",
-      "title": "China consumer, wholesale inflation tops estimates in April as Iran war drives energy costs higher",
-      "summary": "China has cushioned the worst of the energy shock through its strategic oil stockpiles and a diversified mix of renewable energy sources.",
-      "url": "https://www.cnbc.com/2026/05/11/china-cpi-ppi-inflation-energy-costs-oil-iran-war.html",
-      "author": "CNBC",
-      "publishedAt": "2026-05-11T02:05:26Z",
-      "titleEn": "China consumer, wholesale inflation tops estimates in April as Iran war drives energy costs higher",
-      "titleZh": "由于伊朗战争推高能源成本，中国四月份消费者和批发通胀超出预期",
-      "matchedPortfolios": [
-        "china-leading"
-      ],
-      "tags": [
-        "china"
-      ]
-    },
-    {
       "source": "BBC",
       "title": "Trump calls Iran response to US proposal to end war 'totally unacceptable'",
       "summary": "No details have been released of Iran's response - or the US proposals - designed to bring the war to an end.",
@@ -432,30 +477,6 @@
       "publishedAt": "2026-05-11T01:55:13Z",
       "titleEn": "Trump calls Iran response to US proposal to end war 'totally unacceptable'",
       "titleZh": "特朗普称伊朗对美国结束战争提议的反应“完全不可接受”",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "CNBC",
-      "title": "South Korea's Kospi hits fresh record as Asia markets trade mixed amid oil surge, Iran risks",
-      "summary": "Investors headed into Monday on edge as Trump’s rejection of Iran’s ceasefire proposal fueled concerns about a prolonged Middle East conflict.",
-      "url": "https://www.cnbc.com/2026/05/11/asia-markets-today-live-updates-nikkei-kospi-hang-seng-sensex-csi-300-iran-hormuz.html",
-      "author": "CNBC",
-      "publishedAt": "2026-05-11T01:53:43Z",
-      "titleEn": "South Korea's Kospi hits fresh record as Asia markets trade mixed amid oil surge, Iran risks",
-      "titleZh": "韩国综合股价指数创下新高，亚洲市场因油价飙升和伊朗风险而涨跌互现",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "BBC",
-      "title": "Oil prices jump after Trump dismisses Iran proposal to end war",
-      "summary": "The Strait of Hormuz waterway remains effectively shut, severely disrupting global energy shipments.",
-      "url": "https://www.bbc.com/news/articles/ckgp4ev4yg4o?at_medium=RSS&at_campaign=rss",
-      "author": "BBC",
-      "publishedAt": "2026-05-11T01:12:30Z",
-      "titleEn": "Oil prices jump after Trump dismisses Iran proposal to end war",
-      "titleZh": "特朗普驳回伊朗结束战争的提议后油价上涨",
       "matchedPortfolios": [],
       "tags": []
     },
@@ -532,14 +553,14 @@
       ]
     },
     {
-      "source": "CNBC",
-      "title": "Oil climbs as Netanyahu and Trump remarks stoke worries over rising Middle East tensions",
-      "summary": "Oil prices jumped on Monday after Israel warned that the conflict with Iran was still ongoing.",
-      "url": "https://www.cnbc.com/2026/05/11/oil-price-today-brent-wti-iran-war-trump.html",
-      "author": "CNBC",
-      "publishedAt": "2026-05-11T00:45:02Z",
-      "titleEn": "Oil climbs as Netanyahu and Trump remarks stoke worries over rising Middle East tensions",
-      "titleZh": "内塔尼亚胡和特朗普的言论引发了对中东紧张局势加剧的担忧，油价上涨",
+      "source": "BBC",
+      "title": "Ailing Iran Nobel laureate given bail and hospital transfer",
+      "summary": "Iranian authorities granted human rights activist Narges Mohammadi bail amid growing concern over her poor health in prison.",
+      "url": "https://www.bbc.com/news/articles/c1j257w87neo?at_medium=RSS&at_campaign=rss",
+      "author": "BBC",
+      "publishedAt": "2026-05-11T00:40:45Z",
+      "titleEn": "Ailing Iran Nobel laureate given bail and hospital transfer",
+      "titleZh": "患病的伊朗诺贝尔奖获得者获得保释并转院",
       "matchedPortfolios": [],
       "tags": []
     },
@@ -568,18 +589,6 @@
       "publishedAt": "2026-05-11T00:30:56Z",
       "titleEn": "Chris Mason: Another crunch moment for Starmer as he pleads with Labour MPs not to topple him",
       "titleZh": "克里斯·梅森：斯塔默恳求工党议员不要推翻他，这又是一个关键时刻",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "CNBC",
-      "title": "From Singapore to Brussels, world leaders eye Trump-Xi summit from afar",
-      "summary": "The world will be watching the Trump-Xi summit.",
-      "url": "https://www.cnbc.com/2026/05/11/trump-xi-summit-beijing-global-leaders-iran-war-taiwan-strait-of-hormuz-.html",
-      "author": "CNBC",
-      "publishedAt": "2026-05-11T00:26:25Z",
-      "titleEn": "From Singapore to Brussels, world leaders eye Trump-Xi summit from afar",
-      "titleZh": "从新加坡到布鲁塞尔，世界领导人远距离关注特习峰会",
       "matchedPortfolios": [],
       "tags": []
     },
@@ -720,34 +729,6 @@
       ]
     },
     {
-      "source": "CNBC",
-      "title": "Nvidia embraces role of AI investor, pushing past $40 billion in equity bets this year",
-      "summary": "Nvidia is pouring billions of dollars at a time into companies across the AI infrastructure stack, while also signing commercial deals with them.",
-      "url": "https://www.cnbc.com/2026/05/09/nvidia-embraces-ai-investor-topping-40-billion-in-equity-bets-2026.html",
-      "author": "CNBC",
-      "publishedAt": "2026-05-10T22:57:47Z",
-      "titleEn": "Nvidia embraces role of AI investor, pushing past $40 billion in equity bets this year",
-      "titleZh": "Nvidia 积极发挥人工智能投资者的作用，今年的股票投资额超过 400 亿美元",
-      "matchedPortfolios": [
-        "ai-software"
-      ],
-      "tags": [
-        "ai"
-      ]
-    },
-    {
-      "source": "WWD",
-      "title": "Priyanka Chopra Jonas Accepts Gold House Honor in Reimagined Chikankari Couture",
-      "summary": "The actress wore custom Amit Aggarwal, made from a 20-year-old chikankari sari, as she received the Global Vanguard Honor.",
-      "url": "https://wwd.com/pop-culture/celebrity-news/priyanka-chopra-jonas-amit-aggarwal-chikankari-gold-gala-1238949181/",
-      "author": "Maggie Clancy",
-      "publishedAt": "2026-05-10T22:28:51Z",
-      "titleEn": "Priyanka Chopra Jonas Accepts Gold House Honor in Reimagined Chikankari Couture",
-      "titleZh": "佩丽冉卡·乔普拉·乔纳斯 (Priyanka Chopra Jonas) 凭借重新设计的 Chikankari 高级定制时装荣获金屋奖",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
       "source": "BBC",
       "title": "British passengers from hantavirus-hit cruise ship isolating in hospital, says UKHSA",
       "summary": "The passengers landed in the UK on Sunday and none have reported symptoms, but they will will be monitored in hospital for 72 hours.",
@@ -762,6 +743,18 @@
       "tags": [
         "hantavirus"
       ]
+    },
+    {
+      "source": "BBC",
+      "title": "Watch: Best moments from the Bafta TV Awards",
+      "summary": "Netflix drama Adolescence was the big winner at the Bafta Television Awards on Sunday, while The Celebrity Traitors also scooped a share of the glory.",
+      "url": "https://www.bbc.com/news/videos/cj9p388nwxeo?at_medium=RSS&at_campaign=rss",
+      "author": "BBC",
+      "publishedAt": "2026-05-10T22:07:29Z",
+      "titleEn": "Watch: Best moments from the Bafta TV Awards",
+      "titleZh": "观看：英国电影和电视艺术学院电视奖的最佳时刻",
+      "matchedPortfolios": [],
+      "tags": []
     },
     {
       "source": "SCMP China",
@@ -896,30 +889,6 @@
       ]
     },
     {
-      "source": "CNBC",
-      "title": "Netanyahu says Iran war is 'not over' as Trump rejects latest Iranian offer",
-      "summary": "The Iran war, dragging into its second month, has spiked oil and gas prices in the U.S. and around the world.",
-      "url": "https://www.cnbc.com/2026/05/10/netanyahu-says-iran-war-is-not-over-as-peace-deal-remains-elusive.html",
-      "author": "CNBC",
-      "publishedAt": "2026-05-10T20:28:55Z",
-      "titleEn": "Netanyahu says Iran war is 'not over' as Trump rejects latest Iranian offer",
-      "titleZh": "内塔尼亚胡称伊朗战争“尚未结束”，特朗普拒绝伊朗最新提议",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "WWD",
-      "title": "Rosalía Takes the Ballet Flat Revival Literally in Ruched White Dance Shoes",
-      "summary": "The singer arrived at Netflix’s “La Jarana en el Guadalquivir” in white criss-cross flats and a semi-sheer ballerina-style dress.",
-      "url": "https://wwd.com/footwear-news/shoe-trends/rosalia-ballerina-ballet-flats-seville-1238949122/",
-      "author": "Maggie Clancy",
-      "publishedAt": "2026-05-10T20:23:10Z",
-      "titleEn": "Rosalía Takes the Ballet Flat Revival Literally in Ruched White Dance Shoes",
-      "titleZh": "罗莎莉娅 (Rosalía) 身穿褶皱白色舞鞋，演绎芭蕾舞平底鞋复兴",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
       "source": "MarketWatch",
       "title": "Introducing the ‘NACHO’ trade: How Wall Street is betting on higher oil prices and persistent inflation",
       "summary": "Wall Street is glomming on to yet another acronym inspired in part by Mexican cuisine.",
@@ -984,18 +953,6 @@
       ]
     },
     {
-      "source": "WWD",
-      "title": "Chanel Gives Color-filled Read of Its Signs and Symbols in New High Jewelry Collection",
-      "summary": "Saturated in bold, unexpected color harmonies, the 85-piece collection is about layering continuity with a sense of surprise — and extraordinary stones.",
-      "url": "https://wwd.com/accessories-news/jewelry/chanel-signes-symboles-high-jewelry-collection-1238947255/",
-      "author": "Lily Templeton",
-      "publishedAt": "2026-05-10T20:00:00Z",
-      "titleEn": "Chanel Gives Color-filled Read of Its Signs and Symbols in New High Jewelry Collection",
-      "titleZh": "香奈儿在全新高级珠宝系列中以色彩丰富的方式解读其标志和符号",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
       "source": "BBC",
       "title": "His father had just been buried. Then West Bank settlers forced him to dig up the body",
       "summary": "The UN human rights office condemns incident as \"'appalling and emblematic of the dehumanisation of Palestinians\" in the West Bank.",
@@ -1020,6 +977,18 @@
       "tags": []
     },
     {
+      "source": "MINING.COM",
+      "title": "Blast from the Past: US deals blow to Canada over uranium contracts, Nov. 1959",
+      "summary": "Canada had become the world’s top uranium producer by 1958, with exports of the metal surpassing all others in value.",
+      "url": "https://www.mining.com/blast-from-the-past-us-deals-blow-to-canada-over-uranium-contracts-nov-1959/",
+      "author": "Northern Miner Staff",
+      "publishedAt": "2026-05-10T18:43:07Z",
+      "titleEn": "Blast from the Past: US deals blow to Canada over uranium contracts, Nov. 1959",
+      "titleZh": "过去的爆炸：1959 年 11 月，美国因铀合同而对加拿大造成打击",
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
       "source": "TechCrunch",
       "title": "Uber has always wanted to be more than a ride; now it has reason to hurry",
       "summary": "The company has been trying to embed itself inside the AV industry — as a data provider, an investor, and a distribution platform — but the consumer-facing bet may be just as important.",
@@ -1030,34 +999,6 @@
       "titleZh": "Uber 一直希望不仅仅是提供乘车服务；现在有理由加快步伐",
       "matchedPortfolios": [],
       "tags": []
-    },
-    {
-      "source": "WWD",
-      "title": "Saudi Fashion Steps Into the Global Spotlight With Confidence and Craft",
-      "summary": "Government support, creative freedom and social media visibility fuel the Kingdom’s expanding fashion influence.",
-      "url": "https://wwd.com/fashion-news/fashion-features/saudi-fashion-steps-into-the-global-spotlight-1238949038/",
-      "author": "Arthur Zaczkiewicz",
-      "publishedAt": "2026-05-10T17:59:41Z",
-      "titleEn": "Saudi Fashion Steps Into the Global Spotlight With Confidence and Craft",
-      "titleZh": "沙特时尚以自信和工艺走进全球聚光灯",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "CNBC",
-      "title": "It's not too late to start buying the data center winners. Here's why",
-      "summary": "In his Sunday column for Investing Club subscribers, Jim Cramer pushes back on the idea that it's too late to start buying AI winners.",
-      "url": "https://www.cnbc.com/2026/05/10/jim-cramer-why-its-not-too-late-to-start-buying-red-hot-ai-stocks.html",
-      "author": "CNBC",
-      "publishedAt": "2026-05-10T17:15:20Z",
-      "titleEn": "It's not too late to start buying the data center winners. Here's why",
-      "titleZh": "现在开始购买数据中心的赢家还为时不晚。这就是为什么",
-      "matchedPortfolios": [
-        "ai-software"
-      ],
-      "tags": [
-        "ai"
-      ]
     },
     {
       "source": "MarketWatch",
@@ -1174,42 +1115,6 @@
       "tags": []
     },
     {
-      "source": "CNBC",
-      "title": "With Netflix new ad-free standard plan at $20, streaming's tipping point into old TV is getting closer",
-      "summary": "The economics of streaming are nearing the point where cheaper plans with ads make as much if not more money for services like Netflix.",
-      "url": "https://www.cnbc.com/2026/05/10/netflix-20-dollar-streaming-plan-price.html",
-      "author": "CNBC",
-      "publishedAt": "2026-05-10T14:48:33Z",
-      "titleEn": "With Netflix new ad-free standard plan at $20, streaming's tipping point into old TV is getting closer",
-      "titleZh": "Netflix 新的无广告标准计划售价为 20 美元，流媒体进入旧电视的转折点越来越近",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "BBC",
-      "title": "Beatles' early years drama starts filming in Germany",
-      "summary": "Six-part drama Hamburg Days charts the band's early era with members Stuart Sutcliffe and Pete Best.",
-      "url": "https://www.bbc.com/news/articles/cy9208lwgngo?at_medium=RSS&at_campaign=rss",
-      "author": "BBC",
-      "publishedAt": "2026-05-10T14:32:31Z",
-      "titleEn": "Beatles' early years drama starts filming in Germany",
-      "titleZh": "披头士乐队早年剧情片在德国开拍",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "BBC",
-      "title": "I stood on a dog biscuit - it left me in a wheelchair",
-      "summary": "An apparently minor injury led to Jayme Stephen having a leg amputed as a result of her diabetes.",
-      "url": "https://www.bbc.com/news/articles/cvgzlxwp9zeo?at_medium=RSS&at_campaign=rss",
-      "author": "BBC",
-      "publishedAt": "2026-05-10T14:31:13Z",
-      "titleEn": "I stood on a dog biscuit - it left me in a wheelchair",
-      "titleZh": "我站在一块狗饼干上 - 它让我坐在轮椅上",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
       "source": "BBC",
       "title": "Plaid Cymru's Rhun ap Iorwerth willing to 'take the fight' to Keir Starmer",
       "summary": "The Plaid leader says he will \"call out\" the UK government, if that is needed, as first minister.",
@@ -1238,18 +1143,6 @@
         "ai",
         "china"
       ]
-    },
-    {
-      "source": "CNBC",
-      "title": "At 103 years old, I’m the ‘world’s oldest doctor’: My 3 rules for a long, happy life are so simple—I tell it to 'all my patients'",
-      "summary": "Dr. Howard Tucker left behind an impressive legacy. At 103, he was named the oldest doctor in the world — and quite possibly the happiest. Shortly before passing away, he shared his rules for living a long, happy and healthy life. They're very simple, he says.",
-      "url": "https://www.cnbc.com/2026/05/10/at-103-years-old-im-the-worlds-oldest-doctor-my-3-rules-for-a-long-happy-life-are-simple.html",
-      "author": "CNBC",
-      "publishedAt": "2026-05-10T13:34:45Z",
-      "titleEn": "At 103 years old, I’m the ‘world’s oldest doctor’: My 3 rules for a long, happy life are so simple—I tell it to 'all my patients'",
-      "titleZh": "103 岁的我是“世界上最年长的医生”：我的长寿、幸福生活的 3 条规则是如此简单——我告诉“我所有的病人”",
-      "matchedPortfolios": [],
-      "tags": []
     },
     {
       "source": "MarketWatch",
@@ -1283,22 +1176,6 @@
       ],
       "tags": [
         "china"
-      ]
-    },
-    {
-      "source": "CNBC",
-      "title": "Meet the YouTube whisperers, a booming class of advisors behind MrBeast and other million-dollar channels",
-      "summary": "A burgeoning group of YouTube strategists are charging big money to YouTubers who want to expand their popularity.",
-      "url": "https://www.cnbc.com/2026/05/10/youtube-advisors-mrbeast-top-creators-platform-viewership.html",
-      "author": "CNBC",
-      "publishedAt": "2026-05-10T13:00:01Z",
-      "titleEn": "Meet the YouTube whisperers, a booming class of advisors behind MrBeast and other million-dollar channels",
-      "titleZh": "YouTube 耳语者是 MrBeast 和其他百万美元频道背后的一个蓬勃发展的顾问阶层",
-      "matchedPortfolios": [
-        "hantavirus"
-      ],
-      "tags": [
-        "who"
       ]
     },
     {
@@ -1358,22 +1235,6 @@
       ]
     },
     {
-      "source": "CNBC",
-      "title": "SEC delay on prediction markets ETFs echoes a long-fought bitcoin fund battle",
-      "summary": "The Securities and Exchange Commission has delayed approval for prediction markets ETFs, bringing up memories of the long battle over bitcoin funds.",
-      "url": "https://www.cnbc.com/2026/05/10/sec-prediction-markets-etfs-trading-launch-delay.html",
-      "author": "CNBC",
-      "publishedAt": "2026-05-10T12:22:02Z",
-      "titleEn": "SEC delay on prediction markets ETFs echoes a long-fought bitcoin fund battle",
-      "titleZh": "美国证券交易委员会 (SEC) 推迟预测市场 ETF，呼应了一场旷日持久的比特币基金大战",
-      "matchedPortfolios": [
-        "no-yield"
-      ],
-      "tags": [
-        "bitcoin"
-      ]
-    },
-    {
       "source": "SCMP China",
       "title": "Underwater anti-mine technology and robot dogs take centre stage at Chinese defence show",
       "summary": "China unveiled some of its most advanced military technology, including robot dogs and an AI-enabled underwater system that can neutralise mines, at a defence expo. Autonomous underwater vehicles designed to be launched by submarine were one of the most noteworthy products that featured at the 2026 Chengdu Defence Tech",
@@ -1392,59 +1253,6 @@
         "autonomous",
         "china"
       ]
-    },
-    {
-      "source": "CNBC",
-      "title": "Alphabet's 160% rally in a year reflects value of owning 'most of the stack' in AI",
-      "summary": "Google was seen as an AI laggard in the early days of the AI boom, but investors are now betting that the search giant will be a clear winner.",
-      "url": "https://www.cnbc.com/2026/05/10/alphabet-160percent-rally-in-year-reflects-value-of-owning-most-of-ai-stack.html",
-      "author": "CNBC",
-      "publishedAt": "2026-05-10T12:00:01Z",
-      "titleEn": "Alphabet's 160% rally in a year reflects value of owning 'most of the stack' in AI",
-      "titleZh": "Alphabet 一年内上涨 160% 反映了拥有人工智能领域“大部分股权​​”的价值",
-      "matchedPortfolios": [
-        "ai-software"
-      ],
-      "tags": [
-        "ai",
-        "google"
-      ]
-    },
-    {
-      "source": "CNBC",
-      "title": "Target is trying to win back busy families from Walmart, starting with the baby aisle",
-      "summary": "Target is refreshing its baby category as part of a broader effort to offer better products and more convenience to compete with Walmart and Amazon.",
-      "url": "https://www.cnbc.com/2026/05/10/target.html",
-      "author": "CNBC",
-      "publishedAt": "2026-05-10T12:00:01Z",
-      "titleEn": "Target is trying to win back busy families from Walmart, starting with the baby aisle",
-      "titleZh": "塔吉特正试图从沃尔玛手中夺回忙碌的家庭，从婴儿通道开始",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "CNBC",
-      "title": "Retailers are on a hiring spree. But consumers are sending warning signs",
-      "summary": "The retail trades added nearly 22,000 jobs in April, accounting for about one-fifth of total job growth.",
-      "url": "https://www.cnbc.com/2026/05/10/retailer-hiring-consumer-warning-jobs-report.html",
-      "author": "CNBC",
-      "publishedAt": "2026-05-10T11:29:25Z",
-      "titleEn": "Retailers are on a hiring spree. But consumers are sending warning signs",
-      "titleZh": "零售商正在大举招聘。但消费者正在发出警告信号",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "CNBC",
-      "title": "Top Wall Street analysts recommend these 3 dividend stocks for stable income",
-      "summary": "Dividend-paying stocks can help cushion downside risk while offering consistent returns.",
-      "url": "https://www.cnbc.com/2026/05/10/top-wall-street-analysts-recommend-these-stocks-for-stable-income.html",
-      "author": "CNBC",
-      "publishedAt": "2026-05-10T11:27:26Z",
-      "titleEn": "Top Wall Street analysts recommend these 3 dividend stocks for stable income",
-      "titleZh": "华尔街顶级分析师推荐这3只股息股以获得稳定收入",
-      "matchedPortfolios": [],
-      "tags": []
     },
     {
       "source": "SCMP Tech",
@@ -1516,18 +1324,6 @@
         "china",
         "deflation"
       ]
-    },
-    {
-      "source": "CNBC",
-      "title": "Saudi Aramco Q1 profit jumps 26% as key pipeline reaches capacity amid Iran war",
-      "summary": "Aramco says its East-West pipeline has helped to mitigate the energy shock caused by the Iran war.",
-      "url": "https://www.cnbc.com/2026/05/10/saudi-aramco-q1-profit-jumps-26percent-as-key-pipeline-reaches-capacity.html",
-      "author": "CNBC",
-      "publishedAt": "2026-05-10T08:24:41Z",
-      "titleEn": "Saudi Aramco Q1 profit jumps 26% as key pipeline reaches capacity amid Iran war",
-      "titleZh": "伊朗战争期间关键管道达到产能，沙特阿美第一季度利润跃升26%",
-      "matchedPortfolios": [],
-      "tags": []
     },
     {
       "source": "SCMP Tech",
@@ -1729,23 +1525,6 @@
       "tags": []
     },
     {
-      "source": "CNBC",
-      "title": "MV Hondius hantavirus outbreak: A luxury expedition cruise boom and new world of remote travel risks",
-      "summary": "Remote expedition cruises to destinations like Antarctica and the Arctic are booming, but the deadly hantavirus aboard MV Hondius is a reminder of unique risks.",
-      "url": "https://www.cnbc.com/2026/05/09/hantavirus-cruise-ship-mv-hondius-travel-health-risks.html",
-      "author": "CNBC",
-      "publishedAt": "2026-05-09T19:52:27Z",
-      "titleEn": "MV Hondius hantavirus outbreak: A luxury expedition cruise boom and new world of remote travel risks",
-      "titleZh": "MV Hondius 汉坦病毒爆发：豪华探险邮轮热潮和远程旅行风险新世界",
-      "matchedPortfolios": [
-        "hantavirus"
-      ],
-      "tags": [
-        "hantavirus",
-        "outbreak"
-      ]
-    },
-    {
       "source": "TechCrunch",
       "title": "GM agrees to pay $12.75M in California driver privacy settlement",
       "summary": "General Motors has reached a privacy-related settlement with a group of law enforcement agencies led by California Attorney General Rob Bonta.",
@@ -1756,23 +1535,6 @@
       "titleZh": "通用汽车同意支付 1275 万美元加州司机隐私和解金",
       "matchedPortfolios": [],
       "tags": []
-    },
-    {
-      "source": "CNBC",
-      "title": "There's little chance of a hantavirus global outbreak. What the latest odds say",
-      "summary": "Prediction markets like Kalshi show slim chance that the hantavirus outbreak will be of international concern",
-      "url": "https://www.cnbc.com/2026/05/09/hantavirus-outbreak-little-chance-says-kalshi.html",
-      "author": "CNBC",
-      "publishedAt": "2026-05-09T16:41:15Z",
-      "titleEn": "There's little chance of a hantavirus global outbreak. What the latest odds say",
-      "titleZh": "汉坦病毒全球爆发的可能性很小。最新赔率怎么说",
-      "matchedPortfolios": [
-        "hantavirus"
-      ],
-      "tags": [
-        "hantavirus",
-        "outbreak"
-      ]
     },
     {
       "source": "TechCrunch",
@@ -1875,18 +1637,6 @@
       ]
     },
     {
-      "source": "CNBC",
-      "title": "Why one of the nation's largest auto lenders isn't worried about high vehicle prices or 'forever loans'",
-      "summary": "While median car payments have jumped from $390 to $525 since 2019, data provided by Capital One suggests stability in vehicle cost compared to income.",
-      "url": "https://www.cnbc.com/2026/05/09/capital-one-auto-forever-loans-used-cars.html",
-      "author": "CNBC",
-      "publishedAt": "2026-05-09T12:00:01Z",
-      "titleEn": "Why one of the nation's largest auto lenders isn't worried about high vehicle prices or 'forever loans'",
-      "titleZh": "为什么美国最大的汽车贷款机构之一不担心高车价或“永久贷款”",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
       "source": "WHO",
       "title": "Message by the WHO Director-General to the people of Tenerife regarding the hantavirus response",
       "summary": "To the people of Tenerife, My name is Tedros, and I serve as the Director-General of the World Health Organization, the United Nations agency responsible for global public health. It is not common for me to write directly to the people of a single community, but today I feel it is not only appropriate, it is necessary.",
@@ -1952,6 +1702,22 @@
       ],
       "tags": [
         "biotech"
+      ]
+    },
+    {
+      "source": "Mining Technology",
+      "title": "Focus Graphite targets battery market with major Lac Tetepisca resource upgrade",
+      "summary": "Canadian junior miner Focus Graphite has updated the mineral resource estimate (MRE) for its Lac Tetepisca project in Quebec. The post Focus Graphite targets battery market with major Lac Tetepisca resource upgrade appeared first on Mining Technology .",
+      "url": "https://www.mining-technology.com/news/focus-graphite-targets-battery-market-with-major-lac-tetepisca-resource-upgrade/",
+      "author": "Alejandro Gonzalez",
+      "publishedAt": "2026-05-09T09:55:45Z",
+      "titleEn": "Focus Graphite targets battery market with major Lac Tetepisca resource upgrade",
+      "titleZh": "Focus Graphite 瞄准电池市场，对 Lac Tetepisca 资源进行重大升级",
+      "matchedPortfolios": [
+        "battery"
+      ],
+      "tags": [
+        "battery"
       ]
     },
     {
@@ -2192,6 +1958,22 @@
       ]
     },
     {
+      "source": "MINING.COM",
+      "title": "Rare Earths Americas surges after debut, bets on US discovery",
+      "summary": "Company says its the Shiloh exploration district in Georgia could fundamentally alter the US’ rare earth supply.",
+      "url": "https://www.mining.com/rare-earths-americas-surges-after-nyse-debut-bets-on-us-heavy-rare-earth-discovery/",
+      "author": "Amanda Stutt",
+      "publishedAt": "2026-05-08T18:59:51Z",
+      "titleEn": "Rare Earths Americas surges after debut, bets on US discovery",
+      "titleZh": "美洲稀土上市后飙升，押注美国发现",
+      "matchedPortfolios": [
+        "us-rare-earth"
+      ],
+      "tags": [
+        "rare earth"
+      ]
+    },
+    {
       "source": "Breaking Defense",
       "title": "Poland becomes first nation to sign EU SAFE loans, expects billions for defense",
       "summary": "Poland is now on track to receive over $51 billion in EU loans for its military, after overcoming domestic political hurdles.",
@@ -2206,30 +1988,6 @@
       "tags": [
         "defense"
       ]
-    },
-    {
-      "source": "CNBC",
-      "title": "Michael Burry says the market today feels like 'the last months of the 1999-2000 bubble'",
-      "summary": "\"Stocks are not up or down because of jobs or consumer sentiment,\" Burry wrote. \"Feeling like the last months of the 1999-2000 bubble.\"",
-      "url": "https://www.cnbc.com/2026/05/08/michael-burry-says-the-market-today-feels-like-the-last-months-of-the-1999-2000-bubble.html",
-      "author": "CNBC",
-      "publishedAt": "2026-05-08T18:54:00Z",
-      "titleEn": "Michael Burry says the market today feels like 'the last months of the 1999-2000 bubble'",
-      "titleZh": "迈克尔·伯里 (Michael Burry) 表示，今天的市场感觉就像“1999-2000 年泡沫的最后几个月”",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "CNBC",
-      "title": "Iran focus at Trump-Xi summit may delay progress on tariffs, rare earths",
-      "summary": "Thanks to the Iran war, big issues for U.S. businesses like rare earths and supply chains may take a back seat on the agenda for the Trump-Xi summit.",
-      "url": "https://www.cnbc.com/2026/05/08/iran-focus-at-trump-xi-summit-may-delay-progress-on-tariffs-rare-earths.html",
-      "author": "CNBC",
-      "publishedAt": "2026-05-08T18:44:26Z",
-      "titleEn": "Iran focus at Trump-Xi summit may delay progress on tariffs, rare earths",
-      "titleZh": "特朗普与习近平峰会的焦点可能会推迟关税和稀土方面的进展",
-      "matchedPortfolios": [],
-      "tags": []
     },
     {
       "source": "TechCrunch",
@@ -2386,6 +2144,18 @@
       ]
     },
     {
+      "source": "Mining Technology",
+      "title": "What is ‘Premium Content’ on Mining Technology?",
+      "summary": "Premium Content is our new free subscription that provides access to deeper analysis, features, and interviews. The post What is ‘Premium Content’ on Mining Technology? appeared first on Mining Technology .",
+      "url": "https://www.mining-technology.com/news/what-is-premium-content-on-mining-technology/",
+      "author": "Alejandro Gonzalez",
+      "publishedAt": "2026-05-08T16:47:48Z",
+      "titleEn": "What is ‘Premium Content’ on Mining Technology?",
+      "titleZh": "什么是采矿技术的“优质内容”？",
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
       "source": "Breaking Defense",
       "title": "Turkish air force contracts its first batch of indigenous KAAN jets",
       "summary": "“The initial sale was made for the first batch of 20 Block 10 aircraft. This is the first order. Over time, we expect the numbers to increase,” Turkish Aerospace CEO Mehmet Demiroglu told Breaking Defense.",
@@ -2454,6 +2224,18 @@
       "tags": []
     },
     {
+      "source": "MINING.COM",
+      "title": "Focus Graphite in Quebec boasts world’s fifth-largest resource",
+      "summary": "The update boosts the global contained graphite to 14.7 million tonnes over the 2022 resource, an 86% increase.",
+      "url": "https://www.mining.com/focus-graphite-in-quebec-boasts-worlds-fifth-largest-resource/",
+      "author": "Northern Miner Staff",
+      "publishedAt": "2026-05-08T15:54:58Z",
+      "titleEn": "Focus Graphite in Quebec boasts world’s fifth-largest resource",
+      "titleZh": "魁北克的 Focus Graphite 拥有世界第五大资源",
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
       "source": "The Record",
       "title": "Multiple universities forced to reschedule final exams after Canvas cyber incident",
       "summary": "On Thursday, dozens of students took to social media to say they saw a message from a cybercriminal group as they navigated through Canvas, an educational platform created by Instructure that hosts teaching materials, tests, readings and more.",
@@ -2498,6 +2280,18 @@
       ]
     },
     {
+      "source": "MINING.COM",
+      "title": "Freeport delays Grasberg full restart to early 2028",
+      "summary": "Freeport now aims for 65% capacity in the second half of 2026, 80% by mid-2027, and near full capacity by the end of 2027.",
+      "url": "https://www.mining.com/freeport-delays-grasberg-full-restart-to-early-2028/",
+      "author": "Jackson Chen",
+      "publishedAt": "2026-05-08T15:34:41Z",
+      "titleEn": "Freeport delays Grasberg full restart to early 2028",
+      "titleZh": "自由港将 Grasberg 全面重启推迟至 2028 年初",
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
       "source": "Defense News",
       "title": "Marines to phase out F/A-18 maintenance jobs as Hornet era ends",
       "summary": "Enlisted Marines with Hornet specialties will be offered retraining, reassignment or career dead ends.",
@@ -2512,6 +2306,18 @@
       "tags": [
         "defense"
       ]
+    },
+    {
+      "source": "MINING.COM",
+      "title": "San Lorenzo hits all-time high on Chile gold assays",
+      "summary": "San Lorenzo has emerged as one of the top-performing junior explorers following a series of discoveries at Salvadora in Chile’s Atacama region.",
+      "url": "https://www.mining.com/san-lorenzo-hits-all-time-high-on-chile-gold-assays/",
+      "author": "Northern Miner Staff",
+      "publishedAt": "2026-05-08T15:23:06Z",
+      "titleEn": "San Lorenzo hits all-time high on Chile gold assays",
+      "titleZh": "圣洛伦索智利黄金检测量创历史新高",
+      "matchedPortfolios": [],
+      "tags": []
     },
     {
       "source": "NASA",
@@ -2797,6 +2603,42 @@
       ]
     },
     {
+      "source": "MINING.COM",
+      "title": "Ontario’s Darlington SMR renews Canada’s nuclear maturity",
+      "summary": "Ontario has started construction on the first small modular reactor in the G7.",
+      "url": "https://www.mining.com/ontarios-darlington-smr-renews-canadas-nuclear-maturity/",
+      "author": "Northern Miner Staff",
+      "publishedAt": "2026-05-08T13:26:05Z",
+      "titleEn": "Ontario’s Darlington SMR renews Canada’s nuclear maturity",
+      "titleZh": "安大略省的达灵顿 SMR 刷新了加拿大核电的成熟度",
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
+      "source": "MINING.COM",
+      "title": "Touquoy mine reboot to yield $180M in Canadian gold",
+      "summary": "Atlantic Mining readies to reprocess about 3M tonnes of ore at the Touquoy mine, on Canada’s Atlantic coast.",
+      "url": "https://www.mining.com/touquoy-mine-reboot-to-yield-180m-in-canadian-gold/",
+      "author": "Cecilia Jamasmie",
+      "publishedAt": "2026-05-08T13:13:00Z",
+      "titleEn": "Touquoy mine reboot to yield $180M in Canadian gold",
+      "titleZh": "Touquoy 矿重新启动，产出 1.8 亿美元的加拿大黄金",
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
+      "source": "Mining Technology",
+      "title": "Rolls-Royce to test hybrid trucks for mining operations",
+      "summary": "Rolls-Royce Power Systems is set to begin field testing of a new hybrid drive system for haul trucks in autumn 2026, aimed at enhancing fuel efficiency and reducing emissions in mining operations. The post Rolls-Royce to test hybrid trucks for mining operations appeared first on Mining Technology .",
+      "url": "https://www.mining-technology.com/news/rolls-royce-test-hybrid-trucks-mining-operations/",
+      "author": "Shree Mishra",
+      "publishedAt": "2026-05-08T13:12:14Z",
+      "titleEn": "Rolls-Royce to test hybrid trucks for mining operations",
+      "titleZh": "劳斯莱斯将测试用于采矿作业的混合动力卡车",
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
       "source": "Endpoints News",
       "title": "'Pharma, not really’: Top young AI talent shuns careers at big drugmakers",
       "summary": "RIO DE JANEIRO — Mazdak Abulnaga should be the poster child for the type of employee pharma companies want to hire this year. Abulnaga, a 33-year-old postdoctoral fellow at MIT and Harvard Medical School, is building ...",
@@ -2887,6 +2729,18 @@
       "tags": [
         "defense"
       ]
+    },
+    {
+      "source": "Mining Technology",
+      "title": "EGA partners with ADNOC to boost aluminium supply chain",
+      "summary": "Emirates Global Aluminium (EGA) has entered into a high-level agreement with ADNOC Logistics & Services (ADNOC L&S) to explore collaborative efforts aimed at enhancing supply chain resilience within the aluminium sector. The post EGA partners with ADNOC to boost aluminium supply chain appeared first on Mining Technolog",
+      "url": "https://www.mining-technology.com/news/ega-partners-adnoc-aluminium-supply-chain/",
+      "author": "Shree Mishra",
+      "publishedAt": "2026-05-08T12:49:05Z",
+      "titleEn": "EGA partners with ADNOC to boost aluminium supply chain",
+      "titleZh": "EGA 与 ADNOC 合作促进铝供应链",
+      "matchedPortfolios": [],
+      "tags": []
     },
     {
       "source": "Breaking Defense",
@@ -2983,6 +2837,18 @@
       "tags": []
     },
     {
+      "source": "MINING.COM",
+      "title": "Buenaventura eyes 16-year boost for new Peru mine",
+      "summary": "The miner believes exploration success and new mining technology can make San Gabriel a long-lasting gold asset.",
+      "url": "https://www.mining.com/buenaventura-eyes-16-year-boost-for-new-peru-mine/",
+      "author": "Cecilia Jamasmie",
+      "publishedAt": "2026-05-08T10:55:00Z",
+      "titleEn": "Buenaventura eyes 16-year boost for new Peru mine",
+      "titleZh": "布埃纳文图拉希望秘鲁新矿能够实现 16 年的增长",
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
       "source": "SCMP Tech",
       "title": "How China’s sharper tech edge forces South Korea to rethink decades of industrial ties",
       "summary": "China’s rapid technological gains and aggressive pricing are making it increasingly difficult for South Korean firms to find profitable areas of industrial synergy with their Chinese counterparts, according to experts. Speakers at a recent forum in Beijing urged firms from both countries to pivot towards building more",
@@ -3014,6 +2880,22 @@
       "tags": [
         "ai",
         "hong kong"
+      ]
+    },
+    {
+      "source": "Mining Technology",
+      "title": "Huayou agrees to acquire Atlantic Lithium",
+      "summary": "Zhejiang Huayou Cobalt is set to acquire all of Atlantic Lithium’s issued shares through an Australian scheme of arrangement for a cash payment of A$0.354 ($0.25486) per share, as part of a binding scheme implementation deed (SID). The post Huayou agrees to acquire Atlantic Lithium appeared first on Mining Technology .",
+      "url": "https://www.mining-technology.com/news/huayou-agrees-to-acquire-atlantic-lithium/",
+      "author": "Shree Mishra",
+      "publishedAt": "2026-05-08T10:02:25Z",
+      "titleEn": "Huayou agrees to acquire Atlantic Lithium",
+      "titleZh": "华友同意收购Atlantic Lithium",
+      "matchedPortfolios": [
+        "battery"
+      ],
+      "tags": [
+        "lithium"
       ]
     },
     {
@@ -3078,6 +2960,30 @@
         "ai",
         "china"
       ]
+    },
+    {
+      "source": "Mining Technology",
+      "title": "Silver Storm mobilises contractors at La Parrilla mine",
+      "summary": "Silver Storm Mining has announced the mobilisation of contractors for underground development at its fully owned past producing La Parrilla Silver Mine Complex in Mexico. The post Silver Storm mobilises contractors at La Parrilla mine appeared first on Mining Technology .",
+      "url": "https://www.mining-technology.com/news/silver-storm-mobilises-contractors-at-la-parrilla/",
+      "author": "Shree Mishra",
+      "publishedAt": "2026-05-08T07:37:52Z",
+      "titleEn": "Silver Storm mobilises contractors at La Parrilla mine",
+      "titleZh": "银色风暴动员 La Parrilla 矿的承包商",
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
+      "source": "Mining Technology",
+      "title": "American Pacific unveils assay results from Madison project",
+      "summary": "American Pacific Mining has announced assay results from its underground sampling at the Madison Copper-Gold Project located in Montana, US. The post American Pacific unveils assay results from Madison project appeared first on Mining Technology .",
+      "url": "https://www.mining-technology.com/news/american-pacific-assay-results-madison-project/",
+      "author": "Shree Mishra",
+      "publishedAt": "2026-05-08T07:30:39Z",
+      "titleEn": "American Pacific unveils assay results from Madison project",
+      "titleZh": "美国太平洋公司公布麦迪逊项目的化验结果",
+      "matchedPortfolios": [],
+      "tags": []
     },
     {
       "source": "Semiconductor Engineering",
@@ -3254,6 +3160,110 @@
       "tags": [
         "nasa"
       ]
+    },
+    {
+      "source": "SCMP Business",
+      "title": "China’s move to cut EV payment cycles may push weaker carmakers out: S&P",
+      "summary": "Beijing’s tighter oversight of vicious price competition in the automotive sector is expected to increase borrowing pressure on mainland carmakers and accelerate the exit of weaker, debt-laden players amid softening consumer demand, according to S&P Global Ratings. The warning is likely to deepen bearish sentiment surr",
+      "url": "https://www.scmp.com/business/china-business/article/3352760/chinas-move-cut-ev-payment-cycles-may-push-weaker-carmakers-out-sp?utm_source=rss_feed",
+      "author": "Daniel Ren",
+      "publishedAt": "2026-05-07T23:00:11Z",
+      "titleEn": "China’s move to cut EV payment cycles may push weaker carmakers out: S&P",
+      "titleZh": "标准普尔：中国缩短电动汽车支付周期的举措可能会将实力较弱的汽车制造商赶出局",
+      "matchedPortfolios": [
+        "china-leading",
+        "battery"
+      ],
+      "tags": [
+        "china",
+        "ev"
+      ]
+    },
+    {
+      "source": "Endpoints News",
+      "title": "Astellas touts data from early test of stem cell-derived eye therapy",
+      "summary": "Astellas reported promising results with its stem cell-derived therapy in an age-related eye disease, though data in a handful of high-dose patients in the early-stage study raised questions. The experimental stem cell therapy, called ASP7317 ...",
+      "url": "https://endpoints.news/astellas-touts-data-from-early-test-of-stem-cell-derived-eye-therapy/",
+      "author": "Lei Lei Wu",
+      "publishedAt": "2026-05-07T22:13:30Z",
+      "titleEn": "Astellas touts data from early test of stem cell-derived eye therapy",
+      "titleZh": "安斯泰来宣传干细胞衍生眼部疗法早期测试的数据",
+      "matchedPortfolios": [
+        "biotech"
+      ],
+      "tags": [
+        "therapy"
+      ]
+    },
+    {
+      "source": "MINING.COM",
+      "title": "Cenovus chief warns Canada risks losing oil competitiveness",
+      "summary": "Chief executive Jon McKenzie said the national conversation around oil sands development has become “myopically focused on the climate agenda.\"",
+      "url": "https://www.mining.com/cenovus-chief-warns-canada-risks-losing-oil-competitiveness/",
+      "author": "Jackson Chen",
+      "publishedAt": "2026-05-07T22:00:44Z",
+      "titleEn": "Cenovus chief warns Canada risks losing oil competitiveness",
+      "titleZh": "Cenovus首席执行官警告加拿大面临失去石油竞争力的风险",
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
+      "source": "SpaceNews",
+      "title": "Rocket Lab joins Raytheon on space interceptor program for Golden Dome",
+      "summary": "The company also announced a new contract to fly hypersonic test flights for Anduril",
+      "url": "https://spacenews.com/rocket-lab-joins-raytheon-on-space-interceptor-program-for-golden-dome/",
+      "author": "Sandra Erwin",
+      "publishedAt": "2026-05-07T22:00:18Z",
+      "titleEn": "Rocket Lab joins Raytheon on space interceptor program for Golden Dome",
+      "titleZh": "火箭实验室与雷神公司合作开展金顶太空拦截器项目",
+      "matchedPortfolios": [
+        "satellite-intel"
+      ],
+      "tags": [
+        "rocket lab",
+        "space"
+      ]
+    },
+    {
+      "source": "MINING.COM",
+      "title": "Australian state of New South Wales considers lifting uranium ban",
+      "summary": "A bill to repeal the 1986 prohibition on nuclear energy and uranium mining was passed in NSW’s Upper House on Wednesday.",
+      "url": "https://www.mining.com/australian-state-of-new-south-wales-considers-lifting-uranium-ban/",
+      "author": "Northern Miner Staff",
+      "publishedAt": "2026-05-07T21:49:46Z",
+      "titleEn": "Australian state of New South Wales considers lifting uranium ban",
+      "titleZh": "澳大利亚新南威尔士州考虑取消铀禁令",
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
+      "source": "NASA",
+      "title": "NASA Welcomes Paraguay as 67th Artemis Accords Signatory",
+      "summary": "The Republic of Paraguay signed the Artemis Accords on Thursday during a ceremony in Asunción, becoming the latest nation to commit to the shared principles guiding civil space exploration. “Today, I am proud to welcome Paraguay as the 67th signatory to the Artemis Accords,” said NASA Administrator Jared Isaacman. “The",
+      "url": "https://www.nasa.gov/organizations/oiir/artemis-accords/nasa-welcomes-paraguay-as-67th-artemis-accords-signatory/",
+      "author": "Elizabeth Shaw",
+      "publishedAt": "2026-05-07T20:41:48Z",
+      "titleEn": "NASA Welcomes Paraguay as 67th Artemis Accords Signatory",
+      "titleZh": "美国宇航局欢迎巴拉圭成为第 67 个阿耳忒弥斯协议签署国",
+      "matchedPortfolios": [
+        "satellite-intel"
+      ],
+      "tags": [
+        "nasa",
+        "space"
+      ]
+    },
+    {
+      "source": "MINING.COM",
+      "title": "B2Gold surpasses output, cost expectations in Q1",
+      "summary": "In the quarter, the gold miner produced 237,763 ounces.",
+      "url": "https://www.mining.com/b2gold-surpasses-output-cost-expectations-in-q1/",
+      "author": "Jackson Chen",
+      "publishedAt": "2026-05-07T19:59:54Z",
+      "titleEn": "B2Gold surpasses output, cost expectations in Q1",
+      "titleZh": "B2Gold 第一季度产量和成本超出预期",
+      "matchedPortfolios": [],
+      "tags": []
     }
   ]
 }

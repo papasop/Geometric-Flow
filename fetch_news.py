@@ -63,6 +63,8 @@ OFFICIAL_SOURCES = [
     {"name": "Retail Dive", "url": "https://www.retaildive.com/feeds/news/"},
     {"name": "Food Dive", "url": "https://www.fooddive.com/feeds/news/"},
     {"name": "WWD", "url": "https://wwd.com/feed/"},
+    {"name": "MINING.COM", "url": "https://www.mining.com/feed/"},
+    {"name": "Mining Technology", "url": "https://www.mining-technology.com/feed/"},
     {"name": "SpaceNews", "url": "https://spacenews.com/feed/"},
     {"name": "Defense News", "url": "https://www.defensenews.com/arc/outboundfeeds/rss/?outputType=xml"},
     {"name": "C4ISRNET", "url": "https://www.c4isrnet.com/arc/outboundfeeds/rss/?outputType=xml"},
@@ -120,8 +122,10 @@ PORTFOLIO_KEYWORDS = {
         "grid storage", "sodium-ion",
     ],
     "us-rare-earth": [
-        "rare earth", "critical minerals", "mp materials", "usa rare earth", "usar", "crml",
-        "department of defense", "dod", "magnet",
+        "rare earth", "rare-earth", "rare earth elements", "critical minerals",
+        "critical metals", "neodymium", "magnet", "permanent magnet",
+        "domestic mineral", "mineral supply chain", "mountain pass", "round top",
+        "mp materials", "usa rare earth", "usar", "critical metals corp", "crml",
     ],
     "china-property": [
         "hong kong", "property", "real estate", "utilities", "hsbc", "standard chartered",
