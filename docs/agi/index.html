@@ -1189,7 +1189,7 @@
     </div>
 
     <div class="manifesto investment-view">
-      <div class="manifesto-tag">组合栏目 · PORTFOLIO CHANNELS · 13 PORTFOLIOS</div>
+      <div class="manifesto-tag">组合栏目 · PORTFOLIO CHANNELS · 14 PORTFOLIOS</div>
       <div class="manifesto-sort">
         <span class="manifesto-sort-label">组合排序</span>
         <div class="components-rank-toggle" id="portfolio-rank-group" aria-label="Portfolio ranking mode">
@@ -2288,6 +2288,26 @@
             seed: 2556, base: 3.2, vol: 0.050, drift: 0.00012 },
         ],
       },
+      "china-precision": {
+        name: "中国精密指数",
+        nameEn: "China Precision Index",
+        tag: "策略 · 鹰普精密 / 津上机床中国 · 各 50%",
+        tagEn: "STRATEGY · IMPRO PRECISION / TSUGAMI CHINA · 50 EACH",
+        footer: "两只港股等权配置，覆盖精密铸造、精密加工、数控机床与高端制造供应链。",
+        footerEn: "Equal-weight exposure to two HK-listed precision-manufacturing names across precision casting, machining, CNC machine tools, and advanced manufacturing supply chains.",
+        components: [
+          { name: "鹰普精密",                       short: "鹰普精密",       ticker: "1286.HK", displayTicker: "01286.HK", weight: 0.50, ccy: "HKD", sleeve: "CN", status: "active",
+            concept: "精密铸造 · 精密加工 · 高端零部件",
+            conceptEn: "Precision casting · machining · high-end components",
+            marketCap: 0.6,
+            seed: 1286, base: 3.2, vol: 0.032, drift: 0.00014 },
+          { name: "津上机床中国",                   short: "津上机床",       ticker: "1651.HK", displayTicker: "01651.HK", weight: 0.50, ccy: "HKD", sleeve: "CN", status: "active",
+            concept: "数控机床 · 精密制造设备",
+            conceptEn: "CNC machine tools · precision manufacturing equipment",
+            marketCap: 0.7,
+            seed: 1651, base: 9.0, vol: 0.035, drift: 0.00016 },
+        ],
+      },
       "hantavirus": {
         name: "汉坦病毒组合",
         nameEn: "Hantavirus Portfolio",
@@ -3135,6 +3155,18 @@
             desc_en: "Maifu Technology represents AI marketing technology and enterprise SaaS, adding ToB software and digital-growth exposure to the China prosperity index." },
         ],
       },
+      "china-precision": {
+        header: "中国精密指数事件",
+        headerEn: "China Precision Index Milestones",
+        milestones: [
+          { date: "2022-11-30", category: "supply", label: "中国精密指数起点", en: "China precision index start",
+            desc: "以统一 T₀ 追踪鹰普精密与津上机床中国两条港股精密制造主线。",
+            desc_en: "Uses the shared T0 to track two HK-listed precision-manufacturing lines: Impro Precision and Tsugami China." },
+          { date: "2026-05-12", category: "supply", label: "精密制造双股组合", en: "Precision-manufacturing two-stock basket",
+            desc: "鹰普精密代表精密铸造与高端零部件，津上机床中国代表数控机床与精密制造设备，二者等权构成中国精密指数。",
+            desc_en: "Impro Precision represents precision casting and high-end components; Tsugami China represents CNC machine tools and precision-manufacturing equipment. The two are equal-weighted." },
+        ],
+      },
       "hantavirus": {
         header: "汉坦病毒组合事件",
         headerEn: "Hantavirus Portfolio Milestones",
@@ -3610,6 +3642,7 @@
       return {
         drone: "pillar--realized",
         "china-leading": "pillar--pending",
+        "china-precision": "pillar--breakthrough",
         hantavirus: "pillar--realized",
         biotech: "pillar--breakthrough",
         "ai-software": "pillar--breakthrough",
@@ -3864,6 +3897,7 @@
       "Brand News · JNBY": { zh: "品牌新闻 · 江南布衣", en: "Brand News · JNBY" },
       "China Prosperity · PDD": { zh: "中国景气 · PDD", en: "China Prosperity · PDD" },
       "China Prosperity · Maifu": { zh: "中国景气 · 迈富时", en: "China Prosperity · Maifu" },
+      "China Precision · HK": { zh: "中国精密 · 港股", en: "China Precision · HK" },
       Official: { zh: "官方源", en: "Official sources" },
       Exchange: { zh: "交易所公告", en: "Exchange announcements" },
       IR: { zh: "公司投资者关系", en: "Company Investor Relations" },
@@ -3910,6 +3944,12 @@
       "china-leading": [
         "pdd holdings", "pdd", "pinduoduo", "temu", "拼多多", "新拼姆",
         "maifu technology", "maifu", "maifushi", "迈富时", "2556.hk", "02556"
+      ],
+      "china-precision": [
+        "precision manufacturing", "precision casting", "precision machining", "cnc machine",
+        "machine tools", "impro precision", "eagle precision", "01286", "1286.hk",
+        "tsugami china", "tsugami", "津上机床", "津上机床中国", "01651", "1651.hk",
+        "鹰普精密", "精密制造", "精密铸造", "数控机床"
       ],
       "hantavirus": [
         "hantavirus", "hanta virus", "hemorrhagic fever", "haemorrhagic fever",
@@ -4069,7 +4109,9 @@
         component.name,
         component.short,
         component.ticker,
+        component.displayTicker,
         String(component.ticker || "").replace(/\.(HK|SS|SZ|T|AS)$/i, ""),
+        String(component.displayTicker || "").replace(/\.(HK|SS|SZ|T|AS)$/i, ""),
       ]
         .map((alias) => String(alias || "").trim().toLowerCase())
         .filter((alias, index, all) => alias.length >= 2 && all.indexOf(alias) === index);
@@ -4250,7 +4292,7 @@
       document.querySelector("#news-view .news-header").textContent = t("新闻摘要 · NEWS DIGEST", "NEWS DIGEST · 新闻摘要");
       renderNewsSources();
 
-      document.querySelector(".manifesto-tag").textContent = t("组合栏目 · 先推出 13 个组合", "PORTFOLIO CHANNELS · 13 PORTFOLIOS");
+      document.querySelector(".manifesto-tag").textContent = t("组合栏目 · 先推出 14 个组合", "PORTFOLIO CHANNELS · 14 PORTFOLIOS");
       document.querySelector("#portfolio-rank-group").previousElementSibling.textContent = t("组合排序", "Sort Portfolios");
       document.querySelector('#portfolio-rank-group button[data-portfolio-rank="default"]').textContent = t("默认", "Default");
       document.querySelector('#portfolio-rank-group button[data-portfolio-rank="mcap"]').textContent = t("市值", "Market Cap");
@@ -4952,7 +4994,7 @@
           <span class="component-rank">${i + 1}</span>
           <span class="component-weight${isMajor ? ' weight-major' : ''}${isPrelist ? ' weight-prelist' : ''}">${isPrelist ? t("候选", "Watch") : wPct}</span>
           <span class="component-name">${c.displayName}</span>
-          <span class="component-ticker">${c.ticker}</span>
+          <span class="component-ticker">${c.displayTicker || c.ticker}</span>
           <span class="component-concept">${c.displayConcept || ''}</span>
           ${metric}
         </div>`;

@@ -106,6 +106,7 @@ OFFICIAL_SOURCES = [
     {"name": "Brand News · JNBY", "url": "https://news.google.com/rss/search?q=%22Jiangnan%20Buyi%22&hl=en-US&gl=US&ceid=US:en"},
     {"name": "China Prosperity · PDD", "url": "https://news.google.com/rss/search?q=%22PDD%20Holdings%22%20OR%20Pinduoduo%20OR%20Temu&hl=en-US&gl=US&ceid=US:en"},
     {"name": "China Prosperity · Maifu", "url": "https://news.google.com/rss/search?q=%22Maifu%20Technology%22%20OR%20%22%E8%BF%88%E5%AF%8C%E6%97%B6%22%20OR%20%2202556.HK%22&hl=en-US&gl=US&ceid=US:en"},
+    {"name": "China Precision · HK", "url": "https://news.google.com/rss/search?q=%22Impro%20Precision%22%20OR%20%22Tsugami%20China%22%20OR%20%22%E9%B9%B0%E6%99%AE%E7%B2%BE%E5%AF%86%22%20OR%20%22%E6%B4%A5%E4%B8%8A%E6%9C%BA%E5%BA%8A%E4%B8%AD%E5%9B%BD%22%20OR%20%2201286.HK%22%20OR%20%2201651.HK%22&hl=en-US&gl=US&ceid=US:en"},
 ]
 
 # Backward-compatible alias for older callers/comments.
@@ -143,6 +144,11 @@ PORTFOLIO_KEYWORDS = {
     "china-leading": [
         "pdd holdings", "pdd", "pinduoduo", "拼多多", "temu", "新拼姆",
         "maifu technology", "maifushi", "maifu", "迈富时", "02556", "2556.hk", "2556",
+    ],
+    "china-precision": [
+        "impro precision", "tsugami china", "precision manufacturing", "precision casting",
+        "precision machining", "machine tools", "cnc", "01286", "1286.hk", "01651",
+        "1651.hk", "鹰普精密", "津上机床中国", "津上机床", "精密制造", "精密铸造", "数控机床",
     ],
     "biotech": [
         "biotech", "biotechnology", "pharma", "drug", "therapy", "clinical", "fda",
@@ -236,6 +242,7 @@ SOURCE_PORTFOLIO_MATCHES = {
     "Brand News · JNBY": ["brand"],
     "China Prosperity · PDD": ["china-leading"],
     "China Prosperity · Maifu": ["china-leading"],
+    "China Precision · HK": ["china-precision"],
     "MP Materials IR": ["us-rare-earth"],
     "Rare Earth News · Industry": ["us-rare-earth"],
     "Rare Earth News · MP": ["us-rare-earth"],
