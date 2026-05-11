@@ -3734,8 +3734,8 @@
         "hsbc", "standard chartered"
       ],
       "no-yield": [
-        "deflation", "tlt", "treasury bond", "long treasury", "bitcoin", "btc", "gold",
-        "gld", "real yield", "federal reserve", "rate cut", "rate cuts"
+        "deflation", "tlt", "treasury bond", "long treasury", "bitcoin", "btc",
+        "gld", "spdr gold shares", "real yield", "federal reserve", "rate cut", "rate cuts"
       ],
       "brand": [
         "brand", "apple", "aapl", "coca-cola", "coca cola", "ko", "new york times",
@@ -3806,7 +3806,7 @@
     }
 
     function newsSearchText(item) {
-      return [item.title, item.titleZh, item.titleEn, item.summary, item.summaryZh, item.summaryEn, item.url]
+      return [item.title, item.titleZh, item.titleEn, item.summary, item.summaryZh, item.summaryEn]
         .join(" ").toLowerCase();
     }
 

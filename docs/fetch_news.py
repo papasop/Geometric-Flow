@@ -107,8 +107,8 @@ PORTFOLIO_KEYWORDS = {
         "clp", "towngas", "ck hutchison", "sun hung kai",
     ],
     "no-yield": [
-        "tlt", "treasury", "yield", "deflation", "bitcoin", "btc", "gold", "gld",
-        "rates", "federal reserve",
+        "tlt", "treasury", "treasury bond", "deflation", "bitcoin", "btc", "gld",
+        "spdr gold shares", "real yield", "federal reserve", "rate cut", "rate cuts",
     ],
     "brand": [
         "brand", "apple", "aapl", "coca-cola", "ko", "new york times", "nyt", "pop mart",
