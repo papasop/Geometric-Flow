@@ -3763,8 +3763,7 @@
 
     function synthesizedChineseNewsTitle(item, fallbackKey = currentPortfolioKey) {
       if (item.titleZh) return item.titleZh;
-      const portfolioText = newsPortfolioLabels(item, fallbackKey).join(" / ");
-      return `${portfolioText} · ${localizedNewsSource(item)}新闻更新`;
+      return item.title || item.titleEn || `${newsPortfolioLabels(item, fallbackKey).join(" / ")} · ${localizedNewsSource(item)}新闻更新`;
     }
 
     function synthesizedChineseNewsSummary(item, fallbackKey = currentPortfolioKey) {
