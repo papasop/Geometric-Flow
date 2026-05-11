@@ -3822,6 +3822,11 @@
       "Breaking Defense": { zh: "Breaking Defense", en: "Breaking Defense" },
       "Drone News · Companies": { zh: "无人机新闻 · 公司", en: "Drone News · Companies" },
       "Drone News · Tickers": { zh: "无人机新闻 · 代码", en: "Drone News · Tickers" },
+      "SaaS News · Core": { zh: "SaaS 新闻 · 核心", en: "SaaS News · Core" },
+      "SaaS News · Communications": { zh: "SaaS 新闻 · 通信", en: "SaaS News · Communications" },
+      "SaaS News · Cloud Apps": { zh: "SaaS 新闻 · 云应用", en: "SaaS News · Cloud Apps" },
+      "SaaS News · Platforms": { zh: "SaaS 新闻 · 平台", en: "SaaS News · Platforms" },
+      "SaaS News · China": { zh: "SaaS 新闻 · 中国", en: "SaaS News · China" },
       "Fierce Biotech": { zh: "Fierce Biotech", en: "Fierce Biotech" },
       "BioPharma Dive": { zh: "BioPharma Dive", en: "BioPharma Dive" },
       "Endpoints News": { zh: "Endpoints News", en: "Endpoints News" },
@@ -4054,7 +4059,7 @@
     }
 
     function portfolioCompanyHeatRanking(key, portfolio, limit = 5) {
-      if (key !== "drone") return [];
+      if (!["drone", "ai-software"].includes(key)) return [];
       const items = portfolioNewsForKey(key, portfolio, 48);
       const rows = (portfolio.components || [])
         .filter((component) => component.status !== "prelist")
@@ -4087,7 +4092,7 @@
     }
 
     function portfolioCompanyHeatRankingHtml(key, portfolio) {
-      if (key !== "drone") return "";
+      if (!["drone", "ai-software"].includes(key)) return "";
       const rows = portfolioCompanyHeatRanking(key, portfolio);
       return `<div class="portfolio-heat-row" data-heat-for="${escapeHtml(key)}">
         <div class="portfolio-heat-header">
