@@ -116,7 +116,7 @@ PORTFOLIO_KEYWORDS = {
         "autonomous driving perception", "robotic vision", "automotive lidar", "adas sensor",
         "machine vision", "vision system", "perception sensor", "autonomous vehicle",
         "self-driving", "driverless", "robotaxi", "robosense", "速腾聚创", "02498",
-        "hesai", "禾赛", "02525", "innovusion", "图达通", "02665", "ouster", "oust",
+        "hesai", "禾赛", "02525", "ouster", "oust",
     ],
     "ai-software": [
         "saas", "software", "agent", "ai", "cloud", "salesforce", "crm", "snowflake", "snow",
