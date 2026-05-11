@@ -59,6 +59,10 @@ OFFICIAL_SOURCES = [
     {"name": "SCMP Tech", "url": "https://www.scmp.com/rss/36/feed"},
     {"name": "SCMP Business", "url": "https://www.scmp.com/rss/92/feed"},
     {"name": "SCMP China", "url": "https://www.scmp.com/rss/4/feed"},
+    {"name": "Marketing Dive", "url": "https://www.marketingdive.com/feeds/news/"},
+    {"name": "Retail Dive", "url": "https://www.retaildive.com/feeds/news/"},
+    {"name": "Food Dive", "url": "https://www.fooddive.com/feeds/news/"},
+    {"name": "WWD", "url": "https://wwd.com/feed/"},
     {"name": "SpaceNews", "url": "https://spacenews.com/feed/"},
     {"name": "Defense News", "url": "https://www.defensenews.com/arc/outboundfeeds/rss/?outputType=xml"},
     {"name": "C4ISRNET", "url": "https://www.c4isrnet.com/arc/outboundfeeds/rss/?outputType=xml"},
@@ -128,8 +132,11 @@ PORTFOLIO_KEYWORDS = {
         "spdr gold shares", "real yield", "federal reserve", "rate cut", "rate cuts",
     ],
     "brand": [
-        "brand", "apple", "aapl", "coca-cola", "ko", "new york times", "nyt", "pop mart",
-        "moutai", "jnby",
+        "marketing", "retail", "consumer brand", "consumer brands",
+        "fashion", "apparel", "beverage", "advertising",
+        "apple", "aapl", "iphone", "app store", "coca-cola", "coca cola", "ko",
+        "new york times", "nyt", "pop mart", "popmart", "泡泡玛特", "moutai",
+        "贵州茅台", "jnby", "江南布衣",
     ],
 }
 
@@ -531,6 +538,7 @@ def main() -> int:
                 "SEC", "Company IR", "NASA", "Defense.gov", "WHO",
                 "Reuters", "AP", "BBC", "CNBC", "MarketWatch",
                 "WSJ / Dow Jones", "Nikkei Asia", "SCMP",
+                "Marketing Dive", "Retail Dive", "Food Dive", "WWD",
                 "SpaceNews", "Defense News", "C4ISRNET", "Breaking Defense",
                 "Fierce Biotech", "BioPharma Dive", "Endpoints News",
                 "Cybersecurity Dive", "The Record", "TechCrunch",
