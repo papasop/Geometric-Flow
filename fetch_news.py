@@ -132,13 +132,19 @@ PORTFOLIO_KEYWORDS = {
         "spdr gold shares", "real yield", "federal reserve", "rate cut", "rate cuts",
     ],
     "brand": [
-        "marketing", "retail", "consumer brand", "consumer brands",
-        "fashion", "apparel", "beverage", "advertising",
-        "apple", "aapl", "iphone", "app store", "coca-cola", "coca cola", "ko",
-        "new york times", "nyt", "pop mart", "popmart", "泡泡玛特", "moutai",
-        "贵州茅台", "jnby", "江南布衣",
+        "kweichow moutai", "moutai", "600519", "贵州茅台", "茅台",
+        "apple", "aapl", "iphone", "app store", "apple tv", "apple music",
+        "coca-cola", "coca cola", "coke", "diet coke", "sprite", "fanta", "ko",
+        "new york times", "nyt", "nyt cooking", "the athletic",
+        "pop mart", "popmart", "9992", "泡泡玛特",
+        "jnby", "jiangnan buyi", "3306", "江南布衣",
     ],
 }
+
+BRAND_EXCLUDE_KEYWORDS = [
+    "chip", "chips", "semiconductor", "semiconductors", "foundry", "wafer",
+    "tsmc", "nvidia", "gpu", "ai accelerator", "advanced packaging",
+]
 
 NEWS_OVERRIDES = [
     {
@@ -454,6 +460,8 @@ def classify(item: dict[str, str]) -> tuple[list[str], list[str]]:
     matched = []
     tags = []
     for portfolio, keywords in PORTFOLIO_KEYWORDS.items():
+        if portfolio == "brand" and any(keyword in text for keyword in BRAND_EXCLUDE_KEYWORDS):
+            continue
         hits = []
         for keyword in keywords:
             keyword_l = keyword.lower()
