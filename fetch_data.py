@@ -2,7 +2,7 @@
 fetch_data.py
 =============
 Fetch OHLC data for the AI Drone Portfolio components plus the
-historical CNY/USD, HKD/USD, and EUR/USD spot rates, and write data.json next to
+historical CNY/USD, HKD/USD, EUR/USD, and JPY/USD spot rates, and write data.json next to
 index.html.
 
 Index inception: 2022-11-30 (ChatGPT public launch). Base = 100.
@@ -43,7 +43,7 @@ Usage:
 """
 import argparse
 import json
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 
 import pandas as pd
@@ -61,6 +61,7 @@ COMPONENTS = [
     {"name": "Kratos Defense & Security Solutions", "short": "KTOS", "ticker": "KTOS", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "Elbit Systems", "short": "ESLT", "ticker": "ESLT", "ccy": "USD", "sleeve": "IL", "status": "active"},
     {"name": "AeroVironment", "short": "AVAV", "ticker": "AVAV", "ccy": "USD", "sleeve": "US", "status": "active"},
+    {"name": "Terra Drone", "short": "278A", "ticker": "278A.T", "ccy": "JPY", "sleeve": "JP", "status": "active"},
     {"name": "Palantir Technologies", "short": "PLTR", "ticker": "PLTR", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "Rocket Lab", "short": "RKLB", "ticker": "RKLB", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "HawkEye 360", "short": "HAWK", "ticker": "HAWK", "ccy": "USD", "sleeve": "US", "status": "active"},
@@ -281,16 +282,17 @@ COMPONENTS = [
 ]
 
 TARGET_WEIGHTS = {
-    "ONDS": 1 / 8,
-    "UMAC": 1 / 8,
+    "ONDS": 1 / 9,
+    "UMAC": 1 / 9,
     "THEON.AS": 0.0,
-    "KOPN": 1 / 8,
-    "RCAT": 1 / 8,
-    "SWMR": 1 / 8,
+    "KOPN": 1 / 9,
+    "RCAT": 1 / 9,
+    "SWMR": 1 / 9,
     "LPTH": 0.0,
-    "KTOS": 1 / 8,
-    "ESLT": 1 / 8,
-    "AVAV": 1 / 8,
+    "KTOS": 1 / 9,
+    "ESLT": 1 / 9,
+    "AVAV": 1 / 9,
+    "278A.T": 1 / 9,
     "PLTR": 0.0,
     "RKLB": 0.0,
     "HAWK": 0.0,
@@ -647,7 +649,7 @@ def fetch_ohlc(ticker: str, start: str, end: str) -> pd.DataFrame:
     if hasattr(df.columns, "nlevels") and df.columns.nlevels > 1:
         df.columns = df.columns.get_level_values(0)
     df = df[["Open", "High", "Low", "Close"]].dropna()
-    df.index = df.index.strftime("%Y-%m-%d")
+    df.index = pd.DatetimeIndex(df.index).normalize()
     return df
 
 
@@ -663,7 +665,7 @@ def fetch_component_ohlc(ticker: str, start: str, end: str) -> pd.DataFrame:
     out = pd.concat(parts).sort_index().groupby(level=0).last()
     listing_start = LISTING_START_OVERRIDES.get(ticker)
     if listing_start:
-        out = out[out.index >= listing_start]
+        out = out[out.index >= pd.Timestamp(listing_start)]
     return out
 
 
@@ -675,13 +677,13 @@ def fetch_fx(ticker: str, start: str, end: str) -> pd.Series:
     if hasattr(df.columns, "nlevels") and df.columns.nlevels > 1:
         df.columns = df.columns.get_level_values(0)
     s = df["Close"].dropna()
-    s.index = s.index.strftime("%Y-%m-%d")
+    s.index = pd.DatetimeIndex(s.index).normalize()
     return s
 
 
 def to_records(df: pd.DataFrame) -> list:
     return [
-        {"date": idx,
+        {"date": pd.Timestamp(idx).strftime("%Y-%m-%d"),
          "open":  float(r["Open"]),
          "high":  float(r["High"]),
          "low":   float(r["Low"]),
@@ -705,7 +707,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--start", default="2022-11-30",
                     help="Index inception (default: ChatGPT public launch)")
-    ap.add_argument("--end",   default=date.today().isoformat())
+    ap.add_argument("--end",   default=(date.today() + timedelta(days=1)).isoformat(),
+                    help="Exclusive fetch end date; default is tomorrow so today's closed non-US sessions are included.")
     ap.add_argument("--out",   default=str(script_dir / "data.json"))
     args = ap.parse_args()
 
@@ -720,7 +723,15 @@ def main():
     anchor = fetched["ONDS"]
     if anchor.empty:
         raise SystemExit("ONDS data missing; cannot establish anchor calendar.")
-    common = anchor.index
+    common = pd.DatetimeIndex(anchor.index)
+    extra_dates = sorted({
+        pd.Timestamp(idx)
+        for component in COMPONENTS
+        for idx in fetched[component["ticker"]].index
+        if pd.Timestamp(idx) > common[-1] and pd.Timestamp(idx).weekday() < 5
+    })
+    if extra_dates:
+        common = common.union(pd.Index(extra_dates))
     print(f"Anchor calendar: {len(common)} ONDS trading days "
           f"({common[0]} \u2192 {common[-1]})")
 
@@ -731,9 +742,12 @@ def main():
     fx_hkd = fetch_fx("HKD=X", args.start, args.end)
     print("Fetching FX  USDEUR=X (EUR per USD) ...")
     fx_eur = fetch_fx("USDEUR=X", args.start, args.end)
+    print("Fetching FX  JPY=X (JPY per USD) ...")
+    fx_jpy = fetch_fx("JPY=X", args.start, args.end)
     fx_cny = fx_cny.reindex(common).ffill().bfill()
     fx_hkd = fx_hkd.reindex(common).ffill().bfill()
     fx_eur = fx_eur.reindex(common).ffill().bfill()
+    fx_jpy = fx_jpy.reindex(common).ffill().bfill()
 
     # 3b) Fetch benchmark, aligned to the same anchor calendar.
     print("Fetching benchmark NASDAQ (^IXIC) ...")
@@ -806,7 +820,7 @@ def main():
             "weight": TARGET_WEIGHTS.get(ticker, 0.0), "ccy": ccy,
             "sleeve": component.get("sleeve"),
             "status": status,
-            "inception": inception,
+            "inception": pd.Timestamp(inception).strftime("%Y-%m-%d") if inception is not None else None,
             "synthetic_fallback": fallback_notes.get(ticker),
             "data": to_records(df_aligned),
         })
@@ -824,6 +838,7 @@ def main():
             "fx_unit_CNY": "CNY per USD (yfinance: CNY=X)",
             "fx_unit_HKD": "HKD per USD (yfinance: HKD=X)",
             "fx_unit_EUR": "EUR per USD (yfinance: USDEUR=X)",
+            "fx_unit_JPY": "JPY per USD (yfinance: JPY=X)",
             "note": ("Pre-inception dates of late-listed components are "
                      "back-filled with their first known close. The index "
                      "therefore inherits a constant contribution from those "
@@ -834,9 +849,10 @@ def main():
         },
         "components": components_out,
         "fx": {
-            "CNY": [{"date": idx, "rate": float(r)} for idx, r in fx_cny.items()],
-            "HKD": [{"date": idx, "rate": float(r)} for idx, r in fx_hkd.items()],
-            "EUR": [{"date": idx, "rate": float(r)} for idx, r in fx_eur.items()],
+            "CNY": [{"date": pd.Timestamp(idx).strftime("%Y-%m-%d"), "rate": float(r)} for idx, r in fx_cny.items()],
+            "HKD": [{"date": pd.Timestamp(idx).strftime("%Y-%m-%d"), "rate": float(r)} for idx, r in fx_hkd.items()],
+            "EUR": [{"date": pd.Timestamp(idx).strftime("%Y-%m-%d"), "rate": float(r)} for idx, r in fx_eur.items()],
+            "JPY": [{"date": pd.Timestamp(idx).strftime("%Y-%m-%d"), "rate": float(r)} for idx, r in fx_jpy.items()],
         },
         "benchmarks": {
             "NASDAQ": {
