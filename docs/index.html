@@ -760,6 +760,15 @@
       padding: 9px 0;
       border-top: 1px solid rgba(42, 54, 84, 0.48);
     }
+    .component-row[data-component-ticker] {
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background 0.15s ease, box-shadow 0.15s ease;
+    }
+    .component-row[data-component-ticker]:hover {
+      background: rgba(94, 158, 255, 0.07);
+      box-shadow: inset 0 0 0 1px rgba(94, 158, 255, 0.14);
+    }
     .component-row:first-child {
       border-top: none;
     }
@@ -4685,6 +4694,16 @@
       updateComponentRankControls();
       renderComponentsPanel();
     });
+    document.getElementById("components-list").addEventListener("click", (e) => {
+      const row = e.target.closest(".component-row[data-component-ticker]");
+      if (!row) return;
+      const ticker = row.dataset.componentTicker;
+      if (!ticker) return;
+      currentChartAsset = ticker;
+      renderMilestoneList();
+      render();
+      scrollToChart();
+    });
     window.addEventListener("resize", () => chart.resize());
 
     // ============================================================
@@ -4821,7 +4840,8 @@
               : currentComponentRank === "freeCashFlow"
                 ? metricBar(c, formatFinancialB(c.freeCashFlowUsdB), t(`自由现金流 · ${c.grossMarginPeriod || "FY"} · USD`, `Free Cash Flow · ${c.grossMarginPeriod || "FY"} · USD`), (c.freeCashFlowUsdB || 0) >= 0 ? "up" : "down")
               : metricBar(c, formatMcap(c.marketCap), `${c.mcapPct.toFixed(1)}%`);
-        return `<div class="component-row${isPrelist ? ' component-row--prelist' : ''}">
+        const canOpenChart = !isPrelist && rawData?.components?.some((component) => component.ticker === c.ticker && component.data?.length);
+        return `<div class="component-row${isPrelist ? ' component-row--prelist' : ''}"${canOpenChart ? ` data-component-ticker="${escapeHtml(c.ticker)}"` : ""}>
           <span class="component-rank">${i + 1}</span>
           <span class="component-weight${isMajor ? ' weight-major' : ''}${isPrelist ? ' weight-prelist' : ''}">${isPrelist ? t("候选", "Watch") : wPct}</span>
           <span class="component-name">${c.displayName}</span>
