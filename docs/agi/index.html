@@ -3785,7 +3785,8 @@
 
     function portfolioNewsKeywords(portfolio = activePortfolio(), key = currentPortfolioKey) {
       const configured = NEWS_PORTFOLIO_KEYWORDS[key] || [];
-      return [...new Set(configured
+      const companyNames = (portfolio.components || []).map((component) => component.name);
+      return [...new Set([...configured, ...companyNames]
         .map((token) => String(token || "").trim().toLowerCase())
         .filter((token) => token.length >= 2))];
     }
