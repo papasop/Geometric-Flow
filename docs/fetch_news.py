@@ -17,6 +17,7 @@ import socket
 import sys
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
@@ -35,6 +36,8 @@ USER_AGENT = (
 
 EVENT_REGISTRY_ENDPOINT = "https://eventregistry.org/api/v1/article/getArticles"
 EVENT_REGISTRY_MAX_PER_TOPIC = 18
+TRANSLATE_NEWS_TITLES = os.environ.get("TRANSLATE_NEWS_TITLES", "1").strip() != "0"
+TRANSLATE_ENDPOINT = "https://translate.googleapis.com/translate_a/single"
 
 OFFICIAL_SOURCES = [
     {"name": "Reuters", "url": "https://www.reuters.com/arc/outboundfeeds/rss/?outputType=xml"},
@@ -130,6 +133,48 @@ def clean_text(value: str | None, limit: int = 320) -> str:
     value = re.sub(r"<[^>]+>", " ", value)
     value = re.sub(r"\s+", " ", value).strip()
     return value[:limit].rstrip()
+
+
+def has_cjk(value: str | None) -> bool:
+    return bool(re.search(r"[\u3400-\u9fff]", value or ""))
+
+
+def translate_title_to_zh(title: str) -> str:
+    if not TRANSLATE_NEWS_TITLES or not title or has_cjk(title):
+        return title if has_cjk(title) else ""
+    query = urllib.parse.urlencode({
+        "client": "gtx",
+        "sl": "auto",
+        "tl": "zh-CN",
+        "dt": "t",
+        "q": title,
+    })
+    req = urllib.request.Request(
+        f"{TRANSLATE_ENDPOINT}?{query}",
+        headers={"User-Agent": USER_AGENT, "Accept": "application/json"},
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=8) as response:
+            payload = json.loads(response.read().decode("utf-8", errors="replace"))
+        translated = "".join(part[0] for part in payload[0] if part and part[0])
+        return clean_text(translated, 180)
+    except (urllib.error.URLError, TimeoutError, socket.timeout, ValueError, OSError, TypeError, IndexError):
+        return ""
+
+
+def enrich_title_fields(item: dict[str, object]) -> dict[str, object]:
+    title = clean_text(str(item.get("title") or ""), 180)
+    if not title:
+        return item
+    item["title"] = title
+    if has_cjk(title):
+        item.setdefault("titleZh", title)
+    else:
+        item.setdefault("titleEn", title)
+        translated = translate_title_to_zh(title)
+        if translated:
+            item.setdefault("titleZh", translated)
+    return item
 
 
 def parse_date(value: str | None) -> str | None:
@@ -353,6 +398,7 @@ def fetch_event_registry(api_key: str) -> tuple[list[dict[str, object]], list[di
                 parsed = parse_event_registry_article(article, portfolio)
                 if not parsed:
                     continue
+                enrich_title_fields(parsed)
                 matched, tags = classify(parsed)
                 parsed["matchedPortfolios"] = sorted(set([portfolio, *matched]))
                 parsed["tags"] = tags
@@ -447,6 +493,7 @@ def main() -> int:
                     continue
                 seen.add(key)
                 matched, tags = classify(item)
+                enrich_title_fields(item)
                 item["matchedPortfolios"] = matched
                 item["tags"] = tags
                 apply_news_overrides(item)
