@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-11T01:39:41.841277Z",
+  "generatedAt": "2026-05-11T01:58:32.359117Z",
   "strategy": {
     "primary": "Event Registry",
     "primaryEnabled": false,
@@ -13,7 +13,21 @@
       "AP",
       "BBC",
       "CNBC",
-      "MarketWatch"
+      "MarketWatch",
+      "WSJ / Dow Jones",
+      "Nikkei Asia",
+      "SCMP",
+      "SpaceNews",
+      "Defense News",
+      "C4ISRNET",
+      "Breaking Defense",
+      "Fierce Biotech",
+      "BioPharma Dive",
+      "Endpoints News",
+      "Cybersecurity Dive",
+      "The Record",
+      "TechCrunch",
+      "Semiconductor Engineering"
     ]
   },
   "sources": [
@@ -106,6 +120,108 @@
       "count": 0
     },
     {
+      "name": "WSJ Markets",
+      "url": "https://feeds.a.dj.com/rss/RSSMarketsMain.xml",
+      "status": "ok",
+      "count": 20
+    },
+    {
+      "name": "WSJ Business",
+      "url": "https://feeds.a.dj.com/rss/WSJcomUSBusiness.xml",
+      "status": "ok",
+      "count": 20
+    },
+    {
+      "name": "Nikkei Asia",
+      "url": "https://asia.nikkei.com/rss/feed/nar",
+      "status": "ok",
+      "count": 0
+    },
+    {
+      "name": "SCMP Tech",
+      "url": "https://www.scmp.com/rss/36/feed",
+      "status": "ok",
+      "count": 24
+    },
+    {
+      "name": "SCMP Business",
+      "url": "https://www.scmp.com/rss/92/feed",
+      "status": "ok",
+      "count": 19
+    },
+    {
+      "name": "SCMP China",
+      "url": "https://www.scmp.com/rss/4/feed",
+      "status": "ok",
+      "count": 24
+    },
+    {
+      "name": "SpaceNews",
+      "url": "https://spacenews.com/feed/",
+      "status": "ok",
+      "count": 24
+    },
+    {
+      "name": "Defense News",
+      "url": "https://www.defensenews.com/arc/outboundfeeds/rss/?outputType=xml",
+      "status": "ok",
+      "count": 24
+    },
+    {
+      "name": "C4ISRNET",
+      "url": "https://www.c4isrnet.com/arc/outboundfeeds/rss/?outputType=xml",
+      "status": "ok",
+      "count": 24
+    },
+    {
+      "name": "Breaking Defense",
+      "url": "https://breakingdefense.com/feed/",
+      "status": "ok",
+      "count": 15
+    },
+    {
+      "name": "Fierce Biotech",
+      "url": "https://www.fiercebiotech.com/rss/biotech/xml",
+      "status": "ok",
+      "count": 0
+    },
+    {
+      "name": "BioPharma Dive",
+      "url": "https://www.biopharmadive.com/feeds/news/",
+      "status": "ok",
+      "count": 10
+    },
+    {
+      "name": "Endpoints News",
+      "url": "https://endpoints.news/feed/",
+      "status": "ok",
+      "count": 24
+    },
+    {
+      "name": "Cybersecurity Dive",
+      "url": "https://www.cybersecuritydive.com/feeds/news/",
+      "status": "ok",
+      "count": 10
+    },
+    {
+      "name": "The Record",
+      "url": "https://therecord.media/feed",
+      "status": "ok",
+      "count": 5
+    },
+    {
+      "name": "TechCrunch",
+      "url": "https://techcrunch.com/feed/",
+      "status": "ok",
+      "count": 20
+    },
+    {
+      "name": "Semiconductor Engineering",
+      "url": "https://semiengineering.com/feed/",
+      "status": "ok",
+      "count": 10
+    },
+    {
       "name": "Palantir IR",
       "url": "https://investors.palantir.com/news-events/press-releases/rss",
       "status": "ok",
@@ -128,6 +244,34 @@
   ],
   "items": [
     {
+      "source": "CNBC",
+      "title": "South Korea's Kospi hits fresh record as Asia markets trade mixed amid oil surge, Iran risks",
+      "summary": "Investors headed into Monday on edge as Trump’s rejection of Iran’s ceasefire proposal fueled concerns about a prolonged Middle East conflict.",
+      "url": "https://www.cnbc.com/2026/05/11/asia-markets-today-live-updates-nikkei-kospi-hang-seng-sensex-csi-300-iran-hormuz.html",
+      "author": "CNBC",
+      "publishedAt": "2026-05-11T01:53:43Z",
+      "titleEn": "South Korea's Kospi hits fresh record as Asia markets trade mixed amid oil surge, Iran risks",
+      "titleZh": "韩国综合股价指数创下新高，亚洲市场因油价飙升和伊朗风险而涨跌互现",
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
+      "source": "CNBC",
+      "title": "China consumer, wholesale inflation tops estimates in April as Iran war drives energy costs higher",
+      "summary": "China has cushioned the worst of the energy shock through its strategic oil stockpiles and a diversified mix of renewable energy sources.",
+      "url": "https://www.cnbc.com/2026/05/11/china-cpi-ppi-inflation-energy-costs-oil-iran-war.html",
+      "author": "CNBC",
+      "publishedAt": "2026-05-11T01:40:19Z",
+      "titleEn": "China consumer, wholesale inflation tops estimates in April as Iran war drives energy costs higher",
+      "titleZh": "由于伊朗战争推高能源成本，中国四月份消费者和批发通胀超出预期",
+      "matchedPortfolios": [
+        "china-leading"
+      ],
+      "tags": [
+        "china"
+      ]
+    },
+    {
       "source": "BBC",
       "title": "Thailand's divisive ex-PM is out of jail, but is the Thaksin era over?",
       "summary": "Thaksin seems incapable of taking a back seat. This time, it really could be different.",
@@ -136,18 +280,6 @@
       "publishedAt": "2026-05-11T01:22:00Z",
       "titleEn": "Thailand's divisive ex-PM is out of jail, but is the Thaksin era over?",
       "titleZh": "泰国分裂的前总理出狱了，但他信时代结束了吗？",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "CNBC",
-      "title": "South Korea's Kospi hits fresh record as Asia markets trade mixed amid oil surge, Iran risks",
-      "summary": "Investors headed into Monday on edge as Trump’s rejection of Iran’s ceasefire proposal fueled concerns about a prolonged Middle East conflict.",
-      "url": "https://www.cnbc.com/2026/05/11/asia-markets-today-live-updates-nikkei-kospi-hang-seng-sensex-csi-300-iran-hormuz.html",
-      "author": "CNBC",
-      "publishedAt": "2026-05-11T01:21:25Z",
-      "titleEn": "South Korea's Kospi hits fresh record as Asia markets trade mixed amid oil surge, Iran risks",
-      "titleZh": "韩国综合股价指数创下新高，亚洲市场因油价飙升和伊朗风险而涨跌互现",
       "matchedPortfolios": [],
       "tags": []
     },
@@ -164,6 +296,22 @@
       "tags": []
     },
     {
+      "source": "SCMP China",
+      "title": "China confirms dates for President Donald Trump’s state visit to Beijing",
+      "summary": "US President Donald Trump will pay a state visit to China from May 13 to 15, at the invitation of President Xi Jinping, the foreign ministry in Beijing said on Monday. It will be the first visit to China by a US president in almost nine years and comes at a time of heightened tensions between the two countries over a r",
+      "url": "https://www.scmp.com/news/china/diplomacy/article/3353075/china-confirms-dates-donald-trumps-state-visit-beijing?utm_source=rss_feed",
+      "author": "Dewey Sim,Orange Wang",
+      "publishedAt": "2026-05-11T01:04:29Z",
+      "titleEn": "China confirms dates for President Donald Trump’s state visit to Beijing",
+      "titleZh": "中国确认唐纳德·特朗普总统对北京进行国事访问的日期",
+      "matchedPortfolios": [
+        "china-leading"
+      ],
+      "tags": [
+        "china"
+      ]
+    },
+    {
       "source": "MarketWatch",
       "title": "U.S. stock futures fall, oil surges as Trump calls Iran’s latest offer to end war ‘totally unacceptable’",
       "summary": "U.S. stock-index futures fell and oil prices rose on Sunday, after President Donald Trump called Iran’s response to the latest U.S. proposal to end the war “totally unacceptable.”",
@@ -176,6 +324,22 @@
       "tags": []
     },
     {
+      "source": "SCMP China",
+      "title": "Trump’s China return: what’s changed since his ‘friendly’ 2017 visit",
+      "summary": "Nine years after his lavish first visit to China as US president, Donald Trump is scheduled to head back to Beijing on May 13-15. With tensions over tariffs, Taiwan and tech rivalry still simmering, the summit will test whether the world’s two biggest powers can stabilise their fractious relationship. What to expect Pr",
+      "url": "https://www.scmp.com/news/china/diplomacy/article/3353055/trumps-china-return-whats-changed-his-friendly-2017-visit?utm_source=rss_feed",
+      "author": "Jane Cai",
+      "publishedAt": "2026-05-11T01:00:13Z",
+      "titleEn": "Trump’s China return: what’s changed since his ‘friendly’ 2017 visit",
+      "titleZh": "特朗普重返中国：自2017年“友好”访问以来发生了什么变化",
+      "matchedPortfolios": [
+        "china-leading"
+      ],
+      "tags": [
+        "china"
+      ]
+    },
+    {
       "source": "BBC",
       "title": "Adolescence makes history at Bafta TV Awards",
       "summary": "The hit Netflix drama wins a record four Bafta TV Awards, including one for 16-year-old Owen Cooper.",
@@ -186,6 +350,22 @@
       "titleZh": "青春期在英国电影和电视艺术学院电视奖上创造历史",
       "matchedPortfolios": [],
       "tags": []
+    },
+    {
+      "source": "SCMP China",
+      "title": "Trump, Tehran and a Qatari tanker transit: here’s what happened overnight",
+      "summary": "The US-Israel war against Iran has now entered its tenth week and there has been little progress on the stalled peace talks. These are the major takeaways from what happened overnight. What did Trump say? Iran reportedly sent a response to Washington’s latest proposal – a one-page memo aimed at ending the war – but it",
+      "url": "https://www.scmp.com/news/china/diplomacy/article/3353073/trump-tehran-and-qatari-tanker-transit-heres-what-happened-overnight?utm_source=rss_feed",
+      "author": "Orange Wang",
+      "publishedAt": "2026-05-11T00:46:25Z",
+      "titleEn": "Trump, Tehran and a Qatari tanker transit: here’s what happened overnight",
+      "titleZh": "特朗普、德黑兰和卡塔尔油轮过境：这就是一夜之间发生的事情",
+      "matchedPortfolios": [
+        "china-leading"
+      ],
+      "tags": [
+        "china"
+      ]
     },
     {
       "source": "CNBC",
@@ -238,6 +418,22 @@
       "titleZh": "从新加坡到布鲁塞尔，世界领导人远距离关注特习峰会",
       "matchedPortfolios": [],
       "tags": []
+    },
+    {
+      "source": "SCMP Business",
+      "title": "How Hong Kong could ease its ‘positive problem’ of full metals warehouses",
+      "summary": "Just over a year after the London Metal Exchange (LME) approved its first batch of warehouses in Hong Kong, the city now hosts 15 facilities run by seven operators, with close to 25,000 tonnes of metals stored. It marks a triumph for both the LME and Hong Kong’s ambition to be a commodities trading hub. But the challen",
+      "url": "https://www.scmp.com/business/commodities/article/3353057/how-hong-kong-could-ease-its-positive-problem-full-metals-warehouses?utm_source=rss_feed",
+      "author": "Enoch Yiu",
+      "publishedAt": "2026-05-11T00:00:23Z",
+      "titleEn": "How Hong Kong could ease its ‘positive problem’ of full metals warehouses",
+      "titleZh": "香港如何缓解全金属仓库的“积极问题”",
+      "matchedPortfolios": [
+        "china-property"
+      ],
+      "tags": [
+        "hong kong"
+      ]
     },
     {
       "source": "BBC",
@@ -316,6 +512,22 @@
       "tags": []
     },
     {
+      "source": "SCMP Tech",
+      "title": "Chinese 6-seat electric SUVs to stand out amid weak domestic sales, says Morgan Stanley",
+      "summary": "Six-seat premium electric sport utility vehicles (SUVs) are emerging as an unlikely game changer in China’s automotive market, with more than a dozen new locally developed models set to challenge German luxury brands this year. The spacious vehicles, increasingly popular among wealthy families in mainland China, could",
+      "url": "https://www.scmp.com/business/china-evs/article/3353028/chinese-6-seat-electric-suvs-stand-out-amid-weak-domestic-sales-says-morgan-stanley?utm_source=rss_feed",
+      "author": "Themis Qi",
+      "publishedAt": "2026-05-10T23:00:10Z",
+      "titleEn": "Chinese 6-seat electric SUVs to stand out amid weak domestic sales, says Morgan Stanley",
+      "titleZh": "摩根士丹利表示，中国6座电动SUV将在国内销售疲软的情况下脱颖而出",
+      "matchedPortfolios": [
+        "china-leading"
+      ],
+      "tags": [
+        "china"
+      ]
+    },
+    {
       "source": "CNBC",
       "title": "Nvidia embraces role of AI investor, pushing past $40 billion in equity bets this year",
       "summary": "Nvidia is pouring billions of dollars at a time into companies across the AI infrastructure stack, while also signing commercial deals with them.",
@@ -360,6 +572,38 @@
       "tags": []
     },
     {
+      "source": "SCMP China",
+      "title": "Taiwan’s Cheng Li-wun on cross-strait peace, meeting Xi Jinping and managing ties with US",
+      "summary": "Cheng Li-wun is the chairwoman of Taiwan’s largest opposition party, the Kuomintang (KMT). In this far-ranging interview, she discusses her vision for peace and cooperation between Taiwan and mainland China, her meeting in April with Communist Party chief Xi Jinping and her coming trip to the United States in June. The",
+      "url": "https://www.scmp.com/news/china/politics/article/3353052/taiwans-cheng-li-wun-cross-strait-peace-meeting-xi-jinping-and-managing-ties-us?utm_source=rss_feed",
+      "author": "Lawrence Chung",
+      "publishedAt": "2026-05-10T22:00:18Z",
+      "titleEn": "Taiwan’s Cheng Li-wun on cross-strait peace, meeting Xi Jinping and managing ties with US",
+      "titleZh": "台湾郑立文谈两岸和平、会见习近平以及处理与美国的关系",
+      "matchedPortfolios": [
+        "china-leading"
+      ],
+      "tags": [
+        "china"
+      ]
+    },
+    {
+      "source": "SCMP China",
+      "title": "Taiwan’s opposition KMT leader on restoring stable peace with Beijing",
+      "summary": "Cheng Li-wun is the chairwoman of Taiwan’s largest opposition party, the Kuomintang (KMT). In this far-ranging interview, she discusses her vision for peace and cooperation between Taiwan and mainland China, her meeting in April with Communist Party chief Xi Jinping and her coming trip to the United States in June. The",
+      "url": "https://www.scmp.com/plus/news/china/politics/article/3353046/taiwans-opposition-kmt-leader-restoring-stable-peace-beijing?utm_source=rss_feed",
+      "author": "Lawrence Chung",
+      "publishedAt": "2026-05-10T22:00:14Z",
+      "titleEn": "Taiwan’s opposition KMT leader on restoring stable peace with Beijing",
+      "titleZh": "台湾反对派国民党领导人谈与北京恢复稳定和平",
+      "matchedPortfolios": [
+        "china-leading"
+      ],
+      "tags": [
+        "china"
+      ]
+    },
+    {
       "source": "MarketWatch",
       "title": "Powell’s legacy as Fed chair is fighting inflation and Trump. He may lose the battle against both.",
       "summary": "Jerome Powell will be remembered for how the struggles against inflation and to preserve Federal Reserve independence ultimately end.",
@@ -388,6 +632,34 @@
       "tags": []
     },
     {
+      "source": "SCMP China",
+      "title": "Why the UAE’s Opec exit spells the beginning of the end of Gulf unity",
+      "summary": "On April 28, the United Arab Emirates informed the Organisation of Petroleum Exporting Countries (Opec) it was leaving. Three days’ notice. No call to Riyadh beforehand, apparently. The grievance about production quotas was years old: Abu Dhabi had threatened to quit in 2021. What’s changed has nothing to do with the b",
+      "url": "https://www.scmp.com/opinion/world-opinion/article/3352666/why-uaes-opec-exit-spells-beginning-end-gulf-unity?utm_source=rss_feed",
+      "author": "Asad Ullah",
+      "publishedAt": "2026-05-10T21:30:05Z",
+      "titleEn": "Why the UAE’s Opec exit spells the beginning of the end of Gulf unity",
+      "titleZh": "为什么阿联酋退出欧佩克意味着海湾团结终结的开始",
+      "matchedPortfolios": [
+        "china-leading"
+      ],
+      "tags": [
+        "china"
+      ]
+    },
+    {
+      "source": "TechCrunch",
+      "title": "Get ready for the whisper-filled office of the future",
+      "summary": "How will work setups change if we spend more and more time talking to our computers?",
+      "url": "https://techcrunch.com/2026/05/10/get-ready-for-the-whisper-filled-office-of-the-future/",
+      "author": "Anthony Ha",
+      "publishedAt": "2026-05-10T21:15:30Z",
+      "titleEn": "Get ready for the whisper-filled office of the future",
+      "titleZh": "为未来充满窃窃私语的办公室做好准备",
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
       "source": "BBC",
       "title": "Iranian activist tells BBC how fear of war restarting intensifies trauma of repression",
       "summary": "A dissident in Tehran says she feels helpless and under immense psychological pressure.",
@@ -400,6 +672,22 @@
       "tags": []
     },
     {
+      "source": "SCMP China",
+      "title": "Chinese transcript of SCMP’s interview with KMT’s Cheng Li-wun",
+      "summary": "Cheng Li-wun is the chairwoman of Taiwan’s largest opposition party, the Kuomintang (KMT). In this wide-ranging interview, she discusses her vision for peace and cooperation between Taiwan and mainland China, her meeting in April with Communist Party chief Xi Jinping and her upcoming trip to the United States in June.",
+      "url": "https://www.scmp.com/plus/news/china/article/3352959/chinese-transcript-scmps-interview-kmts-cheng-li-wun?utm_source=rss_feed",
+      "author": "SCMP Plus",
+      "publishedAt": "2026-05-10T21:00:06Z",
+      "titleEn": "Chinese transcript of SCMP’s interview with KMT’s Cheng Li-wun",
+      "titleZh": "南华早报采访国民党郑立文的中文文字记录",
+      "matchedPortfolios": [
+        "china-leading"
+      ],
+      "tags": [
+        "china"
+      ]
+    },
+    {
       "source": "BBC",
       "title": "Trump calls Iran response to US proposal to end war 'totally unacceptable'",
       "summary": "No details have been released of Iran's response - or the US proposals - designed to bring the war to an end.",
@@ -410,6 +698,22 @@
       "titleZh": "特朗普称伊朗对美国结束战争提议的反应“完全不可接受”",
       "matchedPortfolios": [],
       "tags": []
+    },
+    {
+      "source": "TechCrunch",
+      "title": "Anthropic says ‘evil’ portrayals of AI were responsible for Claude’s blackmail attempts",
+      "summary": "Fictional portrayals of artificial intelligence can have a real effect on AI models, according to Anthropic.",
+      "url": "https://techcrunch.com/2026/05/10/anthropic-says-evil-portrayals-of-ai-were-responsible-for-claudes-blackmail-attempts/",
+      "author": "Anthony Ha",
+      "publishedAt": "2026-05-10T20:40:41Z",
+      "titleEn": "Anthropic says ‘evil’ portrayals of AI were responsible for Claude’s blackmail attempts",
+      "titleZh": "Anthropic 称对人工智能的“邪恶”描绘是克劳德勒索企图的罪魁祸首",
+      "matchedPortfolios": [
+        "ai-software"
+      ],
+      "tags": [
+        "ai"
+      ]
     },
     {
       "source": "CNBC",
@@ -483,18 +787,6 @@
       "tags": []
     },
     {
-      "source": "CNBC",
-      "title": "Tiny data centers may be coming into the homes of Americans in the future",
-      "summary": "As public support for large-scale data center buildouts declines across the U.S., a new type designed to operate inside individual homes is coming.",
-      "url": "https://www.cnbc.com/2026/05/09/ai-data-center-construction-public-opposition.html",
-      "author": "CNBC",
-      "publishedAt": "2026-05-10T19:21:18Z",
-      "titleEn": "Tiny data centers may be coming into the homes of Americans in the future",
-      "titleZh": "未来微型数据中心可能会走进美国人的家中",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
       "source": "BBC",
       "title": "How hotels are stopping the 'dawn dash' for sunbeds after man wins payout",
       "summary": "Some resorts enforce allocation rules from check-in to prevent people reserving loungers with towels in the holiday sunbed scramble.",
@@ -503,6 +795,18 @@
       "publishedAt": "2026-05-10T19:04:13Z",
       "titleEn": "How hotels are stopping the 'dawn dash' for sunbeds after man wins payout",
       "titleZh": "男子赢得赔偿后，酒店如何阻止日光浴床的“黎明冲刺”",
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
+      "source": "TechCrunch",
+      "title": "Uber has always wanted to be more than a ride; now it has reason to hurry",
+      "summary": "The company has been trying to embed itself inside the AV industry — as a data provider, an investor, and a distribution platform — but the consumer-facing bet may be just as important.",
+      "url": "https://techcrunch.com/2026/05/10/uber-has-always-wanted-to-be-more-than-a-ride-now-it-has-reason-to-hurry/",
+      "author": "Connie Loizos",
+      "publishedAt": "2026-05-10T18:08:54Z",
+      "titleEn": "Uber has always wanted to be more than a ride; now it has reason to hurry",
+      "titleZh": "Uber 一直希望不仅仅是提供乘车服务；现在有理由加快步伐",
       "matchedPortfolios": [],
       "tags": []
     },
@@ -555,6 +859,84 @@
       "publishedAt": "2026-05-10T16:10:59Z",
       "titleEn": "Thousands gather for protest against antisemitism in London",
       "titleZh": "伦敦数千人聚集抗议反犹太主义",
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
+      "source": "TechCrunch",
+      "title": "TechCrunch Mobility: Lime’s IPO gamble",
+      "summary": "Welcome back to TechCrunch Mobility, your hub for the future of transportation and now, more than ever, how AI is playing a part.",
+      "url": "https://techcrunch.com/2026/05/10/techcrunch-mobility-limes-ipo-gamble/",
+      "author": "Kirsten Korosec",
+      "publishedAt": "2026-05-10T16:05:00Z",
+      "titleEn": "TechCrunch Mobility: Lime’s IPO gamble",
+      "titleZh": "TechCrunch Mobility：Lime 的 IPO 赌博",
+      "matchedPortfolios": [
+        "ai-software"
+      ],
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "source": "SpaceNews",
+      "title": "ESA and JAXA finalize agreement on Apophis asteroid mission",
+      "summary": "ESA and JAXA have finalized an agreement to collaborate on a mission to study the asteroid Apophis during its close flyby of Earth in 2029.",
+      "url": "https://spacenews.com/esa-and-jaxa-finalize-agreement-on-apophis-asteroid-mission/",
+      "author": "Jeff Foust",
+      "publishedAt": "2026-05-10T15:55:52Z",
+      "titleEn": "ESA and JAXA finalize agreement on Apophis asteroid mission",
+      "titleZh": "欧空局和日本宇宙航空研究开发机构就阿波菲斯小行星任务达成最终协议",
+      "matchedPortfolios": [
+        "satellite-intel"
+      ],
+      "tags": [
+        "esa"
+      ]
+    },
+    {
+      "source": "SCMP China",
+      "title": "China, US confirm Seoul trade talks days before Trump-Xi summit in Beijing",
+      "summary": "Chinese Vice-Premier He Lifeng will travel to South Korea this week for trade talks with US Treasury Secretary Scott Bessent, both sides confirmed on Sunday, in the final round of negotiations before a summit between President Xi Jinping and US President Donald Trump in Beijing. The meeting is scheduled for May 12 and",
+      "url": "https://www.scmp.com/news/china/diplomacy/article/3353067/china-us-confirm-seoul-trade-talks-days-trump-xi-summit-beijing?utm_source=rss_feed",
+      "author": "Igor Patrick,Mark Magnier",
+      "publishedAt": "2026-05-10T15:50:56Z",
+      "titleEn": "China, US confirm Seoul trade talks days before Trump-Xi summit in Beijing",
+      "titleZh": "中国和美国在北京特习会峰会前几天确认首尔贸易谈判",
+      "matchedPortfolios": [
+        "china-leading",
+        "no-yield"
+      ],
+      "tags": [
+        "china",
+        "treasury"
+      ]
+    },
+    {
+      "source": "TechCrunch",
+      "title": "We’re feeling cynical about xAI’s big deal with Anthropic",
+      "summary": "On the latest episode of the Equity podcast, we discussed what xAI's deal with Anthropic might mean for parent company SpaceX.",
+      "url": "https://techcrunch.com/2026/05/10/were-feeling-cynical-about-xais-big-deal-with-anthropic/",
+      "author": "Anthony Ha",
+      "publishedAt": "2026-05-10T15:34:25Z",
+      "titleEn": "We’re feeling cynical about xAI’s big deal with Anthropic",
+      "titleZh": "我们对 xAI 与 Anthropic 的大交易感到愤世嫉俗",
+      "matchedPortfolios": [
+        "satellite-intel"
+      ],
+      "tags": [
+        "spacex"
+      ]
+    },
+    {
+      "source": "TechCrunch",
+      "title": "The hottest place for startups to strike a deal? The F1 paddock",
+      "summary": "F1 Grands Prix have emerged as a new place to see and be seen if you are a founder or investor.",
+      "url": "https://techcrunch.com/2026/05/10/the-hottest-place-for-startups-to-strike-a-deal-the-f1-paddock/",
+      "author": "Dominic-Madori Davis",
+      "publishedAt": "2026-05-10T15:13:07Z",
+      "titleEn": "The hottest place for startups to strike a deal? The F1 paddock",
+      "titleZh": "初创公司达成交易最热门的地方？ F1围场",
       "matchedPortfolios": [],
       "tags": []
     },
@@ -619,6 +1001,24 @@
       "tags": []
     },
     {
+      "source": "SCMP China",
+      "title": "Could military AI use be on the agenda when Chinese and US leaders meet?",
+      "summary": "US President Donald Trump’s landmark visit to China comes as the US-Iran war disrupts global energy supplies, fuels economic uncertainty and adds fresh strain to Washington-Beijing ties. In the latest instalment of a series examining how rivalry, interdependence and geopolitical crises are reshaping the relationship be",
+      "url": "https://www.scmp.com/news/china/military/article/3353035/could-military-ai-use-be-agenda-when-chinese-and-us-leaders-meet?utm_source=rss_feed",
+      "author": "Amber Wang",
+      "publishedAt": "2026-05-10T14:00:07Z",
+      "titleEn": "Could military AI use be on the agenda when Chinese and US leaders meet?",
+      "titleZh": "中美领导人会晤时军事人工智能的使用能否提上议程？",
+      "matchedPortfolios": [
+        "ai-software",
+        "china-leading"
+      ],
+      "tags": [
+        "ai",
+        "china"
+      ]
+    },
+    {
       "source": "CNBC",
       "title": "At 103 years old, I’m the ‘world’s oldest doctor’: My 3 rules for a long, happy life are so simple—I tell it to 'all my patients'",
       "summary": "Dr. Howard Tucker left behind an impressive legacy. At 103, he was named the oldest doctor in the world — and quite possibly the happiest. Shortly before passing away, he shared his rules for living a long, happy and healthy life. They're very simple, he says.",
@@ -646,6 +1046,22 @@
       "tags": [
         "security",
         "who"
+      ]
+    },
+    {
+      "source": "SCMP China",
+      "title": "Buoyed by rare earths, China approaches Trump summit with fresh confidence",
+      "summary": "Chinese officials have signalled privately a growing willingness to retaliate against the United States, buoyed by confidence in their economic leverage as US President Donald Trump prepares to visit Beijing this week. Sources told the South China Morning Post that officials in Beijing had grown bolder since playing it",
+      "url": "https://www.scmp.com/news/china/diplomacy/article/3353042/buoyed-rare-earths-china-approaches-trump-summit-fresh-confidence?utm_source=rss_feed",
+      "author": "Dewey Sim",
+      "publishedAt": "2026-05-10T13:00:05Z",
+      "titleEn": "Buoyed by rare earths, China approaches Trump summit with fresh confidence",
+      "titleZh": "在稀土的推动下，中国以新的信心迎接特朗普峰会",
+      "matchedPortfolios": [
+        "china-leading"
+      ],
+      "tags": [
+        "china"
       ]
     },
     {
@@ -677,6 +1093,22 @@
       "tags": []
     },
     {
+      "source": "SCMP China",
+      "title": "China shouldn’t view a tired US as signifying a Europe ready to pivot",
+      "summary": "When US President Donald Trump announced that 5,000 US troops would leave Germany, the immediate reading in Western capitals was political: another round in Trump’s running quarrel with European allies, triggered by German Chancellor Friedrich Merz’s criticism of Washington’s handling of the war with Iran. For Beijing,",
+      "url": "https://www.scmp.com/opinion/china-opinion/article/3352882/china-shouldnt-view-tired-us-signifying-europe-ready-pivot?utm_source=rss_feed",
+      "author": "Sophie Wushuang Yi",
+      "publishedAt": "2026-05-10T12:30:05Z",
+      "titleEn": "China shouldn’t view a tired US as signifying a Europe ready to pivot",
+      "titleZh": "中国不应将疲倦的美国视为欧洲已准备好转向的标志",
+      "matchedPortfolios": [
+        "china-leading"
+      ],
+      "tags": [
+        "china"
+      ]
+    },
+    {
       "source": "BBC",
       "title": "Tories are still biggest party on the right, claims Cleverly",
       "summary": "Leading Tory brands Reform a \"cult of personality\" but Reform deputy leader says its electoral success has shaken up politics.",
@@ -687,6 +1119,22 @@
       "titleZh": "Cleverly 声称，保守党仍然是最大的右翼政党",
       "matchedPortfolios": [],
       "tags": []
+    },
+    {
+      "source": "SCMP Business",
+      "title": "Rental yields, redevelopment gains drive home sales in Hong Kong’s To Kwa Wan",
+      "summary": "Strong student-rental demand, competitive pricing and improving transport links are drawing investors to new residential projects in To Kwa Wan, as developers seek to reposition the ageing Kowloon district as part of a broader redevelopment corridor linked to Kai Tak and Hung Hom. The renewed interest helped push Hong",
+      "url": "https://www.scmp.com/business/article/3353054/rental-yields-redevelopment-gains-drive-home-sales-hong-kongs-kwa-wan?utm_source=rss_feed",
+      "author": "Peggy Ye",
+      "publishedAt": "2026-05-10T12:25:31Z",
+      "titleEn": "Rental yields, redevelopment gains drive home sales in Hong Kong’s To Kwa Wan",
+      "titleZh": "租金收益率和重建收益推动香港土瓜湾的房屋销售",
+      "matchedPortfolios": [
+        "china-property"
+      ],
+      "tags": [
+        "hong kong"
+      ]
     },
     {
       "source": "CNBC",
@@ -702,6 +1150,26 @@
       ],
       "tags": [
         "bitcoin"
+      ]
+    },
+    {
+      "source": "SCMP China",
+      "title": "Underwater anti-mine technology and robot dogs take centre stage at Chinese defence show",
+      "summary": "China unveiled some of its most advanced military technology, including robot dogs and an AI-enabled underwater system that can neutralise mines, at a defence expo. Autonomous underwater vehicles designed to be launched by submarine were one of the most noteworthy products that featured at the 2026 Chengdu Defence Tech",
+      "url": "https://www.scmp.com/news/china/military/article/3353045/underwater-anti-mine-technology-and-robot-dogs-take-centre-stage-chinese-defence-show?utm_source=rss_feed",
+      "author": "Liu Zhen",
+      "publishedAt": "2026-05-10T12:00:06Z",
+      "titleEn": "Underwater anti-mine technology and robot dogs take centre stage at Chinese defence show",
+      "titleZh": "水下反雷技术和机器狗成为中国防务展的焦点",
+      "matchedPortfolios": [
+        "drone",
+        "ai-software",
+        "china-leading"
+      ],
+      "tags": [
+        "ai",
+        "autonomous",
+        "china"
       ]
     },
     {
@@ -758,6 +1226,77 @@
       "tags": []
     },
     {
+      "source": "SCMP Tech",
+      "title": "Alibaba brings chat-style shopping to Taobao and Qwen amid AI gateway push: source",
+      "summary": "Chinese e-commerce giant Alibaba Group Holding is preparing an overhaul of how local consumers shop online, betting that the next trend will feel more like chatting with an artificial intelligence chatbot rather than typing keywords into a search bar, according to a source. Users of the company’s flagship AI assistant",
+      "url": "https://www.scmp.com/tech/tech-trends/article/3353044/alibaba-brings-chat-style-shopping-taobao-and-qwen-amid-ai-gateway-push?utm_source=rss_feed",
+      "author": "Ben Jiang",
+      "publishedAt": "2026-05-10T10:35:23Z",
+      "titleEn": "Alibaba brings chat-style shopping to Taobao and Qwen amid AI gateway push: source",
+      "titleZh": "阿里巴巴在人工智能网关推动下为淘宝和Qwen带来聊天式购物：来源",
+      "matchedPortfolios": [
+        "ai-software",
+        "china-leading"
+      ],
+      "tags": [
+        "ai",
+        "e-commerce",
+        "shop"
+      ]
+    },
+    {
+      "source": "SCMP China",
+      "title": "Why Trump’s war on Iran may be ‘accelerating end of US hegemony’ and damaging Stargate",
+      "summary": "US President Donald Trump’s US$500 billion Stargate AI project is being undermined by the war with Iran, a conflict that is accelerating the decline of the United States, according to Chinese analysts. The project, designed to cement US dominance in the field of artificial intelligence, was announced in January last ye",
+      "url": "https://www.scmp.com/news/china/diplomacy/article/3353040/why-trumps-war-iran-may-be-accelerating-end-us-hegemony-and-undermining-stargate?utm_source=rss_feed",
+      "author": "Xinlu Liang",
+      "publishedAt": "2026-05-10T10:01:04Z",
+      "titleEn": "Why Trump’s war on Iran may be ‘accelerating end of US hegemony’ and damaging Stargate",
+      "titleZh": "为什么特朗普对伊朗的战争可能会“加速美国霸权的终结”并损害星际之门",
+      "matchedPortfolios": [
+        "ai-software",
+        "china-leading"
+      ],
+      "tags": [
+        "ai",
+        "china"
+      ]
+    },
+    {
+      "source": "SCMP China",
+      "title": "Could Spain’s ‘compliment sandwich’ approach to China work for the EU?",
+      "summary": "Spanish Prime Minister Pedro Sanchez’s diplomatic balancing act during his visit to China last month marked a sharp contrast with a European Union grappling with geopolitical upheaval and economic stagnation. Sanchez pushed for closer ties with Beijing while raising concerns over a persistent bilateral trade deficit an",
+      "url": "https://www.scmp.com/news/china/diplomacy/article/3353031/could-spains-compliment-sandwich-approach-china-work-eu?utm_source=rss_feed",
+      "author": "Nayan Seth",
+      "publishedAt": "2026-05-10T09:00:05Z",
+      "titleEn": "Could Spain’s ‘compliment sandwich’ approach to China work for the EU?",
+      "titleZh": "西班牙对中国的“赞美三明治”做法对欧盟有用吗？",
+      "matchedPortfolios": [
+        "china-leading"
+      ],
+      "tags": [
+        "china"
+      ]
+    },
+    {
+      "source": "SCMP China",
+      "title": "Can China engineer a price recovery that doesn’t make people feel poorer?",
+      "summary": "China may finally have a chance to loosen the grip of deflation. Yet, the more important question is whether it can do so without making households feel poorer first. The latest producer price index (PPI), which measures the prices factories charge, brings that possibility back into serious debate. China’s March PPI ro",
+      "url": "https://www.scmp.com/opinion/china-opinion/article/3352619/can-china-engineer-price-recovery-doesnt-make-people-feel-poorer?utm_source=rss_feed",
+      "author": "Tony Zhao",
+      "publishedAt": "2026-05-10T08:30:04Z",
+      "titleEn": "Can China engineer a price recovery that doesn’t make people feel poorer?",
+      "titleZh": "中国能否在不让人们感到更穷的情况下实现物价复苏？",
+      "matchedPortfolios": [
+        "china-leading",
+        "no-yield"
+      ],
+      "tags": [
+        "china",
+        "deflation"
+      ]
+    },
+    {
       "source": "CNBC",
       "title": "Saudi Aramco Q1 profit jumps 26% as key pipeline reaches capacity amid Iran war",
       "summary": "Aramco says its East-West pipeline has helped to mitigate the energy shock caused by the Iran war.",
@@ -782,6 +1321,205 @@
       "tags": []
     },
     {
+      "source": "SCMP Tech",
+      "title": "Shadow APIs: how Chinese developers bypass restrictions to access Claude and Gemini",
+      "summary": "In China, a grey market of API relay platforms is thriving, allowing local developers to bypass restrictions to access top-tier overseas AI models such as Anthropic’s Claude and Google’s Gemini, which are not officially supported in China, despite an escalating crackdown by the foreign providers. Such relay stations, w",
+      "url": "https://www.scmp.com/tech/tech-trends/article/3353002/shadow-apis-how-chinese-developers-bypass-restrictions-access-claude-and-gemini?utm_source=rss_feed",
+      "author": "Minxiao Chang",
+      "publishedAt": "2026-05-10T07:00:05Z",
+      "titleEn": "Shadow APIs: how Chinese developers bypass restrictions to access Claude and Gemini",
+      "titleZh": "Shadow API：中国开发者如何绕过限制访问Claude和Gemini",
+      "matchedPortfolios": [
+        "ai-software",
+        "china-leading"
+      ],
+      "tags": [
+        "ai",
+        "china",
+        "google"
+      ]
+    },
+    {
+      "source": "SCMP Business",
+      "title": "KFC, McDonald’s drive-throughs in China get EV charging, upgraded smart systems",
+      "summary": "Global fast-food chain KFC is adding more electric vehicle (EV) charging stations and McDonald’s is upgrading digital services, as the fast-food sector turns to digital convenience to draw more customers to drive-through stores amid fierce competition, according to analysts. KFC now operates over 7,000 drive-through re",
+      "url": "https://www.scmp.com/business/china-business/article/3352994/kfc-mcdonalds-drive-throughs-china-get-ev-charging-upgraded-smart-systems?utm_source=rss_feed",
+      "author": "Zhu Wenqian",
+      "publishedAt": "2026-05-10T04:30:07Z",
+      "titleEn": "KFC, McDonald’s drive-throughs in China get EV charging, upgraded smart systems",
+      "titleZh": "肯德基、麦当劳在中国的得来速餐厅获得电动汽车充电并升级智能系统",
+      "matchedPortfolios": [
+        "china-leading",
+        "battery"
+      ],
+      "tags": [
+        "china",
+        "electric vehicle",
+        "ev"
+      ]
+    },
+    {
+      "source": "SCMP China",
+      "title": "China’s ‘super catalyst’ turns waste water into fertiliser building block, tripling output",
+      "summary": "A team in China has designed a catalyst that can transform nitrate pollution from agricultural and industrial waste water into ammonia – the chemical backbone of urea fertiliser – with nearly three times the efficiency of conventional catalysts. The study detailing this advance was published on March 18 in the Journal",
+      "url": "https://www.scmp.com/news/china/science/article/3352847/chinas-super-catalyst-turns-waste-water-fertiliser-building-block-tripling-output?utm_source=rss_feed",
+      "author": "Zhang Tong",
+      "publishedAt": "2026-05-10T04:00:11Z",
+      "titleEn": "China’s ‘super catalyst’ turns waste water into fertiliser building block, tripling output",
+      "titleZh": "中国的“超级催化剂”将废水转化为肥料原料，产量增加两倍",
+      "matchedPortfolios": [
+        "china-leading"
+      ],
+      "tags": [
+        "china"
+      ]
+    },
+    {
+      "source": "SCMP Tech",
+      "title": "China scrambles to close AI security gap as Anthropic, OpenAI pull ahead with new models",
+      "summary": "While leading US artificial intelligence developers such as Anthropic and OpenAI unveil new models with enhanced cybersecurity capabilities, China is also aggressively scaling up its own AI-driven cyber defence market. Anthropic’s Mythos, launched in April, sparked a rapid global response due to its ability to discover",
+      "url": "https://www.scmp.com/tech/tech-trends/article/3352978/china-scrambles-close-ai-security-gap-anthropic-openai-pull-ahead-new-models?utm_source=rss_feed",
+      "author": "Vincent Chow",
+      "publishedAt": "2026-05-10T03:00:22Z",
+      "titleEn": "China scrambles to close AI security gap as Anthropic, OpenAI pull ahead with new models",
+      "titleZh": "Anthropic、OpenAI 推出新模型，中国努力缩小人工智能安全差距",
+      "matchedPortfolios": [
+        "ai-software",
+        "cybersecurity",
+        "china-leading"
+      ],
+      "tags": [
+        "ai",
+        "china",
+        "cyber",
+        "security"
+      ]
+    },
+    {
+      "source": "TechCrunch",
+      "title": "Voice AI in India is hard. Wispr Flow is betting on it anyway.",
+      "summary": "Wispr Flow says growth accelerated in India after its Hinglish rollout, even as voice AI products continue to face challenges.",
+      "url": "https://techcrunch.com/2026/05/09/voice-ai-in-india-is-hard-wispr-flow-is-betting-on-it-anyway/",
+      "author": "Jagmeet Singh",
+      "publishedAt": "2026-05-10T02:00:00Z",
+      "titleEn": "Voice AI in India is hard. Wispr Flow is betting on it anyway.",
+      "titleZh": "语音人工智能在印度很难发展。无论如何，Wispr Flow 都在押注它。",
+      "matchedPortfolios": [
+        "ai-software"
+      ],
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "source": "SCMP Business",
+      "title": "Is Hong Kong’s cultural hub of West Kowloon emerging as ‘Central 2.0’?",
+      "summary": "Hong Kong’s West Kowloon is poised to emerge as the second-most important office sub-market after Central with the completion of new buildings that will accommodate banks and insurance companies, according to industry officials. However, there was expected to be limited demand from newcomers or via corporate expansion,",
+      "url": "https://www.scmp.com/business/article/3352926/hong-kongs-cultural-hub-west-kowloon-emerging-central-20?utm_source=rss_feed",
+      "author": "Cheryl Arcibal",
+      "publishedAt": "2026-05-10T01:30:09Z",
+      "titleEn": "Is Hong Kong’s cultural hub of West Kowloon emerging as ‘Central 2.0’?",
+      "titleZh": "香港西九龙文化中心正在成为“中环2.0”吗？",
+      "matchedPortfolios": [
+        "china-property"
+      ],
+      "tags": [
+        "hong kong"
+      ]
+    },
+    {
+      "source": "SCMP China",
+      "title": "Rise of China complicates ‘authoritarian’ vs ‘democratic’ binary",
+      "summary": "There is growing unease in how we describe political systems today. Words that once seemed clear no longer illuminate as they should. “Free”, “democratic”, “liberal” and “authoritarian” are among the most commonly used terms in political discourse, yet their meanings have become increasingly blurred and contested. This",
+      "url": "https://www.scmp.com/opinion/china-opinion/article/3352499/rise-china-complicates-authoritarian-vs-democratic-binary?utm_source=rss_feed",
+      "author": "Christine Loh",
+      "publishedAt": "2026-05-10T01:30:05Z",
+      "titleEn": "Rise of China complicates ‘authoritarian’ vs ‘democratic’ binary",
+      "titleZh": "中国的崛起使“独裁”与“民主”的二元对立变得复杂化",
+      "matchedPortfolios": [
+        "china-leading"
+      ],
+      "tags": [
+        "china"
+      ]
+    },
+    {
+      "source": "SpaceNews",
+      "title": "MDA Space continues work on Gateway robotic arm",
+      "summary": "MDA Space is continuing work on a robotic arm for the lunar Gateway while it discusses the future of the project with the Canadian Space Agency.",
+      "url": "https://spacenews.com/mda-space-continues-work-on-gateway-robotic-arm/",
+      "author": "Jeff Foust",
+      "publishedAt": "2026-05-09T23:35:03Z",
+      "titleEn": "MDA Space continues work on Gateway robotic arm",
+      "titleZh": "MDA Space 继续研究 Gateway 机械臂",
+      "matchedPortfolios": [
+        "satellite-intel"
+      ],
+      "tags": [
+        "space"
+      ]
+    },
+    {
+      "source": "SCMP China",
+      "title": "Gold vs water: Argentina opens glaciers to mining but at what cost to world food supplies?",
+      "summary": "Beneath the shining white glaciers of the Andean mountains lie valuable deposits of gold, copper and molybdenum which, until recently, were off-limits to the mining companies that have set their eyes on these untapped minerals. That could be about to change, after legislators in Argentina agreed to amend the Glacier La",
+      "url": "https://www.scmp.com/news/china/science/article/3352693/gold-vs-water-argentina-opens-glaciers-mining-what-cost-world-food-supplies?utm_source=rss_feed",
+      "author": "Emiliano Martínez Viademonte",
+      "publishedAt": "2026-05-09T22:00:06Z",
+      "titleEn": "Gold vs water: Argentina opens glaciers to mining but at what cost to world food supplies?",
+      "titleZh": "黄金与水：阿根廷开放冰川采矿，但世界粮食供应会付出什么代价？",
+      "matchedPortfolios": [
+        "china-leading"
+      ],
+      "tags": [
+        "china"
+      ]
+    },
+    {
+      "source": "TechCrunch",
+      "title": "So you’ve heard these AI terms and nodded along; let’s fix that",
+      "summary": "The rise of AI has brought an avalanche of new terms and slang. Here is a glossary with definitions of some of the most important words and phrases you might encounter.",
+      "url": "https://techcrunch.com/2026/05/09/artificial-intelligence-definition-glossary-hallucinations-guide-to-common-ai-terms/",
+      "author": "Natasha Lomas, Romain Dillet, Kyle Wiggers, Lucas Ropek",
+      "publishedAt": "2026-05-09T21:45:00Z",
+      "titleEn": "So you’ve heard these AI terms and nodded along; let’s fix that",
+      "titleZh": "所以你已经听过这些人工智能术语并且点点头；让我们解决这个问题",
+      "matchedPortfolios": [
+        "ai-software"
+      ],
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "source": "SCMP China",
+      "title": "With the US, China must choose constructive power over destruction",
+      "summary": "Foreign affairs are not a series of disconnected episodes. They are a test of whether nations learn from history and act with foresight. The United States has often failed that test. It forgets that unchecked aggression leads to wider wars and that removing governments without building new authority invites chaos. Russ",
+      "url": "https://www.scmp.com/opinion/china-opinion/article/3352526/us-china-must-choose-constructive-power-over-destruction?utm_source=rss_feed",
+      "author": "Dong Lei",
+      "publishedAt": "2026-05-09T21:30:05Z",
+      "titleEn": "With the US, China must choose constructive power over destruction",
+      "titleZh": "面对美国，中国必须选择建设性力量而不是破坏性力量",
+      "matchedPortfolios": [
+        "china-leading"
+      ],
+      "tags": [
+        "china"
+      ]
+    },
+    {
+      "source": "TechCrunch",
+      "title": "Fintech startup Parker files for bankruptcy",
+      "summary": "Parker, a well-funded startup offering corporate credit cards and banking services, has filed for bankruptcy and is widely reported to have shut down.",
+      "url": "https://techcrunch.com/2026/05/09/fintech-startup-parker-files-for-bankruptcy/",
+      "author": "Anthony Ha",
+      "publishedAt": "2026-05-09T20:32:17Z",
+      "titleEn": "Fintech startup Parker files for bankruptcy",
+      "titleZh": "金融科技初创公司 Parker 申请破产",
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
       "source": "CNBC",
       "title": "MV Hondius hantavirus outbreak: A luxury expedition cruise boom and new world of remote travel risks",
       "summary": "Remote expedition cruises to destinations like Antarctica and the Arctic are booming, but the deadly hantavirus aboard MV Hondius is a reminder of unique risks.",
@@ -797,6 +1535,18 @@
         "hantavirus",
         "outbreak"
       ]
+    },
+    {
+      "source": "TechCrunch",
+      "title": "GM agrees to pay $12.75M in California driver privacy settlement",
+      "summary": "General Motors has reached a privacy-related settlement with a group of law enforcement agencies led by California Attorney General Rob Bonta.",
+      "url": "https://techcrunch.com/2026/05/09/gm-agrees-to-pay-12-75m-in-california-driver-privacy-settlement/",
+      "author": "Anthony Ha",
+      "publishedAt": "2026-05-09T19:05:30Z",
+      "titleEn": "GM agrees to pay $12.75M in California driver privacy settlement",
+      "titleZh": "通用汽车同意支付 1275 万美元加州司机隐私和解金",
+      "matchedPortfolios": [],
+      "tags": []
     },
     {
       "source": "CNBC",
@@ -816,6 +1566,86 @@
       ]
     },
     {
+      "source": "TechCrunch",
+      "title": "The Instax Wide 400 builds on instant photography’s simplicity and stretches it, literally",
+      "summary": "In an AI and digital world, analog instant film and retro-style cameras continue to remain popular, fueled by a mix of both nostalgia and novelty.",
+      "url": "https://techcrunch.com/2026/05/09/the-instax-wide-400-builds-on-instant-photographys-simplicity-and-stretches-it-literally/",
+      "author": "Aisha Malik",
+      "publishedAt": "2026-05-09T15:45:00Z",
+      "titleEn": "The Instax Wide 400 builds on instant photography’s simplicity and stretches it, literally",
+      "titleZh": "Instax Wide 400 以即时摄影的简单性为基础，并进一步扩展了它",
+      "matchedPortfolios": [
+        "ai-software"
+      ],
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "source": "SpaceNews",
+      "title": "Viasat wins $307 million Marine Corps satellite communications contract",
+      "summary": "Five-year MECS2 award covers multi-orbit, multi-band commercial satellite services worldwide",
+      "url": "https://spacenews.com/viasat-wins-307-million-marine-corps-satellite-communications-contract/",
+      "author": "Sandra Erwin",
+      "publishedAt": "2026-05-09T15:34:25Z",
+      "titleEn": "Viasat wins $307 million Marine Corps satellite communications contract",
+      "titleZh": "Viasat 赢得海军陆战队价值 3.07 亿美元的卫星通信合同",
+      "matchedPortfolios": [
+        "satellite-intel"
+      ],
+      "tags": [
+        "satellite"
+      ]
+    },
+    {
+      "source": "TechCrunch",
+      "title": "Nvidia has already committed $40B to equity AI deals this year",
+      "summary": "Nvidia continues to be a big investor in the AI ecosystem.",
+      "url": "https://techcrunch.com/2026/05/09/nvidia-has-already-committed-40b-to-equity-ai-deals-this-year/",
+      "author": "Anthony Ha",
+      "publishedAt": "2026-05-09T14:43:30Z",
+      "titleEn": "Nvidia has already committed $40B to equity AI deals this year",
+      "titleZh": "Nvidia 今年已承诺投资 40B 美元用于股权人工智能交易",
+      "matchedPortfolios": [
+        "ai-software"
+      ],
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "source": "SCMP China",
+      "title": "Trump heads to China weakened as Xi gains leverage ahead of summit",
+      "summary": "US President Donald Trump’s landmark visit to China comes as the Iran war disrupts global energy supplies, fuels economic uncertainty and adds fresh strain to Washington-Beijing ties. In the latest part of a series examining how rivalry, interdependence and geopolitical crises are reshaping the relationship between the",
+      "url": "https://www.scmp.com/news/china/article/3352986/trump-heads-china-weakened-xi-gains-leverage-ahead-summit?utm_source=rss_feed",
+      "author": "Mark Magnier",
+      "publishedAt": "2026-05-09T14:00:04Z",
+      "titleEn": "Trump heads to China weakened as Xi gains leverage ahead of summit",
+      "titleZh": "习近平在峰会前获得影响力，特朗普对中国的访问减弱",
+      "matchedPortfolios": [
+        "china-leading"
+      ],
+      "tags": [
+        "china"
+      ]
+    },
+    {
+      "source": "SCMP China",
+      "title": "Beijing urges France to respect one-China principle during high-level talks",
+      "summary": "China and France must respect each other’s core interests, particularly the one-China principle, and strengthen a strategic partnership “free from external interference”, top diplomat Wang Yi said during talks with a senior adviser to the French president on Friday. Wang, director of the Office of the Central Commissio",
+      "url": "https://www.scmp.com/news/china/diplomacy/article/3353004/beijing-urges-france-respect-one-china-principle-during-high-level-talks?utm_source=rss_feed",
+      "author": "Phoebe Zhang",
+      "publishedAt": "2026-05-09T13:00:06Z",
+      "titleEn": "Beijing urges France to respect one-China principle during high-level talks",
+      "titleZh": "北京敦促法国在高层会谈中尊重一个中国原则",
+      "matchedPortfolios": [
+        "china-leading"
+      ],
+      "tags": [
+        "china"
+      ]
+    },
+    {
       "source": "CNBC",
       "title": "The Iran war will change global energy markets in these important ways, oil executives say",
       "summary": "Iran's blockade of the Strait of Hormuz has resulted in the loss of nearly a billion barrels of oil with the shortage growing worse every day.",
@@ -826,6 +1656,26 @@
       "titleZh": "石油高管表示，伊朗战争将以这些重要方式改变全球能源市场",
       "matchedPortfolios": [],
       "tags": []
+    },
+    {
+      "source": "SCMP China",
+      "title": "Meet China’s moon porter for Chang’e-8 mission: a 4-wheeled robot with 2 arms",
+      "summary": "China is sending a new kind of explorer to the moon – with a humanoid upper body and four wheels. The lunar rover, developed by a team led by the Hong Kong University of Science and Technology (HKUST), is designed to act as an AI-powered porter for the Chang’e-8 mission, scheduled for 2029. The 100kg (220lbs) robot wil",
+      "url": "https://www.scmp.com/news/china/science/article/3352998/meet-chinas-moon-porter-change-8-mission-4-wheeled-robot-2-arms?utm_source=rss_feed",
+      "author": "Holly Chik",
+      "publishedAt": "2026-05-09T12:00:05Z",
+      "titleEn": "Meet China’s moon porter for Chang’e-8 mission: a 4-wheeled robot with 2 arms",
+      "titleZh": "嫦娥八号任务中的中国月球搬运工：双臂四轮机器人",
+      "matchedPortfolios": [
+        "ai-software",
+        "china-leading",
+        "china-property"
+      ],
+      "tags": [
+        "ai",
+        "china",
+        "hong kong"
+      ]
     },
     {
       "source": "CNBC",
@@ -858,6 +1708,138 @@
       ]
     },
     {
+      "source": "SCMP Business",
+      "title": "Hong Kong home market maintains upwards momentum as eager buyers snap up new flats",
+      "summary": "Hong Kong homebuyers snapped up new flats on offer on Saturday, fuelling optimism that the bull run in the city’s property market will continue. All 154 units at Sun Hung Kai Properties’ Lime Spark project sold out as of 4.30pm, while 147 homes, or 93 per cent of the 158 flats available at Henderson Land’s Highwood Pha",
+      "url": "https://www.scmp.com/business/china-business/article/3352997/hong-kong-home-market-maintains-upwards-momentum-eager-buyers-snap-new-flats?utm_source=rss_feed",
+      "author": "Daniel Ren,Cheryl Arcibal",
+      "publishedAt": "2026-05-09T11:13:54Z",
+      "titleEn": "Hong Kong home market maintains upwards momentum as eager buyers snap up new flats",
+      "titleZh": "热切买家抢购新楼 香港住宅市场保持上升势头",
+      "matchedPortfolios": [
+        "china-property"
+      ],
+      "tags": [
+        "hong kong",
+        "property",
+        "sun hung kai"
+      ]
+    },
+    {
+      "source": "SCMP China",
+      "title": "China unveils Hanyuan-2, the world’s first dual-core quantum computer",
+      "summary": "China has built the world’s first dual-core quantum computer, a development that could “significantly enhance” efficiency, according to official media. The breakthrough signalled that Chinese quantum computing technology was “entering a new stage”, the state-owned Science and Technology Daily reported this week. While",
+      "url": "https://www.scmp.com/news/china/science/article/3352995/china-unveils-hanyuan-2-worlds-first-dual-core-quantum-computer?utm_source=rss_feed",
+      "author": "Dannie Peng",
+      "publishedAt": "2026-05-09T10:05:12Z",
+      "titleEn": "China unveils Hanyuan-2, the world’s first dual-core quantum computer",
+      "titleZh": "中国推出全球首台双核量子计算机“汉源二号”",
+      "matchedPortfolios": [
+        "china-leading"
+      ],
+      "tags": [
+        "china"
+      ]
+    },
+    {
+      "source": "Endpoints News",
+      "title": "Biotech’s new company model; The super poop behind a startup launch; and more",
+      "summary": "Welcome back to another edition of Endpoints Weekly! Earnings season is in full swing, but we had plenty of original reporting and exclusives you won’t find anywhere else this week. Chief among them: Andrew Dunn’s ...",
+      "url": "https://endpoints.news/biotechs-new-company-model-the-super-poop-behind-a-startup-launch-and-more/",
+      "author": "Nicole DeFeudis",
+      "publishedAt": "2026-05-09T10:00:14Z",
+      "titleEn": "Biotech’s new company model; The super poop behind a startup launch; and more",
+      "titleZh": "生物科技的新公司模式；初创公司发布背后的超级大便；还有更多",
+      "matchedPortfolios": [
+        "biotech"
+      ],
+      "tags": [
+        "biotech"
+      ]
+    },
+    {
+      "source": "SCMP China",
+      "title": "Xi-Trump summit: why the Iran war could become fresh point of friction",
+      "summary": "As US President Donald Trump prepares to visit Beijing next week after a six-week delay, the cause of the delay – the war on Iran and the resulting closure of the Strait of Hormuz – risks becoming a fresh point of friction in his summit with his Chinese counterpart Xi Jinping. While both China and the US stand to benef",
+      "url": "https://www.scmp.com/news/china/diplomacy/article/3352990/xi-trump-summit-why-iran-war-could-become-fresh-point-friction?utm_source=rss_feed",
+      "author": "Laura Zhou,Cao Jiaxuan",
+      "publishedAt": "2026-05-09T09:04:54Z",
+      "titleEn": "Xi-Trump summit: why the Iran war could become fresh point of friction",
+      "titleZh": "习近平与特朗普峰会：为何伊朗战争可能成为新的摩擦点",
+      "matchedPortfolios": [
+        "china-leading"
+      ],
+      "tags": [
+        "china"
+      ]
+    },
+    {
+      "source": "SCMP Tech",
+      "title": "Beijing pushes AI data centres to adopt green energy under action plan",
+      "summary": "Beijing is moving to make green electricity usage a key metric in the operation of new data centre projects, as part of a major push to align the rapid expansion of artificial intelligence with national carbon goals, according to an action plan released Friday. The policy document, jointly released by four bodies – the",
+      "url": "https://www.scmp.com/tech/tech-trends/article/3352983/beijing-pushes-ai-data-centres-adopt-green-energy-under-action-plan?utm_source=rss_feed",
+      "author": "Minxiao Chang",
+      "publishedAt": "2026-05-09T08:06:24Z",
+      "titleEn": "Beijing pushes AI data centres to adopt green energy under action plan",
+      "titleZh": "北京根据行动计划推动人工智能数据中心采用绿色能源",
+      "matchedPortfolios": [
+        "ai-software"
+      ],
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "source": "SCMP Tech",
+      "title": "China’s Huaqiangbei bets on AI innovations to revive global appeal",
+      "summary": "Huaqiangbei, home to the world’s largest electronics marketplace in southern China’s tech hub Shenzhen, is reinventing itself as the world’s artificial intelligence showroom, drawing back foreign traders and tourists hunting for the latest gadgets. For first-time visitors like Abigail Slagveer from Rotterdam, the Nethe",
+      "url": "https://www.scmp.com/tech/tech-trends/article/3352938/chinas-huaqiangbei-bets-ai-innovations-revive-global-appeal?utm_source=rss_feed",
+      "author": "Iris Deng",
+      "publishedAt": "2026-05-09T07:00:05Z",
+      "titleEn": "China’s Huaqiangbei bets on AI innovations to revive global appeal",
+      "titleZh": "中国华强北押注人工智能创新重振全球吸引力",
+      "matchedPortfolios": [
+        "ai-software",
+        "china-leading"
+      ],
+      "tags": [
+        "ai",
+        "china"
+      ]
+    },
+    {
+      "source": "SCMP Tech",
+      "title": "ByteDance raises 2026 capex by at least 25% amid AI boom, rising memory costs, sources say",
+      "summary": "TikTok owner ByteDance is ramping up its spending on artificial intelligence infrastructure, boosting its planned capital expenditure this year to more than 200 billion yuan (US$30 billion), according to two people familiar with the matter. This represented an increase of at least 25 per cent compared with a preliminar",
+      "url": "https://www.scmp.com/tech/article/3352906/bytedance-raises-2026-capex-least-25-amid-ai-boom-rising-memory-costs-sources-say?utm_source=rss_feed",
+      "author": "Coco Feng,Ben Jiang",
+      "publishedAt": "2026-05-09T06:00:10Z",
+      "titleEn": "ByteDance raises 2026 capex by at least 25% amid AI boom, rising memory costs, sources say",
+      "titleZh": "消息人士称，由于人工智能蓬勃发展、内存成本上升，字节跳动将 2026 年资本支出提高至少 25%",
+      "matchedPortfolios": [
+        "ai-software"
+      ],
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "source": "SCMP Business",
+      "title": "Investors have worries about Trump’s pick for Fed chair. Should they?",
+      "summary": "In an extraordinary break from the diplomatic restraint typical of central banks, a dozen leaders of the world’s foremost monetary institutions issued a joint statement in January declaring their “full solidarity” with the US Federal Reserve and its embattled chair, Jerome Powell. “The independence of central banks is",
+      "url": "https://www.scmp.com/business/banking-finance/article/3352914/investors-have-worries-about-trumps-pick-fed-chair-should-they?utm_source=rss_feed",
+      "author": "Sylvia Ma",
+      "publishedAt": "2026-05-09T01:00:10Z",
+      "titleEn": "Investors have worries about Trump’s pick for Fed chair. Should they?",
+      "titleZh": "投资者对特朗普选出的美联储主席感到担忧。他们应该吗？",
+      "matchedPortfolios": [
+        "no-yield"
+      ],
+      "tags": [
+        "federal reserve"
+      ]
+    },
+    {
       "source": "CNBC",
       "title": "Major crypto bill slated for May 14 Senate Banking Committee vote",
       "summary": "The crypto industry's top legislative priority, a bill determining oversight of digital assets, is set to advance in the Senate Banking Committee.",
@@ -866,6 +1848,18 @@
       "publishedAt": "2026-05-08T23:35:48Z",
       "titleEn": "Major crypto bill slated for May 14 Senate Banking Committee vote",
       "titleZh": "主要加密法案定于 5 月 14 日参议院银行委员会投票",
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
+      "source": "TechCrunch",
+      "title": "Laid-off Oracle workers tried to negotiate better severance. Oracle said no.",
+      "summary": "Some found out they didn't qualify for WARN Act protections like two-months notice because the company had classified them as remote workers.",
+      "url": "https://techcrunch.com/2026/05/08/laid-off-oracle-workers-tried-to-negotiate-better-severance-oracle-said-no/",
+      "author": "Julie Bort",
+      "publishedAt": "2026-05-08T22:59:05Z",
+      "titleEn": "Laid-off Oracle workers tried to negotiate better severance. Oracle said no.",
+      "titleZh": "被解雇的甲骨文员工试图通过谈判获得更好的遣散费。甲骨文说不。",
       "matchedPortfolios": [],
       "tags": []
     },
@@ -885,6 +1879,163 @@
         "nasa",
         "space",
         "spacex"
+      ]
+    },
+    {
+      "source": "TechCrunch",
+      "title": "San Francisco’s housing market has lost its mind",
+      "summary": "The invisible force behind all of this is no mystery to anyone paying attention to the city's tech economy. San Francisco is home to some of the most valuable private companies in the world, and their employees have been quietly accumulating — and, increasingly, cashing out — fortunes.",
+      "url": "https://techcrunch.com/2026/05/08/san-franciscos-housing-market-has-lost-its-mind/",
+      "author": "Connie Loizos",
+      "publishedAt": "2026-05-08T22:32:31Z",
+      "titleEn": "San Francisco’s housing market has lost its mind",
+      "titleZh": "旧金山的房地产市场已经失去理智",
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
+      "source": "Defense News",
+      "title": "Ukraine ramps up ground robot production to spare soldiers, haul ammo — and rescue grandma",
+      "summary": "The same unmanned ground systems Ukraine uses to haul ammunition and evacuate wounded soldiers are now pulling civilians out of contested ground.",
+      "url": "https://www.defensenews.com/unmanned/2026/05/08/ukraine-ramps-up-ground-robot-production-to-spare-soldiers-haul-ammo-and-rescue-grandma/",
+      "author": "Katie Livingstone",
+      "publishedAt": "2026-05-08T21:39:50Z",
+      "titleEn": "Ukraine ramps up ground robot production to spare soldiers, haul ammo — and rescue grandma",
+      "titleZh": "乌克兰加大地面机器人生产力度，以拯救士兵、运输弹药并营救奶奶",
+      "matchedPortfolios": [
+        "drone"
+      ],
+      "tags": [
+        "defense"
+      ]
+    },
+    {
+      "source": "TechCrunch",
+      "title": "Prime Video follows Netflix and Disney by adding a TikTok-like ‘Clips’ feed in its app",
+      "summary": "The Clips feed aims to enable discovery by offering users a scrollable feed with short snippets of shows and movies.",
+      "url": "https://techcrunch.com/2026/05/08/prime-video-follows-netflix-and-disney-by-adding-a-tiktok-like-clips-feed-in-its-app/",
+      "author": "Amanda Silberling",
+      "publishedAt": "2026-05-08T20:50:03Z",
+      "titleEn": "Prime Video follows Netflix and Disney by adding a TikTok-like ‘Clips’ feed in its app",
+      "titleZh": "Prime Video 效仿 Netflix 和迪士尼，在其应用程序中添加了类似 TikTok 的“Clips”提要",
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
+      "source": "Defense News",
+      "title": "Russia, Ukraine to enter temporary ceasefire with prisoner exchange, Trump says",
+      "summary": "President Donald Trump said Friday that Russia and Ukraine would temporarily halt fighting for three days beginning Saturday.",
+      "url": "https://www.defensenews.com/flashpoints/ukraine/2026/05/08/russia-ukraine-to-enter-temporary-ceasefire-with-prisoner-exchange-trump-says/",
+      "author": "Eve Sampson",
+      "publishedAt": "2026-05-08T20:42:03Z",
+      "titleEn": "Russia, Ukraine to enter temporary ceasefire with prisoner exchange, Trump says",
+      "titleZh": "特朗普表示，俄罗斯和乌克兰将通过交换囚犯达成临时停火",
+      "matchedPortfolios": [
+        "drone"
+      ],
+      "tags": [
+        "defense"
+      ]
+    },
+    {
+      "source": "SCMP Tech",
+      "title": "US nears US$400 million settlement with TikTok on child-privacy violations, report says",
+      "summary": "US President ⁠Donald Trump’s administration is nearing a US$400 million settlement with TikTok to resolve an ongoing lawsuit over alleged child-privacy violations, ABC News has reported, citing sources familiar with the matter. The White House declined to comment, referring questions to the Justice Department, ‌which d",
+      "url": "https://www.scmp.com/news/world/united-states-canada/article/3352963/us-nears-us400-million-settlement-tiktok-child-privacy-violations-report-says?utm_source=rss_feed",
+      "author": "Reuters",
+      "publishedAt": "2026-05-08T20:38:00Z",
+      "titleEn": "US nears US$400 million settlement with TikTok on child-privacy violations, report says",
+      "titleZh": "报告称，美国即将就侵犯儿童隐私问题与 TikTok 达成 4 亿美元和解",
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
+      "source": "SpaceNews",
+      "title": "Swift reboost mission completes environmental tests",
+      "summary": "A spacecraft designed to raise the decaying orbit of a NASA astrophysics satellite has passed environmental tests ahead of a launch as soon as June.",
+      "url": "https://spacenews.com/swift-reboost-mission-completes-environmental-tests/",
+      "author": "Jeff Foust",
+      "publishedAt": "2026-05-08T20:22:15Z",
+      "titleEn": "Swift reboost mission completes environmental tests",
+      "titleZh": "快速再助推任务完成环境测试",
+      "matchedPortfolios": [
+        "satellite-intel"
+      ],
+      "tags": [
+        "nasa",
+        "satellite"
+      ]
+    },
+    {
+      "source": "TechCrunch",
+      "title": "Intel’s comeback story is even wilder than it seems",
+      "summary": "Intel's stock has risen a stunning 490% over the past year, a bet by Wall Street that may be running well ahead of the company's actual turnaround.",
+      "url": "https://techcrunch.com/2026/05/08/intels-comeback-story-is-even-wilder-than-it-seems/",
+      "author": "Connie Loizos",
+      "publishedAt": "2026-05-08T20:02:52Z",
+      "titleEn": "Intel’s comeback story is even wilder than it seems",
+      "titleZh": "英特尔的卷土重来的故事比看起来更疯狂",
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
+      "source": "The Record",
+      "title": "GM to pay over $12 million in California privacy settlement involving driver data",
+      "summary": "The settlement, announced by California officials Friday, is the largest fine issued under the California Consumer Privacy Act (CCPA) in its more than five-year history.",
+      "url": "https://therecord.media/gm-to-pay-12-million-california-privacy-settlement",
+      "author": "The Record",
+      "publishedAt": "2026-05-08T19:35:00Z",
+      "titleEn": "GM to pay over $12 million in California privacy settlement involving driver data",
+      "titleZh": "通用汽车将就涉及驾驶员数据的加州隐私和解协议支付超过 1200 万美元",
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
+      "source": "Defense News",
+      "title": "Hegseth aims to cut through the bureaucracy with ‘Deal Team Six’",
+      "summary": "The Pentagon is utilizing a crew of private sector businessmen to renovate how the department negotiates with defense companies.",
+      "url": "https://www.defensenews.com/news/pentagon-congress/2026/05/08/hegseth-aims-to-cut-through-the-bureaucracy-with-deal-team-six/",
+      "author": "Cristina Stassis",
+      "publishedAt": "2026-05-08T19:17:59Z",
+      "titleEn": "Hegseth aims to cut through the bureaucracy with ‘Deal Team Six’",
+      "titleZh": "赫格斯旨在通过“第六队交易”来打破官僚主义",
+      "matchedPortfolios": [
+        "drone"
+      ],
+      "tags": [
+        "defense"
+      ]
+    },
+    {
+      "source": "The Record",
+      "title": "Kingdom Market administrator given 16-year sentence",
+      "summary": "Slovakian national Alan Bill, 33, pleaded guilty in January to a conspiracy to distribute controlled substances charge after admitting to his role in running Kingdom Market — a platform used by drug dealers and cybercriminals between March 2021 and December 2023.",
+      "url": "https://therecord.media/kingdom-market-administrator-gets-16-year-sentence",
+      "author": "The Record",
+      "publishedAt": "2026-05-08T19:16:00Z",
+      "titleEn": "Kingdom Market administrator given 16-year sentence",
+      "titleZh": "王国市场管理员被判 16 年徒刑",
+      "matchedPortfolios": [
+        "biotech"
+      ],
+      "tags": [
+        "drug"
+      ]
+    },
+    {
+      "source": "Breaking Defense",
+      "title": "Poland becomes first nation to sign EU SAFE loans, expects billions for defense",
+      "summary": "Poland is now on track to receive over $51 billion in EU loans for its military, after overcoming domestic political hurdles.",
+      "url": "https://breakingdefense.com/2026/05/poland-becomes-first-nation-to-sign-eu-safe-loans-expects-billions-for-defense/",
+      "author": "Bartosz Głowacki",
+      "publishedAt": "2026-05-08T18:56:15Z",
+      "titleEn": "Poland becomes first nation to sign EU SAFE loans, expects billions for defense",
+      "titleZh": "波兰成为第一个签署欧盟安全贷款的国家，预计数十亿美元用于国防",
+      "matchedPortfolios": [
+        "drone"
+      ],
+      "tags": [
+        "defense"
       ]
     },
     {
@@ -912,6 +2063,54 @@
       "tags": []
     },
     {
+      "source": "TechCrunch",
+      "title": "Cloudflare says AI made 1,100 jobs obsolete, even as revenue hit a record high",
+      "summary": "Cloudflare announced its first large-scale layoff. CEO Matthew Prince says because of AI efficiency gains, the company doesn't need as many support roles.",
+      "url": "https://techcrunch.com/2026/05/08/cloudflare-says-ai-made-1100-jobs-obsolete-even-as-revenue-hit-a-record-high/",
+      "author": "Julie Bort",
+      "publishedAt": "2026-05-08T18:33:21Z",
+      "titleEn": "Cloudflare says AI made 1,100 jobs obsolete, even as revenue hit a record high",
+      "titleZh": "Cloudflare 表示人工智能让 1,100 个工作岗位变得过时，尽管收入创历史新高",
+      "matchedPortfolios": [
+        "ai-software",
+        "cybersecurity"
+      ],
+      "tags": [
+        "ai",
+        "cloudflare"
+      ]
+    },
+    {
+      "source": "TechCrunch",
+      "title": "Porsche shutters e-bike, battery, software subsidiaries as part of company overhaul",
+      "summary": "More than 500 people will be affected by the closures. “We must refocus on our core business,” Porsche CEO and executive chair Michael Leiters said in a statement. \"This is the indispensable foundation for a successful strategic realignment. This forces us to make painful cuts — including our subsidiaries.\"",
+      "url": "https://techcrunch.com/2026/05/08/porsche-shutters-e-bike-battery-software-subsidiaries-as-part-of-company-overhaul/",
+      "author": "Tim De Chant",
+      "publishedAt": "2026-05-08T18:25:29Z",
+      "titleEn": "Porsche shutters e-bike, battery, software subsidiaries as part of company overhaul",
+      "titleZh": "作为公司重组的一部分，保时捷关闭了电动自行车、电池和软件子公司",
+      "matchedPortfolios": [
+        "ai-software",
+        "battery"
+      ],
+      "tags": [
+        "battery",
+        "software"
+      ]
+    },
+    {
+      "source": "The Record",
+      "title": "Virginia man found guilty of deleting 96 government databases",
+      "summary": "A Virginia man was convicted on federal charges Thursday after a jury found him guilty of deleting 96 government databases and stealing an individual’s password, leading their email account to be accessed without permission.",
+      "url": "https://therecord.media/virginia-man-found-guilty-deleting-96-gov-databases",
+      "author": "The Record",
+      "publishedAt": "2026-05-08T18:14:00Z",
+      "titleEn": "Virginia man found guilty of deleting 96 government databases",
+      "titleZh": "弗吉尼亚州男子删除 96 个政府数据库被判有罪",
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
       "source": "NASA",
       "title": "NASA’s Psyche Mission Captures Mars During Gravity Assist Approach",
       "summary": "Description This colorized image of Mars was captured by NASA’s Psyche mission on May 3, 2026, about 3 million miles (4.8 million kilometers) from the planet. The spacecraft is approaching the planet for a gravity assist on May 15 that will give it a boost in speed and adjust its trajectory toward asteroid Psyche for [",
@@ -928,6 +2127,18 @@
       ]
     },
     {
+      "source": "TechCrunch",
+      "title": "Mother Ventures is looking at moms as the ‘economic engine’",
+      "summary": "The VC firm, which focuses on mothers as consumers, raised a $10 million debut fund.",
+      "url": "https://techcrunch.com/2026/05/08/mother-ventures-is-looking-at-moms-as-the-economic-engine/",
+      "author": "Marina Temkin",
+      "publishedAt": "2026-05-08T17:46:08Z",
+      "titleEn": "Mother Ventures is looking at moms as the ‘economic engine’",
+      "titleZh": "Mother Ventures 将妈妈视为“经济引擎”",
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
       "source": "NASA",
       "title": "I Am Artemis: Anton Kiriwas",
       "summary": "Listen to this audio excerpt from Anton Kiriwas, senior technical integration manager for NASA’s Exploration Ground Systems Program: When Anton Kiriwas first spotted an image of the Moon and Mars hanging over a job fair booth while in college, it captured his imagination, yet felt like a dream too distant to chase. He",
@@ -941,6 +2152,51 @@
       ],
       "tags": [
         "nasa"
+      ]
+    },
+    {
+      "source": "TechCrunch",
+      "title": "Uber partner Avride is under investigation for self-driving crashes",
+      "summary": "The National Highway Traffic Safety Administration has opened an investigation into Avride after identifying more than a dozen crashes and one minor injury.",
+      "url": "https://techcrunch.com/2026/05/08/uber-partner-avride-is-under-investigation-for-self-driving-crashes/",
+      "author": "Sean O'Kane",
+      "publishedAt": "2026-05-08T17:33:46Z",
+      "titleEn": "Uber partner Avride is under investigation for self-driving crashes",
+      "titleZh": "Uber 合作伙伴 Avride 因自动驾驶事故接受调查",
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
+      "source": "Endpoints News",
+      "title": "Trump plans to fire Makary from FDA role, according to reports",
+      "summary": "FDA Commissioner Marty Makary is expected to be fired from his role, according to multiple media reports. The plans haven’t been finalized and could still change, said the Wall Street Journal ...",
+      "url": "https://endpoints.news/fda-commissioner-makary-to-be-fired/",
+      "author": "Max Bayer",
+      "publishedAt": "2026-05-08T17:32:09Z",
+      "titleEn": "Trump plans to fire Makary from FDA role, according to reports",
+      "titleZh": "据报道，特朗普计划解雇马卡里的 FDA 职务",
+      "matchedPortfolios": [
+        "biotech"
+      ],
+      "tags": [
+        "fda"
+      ]
+    },
+    {
+      "source": "Endpoints News",
+      "title": "Daiichi Sankyo posts 'extraordinary loss' of nearly $1B",
+      "summary": "Daiichi Sankyo is scrapping plans to build antibody-drug conjugate manufacturing capacity and recorded an \"extraordinary loss\" of 149.4 billion Japanese yen ($950 million) after overpromising demand for its ADCs to third-party manufacturers. The Japanese company ...",
+      "url": "https://endpoints.news/daiichi-sankyo-posts-extraordinary-loss-of-nearly-1b/",
+      "author": "Anna Brown",
+      "publishedAt": "2026-05-08T17:16:32Z",
+      "titleEn": "Daiichi Sankyo posts 'extraordinary loss' of nearly $1B",
+      "titleZh": "第一三共 (Daiichi Sankyo) 公布近 $1B 的“异常亏损”",
+      "matchedPortfolios": [
+        "biotech"
+      ],
+      "tags": [
+        "antibody",
+        "drug"
       ]
     },
     {
@@ -961,6 +2217,98 @@
       ]
     },
     {
+      "source": "Breaking Defense",
+      "title": "Turkish air force contracts its first batch of indigenous KAAN jets",
+      "summary": "“The initial sale was made for the first batch of 20 Block 10 aircraft. This is the first order. Over time, we expect the numbers to increase,” Turkish Aerospace CEO Mehmet Demiroglu told Breaking Defense.",
+      "url": "https://breakingdefense.com/2026/05/turkish-air-force-contracts-its-first-batch-of-indigenous-kaan-jets/",
+      "author": "Agnes Helou",
+      "publishedAt": "2026-05-08T16:34:53Z",
+      "titleEn": "Turkish air force contracts its first batch of indigenous KAAN jets",
+      "titleZh": "土耳其空军签订了第一批国产 KAAN 喷气式飞机合同",
+      "matchedPortfolios": [
+        "drone"
+      ],
+      "tags": [
+        "defense"
+      ]
+    },
+    {
+      "source": "Defense News",
+      "title": "US forces disable Iranian-flagged tankers trying to cross blockade",
+      "summary": "This week, U.S. forces around the Strait of Hormuz have launched strikes against Iranian military facilities and disabled missiles launched by the IRGC.",
+      "url": "https://www.defensenews.com/news/your-navy/2026/05/08/us-forces-disable-iranian-flagged-tankers-trying-to-cross-blockade/",
+      "author": "Riley Ceder",
+      "publishedAt": "2026-05-08T16:28:20Z",
+      "titleEn": "US forces disable Iranian-flagged tankers trying to cross blockade",
+      "titleZh": "美军摧毁试图穿越封锁的伊朗国旗油轮",
+      "matchedPortfolios": [
+        "drone"
+      ],
+      "tags": [
+        "defense"
+      ]
+    },
+    {
+      "source": "The Record",
+      "title": "Multiple universities forced to reschedule final exams after Canvas cyber incident",
+      "summary": "On Thursday, dozens of students took to social media to say they saw a message from a cybercriminal group as they navigated through Canvas, an educational platform created by Instructure that hosts teaching materials, tests, readings and more.",
+      "url": "https://therecord.media/universities-forced-to-reschedule-exams-canvas-incident",
+      "author": "The Record",
+      "publishedAt": "2026-05-08T15:48:00Z",
+      "titleEn": "Multiple universities forced to reschedule final exams after Canvas cyber incident",
+      "titleZh": "Canvas 网络事件后，多所大学被迫重新安排期末考试",
+      "matchedPortfolios": [
+        "cybersecurity"
+      ],
+      "tags": [
+        "cyber"
+      ]
+    },
+    {
+      "source": "Cybersecurity Dive",
+      "title": "Instructure confirms cybersecurity incident",
+      "summary": "The ed tech company that operates Canvas said information impacted by the data breach includes messages, names, email addresses and student ID numbers.",
+      "url": "https://www.cybersecuritydive.com/news/instructure-confirms-cybersecurity-incident/819637/",
+      "author": "Anna Merod",
+      "publishedAt": "2026-05-08T15:45:00Z",
+      "titleEn": "Instructure confirms cybersecurity incident",
+      "titleZh": "Instruct确认网络安全事件",
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
+      "source": "Breaking Defense",
+      "title": "First-of-its-kind electromagnetic spectrum exercise tests senior leaders in Arctic conditions",
+      "summary": "Aurora Pulse focused top operational and planning staffs of combatant commands on how to fight in a degraded spectrum environment in the Arctic.",
+      "url": "https://breakingdefense.com/2026/05/first-of-its-kind-electromagnetic-spectrum-exercise-tests-senior-leaders-in-arctic-conditions/",
+      "author": "Mark Pomerleau",
+      "publishedAt": "2026-05-08T15:36:10Z",
+      "titleEn": "First-of-its-kind electromagnetic spectrum exercise tests senior leaders in Arctic conditions",
+      "titleZh": "首次电磁频谱演习在北极条件下测试了高级领导人",
+      "matchedPortfolios": [
+        "drone"
+      ],
+      "tags": [
+        "defense"
+      ]
+    },
+    {
+      "source": "Defense News",
+      "title": "Marines to phase out F/A-18 maintenance jobs as Hornet era ends",
+      "summary": "Enlisted Marines with Hornet specialties will be offered retraining, reassignment or career dead ends.",
+      "url": "https://www.defensenews.com/news/your-marine-corps/2026/05/08/marines-to-phase-out-fa-18-maintenance-jobs-as-hornet-era-ends/",
+      "author": "Daniel Terrill",
+      "publishedAt": "2026-05-08T15:28:50Z",
+      "titleEn": "Marines to phase out F/A-18 maintenance jobs as Hornet era ends",
+      "titleZh": "随着大黄蜂时代的结束，海军陆战队将逐步淘汰 F/A-18 维护工作",
+      "matchedPortfolios": [
+        "drone"
+      ],
+      "tags": [
+        "defense"
+      ]
+    },
+    {
       "source": "NASA",
       "title": "Glowing Views from the Space Station",
       "summary": "NASA astronaut Chris Williams captured the Milky Way rising above Earth’s atmospheric glow on April 13, 2026, while aboard a SpaceX Dragon docked to the International Space Station. This atmospheric glow is also called airglow. It occurs when atoms and molecules in the upper atmosphere, excited by sunlight, emit light",
@@ -976,6 +2324,121 @@
         "nasa",
         "space",
         "spacex"
+      ]
+    },
+    {
+      "source": "Endpoints News",
+      "title": "FDA delays Leqembi decision; Artiva raises $300M; Pharvaris prices offering",
+      "summary": "🗓️ FDA delays subcutaneous Leqembi decision: Originally slated for later this month, the decision date now falls on August 24, Biogen and Eisai said. The agency asked for more information from ...",
+      "url": "https://endpoints.news/fda-delays-leqembi-decision-artiva-raises-300m-pharvaris-prices-offering/",
+      "author": "ENDPOINTS",
+      "publishedAt": "2026-05-08T15:09:06Z",
+      "titleEn": "FDA delays Leqembi decision; Artiva raises $300M; Pharvaris prices offering",
+      "titleZh": "FDA 推迟 Leqembi 决定； Artiva 融资 3 亿美元； Pharvaris 价格提供",
+      "matchedPortfolios": [
+        "biotech"
+      ],
+      "tags": [
+        "fda"
+      ]
+    },
+    {
+      "source": "Cybersecurity Dive",
+      "title": "Anthropic’s Claude used in attempted compromise of Mexican water utility",
+      "summary": "Researchers warn the incident highlights how AI tools can help untrained threat actors develop complex cyberattack capabilities.",
+      "url": "https://www.cybersecuritydive.com/news/anthropics-claude-compromise-mexican-water-utility/819710/",
+      "author": "David Jones",
+      "publishedAt": "2026-05-08T15:05:11Z",
+      "titleEn": "Anthropic’s Claude used in attempted compromise of Mexican water utility",
+      "titleZh": "Anthropic 的 Claude 曾试图入侵墨西哥自来水公司",
+      "matchedPortfolios": [
+        "ai-software"
+      ],
+      "tags": [
+        "ai"
+      ]
+    },
+    {
+      "source": "SpaceNews",
+      "title": "Paraguay signs the Artemis Accords",
+      "summary": "Paraguay signed the Artemis Accords May 7, the sixth country to do so in the last two and a half weeks.",
+      "url": "https://spacenews.com/paraguay-signs-the-artemis-accords/",
+      "author": "Jeff Foust",
+      "publishedAt": "2026-05-08T15:04:32Z",
+      "titleEn": "Paraguay signs the Artemis Accords",
+      "titleZh": "巴拉圭签署阿耳忒弥斯协议",
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
+      "source": "SCMP Business",
+      "title": "Hong Kong secures US$3.5 billion to fund Northern Metropolis and green projects",
+      "summary": "Hong Kong has raised HK$27.6 billion (US$3.5 billion) through a green and infrastructure bond sale to finance the Northern Metropolis and low-carbon transformation projects. The offering drew investors from more than 30 markets across Asia, Europe, the Middle East and the Americas, signalling global institutional inves",
+      "url": "https://www.scmp.com/business/banking-finance/article/3352956/hong-kong-secures-us35-billion-fund-northern-metropolis-and-green-projects?utm_source=rss_feed",
+      "author": "Julie Zhang",
+      "publishedAt": "2026-05-08T15:01:43Z",
+      "titleEn": "Hong Kong secures US$3.5 billion to fund Northern Metropolis and green projects",
+      "titleZh": "香港筹集35亿美元资助北方都市和绿色项目",
+      "matchedPortfolios": [
+        "china-property"
+      ],
+      "tags": [
+        "hong kong"
+      ]
+    },
+    {
+      "source": "Defense News",
+      "title": "The US Marine Corps is looking for a few good robots to build airfields",
+      "summary": "For Marines who have toiled over assembling airfields in austere environments, relief may be on the way.",
+      "url": "https://www.defensenews.com/news/your-military/2026/05/08/the-us-marine-corps-is-looking-for-a-few-good-robots-to-build-airfields/",
+      "author": "Michael Peck",
+      "publishedAt": "2026-05-08T14:13:43Z",
+      "titleEn": "The US Marine Corps is looking for a few good robots to build airfields",
+      "titleZh": "美国海军陆战队正在寻找一些优秀的机器人来建造机场",
+      "matchedPortfolios": [
+        "drone",
+        "hantavirus"
+      ],
+      "tags": [
+        "defense",
+        "who"
+      ]
+    },
+    {
+      "source": "BioPharma Dive",
+      "title": "FDA to reevaluate spurned cell therapy; Under-the-skin Leqembi review extended",
+      "summary": "Pierre Fabre claims to now be “aligned” with U.S. regulators on the path forward for a twice-rejected treatment. Elsewhere, Argenx swapped CEOs and Blackstone made a $250 million biotech investment.",
+      "url": "https://www.biopharmadive.com/news/fda-ebvallo-leqembi-iqlik-argenx-blackstone-anagram/819557/",
+      "author": "Ben Fidler",
+      "publishedAt": "2026-05-08T14:07:28Z",
+      "titleEn": "FDA to reevaluate spurned cell therapy; Under-the-skin Leqembi review extended",
+      "titleZh": "FDA 重新评估废弃细胞疗法；皮下 Leqembi 审查延长",
+      "matchedPortfolios": [
+        "biotech"
+      ],
+      "tags": [
+        "biotech",
+        "fda",
+        "therapy"
+      ]
+    },
+    {
+      "source": "Breaking Defense",
+      "title": "Havelsan unveils Barkan 3 unmanned ground vehicle, to be part of autonomous swarm",
+      "summary": "The Turkish defense firm also revealed an AI-enabled combat management system, part of what an exec said was an effort to integrate AI into the company’s “digital troops concept.”",
+      "url": "https://breakingdefense.com/2026/05/havelsan-unveils-barkan-3-unmanned-ground-vehicle-to-be-part-of-autonomous-swarm/",
+      "author": "Agnes Helou",
+      "publishedAt": "2026-05-08T14:06:07Z",
+      "titleEn": "Havelsan unveils Barkan 3 unmanned ground vehicle, to be part of autonomous swarm",
+      "titleZh": "Havelsan 推出 Barkan 3 无人地面车辆，成为自主集群的一部分",
+      "matchedPortfolios": [
+        "drone",
+        "ai-software"
+      ],
+      "tags": [
+        "ai",
+        "autonomous",
+        "defense"
       ]
     },
     {
@@ -1014,6 +2477,87 @@
       ]
     },
     {
+      "source": "Defense News",
+      "title": "India to build strategic outpost near key shipping lane in Indo-Pacific",
+      "summary": "“This is what I call the Hormuz Strait effect,\" one analyst said, referring to the collapse of shipping through the vital waterway due to war.",
+      "url": "https://www.defensenews.com/global/asia-pacific/2026/05/08/india-to-build-strategic-outpost-near-key-shipping-lane-in-indo-pacific/",
+      "author": "Anjana Pasricha",
+      "publishedAt": "2026-05-08T13:59:48Z",
+      "titleEn": "India to build strategic outpost near key shipping lane in Indo-Pacific",
+      "titleZh": "印度将在印太关键航道附近建立战略前哨基地",
+      "matchedPortfolios": [
+        "drone"
+      ],
+      "tags": [
+        "defense"
+      ]
+    },
+    {
+      "source": "SCMP Business",
+      "title": "Chinese EV maker Leapmotor taps Stellantis’ Spanish plant for EU production",
+      "summary": "Leapmotor, one of China’s strongest-performing electric vehicle (EV) makers this year, has taken a major step towards building cars locally for European customers after agreeing with shareholder Stellantis to add a line at a Spanish plant previously earmarked for Opel. The Hangzhou-based company and Stellantis, owner o",
+      "url": "https://www.scmp.com/business/china-business/article/3352948/chinese-ev-maker-leapmotor-taps-stellantis-spanish-plant-eu-production?utm_source=rss_feed",
+      "author": "Daniel Ren",
+      "publishedAt": "2026-05-08T13:40:59Z",
+      "titleEn": "Chinese EV maker Leapmotor taps Stellantis’ Spanish plant for EU production",
+      "titleZh": "中国电动汽车制造商零跑汽车利用 Stellantis 的西班牙工厂进行欧盟生产",
+      "matchedPortfolios": [
+        "china-leading",
+        "battery"
+      ],
+      "tags": [
+        "china",
+        "electric vehicle",
+        "ev"
+      ]
+    },
+    {
+      "source": "BioPharma Dive",
+      "title": "Lilly, Gilead lead pharma’s M&A boom",
+      "summary": "Deal volume in 2026 is substantially outpacing last year, and activity is being driven by interest in cancer and autoimmune disease drugs.",
+      "url": "https://www.biopharmadive.com/news/lilly-gilead-lead-pharmas-deal-merger-drug-acquisition/819676/",
+      "author": "Kelly Bilodeau",
+      "publishedAt": "2026-05-08T13:29:00Z",
+      "titleEn": "Lilly, Gilead lead pharma’s M&A boom",
+      "titleZh": "礼来（Lilly）和吉利德（Gilead）引领制药业并购热潮",
+      "matchedPortfolios": [
+        "biotech"
+      ],
+      "tags": [
+        "pharma"
+      ]
+    },
+    {
+      "source": "Endpoints News",
+      "title": "'Pharma, not really’: Top young AI talent shuns careers at big drugmakers",
+      "summary": "RIO DE JANEIRO — Mazdak Abulnaga should be the poster child for the type of employee pharma companies want to hire this year. Abulnaga, a 33-year-old postdoctoral fellow at MIT and Harvard Medical School, is building ...",
+      "url": "https://endpoints.news/pharma-not-really-top-young-ai-talent-shuns-careers-at-big-drugmakers/",
+      "author": "Andrew Dunn",
+      "publishedAt": "2026-05-08T13:09:49Z",
+      "titleEn": "'Pharma, not really’: Top young AI talent shuns careers at big drugmakers",
+      "titleZh": "“制药业，并非如此”：顶尖的年轻人工智能人才避开大型制药商的职业生涯",
+      "matchedPortfolios": [
+        "ai-software",
+        "biotech"
+      ],
+      "tags": [
+        "ai",
+        "pharma"
+      ]
+    },
+    {
+      "source": "The Record",
+      "title": "Pro-Ukraine BO Team and Head Mare hackers appear to team up in attacks against Russia",
+      "summary": "Researchers at Moscow-based cybersecurity firm Kaspersky said they identified overlapping infrastructure and tools used by both groups — including command-and-control systems operating on the same compromised host — suggesting some coordination.",
+      "url": "https://therecord.media/ukraine-bo-team-head-mare-hacktivists-team-up-kaspersky",
+      "author": "The Record",
+      "publishedAt": "2026-05-08T13:09:00Z",
+      "titleEn": "Pro-Ukraine BO Team and Head Mare hackers appear to team up in attacks against Russia",
+      "titleZh": "亲乌克兰 BO 团队和 Head Mare 黑客似乎联手攻击俄罗斯",
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
       "source": "ESA",
       "title": "Week in images: 04-08 May 2026",
       "summary": "Week in images: 04-08 May 2026 Discover our week through the lens",
@@ -1028,6 +2572,196 @@
       "tags": [
         "esa"
       ]
+    },
+    {
+      "source": "SCMP Tech",
+      "title": "DeepSeek to soon close first external fundraising in US$50b valuation: sources",
+      "summary": "Chinese artificial intelligence high-flier DeepSeek is expected to close its first external financing round soon, boosting its valuation to up to US$50 billion, according to three people familiar with the matter, as the country’s marquee state-backed investment vehicle joins in bankrolling what is seen as a national te",
+      "url": "https://www.scmp.com/tech/tech-trends/article/3352945/deepseek-soon-close-first-external-fundraising-us50b-valuation-sources?utm_source=rss_feed",
+      "author": "Ben Jiang",
+      "publishedAt": "2026-05-08T13:06:07Z",
+      "titleEn": "DeepSeek to soon close first external fundraising in US$50b valuation: sources",
+      "titleZh": "DeepSeek 即将完成首次外部融资，估值 500 亿美元：消息人士",
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
+      "source": "SCMP Tech",
+      "title": "How Nvidia’s Corning pact shines light on China’s dominant role in global fibre supply",
+      "summary": "Chipmaking giant Nvidia’s deepening partnership with US fibre optics maker Corning to replace copper links in next-generation rack-scale artificial intelligence systems is shining a spotlight on mainland China’s optical communications supply chain. The domestic optical value chain is also doubling down on AI scenarios,",
+      "url": "https://www.scmp.com/tech/tech-trends/article/3352907/how-nvidias-corning-pact-shines-light-chinas-dominant-role-global-fibre-supply?utm_source=rss_feed",
+      "author": "Wency Chen",
+      "publishedAt": "2026-05-08T13:00:06Z",
+      "titleEn": "How Nvidia’s Corning pact shines light on China’s dominant role in global fibre supply",
+      "titleZh": "英伟达的康宁协议如何凸显中国在全球光纤供应中的主导地位",
+      "matchedPortfolios": [
+        "ai-software",
+        "china-leading"
+      ],
+      "tags": [
+        "ai",
+        "china"
+      ]
+    },
+    {
+      "source": "Breaking Defense",
+      "title": "Rheinmetall Q1 sales jump 8% year on year, as naval business era begins with promise",
+      "summary": "“The technology group’s order books remain at record levels,” said the Dusseldorf-based firm as it also predicted “significant growth acceleration” for Q2.",
+      "url": "https://breakingdefense.com/2026/05/rheinmetall-q1-sales-jump-8-percent-year-on-year-as-naval-business-era-begins-with-promise/",
+      "author": "Tim Martin",
+      "publishedAt": "2026-05-08T12:55:22Z",
+      "titleEn": "Rheinmetall Q1 sales jump 8% year on year, as naval business era begins with promise",
+      "titleZh": "莱茵金属Q1销量同比增长8%，海军商业时代开启有希望",
+      "matchedPortfolios": [
+        "drone"
+      ],
+      "tags": [
+        "defense"
+      ]
+    },
+    {
+      "source": "Breaking Defense",
+      "title": "Munitions at risk? Inside the Pentagon’s $350B gamble",
+      "summary": "Congress has teed up a second reconciliation bill with immigration enforcement money, but future reconciliation funds for defense remain nebulous.",
+      "url": "https://breakingdefense.com/2026/05/heres-whats-at-risk-if-the-pentagons-350b-reconciliation-gambit-fails/",
+      "author": "Valerie Insinna",
+      "publishedAt": "2026-05-08T12:45:00Z",
+      "titleEn": "Munitions at risk? Inside the Pentagon’s $350B gamble",
+      "titleZh": "弹药有危险吗？五角大楼 $350B 的赌博内部",
+      "matchedPortfolios": [
+        "drone"
+      ],
+      "tags": [
+        "defense"
+      ]
+    },
+    {
+      "source": "SpaceNews",
+      "title": "Rocket Lab announces large launch contract and plans to acquire space robotics company",
+      "summary": "Rocket Lab announced May 7 the largest launch contract in the company’s history as it also moves to acquire a space robotics company.",
+      "url": "https://spacenews.com/rocket-lab-announces-large-launch-contract-and-plans-to-acquire-space-robotics-company/",
+      "author": "Jeff Foust",
+      "publishedAt": "2026-05-08T11:40:09Z",
+      "titleEn": "Rocket Lab announces large launch contract and plans to acquire space robotics company",
+      "titleZh": "火箭实验室宣布大型发射合同并计划收购太空机器人公司",
+      "matchedPortfolios": [
+        "satellite-intel"
+      ],
+      "tags": [
+        "rocket lab",
+        "space"
+      ]
+    },
+    {
+      "source": "Defense News",
+      "title": "Turkey touts propellant breakthrough for Yıldırımhan long-range ballistic missile",
+      "summary": "The Turkish government has been working on hypersonic technologies and liquid-propellant propulsion systems for nearly a decade.",
+      "url": "https://www.defensenews.com/global/europe/2026/05/08/turkey-touts-propellant-breakthrough-for-yildirimhan-long-range-ballistic-missile/",
+      "author": "Cem Devrim Yaylali",
+      "publishedAt": "2026-05-08T11:14:37Z",
+      "titleEn": "Turkey touts propellant breakthrough for Yıldırımhan long-range ballistic missile",
+      "titleZh": "土耳其宣称耶尔德里姆汗远程弹道导弹推进剂取得突破",
+      "matchedPortfolios": [
+        "drone"
+      ],
+      "tags": [
+        "defense"
+      ]
+    },
+    {
+      "source": "Endpoints News",
+      "title": "Natalie Holles' next move after Third Harmonic shutdown; Mark Alles passes the torch at ADC biotech",
+      "summary": "→ It didn’t take long for Natalie Holles to rebound after the decision to wind down operations at her previous company. She has replaced Elisabet de los Pinos as CEO of ...",
+      "url": "https://endpoints.news/natalie-holles-next-move-after-third-harmonic-shutdown-mark-alles-passes-the-torch-at-adc-biotech/",
+      "author": "Alex Hoffman",
+      "publishedAt": "2026-05-08T11:00:32Z",
+      "titleEn": "Natalie Holles' next move after Third Harmonic shutdown; Mark Alles passes the torch at ADC biotech",
+      "titleZh": "娜塔莉·霍尔斯 (Natalie Holles) 在三次谐波关闭后的下一步行动；马克·阿勒斯 (Mark Alles) 传递 ADC 生物技术的火炬",
+      "matchedPortfolios": [
+        "biotech"
+      ],
+      "tags": [
+        "biotech"
+      ]
+    },
+    {
+      "source": "Endpoints News",
+      "title": "Capricor sues Nippon Shinyaku over Duchenne drug 'pricing flaw' and launch prep",
+      "summary": "Capricor Therapeutics said Thursday it has filed a lawsuit against Nippon Shinyaku over a distribution and commercialization agreement for deramiocel, a cell therapy candidate for Duchenne muscular dystrophy (DMD) that’s getting a second chance at ...",
+      "url": "https://endpoints.news/capricor-sues-nippon-shinyaku-over-duchenne-drug-pricing-flaw-and-launch-prep/",
+      "author": "Ayisha Sharma",
+      "publishedAt": "2026-05-08T11:00:19Z",
+      "titleEn": "Capricor sues Nippon Shinyaku over Duchenne drug 'pricing flaw' and launch prep",
+      "titleZh": "Capricor 因 Duchenne 药物“定价缺陷”和上市准备而起诉日本新药",
+      "matchedPortfolios": [
+        "biotech"
+      ],
+      "tags": [
+        "drug",
+        "therapy"
+      ]
+    },
+    {
+      "source": "SCMP Tech",
+      "title": "How China’s sharper tech edge forces South Korea to rethink decades of industrial ties",
+      "summary": "China’s rapid technological gains and aggressive pricing are making it increasingly difficult for South Korean firms to find profitable areas of industrial synergy with their Chinese counterparts, according to experts. Speakers at a recent forum in Beijing urged firms from both countries to pivot towards building more",
+      "url": "https://www.scmp.com/economy/global-economy/article/3352913/how-chinas-sharper-tech-edge-forces-south-korea-rethink-decades-industrial-ties?utm_source=rss_feed",
+      "author": "Alice Li",
+      "publishedAt": "2026-05-08T10:30:13Z",
+      "titleEn": "How China’s sharper tech edge forces South Korea to rethink decades of industrial ties",
+      "titleZh": "中国更明显的科技优势如何迫使韩国重新思考数十年的产业联系",
+      "matchedPortfolios": [
+        "china-leading"
+      ],
+      "tags": [
+        "china"
+      ]
+    },
+    {
+      "source": "SCMP Business",
+      "title": "Hong Kong prepares for gold futures trading: will the fourth time be the charm?",
+      "summary": "To break a curse of repeated failures to launch gold futures trading, bourse operator Hong Kong Exchanges and Clearing (HKEX) should extend its trading hours and the government should offer tax incentives and establish clearing and storage facilities, according to industry players. These recommendations came as HKEX ai",
+      "url": "https://www.scmp.com/business/banking-finance/article/3352903/hong-kong-prepares-gold-futures-trading-will-fourth-time-be-charm?utm_source=rss_feed",
+      "author": "Enoch Yiu",
+      "publishedAt": "2026-05-08T10:30:06Z",
+      "titleEn": "Hong Kong prepares for gold futures trading: will the fourth time be the charm?",
+      "titleZh": "香港备战黄金期货交易：第四次会魅力吗？",
+      "matchedPortfolios": [
+        "ai-software",
+        "china-property"
+      ],
+      "tags": [
+        "ai",
+        "hong kong"
+      ]
+    },
+    {
+      "source": "SCMP Tech",
+      "title": "Baidu chip unit Kunlunxin eyes US$14.7b valuation in Hong Kong IPO: sources",
+      "summary": "Kunlunxin, the artificial intelligence chip unit of Chinese tech giant Baidu, is seeking a valuation of at least 100 billion yuan (US$14.69 billion) for its Hong Kong stock exchange listing, according to two people familiar with the matter. The valuation could change based on market conditions and final terms, accordin",
+      "url": "https://www.scmp.com/tech/tech-trends/article/3352891/baidu-chip-unit-kunlunxin-eyes-us146b-valuation-hong-kong-ipo-sources?utm_source=rss_feed",
+      "author": "Ben Jiang",
+      "publishedAt": "2026-05-08T09:08:12Z",
+      "titleEn": "Baidu chip unit Kunlunxin eyes US$14.7b valuation in Hong Kong IPO: sources",
+      "titleZh": "百度芯片子公司昆仑欣在香港IPO的估值为147亿美元：消息人士",
+      "matchedPortfolios": [
+        "china-property"
+      ],
+      "tags": [
+        "hong kong"
+      ]
+    },
+    {
+      "source": "SCMP Business",
+      "title": "Trump’s Beijing trip, Iran war diplomacy, tech earnings",
+      "summary": "US President Donald Trump will bring a scaled-back group of chief executive officers with him on a trip to Beijing next week, reflecting limited expectations for a summit that may be overshadowed by the war on Iran. The White House considered inviting about a dozen business leaders on the May 14-15 trip, compared with",
+      "url": "https://www.scmp.com/plus/news/china/diplomacy/article/3352886/trumps-beijing-trip-iran-war-diplomacy-tech-earnings?utm_source=rss_feed",
+      "author": "Raymond Ma,Neil Denslow",
+      "publishedAt": "2026-05-08T09:00:11Z",
+      "titleEn": "Trump’s Beijing trip, Iran war diplomacy, tech earnings",
+      "titleZh": "特朗普的北京之行、伊朗战争外交、科技收益",
+      "matchedPortfolios": [],
+      "tags": []
     },
     {
       "source": "ESA",
@@ -1047,6 +2781,72 @@
       ]
     },
     {
+      "source": "SCMP Business",
+      "title": "AI electricity gap fuels Weichai Power, GE Vernova shares as generator demand surges",
+      "summary": "An electricity shortfall for AI data centres and computing power is fuelling demand for generators and power equipment, driving up stocks from Weichai Power in China to GE Vernova in the US. The AI investment spree in the world’s two largest economies, which are vying for a leading position in the cutting-edge technolo",
+      "url": "https://www.scmp.com/business/china-business/article/3352880/ai-electricity-gap-fuels-weichai-power-ge-vernova-shares-generator-demand-surges?utm_source=rss_feed",
+      "author": "Zhang Shidong",
+      "publishedAt": "2026-05-08T08:32:50Z",
+      "titleEn": "AI electricity gap fuels Weichai Power, GE Vernova shares as generator demand surges",
+      "titleZh": "发电机需求激增，AI电力缺口助推潍柴动力、GE Vernova股价上涨",
+      "matchedPortfolios": [
+        "ai-software",
+        "china-leading"
+      ],
+      "tags": [
+        "ai",
+        "china"
+      ]
+    },
+    {
+      "source": "Semiconductor Engineering",
+      "title": "Chip Industry Week In Review",
+      "summary": "New Taiwan adv. packaging site; M&A activity; GF's CPO solution; Apple looks beyond TSMC; EU chip companies map; strong earnings; MIT's new lidar chip; gallium production; AI inferencing at sea; quantum HW funding; PCIe 7 tool; home data centers; AI security warnings; temperature impact on EVs. The post Chip Industry W",
+      "url": "https://semiengineering.com/chip-industry-week-in-review-137/",
+      "author": "The SE Staff",
+      "publishedAt": "2026-05-08T07:01:11Z",
+      "titleEn": "Chip Industry Week In Review",
+      "titleZh": "芯片行业周回顾",
+      "matchedPortfolios": [
+        "ai-software",
+        "cybersecurity",
+        "brand"
+      ],
+      "tags": [
+        "ai",
+        "apple",
+        "security"
+      ]
+    },
+    {
+      "source": "SCMP Business",
+      "title": "Tesla China posts 36% sales rise, as local rivals’ new models nip at heels",
+      "summary": "Tesla’s Shanghai factory reported a big year-on-year rise in deliveries last month as it benefited from local governments’ subsidies and increasing interest in electric vehicles (EVs) amid the global energy shock. The US carmaker said in a statement that the so-called Gigafactory delivered 74,478 units in April, up 36",
+      "url": "https://www.scmp.com/business/china-business/article/3352856/tesla-china-posts-36-sales-rise-local-rivals-new-models-nip-heels?utm_source=rss_feed",
+      "author": "Daniel Ren",
+      "publishedAt": "2026-05-08T06:34:44Z",
+      "titleEn": "Tesla China posts 36% sales rise, as local rivals’ new models nip at heels",
+      "titleZh": "特斯拉中国销量增长 36%，本土竞争对手新车型紧随其后",
+      "matchedPortfolios": [
+        "china-leading"
+      ],
+      "tags": [
+        "china"
+      ]
+    },
+    {
+      "source": "SCMP Business",
+      "title": "Wealth manager masters the art of providing clarity and delivering growth for clients",
+      "summary": "What do a wealth management professional covering the burgeoning Asian region and a painter have in common? For LH Koh, it involves staying grounded. Koh, head of global family and institutional wealth for Asia-Pacific at UBS – the Swiss financial services company which is consistently ranked as the world’s largest – b",
+      "url": "https://www.scmp.com/native/business/topics/craft-matters-stories-achieving-success/article/3352439/wealth-manager-masters-art-providing-clarity-and-delivering-growth-clients?utm_source=rss_feed",
+      "author": "Morning Studio editors",
+      "publishedAt": "2026-05-08T04:00:06Z",
+      "titleEn": "Wealth manager masters the art of providing clarity and delivering growth for clients",
+      "titleZh": "财富管理机构掌握为客户提供清晰信息并实现增长的艺术",
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
       "source": "NASA",
       "title": "Tracy Arm’s Post-Tsunami Landscape",
       "summary": "A landslide-triggered tsunami stripped vegetation from the shore of the glacial fjord in summer 2025.",
@@ -1063,6 +2863,104 @@
       ]
     },
     {
+      "source": "SpaceNews",
+      "title": "SatVu zooms in on energy facilities in Cuba, India and Australia",
+      "summary": "SAN FRANCISCO – British startup SatVu released imagery from HotSat-2, a thermal satellite built to keep tabs on energy infrastructure. HotSat-2, built by Surrey Satellite Technology Ltd., is the second satellite in SatVu’s commercial high-resolution thermal-imaging constellation. The first, HotSat-1, failed six months",
+      "url": "https://spacenews.com/satvu-zooms-in-energy-facilities-in-cuba-india-and-australia/",
+      "author": "Debra Werner",
+      "publishedAt": "2026-05-08T02:42:50Z",
+      "titleEn": "SatVu zooms in on energy facilities in Cuba, India and Australia",
+      "titleZh": "SatVu 重点关注古巴、印度和澳大利亚的能源设施",
+      "matchedPortfolios": [
+        "satellite-intel"
+      ],
+      "tags": [
+        "imagery",
+        "satellite"
+      ]
+    },
+    {
+      "source": "Endpoints News",
+      "title": "Odyssey raises more than $300M as biotech goes public",
+      "summary": "Odyssey Therapeutics pulled together $279 million from its initial public offering, the autoimmune disease drug developer said Thursday night. Odyssey began trading on the Nasdaq on Friday. The biotech sold 15.5 million shares {$ODTX} at ...",
+      "url": "https://endpoints.news/odyssey-raises-more-than-300m-as-biotech-goes-public-in-ipo/",
+      "author": "Kyle LaHucik",
+      "publishedAt": "2026-05-08T01:44:43Z",
+      "titleEn": "Odyssey raises more than $300M as biotech goes public",
+      "titleZh": "生物技术上市后，Odyssey 筹集了超过 3 亿美元资金",
+      "matchedPortfolios": [
+        "biotech"
+      ],
+      "tags": [
+        "biotech",
+        "drug"
+      ]
+    },
+    {
+      "source": "SpaceNews",
+      "title": "Lunar Outpost raises $30 million",
+      "summary": "Lunar Outpost, a developer of lunar rovers, has raised $30 million as it works to revamp designs to meet NASA’s revised Artemis architecture.",
+      "url": "https://spacenews.com/lunar-outpost-raises-30-million/",
+      "author": "Jeff Foust",
+      "publishedAt": "2026-05-08T01:43:07Z",
+      "titleEn": "Lunar Outpost raises $30 million",
+      "titleZh": "Lunar Outpost 融资 3000 万美元",
+      "matchedPortfolios": [
+        "satellite-intel"
+      ],
+      "tags": [
+        "nasa"
+      ]
+    },
+    {
+      "source": "BioPharma Dive",
+      "title": "Odyssey, on second try, snags $279M in an IPO",
+      "summary": "After withdrawing its initial filing last year, the immune drugmaker rebounded and added to a recent run of sizable new biotech stock offerings — while boosting its haul even higher through a concurrent private deal.",
+      "url": "https://www.biopharmadive.com/news/odyssey-ipo-price-biotech-gary-glick-immune-drugs/819465/",
+      "author": "Gwendolyn Wu",
+      "publishedAt": "2026-05-08T01:20:00Z",
+      "titleEn": "Odyssey, on second try, snags $279M in an IPO",
+      "titleZh": "奥德赛 (Odyssey) 再次尝试 IPO，筹集 2.79 亿美元",
+      "matchedPortfolios": [
+        "biotech"
+      ],
+      "tags": [
+        "biotech"
+      ]
+    },
+    {
+      "source": "Defense News",
+      "title": "As the US Army adds drones to formations, here’s how one base trains its operators",
+      "summary": "Fort Stewart soldiers are figuring out how to train on unmanned systems after the base stood up the Marne Unmanned Center of Excellence.",
+      "url": "https://www.defensenews.com/news/your-military/2026/05/08/as-the-us-army-adds-drones-to-formations-heres-how-one-base-trains-its-operators/",
+      "author": "Eve Sampson",
+      "publishedAt": "2026-05-08T00:04:09Z",
+      "titleEn": "As the US Army adds drones to formations, here’s how one base trains its operators",
+      "titleZh": "随着美国陆军向编队添加无人机，以下是一个基地如何培训其操作员",
+      "matchedPortfolios": [
+        "drone"
+      ],
+      "tags": [
+        "defense"
+      ]
+    },
+    {
+      "source": "Defense News",
+      "title": "US and Iran exchange fire as Trump says war will ‘be over quickly’",
+      "summary": "U.S. forces launched retaliatory strikes against Iranian military facilities Thursday after Iran fired missiles and drones at three U.S. Navy vessels.",
+      "url": "https://www.defensenews.com/news/your-navy/2026/05/07/us-and-iran-exchange-fire-as-trump-says-war-will-be-over-quickly/",
+      "author": "Riley Ceder",
+      "publishedAt": "2026-05-07T23:49:00Z",
+      "titleEn": "US and Iran exchange fire as Trump says war will ‘be over quickly’",
+      "titleZh": "特朗普称战争将“很快结束”，美国和伊朗交火",
+      "matchedPortfolios": [
+        "drone"
+      ],
+      "tags": [
+        "defense"
+      ]
+    },
+    {
       "source": "NASA",
       "title": "Meet the Fleet: NASA Armstrong Continues Legacy of Flight Research",
       "summary": "NASA’s home for experimental flight is welcoming more flyers to its already high-performing fleet as it continues to support science and aeronautics test missions – continuing the legacy of pioneers like Neil Armstrong. NASA’s Armstrong Flight Research Center in Edwards, California, added multiple aircraft this year: t",
@@ -1076,6 +2974,57 @@
       ],
       "tags": [
         "nasa"
+      ]
+    },
+    {
+      "source": "SCMP Business",
+      "title": "China’s move to cut EV payment cycles may push weaker carmakers out: S&P",
+      "summary": "Beijing’s tighter oversight of vicious price competition in the automotive sector is expected to increase borrowing pressure on mainland carmakers and accelerate the exit of weaker, debt-laden players amid softening consumer demand, according to S&P Global Ratings. The warning is likely to deepen bearish sentiment surr",
+      "url": "https://www.scmp.com/business/china-business/article/3352760/chinas-move-cut-ev-payment-cycles-may-push-weaker-carmakers-out-sp?utm_source=rss_feed",
+      "author": "Daniel Ren",
+      "publishedAt": "2026-05-07T23:00:11Z",
+      "titleEn": "China’s move to cut EV payment cycles may push weaker carmakers out: S&P",
+      "titleZh": "标准普尔：中国缩短电动汽车支付周期的举措可能会将实力较弱的汽车制造商赶出局",
+      "matchedPortfolios": [
+        "china-leading",
+        "battery"
+      ],
+      "tags": [
+        "china",
+        "ev"
+      ]
+    },
+    {
+      "source": "Endpoints News",
+      "title": "Astellas touts data from early test of stem cell-derived eye therapy",
+      "summary": "Astellas reported promising results with its stem cell-derived therapy in an age-related eye disease, though data in a handful of high-dose patients in the early-stage study raised questions. The experimental stem cell therapy, called ASP7317 ...",
+      "url": "https://endpoints.news/astellas-touts-data-from-early-test-of-stem-cell-derived-eye-therapy/",
+      "author": "Lei Lei Wu",
+      "publishedAt": "2026-05-07T22:13:30Z",
+      "titleEn": "Astellas touts data from early test of stem cell-derived eye therapy",
+      "titleZh": "安斯泰来宣传干细胞衍生眼部疗法早期测试的数据",
+      "matchedPortfolios": [
+        "biotech"
+      ],
+      "tags": [
+        "therapy"
+      ]
+    },
+    {
+      "source": "SpaceNews",
+      "title": "Rocket Lab joins Raytheon on space interceptor program for Golden Dome",
+      "summary": "The company also announced a new contract to fly hypersonic test flights for Anduril",
+      "url": "https://spacenews.com/rocket-lab-joins-raytheon-on-space-interceptor-program-for-golden-dome/",
+      "author": "Sandra Erwin",
+      "publishedAt": "2026-05-07T22:00:18Z",
+      "titleEn": "Rocket Lab joins Raytheon on space interceptor program for Golden Dome",
+      "titleZh": "火箭实验室与雷神公司合作开展金顶太空拦截器项目",
+      "matchedPortfolios": [
+        "satellite-intel"
+      ],
+      "tags": [
+        "rocket lab",
+        "space"
       ]
     },
     {
@@ -1096,6 +3045,109 @@
       ]
     },
     {
+      "source": "BioPharma Dive",
+      "title": "Sarepta tumbles as its gene therapy sales decline further",
+      "summary": "Even though Elevidys beat Wall Street expectations, analysts expect investor focus to shift toward Sarepta's early-stage RNA drugs.",
+      "url": "https://www.biopharmadive.com/news/sarepta-tumbles-earnings-elevidys-analysts-expecations/819585/",
+      "author": "Delilah Alvarado",
+      "publishedAt": "2026-05-07T19:51:57Z",
+      "titleEn": "Sarepta tumbles as its gene therapy sales decline further",
+      "titleZh": "Sarepta 基因疗法销售额进一步下滑，股价暴跌",
+      "matchedPortfolios": [
+        "biotech"
+      ],
+      "tags": [
+        "gene",
+        "rna",
+        "therapy"
+      ]
+    },
+    {
+      "source": "Breaking Defense",
+      "title": "Top Pentagon tech officials optimistic Mythos-style AI tools will improve cyber defense",
+      "summary": "Mythos is just the first of a new generation of AIs that can patch vulnerable code at superhuman speed, said Pentagon CTO Emil Michael and Cyber Policy chief Katie Sutton, downplaying the uniqueness of Anthropic.",
+      "url": "https://breakingdefense.com/2026/05/top-pentagon-tech-officials-optimistic-mythos-style-ai-tools-will-improve-cyber-defense/",
+      "author": "Sydney J. Freedberg Jr.",
+      "publishedAt": "2026-05-07T19:45:10Z",
+      "titleEn": "Top Pentagon tech officials optimistic Mythos-style AI tools will improve cyber defense",
+      "titleZh": "五角大楼高级技术官员乐观地认为神话式人工智能工具将改善网络防御",
+      "matchedPortfolios": [
+        "drone",
+        "ai-software",
+        "cybersecurity"
+      ],
+      "tags": [
+        "ai",
+        "cyber",
+        "defense"
+      ]
+    },
+    {
+      "source": "Breaking Defense",
+      "title": "How does budget reconciliation work? Here’s everything you need to know.",
+      "summary": "Valerie Insinna outlines how Congress draws up a military spending plan for the year ahead.",
+      "url": "https://breakingdefense.com/2026/05/how-reconciliation-could-affect-pentagon-funding/",
+      "author": "Breaking Defense Video",
+      "publishedAt": "2026-05-07T18:47:41Z",
+      "titleEn": "How does budget reconciliation work? Here’s everything you need to know.",
+      "titleZh": "预算调节如何进行？这是您需要了解的所有内容。",
+      "matchedPortfolios": [
+        "drone"
+      ],
+      "tags": [
+        "defense"
+      ]
+    },
+    {
+      "source": "SpaceNews",
+      "title": "Redwire pursues opportunities in landers and power systems for NASA’s moon base plans",
+      "summary": "Redwire is taking a renewed interest in lunar landers given the demand signal from NASA to support the agency’s ambitions to develop a moon base.",
+      "url": "https://spacenews.com/redwire-pursues-opportunities-in-landers-and-power-systems-for-nasas-moon-base-plans/",
+      "author": "Jeff Foust",
+      "publishedAt": "2026-05-07T18:36:55Z",
+      "titleEn": "Redwire pursues opportunities in landers and power systems for NASA’s moon base plans",
+      "titleZh": "Redwire 为 NASA 月球基地计划寻求着陆器和电力系统方面的机会",
+      "matchedPortfolios": [
+        "satellite-intel"
+      ],
+      "tags": [
+        "nasa"
+      ]
+    },
+    {
+      "source": "Breaking Defense",
+      "title": "Saab CEO optimistic Ukraine Gripen deal could be finalized this year",
+      "summary": "A top Ukrainian official said Kyiv was “ready” for the big fighter jet deal, but Sweden’s defense minister suggested challenges remain.",
+      "url": "https://breakingdefense.com/2026/05/saab-ceo-optimistic-ukraine-gripen-deal-could-be-finalized-this-year/",
+      "author": "Elisabeth Gosselin-Malo",
+      "publishedAt": "2026-05-07T18:07:16Z",
+      "titleEn": "Saab CEO optimistic Ukraine Gripen deal could be finalized this year",
+      "titleZh": "萨博首席执行官对乌克兰鹰狮交易今年可能敲定表示乐观",
+      "matchedPortfolios": [
+        "drone"
+      ],
+      "tags": [
+        "defense"
+      ]
+    },
+    {
+      "source": "Breaking Defense",
+      "title": "ASELSAN at SAHA 2026: Introducing next-generation multi-domain defense systems",
+      "summary": "[Sponsored] Unveiled at SAHA 2026, ASELSAN’s latest portfolio reflects a layered and integrated defense architecture, bringing together electronic warfare, counter-UAV, airborne and naval capabilities within a unified operational framework.",
+      "url": "https://breakingdefense.com/2026/05/aselsan-at-saha-2026-introducing-next-generation-multi-domain-defense-systems/",
+      "author": "Brittany Cianflone",
+      "publishedAt": "2026-05-07T18:03:18Z",
+      "titleEn": "ASELSAN at SAHA 2026: Introducing next-generation multi-domain defense systems",
+      "titleZh": "ASELSAN 在 SAHA 2026：介绍下一代多域防御系统",
+      "matchedPortfolios": [
+        "drone"
+      ],
+      "tags": [
+        "defense",
+        "uav"
+      ]
+    },
+    {
       "source": "WHO",
       "title": "WHO’s response to hantavirus cases linked to a cruise ship",
       "summary": "Dr Tedros Adhanom Ghebreyesus, WHO Director-General, briefed media today on a cluster of hantavirus cases linked to a cruise ship, the MV Hondius. Eight cases have been reported so far, including three deaths. Five of the 8 cases have been confirmed as hantavirus. The hantavirus involved is the Andes virus, the only sp",
@@ -1110,6 +3162,70 @@
       "tags": [
         "hantavirus",
         "who"
+      ]
+    },
+    {
+      "source": "Endpoints News",
+      "title": "Amazon adds Ozempic pill to same-day prescription drug kiosks",
+      "summary": "The Ozempic pill is coming to Amazon Pharmacy’s prescription drug kiosks. It’s an expansion for the kiosks, which operate like vending machines and have been stocking oral Wegovy since February. Amazon has touted the kiosks ...",
+      "url": "https://endpoints.news/amazon-adds-ozempic-pill-to-same-day-prescription-drug-kiosks/",
+      "author": "Nicole DeFeudis",
+      "publishedAt": "2026-05-07T17:15:46Z",
+      "titleEn": "Amazon adds Ozempic pill to same-day prescription drug kiosks",
+      "titleZh": "亚马逊在当日处方药亭添加 Ozempic 药丸",
+      "matchedPortfolios": [
+        "biotech"
+      ],
+      "tags": [
+        "drug"
+      ]
+    },
+    {
+      "source": "Breaking Defense",
+      "title": "The next Army chief won’t inherit a force, he’ll inherit an argument",
+      "summary": "The next Army chief needs to show that land power is still vital and relevant for modern warfare that’s heavily focused on drones, writes John G. Ferrari in this op-ed.",
+      "url": "https://breakingdefense.com/2026/05/the-next-army-chief-wont-inherit-a-force-hell-inherit-an-argument/",
+      "author": "John Ferrari",
+      "publishedAt": "2026-05-07T17:13:48Z",
+      "titleEn": "The next Army chief won’t inherit a force, he’ll inherit an argument",
+      "titleZh": "下一任陆军参谋长不会继承一支部队，他会继承一个论点",
+      "matchedPortfolios": [
+        "drone"
+      ],
+      "tags": [
+        "defense"
+      ]
+    },
+    {
+      "source": "Defense News",
+      "title": "Europe defense autonomy is in reach at €50 billion a year: German experts",
+      "summary": "A new paper identifies “ten central capability gaps” Europe needs to plug to be able to act autonomously, without U.S. military assistance.",
+      "url": "https://www.defensenews.com/global/europe/2026/05/07/europe-defense-autonomy-is-in-reach-at-50-billion-a-year-german-experts/",
+      "author": "Rudy Ruitenberg",
+      "publishedAt": "2026-05-07T16:46:42Z",
+      "titleEn": "Europe defense autonomy is in reach at €50 billion a year: German experts",
+      "titleZh": "德国专家称欧洲国防自主权有望达到每年500亿欧元",
+      "matchedPortfolios": [
+        "drone"
+      ],
+      "tags": [
+        "defense"
+      ]
+    },
+    {
+      "source": "Defense News",
+      "title": "A small town in Germany braces for end to decades of life with US troops",
+      "summary": "A picturesque Bavarian town has hosted U.S. forces since the end of WWII and could bear the brunt of the U.S. military's withdrawal from Germany.",
+      "url": "https://www.defensenews.com/news/your-military/2026/05/07/a-small-town-in-germany-braces-for-end-to-decades-of-life-with-us-troops/",
+      "author": "Lisi Niesner, Reuters",
+      "publishedAt": "2026-05-07T16:42:30Z",
+      "titleEn": "A small town in Germany braces for end to decades of life with US troops",
+      "titleZh": "德国一座小镇准备结束与美军数十年的生活",
+      "matchedPortfolios": [
+        "drone"
+      ],
+      "tags": [
+        "defense"
       ]
     },
     {
@@ -1146,993 +3262,31 @@
       ]
     },
     {
-      "source": "ESA",
-      "title": "Extended Reality at ESA opens new pathways for space exploration",
-      "summary": "The European Space Agency (ESA) is using Extended Reality (XR) to support training, enhance operations, improve simulation environments, and to bring the wonders of space to the public.",
-      "url": "https://www.esa.int/Enabling_Support/Space_Engineering_Technology/Extended_Reality_at_ESA_opens_new_pathways_for_space_exploration",
-      "author": "ESA",
-      "publishedAt": "2026-05-07T08:45:00Z",
-      "titleEn": "Extended Reality at ESA opens new pathways for space exploration",
-      "titleZh": "欧空局的扩展现实为太空探索开辟了新途径",
+      "source": "Endpoints News",
+      "title": "EnGene's shares crash on updated pivotal bladder cancer data",
+      "summary": "EnGene’s latest Phase 2 results on an experimental treatment for certain bladder cancer patients alarmed investors and raised concerns around the therapy’s future prospects. The Canadian biotech's shares {$ENGN} fell 80% Thursday morning after reporting ...",
+      "url": "https://endpoints.news/engenes-shares-crash-on-updated-pivotal-bladder-cancer-data/",
+      "author": "Lei Lei Wu",
+      "publishedAt": "2026-05-07T15:44:27Z",
+      "titleEn": "EnGene's shares crash on updated pivotal bladder cancer data",
+      "titleZh": "EnGene 股价因膀胱癌关键数据更新而暴跌",
       "matchedPortfolios": [
-        "satellite-intel"
+        "biotech"
       ],
       "tags": [
-        "esa",
-        "space"
-      ]
-    },
-    {
-      "source": "SEC press",
-      "title": "SEC Charges 21 Individuals with Alleged Wide-Reaching Insider Trading Scheme",
-      "summary": "The Securities and Exchange Commission today charged 21 individuals for their alleged involvement in a decade-long insider trading scheme that used information misappropriated from multiple global law firms and resulted in millions of dollars in illicit…",
-      "url": "https://www.sec.gov/newsroom/press-releases/2026-44-sec-charges-21-individuals-alleged-wide-reaching-insider-trading-scheme",
-      "author": "SEC press",
-      "publishedAt": "2026-05-06T23:24:19Z",
-      "titleEn": "SEC Charges 21 Individuals with Alleged Wide-Reaching Insider Trading Scheme",
-      "titleZh": "SEC 指控 21 名个人涉嫌影响广泛的内幕交易计划",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "ESA",
-      "title": "Putting the ‘super’ into a supersite for Earth observation",
-      "summary": "In the far northern reaches of Finnish Lapland, an ambitious new chapter in Earth observation is unfolding. The European Space Agency, together with the Finnish Meteorological Institute and Finnish industrial partners, is advancing plans to develop a state-of-the-art ‘supersite’ in Sodankylä. The plan is to equip this",
-      "url": "https://www.esa.int/Applications/Observing_the_Earth/FutureEO/Putting_the_super_into_a_supersite_for_Earth_observation",
-      "author": "ESA",
-      "publishedAt": "2026-05-06T12:58:00Z",
-      "titleEn": "Putting the ‘super’ into a supersite for Earth observation",
-      "titleZh": "将“超级”放入地球观测超级站点",
-      "matchedPortfolios": [
-        "satellite-intel"
-      ],
-      "tags": [
-        "esa",
-        "space"
-      ]
-    },
-    {
-      "source": "ESA",
-      "title": "Webb & Hubble find massive star clusters emerge faster",
-      "summary": "Astronomers using the NASA/ESA/CSA James Webb Space Telescope together with the NASA/ESA Hubble Space Telescope have looked deeply at thousands of young star clusters in four nearby galaxies, studying clusters at different stages of evolution. Their findings show that more massive star clusters emerge more quickly from",
-      "url": "https://www.esa.int/Science_Exploration/Space_Science/Webb/Webb_Hubble_find_massive_star_clusters_emerge_faster",
-      "author": "ESA",
-      "publishedAt": "2026-05-06T10:00:00Z",
-      "titleEn": "Webb & Hubble find massive star clusters emerge faster",
-      "titleZh": "韦伯和哈勃发现巨大的星团出现得更快",
-      "matchedPortfolios": [
-        "satellite-intel"
-      ],
-      "tags": [
-        "esa",
-        "nasa",
-        "space"
-      ]
-    },
-    {
-      "source": "SEC press",
-      "title": "SEC Divisions of Investment Management and Corporation Finance Issue Staff Guidance Supporting Retirement Plans for Small Businesses",
-      "summary": "Staff in the Securities and Exchange Commission’s Divisions of Investment Management and Corporation Finance issued guidance addressing certain questions regarding the application of the federal securities laws to pooled employer plans (PEPs), which help…",
-      "url": "https://www.sec.gov/newsroom/press-releases/2026-43-sec-divisions-investment-management-corporation-finance-issue-staff-guidance-supporting-retirement",
-      "author": "SEC press",
-      "publishedAt": "2026-05-05T20:23:55Z",
-      "titleEn": "SEC Divisions of Investment Management and Corporation Finance Issue Staff Guidance Supporting Retirement Plans for Small Businesses",
-      "titleZh": "SEC 投资管理和公司财务部门发布支持小型企业退休计划的员工指南",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "SEC press",
-      "title": "SEC Proposes Amendments to Permit Optional Semiannual Reporting by Public Companies",
-      "summary": "The Securities and Exchange Commission today proposed rule and form amendments that would give public companies the option of filing semiannual reports in lieu of quarterly reports to meet their interim reporting obligations under the federal securities…",
-      "url": "https://www.sec.gov/newsroom/press-releases/2026-42-sec-proposes-amendments-permit-optional-semiannual-reporting-public-companies",
-      "author": "SEC press",
-      "publishedAt": "2026-05-05T15:54:00Z",
-      "titleEn": "SEC Proposes Amendments to Permit Optional Semiannual Reporting by Public Companies",
-      "titleZh": "美国证券交易委员会提出修正案，允许上市公司选择性提交半年度报告",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "WHO",
-      "title": "Joint call by the President of the ICRC, the Director-General of WHO and the International President of MSF",
-      "summary": "Ten years ago, the UN Security Council unanimously adopted Resolution 2286 on health care in armed conflicts. The situation is even worse compared to 10 years ago. Today, we mark not an achievement – we mark a failure. As violence affecting medical facilities, transport and personnel continues unabated, the harm this r",
-      "url": "https://www.who.int/news/item/04-05-2026-joint-call-by-the-president-of-the-icrc--the-director-general-of-who-and-the-international-president-of-msf",
-      "author": "WHO",
-      "publishedAt": "2026-05-04T06:44:57Z",
-      "titleEn": "Joint call by the President of the ICRC, the Director-General of WHO and the International President of MSF",
-      "titleZh": "红十字国际委员会主席、世卫组织总干事和无国界医生组织国际主席联合呼吁",
-      "matchedPortfolios": [
-        "cybersecurity",
-        "hantavirus"
-      ],
-      "tags": [
-        "security",
-        "who"
-      ]
-    },
-    {
-      "source": "WHO",
-      "title": "WHO Member States agree to extend negotiations on Pathogen Access and Benefit Sharing annex",
-      "summary": "Member States of the World Health Organization (WHO) have progressed work on the Pathogen Access and Benefit Sharing (PABS) annex, a key part of the WHO Pandemic Agreement, and today agreed additional time was needed to finalize the framework for ensuring a better, more equitable, response to future pandemics. Countrie",
-      "url": "https://www.who.int/news/item/01-05-2026-who-member-states-agree-to-extend-negotiations-on-pathogen-access-and-benefit-sharing-annex",
-      "author": "WHO",
-      "publishedAt": "2026-05-01T16:52:42Z",
-      "titleEn": "WHO Member States agree to extend negotiations on Pathogen Access and Benefit Sharing annex",
-      "titleZh": "世卫组织会员国同意延长关于病原体获取和利益分享附件的谈判",
-      "matchedPortfolios": [
-        "hantavirus"
-      ],
-      "tags": [
-        "who"
-      ]
-    },
-    {
-      "source": "ESA",
-      "title": "Week in images: 27 April - 01 May 2026",
-      "summary": "Week in images: 27 April - 01 May 2026 Discover our week through the lens",
-      "url": "https://www.esa.int/About_Us/Week_in_images/Week_in_images_27_April_-_01_May_2026",
-      "author": "ESA",
-      "publishedAt": "2026-05-01T13:15:00Z",
-      "titleEn": "Week in images: 27 April - 01 May 2026",
-      "titleZh": "本周图片：2026年4月27日至5月1日",
-      "matchedPortfolios": [
-        "satellite-intel"
-      ],
-      "tags": [
-        "esa"
-      ]
-    },
-    {
-      "source": "ESA",
-      "title": "Earth from Space: Netherlands in bloom",
-      "summary": "Image: Captured by the Copernicus Sentinel-2 mission on 21 April 2026, this image shows a double bloom in the Netherlands: an array of vibrant colours in the tulip fields as well as the blue-greenish swirls of phytoplankton in the North Sea.",
-      "url": "https://www.esa.int/ESA_Multimedia/Images/2026/05/Earth_from_Space_Netherlands_in_bloom",
-      "author": "ESA",
-      "publishedAt": "2026-05-01T08:00:00Z",
-      "titleEn": "Earth from Space: Netherlands in bloom",
-      "titleZh": "从太空看地球：荷兰盛开",
-      "matchedPortfolios": [
-        "satellite-intel"
-      ],
-      "tags": [
-        "esa",
-        "space"
-      ]
-    },
-    {
-      "source": "SEC press",
-      "title": "Deputy Director of Enforcement Jason Burt to Conclude His Tenure at the SEC",
-      "summary": "The Securities and Exchange Commission today announced that Jason Burt, Deputy Director of the Division of Enforcement (Specialized Units), will depart the agency on May 1, 2026, after more than 22 years of public service.“Jason’s exceptional leadership…",
-      "url": "https://www.sec.gov/newsroom/press-releases/2026-41-deputy-director-enforcement-jason-burt-conclude-his-tenure-sec",
-      "author": "SEC press",
-      "publishedAt": "2026-04-30T20:30:36Z",
-      "titleEn": "Deputy Director of Enforcement Jason Burt to Conclude His Tenure at the SEC",
-      "titleZh": "执法副总监杰森·伯特 (Jason Burt) 即将结束在 SEC 的任期",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "WHO",
-      "title": "Australia becomes the 30th country to eliminate trachoma as a public health problem",
-      "summary": "The World Health Organization (WHO) has validated Australia for eliminating trachoma as a public health problem, marking a significant milestone in the health of indigenous peoples and in global efforts to combat neglected tropical diseases (NTDs). Trachoma, the world’s leading infectious cause of blindness, no longer",
-      "url": "https://www.who.int/news/item/29-04-2026-australia-becomes-the-30th-country-to-eliminate-trachoma-as-a-public-health-problem",
-      "author": "WHO",
-      "publishedAt": "2026-04-29T06:10:07Z",
-      "titleEn": "Australia becomes the 30th country to eliminate trachoma as a public health problem",
-      "titleZh": "澳大利亚成为第 30 个消除沙眼这一公共卫生问题的国家",
-      "matchedPortfolios": [
-        "hantavirus"
-      ],
-      "tags": [
-        "public health",
-        "who"
-      ]
-    },
-    {
-      "source": "WHO",
-      "title": "Efforts to eliminate hepatitis delivers gains but more action needed to meet 2030 targets",
-      "summary": "Global efforts to combat viral hepatitis are delivering measurable progress in reducing infections and deaths, but the disease remains a major global health challenge, according to a new World Health Organization (WHO) report released today at the World Hepatitis Summit. Viral hepatitis B and C – the two infections res",
-      "url": "https://www.who.int/news/item/28-04-2026-efforts-to-eliminate-hepatitis-delivers-gains-but-more-action-needed-to-meet-2030-targets",
-      "author": "WHO",
-      "publishedAt": "2026-04-28T05:37:30Z",
-      "titleEn": "Efforts to eliminate hepatitis delivers gains but more action needed to meet 2030 targets",
-      "titleZh": "消除肝炎的努力取得了成果，但需要采取更多行动才能实现 2030 年目标",
-      "matchedPortfolios": [
-        "hantavirus"
-      ],
-      "tags": [
-        "who"
-      ]
-    },
-    {
-      "source": "WHO",
-      "title": "Practicing today for tomorrow’s emergencies – WHO convenes countries and partners to simulate response to major disease outbreak",
-      "summary": "The World Health Organization (WHO) wrapped up Exercise Polaris II, a 2-day high-level simulation exercise, based around an outbreak of a fictional new bacterium spreading across the world. Bringing together 26 countries and territories, 600 health emergency experts and over 25 partners, the exercise, which took place",
-      "url": "https://www.who.int/news/item/27-04-2026-practicing-today-for-tomorrow-s-emergencies-who-convenes-countries-and-partners-to-simulate-response-to-major-disease-outbreak",
-      "author": "WHO",
-      "publishedAt": "2026-04-27T13:12:09Z",
-      "titleEn": "Practicing today for tomorrow’s emergencies – WHO convenes countries and partners to simulate response to major disease outbreak",
-      "titleZh": "今天为明天的紧急情况进行练习——世卫组织召集各国和合作伙伴模拟对重大疾病爆发的反应",
-      "matchedPortfolios": [
-        "hantavirus"
-      ],
-      "tags": [
-        "outbreak",
-        "who"
-      ]
-    },
-    {
-      "source": "WHO",
-      "title": "WHO prequalifies first-ever malaria treatment for newborns and infants, adds new diagnostic tests",
-      "summary": "Ahead of World Malaria Day on 25 April, the World Health Organization (WHO) has announced a significant step forward in the fight against malaria with the prequalification of the first treatment developed specifically for newborns and young infants weighing between two and five kilograms. The prequalification designati",
-      "url": "https://www.who.int/news/item/24-04-2026-who-prequalifies-first-ever-malaria-treatment-for-newborns-and-infants-adds-new-diagnostic-tests",
-      "author": "WHO",
-      "publishedAt": "2026-04-24T16:11:22Z",
-      "titleEn": "WHO prequalifies first-ever malaria treatment for newborns and infants, adds new diagnostic tests",
-      "titleZh": "世卫组织对首次针对新生儿和婴儿的疟疾治疗进行了资格预审，并增加了新的诊断测试",
-      "matchedPortfolios": [
-        "hantavirus"
-      ],
-      "tags": [
-        "diagnostic",
-        "who"
-      ]
-    },
-    {
-      "source": "WHO",
-      "title": "Largest catch-up initiative delivers over 100 million childhood vaccinations",
-      "summary": "The Big Catch-Up, launched during World Immunization Week 2023, has delivered over 100 million vaccine doses to an estimated 18.3 million children across 36 countries Around 12.3 million were “zero-dose children” who had not previously received any vaccines and 15 million who had never received a measles vaccine. The i",
-      "url": "https://www.who.int/news/item/24-04-2026-largest-catch-up-initiative-delivers-over-100-million-childhood-vaccinations",
-      "author": "WHO",
-      "publishedAt": "2026-04-24T00:01:25Z",
-      "titleEn": "Largest catch-up initiative delivers over 100 million childhood vaccinations",
-      "titleZh": "最大的追赶计划为超过 1 亿名儿童接种了疫苗",
-      "matchedPortfolios": [
         "biotech",
-        "hantavirus"
-      ],
-      "tags": [
-        "vaccine",
-        "who"
+        "therapy"
       ]
     },
     {
-      "source": "WHO",
-      "title": "Algeria eliminates trachoma as a public health problem",
-      "summary": "The World Health Organization (WHO) has validated Algeria as having eliminated trachoma as a public health problem, making it the 10th country in WHO’s African Region and the 29th country globally to achieve this significant milestone.",
-      "url": "https://www.who.int/news/item/23-04-2026-algeria-eliminates-trachoma-as-a-public-health-problem",
-      "author": "WHO",
-      "publishedAt": "2026-04-23T10:46:17Z",
-      "titleEn": "Algeria eliminates trachoma as a public health problem",
-      "titleZh": "阿尔及利亚消除沙眼这一公共卫生问题",
-      "matchedPortfolios": [
-        "hantavirus"
-      ],
-      "tags": [
-        "public health",
-        "who"
-      ]
-    },
-    {
-      "source": "WHO",
-      "title": "WHO reports measurable health impact in 2025 amid transition to new strategy",
-      "summary": "The World Health Organization (WHO) today released its Results Report , highlighting measurable improvements in people’s health worldwide in 2025, despite funding cuts affecting both the organization and the broader global health sector. Published at a pivotal moment for global health, the Results Report demonstrates t",
-      "url": "https://www.who.int/news/item/23-04-2026-who-reports-measurable-health-impact-in-2025-amid-transition-to-new-strategy",
-      "author": "WHO",
-      "publishedAt": "2026-04-23T08:07:28Z",
-      "titleEn": "WHO reports measurable health impact in 2025 amid transition to new strategy",
-      "titleZh": "世卫组织报告在向新战略过渡期间将在 2025 年对健康产生可衡量的影响",
-      "matchedPortfolios": [
-        "hantavirus"
-      ],
-      "tags": [
-        "who"
-      ]
-    },
-    {
-      "source": "WHO",
-      "title": "WHO certifies the Bahamas for eliminating mother-to-child transmission of HIV",
-      "summary": "In a landmark achievement for Caribbean public health, the World Health Organization (WHO) congratulates The Bahamas for becoming the latest Caribbean nation to be certified as having eliminated the mother-to-child transmission of HIV. “I congratulate The Bahamas on this outstanding achievement, which solidifies years",
-      "url": "https://www.who.int/news/item/22-04-2026-who-certifies-the-bahamas-for-eliminating-mother-to-child-transmission-of-hiv",
-      "author": "WHO",
-      "publishedAt": "2026-04-22T20:34:27Z",
-      "titleEn": "WHO certifies the Bahamas for eliminating mother-to-child transmission of HIV",
-      "titleZh": "世卫组织认证巴哈马消除了艾滋病毒母婴传播",
-      "matchedPortfolios": [
-        "hantavirus"
-      ],
-      "tags": [
-        "public health",
-        "who"
-      ]
-    },
-    {
-      "source": "SEC press",
-      "title": "SEC and CFTC Jointly Propose Amendments to Reduce Private Fund Reporting Burdens",
-      "summary": "The Securities and Exchange Commission (SEC) and the Commodity Futures Trading Commission (CFTC) jointly proposed amendments to reduce private fund reporting burdens while enabling the continued collection of necessary and appropriate information. The…",
-      "url": "https://www.sec.gov/newsroom/press-releases/2026-40-sec-cftc-jointly-propose-amendments-reduce-private-fund-reporting-burdens",
-      "author": "SEC press",
-      "publishedAt": "2026-04-20T14:45:00Z",
-      "titleEn": "SEC and CFTC Jointly Propose Amendments to Reduce Private Fund Reporting Burdens",
-      "titleZh": "SEC 和 CFTC 联合提出修正案以减少私募基金报告负担",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "SEC press",
-      "title": "Chairman Atkins Launches 'Material Matters' Podcast",
-      "summary": "The Securities and Exchange Commission today announced the launch of Material Matters With SEC Chairman Paul Atkins, a new podcast that provides stakeholders and the investing public with exclusive interviews and insights around the agency’s policy and…",
-      "url": "https://www.sec.gov/newsroom/press-releases/2026-39-chairman-atkins-launches-material-matters-podcast",
-      "author": "SEC press",
-      "publishedAt": "2026-04-16T17:02:47Z",
-      "titleEn": "Chairman Atkins Launches 'Material Matters' Podcast",
-      "titleZh": "阿特金斯主席推出“Material Matters”播客",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "SEC press",
-      "title": "SEC Small Business Advisory Committee to Explore Ways to Encourage More IPOs",
-      "summary": "The Securities and Exchange Commission’s Small Business Capital Formation Advisory Committee announced that it will hold a meeting on Tuesday, April 28, 2026 at 10:00 a.m. to explore ways to encourage more companies to go public.The meeting will be open…",
-      "url": "https://www.sec.gov/newsroom/press-releases/2026-38-sec-small-business-advisory-committee-explore-ways-encourage-more-ipos",
-      "author": "SEC press",
-      "publishedAt": "2026-04-16T15:45:04Z",
-      "titleEn": "SEC Small Business Advisory Committee to Explore Ways to Encourage More IPOs",
-      "titleZh": "美国证券交易委员会小企业咨询委员会将探索鼓励更多首次公开募股的方法",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "SEC press",
-      "title": "SEC Seeks Public Comment on the Consolidated Audit Trail and Other Audit Trails and Data Sources",
-      "summary": "The Securities and Exchange Commission today issued a concept release soliciting public comment in support of a comprehensive review of the Consolidated Audit Trail (CAT) and other audit trails and related data sources currently used in the regulation of…",
-      "url": "https://www.sec.gov/newsroom/press-releases/2026-37-sec-seeks-public-comment-consolidated-audit-trail-other-audit-trails-data-sources",
-      "author": "SEC press",
-      "publishedAt": "2026-04-16T13:55:00Z",
-      "titleEn": "SEC Seeks Public Comment on the Consolidated Audit Trail and Other Audit Trails and Data Sources",
-      "titleZh": "SEC 就综合审计追踪及其他审计追踪和数据源征求公众意见",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "SEC press",
-      "title": "SEC Approves Exemptive Order and Proposed Rule Change to Permit Customer Cross-Margining in the U.S. Treasury Market",
-      "summary": "The Securities and Exchange Commission today issued a conditional exemptive order that permits customer cross-margining of cash market positions in U.S. Treasury securities cleared by a registered clearing agency and futures positions in U.S. Treasury…",
-      "url": "https://www.sec.gov/newsroom/press-releases/2026-36-sec-approves-exemptive-order-proposed-rule-change-permit-customer-cross-margining-us-treasury-market",
-      "author": "SEC press",
-      "publishedAt": "2026-04-15T19:45:51Z",
-      "titleEn": "SEC Approves Exemptive Order and Proposed Rule Change to Permit Customer Cross-Margining in the U.S. Treasury Market",
-      "titleZh": "美国证券交易委员会批准豁免令和提议的规则变更，以允许客户在美国国债市场进行交叉保证金",
-      "matchedPortfolios": [
-        "no-yield"
-      ],
-      "tags": [
-        "treasury"
-      ]
-    },
-    {
-      "source": "WHO",
-      "title": "After three years of conflict, Sudan faces a deeper health crisis",
-      "summary": "After three years of war, Sudan now accounts for the world’s largest humanitarian crisis, with 34 million people needing aid, 21 million lacking health services, and repeated attacks crippling a medical system already weakened by disease and hunger. While the situation is improving in some states, the health crisis is",
-      "url": "https://www.who.int/news/item/14-04-2026-after-three-years-of-conflict--sudan-faces-a-deeper-health-crisis",
-      "author": "WHO",
-      "publishedAt": "2026-04-14T16:02:23Z",
-      "titleEn": "After three years of conflict, Sudan faces a deeper health crisis",
-      "titleZh": "经过三年的冲突，苏丹面临更深层次的健康危机",
-      "matchedPortfolios": [
-        "hantavirus"
-      ],
-      "tags": [
-        "who"
-      ]
-    },
-    {
-      "source": "WHO",
-      "title": "First-ever WHO Forum unites 800+ Collaborating Centres for stronger scientific collaboration",
-      "summary": "The World Health Organization (WHO) has convened the historic first Global Forum of Collaborating Centres—one of the world’s largest and most diverse public health networks—bringing together representatives from over 800 institutions designated as WHO Collaborating Centres (CCs) across more than 80 countries.",
-      "url": "https://www.who.int/news/item/09-04-2026-first-ever-who-forum-unites-800--collaborating-centres-for-stronger-scientific-collaboration",
-      "author": "WHO",
-      "publishedAt": "2026-04-09T15:59:24Z",
-      "titleEn": "First-ever WHO Forum unites 800+ Collaborating Centres for stronger scientific collaboration",
-      "titleZh": "首届世卫组​​织论坛联合 800 多个合作中心以加强科学合作",
-      "matchedPortfolios": [
-        "hantavirus"
-      ],
-      "tags": [
-        "public health",
-        "who"
-      ]
-    },
-    {
-      "source": "SEC press",
-      "title": "SEC Appoints David Woodcock as Director of the Division of Enforcement",
-      "summary": "The Securities and Exchange Commission today announced that David Woodcock has been appointed Director of the Division of Enforcement, effective May 4, 2026. Mr. Woodcock is currently a partner in the Dallas and Washington, D.C. offices of Gibson, Dunn…",
-      "url": "https://www.sec.gov/newsroom/press-releases/2026-35-sec-appoints-david-woodcock-director-division-enforcement",
-      "author": "SEC press",
-      "publishedAt": "2026-04-08T16:20:00Z",
-      "titleEn": "SEC Appoints David Woodcock as Director of the Division of Enforcement",
-      "titleZh": "SEC 任命 David Woodcock 为执法部门主管",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "SEC press",
-      "title": "SEC Announces Enforcement Results for Fiscal Year 2025",
-      "summary": "The Securities and Exchange Commission today announced enforcement results for the fiscal year that ended on September 30, 2025.Central to an effective enforcement program is determining which cases to bring and responsibly stewarding Commission…",
-      "url": "https://www.sec.gov/newsroom/press-releases/2026-34",
-      "author": "SEC press",
-      "publishedAt": "2026-04-07T19:48:30Z",
-      "titleEn": "SEC Announces Enforcement Results for Fiscal Year 2025",
-      "titleZh": "SEC 公布 2025 财年执法结果",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "WHO",
-      "title": "WHO and France shift One Health vision to action with new high-impact initiatives",
-      "summary": "The World Health Organization (WHO) and France hosted the One Health Summit on World Health Day 2026, announcing new initiatives to protect human, animal, and environmental health through the One Health approach. The Summit highlighted urgent global challenges such as climate change, zoonotic diseases, and health inequ",
-      "url": "https://www.who.int/news/item/07-04-2026-who-and-france-shift-one-health-vision-to-action-with-new-high-impact-initiatives",
-      "author": "WHO",
-      "publishedAt": "2026-04-07T19:02:21Z",
-      "titleEn": "WHO and France shift One Health vision to action with new high-impact initiatives",
-      "titleZh": "世卫组织和法国通过新的高影响力举措将“同一个健康”愿景转变为行动",
-      "matchedPortfolios": [
-        "hantavirus"
-      ],
-      "tags": [
-        "who"
-      ]
-    },
-    {
-      "source": "WHO",
-      "title": "WHO calls for action: “Together for health. Stand with science.” to mark World Health Day",
-      "summary": "The World Health Organization (WHO) today calls on people everywhere to renew their commitment to working together and supporting science as the twin engines driving better health, under the World Health Day 2026 theme: “Together for health. Stand with science.” The campaign marks the anniversary of WHO’s founding on 7",
-      "url": "https://www.who.int/news/item/06-04-2026-who-calls-for-action---together-for-health.-stand-with-science.--to-mark-world-health-day",
-      "author": "WHO",
-      "publishedAt": "2026-04-06T08:36:50Z",
-      "titleEn": "WHO calls for action: “Together for health. Stand with science.” to mark World Health Day",
-      "titleZh": "世卫组织呼吁采取行动：“共同维护健康。与科学站在一起。”纪念世界卫生日",
-      "matchedPortfolios": [
-        "hantavirus"
-      ],
-      "tags": [
-        "who"
-      ]
-    },
-    {
-      "source": "SEC press",
-      "title": "SEC Announces Agenda and Panelists for Roundtable on Options Market Structure",
-      "summary": "The Securities and Exchange Commission today announced the agenda and panelists for its April 16, 2026, roundtable on options market structure.The roundtable will be held at the SEC’s headquarters at 100 F Street, N.E., Washington, D.C., from 9 a.m. to 3…",
-      "url": "https://www.sec.gov/newsroom/press-releases/2026-33-sec-announces-agenda-panelists-roundtable-options-market-structure",
-      "author": "SEC press",
-      "publishedAt": "2026-04-02T20:44:29Z",
-      "titleEn": "SEC Announces Agenda and Panelists for Roundtable on Options Market Structure",
-      "titleZh": "SEC 公布期权市场结构圆桌会议议程和小组成员",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "SEC press",
-      "title": "SEC Highlights Financial Independence During Financial Literacy Month",
-      "summary": "The Securities and Exchange Commission’s Office of Investor Education and Assistance (OIEA) today announced that as part of April’s National Financial Literacy Month it will highlight financial planning tools and resources on Investor.gov to…",
-      "url": "https://www.sec.gov/newsroom/press-releases/2026-32-sec-highlights-financial-independence-during-financial-literacy-month",
-      "author": "SEC press",
-      "publishedAt": "2026-03-31T13:52:09Z",
-      "titleEn": "SEC Highlights Financial Independence During Financial Literacy Month",
-      "titleZh": "美国证券交易委员会在金融知识月期间强调财务独立",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "WHO",
-      "title": "WHO Member States agree to extend negotiations on key annex to the Pandemic Agreement",
-      "summary": "WHO Member States have agreed to extend negotiations on the Pathogen Access and Benefit Sharing (PABS) annex to the WHO Pandemic Agreement, with discussions to resume in late‑April ahead of its scheduled consideration by the World Health Assembly (WHA) in May.",
-      "url": "https://www.who.int/news/item/28-03-2026-who-member-states-agree-to-extend-negotiations-on-key-annex-to-the-pandemic-agreement",
-      "author": "WHO",
-      "publishedAt": "2026-03-28T19:14:12Z",
-      "titleEn": "WHO Member States agree to extend negotiations on key annex to the Pandemic Agreement",
-      "titleZh": "世卫组织会员国同意延长大流行病协议关键附件的谈判",
-      "matchedPortfolios": [
-        "hantavirus"
-      ],
-      "tags": [
-        "who"
-      ]
-    },
-    {
-      "source": "SEC press",
-      "title": "SEC Approves Amendment to NMS Plan to Further Reduce the Costs of the Consolidated Audit Trail",
-      "summary": "The Securities and Exchange Commission today approved an amendment to the National Market System Plan governing the Consolidated Audit Trail (“CAT”) and provided exemptive relief from certain requirements of Rule 17a-1 under the Securities Exchange Act…",
-      "url": "https://www.sec.gov/newsroom/press-releases/2026-31-sec-approves-amendment-nms-plan-further-reduce-costs-consolidated-audit-trail",
-      "author": "SEC press",
-      "publishedAt": "2026-03-27T20:04:54Z",
-      "titleEn": "SEC Approves Amendment to NMS Plan to Further Reduce the Costs of the Consolidated Audit Trail",
-      "titleZh": "SEC 批准 NMS 计划修正案，以进一步降低合并审计跟踪的成本",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "WHO",
-      "title": "Encouraging progress in inclusive health policies for refugees and migrants",
-      "summary": "WHO reports a major shift in how countries are responding to the health needs of refugees and migrants, with new data showing more than 60 countries – two thirds of those surveyed – now include them in their national health policies and laws.",
-      "url": "https://www.who.int/news/item/26-03-2026-encouraging-progress-in-inclusive-health-policies-for-refugees-and-migrants",
-      "author": "WHO",
-      "publishedAt": "2026-03-26T08:50:26Z",
-      "titleEn": "Encouraging progress in inclusive health policies for refugees and migrants",
-      "titleZh": "鼓励难民和移民包容性卫生政策取得进展",
-      "matchedPortfolios": [
-        "hantavirus"
-      ],
-      "tags": [
-        "who"
-      ]
-    },
-    {
-      "source": "WHO",
-      "title": "WHO recommends new diagnostic tools to help end TB",
-      "summary": "On World TB Day, the World Health Organization (WHO) is urging countries to accelerate action to end tuberculosis (TB) and expand access to lifesaving services by using new innovations such as diagnostic tests that can be used near the point-of-care and tongue swabs that can help detect the disease faster reaching more",
-      "url": "https://www.who.int/news/item/24-03-2026-who-recommends-new-diagnostic-tools-to-help-end-tb",
-      "author": "WHO",
-      "publishedAt": "2026-03-24T08:29:49Z",
-      "titleEn": "WHO recommends new diagnostic tools to help end TB",
-      "titleZh": "世界卫生组织推荐新的诊断工具来帮助消灭结核病",
-      "matchedPortfolios": [
-        "hantavirus"
-      ],
-      "tags": [
-        "diagnostic",
-        "who"
-      ]
-    },
-    {
-      "source": "WHO",
-      "title": "Progress in reducing child deaths slows as 4.9 million children die before age five",
-      "summary": "An estimated 4.9 million children died before their fifth birthday in 2024, including 2.3 million newborns, according to new estimates released today. Most of these deaths are preventable with proven, low-cost interventions and access to quality health care. According to the report – Levels & Trends in Child Mortality",
-      "url": "https://www.who.int/news/item/18-03-2026-progress-in-reducing-child-deaths-slows-as-4.9-million-children-die-before-age-five",
-      "author": "WHO",
-      "publishedAt": "2026-03-18T00:01:15Z",
-      "titleEn": "Progress in reducing child deaths slows as 4.9 million children die before age five",
-      "titleZh": "减少儿童死亡率的进展放缓，490 万名儿童在五岁前死亡",
-      "matchedPortfolios": [
-        "hantavirus"
-      ],
-      "tags": [
-        "who"
-      ]
-    },
-    {
-      "source": "SEC press",
-      "title": "SEC Clarifies the Application of Federal Securities Laws to Crypto Assets",
-      "summary": "The Securities and Exchange Commission (SEC) today issued an interpretation clarifying how the federal securities laws apply to certain crypto assets and transactions involving crypto assets. This is a major step in the Commission’s efforts to provide…",
-      "url": "https://www.sec.gov/newsroom/press-releases/2026-30-sec-clarifies-application-federal-securities-laws-crypto-assets",
-      "author": "SEC press",
-      "publishedAt": "2026-03-17T19:45:25Z",
-      "titleEn": "SEC Clarifies the Application of Federal Securities Laws to Crypto Assets",
-      "titleZh": "SEC 澄清联邦证券法对加密资产的适用",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "SEC press",
-      "title": "SEC Publishes Data on Public and Private Offerings, Municipal Advisors, Transfer Agents, and Securities-Based Swap Dealers",
-      "summary": "The Securities and Exchange Commission’s Division of Economic and Risk Analysis (DERA) published a new report on security based swap dealers (SBSDs) and updated statistics and data visualizations on initial public offerings (IPOs), follow-on registered…",
-      "url": "https://www.sec.gov/newsroom/press-releases/2026-29-sec-publishes-data-public-private-offerings-municipal-advisors-transfer-agents-securities-based-swap",
-      "author": "SEC press",
-      "publishedAt": "2026-03-17T19:13:00Z",
-      "titleEn": "SEC Publishes Data on Public and Private Offerings, Municipal Advisors, Transfer Agents, and Securities-Based Swap Dealers",
-      "titleZh": "SEC 发布有关公开和私募发行、市政顾问、过户代理和证券掉期交易商的数据",
-      "matchedPortfolios": [
-        "cybersecurity"
-      ],
-      "tags": [
-        "security"
-      ]
-    },
-    {
-      "source": "SEC press",
-      "title": "SEC Proposes Amendments to Exchange Act Rule 15c2-11",
-      "summary": "The Securities and Exchange Commission today proposed amendments to Exchange Act Rule 15c2-11, which sets out certain information gathering and review requirements for broker-dealers that publish quotations for, or maintain a continuous quoted market in…",
-      "url": "https://www.sec.gov/newsroom/press-releases/2026-28-sec-proposes-amendments-exchange-act-rule-15c2-11",
-      "author": "SEC press",
-      "publishedAt": "2026-03-16T19:15:00Z",
-      "titleEn": "SEC Proposes Amendments to Exchange Act Rule 15c2-11",
-      "titleZh": "SEC 提议修订《交易法》规则 15c2-11",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "SEC press",
-      "title": "SEC Announces Enforcement Division Director Judge Margaret A. Ryan Has Resigned From Agency",
-      "summary": "The Securities and Exchange Commission today announced that Judge Margaret A. Ryan has resigned from her role as Director of the Division of Enforcement. Principal Deputy Director Sam Waldon has been named Acting Director of the Division, effective March…",
-      "url": "https://www.sec.gov/newsroom/press-releases/2026-27-sec-announces-enforcement-division-director-judge-margaret-ryan-has-resigned-agency",
-      "author": "SEC press",
-      "publishedAt": "2026-03-16T18:09:04Z",
-      "titleEn": "SEC Announces Enforcement Division Director Judge Margaret A. Ryan Has Resigned From Agency",
-      "titleZh": "美国证券交易委员会 (SEC) 宣布执法部门主管玛格丽特·A·瑞安 (Margaret A. Ryan) 法官已辞去该机构职务",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "SEC press",
-      "title": "SEC and CFTC Announce Historic Memorandum of Understanding Between Agencies",
-      "summary": "The two agencies have entered into a MOU to guide coordination and collaboration to support lawful innovation, uphold market integrity, and ensure investor and customer protection.",
-      "url": "https://www.sec.gov/newsroom/press-releases/2026-26-sec-cftc-announce-historic-memorandum-understanding-between-agencies",
-      "author": "SEC press",
-      "publishedAt": "2026-03-11T19:30:00Z",
-      "titleEn": "SEC and CFTC Announce Historic Memorandum of Understanding Between Agencies",
-      "titleZh": "美国证券交易委员会 (SEC) 和美国商品期货交易委员会 (CFTC) 宣布机构间历史性谅解备忘录",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "WHO",
-      "title": "Conflict deepens health crisis across Middle East, WHO says",
-      "summary": "More than ten days into the latest escalation of conflict in the Middle East, health systems across the Region are coming under strain as injuries and displacement rise, attacks on health care continue, and public health risks increase. National health authorities in Iran report more than 1300 deaths and 9000 injuries,",
-      "url": "https://www.who.int/news/item/11-03-2026-conflict-deepens-health-crisis-across-middle-east--who-says",
-      "author": "WHO",
-      "publishedAt": "2026-03-11T14:18:29Z",
-      "titleEn": "Conflict deepens health crisis across Middle East, WHO says",
-      "titleZh": "世卫组织表示，冲突加剧了整个中东地区的健康危机",
-      "matchedPortfolios": [
-        "hantavirus"
-      ],
-      "tags": [
-        "public health",
-        "who"
-      ]
-    },
-    {
-      "source": "SEC press",
-      "title": "SEC Investor Advisory Committee to Host March 12 Meeting",
-      "summary": "The Securities and Exchange Commission’s Investor Advisory Committee will hold a public meeting at the SEC Headquarters in Washington D.C. on March 12 at 10 a.m. ET to discuss public company disclosure reform, fund proxy voting, and a potential…",
-      "url": "https://www.sec.gov/newsroom/press-releases/2026-25-sec-investor-advisory-committee-host-march-12-meeting",
-      "author": "SEC press",
-      "publishedAt": "2026-03-05T15:30:07Z",
-      "titleEn": "SEC Investor Advisory Committee to Host March 12 Meeting",
-      "titleZh": "SEC 投资者咨询委员会将于 3 月 12 日召开会议",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "SEC press",
-      "title": "SEC Announces Roundtable on Options Market Structure Reform",
-      "summary": "The Securities and Exchange Commission announced today that it will host a roundtable on April 16, 2026, to discuss listed options market structure, including facilitating competition in a quote driven market, evaluating the customer experience, and…",
-      "url": "https://www.sec.gov/newsroom/press-releases/2026-24-sec-announces-roundtable-options-market-structure-reform",
-      "author": "SEC press",
-      "publishedAt": "2026-03-05T15:09:00Z",
-      "titleEn": "SEC Announces Roundtable on Options Market Structure Reform",
-      "titleZh": "美国证券交易委员会宣布召开期权市场结构改革圆桌会议",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "WHO",
-      "title": "Chile becomes the first country in the Americas to be verified by WHO for the elimination of leprosy",
-      "summary": "The World Health Organization (WHO), together with the Pan American Health Organization (PAHO), congratulates Chile for becoming the first country in the Americas – and the second globally – to be officially verified as having eliminated leprosy disease.",
-      "url": "https://www.who.int/news/item/04-03-2026-chile-becomes-the-first-country-in-the-americas-to-be-verified-by-who-for-the-elimination-of-leprosy",
-      "author": "WHO",
-      "publishedAt": "2026-03-04T14:57:17Z",
-      "titleEn": "Chile becomes the first country in the Americas to be verified by WHO for the elimination of leprosy",
-      "titleZh": "智利成为美洲第一个获得世界卫生组织核查消除麻风病的国家",
-      "matchedPortfolios": [
-        "hantavirus"
-      ],
-      "tags": [
-        "who"
-      ]
-    },
-    {
-      "source": "SEC press",
-      "title": "SEC Adopts Final Rules for the Holding Foreign Insiders Accountable Act",
-      "summary": "The Securities and Exchange Commission today adopted final rule and form amendments to reflect the requirements of the recently enacted Holding Foreign Insiders Accountable Act (HFIA), which will increase transparency into the holdings and transactions…",
-      "url": "https://www.sec.gov/newsroom/press-releases/2026-23-sec-adopts-final-rules-holding-foreign-insiders-accountable-act",
-      "author": "SEC press",
-      "publishedAt": "2026-02-27T16:00:00Z",
-      "titleEn": "SEC Adopts Final Rules for the Holding Foreign Insiders Accountable Act",
-      "titleZh": "美国证券交易委员会通过《追究外国内部人士责任法案》最终规则",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "SEC press",
-      "title": "SEC, FSA Hold Spring Financial Regulatory Dialogue",
-      "summary": "The U.S. Securities and Exchange Commission (SEC) and the Financial Services Agency of Japan (FSA) convened the Spring SEC-FSA Financial Regulatory Dialogue in Tokyo on Feb. 27, 2026.The SEC–FSA Dialogue builds upon longstanding efforts between the two…",
-      "url": "https://www.sec.gov/newsroom/press-releases/2026-22-sec-fsa-hold-spring-financial-regulatory-dialogue",
-      "author": "SEC press",
-      "publishedAt": "2026-02-27T14:55:00Z",
-      "titleEn": "SEC, FSA Hold Spring Financial Regulatory Dialogue",
-      "titleZh": "美国证券交易委员会 (SEC) 与英国金融服务管理局 (FSA) 举行春季金融监管对话",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "WHO",
-      "title": "Recommendations for influenza vaccine composition for the 2026-2027 northern hemisphere season",
-      "summary": "The World Health Organization (WHO) today announced recommendations for the viral composition of influenza (or “flu”) vaccines for the 2026-2027 northern hemisphere influenza season. The announcement was made following a 4-day consultation examining global influenza surveillance data.",
-      "url": "https://www.who.int/news/item/27-02-2026-recommendations-for-influenza-vaccine-composition-for-the-2026-2027-northern-hemisphere-season",
-      "author": "WHO",
-      "publishedAt": "2026-02-27T10:01:29Z",
-      "titleEn": "Recommendations for influenza vaccine composition for the 2026-2027 northern hemisphere season",
-      "titleZh": "2026-2027年北半球季节流感疫苗成分建议",
-      "matchedPortfolios": [
-        "biotech",
-        "hantavirus"
-      ],
-      "tags": [
-        "vaccine",
-        "who"
-      ]
-    },
-    {
-      "source": "WHO",
-      "title": "Denmark becomes first country in the European Union to eliminate mother-to-child transmission of HIV and syphilis",
-      "summary": "The World Health Organization (WHO) has certified Denmark for the elimination of mother-to-child transmission (EMTCT) of HIV and syphilis, recognizing the country's sustained commitment to ensuring every child is born free of these infections.",
-      "url": "https://www.who.int/news/item/27-02-2026-denmark-becomes-first-country-in-the-european-union-to-eliminate-of-mother-to-child-transmission-of-hiv-and-syphilis",
-      "author": "WHO",
-      "publishedAt": "2026-02-26T17:17:17Z",
-      "titleEn": "Denmark becomes first country in the European Union to eliminate mother-to-child transmission of HIV and syphilis",
-      "titleZh": "丹麦成为欧盟第一个消除艾滋病毒和梅毒母婴传播的国家",
-      "matchedPortfolios": [
-        "hantavirus"
-      ],
-      "tags": [
-        "who"
-      ]
-    },
-    {
-      "source": "SEC press",
-      "title": "SEC Announces Roundtable on Private Markets Valuation As Retail Investor Access Accelerates",
-      "summary": "The Securities and Exchange Commission today announced it will hold a roundtable on March 4 to discuss private market valuations and responsible retailization.The roundtable will be hosted by the Division of Investment Management from 1 p.m. to 3 p.m. ET…",
-      "url": "https://www.sec.gov/newsroom/press-releases/2026-21-sec-announces-roundtable-private-markets-valuation-retail-investor-access-accelerates",
-      "author": "SEC press",
-      "publishedAt": "2026-02-26T14:38:00Z",
-      "titleEn": "SEC Announces Roundtable on Private Markets Valuation As Retail Investor Access Accelerates",
-      "titleZh": "随着散户投资者准入的加速，美国证券交易委员会 (SEC) 宣布召开私募市场估值圆桌会议",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "ESA",
-      "title": "εpsilon",
-      "summary": "εpsilon",
-      "url": "https://www.esa.int/Science_Exploration/Human_and_Robotic_Exploration/epsilon",
-      "author": "ESA",
-      "publishedAt": "2026-01-21T12:54:00Z",
-      "titleEn": "εpsilon",
-      "titleZh": "ε",
-      "matchedPortfolios": [
-        "satellite-intel"
-      ],
-      "tags": [
-        "esa"
-      ]
-    },
-    {
-      "source": "AP",
-      "title": "Iran responds to US ceasefire proposal but Trump rejects it as 'unacceptable'",
-      "summary": "Iran responds to US ceasefire proposal but Trump rejects it as 'unacceptable'",
-      "url": "https://apnews.com/article/iran-us-war-attack-may-10-2026-f8812db41837336d816efaea7bc1c44a",
-      "author": "AP",
-      "publishedAt": null,
-      "titleEn": "Iran responds to US ceasefire proposal but Trump rejects it as 'unacceptable'",
-      "titleZh": "伊朗回应美国停火提议，但特朗普拒绝称其“不可接受”",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "AP",
-      "title": "Passengers evacuated from hantavirus-stricken cruise ship begin flying home from Canary Islands",
-      "summary": "Passengers evacuated from hantavirus-stricken cruise ship begin flying home from Canary Islands",
-      "url": "https://apnews.com/article/hantavirus-cruise-ship-hondius-tenerife-1c43c66d2b0555cf946d9e57fc65f1d4",
-      "author": "AP",
-      "publishedAt": null,
-      "titleEn": "Passengers evacuated from hantavirus-stricken cruise ship begin flying home from Canary Islands",
-      "titleZh": "从感染汉坦病毒的游轮上撤离的乘客开始从加那利群岛飞回家",
-      "matchedPortfolios": [
-        "hantavirus"
-      ],
-      "tags": [
-        "hantavirus"
-      ]
-    },
-    {
-      "source": "AP",
-      "title": "Remains of US soldier who went missing during military exercises in Morocco have been recovered",
-      "summary": "Remains of US soldier who went missing during military exercises in Morocco have been recovered",
-      "url": "https://apnews.com/article/morocco-united-states-soldier-missing-recovered-ab35255fa6bf01ba5f87ec897c1a6950",
-      "author": "AP",
-      "publishedAt": null,
-      "titleEn": "Remains of US soldier who went missing during military exercises in Morocco have been recovered",
-      "titleZh": "在摩洛哥军事演习中失踪的美国士兵遗骸已被找到",
-      "matchedPortfolios": [
-        "hantavirus"
-      ],
-      "tags": [
-        "who"
-      ]
-    },
-    {
-      "source": "AP",
-      "title": "Kristin Smart's remains not found in search of California home, authorities say",
-      "summary": "Kristin Smart's remains not found in search of California home, authorities say",
-      "url": "https://apnews.com/article/kristin-smart-case-home-search-0e8e3911e68ede9865bb1eee0345544f",
-      "author": "AP",
-      "publishedAt": null,
-      "titleEn": "Kristin Smart's remains not found in search of California home, authorities say",
-      "titleZh": "当局称，克里斯汀·斯马特在加州住宅搜寻中未找到其遗体",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "AP",
-      "title": "11 people injured, taken to hospitals after boat explosion near Miami",
-      "summary": "11 people injured, taken to hospitals after boat explosion near Miami",
-      "url": "https://apnews.com/article/boat-explosion-miami-4a8e7a0e7c3cca65d9c65605591469b4",
-      "author": "AP",
-      "publishedAt": null,
-      "titleEn": "11 people injured, taken to hospitals after boat explosion near Miami",
-      "titleZh": "迈阿密附近船只发生爆炸 11人受伤被送往医院",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "AP",
-      "title": "Oregon Democrats found a way to improve roads. Now their gas tax goes before voters as prices soar",
-      "summary": "Oregon Democrats found a way to improve roads. Now their gas tax goes before voters as prices soar",
-      "url": "https://apnews.com/article/oregon-primary-gas-tax-iran-war-affordability-9c032b3da58afa28d2b4bab22ba2b539",
-      "author": "AP",
-      "publishedAt": null,
-      "titleEn": "Oregon Democrats found a way to improve roads. Now their gas tax goes before voters as prices soar",
-      "titleZh": "俄勒冈州民主党人找到了改善道路的方法。现在，随着价格飙升，他们的汽油税摆在选民面前",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "AP",
-      "title": "Iran war could make Trump's trip to China a bit chillier than his first-term visit",
-      "summary": "Iran war could make Trump's trip to China a bit chillier than his first-term visit",
-      "url": "https://apnews.com/article/trump-visit-china-xi-iran-trade-diplomacy-75a27d595cfa5882b1e5bef917385309",
-      "author": "AP",
-      "publishedAt": null,
-      "titleEn": "Iran war could make Trump's trip to China a bit chillier than his first-term visit",
-      "titleZh": "伊朗战争可能会让特朗普的中国之行比他的第一次任期更加冷淡",
-      "matchedPortfolios": [
-        "china-leading"
-      ],
-      "tags": [
-        "china"
-      ]
-    },
-    {
-      "source": "AP",
-      "title": "UFC 328 goes on without Trump, Van defends 125-pound crown, Strickland wins middleweight title",
-      "summary": "UFC 328 goes on without Trump, Van defends 125-pound crown, Strickland wins middleweight title",
-      "url": "https://apnews.com/article/ufc-328-chimaev-strickland-cancer-trump-1dbdf4bac8902250b417a502410d1db2",
-      "author": "AP",
-      "publishedAt": null,
-      "titleEn": "UFC 328 goes on without Trump, Van defends 125-pound crown, Strickland wins middleweight title",
-      "titleZh": "UFC 328在没有特朗普的情况下继续进行，范卫冕125磅冠军，斯特里克兰赢得中量级冠军",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "AP",
-      "title": "Spieth and Scheffler are one leg from the career Grand Slam. It looks farther away for Spieth",
-      "summary": "Spieth and Scheffler are one leg from the career Grand Slam. It looks farther away for Spieth",
-      "url": "https://apnews.com/article/pga-championship-spieth-aronimink-scheffler-grand-slam-9a2c5a10dd5e1b0b06a21d3b4363f189",
-      "author": "AP",
-      "publishedAt": null,
-      "titleEn": "Spieth and Scheffler are one leg from the career Grand Slam. It looks farther away for Spieth",
-      "titleZh": "斯皮思和舍夫勒是职业生涯大满贯的一站。对斯皮思来说看起来更遥远",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "AP",
-      "title": "Steve Kerr agrees to a two-year deal to continue coaching the Warriors, AP source says",
-      "summary": "Steve Kerr agrees to a two-year deal to continue coaching the Warriors, AP source says",
-      "url": "https://apnews.com/article/warriors-steve-kerr-contract-8c6f9a2554af03e39e3cdf9909ce316f",
-      "author": "AP",
-      "publishedAt": null,
-      "titleEn": "Steve Kerr agrees to a two-year deal to continue coaching the Warriors, AP source says",
-      "titleZh": "美联社消息人士称，史蒂夫·科尔同意签订一份为期两年的合同，继续执教勇士队",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "AP",
-      "title": "The Cannes Film Festival is about to begin. Here are the key films making their debut",
-      "summary": "The Cannes Film Festival is about to begin. Here are the key films making their debut",
-      "url": "https://apnews.com/article/cannes-film-festival-2026-movies-to-see-47a7c2e3e903bd267ed6171d8727fbda",
-      "author": "AP",
-      "publishedAt": null,
-      "titleEn": "The Cannes Film Festival is about to begin. Here are the key films making their debut",
-      "titleZh": "戛纳电影节即将开幕。以下是首次亮相的主要电影",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "AP",
-      "title": "'The Devil Wears Prada 2' bests ‘Mortal Kombat II’ at the box office",
-      "summary": "'The Devil Wears Prada 2' bests ‘Mortal Kombat II’ at the box office",
-      "url": "https://apnews.com/article/mortal-kombat-box-office-c287918fbc4172ee10ee0be2106efc10",
-      "author": "AP",
-      "publishedAt": null,
-      "titleEn": "'The Devil Wears Prada 2' bests ‘Mortal Kombat II’ at the box office",
-      "titleZh": "《穿普拉达的女魔头2》票房击败《真人快打2》",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "AP",
-      "title": "Saudi oil giant Aramco sees 25% jump in Q1 profit after shifting exports from Strait of Hormuz",
-      "summary": "Saudi oil giant Aramco sees 25% jump in Q1 profit after shifting exports from Strait of Hormuz",
-      "url": "https://apnews.com/article/aramco-saudi-arabian-oil-ab384a52510f7af0c1e5629889742285",
-      "author": "AP",
-      "publishedAt": null,
-      "titleEn": "Saudi oil giant Aramco sees 25% jump in Q1 profit after shifting exports from Strait of Hormuz",
-      "titleZh": "沙特石油巨头阿美公司将出口从霍尔木兹海峡转移后，第一季度利润增长 25%",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "AP",
-      "title": "Viral phenomenon in Argentina has young people identifying themselves as animals",
-      "summary": "Viral phenomenon in Argentina has young people identifying themselves as animals",
-      "url": "https://apnews.com/article/argentina-teenagers-identifying-as-animals-therians-tiktok-54d158c4842f6515e31d83a260cdf31f",
-      "author": "AP",
-      "publishedAt": null,
-      "titleEn": "Viral phenomenon in Argentina has young people identifying themselves as animals",
-      "titleZh": "阿根廷的病毒现象让年轻人将自己视为动物",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "AP",
-      "title": "Nipper, stay! The future of a beloved dog statue on a New York warehouse is up in the air",
-      "summary": "Nipper, stay! The future of a beloved dog statue on a New York warehouse is up in the air",
-      "url": "https://apnews.com/article/nipper-dog-statue-albany-new-york-69a5ca4ec514f837626475b5d5264c1d",
-      "author": "AP",
-      "publishedAt": null,
-      "titleEn": "Nipper, stay! The future of a beloved dog statue on a New York warehouse is up in the air",
-      "titleZh": "尼普，留下来！纽约仓库里的一只心爱的狗雕像的未来仍悬而未决",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "AP",
-      "title": "1 million bees make for bumper-to-buzzer traffic on a Tennessee highway ramp",
-      "summary": "1 million bees make for bumper-to-buzzer traffic on a Tennessee highway ramp",
-      "url": "https://apnews.com/article/bees-highway-crash-tennessee-592ae29c23856d6b67bcc7123fe9867a",
-      "author": "AP",
-      "publishedAt": null,
-      "titleEn": "1 million bees make for bumper-to-buzzer traffic on a Tennessee highway ramp",
-      "titleZh": "100 万只蜜蜂在田纳西州高速公路坡道上造成拥挤不堪的交通",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "AP",
-      "title": "How 2 men claimed an absurd record by driving an old 3-wheel car the length of Africa",
-      "summary": "How 2 men claimed an absurd record by driving an old 3-wheel car the length of Africa",
-      "url": "https://apnews.com/article/adventure-car-africa-record-reliant-robin-0328f6a9dbcb407d539fe7aabf23a915",
-      "author": "AP",
-      "publishedAt": null,
-      "titleEn": "How 2 men claimed an absurd record by driving an old 3-wheel car the length of Africa",
-      "titleZh": "两名男子如何驾驶一辆旧三轮汽车穿越非洲，创下荒唐纪录",
-      "matchedPortfolios": [],
-      "tags": []
-    },
-    {
-      "source": "AP",
-      "title": "Fatou, the world's oldest gorilla living in captivity, celebrates her 69th birthday at Berlin Zoo",
-      "summary": "Fatou, the world's oldest gorilla living in captivity, celebrates her 69th birthday at Berlin Zoo",
-      "url": "https://apnews.com/article/gorilla-germany-fatou-berlin-zoo-0196b95f3b6d48593bb7c872cab51adf",
-      "author": "AP",
-      "publishedAt": null,
-      "titleEn": "Fatou, the world's oldest gorilla living in captivity, celebrates her 69th birthday at Berlin Zoo",
-      "titleZh": "世界上最年长的圈养大猩猩法图在柏林动物园庆祝她的 69 岁生日",
+      "source": "Endpoints News",
+      "title": "Are health insurers out of the woods after a tough 2025?",
+      "summary": "Last year, health insurer after health insurer slashed or withdrew their profit outlooks after being sucker-punched by high medical costs. This year is shaping up ...",
+      "url": "https://endpoints.news/are-health-insurers-out-of-the-woods-after-a-tough-2025/",
+      "author": "Shelby Livingston",
+      "publishedAt": "2026-05-07T15:41:31Z",
+      "titleEn": "Are health insurers out of the woods after a tough 2025?",
+      "titleZh": "经历了艰难的 2025 年之后，健康保险公司能否摆脱困境？",
       "matchedPortfolios": [],
       "tags": []
     }
