@@ -285,6 +285,15 @@
       border-bottom: 1px dashed rgba(255, 209, 102, 0.4);
       padding-bottom: 1px;
     }
+    .portfolio-flags {
+      display: inline-flex;
+      gap: 4px;
+      margin-left: 7px;
+      color: #dce6f7;
+      font-size: 13px;
+      letter-spacing: 0;
+      vertical-align: baseline;
+    }
     .pillar--partial .pillar-text .m-key {
       color: #f0a868;
       border-bottom-color: rgba(240, 168, 104, 0.45);
@@ -3658,6 +3667,39 @@
       });
     }
 
+    const PORTFOLIO_FLAG_OVERRIDES = {
+      drone: ["🇺🇸", "🇯🇵"],
+    };
+    const MARKET_FLAGS = {
+      US: "🇺🇸",
+      JP: "🇯🇵",
+      CN: "🇨🇳",
+      HK: "🇭🇰",
+      CA: "🇨🇦",
+      EU: "🇪🇺",
+      IL: "🇮🇱",
+      CH: "🇨🇭",
+      CRYPTO: "🌐",
+    };
+    const CCY_FLAGS = {
+      USD: "🇺🇸",
+      JPY: "🇯🇵",
+      CNY: "🇨🇳",
+      HKD: "🇭🇰",
+      EUR: "🇪🇺",
+      CAD: "🇨🇦",
+      CHF: "🇨🇭",
+    };
+
+    function portfolioFlags(key, portfolio) {
+      const override = PORTFOLIO_FLAG_OVERRIDES[key];
+      const flags = override || (portfolio.components || [])
+        .filter((component) => component.status !== "prelist")
+        .map((component) => MARKET_FLAGS[component.sleeve] || CCY_FLAGS[component.ccy])
+        .filter(Boolean);
+      return [...new Set(flags)].join(" ");
+    }
+
     function renderPortfolioList() {
       const sorters = {
         default: (a, b) => a.index - b.index,
@@ -3677,13 +3719,14 @@
           const active = row.key === currentPortfolioKey ? " active" : "";
           const name = t(row.portfolio.name, row.portfolio.nameEn);
           const subName = t(row.portfolio.nameEn, row.portfolio.name);
+          const flags = portfolioFlags(row.key, row.portfolio);
           const mcapLabel = t("市值", "Cap");
           const returnLabel = t("历史", "History");
           return `<li class="pillar ${cls}${active}" data-portfolio="${row.key}">
             <span class="pillar-num">${numbers[i] || i + 1}</span>
             <span class="pillar-cat ${cls.replace("pillar--", "pillar-cat--")}">${t("组合", "Portfolio")}</span>
             <span class="pillar-text">
-              <span class="m-key">${name}</span><span class="pillar-en">${subName}</span>
+              <span class="m-key">${name}</span>${flags ? `<span class="portfolio-flags">${flags}</span>` : ""}<span class="pillar-en">${subName}</span>
               <span class="pillar-meta"><span>${mcapLabel} <b>${formatMcap(row.totalMcap)}</b></span><span>${returnLabel} <b>${formatSignedPct(row.totalReturn)}</b></span></span>
             </span>
             ${portfolioCompanyHeatRankingHtml(row.key, row.portfolio)}
