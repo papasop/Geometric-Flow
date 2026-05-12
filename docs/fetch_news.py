@@ -55,6 +55,8 @@ OFFICIAL_SOURCES = [
     {"name": "NYSE", "url": "https://www.nyse.com/rss/news"},
     {"name": "WSJ Markets", "url": "https://feeds.a.dj.com/rss/RSSMarketsMain.xml"},
     {"name": "WSJ Business", "url": "https://feeds.a.dj.com/rss/WSJcomUSBusiness.xml"},
+    {"name": "Deflation News · TLT Treasuries", "url": "https://news.google.com/rss/search?q=TLT%20OR%20%22long%20Treasury%22%20OR%20%22Treasury%20yields%22%20OR%20%22real%20yields%22%20OR%20%22Fed%20rate%20cuts%22&hl=en-US&gl=US&ceid=US:en"},
+    {"name": "Deflation News · Bitcoin Gold", "url": "https://news.google.com/rss/search?q=Bitcoin%20OR%20BTC%20OR%20GLD%20OR%20%22SPDR%20Gold%20Shares%22%20OR%20%22gold%20prices%22&hl=en-US&gl=US&ceid=US:en"},
     {"name": "Nikkei Asia", "url": "https://asia.nikkei.com/rss/feed/nar"},
     {"name": "SCMP Tech", "url": "https://www.scmp.com/rss/36/feed"},
     {"name": "SCMP Business", "url": "https://www.scmp.com/rss/92/feed"},
@@ -240,6 +242,8 @@ EXCLUDED_NEWS_KEYWORDS = [
 ]
 
 SOURCE_PORTFOLIO_MATCHES = {
+    "Deflation News · TLT Treasuries": ["no-yield"],
+    "Deflation News · Bitcoin Gold": ["no-yield"],
     "Lidar Magazine": ["lidar-camera"],
     "Apple Newsroom": ["brand"],
     "Coca-Cola IR": ["brand"],

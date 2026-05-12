@@ -3315,6 +3315,12 @@
       { source: "MarketWatch", zhSource: "MarketWatch", enSource: "MarketWatch", url: "https://www.marketwatch.com/",
         titleZh: "行情、利率、ETF、个股与市场观察", titleEn: "Quotes, rates, ETFs, stocks, and market watch",
         summaryZh: "用于匹配通缩指数、品牌、SaaS、生物科技和个股价格事件。", summaryEn: "Maps to the deflation index, brand, SaaS, biotech, and individual stock events." },
+      { source: "Deflation News · TLT Treasuries", zhSource: "通缩新闻 · TLT / 美债", enSource: "Deflation News · TLT Treasuries", url: "https://news.google.com/search?q=TLT%20OR%20long%20Treasury%20OR%20real%20yields%20OR%20Fed%20rate%20cuts",
+        matchedPortfolios: ["no-yield"], titleZh: "TLT / 长期美债 / 实际利率新闻监控", titleEn: "TLT / long Treasuries / real-yield news monitor",
+        summaryZh: "当实时新闻未命中时，作为通缩指数的备用新闻源，匹配 TLT、长期美债、实际利率和降息交易。", summaryEn: "Fallback monitor for the deflation index, matching TLT, long Treasuries, real yields, and rate-cut trades." },
+      { source: "Deflation News · Bitcoin Gold", zhSource: "通缩新闻 · Bitcoin / Gold", enSource: "Deflation News · Bitcoin Gold", url: "https://news.google.com/search?q=Bitcoin%20OR%20BTC%20OR%20GLD%20OR%20SPDR%20Gold%20Shares%20OR%20gold%20prices",
+        matchedPortfolios: ["no-yield"], titleZh: "Bitcoin / GLD / 黄金新闻监控", titleEn: "Bitcoin / GLD / gold news monitor",
+        summaryZh: "当实时新闻未命中时，作为通缩指数分母端的备用新闻源，匹配 Bitcoin、GLD 与黄金价格。", summaryEn: "Fallback monitor for the denominator side of the deflation index, matching Bitcoin, GLD, and gold prices." },
       { source: "SEC", zhSource: "SEC 文件", enSource: "SEC filings", url: "https://www.sec.gov/edgar/search/",
         titleZh: "10-K、10-Q、8-K、S-1 与持仓文件", titleEn: "10-K, 10-Q, 8-K, S-1, and ownership filings",
         summaryZh: "用于捕捉财报、重大事项、上市申请、股权变动和机构持仓。", summaryEn: "Captures earnings, material events, listing filings, ownership changes, and institutional positions." },
@@ -3854,6 +3860,8 @@
       "Palantir IR": { zh: "Palantir 投资者关系", en: "Palantir IR" },
       "CrowdStrike IR": { zh: "CrowdStrike 投资者关系", en: "CrowdStrike IR" },
       "MP Materials IR": { zh: "MP Materials 投资者关系", en: "MP Materials IR" },
+      "Deflation News · TLT Treasuries": { zh: "通缩新闻 · TLT / 美债", en: "Deflation News · TLT Treasuries" },
+      "Deflation News · Bitcoin Gold": { zh: "通缩新闻 · Bitcoin / Gold", en: "Deflation News · Bitcoin Gold" },
       "Apple Newsroom": { zh: "Apple Newsroom", en: "Apple Newsroom" },
       "Coca-Cola IR": { zh: "Coca-Cola 投资者关系", en: "Coca-Cola IR" },
       "Brand News · Apple": { zh: "品牌新闻 · Apple", en: "Brand News · Apple" },
@@ -3952,7 +3960,8 @@
       ],
       "no-yield": [
         "deflation", "tlt", "treasury bond", "long treasury", "bitcoin", "btc",
-        "gld", "spdr gold shares", "real yield", "federal reserve", "rate cut", "rate cuts"
+        "gld", "spdr gold shares", "real yield", "federal reserve", "rate cut", "rate cuts",
+        "通缩", "长期美债", "实际利率", "降息", "黄金"
       ],
       "brand": [
         "kweichow moutai", "moutai", "600519", "贵州茅台", "茅台",
@@ -4069,13 +4078,15 @@
     function activePortfolioNews(limit = 12) {
       const source = liveNewsItems.length ? liveNewsItems : FALLBACK_NEWS_ITEMS;
       const matched = source.filter((item) => newsMatchesPortfolio(item));
-      return matched.slice(0, limit);
+      if (matched.length) return matched.slice(0, limit);
+      return FALLBACK_NEWS_ITEMS.filter((item) => newsMatchesPortfolio(item)).slice(0, limit);
     }
 
     function portfolioNewsForKey(key, portfolio, limit = 6) {
       const source = liveNewsItems.length ? liveNewsItems : FALLBACK_NEWS_ITEMS;
       const matched = source.filter((item) => newsMatchesPortfolio(item, portfolio, key));
-      return matched.slice(0, limit);
+      if (matched.length) return matched.slice(0, limit);
+      return FALLBACK_NEWS_ITEMS.filter((item) => newsMatchesPortfolio(item, portfolio, key)).slice(0, limit);
     }
 
     function componentNewsAliases(component) {
