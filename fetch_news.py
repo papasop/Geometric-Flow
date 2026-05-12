@@ -105,6 +105,7 @@ OFFICIAL_SOURCES = [
     {"name": "Brand News · Pop Mart", "url": "https://news.google.com/rss/search?q=%22Pop%20Mart%22&hl=en-US&gl=US&ceid=US:en"},
     {"name": "Brand News · Moutai", "url": "https://news.google.com/rss/search?q=%22Kweichow%20Moutai%22&hl=en-US&gl=US&ceid=US:en"},
     {"name": "Brand News · JNBY", "url": "https://news.google.com/rss/search?q=%22Jiangnan%20Buyi%22&hl=en-US&gl=US&ceid=US:en"},
+    {"name": "Brand News · PDD", "url": "https://news.google.com/rss/search?q=%22PDD%20Holdings%22%20OR%20Pinduoduo%20OR%20Temu&hl=en-US&gl=US&ceid=US:en"},
     {"name": "China Prosperity · PDD", "url": "https://news.google.com/rss/search?q=%22PDD%20Holdings%22%20OR%20Pinduoduo%20OR%20Temu&hl=en-US&gl=US&ceid=US:en"},
     {"name": "China Prosperity · Maifu", "url": "https://news.google.com/rss/search?q=%22Maifu%20Technology%22%20OR%20%22%E8%BF%88%E5%AF%8C%E6%97%B6%22%20OR%20%2202556.HK%22&hl=en-US&gl=US&ceid=US:en"},
     {"name": "Robot War · KOPN Tsugami", "url": "https://news.google.com/rss/search?q=%22Kopin%22%20OR%20KOPN%20OR%20%22Tsugami%20China%22%20OR%20%22robotics%20manufacturing%22%20OR%20%22military%20microdisplay%22%20OR%20%22%E6%B4%A5%E4%B8%8A%E6%9C%BA%E5%BA%8A%E4%B8%AD%E5%9B%BD%22%20OR%20%2201651.HK%22&hl=en-US&gl=US&ceid=US:en"},
@@ -188,6 +189,7 @@ PORTFOLIO_KEYWORDS = {
         "new york times", "nyt", "nyt cooking", "the athletic",
         "pop mart", "popmart", "9992", "泡泡玛特",
         "jnby", "jiangnan buyi", "3306", "江南布衣",
+        "pdd holdings", "pdd", "pinduoduo", "temu", "拼多多",
     ],
 }
 
@@ -245,7 +247,8 @@ SOURCE_PORTFOLIO_MATCHES = {
     "Brand News · Pop Mart": ["brand"],
     "Brand News · Moutai": ["brand"],
     "Brand News · JNBY": ["brand"],
-    "China Prosperity · PDD": ["china-leading"],
+    "Brand News · PDD": ["brand"],
+    "China Prosperity · PDD": ["china-leading", "brand"],
     "China Prosperity · Maifu": ["china-leading"],
     "Robot War · KOPN Tsugami": ["robot-war"],
     "MP Materials IR": ["us-rare-earth"],
