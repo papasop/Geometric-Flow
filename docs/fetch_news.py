@@ -164,7 +164,8 @@ PORTFOLIO_KEYWORDS = {
     ],
     "battery": [
         "battery", "lithium", "energy storage", "catl", "byd", "ev", "electric vehicle",
-        "grid storage", "sodium-ion",
+        "grid storage", "sodium-ion", "redwood materials", "battery recycling",
+        "closed-loop lithium", "battery materials recycling",
     ],
     "us-rare-earth": [
         "rare earth", "rare-earth", "rare earth elements", "critical minerals",

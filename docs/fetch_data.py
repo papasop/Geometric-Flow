@@ -258,6 +258,7 @@ COMPONENTS = [
     {"name": "\u6d77\u535a\u601d\u521b", "short": "\u6d77\u535a\u601d\u521b", "ticker": "688411.SS", "ccy": "CNY", "sleeve": "CN", "status": "active"},
     {"name": "\u7ef4\u79d1\u6280\u672f", "short": "\u7ef4\u79d1\u6280\u672f", "ticker": "600152.SS", "ccy": "CNY", "sleeve": "CN", "status": "active"},
     {"name": "\u5723\u9633\u80a1\u4efd", "short": "\u5723\u9633\u80a1\u4efd", "ticker": "002580.SZ", "ccy": "CNY", "sleeve": "CN", "status": "active"},
+    {"name": "Redwood Materials", "short": "REDWOOD", "ticker": "REDWOOD", "ccy": "USD", "sleeve": "US", "status": "prelist"},
     {"name": "\u65b0\u9e3f\u57fa\u5730\u4ea7", "short": "\u65b0\u5730", "ticker": "0016.HK", "ccy": "HKD", "sleeve": "HK", "status": "active"},
     {"name": "\u957f\u548c", "short": "\u957f\u548c", "ticker": "0001.HK", "ccy": "HKD", "sleeve": "HK", "status": "active"},
     {"name": "\u5609\u91cc\u5efa\u8bbe", "short": "\u5609\u91cc\u5efa\u8bbe", "ticker": "0683.HK", "ccy": "HKD", "sleeve": "HK", "status": "active"},
