@@ -107,7 +107,7 @@ OFFICIAL_SOURCES = [
     {"name": "Brand News · JNBY", "url": "https://news.google.com/rss/search?q=%22Jiangnan%20Buyi%22&hl=en-US&gl=US&ceid=US:en"},
     {"name": "Brand News · PDD", "url": "https://news.google.com/rss/search?q=%22PDD%20Holdings%22%20OR%20Pinduoduo%20OR%20Temu&hl=en-US&gl=US&ceid=US:en"},
     {"name": "China Prosperity · PDD", "url": "https://news.google.com/rss/search?q=%22PDD%20Holdings%22%20OR%20Pinduoduo%20OR%20Temu&hl=en-US&gl=US&ceid=US:en"},
-    {"name": "China Prosperity · Maifu", "url": "https://news.google.com/rss/search?q=%22Maifu%20Technology%22%20OR%20%22%E8%BF%88%E5%AF%8C%E6%97%B6%22%20OR%20%2202556.HK%22&hl=en-US&gl=US&ceid=US:en"},
+    {"name": "China Prosperity · Moutai", "url": "https://news.google.com/rss/search?q=%22Kweichow%20Moutai%22%20OR%20%22Moutai%22%20OR%20%22600519%22&hl=en-US&gl=US&ceid=US:en"},
     {"name": "Robot War · KOPN Tsugami", "url": "https://news.google.com/rss/search?q=%22Kopin%22%20OR%20KOPN%20OR%20%22Tsugami%20China%22%20OR%20%22robotics%20manufacturing%22%20OR%20%22military%20microdisplay%22%20OR%20%22%E6%B4%A5%E4%B8%8A%E6%9C%BA%E5%BA%8A%E4%B8%AD%E5%9B%BD%22%20OR%20%2201651.HK%22&hl=en-US&gl=US&ceid=US:en"},
 ]
 
@@ -147,7 +147,7 @@ PORTFOLIO_KEYWORDS = {
     ],
     "china-leading": [
         "pdd holdings", "pdd", "pinduoduo", "拼多多", "temu", "新拼姆",
-        "maifu technology", "maifushi", "maifu", "迈富时", "02556", "2556.hk", "2556",
+        "kweichow moutai", "moutai", "600519", "贵州茅台", "茅台",
     ],
     "robot-war": [
         "robot war", "robotics", "military robot", "defense robotics", "autonomous systems",
@@ -249,7 +249,7 @@ SOURCE_PORTFOLIO_MATCHES = {
     "Brand News · JNBY": ["brand"],
     "Brand News · PDD": ["brand"],
     "China Prosperity · PDD": ["china-leading", "brand"],
-    "China Prosperity · Maifu": ["china-leading"],
+    "China Prosperity · Moutai": ["china-leading", "brand"],
     "Robot War · KOPN Tsugami": ["robot-war"],
     "MP Materials IR": ["us-rare-earth"],
     "Rare Earth News · Industry": ["us-rare-earth"],
