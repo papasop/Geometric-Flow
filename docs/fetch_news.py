@@ -86,6 +86,7 @@ OFFICIAL_SOURCES = [
     {"name": "SaaS News · Cloud Apps", "url": "https://news.google.com/rss/search?q=%22Atlassian%22%20OR%20%22HubSpot%22%20OR%20%22AppLovin%22%20OR%20%22Shopify%22%20OR%20%22SoFi%22%20OR%20%22Paycom%22%20OR%20%22ADP%22&hl=en-US&gl=US&ceid=US:en"},
     {"name": "SaaS News · Platforms", "url": "https://news.google.com/rss/search?q=%22Microsoft%22%20OR%20%22Oracle%22%20OR%20%22Alphabet%22%20OR%20%22Rubrik%22%20OR%20%22Zscaler%22%20OR%20%22Elastic%22%20OR%20%22Pegasystems%22&hl=en-US&gl=US&ceid=US:en"},
     {"name": "SaaS News · China", "url": "https://news.google.com/rss/search?q=%22Aurora%20Mobile%22%20OR%20%22JG%22%20OR%20%22Maifu%20Technology%22%20OR%20%22%E8%BF%88%E5%AF%8C%E6%97%B6%22%20OR%20%2202556.HK%22&hl=en-US&gl=US&ceid=US:en"},
+    {"name": "SaaS News · Enterprise AI JV", "url": "https://news.google.com/rss/search?q=%22OpenAI%22%20%22Anthropic%22%20%22Blackstone%22%20%22Hellman%20%26%20Friedman%22%20%22Goldman%20Sachs%22%20OR%20%22enterprise%20AI%20services%20firm%22%20OR%20%22AI%20deployment%20company%22%20OR%20%22The%20Development%20Company%22%20OR%20%22AI-native%20enterprise%20services%22&hl=en-US&gl=US&ceid=US:en"},
     {"name": "Fierce Biotech", "url": "https://www.fiercebiotech.com/rss/biotech/xml"},
     {"name": "BioPharma Dive", "url": "https://www.biopharmadive.com/feeds/news/"},
     {"name": "Endpoints News", "url": "https://endpoints.news/feed/"},
@@ -135,6 +136,8 @@ PORTFOLIO_KEYWORDS = {
         "saas", "software", "agent", "ai", "cloud", "salesforce", "crm", "snowflake", "snow",
         "mongodb", "mdb", "twilio", "twlo", "zoom", "adobe", "adbe", "workday", "wday",
         "google", "goog", "shopify", "shop", "sofi", "hubspot", "hubs", "braze", "brze",
+        "openai", "anthropic", "blackstone", "hellman", "friedman", "goldman sachs",
+        "enterprise ai services", "ai deployment", "joint venture", "fde", "pde",
     ],
     "cybersecurity": [
         "cyber", "security", "zero trust", "endpoint", "firewall", "crowdstrike", "crwd",
@@ -249,6 +252,7 @@ SOURCE_PORTFOLIO_MATCHES = {
     "Rare Earth News · MP": ["us-rare-earth"],
     "Rare Earth News · USAR": ["us-rare-earth"],
     "Rare Earth News · CRML": ["us-rare-earth"],
+    "SaaS News · Enterprise AI JV": ["ai-software"],
 }
 
 NEWS_OVERRIDES = [
@@ -259,6 +263,21 @@ NEWS_OVERRIDES = [
         "updatedAt": "2026-05-10T20:13:00Z",
         "matchedPortfolios": ["ai-software", "no-yield"],
         "tags": ["AI capex", "buybacks", "Goldman Sachs", "S&P 500"],
+    },
+    {
+        "title_contains": "Anthropic Partners with Blackstone",
+        "matchedPortfolios": ["ai-software"],
+        "tags": ["Anthropic", "Blackstone", "Goldman Sachs", "enterprise AI services", "JV"],
+    },
+    {
+        "title_contains": "OpenAI Finalizes",
+        "matchedPortfolios": ["ai-software"],
+        "tags": ["OpenAI", "enterprise AI deployment", "JV", "SaaS"],
+    },
+    {
+        "title_contains": "enterprise AI services firm",
+        "matchedPortfolios": ["ai-software"],
+        "tags": ["enterprise AI services", "JV", "SaaS"],
     },
 ]
 
