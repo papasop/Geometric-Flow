@@ -1125,7 +1125,7 @@
     </div>
 
     <div class="manifesto investment-view">
-      <div class="manifesto-tag">组合栏目 · PORTFOLIO CHANNELS · 14 PORTFOLIOS</div>
+      <div class="manifesto-tag">组合栏目 · PORTFOLIO CHANNELS · 15 PORTFOLIOS</div>
       <div class="manifesto-sort">
         <span class="manifesto-sort-label">组合排序</span>
         <div class="components-rank-toggle" id="portfolio-rank-group" aria-label="Portfolio ranking mode">
@@ -2254,6 +2254,26 @@
             seed: 1651, base: 9.0, vol: 0.035, drift: 0.00016 },
         ],
       },
+      "china-robotics": {
+        name: "中国机器人指数",
+        nameEn: "China Robotics Index",
+        tag: "策略 · 金力永磁 / 津上机床中国 · 各 50%",
+        tagEn: "STRATEGY · JL MAG / TSUGAMI CHINA · 50 EACH",
+        footer: "两只股票等权配置，覆盖机器人上游稀土永磁材料与精密数控机床。",
+        footerEn: "Equal-weight exposure to upstream rare-earth permanent magnets and precision CNC machine tools for robotics.",
+        components: [
+          { name: "金力永磁",                       short: "金力永磁",       ticker: "300748.SZ", displayTicker: "300748.SZ / 06680.HK", weight: 0.5, ccy: "CNY", sleeve: "CN", status: "active",
+            concept: "稀土永磁 · 机器人伺服电机材料 · 新能源链",
+            conceptEn: "Rare-earth permanent magnets · robotics servo-motor materials · new-energy supply chain",
+            marketCap: 5.8,
+            seed: 300748, base: 24, vol: 0.034, drift: 0.00016 },
+          { name: "津上机床中国",                   short: "津上机床",       ticker: "1651.HK", displayTicker: "01651.HK", weight: 0.5, ccy: "HKD", sleeve: "CN", status: "active",
+            concept: "数控机床 · 精密加工 · 机器人零部件制造装备",
+            conceptEn: "CNC machine tools · precision machining · robotics component manufacturing equipment",
+            marketCap: 2.80,
+            seed: 1651, base: 9.0, vol: 0.035, drift: 0.00016 },
+        ],
+      },
       "hantavirus": {
         name: "汉坦病毒组合",
         nameEn: "Hantavirus Portfolio",
@@ -3132,6 +3152,18 @@
             desc_en: "Impro Precision, Luxshare Precision, and Tsugami China are equally weighted to form the China Precision Index across precision castings, electronics precision manufacturing, and CNC machine tools." },
         ],
       },
+      "china-robotics": {
+        header: "中国机器人指数事件",
+        headerEn: "China Robotics Index Milestones",
+        milestones: [
+          { date: "2022-11-30", category: "supply", label: "中国机器人指数起点", en: "China robotics index start",
+            desc: "以统一 T₀ 追踪中国机器人产业链中的稀土永磁材料与精密制造装备。",
+            desc_en: "Uses the shared T0 to track rare-earth permanent magnets and precision manufacturing equipment in China's robotics supply chain." },
+          { date: "2026-05-13", category: "supply", label: "中国机器人两股组合", en: "China robotics two-stock basket",
+            desc: "金力永磁与津上机床中国等权构成中国机器人指数，覆盖机器人伺服电机上游材料与精密数控机床。",
+            desc_en: "JL MAG and Tsugami China are equally weighted to form the China Robotics Index across upstream servo-motor materials and precision CNC machine tools." },
+        ],
+      },
       "hantavirus": {
         header: "汉坦病毒组合事件",
         headerEn: "Hantavirus Portfolio Milestones",
@@ -3326,6 +3358,9 @@
       { source: "Deflation News · Bitcoin Gold", zhSource: "通缩新闻 · Bitcoin / Gold", enSource: "Deflation News · Bitcoin Gold", url: "https://news.google.com/search?q=Bitcoin%20OR%20BTC%20OR%20GLD%20OR%20SPDR%20Gold%20Shares%20OR%20gold%20prices",
         matchedPortfolios: ["no-yield"], titleZh: "Bitcoin / GLD / 黄金新闻监控", titleEn: "Bitcoin / GLD / gold news monitor",
         summaryZh: "当实时新闻未命中时，作为通缩指数分母端的备用新闻源，匹配 Bitcoin、GLD 与黄金价格。", summaryEn: "Fallback monitor for the denominator side of the deflation index, matching Bitcoin, GLD, and gold prices." },
+      { source: "China Robotics · Components", zhSource: "中国机器人 · 成分股", enSource: "China Robotics · Components", url: "https://news.google.com/search?q=JL%20MAG%20OR%20JLMAG%20OR%20Tsugami%20China%20OR%20robotics",
+        matchedPortfolios: ["china-robotics"], titleZh: "金力永磁 / 津上机床中国新闻监控", titleEn: "JL MAG / Tsugami China news monitor",
+        summaryZh: "当实时新闻未命中时，作为中国机器人指数的备用新闻源，匹配金力永磁、津上机床中国、稀土永磁、机器人与数控机床主题。", summaryEn: "Fallback monitor for the China Robotics Index, matching JL MAG, Tsugami China, rare-earth permanent magnets, robotics, and CNC machine-tool themes." },
       { source: "SEC", zhSource: "SEC 文件", enSource: "SEC filings", url: "https://www.sec.gov/edgar/search/",
         titleZh: "10-K、10-Q、8-K、S-1 与持仓文件", titleEn: "10-K, 10-Q, 8-K, S-1, and ownership filings",
         summaryZh: "用于捕捉财报、重大事项、上市申请、股权变动和机构持仓。", summaryEn: "Captures earnings, material events, listing filings, ownership changes, and institutional positions." },
@@ -3620,6 +3655,7 @@
         drone: "pillar--realized",
         "china-leading": "pillar--pending",
         "robot-war": "pillar--breakthrough",
+        "china-robotics": "pillar--breakthrough",
         hantavirus: "pillar--realized",
         biotech: "pillar--breakthrough",
         "ai-software": "pillar--breakthrough",
@@ -3880,6 +3916,7 @@
       "China Prosperity · Moutai": { zh: "中国景气 · 茅台", en: "China Prosperity · Moutai" },
       "China Prosperity · Maifu": { zh: "中国景气 · 迈富时", en: "China Prosperity · Maifu" },
       "China Precision · Components": { zh: "中国精密 · 成分股", en: "China Precision · Components" },
+      "China Robotics · Components": { zh: "中国机器人 · 成分股", en: "China Robotics · Components" },
       Official: { zh: "官方源", en: "Official sources" },
       Exchange: { zh: "交易所公告", en: "Exchange announcements" },
       IR: { zh: "公司投资者关系", en: "Company Investor Relations" },
@@ -3937,6 +3974,13 @@
         "tsugami", "01651", "1651.hk",
         "中国精密", "精密制造", "精密铸件", "鹰普精密", "立讯精密",
         "津上机床", "津上机床中国", "数控机床", "高端制造"
+      ],
+      "china-robotics": [
+        "robotics", "industrial robot", "humanoid robot", "servo", "rare earth magnet",
+        "permanent magnet", "neodymium", "jl mag", "jlmag", "300748", "06680",
+        "tsugami china", "tsugami", "01651", "1651.hk", "cnc machine", "machine tools",
+        "中国机器人", "机器人", "工业机器人", "人形机器人", "稀土永磁", "钕铁硼",
+        "金力永磁", "津上机床", "津上机床中国", "数控机床"
       ],
       "hantavirus": [
         "hantavirus", "hanta virus", "hemorrhagic fever", "haemorrhagic fever",
@@ -4196,7 +4240,7 @@
       document.querySelector("#news-view .news-header").textContent = t("新闻摘要 · NEWS DIGEST", "NEWS DIGEST · 新闻摘要");
       renderNewsSources();
 
-      document.querySelector(".manifesto-tag").textContent = t("组合栏目 · 先推出 14 个组合", "PORTFOLIO CHANNELS · 14 PORTFOLIOS");
+      document.querySelector(".manifesto-tag").textContent = t("组合栏目 · 先推出 15 个组合", "PORTFOLIO CHANNELS · 15 PORTFOLIOS");
       document.querySelector("#portfolio-rank-group").previousElementSibling.textContent = t("组合排序", "Sort Portfolios");
       document.querySelector('#portfolio-rank-group button[data-portfolio-rank="default"]').textContent = t("默认", "Default");
       document.querySelector('#portfolio-rank-group button[data-portfolio-rank="mcap"]').textContent = t("市值", "Market Cap");
