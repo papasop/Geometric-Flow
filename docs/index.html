@@ -1125,7 +1125,7 @@
     </div>
 
     <div class="manifesto investment-view">
-      <div class="manifesto-tag">组合栏目 · PORTFOLIO CHANNELS · 15 PORTFOLIOS</div>
+      <div class="manifesto-tag">组合栏目 · PORTFOLIO CHANNELS · 14 PORTFOLIOS</div>
       <div class="manifesto-sort">
         <span class="manifesto-sort-label">组合排序</span>
         <div class="components-rank-toggle" id="portfolio-rank-group" aria-label="Portfolio ranking mode">
@@ -2229,31 +2229,6 @@
             seed: 2556, base: 3.2, vol: 0.050, drift: 0.00012 },
         ],
       },
-      "robot-war": {
-        name: "中国精密指数",
-        nameEn: "China Precision Index",
-        tag: "策略 · 鹰普精密 / 立讯精密 / 津上机床中国 · 各 33.33%",
-        tagEn: "STRATEGY · IMPRO PRECISION / LUXSHARE PRECISION / TSUGAMI CHINA · 33.33 EACH",
-        footer: "三只股票等权配置，覆盖精密铸件、消费电子精密制造、数控机床与高端制造装备。",
-        footerEn: "Equal-weight exposure to precision castings, consumer-electronics precision manufacturing, CNC machine tools, and high-end manufacturing equipment.",
-        components: [
-          { name: "鹰普精密",                       short: "鹰普精密",       ticker: "1286.HK", displayTicker: "01286.HK", weight: 1 / 3, ccy: "HKD", sleeve: "CN", status: "active",
-            concept: "精密铸件 · 高端装备零部件 · 工业制造",
-            conceptEn: "Precision castings · high-end equipment components · industrial manufacturing",
-            marketCap: 0.75,
-            seed: 1286, base: 3.2, vol: 0.030, drift: 0.00012 },
-          { name: "立讯精密",                       short: "立讯精密",       ticker: "002475.SZ", weight: 1 / 3, ccy: "CNY", sleeve: "CN", status: "active",
-            concept: "消费电子精密制造 · 连接器 · 智能硬件供应链",
-            conceptEn: "Consumer-electronics precision manufacturing · connectors · smart-hardware supply chain",
-            marketCap: 32.0,
-            seed: 2475, base: 32, vol: 0.026, drift: 0.00014 },
-          { name: "津上机床中国",                   short: "津上机床",       ticker: "1651.HK", displayTicker: "01651.HK", weight: 1 / 3, ccy: "HKD", sleeve: "CN", status: "active",
-            concept: "数控机床 · 精密加工 · 高端制造装备",
-            conceptEn: "CNC machine tools · precision machining · high-end manufacturing equipment",
-            marketCap: 2.80,
-            seed: 1651, base: 9.0, vol: 0.035, drift: 0.00016 },
-        ],
-      },
       "china-robotics": {
         name: "中国机器人指数",
         nameEn: "China Robotics Index",
@@ -3140,18 +3115,6 @@
             desc_en: "Maifu joins the China Prosperity Index, adding AI marketing technology, enterprise SaaS, and digital-growth exposure." },
         ],
       },
-      "robot-war": {
-        header: "中国精密指数事件",
-        headerEn: "China Precision Index Milestones",
-        milestones: [
-          { date: "2022-11-30", category: "supply", label: "中国精密指数起点", en: "China precision index start",
-            desc: "以统一 T₀ 追踪中国精密制造链条中的精密铸件、电子精密制造与数控机床主线。",
-            desc_en: "Uses the shared T0 to track China's precision-manufacturing chain across precision castings, electronics precision manufacturing, and CNC machine tools." },
-          { date: "2026-05-13", category: "supply", label: "中国精密三股组合", en: "China precision three-stock basket",
-            desc: "鹰普精密、立讯精密、津上机床中国等权构成中国精密指数，覆盖精密铸件、电子精密制造与数控机床。",
-            desc_en: "Impro Precision, Luxshare Precision, and Tsugami China are equally weighted to form the China Precision Index across precision castings, electronics precision manufacturing, and CNC machine tools." },
-        ],
-      },
       "china-robotics": {
         header: "中国机器人指数事件",
         headerEn: "China Robotics Index Milestones",
@@ -3654,7 +3617,6 @@
       return {
         drone: "pillar--realized",
         "china-leading": "pillar--pending",
-        "robot-war": "pillar--breakthrough",
         "china-robotics": "pillar--breakthrough",
         hantavirus: "pillar--realized",
         biotech: "pillar--breakthrough",
@@ -3915,7 +3877,6 @@
       "China Prosperity · PDD": { zh: "中国景气 · PDD", en: "China Prosperity · PDD" },
       "China Prosperity · Moutai": { zh: "中国景气 · 茅台", en: "China Prosperity · Moutai" },
       "China Prosperity · Maifu": { zh: "中国景气 · 迈富时", en: "China Prosperity · Maifu" },
-      "China Precision · Components": { zh: "中国精密 · 成分股", en: "China Precision · Components" },
       "China Robotics · Components": { zh: "中国机器人 · 成分股", en: "China Robotics · Components" },
       Official: { zh: "官方源", en: "Official sources" },
       Exchange: { zh: "交易所公告", en: "Exchange announcements" },
@@ -3966,14 +3927,6 @@
         "pdd holdings", "pdd", "pinduoduo", "temu", "拼多多", "新拼姆",
         "kweichow moutai", "moutai", "600519", "贵州茅台", "茅台",
         "maifu technology", "maifu", "maifushi", "迈富时", "2556.hk", "02556"
-      ],
-      "robot-war": [
-        "precision manufacturing", "precision casting", "precision components", "cnc machine",
-        "machine tools", "high-end manufacturing", "impro precision", "impro", "01286",
-        "1286.hk", "luxshare precision", "luxshare", "002475", "tsugami china",
-        "tsugami", "01651", "1651.hk",
-        "中国精密", "精密制造", "精密铸件", "鹰普精密", "立讯精密",
-        "津上机床", "津上机床中国", "数控机床", "高端制造"
       ],
       "china-robotics": [
         "robotics", "industrial robot", "humanoid robot", "servo", "rare earth magnet",
@@ -4240,7 +4193,7 @@
       document.querySelector("#news-view .news-header").textContent = t("新闻摘要 · NEWS DIGEST", "NEWS DIGEST · 新闻摘要");
       renderNewsSources();
 
-      document.querySelector(".manifesto-tag").textContent = t("组合栏目 · 先推出 15 个组合", "PORTFOLIO CHANNELS · 15 PORTFOLIOS");
+      document.querySelector(".manifesto-tag").textContent = t("组合栏目 · 先推出 14 个组合", "PORTFOLIO CHANNELS · 14 PORTFOLIOS");
       document.querySelector("#portfolio-rank-group").previousElementSibling.textContent = t("组合排序", "Sort Portfolios");
       document.querySelector('#portfolio-rank-group button[data-portfolio-rank="default"]').textContent = t("默认", "Default");
       document.querySelector('#portfolio-rank-group button[data-portfolio-rank="mcap"]').textContent = t("市值", "Market Cap");
