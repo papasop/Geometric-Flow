@@ -98,9 +98,6 @@ OFFICIAL_SOURCES = [
     {"name": "Brand News · Moutai", "url": "https://news.google.com/rss/search?q=%22Kweichow%20Moutai%22&hl=en-US&gl=US&ceid=US:en"},
     {"name": "Brand News · JNBY", "url": "https://news.google.com/rss/search?q=%22Jiangnan%20Buyi%22&hl=en-US&gl=US&ceid=US:en"},
     {"name": "Brand News · PDD", "url": "https://news.google.com/rss/search?q=%22PDD%20Holdings%22%20OR%20Pinduoduo%20OR%20Temu&hl=en-US&gl=US&ceid=US:en"},
-    {"name": "China Prosperity · PDD", "url": "https://news.google.com/rss/search?q=%22PDD%20Holdings%22%20OR%20Pinduoduo%20OR%20Temu&hl=en-US&gl=US&ceid=US:en"},
-    {"name": "China Prosperity · Moutai", "url": "https://news.google.com/rss/search?q=%22Kweichow%20Moutai%22%20OR%20%22Moutai%22%20OR%20%22600519%22&hl=en-US&gl=US&ceid=US:en"},
-    {"name": "China Prosperity · Maifu", "url": "https://news.google.com/rss/search?q=%22Maifu%20Technology%22%20OR%20%22%E8%BF%88%E5%AF%8C%E6%97%B6%22%20OR%20%2202556.HK%22&hl=en-US&gl=US&ceid=US:en"},
     {"name": "China Robotics · Components", "url": "https://news.google.com/rss/search?q=%22JL%20MAG%22%20OR%20%22JLMAG%22%20OR%20%22%E9%87%91%E5%8A%9B%E6%B0%B8%E7%A3%81%22%20OR%20%22300748.SZ%22%20OR%20%2206680.HK%22%20OR%20%22Tsugami%20China%22%20OR%20%22%E6%B4%A5%E4%B8%8A%E6%9C%BA%E5%BA%8A%E4%B8%AD%E5%9B%BD%22%20OR%20%2201651.HK%22%20OR%20%22RoboSense%22%20OR%20%22%E9%80%9F%E8%85%BE%E8%81%9A%E5%88%9B%22%20OR%20%2202498.HK%22%20OR%20%22robotics%22%20OR%20%22%E6%9C%BA%E5%99%A8%E4%BA%BA%22&hl=en-US&gl=US&ceid=US:en"},
 ]
 
@@ -118,11 +115,6 @@ PORTFOLIO_KEYWORDS = {
         "satellite", "space", "geospatial", "imagery", "isr", "rf", "signal intelligence",
         "palantir", "pltr", "blacksky", "bksy", "spire", "spir", "rocket lab", "rklb",
         "planet labs", "l3harris", "lhx", "spacex", "unseenlabs", "nasa", "esa",
-    ],
-    "china-leading": [
-        "pdd holdings", "pdd", "pinduoduo", "拼多多", "temu", "新拼姆",
-        "kweichow moutai", "moutai", "600519", "贵州茅台", "茅台",
-        "maifu technology", "maifushi", "maifu", "迈富时", "02556", "2556.hk", "2556",
     ],
     "china-robotics": [
         "robotics", "industrial robot", "humanoid robot", "servo", "rare earth magnet",
@@ -167,12 +159,6 @@ BRAND_EXCLUDE_KEYWORDS = [
 ]
 
 SOURCE_REQUIRED_KEYWORDS = {
-    "China Prosperity · PDD": [
-        "pdd holdings", "pinduoduo", "pdd)", "pdd ", "temu named", "temu offers",
-        "temu seller", "temu sellers", "temu marketplace", "temu app", "temu ecommerce",
-        "temu e-commerce", "temu platform", "temu sales", "temu revenue", "temu logistics",
-        "temu supply chain", "temu certification", "temu trusted", "temu uk",
-    ],
     "Brand News · NYT": [
         "new york times company", "nyse:nyt", "nyt stock", "nyt shares",
         "the new york times company", "valuation", "earnings", "subscription",
@@ -213,9 +199,6 @@ SOURCE_PORTFOLIO_MATCHES = {
     "Brand News · Moutai": ["brand"],
     "Brand News · JNBY": ["brand"],
     "Brand News · PDD": ["brand"],
-    "China Prosperity · PDD": ["china-leading", "brand"],
-    "China Prosperity · Moutai": ["china-leading", "brand"],
-    "China Prosperity · Maifu": ["china-leading"],
     "China Robotics · Components": ["china-robotics"],
     "MP Materials IR": ["us-rare-earth"],
     "Rare Earth News · Industry": ["us-rare-earth"],
