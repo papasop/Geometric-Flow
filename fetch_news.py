@@ -71,7 +71,6 @@ OFFICIAL_SOURCES = [
     {"name": "Rare Earth News · MP", "url": "https://news.google.com/rss/search?q=%22MP%20Materials%22%20OR%20%22Mountain%20Pass%22%20%22rare%20earth%22&hl=en-US&gl=US&ceid=US:en"},
     {"name": "Rare Earth News · USAR", "url": "https://news.google.com/rss/search?q=%22USA%20Rare%20Earth%22%20OR%20%22USAR%22%20%22Round%20Top%22&hl=en-US&gl=US&ceid=US:en"},
     {"name": "Rare Earth News · CRML", "url": "https://news.google.com/rss/search?q=%22Critical%20Metals%20Corp%22%20OR%20%22CRML%22%20%22rare%20earth%22&hl=en-US&gl=US&ceid=US:en"},
-    {"name": "Lidar Magazine", "url": "https://lidarmag.com/feed/"},
     {"name": "The Robot Report", "url": "https://www.therobotreport.com/feed/"},
     {"name": "Electrek", "url": "https://electrek.co/feed/"},
     {"name": "Automotive World", "url": "https://www.automotiveworld.com/feed/"},
@@ -119,13 +118,6 @@ PORTFOLIO_KEYWORDS = {
         "satellite", "space", "geospatial", "imagery", "isr", "rf", "signal intelligence",
         "palantir", "pltr", "blacksky", "bksy", "spire", "spir", "rocket lab", "rklb",
         "planet labs", "l3harris", "lhx", "spacex", "unseenlabs", "nasa", "esa",
-    ],
-    "lidar-camera": [
-        "lidar", "laser radar", "laser camera", "3d sensing", "3d sensor", "3d perception",
-        "autonomous driving perception", "robotic vision", "automotive lidar", "adas sensor",
-        "machine vision", "vision system", "perception sensor", "autonomous vehicle",
-        "self-driving", "driverless", "robotaxi", "robosense", "速腾聚创", "02498",
-        "hesai", "禾赛", "02525", "ouster", "oust",
     ],
     "china-leading": [
         "pdd holdings", "pdd", "pinduoduo", "拼多多", "temu", "新拼姆",
@@ -179,10 +171,6 @@ BRAND_EXCLUDE_KEYWORDS = [
     "tsmc", "nvidia", "gpu", "ai accelerator", "advanced packaging",
 ]
 
-LIDAR_EXCLUDE_KEYWORDS = [
-    "chip industry week", "semiconductor", "semiconductors",
-]
-
 SOURCE_REQUIRED_KEYWORDS = {
     "China Prosperity · PDD": [
         "pdd holdings", "pinduoduo", "pdd)", "pdd ", "temu named", "temu offers",
@@ -221,7 +209,6 @@ EXCLUDED_NEWS_KEYWORDS = [
 SOURCE_PORTFOLIO_MATCHES = {
     "Deflation News · TLT Treasuries": ["no-yield"],
     "Deflation News · Bitcoin Gold": ["no-yield"],
-    "Lidar Magazine": ["lidar-camera"],
     "Apple Newsroom": ["brand"],
     "Coca-Cola IR": ["brand"],
     "Brand News · Apple": ["brand"],
@@ -561,8 +548,6 @@ def classify(item: dict[str, str]) -> tuple[list[str], list[str]]:
         tags.append(item.get("source", "industry source"))
     for portfolio, keywords in PORTFOLIO_KEYWORDS.items():
         if portfolio == "brand" and any(keyword in text for keyword in BRAND_EXCLUDE_KEYWORDS):
-            continue
-        if portfolio == "lidar-camera" and any(keyword in text for keyword in LIDAR_EXCLUDE_KEYWORDS):
             continue
         hits = []
         for keyword in keywords:
