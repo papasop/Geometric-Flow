@@ -136,11 +136,6 @@ PORTFOLIO_KEYWORDS = {
         "biotech", "biotechnology", "pharma", "drug", "therapy", "clinical", "fda",
         "antibody", "gene", "rna", "vaccine", "oncology", "baker bros", "abcellera",
     ],
-    "battery": [
-        "battery", "lithium", "energy storage", "catl", "byd", "ev", "electric vehicle",
-        "grid storage", "sodium-ion", "redwood materials", "battery recycling",
-        "closed-loop lithium", "battery materials recycling",
-    ],
     "us-rare-earth": [
         "rare earth", "rare-earth", "rare earth elements", "critical minerals",
         "critical metals", "neodymium", "magnet", "permanent magnet",
