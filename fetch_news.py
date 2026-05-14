@@ -144,10 +144,6 @@ PORTFOLIO_KEYWORDS = {
         "biotech", "biotechnology", "pharma", "drug", "therapy", "clinical", "fda",
         "antibody", "gene", "rna", "vaccine", "oncology", "baker bros", "abcellera",
     ],
-    "hantavirus": [
-        "hantavirus", "hemorrhagic fever", "outbreak", "who", "moderna", "diagnostic",
-        "pcr", "vaccine", "public health",
-    ],
     "battery": [
         "battery", "lithium", "energy storage", "catl", "byd", "ev", "electric vehicle",
         "grid storage", "sodium-ion", "redwood materials", "battery recycling",
