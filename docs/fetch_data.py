@@ -279,6 +279,7 @@ COMPONENTS = [
     {"name": "\u62d3\u8346\u79d1\u6280-U", "short": "\u62d3\u8346\u79d1\u6280-U", "ticker": "688072.SS", "ccy": "CNY", "sleeve": "CN", "status": "active"},
     {"name": "\u798f\u6676\u79d1\u6280", "short": "\u798f\u6676\u79d1\u6280", "ticker": "002222.SZ", "ccy": "CNY", "sleeve": "CN", "status": "active"},
     {"name": "\u77fd\u7535\u80a1\u4efd", "short": "\u77fd\u7535\u80a1\u4efd", "ticker": "301629.SZ", "ccy": "CNY", "sleeve": "CN", "status": "active"},
+    {"name": "\u601d\u683c\u65b0\u80fd\u6e90", "short": "\u601d\u683c\u65b0\u80fd\u6e90", "ticker": "6656.HK", "ccy": "HKD", "sleeve": "CN", "status": "active"},
     {"name": "\u8d85\u805a\u53d8\u6570\u5b57\u6280\u672f", "short": "\u8d85\u805a\u53d8", "ticker": "SUPERFUSION", "ccy": "CNY", "sleeve": "CN", "status": "prelist", "note": "2026-04-25 IPO tutoring completed; excluded until exchange data exists."},
     {"name": "\u8d5b\u7f8e\u7279", "short": "\u8d5b\u7f8e\u7279", "ticker": "SEMITRONIX", "ccy": "CNY", "sleeve": "CN", "status": "prelist", "note": "Hong Kong IPO push; Hubble holds about 4.96%; excluded until exchange data exists."},
     {"name": "\u5f15\u671b", "short": "\u5f15\u671b", "ticker": "YINWANG", "ccy": "CNY", "sleeve": "CN", "status": "prelist"},
@@ -526,6 +527,7 @@ TARGET_WEIGHTS = {
     "688072.SS": 0.0,
     "002222.SZ": 0.0,
     "301629.SZ": 0.0,
+    "6656.HK": 0.0,
     "SUPERFUSION": 0.0,
     "SEMITRONIX": 0.0,
     "YINWANG": 0.0,
@@ -700,6 +702,18 @@ def fetch_component_ohlc(ticker: str, start: str, end: str) -> pd.DataFrame:
     return out
 
 
+def fetch_market_cap(ticker: str):
+    try:
+        info = yf.Ticker(ticker).fast_info
+        market_cap = getattr(info, "market_cap", None)
+        if market_cap is None and hasattr(info, "get"):
+            market_cap = info.get("market_cap")
+        return float(market_cap) if market_cap else None
+    except Exception as exc:
+        print(f"  WARNING: market cap unavailable for {ticker}: {exc}")
+        return None
+
+
 def fetch_fx(ticker: str, start: str, end: str) -> pd.Series:
     df = yf.download(ticker, start=start, end=end, progress=False,
                      auto_adjust=False, threads=False)
@@ -745,10 +759,13 @@ def main():
 
     # 1) Fetch all stock OHLC
     fetched = {}
+    market_caps_local = {}
     for component in COMPONENTS:
         name, short, ticker, ccy = component["name"], component["short"], component["ticker"], component["ccy"]
         print(f"Fetching {short:15s} ({ticker:12s}, {ccy}) ...")
         fetched[ticker] = fetch_component_ohlc(ticker, args.start, args.end)
+        if component.get("status", "active") == "active":
+            market_caps_local[ticker] = fetch_market_cap(ticker)
 
     # 2) Anchor calendar = ONDS
     anchor = fetched["ONDS"]
@@ -779,6 +796,13 @@ def main():
     fx_hkd = fx_hkd.reindex(common).ffill().bfill()
     fx_eur = fx_eur.reindex(common).ffill().bfill()
     fx_jpy = fx_jpy.reindex(common).ffill().bfill()
+    latest_fx = {
+        "USD": 1.0,
+        "CNY": float(fx_cny.dropna().iloc[-1]),
+        "HKD": float(fx_hkd.dropna().iloc[-1]),
+        "EUR": float(fx_eur.dropna().iloc[-1]),
+        "JPY": float(fx_jpy.dropna().iloc[-1]),
+    }
 
     # 3b) Fetch benchmark, aligned to the same anchor calendar.
     print("Fetching benchmark NASDAQ (^IXIC) ...")
@@ -849,6 +873,7 @@ def main():
         components_out.append({
             "name": name, "short": short, "ticker": ticker,
             "weight": TARGET_WEIGHTS.get(ticker, 0.0), "ccy": ccy,
+            "marketCap": ((market_caps_local.get(ticker) or 0.0) / latest_fx.get(ccy, 1.0)) / 1e9,
             "sleeve": component.get("sleeve"),
             "status": status,
             "inception": pd.Timestamp(inception).strftime("%Y-%m-%d") if inception is not None else None,
