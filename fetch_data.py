@@ -245,6 +245,7 @@ COMPONENTS = [
     {"name": "CoreWeave", "short": "CRWV", "ticker": "CRWV", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "IREN", "short": "IREN", "ticker": "IREN", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "Applied Digital", "short": "APLD", "ticker": "APLD", "ccy": "USD", "sleeve": "US", "status": "active"},
+    {"name": "Lambda Labs", "short": "LAMBDA", "ticker": "LAMBDA", "ccy": "USD", "sleeve": "US", "status": "prelist"},
     {"name": "\u62fc\u591a\u591a", "short": "PDD", "ticker": "PDD", "ccy": "USD", "sleeve": "CN", "status": "active"},
     {"name": "\u7ebd\u7ea6\u65f6\u62a5", "short": "NYT", "ticker": "NYT", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "\u8d35\u5dde\u8305\u53f0", "short": "MOUTAI", "ticker": "600519.SS", "ccy": "CNY", "sleeve": "CN", "status": "active"},
@@ -498,6 +499,7 @@ TARGET_WEIGHTS = {
     "CRWV": 0.0,
     "IREN": 0.0,
     "APLD": 0.0,
+    "LAMBDA": 0.0,
     "PDD": 0.0,
     "NYT": 0.0,
     "600519.SS": 0.0,
@@ -628,6 +630,8 @@ TICKER_CONTINUATIONS = {
     "SPACEX": ["SPACEX", "SPACE"],
     # Unseenlabs is private; this placeholder keeps the watch ready to activate.
     "UNSEENLABS": ["UNSEENLABS"],
+    # Lambda Labs is private; keep likely placeholders ready for a future listing.
+    "LAMBDA": ["LAMBDA", "LAMBDALABS"],
     # Hong Kong exchange codes are sometimes entered with a leading zero in the
     # UI, while Yahoo's chart endpoint uses the four-digit exchange code.
     "02498.HK": ["2498.HK"],
