@@ -1125,7 +1125,7 @@
     </div>
 
     <div class="manifesto investment-view">
-      <div class="manifesto-tag">组合栏目 · PORTFOLIO CHANNELS · 9 PORTFOLIOS</div>
+      <div class="manifesto-tag">组合栏目 · PORTFOLIO CHANNELS · 10 PORTFOLIOS</div>
       <div class="manifesto-sort">
         <span class="manifesto-sort-label">组合排序</span>
         <div class="components-rank-toggle" id="portfolio-rank-group" aria-label="Portfolio ranking mode">
@@ -1155,13 +1155,18 @@
           <span class="pillar-cat pillar-cat--partial">组合</span>
           <span class="pillar-text"><span class="m-key">太空情报</span><span class="pillar-en">Space Intelligence Portfolio</span></span>
         </li>
+        <li class="pillar pillar--breakthrough" data-portfolio="ai-cloud">
+          <span class="pillar-num">⑧</span>
+          <span class="pillar-cat pillar-cat--breakthrough">组合</span>
+          <span class="pillar-text"><span class="m-key">AI 新云</span><span class="pillar-en">AI Cloud Portfolio</span></span>
+        </li>
         <li class="pillar pillar--breakthrough" data-portfolio="huawei">
           <span class="pillar-num">⑨</span>
           <span class="pillar-cat pillar-cat--breakthrough">组合</span>
           <span class="pillar-text"><span class="m-key">华为指数</span><span class="pillar-en">Huawei Portfolio</span></span>
         </li>
       </ol>
-      <div class="manifesto-footer">先推出九个组合栏目，后续可继续扩展更多主题组合。<span class="manifesto-footer-en">Launching nine portfolio channels first, with room for more themes later.</span></div>
+      <div class="manifesto-footer">先推出十个组合栏目，后续可继续扩展更多主题组合。<span class="manifesto-footer-en">Launching nine portfolio channels first, with room for more themes later.</span></div>
     </div>
 
     <div class="chart-container investment-view">
@@ -1977,6 +1982,28 @@
             conceptEn: "LiDAR · robotic vision · intelligent-driving perception",
             marketCap: 1.8,
             seed: 2498, base: 18, vol: 0.045, drift: 0.00018 },
+        ],
+      },
+      "ai-cloud": {
+        name: "AI 新云",
+        nameEn: "AI Cloud Portfolio",
+        tag: "策略 · NBIS / CRWV / IREN · 三只等权 · AI 云基础设施",
+        tagEn: "STRATEGY · NBIS / CRWV / IREN · THREE EQUAL WEIGHTS · AI CLOUD INFRASTRUCTURE",
+        footer: "三只股票等权配置，覆盖 AI 原生云平台、GPU 云算力与 AI 数据中心能源基础设施。",
+        footerEn: "Equal-weight exposure to AI-native cloud platforms, GPU cloud compute, and AI data-center power infrastructure.",
+        components: [
+          { name: "Nebius Group", short: "NBIS", ticker: "NBIS", weight: 1 / 3, ccy: "USD", sleeve: "US", status: "active",
+            concept: "AI 原生云平台 · GPU 算力集群",
+            conceptEn: "AI-native cloud platform · GPU compute clusters",
+            marketCap: 0, seed: 71001, base: 30, vol: 0.055, drift: 0.00035 },
+          { name: "CoreWeave", short: "CRWV", ticker: "CRWV", weight: 1 / 3, ccy: "USD", sleeve: "US", status: "active",
+            concept: "GPU 云算力 · AI 超级计算基础设施",
+            conceptEn: "GPU cloud compute · AI supercomputing infrastructure",
+            marketCap: 0, seed: 71002, base: 40, vol: 0.060, drift: 0.00038 },
+          { name: "IREN", short: "IREN", ticker: "IREN", weight: 1 / 3, ccy: "USD", sleeve: "US", status: "active",
+            concept: "AI 数据中心 · 可再生能源算力",
+            conceptEn: "AI data centers · renewable-powered compute",
+            marketCap: 0, seed: 71003, base: 5, vol: 0.065, drift: 0.00032 },
         ],
       },
       "huawei": {
@@ -2817,6 +2844,18 @@
             desc_en: "Tsugami China and RoboSense are equally weighted to form the China Robotics Index across precision CNC machine tools and robotic vision perception." },
         ],
       },
+      "ai-cloud": {
+        header: "AI 新云事件",
+        headerEn: "AI Cloud Portfolio Milestones",
+        milestones: [
+          { date: "2022-11-30", category: "ai", label: "AI 新云组合起点", en: "AI Cloud portfolio start",
+            desc: "以统一 T₀ 追踪 AI 云平台、GPU 算力租赁与 AI 数据中心能源基础设施敞口。",
+            desc_en: "Uses the shared T0 to track AI cloud platforms, GPU compute rental, and AI data-center power infrastructure exposure." },
+          { date: "2026-05-15", category: "ai", label: "AI 新云组合建立", en: "AI Cloud basket created",
+            desc: "纳入 Nebius Group、CoreWeave、IREN 三只上市公司，采用等权配置。",
+            desc_en: "Adds Nebius Group, CoreWeave, and IREN as three equal-weight listed constituents." },
+        ],
+      },
       "huawei": {
         header: "华为指数事件",
         headerEn: "Huawei Portfolio Milestones",
@@ -2975,6 +3014,9 @@
       { source: "China Robotics · Components", zhSource: "中国机器人 · 成分股", enSource: "China Robotics · Components", url: "https://news.google.com/search?q=Tsugami%20China%20OR%20RoboSense%20OR%20robotics",
         matchedPortfolios: ["china-robotics"], titleZh: "津上机床中国 / 速腾聚创新闻监控", titleEn: "Tsugami China / RoboSense news monitor",
         summaryZh: "当实时新闻未命中时，作为中国机器人指数的备用新闻源，匹配津上机床中国、速腾聚创、机器人与数控机床主题。", summaryEn: "Fallback monitor for the China Robotics Index, matching Tsugami China, RoboSense, robotics, and CNC machine-tool themes." },
+      { source: "AI Cloud · Components", zhSource: "AI 新云 · 成分股", enSource: "AI Cloud · Components", url: "https://news.google.com/search?q=Nebius%20OR%20NBIS%20OR%20CoreWeave%20OR%20CRWV%20OR%20IREN%20OR%20GPU%20cloud%20OR%20AI%20data%20center",
+        matchedPortfolios: ["ai-cloud"], titleZh: "NBIS / CRWV / IREN 新闻监控", titleEn: "NBIS / CRWV / IREN news monitor",
+        summaryZh: "当实时新闻未命中时，作为 AI 新云组合的备用新闻源，匹配 AI 云、GPU 算力、CoreWeave、Nebius 与 IREN 数据中心主题。", summaryEn: "Fallback monitor for the AI Cloud Portfolio, matching AI cloud, GPU compute, CoreWeave, Nebius, and IREN data-center themes." },
       { source: "Huawei Hubble · Components", zhSource: "华为哈勃 · 成分股", enSource: "Huawei Hubble · Components", url: "https://news.google.com/search?q=Huawei%20Hubble%20OR%20%E5%8D%8E%E4%B8%BA%E5%93%88%E5%8B%83%20OR%20Tianyue%20Advanced%20OR%203Peak%20OR%20Vanchip%20OR%20JoulWatt%20OR%20HHCK%20OR%20Keli%20Motor%20OR%20Piotech%20OR%20Castech%20OR%20Hestia%20Power%20OR%20Qiangyi%20OR%20OnMicro%20OR%20TYSiC%20OR%20Sidea%20OR%20SuperFusion%20OR%20Semitronix%20OR%20Yinwang%20OR%20ModelBest%20OR%20Qianxun%20Intelligence%20OR%20GeekSight%20OR%20%E7%80%9A%E5%A4%A9%E5%A4%A9%E6%88%90%20OR%20%E5%BC%BA%E4%B8%80%E8%82%A1%E4%BB%BD%20OR%20%E6%98%82%E7%91%9E%E5%BE%AE%20OR%20%E5%A4%A9%E5%9F%9F%E5%8D%8A%E5%AF%BC%E4%BD%93%20OR%20%E7%9F%BD%E7%94%B5%E8%82%A1%E4%BB%BD%20OR%20%E6%9D%B0%E5%8D%8E%E7%89%B9%20OR%20%E5%8D%8E%E6%B5%B7%E8%AF%9A%E7%A7%91%20OR%20%E7%A7%91%E5%8A%9B%E5%B0%94%20OR%20%E6%8B%93%E8%8D%86%E7%A7%91%E6%8A%80%20OR%20%E7%A6%8F%E6%99%B6%E7%A7%91%E6%8A%80%20OR%20%E8%B6%85%E8%81%9A%E5%8F%98%20OR%20%E8%B5%9B%E7%BE%8E%E7%89%B9%20OR%20%E5%BC%95%E6%9C%9B%20OR%20%E9%9D%A2%E5%A3%81%E6%99%BA%E8%83%BD%20OR%20%E5%8D%83%E5%AF%BB%E6%99%BA%E8%83%BD%20OR%20%E6%9E%81%E4%BD%B3%E8%A7%86%E7%95%8C",
         matchedPortfolios: ["huawei"], titleZh: "华为哈勃参股上市公司新闻监控", titleEn: "Huawei Hubble invested listed companies news monitor",
         summaryZh: "当实时新闻未命中时，作为华为指数的备用新闻源，匹配华为哈勃、国产半导体、车 BU、算力、工业软件、大模型、具身智能和激光光学主题。", summaryEn: "Fallback monitor for the Huawei Portfolio, matching Huawei Hubble, China semiconductors, auto BU, compute, industrial software, foundation models, embodied intelligence, and laser optics." },
@@ -3271,6 +3313,7 @@
       return {
         drone: "pillar--realized",
         "china-robotics": "pillar--breakthrough",
+        "ai-cloud": "pillar--breakthrough",
         huawei: "pillar--breakthrough",
         biotech: "pillar--breakthrough",
         "satellite-intel": "pillar--partial",
@@ -3514,6 +3557,7 @@
       "Brand News · JNBY": { zh: "品牌新闻 · 江南布衣", en: "Brand News · JNBY" },
       "Brand News · PDD": { zh: "品牌新闻 · PDD", en: "Brand News · PDD" },
       "China Robotics · Components": { zh: "中国机器人 · 成分股", en: "China Robotics · Components" },
+      "AI Cloud · Components": { zh: "AI 新云 · 成分股", en: "AI Cloud · Components" },
       "Huawei Hubble · Components": { zh: "华为哈勃 · 成分股", en: "Huawei Hubble · Components" },
       Official: { zh: "官方源", en: "Official sources" },
       Exchange: { zh: "交易所公告", en: "Exchange announcements" },
@@ -3539,6 +3583,13 @@
         "lidar", "robotic vision", "cnc machine", "machine tools",
         "中国机器人", "机器人", "工业机器人", "人形机器人",
         "津上机床", "津上机床中国", "速腾聚创", "激光雷达", "机器人视觉", "数控机床"
+      ],
+      "ai-cloud": [
+        "ai cloud", "gpu cloud", "gpu compute", "ai infrastructure", "data center",
+        "nebius", "nebius group", "nbis", "coreweave", "crwv", "iren",
+        "cloud gpu", "accelerated compute", "ai data center", "renewable compute",
+        "AI 云", "GPU 云", "AI 基础设施", "数据中心", "算力租赁",
+        "Nebius", "CoreWeave", "IREN", "新云", "AI 新云"
       ],
       "huawei": [
         "huawei", "hubble", "huawei hubble", "semiconductor", "sic", "silicon carbide",
@@ -3798,7 +3849,7 @@
       document.querySelector("#news-view .news-header").textContent = t("新闻摘要 · NEWS DIGEST", "NEWS DIGEST · 新闻摘要");
       renderNewsSources();
 
-      document.querySelector(".manifesto-tag").textContent = t("组合栏目 · 先推出 8 个组合", "PORTFOLIO CHANNELS · 8 PORTFOLIOS");
+      document.querySelector(".manifesto-tag").textContent = t("组合栏目 · 先推出 10 个组合", "PORTFOLIO CHANNELS · 10 PORTFOLIOS");
       document.querySelector("#portfolio-rank-group").previousElementSibling.textContent = t("组合排序", "Sort Portfolios");
       document.querySelector('#portfolio-rank-group button[data-portfolio-rank="default"]').textContent = t("默认", "Default");
       document.querySelector('#portfolio-rank-group button[data-portfolio-rank="mcap"]').textContent = t("市值", "Market Cap");
