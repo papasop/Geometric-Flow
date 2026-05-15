@@ -99,7 +99,7 @@ OFFICIAL_SOURCES = [
     {"name": "Brand News · JNBY", "url": "https://news.google.com/rss/search?q=%22Jiangnan%20Buyi%22&hl=en-US&gl=US&ceid=US:en"},
     {"name": "Brand News · PDD", "url": "https://news.google.com/rss/search?q=%22PDD%20Holdings%22%20OR%20Pinduoduo%20OR%20Temu&hl=en-US&gl=US&ceid=US:en"},
     {"name": "China Robotics · Components", "url": "https://news.google.com/rss/search?q=%22Tsugami%20China%22%20OR%20%22%E6%B4%A5%E4%B8%8A%E6%9C%BA%E5%BA%8A%E4%B8%AD%E5%9B%BD%22%20OR%20%2201651.HK%22%20OR%20%22RoboSense%22%20OR%20%22%E9%80%9F%E8%85%BE%E8%81%9A%E5%88%9B%22%20OR%20%2202498.HK%22%20OR%20%22robotics%22%20OR%20%22%E6%9C%BA%E5%99%A8%E4%BA%BA%22&hl=en-US&gl=US&ceid=US:en"},
-    {"name": "Huawei Hubble · Components", "url": "https://news.google.com/rss/search?q=%22Huawei%20Hubble%22%20OR%20%22%E5%8D%8E%E4%B8%BA%E5%93%88%E5%8B%83%22%20OR%20%22Tianyue%20Advanced%22%20OR%20%223Peak%22%20OR%20%22Vanchip%22%20OR%20%22Focuslight%22%20OR%20%22Motorcomm%22%20OR%20%22Keli%20Motor%22%20OR%20%22Piotech%22%20OR%20%22%E5%A4%A9%E5%B2%B3%E5%85%88%E8%BF%9B%22%20OR%20%22%E6%80%9D%E7%91%9E%E6%B5%A6%22%20OR%20%22%E4%B8%9C%E8%8A%AF%E5%8D%8A%E5%AF%BC%E4%BD%93%22%20OR%20%22%E7%81%BF%E5%8B%A4%E7%A7%91%E6%8A%80%22%20OR%20%22%E7%82%AC%E5%85%89%E7%A7%91%E6%8A%80%22%20OR%20%22%E8%B5%9B%E7%9B%AE%E7%A7%91%E6%8A%80%22%20OR%20%22%E7%A7%91%E5%8A%9B%E5%B0%94%22%20OR%20%22%E6%8B%93%E8%8D%86%E7%A7%91%E6%8A%80%22&hl=en-US&gl=US&ceid=US:en"},
+    {"name": "Huawei Hubble · Components", "url": "https://news.google.com/rss/search?q=%22Huawei%20Hubble%22%20OR%20%22%E5%8D%8E%E4%B8%BA%E5%93%88%E5%8B%83%22%20OR%20%22Tianyue%20Advanced%22%20OR%20%223Peak%22%20OR%20%22Vanchip%22%20OR%20%22Focuslight%22%20OR%20%22Motorcomm%22%20OR%20%22Keli%20Motor%22%20OR%20%22Piotech%22%20OR%20%22Castech%22%20OR%20%22%E5%A4%A9%E5%B2%B3%E5%85%88%E8%BF%9B%22%20OR%20%22%E6%80%9D%E7%91%9E%E6%B5%A6%22%20OR%20%22%E4%B8%9C%E8%8A%AF%E5%8D%8A%E5%AF%BC%E4%BD%93%22%20OR%20%22%E7%81%BF%E5%8B%A4%E7%A7%91%E6%8A%80%22%20OR%20%22%E7%82%AC%E5%85%89%E7%A7%91%E6%8A%80%22%20OR%20%22%E8%B5%9B%E7%9B%AE%E7%A7%91%E6%8A%80%22%20OR%20%22%E7%A7%91%E5%8A%9B%E5%B0%94%22%20OR%20%22%E6%8B%93%E8%8D%86%E7%A7%91%E6%8A%80%22%20OR%20%22%E7%A6%8F%E6%99%B6%E7%A7%91%E6%8A%80%22&hl=en-US&gl=US&ceid=US:en"},
 ]
 
 # Backward-compatible alias for older callers/comments.
@@ -131,14 +131,15 @@ PORTFOLIO_KEYWORDS = {
         "icv testing", "intelligent connected vehicle", "automotive simulation",
         "688234", "688536", "688110", "688182", "688167", "688261",
         "688048", "688153", "688498", "688515", "688458", "688629", "02257",
-        "002892", "688072",
+        "002892", "688072", "002222",
         "华为", "哈勃", "华为哈勃", "半导体", "碳化硅", "模拟芯片", "电源管理",
         "射频前端", "光芯片", "以太网物理层", "存储芯片", "无线充电", "连接器",
         "智能电机", "电机驱动", "半导体设备", "薄膜沉积", "沉积设备",
+        "非线性光学晶体", "激光光学", "光学元件",
         "陶瓷滤波器", "微波介质陶瓷", "光子技术", "智能网联汽车", "仿真测试",
         "天岳先进", "思瑞浦", "东芯半导体", "东芯股份", "灿勤科技", "炬光科技",
         "东微半导", "长光华芯", "唯捷创芯", "源杰科技", "裕太微", "美芯晟",
-        "华丰科技", "赛目科技", "科力尔", "拓荆科技",
+        "华丰科技", "赛目科技", "科力尔", "拓荆科技", "福晶科技",
     ],
     "biotech": [
         "biotech", "biotechnology", "pharma", "drug", "therapy", "clinical", "fda",
