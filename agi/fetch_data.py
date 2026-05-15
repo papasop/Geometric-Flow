@@ -279,7 +279,7 @@ COMPONENTS = [
     {"name": "\u62d3\u8346\u79d1\u6280-U", "short": "\u62d3\u8346\u79d1\u6280-U", "ticker": "688072.SS", "ccy": "CNY", "sleeve": "CN", "status": "active"},
     {"name": "\u798f\u6676\u79d1\u6280", "short": "\u798f\u6676\u79d1\u6280", "ticker": "002222.SZ", "ccy": "CNY", "sleeve": "CN", "status": "active"},
     {"name": "\u77fd\u7535\u80a1\u4efd", "short": "\u77fd\u7535\u80a1\u4efd", "ticker": "301629.SZ", "ccy": "CNY", "sleeve": "CN", "status": "active"},
-    {"name": "\u8d85\u805a\u53d8\u6570\u5b57\u6280\u672f", "short": "\u8d85\u805a\u53d8", "ticker": "SUPERFUSION", "ccy": "CNY", "sleeve": "CN", "status": "prelist"},
+    {"name": "\u8d85\u805a\u53d8\u6570\u5b57\u6280\u672f", "short": "\u8d85\u805a\u53d8", "ticker": "SUPERFUSION", "ccy": "CNY", "sleeve": "CN", "status": "prelist", "note": "2026-04-25 IPO tutoring completed; excluded until exchange data exists."},
     {"name": "\u8d5b\u7f8e\u7279", "short": "\u8d5b\u7f8e\u7279", "ticker": "SEMITRONIX", "ccy": "CNY", "sleeve": "CN", "status": "prelist"},
     {"name": "\u5f15\u671b", "short": "\u5f15\u671b", "ticker": "YINWANG", "ccy": "CNY", "sleeve": "CN", "status": "prelist"},
     {"name": "\u9762\u58c1\u667a\u80fd", "short": "\u9762\u58c1\u667a\u80fd", "ticker": "MODELBEST", "ccy": "CNY", "sleeve": "CN", "status": "prelist"},
@@ -825,7 +825,7 @@ def main():
                 "ccy": ccy,
                 "sleeve": component.get("sleeve"),
                 "status": "prelist",
-                "note": "Pre-listing watch code; excluded until exchange data exists.",
+                "note": component.get("note", "Pre-listing watch code; excluded until exchange data exists."),
             })
             print(f"  {short:15s}: pre-listing watch only; excluded until data exists")
             continue
