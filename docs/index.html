@@ -1125,7 +1125,7 @@
     </div>
 
     <div class="manifesto investment-view">
-      <div class="manifesto-tag">组合栏目 · PORTFOLIO CHANNELS · 8 PORTFOLIOS</div>
+      <div class="manifesto-tag">组合栏目 · PORTFOLIO CHANNELS · 9 PORTFOLIOS</div>
       <div class="manifesto-sort">
         <span class="manifesto-sort-label">组合排序</span>
         <div class="components-rank-toggle" id="portfolio-rank-group" aria-label="Portfolio ranking mode">
@@ -1155,8 +1155,13 @@
           <span class="pillar-cat pillar-cat--partial">组合</span>
           <span class="pillar-text"><span class="m-key">太空情报</span><span class="pillar-en">Space Intelligence Portfolio</span></span>
         </li>
+        <li class="pillar pillar--breakthrough" data-portfolio="huawei">
+          <span class="pillar-num">⑨</span>
+          <span class="pillar-cat pillar-cat--breakthrough">组合</span>
+          <span class="pillar-text"><span class="m-key">华为指数</span><span class="pillar-en">Huawei Portfolio</span></span>
+        </li>
       </ol>
-      <div class="manifesto-footer">先推出八个组合栏目，后续可继续扩展更多主题组合。<span class="manifesto-footer-en">Launching eight portfolio channels first, with room for more themes later.</span></div>
+      <div class="manifesto-footer">先推出九个组合栏目，后续可继续扩展更多主题组合。<span class="manifesto-footer-en">Launching nine portfolio channels first, with room for more themes later.</span></div>
     </div>
 
     <div class="chart-container investment-view">
@@ -1974,6 +1979,64 @@
             seed: 2498, base: 18, vol: 0.045, drift: 0.00018 },
         ],
       },
+      "huawei": {
+        name: "华为指数",
+        nameEn: "Huawei Portfolio",
+        tag: "策略 · 华为哈勃参股上市公司 · 12 只等权",
+        tagEn: "STRATEGY · HUAWEI HUBBLE INVESTED LISTED COMPANIES · 12 EQUAL WEIGHTS",
+        footer: "十二只 A 股等权配置，覆盖 SiC 衬底、模拟/电源/射频/光芯片、测试设备、连接器、以太网 PHY、存储和无线充电芯片。",
+        footerEn: "Equal-weight exposure to 12 A-share names backed by Huawei Hubble across SiC substrates, analog/power/RF/optical chips, test equipment, connectors, Ethernet PHY, memory, and wireless-charging chips.",
+        components: [
+          { name: "天岳先进", short: "天岳先进", ticker: "688234.SS", weight: 1 / 12, ccy: "CNY", sleeve: "CN", status: "active",
+            concept: "碳化硅 SiC 衬底 · 哈勃持股约 6.3%",
+            conceptEn: "SiC substrates · Hubble stake about 6.3%",
+            marketCap: 0, seed: 688234, base: 55, vol: 0.038, drift: 0.00018 },
+          { name: "强一股份", short: "强一股份", ticker: "688809.SS", weight: 1 / 12, ccy: "CNY", sleeve: "CN", status: "active",
+            concept: "芯片测试设备 · 哈勃持股约 4.8%",
+            conceptEn: "Chip test equipment · Hubble stake about 4.8%",
+            marketCap: 0, seed: 688809, base: 42, vol: 0.050, drift: 0.00020 },
+          { name: "思瑞浦", short: "思瑞浦", ticker: "688536.SS", weight: 1 / 12, ccy: "CNY", sleeve: "CN", status: "active",
+            concept: "模拟芯片 / 数据转换器 · 哈勃持股约 4.6%",
+            conceptEn: "Analog chips / data converters · Hubble stake about 4.6%",
+            marketCap: 0, seed: 688536, base: 130, vol: 0.040, drift: 0.00016 },
+          { name: "华丰科技", short: "华丰科技", ticker: "688629.SS", weight: 1 / 12, ccy: "CNY", sleeve: "CN", status: "active",
+            concept: "光电连接器 · 哈勃持股约 3.5%",
+            conceptEn: "Optoelectronic connectors · Hubble stake about 3.5%",
+            marketCap: 0, seed: 688629, base: 28, vol: 0.045, drift: 0.00018 },
+          { name: "唯捷创芯", short: "唯捷创芯", ticker: "688153.SS", weight: 1 / 12, ccy: "CNY", sleeve: "CN", status: "active",
+            concept: "射频前端 PA 芯片 · 哈勃持股约 3.2%",
+            conceptEn: "RF front-end PA chips · Hubble stake about 3.2%",
+            marketCap: 0, seed: 688153, base: 48, vol: 0.040, drift: 0.00016 },
+          { name: "源杰科技", short: "源杰科技", ticker: "688498.SS", weight: 1 / 12, ccy: "CNY", sleeve: "CN", status: "active",
+            concept: "高速光通信光芯片 · 哈勃持股约 3.0%",
+            conceptEn: "High-speed optical communication chips · Hubble stake about 3.0%",
+            marketCap: 0, seed: 688498, base: 120, vol: 0.050, drift: 0.00020 },
+          { name: "杰华特", short: "杰华特", ticker: "688141.SS", weight: 1 / 12, ccy: "CNY", sleeve: "CN", status: "active",
+            concept: "电源管理芯片 · 哈勃持股约 3.4%",
+            conceptEn: "Power management ICs · Hubble stake about 3.4%",
+            marketCap: 0, seed: 688141, base: 24, vol: 0.042, drift: 0.00016 },
+          { name: "裕太微", short: "裕太微", ticker: "688515.SS", weight: 1 / 12, ccy: "CNY", sleeve: "CN", status: "active",
+            concept: "以太网物理层芯片 · 哈勃持股约 6.9%",
+            conceptEn: "Ethernet PHY chips · Hubble stake about 6.9%",
+            marketCap: 0, seed: 688515, base: 72, vol: 0.048, drift: 0.00018 },
+          { name: "长光华芯", short: "长光华芯", ticker: "688048.SS", weight: 1 / 12, ccy: "CNY", sleeve: "CN", status: "active",
+            concept: "半导体激光器 · 哈勃持股约 3.7%",
+            conceptEn: "Semiconductor lasers · Hubble stake about 3.7%",
+            marketCap: 0, seed: 688048, base: 38, vol: 0.045, drift: 0.00016 },
+          { name: "东微半导", short: "东微半导", ticker: "688261.SS", weight: 1 / 12, ccy: "CNY", sleeve: "CN", status: "active",
+            concept: "高压超结功率器件 · 哈勃持股约 4.9%",
+            conceptEn: "High-voltage super-junction power devices · Hubble stake about 4.9%",
+            marketCap: 0, seed: 688261, base: 58, vol: 0.044, drift: 0.00016 },
+          { name: "东芯股份", short: "东芯股份", ticker: "688110.SS", weight: 1 / 12, ccy: "CNY", sleeve: "CN", status: "active",
+            concept: "NAND / DRAM 存储芯片 · 哈勃持股约 3.0%",
+            conceptEn: "NAND / DRAM memory chips · Hubble stake about 3.0%",
+            marketCap: 0, seed: 688110, base: 26, vol: 0.044, drift: 0.00016 },
+          { name: "美芯晟", short: "美芯晟", ticker: "688458.SS", weight: 1 / 12, ccy: "CNY", sleeve: "CN", status: "active",
+            concept: "LED 驱动 / 无线充电芯片 · 哈勃持股约 5.0%",
+            conceptEn: "LED driver / wireless-charging chips · Hubble stake about 5.0%",
+            marketCap: 0, seed: 688458, base: 45, vol: 0.046, drift: 0.00018 },
+        ],
+      },
       "biotech": {
         name: "生物科技",
         nameEn: "Biotech Portfolio",
@@ -2676,6 +2739,18 @@
             desc_en: "Tsugami China and RoboSense are equally weighted to form the China Robotics Index across precision CNC machine tools and robotic vision perception." },
         ],
       },
+      "huawei": {
+        header: "华为指数事件",
+        headerEn: "Huawei Portfolio Milestones",
+        milestones: [
+          { date: "2022-11-30", category: "semiconductor", label: "华为指数起点", en: "Huawei portfolio start",
+            desc: "以统一 T₀ 追踪华为哈勃参股上市公司的半导体、通信芯片和关键硬件供应链敞口。",
+            desc_en: "Uses the shared T0 to track listed semiconductor, communications-chip, and critical-hardware supply-chain exposure backed by Huawei Hubble." },
+          { date: "2026-05-15", category: "semiconductor", label: "华为哈勃参股篮子建立", en: "Huawei Hubble basket created",
+            desc: "纳入天岳先进、强一股份、思瑞浦、华丰科技、唯捷创芯、源杰科技、杰华特、裕太微、长光华芯、东微半导、东芯股份、美芯晟十二只上市公司，采用等权配置。",
+            desc_en: "Adds Tianyue Advanced, Qiangyi, 3Peak, Huafeng Technology, Vanchip, Yuanjie Technology, JoulWatt, Motorcomm, Everbright Photonics, Orient-Chip, Dosilicon, and Maxic as 12 equal-weight listed constituents." },
+        ],
+      },
       "biotech": {
         header: "生物科技事件",
         headerEn: "Biotech Portfolio Milestones",
@@ -2819,6 +2894,9 @@
       { source: "China Robotics · Components", zhSource: "中国机器人 · 成分股", enSource: "China Robotics · Components", url: "https://news.google.com/search?q=Tsugami%20China%20OR%20RoboSense%20OR%20robotics",
         matchedPortfolios: ["china-robotics"], titleZh: "津上机床中国 / 速腾聚创新闻监控", titleEn: "Tsugami China / RoboSense news monitor",
         summaryZh: "当实时新闻未命中时，作为中国机器人指数的备用新闻源，匹配津上机床中国、速腾聚创、机器人与数控机床主题。", summaryEn: "Fallback monitor for the China Robotics Index, matching Tsugami China, RoboSense, robotics, and CNC machine-tool themes." },
+      { source: "Huawei Hubble · Components", zhSource: "华为哈勃 · 成分股", enSource: "Huawei Hubble · Components", url: "https://news.google.com/search?q=Huawei%20Hubble%20OR%20%E5%8D%8E%E4%B8%BA%E5%93%88%E5%8B%83%20OR%20Tianyue%20Advanced%20OR%203Peak%20OR%20Vanchip%20OR%20JoulWatt",
+        matchedPortfolios: ["huawei"], titleZh: "华为哈勃参股上市公司新闻监控", titleEn: "Huawei Hubble invested listed companies news monitor",
+        summaryZh: "当实时新闻未命中时，作为华为指数的备用新闻源，匹配华为哈勃、国产半导体、碳化硅、模拟芯片、射频前端、光芯片和连接器主题。", summaryEn: "Fallback monitor for the Huawei Portfolio, matching Huawei Hubble, China semiconductors, SiC, analog chips, RF front ends, optical chips, and connectors." },
       { source: "SEC", zhSource: "SEC 文件", enSource: "SEC filings", url: "https://www.sec.gov/edgar/search/",
         titleZh: "10-K、10-Q、8-K、S-1 与持仓文件", titleEn: "10-K, 10-Q, 8-K, S-1, and ownership filings",
         summaryZh: "用于捕捉财报、重大事项、上市申请、股权变动和机构持仓。", summaryEn: "Captures earnings, material events, listing filings, ownership changes, and institutional positions." },
@@ -3112,6 +3190,7 @@
       return {
         drone: "pillar--realized",
         "china-robotics": "pillar--breakthrough",
+        huawei: "pillar--breakthrough",
         biotech: "pillar--breakthrough",
         "satellite-intel": "pillar--partial",
         "us-rare-earth": "pillar--breakthrough",
@@ -3354,6 +3433,7 @@
       "Brand News · JNBY": { zh: "品牌新闻 · 江南布衣", en: "Brand News · JNBY" },
       "Brand News · PDD": { zh: "品牌新闻 · PDD", en: "Brand News · PDD" },
       "China Robotics · Components": { zh: "中国机器人 · 成分股", en: "China Robotics · Components" },
+      "Huawei Hubble · Components": { zh: "华为哈勃 · 成分股", en: "Huawei Hubble · Components" },
       Official: { zh: "官方源", en: "Official sources" },
       Exchange: { zh: "交易所公告", en: "Exchange announcements" },
       IR: { zh: "公司投资者关系", en: "Company Investor Relations" },
@@ -3378,6 +3458,17 @@
         "lidar", "robotic vision", "cnc machine", "machine tools",
         "中国机器人", "机器人", "工业机器人", "人形机器人",
         "津上机床", "津上机床中国", "速腾聚创", "激光雷达", "机器人视觉", "数控机床"
+      ],
+      "huawei": [
+        "huawei", "hubble", "huawei hubble", "semiconductor", "sic", "silicon carbide",
+        "analog chip", "power management", "rf front-end", "optical chip", "ethernet phy",
+        "memory chip", "wireless charging", "connector", "chip testing",
+        "688234", "688809", "688536", "688629", "688153", "688498",
+        "688141", "688515", "688048", "688261", "688110", "688458",
+        "华为", "哈勃", "华为哈勃", "半导体", "碳化硅", "模拟芯片", "电源管理",
+        "射频前端", "光芯片", "以太网物理层", "存储芯片", "无线充电", "连接器", "芯片测试",
+        "天岳先进", "强一股份", "思瑞浦", "华丰科技", "唯捷创芯", "源杰科技",
+        "杰华特", "裕太微", "长光华芯", "东微半导", "东芯股份", "美芯晟"
       ],
       "biotech": [
         "baker bros", "biotech", "biotechnology", "clinical trial", "fda approval",
