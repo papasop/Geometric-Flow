@@ -1885,20 +1885,29 @@
         ],
       },
       "ai-agent-prelist": {
-        name: "AI Agent 预上市",
-        nameEn: "AI Agent Pre-listing Watch",
-        tag: "预上市 · E2B / Slingshot AI / GetDynasty / Lotus AI · AI Agent 垂直应用与基础设施观察",
-        tagEn: "PRE-LISTING · E2B / SLINGSHOT AI / GETDYNASTY / LOTUS AI · AI AGENT VERTICAL APPS AND INFRASTRUCTURE WATCH",
-        footer: "跟踪 E2B、Slingshot AI、GetDynasty 与 Lotus AI 四家未上市 AI Agent 相关公司；暂无公开 ticker，暂不进入指数计算。",
-        footerEn: "Tracks E2B, Slingshot AI, GetDynasty, and Lotus AI as private AI-agent-related companies; no public tickers yet, so they are excluded from index calculation.",
-        componentsTitle: "预上市公司 · 各自代表的 AI Agent 子赛道",
-        componentsTitleEn: "PRE-LISTING COMPANIES · AI agent subsector represented by each watch name",
-        prelistOnly: true,
+        name: "AI Agent",
+        nameEn: "AI Agent Portfolio",
+        tag: "上市锚定 · NOW / MSFT · 预上市观察 E2B / Slingshot AI / GetDynasty / Lotus AI",
+        tagEn: "LISTED ANCHORS · NOW / MSFT · PRE-LISTING WATCH E2B / SLINGSHOT AI / GETDYNASTY / LOTUS AI",
+        footer: "以 ServiceNow 与 Microsoft 两只上市公司等权跟踪 AI Agent 平台化落地，同时保留 E2B、Slingshot AI、GetDynasty 与 Lotus AI 四家预上市观察项。",
+        footerEn: "Tracks AI-agent platform adoption through equal-weighted listed anchors ServiceNow and Microsoft, while keeping E2B, Slingshot AI, GetDynasty, and Lotus AI as pre-listing watch names.",
+        componentsTitle: "成分股/预上市公司 · 各自代表的 AI Agent 子赛道",
+        componentsTitleEn: "LISTED AND PRE-LISTING NAMES · AI agent subsector represented by each holding",
+        equalWeightTradable: true,
         flags: [
-          { zh: "预上市", en: "Pre-listing" },
+          { zh: "上市锚定", en: "Listed anchors" },
+          { zh: "预上市观察", en: "Pre-listing watch" },
           { zh: "AI Agent", en: "AI Agent" },
         ],
         components: [
+          { name: "ServiceNow", short: "NOW", ticker: "NOW", weight: 0.5, ccy: "USD", sleeve: "US", status: "active",
+            concept: "企业工作流 AI Agent 平台",
+            conceptEn: "Enterprise workflow AI agent platform",
+            marketCap: 0, seed: 73005, base: 92, vol: 0.025, drift: 0.00022 },
+          { name: "Microsoft", short: "MSFT", ticker: "MSFT", weight: 0.5, ccy: "USD", sleeve: "US", status: "active",
+            concept: "Copilot 与企业 Agent 平台",
+            conceptEn: "Copilot and enterprise agent platform",
+            marketCap: 0, seed: 73006, base: 95, vol: 0.020, drift: 0.00020 },
           { name: "Lotus AI", short: "LOTUSAI", ticker: "LOTUSAI", weight: 0, ccy: "USD", sleeve: "US", status: "prelist",
             concept: "医疗与企业级系统自动化 Agent",
             conceptEn: "Healthcare and enterprise system automation agents",
@@ -1951,12 +1960,12 @@
         ],
       },
       "ai-agent-prelist": {
-        header: "AI Agent 预上市事件",
-        headerEn: "AI Agent Pre-listing Milestones",
+        header: "AI Agent 组合事件",
+        headerEn: "AI Agent Portfolio Milestones",
         milestones: [
-          { date: "2026-05-17", category: "ai", label: "AI Agent 预上市组合建立", en: "AI Agent pre-listing watch created",
-            desc: "纳入 E2B、Slingshot AI、GetDynasty 与 Lotus AI 四家未上市 AI Agent 相关公司，作为预上市观察项。",
-            desc_en: "Adds E2B, Slingshot AI, GetDynasty, and Lotus AI as private AI-agent-related pre-listing watch names." },
+          { date: "2026-05-17", category: "ai", label: "加入 ServiceNow 与 Microsoft", en: "ServiceNow and Microsoft added",
+            desc: "加入 ServiceNow、Microsoft 两只上市锚定成分，并保留 E2B、Slingshot AI、GetDynasty 与 Lotus AI 预上市观察项。",
+            desc_en: "Adds ServiceNow and Microsoft as listed AI-agent anchor constituents while keeping E2B, Slingshot AI, GetDynasty, and Lotus AI as pre-listing watch names." },
         ],
       }
     };
@@ -1970,9 +1979,9 @@
       { source: "AI Cloud · Components", zhSource: "AI 新云 · 成分股", enSource: "AI Cloud · Components", url: "https://news.google.com/search?q=Nebius%20OR%20NBIS%20OR%20CoreWeave%20OR%20CRWV%20OR%20IREN%20OR%20Applied%20Digital%20OR%20APLD%20OR%20TeraWulf%20OR%20WULF%20OR%20Hut%208%20OR%20HUT%20OR%20Core%20Scientific%20OR%20CORZ%20OR%20Digital%20Realty%20OR%20DLR%20OR%20VNET%20OR%20%E4%B8%96%E7%BA%AA%E4%BA%92%E8%BF%9E%20OR%20Lambda%20Labs%20OR%20ClickHouse%20OR%20Cursor%20AI%20OR%20Anysphere%20OR%20GPU%20cloud%20OR%20AI%20data%20center",
         matchedPortfolios: ["ai-cloud"], titleZh: "AI 新云成分股新闻监控", titleEn: "AI Cloud constituents news monitor",
         summaryZh: "当实时新闻未命中时，作为 AI 新云组合的备用新闻源，匹配 AI 云、GPU 算力、矿场转型 AI 数据中心、数据中心 REITs、Lambda Labs、ClickHouse 与 Cursor 主题。", summaryEn: "Fallback monitor for the AI Cloud Portfolio, matching AI cloud, GPU compute, miner-to-AI data centers, data-center REITs, Lambda Labs, ClickHouse, and Cursor themes." },
-      { source: "AI Agent · Pre-listing", zhSource: "AI Agent · 预上市", enSource: "AI Agent · Pre-listing", url: "https://news.google.com/search?q=%22Lotus%20AI%22%20OR%20%22Slingshot%20AI%22%20OR%20%22GetDynasty%22%20OR%20%22E2B%22%20%22AI%20sandbox%22%20OR%20%22AI%20agent%22",
-        matchedPortfolios: ["ai-agent-prelist"], titleZh: "AI Agent 预上市新闻监控", titleEn: "AI Agent pre-listing news monitor",
-        summaryZh: "当实时新闻未命中时，作为 AI Agent 预上市组合的备用新闻源，匹配 E2B、Slingshot AI、GetDynasty、Lotus AI、AI 运行沙盒与 Agent 垂直应用主题。", summaryEn: "Fallback monitor for the AI Agent pre-listing watch, matching E2B, Slingshot AI, GetDynasty, Lotus AI, AI runtime sandbox, and agent vertical-application themes." }
+      { source: "AI Agent · Components", zhSource: "AI Agent · 成分股", enSource: "AI Agent · Components", url: "https://news.google.com/search?q=ServiceNow%20OR%20%22NOW%20stock%22%20OR%20%22NYSE%20NOW%22%20OR%20Microsoft%20Copilot%20OR%20MSFT%20OR%20%22Lotus%20AI%22%20OR%20%22Slingshot%20AI%22%20OR%20%22GetDynasty%22%20OR%20%22E2B%22%20%22AI%20sandbox%22%20OR%20%22AI%20agent%22",
+        matchedPortfolios: ["ai-agent-prelist"], titleZh: "AI Agent 成分股新闻监控", titleEn: "AI Agent constituents news monitor",
+        summaryZh: "当实时新闻未命中时，作为 AI Agent 组合的备用新闻源，匹配 ServiceNow、Microsoft Copilot、E2B、Slingshot AI、GetDynasty、Lotus AI、AI 运行沙盒与 Agent 垂直应用主题。", summaryEn: "Fallback monitor for the AI Agent portfolio, matching ServiceNow, Microsoft Copilot, E2B, Slingshot AI, GetDynasty, Lotus AI, AI runtime sandbox, and agent vertical-application themes." }
     ];
 
     async function loadData() {
@@ -2448,7 +2457,7 @@
       "AI Cloud · Lambda Labs": { zh: "AI 新云 · Lambda Labs", en: "AI Cloud · Lambda Labs" },
       "AI Cloud · ClickHouse": { zh: "AI 新云 · ClickHouse", en: "AI Cloud · ClickHouse" },
       "AI Cloud · Cursor": { zh: "AI 新云 · Cursor", en: "AI Cloud · Cursor" },
-      "AI Agent · Pre-listing": { zh: "AI Agent · 预上市", en: "AI Agent · Pre-listing" },
+      "AI Agent · Components": { zh: "AI Agent · 成分股", en: "AI Agent · Components" },
     };
 
     const NEWS_PORTFOLIO_KEYWORDS = {
@@ -2461,8 +2470,9 @@
       ],
       "ai-agent-prelist": [
         "ai agent", "agentic ai", "ai sandbox", "runtime sandbox", "developer agents",
+        "servicenow", "service now", "now stock", "nyse now", "microsoft", "msft", "copilot", "microsoft copilot", "autonomous agents", "enterprise agent platform",
         "lotus ai", "slingshot ai", "getdynasty", "e2b", "agent infrastructure", "workflow automation", "mental health ai", "legal ai",
-        "AI Agent", "智能体", "运行沙盒", "开发者智能体", "心理咨询", "法律服务", "Lotus AI", "Slingshot AI", "GetDynasty", "E2B"
+        "AI Agent", "智能体", "运行沙盒", "开发者智能体", "企业工作流", "心理咨询", "法律服务", "ServiceNow", "Microsoft", "Copilot", "Lotus AI", "Slingshot AI", "GetDynasty", "E2B"
       ],
     };
 
