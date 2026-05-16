@@ -253,6 +253,9 @@ COMPONENTS = [
     {"name": "Lambda Labs", "short": "LAMBDA", "ticker": "LAMBDA", "ccy": "USD", "sleeve": "US", "status": "prelist"},
     {"name": "ClickHouse", "short": "CLICKHOUSE", "ticker": "CLICKHOUSE", "ccy": "USD", "sleeve": "US", "status": "prelist"},
     {"name": "Cursor", "short": "CURSOR", "ticker": "CURSOR", "ccy": "USD", "sleeve": "US", "status": "prelist"},
+    {"name": "Lotus AI", "short": "LOTUSAI", "ticker": "LOTUSAI", "ccy": "USD", "sleeve": "US", "status": "prelist"},
+    {"name": "Slingshot AI", "short": "SLINGSHOTAI", "ticker": "SLINGSHOTAI", "ccy": "USD", "sleeve": "US", "status": "prelist"},
+    {"name": "E2B", "short": "E2B", "ticker": "E2B", "ccy": "USD", "sleeve": "US", "status": "prelist"},
     {"name": "\u62fc\u591a\u591a", "short": "PDD", "ticker": "PDD", "ccy": "USD", "sleeve": "CN", "status": "active"},
     {"name": "\u7ebd\u7ea6\u65f6\u62a5", "short": "NYT", "ticker": "NYT", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "\u8d35\u5dde\u8305\u53f0", "short": "MOUTAI", "ticker": "600519.SS", "ccy": "CNY", "sleeve": "CN", "status": "active"},
@@ -514,6 +517,9 @@ TARGET_WEIGHTS = {
     "LAMBDA": 0.0,
     "CLICKHOUSE": 0.0,
     "CURSOR": 0.0,
+    "LOTUSAI": 0.0,
+    "SLINGSHOTAI": 0.0,
+    "E2B": 0.0,
     "PDD": 0.0,
     "NYT": 0.0,
     "600519.SS": 0.0,
@@ -650,6 +656,10 @@ TICKER_CONTINUATIONS = {
     "CLICKHOUSE": ["CLICKHOUSE", "CHDB"],
     # Cursor/Anysphere is private; keep likely placeholders ready for a future listing.
     "CURSOR": ["CURSOR", "ANYS"],
+    # Private AI-agent watch names.
+    "LOTUSAI": ["LOTUSAI"],
+    "SLINGSHOTAI": ["SLINGSHOTAI"],
+    "E2B": ["E2B"],
     # Hong Kong exchange codes are sometimes entered with a leading zero in the
     # UI, while Yahoo's chart endpoint uses the four-digit exchange code.
     "02498.HK": ["2498.HK"],
@@ -657,6 +667,7 @@ TICKER_CONTINUATIONS = {
 
 AI_CLOUD_ONLY = {
     "NBIS", "CRWV", "IREN", "APLD", "WULF", "HUT", "CORZ", "DLR", "VNET", "LAMBDA", "CLICKHOUSE", "CURSOR",
+    "LOTUSAI", "SLINGSHOTAI", "E2B",
 }
 
 COMPONENTS = [
@@ -673,6 +684,9 @@ for ticker in ("NBIS", "CRWV", "IREN", "APLD", "WULF", "HUT", "CORZ", "DLR", "VN
 TARGET_WEIGHTS["LAMBDA"] = 0.0
 TARGET_WEIGHTS["CLICKHOUSE"] = 0.0
 TARGET_WEIGHTS["CURSOR"] = 0.0
+TARGET_WEIGHTS["LOTUSAI"] = 0.0
+TARGET_WEIGHTS["SLINGSHOTAI"] = 0.0
+TARGET_WEIGHTS["E2B"] = 0.0
 
 TICKER_CONTINUATIONS = {
     key: value for key, value in TICKER_CONTINUATIONS.items()

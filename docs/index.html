@@ -1883,6 +1883,44 @@
             preListingNoteEn: "Pre-listing · no public ticker yet",
             seed: 71012, base: 20, vol: 0.050, drift: 0.00041 },
         ],
+      },
+      "ai-agent-prelist": {
+        name: "AI Agent 预上市",
+        nameEn: "AI Agent Pre-listing Watch",
+        tag: "预上市 · Lotus AI / Slingshot AI / E2B · AI Agent 基础设施观察",
+        tagEn: "PRE-LISTING · LOTUS AI / SLINGSHOT AI / E2B · AI AGENT INFRASTRUCTURE WATCH",
+        footer: "跟踪 Lotus AI、Slingshot AI 与 E2B 三家未上市 AI Agent 相关公司；暂无公开 ticker，暂不进入指数计算。",
+        footerEn: "Tracks Lotus AI, Slingshot AI, and E2B as private AI-agent-related companies; no public tickers yet, so they are excluded from index calculation.",
+        componentsTitle: "预上市公司 · 各自代表的 AI Agent 子赛道",
+        componentsTitleEn: "PRE-LISTING COMPANIES · AI agent subsector represented by each watch name",
+        prelistOnly: true,
+        flags: [
+          { zh: "预上市", en: "Pre-listing" },
+          { zh: "AI Agent", en: "AI Agent" },
+        ],
+        components: [
+          { name: "Lotus AI", short: "LOTUSAI", ticker: "LOTUSAI", weight: 0, ccy: "USD", sleeve: "US", status: "prelist",
+            concept: "AI Agent 应用层 · 工作流自动化",
+            conceptEn: "AI agent application layer · workflow automation",
+            marketCap: 0,
+            preListingNote: "预上市 · 暂无公开 ticker",
+            preListingNoteEn: "Pre-listing · no public ticker yet",
+            seed: 73001, base: 20, vol: 0.050, drift: 0.00040 },
+          { name: "Slingshot AI", short: "SLINGSHOTAI", ticker: "SLINGSHOTAI", weight: 0, ccy: "USD", sleeve: "US", status: "prelist",
+            concept: "AI Agent 产品层 · 垂直智能助手",
+            conceptEn: "AI agent product layer · vertical AI assistants",
+            marketCap: 0,
+            preListingNote: "预上市 · 暂无公开 ticker",
+            preListingNoteEn: "Pre-listing · no public ticker yet",
+            seed: 73002, base: 20, vol: 0.050, drift: 0.00040 },
+          { name: "E2B", short: "E2B", ticker: "E2B", weight: 0, ccy: "USD", sleeve: "US", status: "prelist",
+            concept: "AI 运行沙盒 · Agent 执行基础设施",
+            conceptEn: "AI runtime sandbox · agent execution infrastructure",
+            marketCap: 0,
+            preListingNote: "预上市 · 暂无公开 ticker",
+            preListingNoteEn: "Pre-listing · no public ticker yet",
+            seed: 73003, base: 20, vol: 0.050, drift: 0.00040 },
+        ],
       }
     };
 
@@ -1904,6 +1942,15 @@
             desc: "加入 TeraWulf、Hut 8、Core Scientific、Digital Realty、世纪互连五只上市标的，AI 新云调整为九只上市公司等权。",
             desc_en: "Adds TeraWulf, Hut 8, Core Scientific, Digital Realty, and VNET Group, shifting AI Cloud to nine equal-weight listed constituents." },
         ],
+      },
+      "ai-agent-prelist": {
+        header: "AI Agent 预上市事件",
+        headerEn: "AI Agent Pre-listing Milestones",
+        milestones: [
+          { date: "2026-05-17", category: "ai", label: "AI Agent 预上市组合建立", en: "AI Agent pre-listing watch created",
+            desc: "纳入 Lotus AI、Slingshot AI 与 E2B 三家未上市 AI Agent 相关公司，作为预上市观察项。",
+            desc_en: "Adds Lotus AI, Slingshot AI, and E2B as private AI-agent-related pre-listing watch names." },
+        ],
       }
     };
 
@@ -1915,7 +1962,10 @@
     const FALLBACK_NEWS_ITEMS = [
       { source: "AI Cloud · Components", zhSource: "AI 新云 · 成分股", enSource: "AI Cloud · Components", url: "https://news.google.com/search?q=Nebius%20OR%20NBIS%20OR%20CoreWeave%20OR%20CRWV%20OR%20IREN%20OR%20Applied%20Digital%20OR%20APLD%20OR%20TeraWulf%20OR%20WULF%20OR%20Hut%208%20OR%20HUT%20OR%20Core%20Scientific%20OR%20CORZ%20OR%20Digital%20Realty%20OR%20DLR%20OR%20VNET%20OR%20%E4%B8%96%E7%BA%AA%E4%BA%92%E8%BF%9E%20OR%20Lambda%20Labs%20OR%20ClickHouse%20OR%20Cursor%20AI%20OR%20Anysphere%20OR%20GPU%20cloud%20OR%20AI%20data%20center",
         matchedPortfolios: ["ai-cloud"], titleZh: "AI 新云成分股新闻监控", titleEn: "AI Cloud constituents news monitor",
-        summaryZh: "当实时新闻未命中时，作为 AI 新云组合的备用新闻源，匹配 AI 云、GPU 算力、矿场转型 AI 数据中心、数据中心 REITs、Lambda Labs、ClickHouse 与 Cursor 主题。", summaryEn: "Fallback monitor for the AI Cloud Portfolio, matching AI cloud, GPU compute, miner-to-AI data centers, data-center REITs, Lambda Labs, ClickHouse, and Cursor themes." }
+        summaryZh: "当实时新闻未命中时，作为 AI 新云组合的备用新闻源，匹配 AI 云、GPU 算力、矿场转型 AI 数据中心、数据中心 REITs、Lambda Labs、ClickHouse 与 Cursor 主题。", summaryEn: "Fallback monitor for the AI Cloud Portfolio, matching AI cloud, GPU compute, miner-to-AI data centers, data-center REITs, Lambda Labs, ClickHouse, and Cursor themes." },
+      { source: "AI Agent · Pre-listing", zhSource: "AI Agent · 预上市", enSource: "AI Agent · Pre-listing", url: "https://news.google.com/search?q=%22Lotus%20AI%22%20OR%20%22Slingshot%20AI%22%20OR%20%22E2B%22%20%22AI%20sandbox%22%20OR%20%22AI%20agent%22",
+        matchedPortfolios: ["ai-agent-prelist"], titleZh: "AI Agent 预上市新闻监控", titleEn: "AI Agent pre-listing news monitor",
+        summaryZh: "当实时新闻未命中时，作为 AI Agent 预上市组合的备用新闻源，匹配 Lotus AI、Slingshot AI、E2B、AI 运行沙盒与 Agent 基础设施主题。", summaryEn: "Fallback monitor for the AI Agent pre-listing watch, matching Lotus AI, Slingshot AI, E2B, AI runtime sandbox, and agent infrastructure themes." }
     ];
 
     async function loadData() {
@@ -2391,6 +2441,7 @@
       "AI Cloud · Lambda Labs": { zh: "AI 新云 · Lambda Labs", en: "AI Cloud · Lambda Labs" },
       "AI Cloud · ClickHouse": { zh: "AI 新云 · ClickHouse", en: "AI Cloud · ClickHouse" },
       "AI Cloud · Cursor": { zh: "AI 新云 · Cursor", en: "AI Cloud · Cursor" },
+      "AI Agent · Pre-listing": { zh: "AI Agent · 预上市", en: "AI Agent · Pre-listing" },
     };
 
     const NEWS_PORTFOLIO_KEYWORDS = {
@@ -2400,6 +2451,11 @@
         "cloud gpu", "accelerated compute", "ai data center", "renewable compute", "data center reit", "liquid cooling", "data center power", "neocloud", "real-time analytics database",
         "AI 云", "GPU 云", "AI 基础设施", "数据中心", "算力租赁",
         "Nebius", "CoreWeave", "IREN", "Applied Digital", "TeraWulf", "Hut 8", "Core Scientific", "Digital Realty", "VNET", "世纪互连", "Lambda Labs", "ClickHouse", "Cursor", "Anysphere", "新云", "AI 新云"
+      ],
+      "ai-agent-prelist": [
+        "ai agent", "agentic ai", "ai sandbox", "runtime sandbox", "developer agents",
+        "lotus ai", "slingshot ai", "e2b", "agent infrastructure", "workflow automation",
+        "AI Agent", "智能体", "运行沙盒", "开发者智能体", "Lotus AI", "Slingshot AI", "E2B"
       ],
     };
 
@@ -2793,14 +2849,23 @@
       const aggregateOptions = {
         continuousOpen: Boolean(activePortfolio().continuousAggregate && currentPeriod !== "D"),
       };
+      const placeholderIndex = () => {
+        const dates = rawData?.components?.find((c) => c?.data?.length)?.data?.map((d) => d.date) || generateTradingDates(INCEPTION_DATE);
+        return {
+          data: aggregate(dates.map((date) => ({ date, open: 100, high: 100, low: 100, close: 100 })), currentPeriod, aggregateOptions),
+          label: chartAssetLabel("INDEX"),
+        };
+      };
       if (currentChartAsset === "INDEX") {
+        if (!rawData?.components?.length) return placeholderIndex();
         return {
           data: aggregate(buildIndex(rawData.components, rawData.fx, currentCurrency, currentRebalance, currentPeriodDays, activePortfolio()), currentPeriod, aggregateOptions),
           label: chartAssetLabel("INDEX"),
         };
       }
-      const component = rawData.components.find((c) => c.ticker === currentChartAsset);
+      const component = rawData.components?.find((c) => c.ticker === currentChartAsset);
       if (!component) {
+        if (!rawData?.components?.length) return placeholderIndex();
         return {
           data: aggregate(buildIndex(rawData.components, rawData.fx, currentCurrency, currentRebalance, currentPeriodDays, activePortfolio()), currentPeriod, aggregateOptions),
           label: chartAssetLabel("INDEX"),
