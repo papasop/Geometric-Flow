@@ -1425,35 +1425,6 @@
           .map((item) => ({ k: item.k, weight: item.weight / total }));
       };
 
-      if (options.shortMode) {
-        const out = new Array(N);
-        out[0] = { date: dates[0], open: 100, high: 100, low: 100, close: 100 };
-        for (let i = 1; i < N; i++) {
-          let dO = 0, dH = 0, dL = 0, dC = 0;
-          activeWeightsAt(i).forEach(({ k, weight }) => {
-            const today = conv[k][i];
-            const yC = conv[k][i - 1].close;
-            dO += weight * (today.open / yC - 1);
-            dH += weight * (today.high / yC - 1);
-            dL += weight * (today.low / yC - 1);
-            dC += weight * (today.close / yC - 1);
-          });
-          const prev = out[i - 1].close;
-          const open = prev * (1 - dO);
-          const close = prev * (1 - dC);
-          const high = prev * (1 - dL);
-          const low = prev * (1 - dH);
-          out[i] = {
-            date: dates[i],
-            open: Math.max(open, 0.01),
-            high: Math.max(high, open, close, 0.01),
-            low: Math.max(Math.min(low, open, close), 0.01),
-            close: Math.max(close, 0.01),
-          };
-        }
-        return out;
-      }
-
       if (options.respectInception) {
         const out = new Array(N);
         out[0] = { date: dates[0], open: 100, high: 100, low: 100, close: 100 };
@@ -1912,43 +1883,6 @@
             preListingNoteEn: "Pre-listing · no public ticker yet",
             seed: 71012, base: 20, vol: 0.050, drift: 0.00041 },
         ],
-      },
-      "blockchain-short": {
-        name: "区块链空头",
-        nameEn: "Blockchain Short Index",
-        tag: "策略 · BTC 70% / ETH 15% / BNB 5% / XRP 5% / SOL 5% · 每日反向篮子",
-        tagEn: "STRATEGY · BTC 70% / ETH 15% / BNB 5% / XRP 5% / SOL 5% · DAILY INVERSE BASKET",
-        footer: "按 BTC 70%、ETH 15%、BNB 5%、XRP 5%、SOL 5% 构建每日反向区块链篮子；币价下跌时指数上涨，币价上涨时指数下跌。",
-        footerEn: "A daily inverse blockchain basket using BTC 70%, ETH 15%, BNB 5%, XRP 5%, and SOL 5%; the index rises when the basket falls and falls when the basket rises.",
-        componentsTitle: "成分币 · 各自代表的区块链子赛道",
-        componentsTitleEn: "COINS · Blockchain subsector represented by each holding",
-        shortMode: true,
-        flags: [
-          { zh: "每日反向", en: "Daily inverse" },
-          { zh: "非杠杆", en: "Unlevered" },
-        ],
-        components: [
-          { name: "Bitcoin", short: "BTC", ticker: "BTC-USD", weight: 0.70, ccy: "USD", sleeve: "CRYPTO", status: "active",
-            concept: "加密资产贝塔 · 数字黄金",
-            conceptEn: "Crypto beta · digital gold",
-            marketCap: 0, seed: 72001, base: 16500, vol: 0.040, drift: 0.00020 },
-          { name: "Ethereum", short: "ETH", ticker: "ETH-USD", weight: 0.15, ccy: "USD", sleeve: "CRYPTO", status: "active",
-            concept: "智能合约平台 · DeFi 基础层",
-            conceptEn: "Smart-contract platform · DeFi base layer",
-            marketCap: 0, seed: 72002, base: 1200, vol: 0.045, drift: 0.00018 },
-          { name: "BNB", short: "BNB", ticker: "BNB-USD", weight: 0.05, ccy: "USD", sleeve: "CRYPTO", status: "active",
-            concept: "交易所生态 · 公链代币",
-            conceptEn: "Exchange ecosystem · chain token",
-            marketCap: 0, seed: 72003, base: 300, vol: 0.043, drift: 0.00016 },
-          { name: "XRP", short: "XRP", ticker: "XRP-USD", weight: 0.05, ccy: "USD", sleeve: "CRYPTO", status: "active",
-            concept: "跨境支付网络 · 高波动资产",
-            conceptEn: "Cross-border payments network · high-volatility asset",
-            marketCap: 0, seed: 72004, base: 0.40, vol: 0.055, drift: 0.00017 },
-          { name: "Solana", short: "SOL", ticker: "SOL-USD", weight: 0.05, ccy: "USD", sleeve: "CRYPTO", status: "active",
-            concept: "高性能公链 · 链上应用生态",
-            conceptEn: "High-throughput chain · on-chain app ecosystem",
-            marketCap: 0, seed: 72005, base: 14, vol: 0.060, drift: 0.00021 },
-        ],
       }
     };
 
@@ -1970,18 +1904,6 @@
             desc: "加入 TeraWulf、Hut 8、Core Scientific、Digital Realty、世纪互连五只上市标的，AI 新云调整为九只上市公司等权。",
             desc_en: "Adds TeraWulf, Hut 8, Core Scientific, Digital Realty, and VNET Group, shifting AI Cloud to nine equal-weight listed constituents." },
         ],
-      },
-      "blockchain-short": {
-        header: "区块链空头事件",
-        headerEn: "Blockchain Short Index Milestones",
-        milestones: [
-          { date: "2022-11-30", category: "macro", label: "区块链空头指数起点", en: "Blockchain short index start",
-            desc: "以统一 T0 追踪 BTC、ETH、BNB、XRP、SOL 五币每日反向篮子。",
-            desc_en: "Uses the shared T0 to track a daily inverse basket of BTC, ETH, BNB, XRP, and SOL." },
-          { date: "2026-05-17", category: "market", label: "区块链空头指数建立", en: "Blockchain short index created",
-            desc: "权重设定为 BTC 70%、ETH 15%、BNB 5%、XRP 5%、SOL 5%；指数按每日反向收益复利计算。",
-            desc_en: "Weights are set to BTC 70%, ETH 15%, BNB 5%, XRP 5%, and SOL 5%; the index compounds daily inverse returns." },
-        ],
       }
     };
 
@@ -1993,10 +1915,7 @@
     const FALLBACK_NEWS_ITEMS = [
       { source: "AI Cloud · Components", zhSource: "AI 新云 · 成分股", enSource: "AI Cloud · Components", url: "https://news.google.com/search?q=Nebius%20OR%20NBIS%20OR%20CoreWeave%20OR%20CRWV%20OR%20IREN%20OR%20Applied%20Digital%20OR%20APLD%20OR%20TeraWulf%20OR%20WULF%20OR%20Hut%208%20OR%20HUT%20OR%20Core%20Scientific%20OR%20CORZ%20OR%20Digital%20Realty%20OR%20DLR%20OR%20VNET%20OR%20%E4%B8%96%E7%BA%AA%E4%BA%92%E8%BF%9E%20OR%20Lambda%20Labs%20OR%20ClickHouse%20OR%20Cursor%20AI%20OR%20Anysphere%20OR%20GPU%20cloud%20OR%20AI%20data%20center",
         matchedPortfolios: ["ai-cloud"], titleZh: "AI 新云成分股新闻监控", titleEn: "AI Cloud constituents news monitor",
-        summaryZh: "当实时新闻未命中时，作为 AI 新云组合的备用新闻源，匹配 AI 云、GPU 算力、矿场转型 AI 数据中心、数据中心 REITs、Lambda Labs、ClickHouse 与 Cursor 主题。", summaryEn: "Fallback monitor for the AI Cloud Portfolio, matching AI cloud, GPU compute, miner-to-AI data centers, data-center REITs, Lambda Labs, ClickHouse, and Cursor themes." },
-      { source: "Blockchain Short · Components", zhSource: "区块链空头 · 成分币", enSource: "Blockchain Short · Components", url: "https://news.google.com/search?q=Bitcoin%20OR%20BTC%20OR%20Ethereum%20OR%20ETH%20OR%20BNB%20OR%20XRP%20OR%20Solana%20OR%20SOL%20OR%20crypto%20market",
-        matchedPortfolios: ["blockchain-short"], titleZh: "区块链空头成分币新闻监控", titleEn: "Blockchain short constituents news monitor",
-        summaryZh: "当实时新闻未命中时，作为区块链空头指数的备用新闻源，匹配 BTC、ETH、BNB、XRP、SOL 与加密市场主题。", summaryEn: "Fallback monitor for the Blockchain Short Index, matching BTC, ETH, BNB, XRP, SOL, and crypto-market themes." }
+        summaryZh: "当实时新闻未命中时，作为 AI 新云组合的备用新闻源，匹配 AI 云、GPU 算力、矿场转型 AI 数据中心、数据中心 REITs、Lambda Labs、ClickHouse 与 Cursor 主题。", summaryEn: "Fallback monitor for the AI Cloud Portfolio, matching AI cloud, GPU compute, miner-to-AI data centers, data-center REITs, Lambda Labs, ClickHouse, and Cursor themes." }
     ];
 
     async function loadData() {
@@ -2472,7 +2391,6 @@
       "AI Cloud · Lambda Labs": { zh: "AI 新云 · Lambda Labs", en: "AI Cloud · Lambda Labs" },
       "AI Cloud · ClickHouse": { zh: "AI 新云 · ClickHouse", en: "AI Cloud · ClickHouse" },
       "AI Cloud · Cursor": { zh: "AI 新云 · Cursor", en: "AI Cloud · Cursor" },
-      "Blockchain Short · Components": { zh: "区块链空头 · 成分币", en: "Blockchain Short · Components" },
     };
 
     const NEWS_PORTFOLIO_KEYWORDS = {
@@ -2482,11 +2400,6 @@
         "cloud gpu", "accelerated compute", "ai data center", "renewable compute", "data center reit", "liquid cooling", "data center power", "neocloud", "real-time analytics database",
         "AI 云", "GPU 云", "AI 基础设施", "数据中心", "算力租赁",
         "Nebius", "CoreWeave", "IREN", "Applied Digital", "TeraWulf", "Hut 8", "Core Scientific", "Digital Realty", "VNET", "世纪互连", "Lambda Labs", "ClickHouse", "Cursor", "Anysphere", "新云", "AI 新云"
-      ],
-      "blockchain-short": [
-        "bitcoin", "btc", "btc-usd", "ethereum", "eth", "eth-usd", "bnb", "bnb-usd", "xrp", "xrp-usd", "solana", "sol", "sol-usd",
-        "crypto", "cryptocurrency", "blockchain", "digital assets", "加密货币", "区块链", "比特币", "以太坊",
-        "Bitcoin", "Ethereum", "BNB", "XRP", "Solana", "区块链空头"
       ],
     };
 
@@ -3339,7 +3252,7 @@
           const first = componentCloseInCurrency(component, startIdx);
           const last = componentCloseInCurrency(component, component.data.length - 1);
           totalReturn = first ? (last / first - 1) * 100 : 0;
-          contribution = (activePortfolio().shortMode ? -1 : 1) * merged.weight * totalReturn;
+          contribution = merged.weight * totalReturn;
         }
         return {
           ...merged,

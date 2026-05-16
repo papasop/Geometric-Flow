@@ -301,9 +301,6 @@ COMPONENTS = [
     {"name": "iShares 20+ Year Treasury Bond ETF", "short": "TLT", "ticker": "TLT", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "Bitcoin", "short": "BTC", "ticker": "BTC-USD", "ccy": "USD", "sleeve": "CRYPTO", "status": "active"},
     {"name": "Ethereum", "short": "ETH", "ticker": "ETH-USD", "ccy": "USD", "sleeve": "CRYPTO", "status": "active"},
-    {"name": "BNB", "short": "BNB", "ticker": "BNB-USD", "ccy": "USD", "sleeve": "CRYPTO", "status": "active"},
-    {"name": "XRP", "short": "XRP", "ticker": "XRP-USD", "ccy": "USD", "sleeve": "CRYPTO", "status": "active"},
-    {"name": "Solana", "short": "SOL", "ticker": "SOL-USD", "ccy": "USD", "sleeve": "CRYPTO", "status": "active"},
     {"name": "SPDR Gold Shares", "short": "GLD", "ticker": "GLD", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "Apple", "short": "Apple", "ticker": "AAPL", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "Coca-Cola", "short": "\u53ef\u53e3\u53ef\u4e50", "ticker": "KO", "ccy": "USD", "sleeve": "US", "status": "active"},
@@ -564,9 +561,6 @@ TARGET_WEIGHTS = {
     "TLT": 0.0,
     "BTC-USD": 0.0,
     "ETH-USD": 0.0,
-    "BNB-USD": 0.0,
-    "XRP-USD": 0.0,
-    "SOL-USD": 0.0,
     "GLD": 0.0,
     "AAPL": 0.0,
     "KO": 0.0,
@@ -663,7 +657,6 @@ TICKER_CONTINUATIONS = {
 
 AI_CLOUD_ONLY = {
     "NBIS", "CRWV", "IREN", "APLD", "WULF", "HUT", "CORZ", "DLR", "VNET", "LAMBDA", "CLICKHOUSE", "CURSOR",
-    "BTC-USD", "ETH-USD", "BNB-USD", "XRP-USD", "SOL-USD",
 }
 
 COMPONENTS = [
@@ -680,11 +673,6 @@ for ticker in ("NBIS", "CRWV", "IREN", "APLD", "WULF", "HUT", "CORZ", "DLR", "VN
 TARGET_WEIGHTS["LAMBDA"] = 0.0
 TARGET_WEIGHTS["CLICKHOUSE"] = 0.0
 TARGET_WEIGHTS["CURSOR"] = 0.0
-TARGET_WEIGHTS["BTC-USD"] = 0.70
-TARGET_WEIGHTS["ETH-USD"] = 0.15
-TARGET_WEIGHTS["BNB-USD"] = 0.05
-TARGET_WEIGHTS["XRP-USD"] = 0.05
-TARGET_WEIGHTS["SOL-USD"] = 0.05
 
 TICKER_CONTINUATIONS = {
     key: value for key, value in TICKER_CONTINUATIONS.items()
