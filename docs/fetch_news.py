@@ -127,10 +127,10 @@ PORTFOLIO_KEYWORDS = {
     ],
     "ai-cloud": [
         "ai cloud", "gpu cloud", "gpu compute", "ai infrastructure", "data center",
-        "nebius", "nebius group", "nbis", "coreweave", "crwv", "iren", "applied digital", "apld", "terawulf", "wulf", "hut 8", "hut", "core scientific", "corz", "digital realty", "dlr", "vnet", "vnet group", "世纪互连", "lambda labs", "lambda", "clickhouse",
+        "nebius", "nebius group", "nbis", "coreweave", "crwv", "iren", "applied digital", "apld", "terawulf", "wulf", "hut 8", "hut", "core scientific", "corz", "digital realty", "dlr", "vnet", "vnet group", "世纪互连", "lambda labs", "lambda", "clickhouse", "cursor ai", "cursor code editor", "anysphere",
         "cloud gpu", "accelerated compute", "ai data center", "renewable compute", "data center reit", "liquid cooling", "real-time analytics database",
         "AI 云", "GPU 云", "AI 基础设施", "数据中心", "算力租赁",
-        "Nebius", "CoreWeave", "IREN", "Applied Digital", "TeraWulf", "Hut 8", "Core Scientific", "Digital Realty", "VNET", "世纪互连", "Lambda Labs", "ClickHouse", "新云", "AI 新云",
+        "Nebius", "CoreWeave", "IREN", "Applied Digital", "TeraWulf", "Hut 8", "Core Scientific", "Digital Realty", "VNET", "世纪互连", "Lambda Labs", "ClickHouse", "Cursor", "Anysphere", "新云", "AI 新云",
     ],
     "huawei": [
         "huawei", "hubble", "huawei hubble", "semiconductor", "sic", "silicon carbide",
@@ -283,6 +283,10 @@ AI_CLOUD_NEWS_COMPANIES = [
         "source": "AI Cloud · ClickHouse",
         "terms": ["ClickHouse", "ClickHouse IPO", "ClickHouse database"],
     },
+    {
+        "source": "AI Cloud · Cursor",
+        "terms": ["Cursor AI", "Cursor code editor", "Anysphere"],
+    },
 ]
 
 
@@ -302,7 +306,7 @@ AI_CLOUD_THEME_SOURCES = [
     google_news_source("AI Cloud · Components", [
         "Nebius", "NBIS", "CoreWeave", "CRWV", "IREN", "Applied Digital", "APLD",
         "TeraWulf", "WULF", "Hut 8", "HUT", "Core Scientific", "CORZ",
-        "Digital Realty", "DLR", "VNET", "\u4e16\u7eaa\u4e92\u8fde", "Lambda Labs", "ClickHouse",
+        "Digital Realty", "DLR", "VNET", "\u4e16\u7eaa\u4e92\u8fde", "Lambda Labs", "ClickHouse", "Cursor AI", "Anysphere",
     ]),
     google_news_source("AI Cloud · Infrastructure", [
         "GPU cloud", "AI data center", "AI infrastructure", "liquid cooling",
