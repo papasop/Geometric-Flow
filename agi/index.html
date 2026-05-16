@@ -1157,7 +1157,7 @@
           <button data-asset="HUT"><span class="btn-main">HUT</span><span class="btn-sub">11.11%</span></button>
           <button data-asset="CORZ"><span class="btn-main">CORZ</span><span class="btn-sub">11.11%</span></button>
           <button data-asset="DLR"><span class="btn-main">DLR</span><span class="btn-sub">11.11%</span></button>
-          <button data-asset="EQIX"><span class="btn-main">EQIX</span><span class="btn-sub">11.11%</span></button>
+          <button data-asset="VNET"><span class="btn-main">VNET</span><span class="btn-sub">11.11%</span></button>
           <button data-asset="LAMBDA" disabled><span class="btn-main">Lambda</span><span class="btn-sub">预上市</span></button>
         </div>
         <details class="control-group compact-control" id="period-group">
@@ -1814,8 +1814,8 @@
       "ai-cloud": {
         name: "AI 新云",
         nameEn: "AI Cloud Portfolio",
-        tag: "策略 · NBIS / CRWV / IREN / APLD / WULF / HUT / CORZ / DLR / EQIX · 九只等权 · Lambda Labs 预上市观察",
-        tagEn: "STRATEGY · NBIS / CRWV / IREN / APLD / WULF / HUT / CORZ / DLR / EQIX · NINE EQUAL WEIGHTS · LAMBDA LABS PRE-LISTING WATCH",
+        tag: "策略 · NBIS / CRWV / IREN / APLD / WULF / HUT / CORZ / DLR / VNET · 九只等权 · Lambda Labs 预上市观察",
+        tagEn: "STRATEGY · NBIS / CRWV / IREN / APLD / WULF / HUT / CORZ / DLR / VNET · NINE EQUAL WEIGHTS · LAMBDA LABS PRE-LISTING WATCH",
         footer: "九只股票等权配置，覆盖 AI 原生云平台、GPU 云算力、矿场转型 AI 数据中心、托管电力基础设施与传统数据中心 REITs；Lambda Labs 作为预上市观察项。",
         footerEn: "Equal-weight exposure to AI-native cloud platforms, GPU cloud compute, miner-to-AI data-center conversions, hosted power infrastructure, and traditional data-center REITs; Lambda Labs is tracked as a pre-listing watch name.",
         components: [
@@ -1851,10 +1851,10 @@
             concept: "数据中心 REIT · AI 液冷机房",
             conceptEn: "Data-center REIT · AI liquid-cooled facilities",
             marketCap: 0, seed: 71009, base: 130, vol: 0.020, drift: 0.00014 },
-          { name: "Equinix", short: "EQIX", ticker: "EQIX", weight: 1 / 9, ccy: "USD", sleeve: "US", status: "active",
-            concept: "全球互联数据中心 · 企业 AI 基础设施",
-            conceptEn: "Global interconnection data centers · enterprise AI infrastructure",
-            marketCap: 0, seed: 71010, base: 780, vol: 0.018, drift: 0.00013 },
+          { name: "世纪互连", short: "VNET", ticker: "VNET", weight: 1 / 9, ccy: "USD", sleeve: "CN", status: "active",
+            concept: "中国第三方数据中心 · AI 云基础设施",
+            conceptEn: "China third-party data centers · AI cloud infrastructure",
+            marketCap: 0, seed: 71010, base: 4, vol: 0.045, drift: 0.00018 },
           { name: "Lambda Labs", short: "LAMBDA", ticker: "LAMBDA", weight: 0, ccy: "USD", sleeve: "US", status: "prelist",
             concept: "GPU 云平台 · AI 开发者算力",
             conceptEn: "GPU cloud platform · AI developer compute",
@@ -1881,8 +1881,8 @@
             desc: "Lambda Labs 暂无公开 ticker，作为 GPU 云平台和 AI 开发者算力预上市观察项；公开行情出现后自动加入等权计算。",
             desc_en: "Lambda Labs has no public ticker yet and is tracked as a GPU cloud platform and AI developer compute pre-listing watch name; once public quote data appears, it automatically joins the equal-weight calculation." },
           { date: "2026-05-16", category: "ai", label: "扩展 AI 电力与数据中心链", en: "AI power and data-center chain expanded",
-            desc: "加入 TeraWulf、Hut 8、Core Scientific、Digital Realty、Equinix 五只上市标的，AI 新云调整为九只上市公司等权。",
-            desc_en: "Adds TeraWulf, Hut 8, Core Scientific, Digital Realty, and Equinix, shifting AI Cloud to nine equal-weight listed constituents." },
+            desc: "加入 TeraWulf、Hut 8、Core Scientific、Digital Realty、世纪互连五只上市标的，AI 新云调整为九只上市公司等权。",
+            desc_en: "Adds TeraWulf, Hut 8, Core Scientific, Digital Realty, and VNET Group, shifting AI Cloud to nine equal-weight listed constituents." },
         ],
       }
     };
@@ -1893,7 +1893,7 @@
     let liveNewsItems = [];
     let newsMeta = null;
     const FALLBACK_NEWS_ITEMS = [
-      { source: "AI Cloud · Components", zhSource: "AI 新云 · 成分股", enSource: "AI Cloud · Components", url: "https://news.google.com/search?q=Nebius%20OR%20NBIS%20OR%20CoreWeave%20OR%20CRWV%20OR%20IREN%20OR%20Applied%20Digital%20OR%20APLD%20OR%20TeraWulf%20OR%20WULF%20OR%20Hut%208%20OR%20HUT%20OR%20Core%20Scientific%20OR%20CORZ%20OR%20Digital%20Realty%20OR%20DLR%20OR%20Equinix%20OR%20EQIX%20OR%20Lambda%20Labs%20OR%20GPU%20cloud%20OR%20AI%20data%20center",
+      { source: "AI Cloud · Components", zhSource: "AI 新云 · 成分股", enSource: "AI Cloud · Components", url: "https://news.google.com/search?q=Nebius%20OR%20NBIS%20OR%20CoreWeave%20OR%20CRWV%20OR%20IREN%20OR%20Applied%20Digital%20OR%20APLD%20OR%20TeraWulf%20OR%20WULF%20OR%20Hut%208%20OR%20HUT%20OR%20Core%20Scientific%20OR%20CORZ%20OR%20Digital%20Realty%20OR%20DLR%20OR%20VNET%20OR%20%E4%B8%96%E7%BA%AA%E4%BA%92%E8%BF%9E%20OR%20Lambda%20Labs%20OR%20GPU%20cloud%20OR%20AI%20data%20center",
         matchedPortfolios: ["ai-cloud"], titleZh: "AI 新云成分股新闻监控", titleEn: "AI Cloud constituents news monitor",
         summaryZh: "当实时新闻未命中时，作为 AI 新云组合的备用新闻源，匹配 AI 云、GPU 算力、矿场转型 AI 数据中心、数据中心 REITs 与 Lambda Labs 主题。", summaryEn: "Fallback monitor for the AI Cloud Portfolio, matching AI cloud, GPU compute, miner-to-AI data centers, data-center REITs, and Lambda Labs themes." }
     ];
@@ -2363,10 +2363,10 @@
     const NEWS_PORTFOLIO_KEYWORDS = {
       "ai-cloud": [
         "ai cloud", "gpu cloud", "gpu compute", "ai infrastructure", "data center",
-        "nebius", "nebius group", "nbis", "coreweave", "crwv", "iren", "applied digital", "apld", "terawulf", "wulf", "hut 8", "hut", "core scientific", "corz", "digital realty", "dlr", "equinix", "eqix", "lambda labs", "lambda",
+        "nebius", "nebius group", "nbis", "coreweave", "crwv", "iren", "applied digital", "apld", "terawulf", "wulf", "hut 8", "hut", "core scientific", "corz", "digital realty", "dlr", "vnet", "vnet group", "世纪互连", "lambda labs", "lambda",
         "cloud gpu", "accelerated compute", "ai data center", "renewable compute", "data center reit", "liquid cooling",
         "AI 云", "GPU 云", "AI 基础设施", "数据中心", "算力租赁",
-        "Nebius", "CoreWeave", "IREN", "Applied Digital", "TeraWulf", "Hut 8", "Core Scientific", "Digital Realty", "Equinix", "Lambda Labs", "新云", "AI 新云"
+        "Nebius", "CoreWeave", "IREN", "Applied Digital", "TeraWulf", "Hut 8", "Core Scientific", "Digital Realty", "VNET", "世纪互连", "Lambda Labs", "新云", "AI 新云"
       ],
     };
 

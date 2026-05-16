@@ -249,7 +249,7 @@ COMPONENTS = [
     {"name": "Hut 8", "short": "HUT", "ticker": "HUT", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "Core Scientific", "short": "CORZ", "ticker": "CORZ", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "Digital Realty", "short": "DLR", "ticker": "DLR", "ccy": "USD", "sleeve": "US", "status": "active"},
-    {"name": "Equinix", "short": "EQIX", "ticker": "EQIX", "ccy": "USD", "sleeve": "US", "status": "active"},
+    {"name": "\u4e16\u7eaa\u4e92\u8fde", "short": "VNET", "ticker": "VNET", "ccy": "USD", "sleeve": "CN", "status": "active"},
     {"name": "Lambda Labs", "short": "LAMBDA", "ticker": "LAMBDA", "ccy": "USD", "sleeve": "US", "status": "prelist"},
     {"name": "\u62fc\u591a\u591a", "short": "PDD", "ticker": "PDD", "ccy": "USD", "sleeve": "CN", "status": "active"},
     {"name": "\u7ebd\u7ea6\u65f6\u62a5", "short": "NYT", "ticker": "NYT", "ccy": "USD", "sleeve": "US", "status": "active"},
@@ -508,7 +508,7 @@ TARGET_WEIGHTS = {
     "HUT": 0.0,
     "CORZ": 0.0,
     "DLR": 0.0,
-    "EQIX": 0.0,
+    "VNET": 0.0,
     "LAMBDA": 0.0,
     "PDD": 0.0,
     "NYT": 0.0,
@@ -648,7 +648,7 @@ TICKER_CONTINUATIONS = {
 }
 
 AI_CLOUD_ONLY = {
-    "NBIS", "CRWV", "IREN", "APLD", "WULF", "HUT", "CORZ", "DLR", "EQIX", "LAMBDA",
+    "NBIS", "CRWV", "IREN", "APLD", "WULF", "HUT", "CORZ", "DLR", "VNET", "LAMBDA",
 }
 
 COMPONENTS = [
@@ -660,7 +660,7 @@ TARGET_WEIGHTS = {
     key: value for key, value in TARGET_WEIGHTS.items()
     if key in AI_CLOUD_ONLY
 }
-for ticker in ("NBIS", "CRWV", "IREN", "APLD", "WULF", "HUT", "CORZ", "DLR", "EQIX"):
+for ticker in ("NBIS", "CRWV", "IREN", "APLD", "WULF", "HUT", "CORZ", "DLR", "VNET"):
     TARGET_WEIGHTS[ticker] = 1 / 9
 TARGET_WEIGHTS["LAMBDA"] = 0.0
 
