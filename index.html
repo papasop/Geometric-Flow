@@ -731,6 +731,10 @@
       background: rgba(94, 158, 255, 0.07);
       box-shadow: inset 0 0 0 1px rgba(94, 158, 255, 0.14);
     }
+    .component-row[data-component-ticker].active {
+      background: rgba(94, 158, 255, 0.11);
+      box-shadow: inset 0 0 0 1px rgba(94, 158, 255, 0.22);
+    }
     .component-row:first-child {
       border-top: none;
     }
@@ -3092,14 +3096,31 @@
       document.getElementById("type-group").open = false;
       renderChartOnly();
     });
+    function selectChartAsset(ticker, { scroll = false, forceLine = false } = {}) {
+      const nextTicker = ticker || "INDEX";
+      const escapeSelectorValue = (value) => window.CSS?.escape
+        ? CSS.escape(value)
+        : String(value).replace(/["\\]/g, "\\$&");
+      const btn = document.querySelector(`#asset-group button[data-asset="${escapeSelectorValue(nextTicker)}"]`);
+      if (btn?.disabled) return;
+      document.querySelectorAll("#asset-group button").forEach((b) => b.classList.remove("active"));
+      if (btn) btn.classList.add("active");
+      currentChartAsset = nextTicker;
+      if (forceLine && currentChartAsset !== "INDEX") {
+        currentType = "line";
+        document.querySelectorAll("#type-group button").forEach((b) => b.classList.toggle("active", b.dataset.type === "line"));
+        const typeCurrent = document.getElementById("type-current");
+        if (typeCurrent) typeCurrent.textContent = t("走势", "Line");
+      }
+      renderMilestoneList();
+      render();
+      if (scroll) scrollToChart();
+    }
+
     document.getElementById("asset-group").addEventListener("click", (e) => {
       const btn = e.target.closest("button[data-asset]");
       if (!btn) return;
-      document.querySelectorAll("#asset-group button").forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
-      currentChartAsset = btn.dataset.asset;
-      renderMilestoneList();
-      render();
+      selectChartAsset(btn.dataset.asset);
     });
     document.querySelector(".manifesto-pillars").addEventListener("click", (e) => {
       if (e.target.closest(".portfolio-news-row")) return;
@@ -3142,10 +3163,14 @@
       if (!row) return;
       const ticker = row.dataset.componentTicker;
       if (!ticker) return;
-      currentChartAsset = ticker;
-      renderMilestoneList();
-      render();
-      scrollToChart();
+      selectChartAsset(ticker, { scroll: true, forceLine: true });
+    });
+    document.getElementById("components-list").addEventListener("keydown", (e) => {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      const row = e.target.closest(".component-row[data-component-ticker]");
+      if (!row) return;
+      e.preventDefault();
+      selectChartAsset(row.dataset.componentTicker, { scroll: true, forceLine: true });
     });
     window.addEventListener("resize", () => chart.resize());
 
@@ -3287,7 +3312,8 @@
                 ? metricBar(c, formatFinancialB(c.freeCashFlowUsdB), t(`自由现金流 · ${c.grossMarginPeriod || "FY"} · USD`, `Free Cash Flow · ${c.grossMarginPeriod || "FY"} · USD`), (c.freeCashFlowUsdB || 0) >= 0 ? "up" : "down")
               : metricBar(c, formatMcap(c.marketCap), `${c.mcapPct.toFixed(1)}%`);
         const canOpenChart = !isPrelist && rawData?.components?.some((component) => component.ticker === c.ticker && component.data?.length);
-        return `<div class="component-row${isPrelist ? ' component-row--prelist' : ''}"${canOpenChart ? ` data-component-ticker="${escapeHtml(c.ticker)}"` : ""}>
+        const activeClass = currentChartAsset === c.ticker ? " active" : "";
+        return `<div class="component-row${isPrelist ? ' component-row--prelist' : ''}${canOpenChart ? activeClass : ''}"${canOpenChart ? ` data-component-ticker="${escapeHtml(c.ticker)}" role="button" tabindex="0" title="${t('点击查看走势图', 'Click to view trend chart')}"` : ""}>
           <span class="component-rank">${i + 1}</span>
           <span class="component-weight${isMajor ? ' weight-major' : ''}${isPrelist ? ' weight-prelist' : ''}">${isPrelist ? t("候选", "Watch") : wPct}</span>
           <span class="component-name">${c.displayName}</span>
