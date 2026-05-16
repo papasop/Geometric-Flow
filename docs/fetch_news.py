@@ -238,6 +238,20 @@ SOURCE_PORTFOLIO_MATCHES = {
     "Rare Earth News · CRML": ["us-rare-earth"],
 }
 
+OFFICIAL_SOURCES = [
+    source for source in OFFICIAL_SOURCES
+    if source["name"] == "AI Cloud · Components"
+]
+SOURCES = OFFICIAL_SOURCES
+
+PORTFOLIO_KEYWORDS = {
+    "ai-cloud": PORTFOLIO_KEYWORDS["ai-cloud"],
+}
+
+SOURCE_PORTFOLIO_MATCHES = {
+    "AI Cloud · Components": ["ai-cloud"],
+}
+
 NEWS_OVERRIDES = [
 ]
 
