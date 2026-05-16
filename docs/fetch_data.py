@@ -255,6 +255,7 @@ COMPONENTS = [
     {"name": "Cursor", "short": "CURSOR", "ticker": "CURSOR", "ccy": "USD", "sleeve": "US", "status": "prelist"},
     {"name": "Lotus AI", "short": "LOTUSAI", "ticker": "LOTUSAI", "ccy": "USD", "sleeve": "US", "status": "prelist"},
     {"name": "Slingshot AI", "short": "SLINGSHOTAI", "ticker": "SLINGSHOTAI", "ccy": "USD", "sleeve": "US", "status": "prelist"},
+    {"name": "GetDynasty", "short": "GETDYNASTY", "ticker": "GETDYNASTY", "ccy": "USD", "sleeve": "US", "status": "prelist"},
     {"name": "E2B", "short": "E2B", "ticker": "E2B", "ccy": "USD", "sleeve": "US", "status": "prelist"},
     {"name": "\u62fc\u591a\u591a", "short": "PDD", "ticker": "PDD", "ccy": "USD", "sleeve": "CN", "status": "active"},
     {"name": "\u7ebd\u7ea6\u65f6\u62a5", "short": "NYT", "ticker": "NYT", "ccy": "USD", "sleeve": "US", "status": "active"},
@@ -519,6 +520,7 @@ TARGET_WEIGHTS = {
     "CURSOR": 0.0,
     "LOTUSAI": 0.0,
     "SLINGSHOTAI": 0.0,
+    "GETDYNASTY": 0.0,
     "E2B": 0.0,
     "PDD": 0.0,
     "NYT": 0.0,
@@ -659,6 +661,7 @@ TICKER_CONTINUATIONS = {
     # Private AI-agent watch names.
     "LOTUSAI": ["LOTUSAI"],
     "SLINGSHOTAI": ["SLINGSHOTAI"],
+    "GETDYNASTY": ["GETDYNASTY"],
     "E2B": ["E2B"],
     # Hong Kong exchange codes are sometimes entered with a leading zero in the
     # UI, while Yahoo's chart endpoint uses the four-digit exchange code.
@@ -667,7 +670,7 @@ TICKER_CONTINUATIONS = {
 
 AI_CLOUD_ONLY = {
     "NBIS", "CRWV", "IREN", "APLD", "WULF", "HUT", "CORZ", "DLR", "VNET", "LAMBDA", "CLICKHOUSE", "CURSOR",
-    "LOTUSAI", "SLINGSHOTAI", "E2B",
+    "LOTUSAI", "SLINGSHOTAI", "GETDYNASTY", "E2B",
 }
 
 COMPONENTS = [
@@ -686,6 +689,7 @@ TARGET_WEIGHTS["CLICKHOUSE"] = 0.0
 TARGET_WEIGHTS["CURSOR"] = 0.0
 TARGET_WEIGHTS["LOTUSAI"] = 0.0
 TARGET_WEIGHTS["SLINGSHOTAI"] = 0.0
+TARGET_WEIGHTS["GETDYNASTY"] = 0.0
 TARGET_WEIGHTS["E2B"] = 0.0
 
 TICKER_CONTINUATIONS = {
