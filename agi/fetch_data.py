@@ -647,6 +647,28 @@ TICKER_CONTINUATIONS = {
     "02498.HK": ["2498.HK"],
 }
 
+AI_CLOUD_ONLY = {
+    "NBIS", "CRWV", "IREN", "APLD", "WULF", "HUT", "CORZ", "DLR", "EQIX", "LAMBDA",
+}
+
+COMPONENTS = [
+    component for component in COMPONENTS
+    if component["short"] in AI_CLOUD_ONLY or component["ticker"] in AI_CLOUD_ONLY
+]
+
+TARGET_WEIGHTS = {
+    key: value for key, value in TARGET_WEIGHTS.items()
+    if key in AI_CLOUD_ONLY
+}
+for ticker in ("NBIS", "CRWV", "IREN", "APLD", "WULF", "HUT", "CORZ", "DLR", "EQIX"):
+    TARGET_WEIGHTS[ticker] = 1 / 9
+TARGET_WEIGHTS["LAMBDA"] = 0.0
+
+TICKER_CONTINUATIONS = {
+    key: value for key, value in TICKER_CONTINUATIONS.items()
+    if key in AI_CLOUD_ONLY
+}
+
 
 def mulberry32(seed: int):
     def rand() -> float:
@@ -789,10 +811,11 @@ def main():
         if component.get("status", "active") == "active":
             market_caps_local[ticker] = fetch_market_cap(ticker)
 
-    # 2) Anchor calendar = ONDS
-    anchor = fetched["ONDS"]
+    # 2) Anchor calendar = IREN, preserving the original AI Cloud T0 window.
+    anchor_component = next(component for component in COMPONENTS if component["ticker"] == "IREN")
+    anchor = fetched[anchor_component["ticker"]]
     if anchor.empty:
-        raise SystemExit("ONDS data missing; cannot establish anchor calendar.")
+        raise SystemExit("Anchor component data missing; cannot establish anchor calendar.")
     common = pd.DatetimeIndex(anchor.index)
     extra_dates = sorted({
         pd.Timestamp(idx)
@@ -802,7 +825,7 @@ def main():
     })
     if extra_dates:
         common = common.union(pd.Index(extra_dates))
-    print(f"Anchor calendar: {len(common)} ONDS trading days "
+    print(f"Anchor calendar: {len(common)} {anchor_component['short']} trading days "
           f"({common[0]} \u2192 {common[-1]})")
 
     # 3) Fetch FX, align to anchor calendar
