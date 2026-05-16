@@ -238,18 +238,89 @@ SOURCE_PORTFOLIO_MATCHES = {
     "Rare Earth News · CRML": ["us-rare-earth"],
 }
 
+AI_CLOUD_NEWS_COMPANIES = [
+    {
+        "source": "AI Cloud · Nebius Group",
+        "terms": ["Nebius Group", "Nebius", "NBIS"],
+    },
+    {
+        "source": "AI Cloud · CoreWeave",
+        "terms": ["CoreWeave", "CRWV"],
+    },
+    {
+        "source": "AI Cloud · IREN",
+        "terms": ["IREN", "IREN Limited", "Iris Energy"],
+    },
+    {
+        "source": "AI Cloud · Applied Digital",
+        "terms": ["Applied Digital", "APLD"],
+    },
+    {
+        "source": "AI Cloud · TeraWulf",
+        "terms": ["TeraWulf", "WULF", "Lake Mariner"],
+    },
+    {
+        "source": "AI Cloud · Hut 8",
+        "terms": ["Hut 8", "HUT"],
+    },
+    {
+        "source": "AI Cloud · Core Scientific",
+        "terms": ["Core Scientific", "CORZ"],
+    },
+    {
+        "source": "AI Cloud · Digital Realty",
+        "terms": ["Digital Realty", "DLR"],
+    },
+    {
+        "source": "AI Cloud · VNET",
+        "terms": ["VNET", "VNET Group", "\u4e16\u7eaa\u4e92\u8fde"],
+    },
+    {
+        "source": "AI Cloud · Lambda Labs",
+        "terms": ["Lambda Labs", "Lambda GPU cloud"],
+    },
+]
+
+
+def google_news_source(name: str, terms: list[str]) -> dict[str, str]:
+    query = " OR ".join(f'"{term}"' for term in terms)
+    return {
+        "name": name,
+        "url": (
+            "https://news.google.com/rss/search?q="
+            + urllib.parse.quote(query)
+            + "&hl=en-US&gl=US&ceid=US:en"
+        ),
+    }
+
+
+AI_CLOUD_THEME_SOURCES = [
+    google_news_source("AI Cloud · Components", [
+        "Nebius", "NBIS", "CoreWeave", "CRWV", "IREN", "Applied Digital", "APLD",
+        "TeraWulf", "WULF", "Hut 8", "HUT", "Core Scientific", "CORZ",
+        "Digital Realty", "DLR", "VNET", "\u4e16\u7eaa\u4e92\u8fde", "Lambda Labs",
+    ]),
+    google_news_source("AI Cloud · Infrastructure", [
+        "GPU cloud", "AI data center", "AI infrastructure", "liquid cooling",
+        "data center power", "neocloud",
+    ]),
+]
+
 OFFICIAL_SOURCES = [
-    source for source in OFFICIAL_SOURCES
-    if source["name"] == "AI Cloud · Components"
+    *AI_CLOUD_THEME_SOURCES,
+    *[google_news_source(company["source"], company["terms"]) for company in AI_CLOUD_NEWS_COMPANIES],
 ]
 SOURCES = OFFICIAL_SOURCES
 
 PORTFOLIO_KEYWORDS = {
-    "ai-cloud": PORTFOLIO_KEYWORDS["ai-cloud"],
+    "ai-cloud": sorted(set([
+        *PORTFOLIO_KEYWORDS["ai-cloud"],
+        *(term for company in AI_CLOUD_NEWS_COMPANIES for term in company["terms"]),
+    ])),
 }
 
 SOURCE_PORTFOLIO_MATCHES = {
-    "AI Cloud · Components": ["ai-cloud"],
+    source["name"]: ["ai-cloud"] for source in OFFICIAL_SOURCES
 }
 
 NEWS_OVERRIDES = [
@@ -569,9 +640,9 @@ def classify(item: dict[str, str]) -> tuple[list[str], list[str]]:
         matched = [portfolio for portfolio in matched if portfolio != "brand"]
     if matched:
         tags.append(item.get("source", "industry source"))
-    if item.get("source") == "AI Cloud · Components":
+    if str(item.get("source") or "").startswith("AI Cloud · "):
         matched.append("ai-cloud")
-        tags.append("AI Cloud · Components")
+        tags.append(str(item.get("source") or "AI Cloud"))
     for portfolio, keywords in PORTFOLIO_KEYWORDS.items():
         if portfolio == "brand" and any(keyword in text for keyword in BRAND_EXCLUDE_KEYWORDS):
             continue
@@ -638,9 +709,9 @@ def main() -> int:
                     continue
                 seen.add(key)
                 matched, tags = classify(item)
-                if source["name"] == "AI Cloud · Components":
+                if source["name"].startswith("AI Cloud · "):
                     matched = sorted(set([*matched, "ai-cloud"]))
-                    tags = sorted(set([*tags, "AI Cloud · Components"]))[:10]
+                    tags = sorted(set([*tags, source["name"]]))[:10]
                 enrich_title_fields(item)
                 item["matchedPortfolios"] = matched
                 item["tags"] = tags
