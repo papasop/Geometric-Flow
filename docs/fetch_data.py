@@ -251,6 +251,7 @@ COMPONENTS = [
     {"name": "Digital Realty", "short": "DLR", "ticker": "DLR", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "\u4e16\u7eaa\u4e92\u8fde", "short": "VNET", "ticker": "VNET", "ccy": "USD", "sleeve": "CN", "status": "active"},
     {"name": "Lambda Labs", "short": "LAMBDA", "ticker": "LAMBDA", "ccy": "USD", "sleeve": "US", "status": "prelist"},
+    {"name": "ClickHouse", "short": "CLICKHOUSE", "ticker": "CLICKHOUSE", "ccy": "USD", "sleeve": "US", "status": "prelist"},
     {"name": "\u62fc\u591a\u591a", "short": "PDD", "ticker": "PDD", "ccy": "USD", "sleeve": "CN", "status": "active"},
     {"name": "\u7ebd\u7ea6\u65f6\u62a5", "short": "NYT", "ticker": "NYT", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "\u8d35\u5dde\u8305\u53f0", "short": "MOUTAI", "ticker": "600519.SS", "ccy": "CNY", "sleeve": "CN", "status": "active"},
@@ -510,6 +511,7 @@ TARGET_WEIGHTS = {
     "DLR": 0.0,
     "VNET": 0.0,
     "LAMBDA": 0.0,
+    "CLICKHOUSE": 0.0,
     "PDD": 0.0,
     "NYT": 0.0,
     "600519.SS": 0.0,
@@ -642,13 +644,15 @@ TICKER_CONTINUATIONS = {
     "UNSEENLABS": ["UNSEENLABS"],
     # Lambda Labs is private; keep likely placeholders ready for a future listing.
     "LAMBDA": ["LAMBDA", "LAMBDALABS"],
+    # ClickHouse is private; keep likely placeholders ready for a future listing.
+    "CLICKHOUSE": ["CLICKHOUSE", "CHDB"],
     # Hong Kong exchange codes are sometimes entered with a leading zero in the
     # UI, while Yahoo's chart endpoint uses the four-digit exchange code.
     "02498.HK": ["2498.HK"],
 }
 
 AI_CLOUD_ONLY = {
-    "NBIS", "CRWV", "IREN", "APLD", "WULF", "HUT", "CORZ", "DLR", "VNET", "LAMBDA",
+    "NBIS", "CRWV", "IREN", "APLD", "WULF", "HUT", "CORZ", "DLR", "VNET", "LAMBDA", "CLICKHOUSE",
 }
 
 COMPONENTS = [
@@ -663,6 +667,7 @@ TARGET_WEIGHTS = {
 for ticker in ("NBIS", "CRWV", "IREN", "APLD", "WULF", "HUT", "CORZ", "DLR", "VNET"):
     TARGET_WEIGHTS[ticker] = 1 / 9
 TARGET_WEIGHTS["LAMBDA"] = 0.0
+TARGET_WEIGHTS["CLICKHOUSE"] = 0.0
 
 TICKER_CONTINUATIONS = {
     key: value for key, value in TICKER_CONTINUATIONS.items()
