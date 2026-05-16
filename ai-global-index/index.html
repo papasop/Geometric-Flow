@@ -1175,12 +1175,12 @@
         <details class="control-group compact-control" id="type-group">
           <summary>
             <span class="control-group-label">图形</span>
-            <span class="compact-control-current" id="type-current">K线</span>
+            <span class="compact-control-current" id="type-current">走势</span>
             <span class="compact-control-caret">▼</span>
           </summary>
           <div class="compact-control-menu">
-            <button data-type="candle" class="active"><span class="btn-main">K线</span><span class="btn-sub">Candle</span></button>
-            <button data-type="line"><span class="btn-main">折线</span><span class="btn-sub">Line</span></button>
+            <button data-type="line" class="active"><span class="btn-main">走势</span><span class="btn-sub">Line</span></button>
+            <button data-type="candle"><span class="btn-main">K线</span><span class="btn-sub">Candle</span></button>
           </div>
         </details>
       </div>
@@ -1960,7 +1960,7 @@
     let dataPool = null;         // all fetched components; portfolios filter from this pool
     let rawData = null;          // normalized components, FX, benchmark, and macro curves
     let currentPeriod = "D";
-    let currentType = "candle";
+    let currentType = "line";
     let currentCurrency = "USD"; // industry-standard default for global indices
     let currentRebalance = "PERIODIC";
     let currentPeriodDays = 5;          // 5 trading days = 1 calendar week
@@ -2597,8 +2597,8 @@
       }[currentPeriod] || t("日", "Day");
       document.querySelector("#type-group .control-group-label").textContent = t("图形", "Chart");
       document.querySelector('#type-group button[data-type="candle"] .btn-main').textContent = t("K线", "Candle");
-      document.querySelector('#type-group button[data-type="line"] .btn-main').textContent = t("折线", "Line");
-      document.getElementById("type-current").textContent = currentType === "line" ? t("折线", "Line") : t("K线", "Candle");
+      document.querySelector('#type-group button[data-type="line"] .btn-main').textContent = t("走势", "Line");
+      document.getElementById("type-current").textContent = currentType === "line" ? t("走势", "Line") : t("K线", "Candle");
       document.querySelector("#asset-group .control-group-label").textContent = t("标的", "Asset");
       renderAssetButtons();
       document.querySelector('#asset-group button[data-asset="INDEX"] .btn-main').textContent = t("指数", "Index");
