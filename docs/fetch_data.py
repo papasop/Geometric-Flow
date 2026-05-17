@@ -106,6 +106,7 @@ COMPONENTS = [
     {"name": "Microsoft", "short": "MSFT", "ticker": "MSFT", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "Broadcom", "short": "AVGO", "ticker": "AVGO", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "Marvell Technology", "short": "MRVL", "ticker": "MRVL", "ccy": "USD", "sleeve": "US", "status": "active"},
+    {"name": "ARM Holdings", "short": "ARM", "ticker": "ARM", "ccy": "USD", "sleeve": "UK", "status": "active"},
     {"name": "Oracle", "short": "ORCL", "ticker": "ORCL", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "Alphabet", "short": "GOOG", "ticker": "GOOG", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "Shopify", "short": "SHOP", "ticker": "SHOP", "ccy": "USD", "sleeve": "CA", "status": "active"},
@@ -675,7 +676,7 @@ TICKER_CONTINUATIONS = {
 
 AI_CLOUD_ONLY = {
     "NBIS", "CRWV", "IREN", "APLD", "WULF", "HUT", "CORZ", "DLR", "VNET", "LAMBDA", "CLICKHOUSE", "CURSOR",
-    "MSFT", "NOW", "AVGO", "MRVL", "LOTUSAI", "SLINGSHOTAI", "GETDYNASTY", "E2B", "ETCHEDAI",
+    "MSFT", "NOW", "AVGO", "MRVL", "ARM", "LOTUSAI", "SLINGSHOTAI", "GETDYNASTY", "E2B", "ETCHEDAI",
 }
 
 COMPONENTS = [
@@ -689,10 +690,11 @@ TARGET_WEIGHTS = {
 }
 for ticker in ("NBIS", "CRWV", "IREN", "APLD", "WULF", "HUT", "CORZ", "DLR", "VNET"):
     TARGET_WEIGHTS[ticker] = 1 / 9
-TARGET_WEIGHTS["NOW"] = 0.2
-TARGET_WEIGHTS["MSFT"] = 0.2
-TARGET_WEIGHTS["AVGO"] = 0.2
-TARGET_WEIGHTS["MRVL"] = 0.2
+TARGET_WEIGHTS["NOW"] = 1 / 6
+TARGET_WEIGHTS["MSFT"] = 1 / 6
+TARGET_WEIGHTS["AVGO"] = 1 / 6
+TARGET_WEIGHTS["MRVL"] = 1 / 6
+TARGET_WEIGHTS["ARM"] = 1 / 6
 TARGET_WEIGHTS["LAMBDA"] = 0.0
 TARGET_WEIGHTS["CLICKHOUSE"] = 0.0
 TARGET_WEIGHTS["CURSOR"] = 0.0
