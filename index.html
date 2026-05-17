@@ -1887,10 +1887,10 @@
       "ai-agent-prelist": {
         name: "AI Agent",
         nameEn: "AI Agent Portfolio",
-        tag: "上市锚定 · NBIS / NOW / MSFT / AVGO / MRVL · 预上市观察 Etched AI / E2B / Slingshot AI / GetDynasty / Lotus AI",
-        tagEn: "LISTED ANCHORS · NBIS / NOW / MSFT / AVGO / MRVL · PRE-LISTING WATCH ETCHED AI / E2B / SLINGSHOT AI / GETDYNASTY / LOTUS AI",
-        footer: "以 Nebius、ServiceNow、Microsoft、Broadcom 与 Marvell 五只上市公司等权跟踪 AI Agent 平台化落地，同时保留 Etched AI、E2B、Slingshot AI、GetDynasty 与 Lotus AI 五家预上市观察项。",
-        footerEn: "Tracks AI-agent platform adoption through equal-weighted listed anchors Nebius, ServiceNow, Microsoft, Broadcom, and Marvell, while keeping Etched AI, E2B, Slingshot AI, GetDynasty, and Lotus AI as pre-listing watch names.",
+        tag: "上市锚定 · NBIS / NOW / MSFT / AVGO / MRVL / ARM · 预上市观察 Etched AI / E2B / Slingshot AI / GetDynasty / Lotus AI",
+        tagEn: "LISTED ANCHORS · NBIS / NOW / MSFT / AVGO / MRVL / ARM · PRE-LISTING WATCH ETCHED AI / E2B / SLINGSHOT AI / GETDYNASTY / LOTUS AI",
+        footer: "以 Nebius、ServiceNow、Microsoft、Broadcom、Marvell 与 ARM 六只上市公司等权跟踪 AI Agent 平台化落地，同时保留 Etched AI、E2B、Slingshot AI、GetDynasty 与 Lotus AI 五家预上市观察项。",
+        footerEn: "Tracks AI-agent platform adoption through equal-weighted listed anchors Nebius, ServiceNow, Microsoft, Broadcom, Marvell, and ARM, while keeping Etched AI, E2B, Slingshot AI, GetDynasty, and Lotus AI as pre-listing watch names.",
         componentsTitle: "成分股/预上市公司 · 各自代表的 AI Agent 子赛道",
         componentsTitleEn: "LISTED AND PRE-LISTING NAMES · AI agent subsector represented by each holding",
         equalWeightTradable: true,
@@ -1900,26 +1900,30 @@
           { zh: "AI Agent", en: "AI Agent" },
         ],
         components: [
-          { name: "Nebius Group", short: "NBIS", ticker: "NBIS", weight: 1 / 5, ccy: "USD", sleeve: "US", status: "active",
+          { name: "Nebius Group", short: "NBIS", ticker: "NBIS", weight: 1 / 6, ccy: "USD", sleeve: "US", status: "active",
             concept: "AI 云与 Agent 算力基础设施",
             conceptEn: "AI cloud and agent compute infrastructure",
             marketCap: 0, seed: 73007, base: 80, vol: 0.040, drift: 0.00032 },
-          { name: "ServiceNow", short: "NOW", ticker: "NOW", weight: 1 / 5, ccy: "USD", sleeve: "US", status: "active",
+          { name: "ServiceNow", short: "NOW", ticker: "NOW", weight: 1 / 6, ccy: "USD", sleeve: "US", status: "active",
             concept: "企业工作流 AI Agent 平台",
             conceptEn: "Enterprise workflow AI agent platform",
             marketCap: 0, seed: 73005, base: 92, vol: 0.025, drift: 0.00022 },
-          { name: "Microsoft", short: "MSFT", ticker: "MSFT", weight: 1 / 5, ccy: "USD", sleeve: "US", status: "active",
+          { name: "Microsoft", short: "MSFT", ticker: "MSFT", weight: 1 / 6, ccy: "USD", sleeve: "US", status: "active",
             concept: "Copilot 与企业 Agent 平台",
             conceptEn: "Copilot and enterprise agent platform",
             marketCap: 0, seed: 73006, base: 95, vol: 0.020, drift: 0.00020 },
-          { name: "Broadcom", short: "AVGO", ticker: "AVGO", weight: 1 / 5, ccy: "USD", sleeve: "US", status: "active",
+          { name: "Broadcom", short: "AVGO", ticker: "AVGO", weight: 1 / 6, ccy: "USD", sleeve: "US", status: "active",
             concept: "定制 AI ASIC 与 TPU 供应链",
             conceptEn: "Custom AI ASIC and TPU supply chain",
             marketCap: 0, seed: 73009, base: 100, vol: 0.030, drift: 0.00025 },
-          { name: "Marvell Technology", short: "MRVL", ticker: "MRVL", weight: 1 / 5, ccy: "USD", sleeve: "US", status: "active",
+          { name: "Marvell Technology", short: "MRVL", ticker: "MRVL", weight: 1 / 6, ccy: "USD", sleeve: "US", status: "active",
             concept: "定制 AI ASIC 与数据中心互连芯片",
             conceptEn: "Custom AI ASIC and data-center interconnect chips",
             marketCap: 0, seed: 73010, base: 75, vol: 0.035, drift: 0.00024 },
+          { name: "ARM Holdings", short: "ARM", ticker: "ARM", weight: 1 / 6, ccy: "USD", sleeve: "UK", status: "active",
+            concept: "AI 芯片 IP 架构与边缘 Agent 生态",
+            conceptEn: "AI chip IP architecture and edge-agent ecosystem",
+            marketCap: 0, seed: 73011, base: 90, vol: 0.035, drift: 0.00024 },
           { name: "Etched AI", short: "ETCHEDAI", ticker: "ETCHEDAI", weight: 0, ccy: "USD", sleeve: "US", status: "prelist",
             concept: "Transformer / Agent 推理专用 AI 芯片",
             conceptEn: "Transformer and agent-inference AI chip",
@@ -1983,8 +1987,8 @@
         headerEn: "AI Agent Portfolio Milestones",
         milestones: [
           { date: "2026-05-17", category: "ai", label: "加入 AI Agent 上市锚定成分", en: "Listed AI-agent anchors added",
-            desc: "加入 Nebius、ServiceNow、Microsoft、Broadcom、Marvell 五只上市锚定成分，并保留 Etched AI、E2B、Slingshot AI、GetDynasty 与 Lotus AI 预上市观察项。",
-            desc_en: "Adds Nebius, ServiceNow, Microsoft, Broadcom, and Marvell as listed AI-agent anchor constituents while keeping Etched AI, E2B, Slingshot AI, GetDynasty, and Lotus AI as pre-listing watch names." },
+            desc: "加入 Nebius、ServiceNow、Microsoft、Broadcom、Marvell、ARM 六只上市锚定成分，并保留 Etched AI、E2B、Slingshot AI、GetDynasty 与 Lotus AI 预上市观察项。",
+            desc_en: "Adds Nebius, ServiceNow, Microsoft, Broadcom, Marvell, and ARM as listed AI-agent anchor constituents while keeping Etched AI, E2B, Slingshot AI, GetDynasty, and Lotus AI as pre-listing watch names." },
         ],
       }
     };
@@ -1998,9 +2002,9 @@
       { source: "AI Cloud · Components", zhSource: "AI 新云 · 成分股", enSource: "AI Cloud · Components", url: "https://news.google.com/search?q=Nebius%20OR%20NBIS%20OR%20CoreWeave%20OR%20CRWV%20OR%20IREN%20OR%20Applied%20Digital%20OR%20APLD%20OR%20TeraWulf%20OR%20WULF%20OR%20Hut%208%20OR%20HUT%20OR%20Core%20Scientific%20OR%20CORZ%20OR%20Digital%20Realty%20OR%20DLR%20OR%20VNET%20OR%20%E4%B8%96%E7%BA%AA%E4%BA%92%E8%BF%9E%20OR%20Lambda%20Labs%20OR%20ClickHouse%20OR%20Cursor%20AI%20OR%20Anysphere%20OR%20GPU%20cloud%20OR%20AI%20data%20center",
         matchedPortfolios: ["ai-cloud"], titleZh: "AI 新云成分股新闻监控", titleEn: "AI Cloud constituents news monitor",
         summaryZh: "当实时新闻未命中时，作为 AI 新云组合的备用新闻源，匹配 AI 云、GPU 算力、矿场转型 AI 数据中心、数据中心 REITs、Lambda Labs、ClickHouse 与 Cursor 主题。", summaryEn: "Fallback monitor for the AI Cloud Portfolio, matching AI cloud, GPU compute, miner-to-AI data centers, data-center REITs, Lambda Labs, ClickHouse, and Cursor themes." },
-      { source: "AI Agent · Components", zhSource: "AI Agent · 成分股", enSource: "AI Agent · Components", url: "https://news.google.com/search?q=Nebius%20OR%20NBIS%20OR%20ServiceNow%20OR%20%22NOW%20stock%22%20OR%20%22NYSE%20NOW%22%20OR%20Microsoft%20Copilot%20OR%20MSFT%20OR%20Broadcom%20OR%20AVGO%20OR%20Marvell%20OR%20MRVL%20OR%20%22custom%20AI%20ASIC%22%20OR%20%22Etched%20AI%22%20OR%20%22Lotus%20AI%22%20OR%20%22Slingshot%20AI%22%20OR%20%22GetDynasty%22%20OR%20%22E2B%22%20%22AI%20sandbox%22%20OR%20%22AI%20agent%22",
+      { source: "AI Agent · Components", zhSource: "AI Agent · 成分股", enSource: "AI Agent · Components", url: "https://news.google.com/search?q=Nebius%20OR%20NBIS%20OR%20ServiceNow%20OR%20%22NOW%20stock%22%20OR%20%22NYSE%20NOW%22%20OR%20Microsoft%20Copilot%20OR%20MSFT%20OR%20Broadcom%20OR%20AVGO%20OR%20Marvell%20OR%20MRVL%20OR%20%22ARM%20Holdings%22%20OR%20%22ARM%20stock%22%20OR%20%22custom%20AI%20ASIC%22%20OR%20%22Etched%20AI%22%20OR%20%22Lotus%20AI%22%20OR%20%22Slingshot%20AI%22%20OR%20%22GetDynasty%22%20OR%20%22E2B%22%20%22AI%20sandbox%22%20OR%20%22AI%20agent%22",
         matchedPortfolios: ["ai-agent-prelist"], titleZh: "AI Agent 成分股新闻监控", titleEn: "AI Agent constituents news monitor",
-        summaryZh: "当实时新闻未命中时，作为 AI Agent 组合的备用新闻源，匹配 Nebius、ServiceNow、Microsoft Copilot、Broadcom、Marvell、Etched AI、E2B、Slingshot AI、GetDynasty、Lotus AI、AI 运行沙盒与 Agent 垂直应用主题。", summaryEn: "Fallback monitor for the AI Agent portfolio, matching Nebius, ServiceNow, Microsoft Copilot, Broadcom, Marvell, Etched AI, E2B, Slingshot AI, GetDynasty, Lotus AI, AI runtime sandbox, and agent vertical-application themes." }
+        summaryZh: "当实时新闻未命中时，作为 AI Agent 组合的备用新闻源，匹配 Nebius、ServiceNow、Microsoft Copilot、Broadcom、Marvell、ARM、Etched AI、E2B、Slingshot AI、GetDynasty、Lotus AI、AI 运行沙盒与 Agent 垂直应用主题。", summaryEn: "Fallback monitor for the AI Agent portfolio, matching Nebius, ServiceNow, Microsoft Copilot, Broadcom, Marvell, ARM, Etched AI, E2B, Slingshot AI, GetDynasty, Lotus AI, AI runtime sandbox, and agent vertical-application themes." }
     ];
 
     async function loadData() {
@@ -2489,9 +2493,9 @@
       ],
       "ai-agent-prelist": [
         "ai agent", "agentic ai", "ai sandbox", "runtime sandbox", "developer agents",
-        "nebius", "nebius group", "nbis", "servicenow", "service now", "now stock", "nyse now", "microsoft", "msft", "copilot", "microsoft copilot", "broadcom", "avgo", "marvell", "mrvl", "custom ai asic", "ai asic", "tpu", "trainium", "inferentia", "autonomous agents", "enterprise agent platform",
+        "nebius", "nebius group", "nbis", "servicenow", "service now", "now stock", "nyse now", "microsoft", "msft", "copilot", "microsoft copilot", "broadcom", "avgo", "marvell", "mrvl", "arm holdings", "arm stock", "arm architecture", "custom ai asic", "ai asic", "tpu", "trainium", "inferentia", "autonomous agents", "enterprise agent platform",
         "etched ai", "etched", "ai inference chip", "transformer chip", "lotus ai", "slingshot ai", "getdynasty", "e2b", "agent infrastructure", "workflow automation", "mental health ai", "legal ai",
-        "AI Agent", "智能体", "运行沙盒", "开发者智能体", "企业工作流", "AI 推理芯片", "定制 ASIC", "数据中心互连", "心理咨询", "法律服务", "Nebius", "NBIS", "ServiceNow", "Microsoft", "Copilot", "Broadcom", "AVGO", "Marvell", "MRVL", "Etched AI", "Lotus AI", "Slingshot AI", "GetDynasty", "E2B"
+        "AI Agent", "智能体", "运行沙盒", "开发者智能体", "企业工作流", "AI 推理芯片", "定制 ASIC", "芯片 IP", "边缘 AI", "数据中心互连", "心理咨询", "法律服务", "Nebius", "NBIS", "ServiceNow", "Microsoft", "Copilot", "Broadcom", "AVGO", "Marvell", "MRVL", "ARM Holdings", "ARM", "Etched AI", "Lotus AI", "Slingshot AI", "GetDynasty", "E2B"
       ],
     };
 
