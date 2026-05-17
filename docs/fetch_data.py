@@ -257,6 +257,7 @@ COMPONENTS = [
     {"name": "Slingshot AI", "short": "SLINGSHOTAI", "ticker": "SLINGSHOTAI", "ccy": "USD", "sleeve": "US", "status": "prelist"},
     {"name": "GetDynasty", "short": "GETDYNASTY", "ticker": "GETDYNASTY", "ccy": "USD", "sleeve": "US", "status": "prelist"},
     {"name": "E2B", "short": "E2B", "ticker": "E2B", "ccy": "USD", "sleeve": "US", "status": "prelist"},
+    {"name": "Etched AI", "short": "ETCHEDAI", "ticker": "ETCHEDAI", "ccy": "USD", "sleeve": "US", "status": "prelist"},
     {"name": "\u62fc\u591a\u591a", "short": "PDD", "ticker": "PDD", "ccy": "USD", "sleeve": "CN", "status": "active"},
     {"name": "\u7ebd\u7ea6\u65f6\u62a5", "short": "NYT", "ticker": "NYT", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "\u8d35\u5dde\u8305\u53f0", "short": "MOUTAI", "ticker": "600519.SS", "ccy": "CNY", "sleeve": "CN", "status": "active"},
@@ -522,6 +523,7 @@ TARGET_WEIGHTS = {
     "SLINGSHOTAI": 0.0,
     "GETDYNASTY": 0.0,
     "E2B": 0.0,
+    "ETCHEDAI": 0.0,
     "PDD": 0.0,
     "NYT": 0.0,
     "600519.SS": 0.0,
@@ -663,6 +665,7 @@ TICKER_CONTINUATIONS = {
     "SLINGSHOTAI": ["SLINGSHOTAI"],
     "GETDYNASTY": ["GETDYNASTY"],
     "E2B": ["E2B"],
+    "ETCHEDAI": ["ETCHEDAI"],
     # Hong Kong exchange codes are sometimes entered with a leading zero in the
     # UI, while Yahoo's chart endpoint uses the four-digit exchange code.
     "02498.HK": ["2498.HK"],
@@ -670,7 +673,7 @@ TICKER_CONTINUATIONS = {
 
 AI_CLOUD_ONLY = {
     "NBIS", "CRWV", "IREN", "APLD", "WULF", "HUT", "CORZ", "DLR", "VNET", "LAMBDA", "CLICKHOUSE", "CURSOR",
-    "MSFT", "NOW", "LOTUSAI", "SLINGSHOTAI", "GETDYNASTY", "E2B",
+    "MSFT", "NOW", "LOTUSAI", "SLINGSHOTAI", "GETDYNASTY", "E2B", "ETCHEDAI",
 }
 
 COMPONENTS = [
@@ -693,6 +696,7 @@ TARGET_WEIGHTS["LOTUSAI"] = 0.0
 TARGET_WEIGHTS["SLINGSHOTAI"] = 0.0
 TARGET_WEIGHTS["GETDYNASTY"] = 0.0
 TARGET_WEIGHTS["E2B"] = 0.0
+TARGET_WEIGHTS["ETCHEDAI"] = 0.0
 
 TICKER_CONTINUATIONS = {
     key: value for key, value in TICKER_CONTINUATIONS.items()
