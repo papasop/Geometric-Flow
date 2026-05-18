@@ -219,25 +219,9 @@
     tbody tr:hover, tbody tr.active { background: #f8fbff; }
     .rank { color: #6b7280; font-weight: 780; width: 44px; }
     .company-cell {
-      display: grid;
-      grid-template-columns: 34px minmax(0, 1fr);
-      gap: 10px;
+      display: block;
       align-items: center;
-      min-width: 280px;
-    }
-    .logo {
-      width: 34px;
-      height: 34px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #eef4ff, #dbeafe);
-      color: #fff;
-      border: 1px solid rgba(15, 23, 42, 0.05);
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.36);
-      font-size: 11px;
-      font-weight: 900;
+      min-width: 245px;
     }
     .company-line { display: flex; align-items: baseline; gap: 6px; }
     .company-name { color: var(--text); font-weight: 820; }
@@ -595,16 +579,6 @@
     function yahooLink(ticker) {
       return `https://finance.yahoo.com/quote/${encodeURIComponent(ticker)}`;
     }
-    function logoText(row) {
-      return row.ticker.replace(/[^A-Z0-9]/g, "").slice(0, 3);
-    }
-    function logoHue(row) {
-      return Array.from(row.ticker).reduce((sum, char) => sum + char.charCodeAt(0), 0) % 360;
-    }
-    function logoStyle(row) {
-      const hue = logoHue(row);
-      return `background:linear-gradient(135deg,hsl(${hue} 72% 47%),hsl(${(hue + 42) % 360} 78% 58%));`;
-    }
     function formatChange(value) {
       if (!Number.isFinite(value)) return `<span class="change">—</span>`;
       const arrow = value >= 0 ? "▲" : "▼";
@@ -668,7 +642,6 @@
           <td class="rank">${idx + 1}</td>
           <td>
             <div class="company-cell">
-              <span class="logo" style="${logoStyle(row)}">${logoText(row)}</span>
               <span>
                 <span class="company-line"><span class="company-name">${row.name}</span><span class="ticker">${row.ticker}</span></span>
                 <div class="subtext">${row.category}</div>
