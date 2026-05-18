@@ -678,8 +678,7 @@ TICKER_CONTINUATIONS = {
 }
 
 AI_CLOUD_ONLY = {
-    "NBIS", "CRWV", "IREN", "APLD", "WULF", "HUT", "CORZ", "DLR", "VNET", "LAMBDA", "CLICKHOUSE", "CURSOR",
-    "MSFT", "NOW", "AVGO", "MRVL", "ARM", "LOTUSAI", "SLINGSHOTAI", "GETDYNASTY", "E2B", "ETCHEDAI", "ROCKETFOUND",
+    "NBIS", "VNET",
 }
 
 COMPONENTS = [
@@ -691,22 +690,8 @@ TARGET_WEIGHTS = {
     key: value for key, value in TARGET_WEIGHTS.items()
     if key in AI_CLOUD_ONLY
 }
-for ticker in ("NBIS", "CRWV", "IREN", "APLD", "WULF", "HUT", "CORZ", "DLR", "VNET"):
-    TARGET_WEIGHTS[ticker] = 1 / 9
-TARGET_WEIGHTS["NOW"] = 1 / 6
-TARGET_WEIGHTS["MSFT"] = 1 / 6
-TARGET_WEIGHTS["AVGO"] = 1 / 6
-TARGET_WEIGHTS["MRVL"] = 1 / 6
-TARGET_WEIGHTS["ARM"] = 1 / 6
-TARGET_WEIGHTS["LAMBDA"] = 0.0
-TARGET_WEIGHTS["CLICKHOUSE"] = 0.0
-TARGET_WEIGHTS["CURSOR"] = 0.0
-TARGET_WEIGHTS["LOTUSAI"] = 0.0
-TARGET_WEIGHTS["SLINGSHOTAI"] = 0.0
-TARGET_WEIGHTS["GETDYNASTY"] = 0.0
-TARGET_WEIGHTS["E2B"] = 0.0
-TARGET_WEIGHTS["ETCHEDAI"] = 0.0
-TARGET_WEIGHTS["ROCKETFOUND"] = 0.0
+TARGET_WEIGHTS["NBIS"] = 0.5
+TARGET_WEIGHTS["VNET"] = 0.5
 
 TICKER_CONTINUATIONS = {
     key: value for key, value in TICKER_CONTINUATIONS.items()
@@ -855,8 +840,8 @@ def main():
         if component.get("status", "active") == "active":
             market_caps_local[ticker] = fetch_market_cap(ticker)
 
-    # 2) Anchor calendar = IREN, preserving the original AI Cloud T0 window.
-    anchor_component = next(component for component in COMPONENTS if component["ticker"] == "IREN")
+    # 2) Anchor calendar = NBIS, preserving the current AI Cloud component window.
+    anchor_component = next(component for component in COMPONENTS if component["ticker"] == "NBIS")
     anchor = fetched[anchor_component["ticker"]]
     if anchor.empty:
         raise SystemExit("Anchor component data missing; cannot establish anchor calendar.")

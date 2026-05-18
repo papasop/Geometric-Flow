@@ -99,8 +99,7 @@ OFFICIAL_SOURCES = [
     {"name": "Brand News · JNBY", "url": "https://news.google.com/rss/search?q=%22Jiangnan%20Buyi%22&hl=en-US&gl=US&ceid=US:en"},
     {"name": "Brand News · PDD", "url": "https://news.google.com/rss/search?q=%22PDD%20Holdings%22%20OR%20Pinduoduo%20OR%20Temu&hl=en-US&gl=US&ceid=US:en"},
     {"name": "China Robotics · Components", "url": "https://news.google.com/rss/search?q=%22Tsugami%20China%22%20OR%20%22%E6%B4%A5%E4%B8%8A%E6%9C%BA%E5%BA%8A%E4%B8%AD%E5%9B%BD%22%20OR%20%2201651.HK%22%20OR%20%22RoboSense%22%20OR%20%22%E9%80%9F%E8%85%BE%E8%81%9A%E5%88%9B%22%20OR%20%2202498.HK%22%20OR%20%22robotics%22%20OR%20%22%E6%9C%BA%E5%99%A8%E4%BA%BA%22&hl=en-US&gl=US&ceid=US:en"},
-    {"name": "AI Cloud · Components", "url": "https://news.google.com/rss/search?q=%22Nebius%22%20OR%20%22NBIS%22%20OR%20%22CoreWeave%22%20OR%20%22CRWV%22%20OR%20%22IREN%22%20OR%20%22Applied%20Digital%22%20OR%20%22APLD%22%20OR%20%22TeraWulf%22%20OR%20%22WULF%22%20OR%20%22Hut%208%22%20OR%20%22HUT%22%20OR%20%22Core%20Scientific%22%20OR%20%22CORZ%22%20OR%20%22Digital%20Realty%22%20OR%20%22DLR%22%20OR%20%22VNET%22%20OR%20%22%E4%B8%96%E7%BA%AA%E4%BA%92%E8%BF%9E%22%20OR%20%22Lambda%20Labs%22%20OR%20%22GPU%20cloud%22%20OR%20%22AI%20data%20center%22&hl=en-US&gl=US&ceid=US:en"},
-    {"name": "AI Agent · Components", "url": "https://news.google.com/rss/search?q=%22Nebius%22%20OR%20%22NBIS%22%20OR%20%22ServiceNow%22%20OR%20%22NOW%20stock%22%20OR%20%22NYSE%20NOW%22%20OR%20%22Microsoft%20Copilot%22%20OR%20%22MSFT%22%20OR%20%22Broadcom%22%20OR%20%22AVGO%22%20OR%20%22Marvell%22%20OR%20%22MRVL%22%20OR%20%22ARM%20Holdings%22%20OR%20%22ARM%20stock%22%20OR%20%22custom%20AI%20ASIC%22%20OR%20%22RocketFound%22%20OR%20%22Etched%20AI%22%20OR%20%22Lotus%20AI%22%20OR%20%22Slingshot%20AI%22%20OR%20%22GetDynasty%22%20OR%20%22E2B%22%20%22AI%20sandbox%22%20OR%20%22AI%20agent%22&hl=en-US&gl=US&ceid=US:en"},
+    {"name": "AI Cloud · Components", "url": "https://news.google.com/rss/search?q=%22Nebius%22%20OR%20%22NBIS%22%20OR%20%22VNET%22%20OR%20%22%E4%B8%96%E7%BA%AA%E4%BA%92%E8%BF%9E%22%20OR%20%22AI%20cloud%22%20OR%20%22AI%20data%20center%22&hl=en-US&gl=US&ceid=US:en"},
     {"name": "Huawei Hubble · Components", "url": "https://news.google.com/rss/search?q=%22Huawei%20Hubble%22%20OR%20%22%E5%8D%8E%E4%B8%BA%E5%93%88%E5%8B%83%22%20OR%20%22Tianyue%20Advanced%22%20OR%20%223Peak%22%20OR%20%22JoulWatt%22%20OR%20%22Vanchip%22%20OR%20%22Focuslight%22%20OR%20%22Motorcomm%22%20OR%20%22HHCK%22%20OR%20%22Keli%20Motor%22%20OR%20%22Piotech%22%20OR%20%22Castech%22%20OR%20%22SuperFusion%22%20OR%20%22Semitronix%22%20OR%20%22Yinwang%22%20OR%20%22ModelBest%22%20OR%20%22Qianxun%20Intelligence%22%20OR%20%22GeekSight%22%20OR%20%22%E5%A4%A9%E5%B2%B3%E5%85%88%E8%BF%9B%22%20OR%20%22%E6%80%9D%E7%91%9E%E6%B5%A6%22%20OR%20%22%E4%B8%9C%E8%8A%AF%E8%82%A1%E4%BB%BD%22%20OR%20%22%E6%9D%B0%E5%8D%8E%E7%89%B9%22%20OR%20%22%E5%8D%8E%E6%B5%B7%E8%AF%9A%E7%A7%91%22%20OR%20%22%E7%81%BF%E5%8B%A4%E7%A7%91%E6%8A%80%22%20OR%20%22%E7%82%AC%E5%85%89%E7%A7%91%E6%8A%80%22%20OR%20%22%E8%B5%9B%E7%9B%AE%E7%A7%91%E6%8A%80%22%20OR%20%22%E7%A7%91%E5%8A%9B%E5%B0%94%22%20OR%20%22%E6%8B%93%E8%8D%86%E7%A7%91%E6%8A%80%22%20OR%20%22%E7%A6%8F%E6%99%B6%E7%A7%91%E6%8A%80%20OR%20%E8%B6%85%E8%81%9A%E5%8F%98%20OR%20%E8%B5%9B%E7%BE%8E%E7%89%B9%20OR%20%E5%BC%95%E6%9C%9B%20OR%20%E9%9D%A2%E5%A3%81%E6%99%BA%E8%83%BD%20OR%20%E5%8D%83%E5%AF%BB%E6%99%BA%E8%83%BD%20OR%20%E6%9E%81%E4%BD%B3%E8%A7%86%E7%95%8C%22&hl=en-US&gl=US&ceid=US:en"},
 ]
 
@@ -127,17 +126,9 @@ PORTFOLIO_KEYWORDS = {
         "津上机床中国", "津上机床", "速腾聚创", "激光雷达", "机器人视觉", "数控机床",
     ],
     "ai-cloud": [
-        "ai cloud", "gpu cloud", "gpu compute", "ai infrastructure", "data center",
-        "nebius", "nebius group", "nbis", "coreweave", "crwv", "iren", "applied digital", "apld", "terawulf", "wulf", "hut 8", "hut", "core scientific", "corz", "digital realty", "dlr", "vnet", "vnet group", "世纪互连", "lambda labs", "lambda", "clickhouse", "cursor ai", "cursor code editor", "anysphere",
-        "cloud gpu", "accelerated compute", "ai data center", "renewable compute", "data center reit", "liquid cooling", "real-time analytics database",
-        "AI 云", "GPU 云", "AI 基础设施", "数据中心", "算力租赁",
-        "Nebius", "CoreWeave", "IREN", "Applied Digital", "TeraWulf", "Hut 8", "Core Scientific", "Digital Realty", "VNET", "世纪互连", "Lambda Labs", "ClickHouse", "Cursor", "Anysphere", "新云", "AI 新云",
-    ],
-    "ai-agent-prelist": [
-        "ai agent", "agentic ai", "ai sandbox", "runtime sandbox", "developer agents",
-        "nebius", "nebius group", "nbis", "servicenow", "service now", "now stock", "nyse now", "microsoft", "msft", "copilot", "microsoft copilot", "broadcom", "avgo", "marvell", "mrvl", "arm holdings", "arm stock", "arm architecture", "custom ai asic", "ai asic", "tpu", "trainium", "inferentia", "autonomous agents", "enterprise agent platform",
-        "rocketfound", "rocketfound ai", "etched ai", "etched", "ai inference chip", "transformer chip", "lotus ai", "slingshot ai", "getdynasty", "e2b", "agent infrastructure", "workflow automation", "mental health ai", "legal ai",
-        "AI Agent", "智能体", "运行沙盒", "开发者智能体", "企业工作流", "AI 推理芯片", "定制 ASIC", "芯片 IP", "边缘 AI", "数据中心互连", "心理咨询", "法律服务", "Nebius", "NBIS", "ServiceNow", "Microsoft", "Copilot", "Broadcom", "AVGO", "Marvell", "MRVL", "ARM Holdings", "ARM", "RocketFound", "Etched AI", "Lotus AI", "Slingshot AI", "GetDynasty", "E2B",
+        "ai cloud", "ai infrastructure", "data center", "ai data center",
+        "nebius", "nebius group", "nbis", "vnet", "vnet group", "世纪互连",
+        "AI 云", "AI 基础设施", "数据中心", "Nebius", "VNET", "世纪互连", "新云", "AI 新云",
     ],
     "huawei": [
         "huawei", "hubble", "huawei hubble", "semiconductor", "sic", "silicon carbide",
@@ -237,7 +228,6 @@ SOURCE_PORTFOLIO_MATCHES = {
     "Brand News · PDD": ["brand"],
     "China Robotics · Components": ["china-robotics"],
     "AI Cloud · Components": ["ai-cloud"],
-    "AI Agent · Components": ["ai-agent-prelist"],
     "Huawei Hubble · Components": ["huawei"],
     "MP Materials IR": ["us-rare-earth"],
     "Rare Earth News · Industry": ["us-rare-earth"],
@@ -252,51 +242,10 @@ AI_CLOUD_NEWS_COMPANIES = [
         "terms": ["Nebius Group", "Nebius", "NBIS"],
     },
     {
-        "source": "AI Cloud · CoreWeave",
-        "terms": ["CoreWeave", "CRWV"],
-    },
-    {
-        "source": "AI Cloud · IREN",
-        "terms": ["IREN", "IREN Limited", "Iris Energy"],
-    },
-    {
-        "source": "AI Cloud · Applied Digital",
-        "terms": ["Applied Digital", "APLD"],
-    },
-    {
-        "source": "AI Cloud · TeraWulf",
-        "terms": ["TeraWulf", "WULF", "Lake Mariner"],
-    },
-    {
-        "source": "AI Cloud · Hut 8",
-        "terms": ["Hut 8", "HUT"],
-    },
-    {
-        "source": "AI Cloud · Core Scientific",
-        "terms": ["Core Scientific", "CORZ"],
-    },
-    {
-        "source": "AI Cloud · Digital Realty",
-        "terms": ["Digital Realty", "DLR"],
-    },
-    {
         "source": "AI Cloud · VNET",
         "terms": ["VNET", "VNET Group", "\u4e16\u7eaa\u4e92\u8fde"],
     },
-    {
-        "source": "AI Cloud · Lambda Labs",
-        "terms": ["Lambda Labs", "Lambda GPU cloud"],
-    },
-    {
-        "source": "AI Cloud · ClickHouse",
-        "terms": ["ClickHouse", "ClickHouse IPO", "ClickHouse database"],
-    },
-    {
-        "source": "AI Cloud · Cursor",
-        "terms": ["Cursor AI", "Cursor code editor", "Anysphere"],
-    },
 ]
-
 
 def google_news_source(name: str, terms: list[str]) -> dict[str, str]:
     query = " OR ".join(f'"{term}"' for term in terms)
@@ -312,14 +261,12 @@ def google_news_source(name: str, terms: list[str]) -> dict[str, str]:
 
 AI_CLOUD_THEME_SOURCES = [
     google_news_source("AI Cloud · Components", [
-        "Nebius", "NBIS", "CoreWeave", "CRWV", "IREN", "Applied Digital", "APLD",
-        "TeraWulf", "WULF", "Hut 8", "HUT", "Core Scientific", "CORZ",
-        "Digital Realty", "DLR", "VNET", "\u4e16\u7eaa\u4e92\u8fde", "Lambda Labs", "ClickHouse", "Cursor AI", "Anysphere",
+        "Nebius", "NBIS", "VNET", "\u4e16\u7eaa\u4e92\u8fde", "AI cloud", "AI data center",
     ]),
     google_news_source("AI Cloud · Infrastructure", [
-        "GPU cloud", "AI data center", "AI infrastructure", "liquid cooling",
-        "data center power", "neocloud",
+        "AI cloud", "AI data center", "AI infrastructure",
     ]),
+
 ]
 
 OFFICIAL_SOURCES = [
