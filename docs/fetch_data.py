@@ -253,7 +253,6 @@ COMPONENTS = [
     {"name": "Core Scientific", "short": "CORZ", "ticker": "CORZ", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "Digital Realty", "short": "DLR", "ticker": "DLR", "ccy": "USD", "sleeve": "US", "status": "active"},
     {"name": "\u4e16\u7eaa\u4e92\u8fde", "short": "VNET", "ticker": "VNET", "ccy": "USD", "sleeve": "CN", "status": "active"},
-    {"name": "Lambda Labs", "short": "LAMBDA", "ticker": "LAMBDA", "ccy": "USD", "sleeve": "US", "status": "prelist"},
     {"name": "ClickHouse", "short": "CLICKHOUSE", "ticker": "CLICKHOUSE", "ccy": "USD", "sleeve": "US", "status": "prelist"},
     {"name": "Cursor", "short": "CURSOR", "ticker": "CURSOR", "ccy": "USD", "sleeve": "US", "status": "prelist"},
     {"name": "Lotus AI", "short": "LOTUSAI", "ticker": "LOTUSAI", "ccy": "USD", "sleeve": "US", "status": "prelist"},
@@ -520,7 +519,6 @@ TARGET_WEIGHTS = {
     "CORZ": 0.0,
     "DLR": 0.0,
     "VNET": 0.0,
-    "LAMBDA": 0.0,
     "CLICKHOUSE": 0.0,
     "CURSOR": 0.0,
     "LOTUSAI": 0.0,
@@ -659,8 +657,6 @@ TICKER_CONTINUATIONS = {
     "SPACEX": ["SPACEX", "SPACE"],
     # Unseenlabs is private; this placeholder keeps the watch ready to activate.
     "UNSEENLABS": ["UNSEENLABS"],
-    # Lambda Labs is private; keep likely placeholders ready for a future listing.
-    "LAMBDA": ["LAMBDA", "LAMBDALABS"],
     # ClickHouse is private; keep likely placeholders ready for a future listing.
     "CLICKHOUSE": ["CLICKHOUSE", "CHDB"],
     # Cursor/Anysphere is private; keep likely placeholders ready for a future listing.
