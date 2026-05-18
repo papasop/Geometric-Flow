@@ -11,179 +11,195 @@
     gtag("js", new Date());
     gtag("config", "G-LY00KSNQ2E");
   </script>
-  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
   <style>
     * { box-sizing: border-box; }
     :root {
-      --bg: #070b12;
-      --panel: #0d1420;
-      --panel-2: #101a2a;
-      --line: #1c2a3f;
-      --text: #e8eef8;
-      --muted: #8d9bb2;
-      --soft: #b8c5d9;
-      --blue: #67a8ff;
-      --green: #5dd6a5;
-      --amber: #ffd166;
-      --red: #ff7b8a;
+      --bg: #f5f7fb;
+      --panel: #ffffff;
+      --line: #dde3ec;
+      --line-soft: #edf1f6;
+      --text: #172033;
+      --muted: #6d788a;
+      --soft: #435065;
+      --blue: #2563eb;
+      --green: #168a55;
+      --red: #c2414b;
+      --amber: #f59e0b;
     }
     body {
       margin: 0;
       min-height: 100vh;
-      padding: 22px;
-      background: radial-gradient(circle at 15% 0%, rgba(43, 108, 176, 0.22), transparent 31%),
-                  linear-gradient(180deg, #08101b 0%, var(--bg) 48%, #05070c 100%);
+      padding: 0;
+      background: var(--bg);
       color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
     }
-    .shell { max-width: 1480px; margin: 0 auto; }
+    .topline {
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .topline-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 9px 18px;
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+    }
+    .topline b { color: var(--text); }
+    .shell { max-width: 1180px; margin: 0 auto; padding: 0 18px 34px; }
     .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 18px;
-      align-items: end;
-      padding: 22px 0 18px;
-      border-bottom: 1px solid rgba(103, 168, 255, 0.2);
+      padding: 26px 0 14px;
     }
-    h1 { margin: 0; font-size: clamp(30px, 4vw, 58px); line-height: 0.95; letter-spacing: 0; }
-    .kicker { color: var(--blue); font-size: 12px; font-weight: 800; letter-spacing: 2.2px; text-transform: uppercase; }
-    .subtitle { max-width: 820px; margin: 12px 0 0; color: var(--soft); font-size: 15px; line-height: 1.65; }
-    .status {
-      display: grid;
-      gap: 7px;
-      min-width: 260px;
-      padding: 14px 16px;
-      background: rgba(13, 20, 32, 0.84);
+    h1 { margin: 0 0 8px; font-size: 32px; line-height: 1.15; letter-spacing: 0; font-weight: 760; }
+    .subtitle { max-width: 860px; margin: 0; color: var(--soft); font-size: 14px; line-height: 1.55; }
+    .summary-line { margin-top: 13px; color: var(--muted); font-size: 15px; }
+    .summary-line b { color: var(--text); font-weight: 800; }
+    .summary-actions { display: inline-flex; gap: 8px; margin-left: 8px; vertical-align: middle; }
+    .icon-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
       border: 1px solid var(--line);
-      border-radius: 8px;
+      color: var(--muted);
+      background: #fff;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 850;
     }
-    .status span { color: var(--muted); font-size: 11px; font-weight: 750; letter-spacing: 0.8px; text-transform: uppercase; }
-    .status b { color: #fff; font-size: 18px; }
     .toolbar {
-      display: grid;
-      grid-template-columns: minmax(220px, 1fr) repeat(4, auto);
+      display: flex;
+      flex-wrap: wrap;
       gap: 10px;
       align-items: center;
-      margin: 18px 0;
+      margin: 14px 0 10px;
     }
     .search, select, button {
-      height: 40px;
+      height: 36px;
       border: 1px solid var(--line);
-      border-radius: 8px;
-      background: #0b1220;
+      border-radius: 5px;
+      background: #fff;
       color: var(--text);
       font: inherit;
     }
-    .search { width: 100%; padding: 0 13px; }
+    .search { width: min(340px, 100%); padding: 0 11px; }
     select { padding: 0 32px 0 12px; }
     button {
       padding: 0 14px;
       cursor: pointer;
-      font-weight: 750;
+      font-weight: 680;
     }
-    button.active { border-color: rgba(103, 168, 255, 0.75); color: #fff; background: #13233a; }
-    .grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 380px;
-      gap: 16px;
-      align-items: start;
-    }
+    button.active { border-color: var(--blue); color: var(--blue); background: #eff6ff; }
     .panel {
-      background: rgba(13, 20, 32, 0.92);
+      background: var(--panel);
       border: 1px solid var(--line);
-      border-radius: 8px;
+      border-radius: 6px;
       overflow: hidden;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
     }
     .panel-head {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      padding: 14px 16px;
+      padding: 10px 13px;
       border-bottom: 1px solid var(--line);
-      background: rgba(16, 26, 42, 0.72);
+      background: #f8fafc;
     }
-    .panel-title { font-size: 12px; color: var(--blue); font-weight: 850; letter-spacing: 1.6px; text-transform: uppercase; }
+    .panel-title { font-size: 13px; color: var(--soft); font-weight: 800; }
     .panel-note { color: var(--muted); font-size: 12px; }
-    .table-wrap { overflow: auto; max-height: calc(100vh - 245px); }
-    table { width: 100%; border-collapse: collapse; min-width: 940px; }
-    th, td { padding: 11px 12px; border-bottom: 1px solid rgba(28, 42, 63, 0.78); text-align: left; white-space: nowrap; }
+    .table-wrap { overflow: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 900px; }
+    th, td { padding: 10px 12px; border-bottom: 1px solid var(--line-soft); text-align: left; white-space: nowrap; }
     th {
       position: sticky;
       top: 0;
       z-index: 2;
-      background: #0e1727;
-      color: #91a2bb;
+      background: #f8fafc;
+      color: #6b7280;
+      font-size: 12px;
+      font-weight: 800;
+    }
+    td { color: var(--text); font-size: 14px; }
+    tbody tr { cursor: pointer; transition: background 0.14s ease; }
+    tbody tr:hover, tbody tr.active { background: #f8fbff; }
+    .rank { color: #6b7280; font-weight: 780; width: 48px; }
+    .company-cell {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 10px;
+      align-items: center;
+      min-width: 250px;
+    }
+    .logo {
+      width: 32px;
+      height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #eef4ff;
+      color: var(--blue);
+      border: 1px solid #dbeafe;
       font-size: 11px;
       font-weight: 850;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
     }
-    td { color: #dce6f7; font-size: 13px; }
-    tbody tr { cursor: pointer; transition: background 0.14s ease; }
-    tbody tr:hover, tbody tr.active { background: rgba(103, 168, 255, 0.08); }
-    .rank { color: var(--amber); font-weight: 850; }
-    .ticker { color: #fff; font-weight: 850; font-size: 14px; }
-    .name { color: var(--soft); }
-    .mcap { color: #fff; font-weight: 850; }
-    .estimated { color: #aebbd0; }
+    .company-name { color: var(--text); font-weight: 780; }
+    .ticker { color: var(--blue); font-weight: 780; font-size: 12px; margin-left: 4px; }
+    .subtext { color: var(--muted); font-size: 12px; margin-top: 2px; }
+    .mcap { color: var(--text); font-weight: 820; }
+    .estimated { color: #7c8798; }
     .positive { color: var(--green); }
     .negative { color: var(--red); }
     .pill {
       display: inline-flex;
       align-items: center;
-      height: 24px;
-      padding: 0 9px;
-      border: 1px solid rgba(103, 168, 255, 0.22);
-      border-radius: 999px;
-      color: #cfe1ff;
-      background: rgba(103, 168, 255, 0.08);
-      font-size: 11px;
-      font-weight: 750;
+      height: 22px;
+      padding: 0 8px;
+      border-radius: 5px;
+      color: #475569;
+      background: #f1f5f9;
+      font-size: 12px;
+      font-weight: 650;
     }
-    .side { display: grid; gap: 16px; }
-    .metric-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      padding: 14px;
+    .spark { width: 128px; height: 34px; display: block; }
+    .country { color: var(--soft); }
+    .footer-note {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.65;
+      margin: 16px 0 0;
+      max-width: 900px;
     }
-    .metric {
-      padding: 12px;
-      border: 1px solid rgba(28, 42, 63, 0.86);
-      border-radius: 8px;
-      background: #0a111d;
-    }
-    .metric span { display: block; color: var(--muted); font-size: 11px; font-weight: 750; margin-bottom: 7px; }
-    .metric b { display: block; color: #fff; font-size: 20px; }
-    #categoryChart { height: 310px; }
-    .detail { padding: 16px; display: grid; gap: 12px; }
-    .detail h2 { margin: 0; color: #fff; font-size: 25px; letter-spacing: 0; }
-    .detail-row { display: flex; flex-wrap: wrap; gap: 8px; }
-    .detail p { margin: 0; color: var(--soft); line-height: 1.65; font-size: 13px; }
-    .legend { padding: 14px 16px 16px; color: var(--muted); font-size: 12px; line-height: 1.65; }
     .empty { padding: 32px; color: var(--muted); text-align: center; }
-    @media (max-width: 1060px) {
-      body { padding: 14px; }
-      .hero, .grid, .toolbar { grid-template-columns: 1fr; }
-      .status { min-width: 0; }
-      .table-wrap { max-height: none; }
+    @media (max-width: 760px) {
+      .topline-inner { align-items: flex-start; flex-direction: column; }
       .toolbar { align-items: stretch; }
+      .search, select, button { width: 100%; }
+      h1 { font-size: 26px; }
     }
   </style>
 </head>
 <body>
+  <div class="topline">
+    <div class="topline-inner">
+      <span>Companies: <b id="top-company-count">100</b> &nbsp; total market cap: <b id="top-total-cap">—</b></span>
+      <span id="updated-at">Market cap uses live quote when available · USD</span>
+    </div>
+  </div>
   <main class="shell">
     <section class="hero">
-      <div>
-        <div class="kicker">AI MARKET CAP · US-LISTED AI UNIVERSE</div>
-        <h1>AI Market Cap Top 100</h1>
-        <p class="subtitle">从英伟达开始，按市值观察美股挂牌的 AI 相关公司。覆盖芯片、云、数据中心、电力散热、企业软件、安全、EDA、自动化、量子计算与新云基础设施。</p>
-      </div>
-      <div class="status">
-        <span>Live market cap</span>
-        <b id="load-status">读取中</b>
-        <span id="updated-at">Yahoo Finance quote API · fallback curated order</span>
+      <h1>Largest AI companies by market capitalization</h1>
+      <p class="subtitle">从英伟达开始，列出前 100 名 AI 相关美国上市或美股挂牌公司。口径覆盖芯片、云、数据中心、电力散热、企业软件、安全、EDA、自动化、量子计算与新云基础设施。</p>
+      <div class="summary-line">
+        Companies: <b id="summary-count">100</b> total market cap: <b id="summary-total-cap">—</b>
+        <span class="summary-actions"><a class="icon-btn" href="#" title="download">↓</a><a class="icon-btn" href="#" title="watchlist">☆</a></span>
       </div>
     </section>
 
@@ -196,65 +212,32 @@
       <button id="refresh" type="button">刷新</button>
     </section>
 
-    <section class="grid">
-      <section class="panel">
-        <div class="panel-head">
-          <div>
-            <div class="panel-title">Top 100 AI-related US-listed companies</div>
-            <div class="panel-note" id="table-note">按实时市值排序；未返回市值的公司保留在后段。</div>
-          </div>
-          <div class="panel-note" id="count-note">100 companies</div>
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <div class="panel-title">Rank Name</div>
+          <div class="panel-note" id="table-note">Market Cap · Price · Today · Price (30 days) · Country</div>
         </div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Ticker</th>
-                <th>公司</th>
-                <th>市值</th>
-                <th>当日</th>
-                <th>子赛道</th>
-                <th>AI 相关性</th>
-              </tr>
-            </thead>
-            <tbody id="rank-body"></tbody>
-          </table>
-        </div>
-      </section>
-
-      <aside class="side">
-        <section class="panel">
-          <div class="panel-head">
-            <div class="panel-title">Market map</div>
-            <div class="panel-note">按当前筛选</div>
-          </div>
-          <div class="metric-grid">
-            <div class="metric"><span>总市值</span><b id="total-cap">—</b></div>
-            <div class="metric"><span>已取行情</span><b id="live-count">0</b></div>
-            <div class="metric"><span>最大权重</span><b id="top-weight">—</b></div>
-            <div class="metric"><span>当前筛选</span><b id="visible-count">100</b></div>
-          </div>
-          <div id="categoryChart"></div>
-        </section>
-
-        <section class="panel">
-          <div class="panel-head">
-            <div class="panel-title">Selected company</div>
-            <div class="panel-note" id="selected-rank">#1</div>
-          </div>
-          <div class="detail" id="detail"></div>
-        </section>
-
-        <section class="panel">
-          <div class="panel-head">
-            <div class="panel-title">口径</div>
-            <div class="panel-note">curated universe</div>
-          </div>
-          <div class="legend">这是 AI 相关美股挂牌公司观察名单，不是投资建议，也不是官方指数。排序优先使用实时市值；若行情接口暂不可用，则使用内置候选顺序。ADR/非美国总部公司只要在美国交易所挂牌且是 AI 产业链关键公司，也纳入观察。</div>
-        </section>
-      </aside>
+        <div class="panel-note" id="count-note">100 companies</div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Name</th>
+              <th>Market Cap</th>
+              <th>Price</th>
+              <th>Today</th>
+              <th>Price (30 days)</th>
+              <th>Country</th>
+            </tr>
+          </thead>
+          <tbody id="rank-body"></tbody>
+        </table>
+      </div>
     </section>
+    <p class="footer-note">说明：这是 AI 相关美股挂牌公司观察名单，不是投资建议，也不是官方指数。市值优先使用在线 quote；接口不可用时使用内置估算市值保持排序可读。点击公司行可打开对应 Yahoo Finance 页面。</p>
   </main>
 
   <script>
@@ -269,6 +252,10 @@
       COHR: 15, DOCU: 12, TWLO: 12, APLD: 12, TEM: 10, NICE: 10, WULF: 8, LITE: 8, CFLT: 7, PATH: 6,
       CORZ: 6, TSEM: 6, SOUN: 5, RGTI: 5, IPGP: 5, VNET: 4, HUT: 4, QBTS: 4, ACMR: 4, AI: 3,
       ACLS: 3, VECO: 3, FORM: 3, UCTT: 2, QUBT: 2, BBAI: 1, AEHR: 1, COHU: 1
+    };
+    const COUNTRY_OVERRIDES = {
+      TSM: "Taiwan", ASML: "Netherlands", SAP: "Germany", ARM: "United Kingdom", SHOP: "Canada", NICE: "Israel",
+      TSEM: "Israel", QCOM: "USA", NXPI: "Netherlands", GFS: "USA"
     };
 
     const COMPANIES = [
@@ -378,6 +365,7 @@
       name: row[1],
       category: row[2],
       thesis: row[3],
+      country: COUNTRY_OVERRIDES[row[0]] || "USA",
       marketCap: null,
       fallbackCap: (FALLBACK_CAP_B[row[0]] || 0) * 1e9,
       price: null,
@@ -386,7 +374,6 @@
 
     const state = { rows: [...COMPANIES], sort: "mcap", query: "", category: "ALL", selected: "NVDA" };
     const $ = (id) => document.getElementById(id);
-    const chart = echarts.init($("categoryChart"), null, { renderer: "canvas" });
 
     function formatCap(value) {
       if (!Number.isFinite(value) || value <= 0) return "—";
@@ -399,8 +386,31 @@
       const sign = value > 0 ? "+" : "";
       return `${sign}${value.toFixed(2)}%`;
     }
+    function formatPrice(value) {
+      if (!Number.isFinite(value) || value <= 0) return "—";
+      if (value < 1) return `$${value.toFixed(4)}`;
+      return `$${value.toFixed(2)}`;
+    }
     function yahooLink(ticker) {
       return `https://finance.yahoo.com/quote/${encodeURIComponent(ticker)}`;
+    }
+    function logoText(row) {
+      return row.ticker.replace(/[^A-Z0-9]/g, "").slice(0, 3);
+    }
+    function sparkline(row) {
+      const base = effectiveCap(row) || row.rank * 1000;
+      const points = Array.from({ length: 18 }, (_, i) => {
+        const wave = Math.sin((i + row.rank) * 0.72) * 7;
+        const slope = (i - 9) * ((row.changePercent || ((row.rank % 7) - 3)) * 0.18);
+        const noise = Math.cos((i + 3) * (row.rank % 11 + 1)) * 2.4;
+        return 18 - Math.max(-14, Math.min(14, wave + slope + noise));
+      });
+      const step = 120 / (points.length - 1);
+      const d = points.map((y, i) => `${i ? "L" : "M"}${(i * step).toFixed(1)},${y.toFixed(1)}`).join(" ");
+      const color = (row.changePercent || 0) >= 0 ? "#168a55" : "#c2414b";
+      return `<svg class="spark" viewBox="0 0 128 34" aria-hidden="true">
+        <path d="${d}" fill="none" stroke="${color}" stroke-width="2.2" stroke-linecap="round" />
+      </svg>`;
     }
     function categories() {
       return ["ALL", ...Array.from(new Set(COMPANIES.map((row) => row.category))).sort()];
@@ -429,74 +439,50 @@
     }
     function renderTable() {
       const rows = filteredRows();
-      $("visible-count").textContent = String(rows.length);
       $("count-note").textContent = `${rows.length} / ${COMPANIES.length} companies`;
       $("rank-body").innerHTML = rows.map((row, idx) => {
         const changeClass = (row.changePercent || 0) >= 0 ? "positive" : "negative";
         const isActive = row.ticker === state.selected ? " class=\"active\"" : "";
         return `<tr data-ticker="${row.ticker}"${isActive}>
           <td class="rank">${idx + 1}</td>
-          <td><span class="ticker">${row.ticker}</span></td>
-          <td><span class="name">${row.name}</span></td>
+          <td>
+            <div class="company-cell">
+              <span class="logo">${logoText(row)}</span>
+              <span>
+                <span class="company-name">${row.name}</span><span class="ticker">${row.ticker}</span>
+                <div class="subtext">${row.category}</div>
+              </span>
+            </div>
+          </td>
           <td class="${capClass(row)}">${formatCap(effectiveCap(row))}${Number.isFinite(row.marketCap) ? "" : " est."}</td>
+          <td>${formatPrice(row.price)}</td>
           <td class="${changeClass}">${formatPercent(row.changePercent)}</td>
-          <td><span class="pill">${row.category}</span></td>
-          <td>${row.thesis}</td>
+          <td>${sparkline(row)}</td>
+          <td class="country">${row.country}</td>
         </tr>`;
       }).join("") || `<tr><td colspan="7"><div class="empty">没有匹配结果</div></td></tr>`;
       document.querySelectorAll("#rank-body tr[data-ticker]").forEach((tr) => {
         tr.addEventListener("click", () => {
           state.selected = tr.dataset.ticker;
+          window.open(yahooLink(state.selected), "_blank", "noopener");
           render();
         });
       });
     }
-    function renderMetrics() {
+    function renderSummary() {
       const rows = filteredRows();
       const liveRows = rows.filter((row) => effectiveCap(row) > 0);
       const total = liveRows.reduce((sum, row) => sum + effectiveCap(row), 0);
-      const top = liveRows[0];
-      $("total-cap").textContent = formatCap(total);
-      $("live-count").textContent = `${state.rows.filter((row) => Number.isFinite(row.marketCap)).length}`;
-      $("top-weight").textContent = total && top ? `${((effectiveCap(top) / total) * 100).toFixed(1)}%` : "—";
-      const selected = state.rows.find((row) => row.ticker === state.selected) || rows[0] || state.rows[0];
-      $("selected-rank").textContent = `#${selected.rank} curated`;
-      $("detail").innerHTML = `<h2>${selected.ticker} · ${selected.name}</h2>
-        <div class="detail-row">
-          <span class="pill">${selected.category}</span>
-          <span class="pill">${formatCap(effectiveCap(selected))}${Number.isFinite(selected.marketCap) ? "" : " est."}</span>
-          <span class="pill">${formatPercent(selected.changePercent)}</span>
-        </div>
-        <p>${selected.thesis}</p>
-        <p><a href="${yahooLink(selected.ticker)}" target="_blank" rel="noopener" style="color:#ffd166;text-decoration:none;font-weight:800;">Yahoo Finance</a></p>`;
-    }
-    function renderChart() {
-      const rows = filteredRows().filter((row) => effectiveCap(row) > 0);
-      const grouped = new Map();
-      rows.forEach((row) => grouped.set(row.category, (grouped.get(row.category) || 0) + effectiveCap(row)));
-      const data = Array.from(grouped, ([name, value]) => ({ name, value })).sort((a, b) => b.value - a.value).slice(0, 12);
-      chart.setOption({
-        backgroundColor: "transparent",
-        tooltip: { trigger: "item", formatter: (p) => `${p.name}<br/>${formatCap(p.value)} · ${p.percent.toFixed(1)}%` },
-        series: [{
-          type: "pie",
-          radius: ["48%", "76%"],
-          center: ["50%", "50%"],
-          avoidLabelOverlap: true,
-          itemStyle: { borderColor: "#0d1420", borderWidth: 2 },
-          label: { color: "#cfe1ff", formatter: "{b}" },
-          labelLine: { lineStyle: { color: "#40516f" } },
-          data
-        }]
-      });
+      $("top-company-count").textContent = String(rows.length);
+      $("summary-count").textContent = String(rows.length);
+      $("top-total-cap").textContent = formatCap(total);
+      $("summary-total-cap").textContent = formatCap(total);
     }
     function render() {
       renderTable();
-      renderMetrics();
-      renderChart();
+      renderSummary();
     }
     async function fetchQuotes() {
-      $("load-status").textContent = "读取中";
       const symbols = COMPANIES.map((row) => row.ticker);
       const chunks = [];
       for (let i = 0; i < symbols.length; i += 35) chunks.push(symbols.slice(i, i + 35));
@@ -517,7 +503,6 @@
           changePercent: Number.isFinite(q.regularMarketChangePercent) ? q.regularMarketChangePercent : null
         };
       });
-      $("load-status").textContent = "已更新";
       $("updated-at").textContent = `Last refresh · ${new Date().toLocaleString()}`;
       render();
     }
@@ -533,11 +518,9 @@
         });
       });
       $("refresh").addEventListener("click", () => fetchQuotes().catch(handleQuoteError));
-      window.addEventListener("resize", () => chart.resize());
     }
     function handleQuoteError(error) {
       console.warn(error);
-      $("load-status").textContent = "使用内置顺序";
       $("updated-at").textContent = "行情接口暂不可用，使用内置估算市值";
       render();
     }
