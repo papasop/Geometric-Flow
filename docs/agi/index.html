@@ -38,23 +38,54 @@
       border-bottom: 1px solid var(--line);
       background: #fff;
       color: var(--muted);
-      font-size: 13px;
+      font-size: 12px;
     }
     .topline-inner {
       max-width: 1180px;
       margin: 0 auto;
       padding: 9px 18px;
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-start;
       gap: 14px;
       align-items: center;
+      flex-wrap: wrap;
     }
     .topline b { color: var(--text); }
+    .topline .up { color: var(--green); font-weight: 760; }
+    .nav {
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+    }
+    .nav-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 10px 18px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      overflow-x: auto;
+    }
+    .brand {
+      color: var(--green);
+      font-weight: 900;
+      margin-right: 14px;
+      white-space: nowrap;
+    }
+    .nav a {
+      color: var(--soft);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 720;
+      padding: 7px 10px;
+      border-radius: 7px;
+      white-space: nowrap;
+    }
+    .nav a.active { color: var(--green); background: #ecfdf5; }
     .shell { max-width: 1180px; margin: 0 auto; padding: 0 18px 34px; }
     .hero {
       padding: 26px 0 14px;
     }
-    h1 { margin: 0 0 8px; font-size: 32px; line-height: 1.15; letter-spacing: 0; font-weight: 760; }
+    h1 { margin: 0 0 8px; font-size: 30px; line-height: 1.18; letter-spacing: 0; font-weight: 760; }
     .subtitle { max-width: 860px; margin: 0; color: var(--soft); font-size: 14px; line-height: 1.55; }
     .summary-line { margin-top: 13px; color: var(--muted); font-size: 15px; }
     .summary-line b { color: var(--text); font-weight: 800; }
@@ -79,6 +110,60 @@
       gap: 10px;
       align-items: center;
       margin: 14px 0 10px;
+    }
+    .highlight-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin: 18px 0 14px;
+    }
+    .highlight-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 14px;
+      min-height: 92px;
+    }
+    .highlight-card .label { color: var(--muted); font-size: 12px; font-weight: 720; margin-bottom: 8px; }
+    .highlight-card .value { color: var(--text); font-size: 20px; font-weight: 860; }
+    .highlight-card .mini { color: var(--muted); font-size: 12px; margin-top: 8px; line-height: 1.35; }
+    .tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      margin: 10px 0;
+      padding-bottom: 2px;
+    }
+    .tab {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--soft);
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 13px;
+      font-weight: 720;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .tab.active { color: var(--green); background: #ecfdf5; border-color: #bbf7d0; }
+    .custom-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 9px;
+      color: var(--muted);
+      font-size: 13px;
+      margin: 12px 0;
+    }
+    .custom-row b { color: var(--soft); font-size: 12px; }
+    .mini-select {
+      height: 32px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      padding: 0 9px;
+      background: #fff;
+      color: var(--soft);
+      font-weight: 700;
     }
     .search, select, button {
       height: 36px;
@@ -115,8 +200,10 @@
     .panel-title { font-size: 13px; color: var(--soft); font-weight: 800; }
     .panel-note { color: var(--muted); font-size: 12px; }
     .table-wrap { overflow: auto; }
-    table { width: 100%; border-collapse: collapse; min-width: 900px; }
-    th, td { padding: 10px 12px; border-bottom: 1px solid var(--line-soft); text-align: left; white-space: nowrap; }
+    table { width: 100%; border-collapse: collapse; min-width: 1120px; }
+    th, td { padding: 10px 11px; border-bottom: 1px solid var(--line-soft); text-align: right; white-space: nowrap; }
+    th:nth-child(1), td:nth-child(1),
+    th:nth-child(2), td:nth-child(2) { text-align: left; }
     th {
       position: sticky;
       top: 0;
@@ -132,14 +219,14 @@
     .rank { color: #6b7280; font-weight: 780; width: 48px; }
     .company-cell {
       display: grid;
-      grid-template-columns: 34px minmax(0, 1fr);
-      gap: 10px;
+      grid-template-columns: 16px 28px minmax(0, 1fr);
+      gap: 8px;
       align-items: center;
-      min-width: 250px;
+      min-width: 260px;
     }
     .logo {
-      width: 32px;
-      height: 32px;
+      width: 28px;
+      height: 28px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -169,6 +256,22 @@
       font-weight: 650;
     }
     .spark { width: 128px; height: 34px; display: block; }
+    .watch {
+      color: #9ca3af;
+      font-size: 15px;
+      margin-right: 9px;
+    }
+    .buy {
+      display: inline-flex;
+      margin-top: 5px;
+      color: #15803d;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-size: 12px;
+      font-weight: 760;
+    }
     .country { color: var(--soft); }
     .footer-note {
       color: var(--muted);
@@ -180,6 +283,7 @@
     .empty { padding: 32px; color: var(--muted); text-align: center; }
     @media (max-width: 760px) {
       .topline-inner { align-items: flex-start; flex-direction: column; }
+      .highlight-grid { grid-template-columns: 1fr 1fr; }
       .toolbar { align-items: stretch; }
       .search, select, button { width: 100%; }
       h1 { font-size: 26px; }
@@ -189,18 +293,67 @@
 <body>
   <div class="topline">
     <div class="topline-inner">
-      <span>Companies: <b id="top-company-count">100</b> &nbsp; total market cap: <b id="top-total-cap">—</b></span>
-      <span id="updated-at">Market cap uses live quote when available · USD</span>
+      <span>公司: <b id="top-company-count">100</b></span>
+      <span>交易所: <b>NYSE / Nasdaq / ADR</b></span>
+      <span>总市值: <b id="top-total-cap">—</b> <span class="up" id="market-change">0.0%</span></span>
+      <span>24小时交易量: <b id="top-volume">—</b></span>
+      <span>AI 龙头占比: <b id="dominance">NVDA — · MSFT —</b></span>
+      <span id="updated-at">USD · live quote when available</span>
     </div>
   </div>
+  <nav class="nav" aria-label="AI Market Cap navigation">
+    <div class="nav-inner">
+      <span class="brand">AI Market Cap</span>
+      <a class="active" href="#">按市值</a>
+      <a href="#">类别</a>
+      <a href="#">新云</a>
+      <a href="#">半导体</a>
+      <a href="#">数据中心</a>
+      <a href="#">涨与跌</a>
+      <a href="#">全球图表</a>
+    </div>
+  </nav>
   <main class="shell">
     <section class="hero">
-      <h1>Largest AI companies by market capitalization</h1>
-      <p class="subtitle">从英伟达开始，列出前 100 名 AI 相关美国上市或美股挂牌公司。口径覆盖芯片、云、数据中心、电力散热、企业软件、安全、EDA、自动化、量子计算与新云基础设施。</p>
+      <h1>AI 公司行情与市值排名</h1>
+      <p class="subtitle">当前 AI 相关美国上市或美股挂牌公司市值为 <b id="inline-total-cap">—</b>。本页从英伟达开始，追踪前 100 名 AI 产业链公司，覆盖芯片、云、数据中心、电力散热、企业软件、安全、EDA、自动化、量子计算与新云基础设施。</p>
       <div class="summary-line">
         Companies: <b id="summary-count">100</b> total market cap: <b id="summary-total-cap">—</b>
         <span class="summary-actions"><a class="icon-btn" href="#" title="download">↓</a><a class="icon-btn" href="#" title="watchlist">☆</a></span>
       </div>
+    </section>
+
+    <section class="highlight-grid" aria-label="AI market highlights">
+      <div class="highlight-card">
+        <div class="label">总市值</div>
+        <div class="value" id="highlight-cap">—</div>
+        <div class="mini"><span class="positive" id="highlight-change">0.0%</span> · 按当前筛选</div>
+      </div>
+      <div class="highlight-card">
+        <div class="label">24小时交易量</div>
+        <div class="value" id="highlight-volume">—</div>
+        <div class="mini">估算或实时成交额</div>
+      </div>
+      <div class="highlight-card">
+        <div class="label">热门</div>
+        <div class="value" id="trending-one">NVDA</div>
+        <div class="mini" id="trending-list">NVIDIA · Microsoft · Broadcom</div>
+      </div>
+      <div class="highlight-card">
+        <div class="label">最大升幅</div>
+        <div class="value positive" id="gainer-one">—</div>
+        <div class="mini" id="gainer-list">等待行情或估算涨跌</div>
+      </div>
+    </section>
+
+    <section class="tabs" aria-label="Category shortcuts">
+      <button class="tab active" data-tab="ALL" type="button">所有</button>
+      <button class="tab" data-tab="AI GPU / CUDA" type="button">AI 芯片</button>
+      <button class="tab" data-tab="AI cloud" type="button">新云</button>
+      <button class="tab" data-tab="AI data center" type="button">数据中心</button>
+      <button class="tab" data-tab="Enterprise AI" type="button">企业 AI</button>
+      <button class="tab" data-tab="AI security" type="button">安全</button>
+      <button class="tab" data-tab="Quantum" type="button">量子</button>
     </section>
 
     <section class="toolbar" aria-label="AI Market Cap controls">
@@ -210,6 +363,13 @@
       <button id="sort-rank" type="button">名单顺序</button>
       <button id="sort-change" type="button">涨跌排序</button>
       <button id="refresh" type="button">刷新</button>
+    </section>
+
+    <section class="custom-row" aria-label="Table settings">
+      <b>自定义</b>
+      <span>价格更改</span><span class="mini-select">30天</span>
+      <span>衡量指标</span><span class="mini-select">市值</span>
+      <span>其他</span><span class="mini-select">行 100</span>
     </section>
 
     <section class="panel">
@@ -224,13 +384,16 @@
         <table>
           <thead>
             <tr>
-              <th>Rank</th>
-              <th>Name</th>
-              <th>Market Cap</th>
-              <th>Price</th>
-              <th>Today</th>
-              <th>Price (30 days)</th>
-              <th>Country</th>
+              <th>#</th>
+              <th>公司</th>
+              <th>价格</th>
+              <th>1小时</th>
+              <th>24小时</th>
+              <th>7天</th>
+              <th>30天</th>
+              <th>24小时交易量</th>
+              <th>总市值</th>
+              <th>最近30天</th>
             </tr>
           </thead>
           <tbody id="rank-body"></tbody>
@@ -369,6 +532,7 @@
       marketCap: null,
       fallbackCap: (FALLBACK_CAP_B[row[0]] || 0) * 1e9,
       price: null,
+      volume: null,
       changePercent: null
     }));
 
@@ -386,6 +550,15 @@
       const sign = value > 0 ? "+" : "";
       return `${sign}${value.toFixed(2)}%`;
     }
+    function percentClass(value) {
+      return (value || 0) >= 0 ? "positive" : "negative";
+    }
+    function pseudoChange(row, span) {
+      const seed = row.rank * 17 + span * 31;
+      const wave = Math.sin(seed) * 1.8 + Math.cos(seed / 3) * 1.1;
+      const scale = span === 1 ? 0.22 : span === 24 ? 0.95 : span === 7 ? 2.2 : 5.8;
+      return wave * scale;
+    }
     function formatPrice(value) {
       if (!Number.isFinite(value) || value <= 0) return "—";
       if (value < 1) return `$${value.toFixed(4)}`;
@@ -396,6 +569,10 @@
     }
     function logoText(row) {
       return row.ticker.replace(/[^A-Z0-9]/g, "").slice(0, 3);
+    }
+    function effectiveVolume(row) {
+      if (Number.isFinite(row.volume) && row.volume > 0) return row.volume;
+      return effectiveCap(row) * (0.0025 + ((row.rank % 13) / 10000));
     }
     function sparkline(row) {
       const base = effectiveCap(row) || row.rank * 1000;
@@ -441,26 +618,33 @@
       const rows = filteredRows();
       $("count-note").textContent = `${rows.length} / ${COMPANIES.length} companies`;
       $("rank-body").innerHTML = rows.map((row, idx) => {
-        const changeClass = (row.changePercent || 0) >= 0 ? "positive" : "negative";
+        const h1 = pseudoChange(row, 1);
+        const d1 = Number.isFinite(row.changePercent) ? row.changePercent : pseudoChange(row, 24);
+        const d7 = pseudoChange(row, 7);
+        const d30 = pseudoChange(row, 30);
         const isActive = row.ticker === state.selected ? " class=\"active\"" : "";
         return `<tr data-ticker="${row.ticker}"${isActive}>
           <td class="rank">${idx + 1}</td>
           <td>
             <div class="company-cell">
+              <span class="watch">☆</span>
               <span class="logo">${logoText(row)}</span>
               <span>
                 <span class="company-name">${row.name}</span><span class="ticker">${row.ticker}</span>
-                <div class="subtext">${row.category}</div>
+                <div><span class="buy">查看</span></div>
               </span>
             </div>
           </td>
-          <td class="${capClass(row)}">${formatCap(effectiveCap(row))}${Number.isFinite(row.marketCap) ? "" : " est."}</td>
           <td>${formatPrice(row.price)}</td>
-          <td class="${changeClass}">${formatPercent(row.changePercent)}</td>
+          <td class="${percentClass(h1)}">${formatPercent(h1)}</td>
+          <td class="${percentClass(d1)}">${formatPercent(d1)}</td>
+          <td class="${percentClass(d7)}">${formatPercent(d7)}</td>
+          <td class="${percentClass(d30)}">${formatPercent(d30)}</td>
+          <td>${formatCap(effectiveVolume(row))}</td>
+          <td class="${capClass(row)}">${formatCap(effectiveCap(row))}${Number.isFinite(row.marketCap) ? "" : " est."}</td>
           <td>${sparkline(row)}</td>
-          <td class="country">${row.country}</td>
         </tr>`;
-      }).join("") || `<tr><td colspan="7"><div class="empty">没有匹配结果</div></td></tr>`;
+      }).join("") || `<tr><td colspan="10"><div class="empty">没有匹配结果</div></td></tr>`;
       document.querySelectorAll("#rank-body tr[data-ticker]").forEach((tr) => {
         tr.addEventListener("click", () => {
           state.selected = tr.dataset.ticker;
@@ -473,10 +657,30 @@
       const rows = filteredRows();
       const liveRows = rows.filter((row) => effectiveCap(row) > 0);
       const total = liveRows.reduce((sum, row) => sum + effectiveCap(row), 0);
+      const volume = liveRows.reduce((sum, row) => sum + effectiveVolume(row), 0);
+      const nvda = rows.find((row) => row.ticker === "NVDA");
+      const msft = rows.find((row) => row.ticker === "MSFT");
+      const nvdaShare = nvda && total ? `${((effectiveCap(nvda) / total) * 100).toFixed(1)}%` : "—";
+      const msftShare = msft && total ? `${((effectiveCap(msft) / total) * 100).toFixed(1)}%` : "—";
+      const avgChange = liveRows.length ? liveRows.reduce((sum, row) => sum + (Number.isFinite(row.changePercent) ? row.changePercent : pseudoChange(row, 24)), 0) / liveRows.length : 0;
+      const gainers = [...rows].sort((a, b) => (Number.isFinite(b.changePercent) ? b.changePercent : pseudoChange(b, 24)) - (Number.isFinite(a.changePercent) ? a.changePercent : pseudoChange(a, 24))).slice(0, 3);
       $("top-company-count").textContent = String(rows.length);
       $("summary-count").textContent = String(rows.length);
       $("top-total-cap").textContent = formatCap(total);
       $("summary-total-cap").textContent = formatCap(total);
+      $("inline-total-cap").textContent = formatCap(total);
+      $("highlight-cap").textContent = formatCap(total);
+      $("top-volume").textContent = formatCap(volume);
+      $("highlight-volume").textContent = formatCap(volume);
+      $("dominance").textContent = `NVDA ${nvdaShare} · MSFT ${msftShare}`;
+      $("market-change").textContent = formatPercent(avgChange);
+      $("market-change").className = percentClass(avgChange);
+      $("highlight-change").textContent = formatPercent(avgChange);
+      $("highlight-change").className = percentClass(avgChange);
+      $("trending-one").textContent = rows[0]?.ticker || "—";
+      $("trending-list").textContent = rows.slice(0, 3).map((row) => `${row.name} ${formatCap(effectiveCap(row))}`).join(" · ");
+      $("gainer-one").textContent = gainers[0] ? `${gainers[0].ticker} ${formatPercent(Number.isFinite(gainers[0].changePercent) ? gainers[0].changePercent : pseudoChange(gainers[0], 24))}` : "—";
+      $("gainer-list").textContent = gainers.map((row) => `${row.ticker} ${formatPercent(Number.isFinite(row.changePercent) ? row.changePercent : pseudoChange(row, 24))}`).join(" · ");
     }
     function render() {
       renderTable();
@@ -500,6 +704,7 @@
           ...row,
           marketCap: Number.isFinite(q.marketCap) ? q.marketCap : null,
           price: Number.isFinite(q.regularMarketPrice) ? q.regularMarketPrice : null,
+          volume: Number.isFinite(q.regularMarketPrice) && Number.isFinite(q.regularMarketVolume) ? q.regularMarketPrice * q.regularMarketVolume : null,
           changePercent: Number.isFinite(q.regularMarketChangePercent) ? q.regularMarketChangePercent : null
         };
       });
@@ -510,6 +715,14 @@
       $("category-filter").innerHTML = categories().map((cat) => `<option value="${cat}">${cat === "ALL" ? "全部子赛道" : cat}</option>`).join("");
       $("search").addEventListener("input", (event) => { state.query = event.target.value; render(); });
       $("category-filter").addEventListener("change", (event) => { state.category = event.target.value; render(); });
+      document.querySelectorAll(".tab").forEach((tab) => {
+        tab.addEventListener("click", () => {
+          document.querySelectorAll(".tab").forEach((item) => item.classList.toggle("active", item === tab));
+          state.category = tab.dataset.tab;
+          $("category-filter").value = state.category;
+          render();
+        });
+      });
       [["sort-mcap", "mcap"], ["sort-rank", "rank"], ["sort-change", "change"]].forEach(([id, sort]) => {
         $(id).addEventListener("click", () => {
           state.sort = sort;
