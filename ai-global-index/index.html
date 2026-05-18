@@ -1145,7 +1145,7 @@
           <span class="pillar-text"><span class="m-key">AI 新云</span><span class="pillar-en">AI Cloud Portfolio</span></span>
         </li>
       </ol>
-      <div class="manifesto-footer">九只股票等权配置，覆盖 AI 原生云平台、GPU 云算力、矿场转型 AI 数据中心、托管电力基础设施与传统数据中心 REITs；Lambda Labs、ClickHouse 与 Cursor 作为预上市观察项。<span class="manifesto-footer-en">Equal-weight exposure to AI-native cloud platforms, GPU cloud compute, miner-to-AI data-center conversions, hosted power infrastructure, and traditional data-center REITs; Lambda Labs, ClickHouse, and Cursor are tracked as pre-listing watch names.</span></div>
+      <div class="manifesto-footer">两只股票等权配置，只保留 Nebius Group 与世纪互连，聚焦 AI 云平台和中国第三方数据中心基础设施。<span class="manifesto-footer-en">Two equal-weight constituents only: Nebius Group and VNET Group, focused on AI cloud platforms and China third-party data-center infrastructure.</span></div>
     </div>
 
     <div class="chart-container investment-view">
@@ -1153,18 +1153,8 @@
         <div class="control-group" id="asset-group">
           <span class="control-group-label">标的</span>
           <button data-asset="INDEX" class="active"><span class="btn-main">指数</span><span class="btn-sub">Index</span></button>
-          <button data-asset="NBIS"><span class="btn-main">NBIS</span><span class="btn-sub">11.11%</span></button>
-          <button data-asset="CRWV"><span class="btn-main">CRWV</span><span class="btn-sub">11.11%</span></button>
-          <button data-asset="IREN"><span class="btn-main">IREN</span><span class="btn-sub">11.11%</span></button>
-          <button data-asset="APLD"><span class="btn-main">APLD</span><span class="btn-sub">11.11%</span></button>
-          <button data-asset="WULF"><span class="btn-main">WULF</span><span class="btn-sub">11.11%</span></button>
-          <button data-asset="HUT"><span class="btn-main">HUT</span><span class="btn-sub">11.11%</span></button>
-          <button data-asset="CORZ"><span class="btn-main">CORZ</span><span class="btn-sub">11.11%</span></button>
-          <button data-asset="DLR"><span class="btn-main">DLR</span><span class="btn-sub">11.11%</span></button>
-          <button data-asset="VNET"><span class="btn-main">VNET</span><span class="btn-sub">11.11%</span></button>
-          <button data-asset="LAMBDA" disabled><span class="btn-main">Lambda</span><span class="btn-sub">预上市</span></button>
-          <button data-asset="CLICKHOUSE" disabled><span class="btn-main">ClickHouse</span><span class="btn-sub">预上市</span></button>
-          <button data-asset="CURSOR" disabled><span class="btn-main">Cursor</span><span class="btn-sub">预上市</span></button>
+          <button data-asset="NBIS"><span class="btn-main">NBIS</span><span class="btn-sub">50%</span></button>
+          <button data-asset="VNET"><span class="btn-main">VNET</span><span class="btn-sub">50%</span></button>
         </div>
         <details class="control-group compact-control" id="period-group">
           <summary>
@@ -1820,152 +1810,19 @@
       "ai-cloud": {
         name: "AI 新云",
         nameEn: "AI Cloud Portfolio",
-        tag: "策略 · NBIS / CRWV / IREN / APLD / WULF / HUT / CORZ / DLR / VNET · 九只等权 · Lambda Labs / ClickHouse / Cursor 预上市观察",
-        tagEn: "STRATEGY · NBIS / CRWV / IREN / APLD / WULF / HUT / CORZ / DLR / VNET · NINE EQUAL WEIGHTS · LAMBDA LABS / CLICKHOUSE / CURSOR PRE-LISTING WATCH",
-        footer: "九只股票等权配置，覆盖 AI 原生云平台、GPU 云算力、矿场转型 AI 数据中心、托管电力基础设施与传统数据中心 REITs；Lambda Labs、ClickHouse 与 Cursor 作为预上市观察项。",
-        footerEn: "Equal-weight exposure to AI-native cloud platforms, GPU cloud compute, miner-to-AI data-center conversions, hosted power infrastructure, and traditional data-center REITs; Lambda Labs, ClickHouse, and Cursor are tracked as pre-listing watch names.",
+        tag: "策略 · NBIS / VNET · 两只等权 · 只保留 AI 云平台与世纪互连",
+        tagEn: "STRATEGY · NBIS / VNET · TWO EQUAL WEIGHTS · AI CLOUD PLATFORM AND VNET ONLY",
+        footer: "两只股票等权配置，只保留 Nebius Group 与世纪互连，聚焦 AI 云平台和中国第三方数据中心基础设施。",
+        footerEn: "Two equal-weight constituents only: Nebius Group and VNET Group, focused on AI cloud platforms and China third-party data-center infrastructure.",
         components: [
-          { name: "Nebius Group", short: "NBIS", ticker: "NBIS", weight: 1 / 9, ccy: "USD", sleeve: "US", status: "active",
+          { name: "Nebius Group", short: "NBIS", ticker: "NBIS", weight: 0.5, ccy: "USD", sleeve: "US", status: "active",
             concept: "AI 原生云平台 · GPU 算力集群",
             conceptEn: "AI-native cloud platform · GPU compute clusters",
             marketCap: 0, seed: 71001, base: 30, vol: 0.055, drift: 0.00035 },
-          { name: "CoreWeave", short: "CRWV", ticker: "CRWV", weight: 1 / 9, ccy: "USD", sleeve: "US", status: "active",
-            concept: "GPU 云算力 · AI 超级计算基础设施",
-            conceptEn: "GPU cloud compute · AI supercomputing infrastructure",
-            marketCap: 0, seed: 71002, base: 40, vol: 0.060, drift: 0.00038 },
-          { name: "IREN", short: "IREN", ticker: "IREN", weight: 1 / 9, ccy: "USD", sleeve: "US", status: "active",
-            concept: "AI 数据中心 · 可再生能源算力",
-            conceptEn: "AI data centers · renewable-powered compute",
-            marketCap: 0, seed: 71003, base: 5, vol: 0.065, drift: 0.00032 },
-          { name: "Applied Digital", short: "APLD", ticker: "APLD", weight: 1 / 9, ccy: "USD", sleeve: "US", status: "active",
-            concept: "AI 数据中心托管 · 高密度算力园区",
-            conceptEn: "AI data-center hosting · high-density compute campuses",
-            marketCap: 0, seed: 71004, base: 4, vol: 0.070, drift: 0.00034 },
-          { name: "TeraWulf", short: "WULF", ticker: "WULF", weight: 1 / 9, ccy: "USD", sleeve: "US", status: "active",
-            concept: "矿场转型 AI 数据中心 · 零碳电力",
-            conceptEn: "Miner-to-AI data centers · zero-carbon power",
-            marketCap: 0, seed: 71006, base: 3, vol: 0.075, drift: 0.00036 },
-          { name: "Hut 8", short: "HUT", ticker: "HUT", weight: 1 / 9, ccy: "USD", sleeve: "US", status: "active",
-            concept: "加密矿场转型 · AI 算力电力容量",
-            conceptEn: "Crypto miner conversion · AI compute power capacity",
-            marketCap: 0, seed: 71007, base: 12, vol: 0.070, drift: 0.00033 },
-          { name: "Core Scientific", short: "CORZ", ticker: "CORZ", weight: 1 / 9, ccy: "USD", sleeve: "US", status: "active",
-            concept: "AI 托管基础设施 · CoreWeave 长约",
-            conceptEn: "AI hosting infrastructure · CoreWeave long-term contracts",
-            marketCap: 0, seed: 71008, base: 10, vol: 0.068, drift: 0.00034 },
-          { name: "Digital Realty", short: "DLR", ticker: "DLR", weight: 1 / 9, ccy: "USD", sleeve: "US", status: "active",
-            concept: "数据中心 REIT · AI 液冷机房",
-            conceptEn: "Data-center REIT · AI liquid-cooled facilities",
-            marketCap: 0, seed: 71009, base: 130, vol: 0.020, drift: 0.00014 },
-          { name: "世纪互连", short: "VNET", ticker: "VNET", weight: 1 / 9, ccy: "USD", sleeve: "CN", status: "active",
+          { name: "世纪互连", short: "VNET", ticker: "VNET", weight: 0.5, ccy: "USD", sleeve: "CN", status: "active",
             concept: "中国第三方数据中心 · AI 云基础设施",
             conceptEn: "China third-party data centers · AI cloud infrastructure",
             marketCap: 0, seed: 71010, base: 4, vol: 0.045, drift: 0.00018 },
-          { name: "Lambda Labs", short: "LAMBDA", ticker: "LAMBDA", weight: 0, ccy: "USD", sleeve: "US", status: "prelist",
-            concept: "GPU 云平台 · AI 开发者算力",
-            conceptEn: "GPU cloud platform · AI developer compute",
-            marketCap: 0,
-            preListingNote: "预上市 · 暂无公开 ticker",
-            preListingNoteEn: "Pre-listing · no public ticker yet",
-            seed: 71005, base: 20, vol: 0.050, drift: 0.00042 },
-          { name: "ClickHouse", short: "CLICKHOUSE", ticker: "CLICKHOUSE", weight: 0, ccy: "USD", sleeve: "US", status: "prelist",
-            concept: "实时分析数据库 · AI 数据基础设施",
-            conceptEn: "Real-time analytics database · AI data infrastructure",
-            marketCap: 0,
-            preListingNote: "预上市 · 暂无公开 ticker",
-            preListingNoteEn: "Pre-listing · no public ticker yet",
-            seed: 71011, base: 20, vol: 0.050, drift: 0.00040 },
-          { name: "Cursor", short: "CURSOR", ticker: "CURSOR", weight: 0, ccy: "USD", sleeve: "US", status: "prelist",
-            concept: "AI 代码编辑器 · 开发者智能体平台",
-            conceptEn: "AI code editor · developer agent platform",
-            marketCap: 0,
-            preListingNote: "预上市 · 暂无公开 ticker",
-            preListingNoteEn: "Pre-listing · no public ticker yet",
-            seed: 71012, base: 20, vol: 0.050, drift: 0.00041 },
-        ],
-      },
-      "ai-agent-prelist": {
-        name: "AI Agent",
-        nameEn: "AI Agent Portfolio",
-        tag: "上市锚定 · NBIS / NOW / MSFT / AVGO / MRVL / ARM · 预上市观察 RocketFound / Etched AI / E2B / Slingshot AI / GetDynasty / Lotus AI",
-        tagEn: "LISTED ANCHORS · NBIS / NOW / MSFT / AVGO / MRVL / ARM · PRE-LISTING WATCH ROCKETFOUND / ETCHED AI / E2B / SLINGSHOT AI / GETDYNASTY / LOTUS AI",
-        footer: "以 Nebius、ServiceNow、Microsoft、Broadcom、Marvell 与 ARM 六只上市公司等权跟踪 AI Agent 平台化落地，同时保留 RocketFound、Etched AI、E2B、Slingshot AI、GetDynasty 与 Lotus AI 六家预上市观察项。",
-        footerEn: "Tracks AI-agent platform adoption through equal-weighted listed anchors Nebius, ServiceNow, Microsoft, Broadcom, Marvell, and ARM, while keeping RocketFound, Etched AI, E2B, Slingshot AI, GetDynasty, and Lotus AI as pre-listing watch names.",
-        componentsTitle: "成分股/预上市公司 · 各自代表的 AI Agent 子赛道",
-        componentsTitleEn: "LISTED AND PRE-LISTING NAMES · AI agent subsector represented by each holding",
-        equalWeightTradable: true,
-        flags: [
-          { zh: "上市锚定", en: "Listed anchors" },
-          { zh: "预上市观察", en: "Pre-listing watch" },
-          { zh: "AI Agent", en: "AI Agent" },
-        ],
-        components: [
-          { name: "Nebius Group", short: "NBIS", ticker: "NBIS", weight: 1 / 6, ccy: "USD", sleeve: "US", status: "active",
-            concept: "AI 云与 Agent 算力基础设施",
-            conceptEn: "AI cloud and agent compute infrastructure",
-            marketCap: 0, seed: 73007, base: 80, vol: 0.040, drift: 0.00032 },
-          { name: "ServiceNow", short: "NOW", ticker: "NOW", weight: 1 / 6, ccy: "USD", sleeve: "US", status: "active",
-            concept: "企业工作流 AI Agent 平台",
-            conceptEn: "Enterprise workflow AI agent platform",
-            marketCap: 0, seed: 73005, base: 92, vol: 0.025, drift: 0.00022 },
-          { name: "Microsoft", short: "MSFT", ticker: "MSFT", weight: 1 / 6, ccy: "USD", sleeve: "US", status: "active",
-            concept: "Copilot 与企业 Agent 平台",
-            conceptEn: "Copilot and enterprise agent platform",
-            marketCap: 0, seed: 73006, base: 95, vol: 0.020, drift: 0.00020 },
-          { name: "Broadcom", short: "AVGO", ticker: "AVGO", weight: 1 / 6, ccy: "USD", sleeve: "US", status: "active",
-            concept: "定制 AI ASIC 与 TPU 供应链",
-            conceptEn: "Custom AI ASIC and TPU supply chain",
-            marketCap: 0, seed: 73009, base: 100, vol: 0.030, drift: 0.00025 },
-          { name: "Marvell Technology", short: "MRVL", ticker: "MRVL", weight: 1 / 6, ccy: "USD", sleeve: "US", status: "active",
-            concept: "定制 AI ASIC 与数据中心互连芯片",
-            conceptEn: "Custom AI ASIC and data-center interconnect chips",
-            marketCap: 0, seed: 73010, base: 75, vol: 0.035, drift: 0.00024 },
-          { name: "ARM Holdings", short: "ARM", ticker: "ARM", weight: 1 / 6, ccy: "USD", sleeve: "UK", status: "active",
-            concept: "AI 芯片 IP 架构与边缘 Agent 生态",
-            conceptEn: "AI chip IP architecture and edge-agent ecosystem",
-            marketCap: 0, seed: 73011, base: 90, vol: 0.035, drift: 0.00024 },
-          { name: "RocketFound", short: "ROCKETFOUND", ticker: "ROCKETFOUND", weight: 0, ccy: "USD", sleeve: "US", status: "prelist",
-            concept: "AI Agent 创业公司预上市观察",
-            conceptEn: "AI agent startup pre-listing watch",
-            marketCap: 0,
-            preListingNote: "预上市 · 暂无公开 ticker",
-            preListingNoteEn: "Pre-listing · no public ticker yet",
-            seed: 73012, base: 20, vol: 0.050, drift: 0.00040 },
-          { name: "Etched AI", short: "ETCHEDAI", ticker: "ETCHEDAI", weight: 0, ccy: "USD", sleeve: "US", status: "prelist",
-            concept: "Transformer / Agent 推理专用 AI 芯片",
-            conceptEn: "Transformer and agent-inference AI chip",
-            marketCap: 0,
-            preListingNote: "预上市 · 暂无公开 ticker",
-            preListingNoteEn: "Pre-listing · no public ticker yet",
-            seed: 73008, base: 20, vol: 0.050, drift: 0.00040 },
-          { name: "Lotus AI", short: "LOTUSAI", ticker: "LOTUSAI", weight: 0, ccy: "USD", sleeve: "US", status: "prelist",
-            concept: "医疗与企业级系统自动化 Agent",
-            conceptEn: "Healthcare and enterprise system automation agents",
-            marketCap: 0,
-            preListingNote: "预上市 · 暂无公开 ticker",
-            preListingNoteEn: "Pre-listing · no public ticker yet",
-            seed: 73001, base: 20, vol: 0.050, drift: 0.00040 },
-          { name: "Slingshot AI", short: "SLINGSHOTAI", ticker: "SLINGSHOTAI", weight: 0, ccy: "USD", sleeve: "US", status: "prelist",
-            concept: "心理咨询 AI Agent",
-            conceptEn: "AI therapy and mental-health agent",
-            marketCap: 0,
-            preListingNote: "预上市 · 暂无公开 ticker",
-            preListingNoteEn: "Pre-listing · no public ticker yet",
-            seed: 73002, base: 20, vol: 0.050, drift: 0.00040 },
-          { name: "GetDynasty", short: "GETDYNASTY", ticker: "GETDYNASTY", weight: 0, ccy: "USD", sleeve: "US", status: "prelist",
-            concept: "法律服务 AI Agent",
-            conceptEn: "Legal services AI agent",
-            marketCap: 0,
-            preListingNote: "预上市 · 暂无公开 ticker",
-            preListingNoteEn: "Pre-listing · no public ticker yet",
-            seed: 73004, base: 20, vol: 0.050, drift: 0.00040 },
-          { name: "E2B", short: "E2B", ticker: "E2B", weight: 0, ccy: "USD", sleeve: "US", status: "prelist",
-            concept: "Agent 专属云端沙盒基础设施",
-            conceptEn: "Cloud sandbox infrastructure for AI agents",
-            marketCap: 0,
-            preListingNote: "预上市 · 暂无公开 ticker",
-            preListingNoteEn: "Pre-listing · no public ticker yet",
-            seed: 73003, base: 20, vol: 0.050, drift: 0.00040 },
         ],
       }
     };
@@ -1975,27 +1832,9 @@
         header: "AI 新云事件",
         headerEn: "AI Cloud Portfolio Milestones",
         milestones: [
-          { date: "2022-11-30", category: "ai", label: "AI 新云组合起点", en: "AI Cloud portfolio start",
-            desc: "以统一 T₀ 追踪 AI 云平台、GPU 算力租赁与 AI 数据中心能源基础设施敞口。",
-            desc_en: "Uses the shared T0 to track AI cloud platforms, GPU compute rental, and AI data-center power infrastructure exposure." },
-          { date: "2026-05-15", category: "ai", label: "AI 新云组合建立", en: "AI Cloud basket created",
-            desc: "纳入 Nebius Group、CoreWeave、IREN、Applied Digital 四只上市公司，采用等权配置。",
-            desc_en: "Adds Nebius Group, CoreWeave, IREN, and Applied Digital as four equal-weight listed constituents." },
-          { date: "2026-05-16", category: "market", label: "Lambda Labs 预上市观察", en: "Lambda Labs pre-listing watch",
-            desc: "Lambda Labs 暂无公开 ticker，作为 GPU 云平台和 AI 开发者算力预上市观察项；公开行情出现后自动加入等权计算。",
-            desc_en: "Lambda Labs has no public ticker yet and is tracked as a GPU cloud platform and AI developer compute pre-listing watch name; once public quote data appears, it automatically joins the equal-weight calculation." },
-          { date: "2026-05-16", category: "ai", label: "扩展 AI 电力与数据中心链", en: "AI power and data-center chain expanded",
-            desc: "加入 TeraWulf、Hut 8、Core Scientific、Digital Realty、世纪互连五只上市标的，AI 新云调整为九只上市公司等权。",
-            desc_en: "Adds TeraWulf, Hut 8, Core Scientific, Digital Realty, and VNET Group, shifting AI Cloud to nine equal-weight listed constituents." },
-        ],
-      },
-      "ai-agent-prelist": {
-        header: "AI Agent 组合事件",
-        headerEn: "AI Agent Portfolio Milestones",
-        milestones: [
-          { date: "2026-05-17", category: "ai", label: "加入 AI Agent 上市锚定成分", en: "Listed AI-agent anchors added",
-            desc: "加入 Nebius、ServiceNow、Microsoft、Broadcom、Marvell、ARM 六只上市锚定成分，并保留 RocketFound、Etched AI、E2B、Slingshot AI、GetDynasty 与 Lotus AI 预上市观察项。",
-            desc_en: "Adds Nebius, ServiceNow, Microsoft, Broadcom, Marvell, and ARM as listed AI-agent anchor constituents while keeping RocketFound, Etched AI, E2B, Slingshot AI, GetDynasty, and Lotus AI as pre-listing watch names." },
+          { date: "2026-05-19", category: "market", label: "AI 新云收缩为 NBIS / 世纪互连", en: "AI Cloud narrowed to NBIS / VNET",
+            desc: "移除额外组合，并将 AI 新云收缩为 Nebius Group 与世纪互连两只上市公司等权。",
+            desc_en: "Removes the extra portfolio and narrows AI Cloud to equal-weighted Nebius Group and VNET Group." },
         ],
       }
     };
@@ -2006,12 +1845,9 @@
     let liveNewsItems = [];
     let newsMeta = null;
     const FALLBACK_NEWS_ITEMS = [
-      { source: "AI Cloud · Components", zhSource: "AI 新云 · 成分股", enSource: "AI Cloud · Components", url: "https://news.google.com/search?q=Nebius%20OR%20NBIS%20OR%20CoreWeave%20OR%20CRWV%20OR%20IREN%20OR%20Applied%20Digital%20OR%20APLD%20OR%20TeraWulf%20OR%20WULF%20OR%20Hut%208%20OR%20HUT%20OR%20Core%20Scientific%20OR%20CORZ%20OR%20Digital%20Realty%20OR%20DLR%20OR%20VNET%20OR%20%E4%B8%96%E7%BA%AA%E4%BA%92%E8%BF%9E%20OR%20Lambda%20Labs%20OR%20ClickHouse%20OR%20Cursor%20AI%20OR%20Anysphere%20OR%20GPU%20cloud%20OR%20AI%20data%20center",
+      { source: "AI Cloud · Components", zhSource: "AI 新云 · 成分股", enSource: "AI Cloud · Components", url: "https://news.google.com/search?q=Nebius%20OR%20NBIS%20OR%20VNET%20OR%20%E4%B8%96%E7%BA%AA%E4%BA%92%E8%BF%9E%20OR%20%22AI%20cloud%22%20OR%20%22AI%20data%20center%22",
         matchedPortfolios: ["ai-cloud"], titleZh: "AI 新云成分股新闻监控", titleEn: "AI Cloud constituents news monitor",
-        summaryZh: "当实时新闻未命中时，作为 AI 新云组合的备用新闻源，匹配 AI 云、GPU 算力、矿场转型 AI 数据中心、数据中心 REITs、Lambda Labs、ClickHouse 与 Cursor 主题。", summaryEn: "Fallback monitor for the AI Cloud Portfolio, matching AI cloud, GPU compute, miner-to-AI data centers, data-center REITs, Lambda Labs, ClickHouse, and Cursor themes." },
-      { source: "AI Agent · Components", zhSource: "AI Agent · 成分股", enSource: "AI Agent · Components", url: "https://news.google.com/search?q=Nebius%20OR%20NBIS%20OR%20ServiceNow%20OR%20%22NOW%20stock%22%20OR%20%22NYSE%20NOW%22%20OR%20Microsoft%20Copilot%20OR%20MSFT%20OR%20Broadcom%20OR%20AVGO%20OR%20Marvell%20OR%20MRVL%20OR%20%22ARM%20Holdings%22%20OR%20%22ARM%20stock%22%20OR%20%22custom%20AI%20ASIC%22%20OR%20%22RocketFound%22%20OR%20%22Etched%20AI%22%20OR%20%22Lotus%20AI%22%20OR%20%22Slingshot%20AI%22%20OR%20%22GetDynasty%22%20OR%20%22E2B%22%20%22AI%20sandbox%22%20OR%20%22AI%20agent%22",
-        matchedPortfolios: ["ai-agent-prelist"], titleZh: "AI Agent 成分股新闻监控", titleEn: "AI Agent constituents news monitor",
-        summaryZh: "当实时新闻未命中时，作为 AI Agent 组合的备用新闻源，匹配 Nebius、ServiceNow、Microsoft Copilot、Broadcom、Marvell、ARM、RocketFound、Etched AI、E2B、Slingshot AI、GetDynasty、Lotus AI、AI 运行沙盒与 Agent 垂直应用主题。", summaryEn: "Fallback monitor for the AI Agent portfolio, matching Nebius, ServiceNow, Microsoft Copilot, Broadcom, Marvell, ARM, RocketFound, Etched AI, E2B, Slingshot AI, GetDynasty, Lotus AI, AI runtime sandbox, and agent vertical-application themes." }
+        summaryZh: "当实时新闻未命中时，作为 AI 新云组合的备用新闻源，匹配 Nebius、NBIS、世纪互连、VNET、AI 云与 AI 数据中心主题。", summaryEn: "Fallback monitor for the AI Cloud Portfolio, matching Nebius, NBIS, VNET, AI cloud, and AI data-center themes." }
     ];
 
     async function loadData() {
@@ -2476,33 +2312,14 @@
       "AI Cloud · Components": { zh: "AI 新云 · 成分股", en: "AI Cloud · Components" },
       "AI Cloud · Infrastructure": { zh: "AI 新云 · 基础设施", en: "AI Cloud · Infrastructure" },
       "AI Cloud · Nebius Group": { zh: "AI 新云 · Nebius Group", en: "AI Cloud · Nebius Group" },
-      "AI Cloud · CoreWeave": { zh: "AI 新云 · CoreWeave", en: "AI Cloud · CoreWeave" },
-      "AI Cloud · IREN": { zh: "AI 新云 · IREN", en: "AI Cloud · IREN" },
-      "AI Cloud · Applied Digital": { zh: "AI 新云 · Applied Digital", en: "AI Cloud · Applied Digital" },
-      "AI Cloud · TeraWulf": { zh: "AI 新云 · TeraWulf", en: "AI Cloud · TeraWulf" },
-      "AI Cloud · Hut 8": { zh: "AI 新云 · Hut 8", en: "AI Cloud · Hut 8" },
-      "AI Cloud · Core Scientific": { zh: "AI 新云 · Core Scientific", en: "AI Cloud · Core Scientific" },
-      "AI Cloud · Digital Realty": { zh: "AI 新云 · Digital Realty", en: "AI Cloud · Digital Realty" },
       "AI Cloud · VNET": { zh: "AI 新云 · 世纪互连", en: "AI Cloud · VNET" },
-      "AI Cloud · Lambda Labs": { zh: "AI 新云 · Lambda Labs", en: "AI Cloud · Lambda Labs" },
-      "AI Cloud · ClickHouse": { zh: "AI 新云 · ClickHouse", en: "AI Cloud · ClickHouse" },
-      "AI Cloud · Cursor": { zh: "AI 新云 · Cursor", en: "AI Cloud · Cursor" },
-      "AI Agent · Components": { zh: "AI Agent · 成分股", en: "AI Agent · Components" },
     };
 
     const NEWS_PORTFOLIO_KEYWORDS = {
       "ai-cloud": [
-        "ai cloud", "gpu cloud", "gpu compute", "ai infrastructure", "data center",
-        "nebius", "nebius group", "nbis", "coreweave", "crwv", "iren", "iren limited", "iris energy", "applied digital", "apld", "terawulf", "wulf", "lake mariner", "hut 8", "hut", "core scientific", "corz", "digital realty", "dlr", "vnet", "vnet group", "世纪互连", "lambda labs", "lambda", "lambda gpu cloud", "clickhouse", "clickhouse ipo", "clickhouse database", "cursor ai", "cursor code editor", "anysphere",
-        "cloud gpu", "accelerated compute", "ai data center", "renewable compute", "data center reit", "liquid cooling", "data center power", "neocloud", "real-time analytics database",
-        "AI 云", "GPU 云", "AI 基础设施", "数据中心", "算力租赁",
-        "Nebius", "CoreWeave", "IREN", "Applied Digital", "TeraWulf", "Hut 8", "Core Scientific", "Digital Realty", "VNET", "世纪互连", "Lambda Labs", "ClickHouse", "Cursor", "Anysphere", "新云", "AI 新云"
-      ],
-      "ai-agent-prelist": [
-        "ai agent", "agentic ai", "ai sandbox", "runtime sandbox", "developer agents",
-        "nebius", "nebius group", "nbis", "servicenow", "service now", "now stock", "nyse now", "microsoft", "msft", "copilot", "microsoft copilot", "broadcom", "avgo", "marvell", "mrvl", "arm holdings", "arm stock", "arm architecture", "custom ai asic", "ai asic", "tpu", "trainium", "inferentia", "autonomous agents", "enterprise agent platform",
-        "rocketfound", "rocketfound ai", "etched ai", "etched", "ai inference chip", "transformer chip", "lotus ai", "slingshot ai", "getdynasty", "e2b", "agent infrastructure", "workflow automation", "mental health ai", "legal ai",
-        "AI Agent", "智能体", "运行沙盒", "开发者智能体", "企业工作流", "AI 推理芯片", "定制 ASIC", "芯片 IP", "边缘 AI", "数据中心互连", "心理咨询", "法律服务", "Nebius", "NBIS", "ServiceNow", "Microsoft", "Copilot", "Broadcom", "AVGO", "Marvell", "MRVL", "ARM Holdings", "ARM", "RocketFound", "Etched AI", "Lotus AI", "Slingshot AI", "GetDynasty", "E2B"
+        "ai cloud", "ai infrastructure", "data center", "ai data center",
+        "nebius", "nebius group", "nbis", "vnet", "vnet group", "世纪互连",
+        "AI 云", "AI 基础设施", "数据中心", "Nebius", "VNET", "世纪互连", "新云", "AI 新云"
       ],
     };
 
