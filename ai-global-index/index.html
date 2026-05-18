@@ -273,6 +273,33 @@
       color: #f59e0b;
     }
     .country { color: var(--soft); }
+    .flag { font-size: 15px; margin-left: 6px; vertical-align: -1px; }
+    .pager {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      padding: 12px;
+      border-top: 1px solid var(--line-soft);
+      background: #fff;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .page-btn {
+      min-width: 34px;
+      height: 32px;
+      padding: 0 10px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+      color: var(--soft);
+      font-weight: 800;
+    }
+    .page-btn.active {
+      border-color: #bbf7d0;
+      background: #ecfdf5;
+      color: var(--green);
+    }
     .footer-note {
       color: var(--muted);
       font-size: 12px;
@@ -316,7 +343,7 @@
   <main class="shell">
     <section class="hero">
       <h1>AI 公司行情与市值排名</h1>
-      <p class="subtitle">当前 AI 相关美国上市或美股挂牌公司市值为 <b id="inline-total-cap">—</b>。本页从英伟达开始，追踪前 100 名 AI 产业链公司，覆盖芯片、云、数据中心、电力散热、企业软件、安全、EDA、自动化、量子计算与新云基础设施。</p>
+      <p class="subtitle">当前 AI 相关美国上市、美股挂牌与中国 A 股公司市值为 <b id="inline-total-cap">—</b>。本页从英伟达开始，追踪 AI 产业链公司；美国公司标注 🇺🇸，中国公司标注 🇨🇳，每页显示 100 家，超过 100 家进入第二页。</p>
       <div class="summary-line">
         Companies: <b id="summary-count">100</b> total market cap: <b id="summary-total-cap">—</b>
         <span class="summary-actions"><a class="icon-btn" href="#" title="download">↓</a><a class="icon-btn" href="#" title="watchlist">☆</a></span>
@@ -354,6 +381,7 @@
       <button class="tab" data-tab="Enterprise AI" type="button">企业 AI</button>
       <button class="tab" data-tab="AI security" type="button">安全</button>
       <button class="tab" data-tab="Quantum" type="button">量子</button>
+      <button class="tab" data-tab="China AI" type="button">中国 AI</button>
     </section>
 
     <section class="toolbar" aria-label="AI Market Cap controls">
@@ -400,6 +428,7 @@
           <tbody id="rank-body"></tbody>
         </table>
       </div>
+      <div class="pager" id="pager"></div>
     </section>
     <p class="footer-note">说明：这是 AI 相关美股挂牌公司观察名单，不是投资建议，也不是官方指数。市值优先使用在线 quote；接口不可用时使用内置估算市值保持排序可读。点击公司行可打开对应 Yahoo Finance 页面。</p>
   </main>
@@ -415,11 +444,23 @@
       ON: 25, MCHP: 25, RBRK: 20, TER: 20, GFS: 20, IREN: 18, OKTA: 16, DT: 16, NBIS: 15, IONQ: 15,
       COHR: 15, DOCU: 12, TWLO: 12, APLD: 12, TEM: 10, NICE: 10, WULF: 8, LITE: 8, CFLT: 7, PATH: 6,
       CORZ: 6, TSEM: 6, SOUN: 5, RGTI: 5, IPGP: 5, VNET: 4, HUT: 4, QBTS: 4, ACMR: 4, AI: 3,
-      ACLS: 3, VECO: 3, FORM: 3, UCTT: 2, QUBT: 2, BBAI: 1, AEHR: 1, COHU: 1
+      ACLS: 3, VECO: 3, FORM: 3, UCTT: 2, QUBT: 2, BBAI: 1, AEHR: 1, COHU: 1,
+      "688256.SS": 80, "688041.SS": 55, "688111.SS": 45, "603019.SS": 42, "000977.SZ": 38,
+      "002230.SZ": 35, "300308.SZ": 32, "300502.SZ": 28, "300394.SZ": 25, "688981.SS": 95,
+      "002415.SZ": 36, "000938.SZ": 24, "600570.SS": 18, "300033.SZ": 24, "688008.SS": 20,
+      "688521.SS": 13, "688327.SS": 5, "688088.SS": 4, "603501.SS": 42, "002236.SZ": 15,
+      "300496.SZ": 12, "002371.SZ": 44, "688120.SS": 12, "300476.SZ": 14, "002463.SZ": 18,
+      "300604.SZ": 8, "688012.SS": 24, "603893.SS": 16, "688169.SS": 15, "688728.SS": 9
     };
     const COUNTRY_OVERRIDES = {
       TSM: "Taiwan", ASML: "Netherlands", SAP: "Germany", ARM: "United Kingdom", SHOP: "Canada", NICE: "Israel",
-      TSEM: "Israel", QCOM: "USA", NXPI: "Netherlands", GFS: "USA"
+      TSEM: "Israel", QCOM: "USA", NXPI: "Netherlands", GFS: "USA",
+      "688256.SS": "China", "688041.SS": "China", "688111.SS": "China", "603019.SS": "China", "000977.SZ": "China",
+      "002230.SZ": "China", "300308.SZ": "China", "300502.SZ": "China", "300394.SZ": "China", "688981.SS": "China",
+      "002415.SZ": "China", "000938.SZ": "China", "600570.SS": "China", "300033.SZ": "China", "688008.SS": "China",
+      "688521.SS": "China", "688327.SS": "China", "688088.SS": "China", "603501.SS": "China", "002236.SZ": "China",
+      "300496.SZ": "China", "002371.SZ": "China", "688120.SS": "China", "300476.SZ": "China", "002463.SZ": "China",
+      "300604.SZ": "China", "688012.SS": "China", "603893.SS": "China", "688169.SS": "China", "688728.SS": "China"
     };
 
     const COMPANIES = [
@@ -522,7 +563,37 @@
       ["IPGP", "IPG Photonics", "Industrial lasers", "工业激光和自动化制造。"],
       ["SYM", "Symbotic", "Warehouse robotics", "仓储机器人和 AI 自动化。"],
       ["ISRG", "Intuitive Surgical", "Robotic surgery", "手术机器人和医疗自动化。"],
-      ["NICE", "NICE", "Customer AI", "客服 AI、语音分析和 CX 自动化。"]
+      ["NICE", "NICE", "Customer AI", "客服 AI、语音分析和 CX 自动化。"],
+      ["688256.SS", "寒武纪", "China AI chip", "国产 AI 芯片与云端推理训练加速。"],
+      ["688041.SS", "海光信息", "China AI chip", "CPU/DCU 算力芯片与国产 AI 服务器生态。"],
+      ["688111.SS", "金山办公", "China enterprise AI", "WPS AI、办公文档与企业生产力 AI。"],
+      ["603019.SS", "中科曙光", "China AI server", "AI 服务器、高性能计算与国产算力基础设施。"],
+      ["000977.SZ", "浪潮信息", "China AI server", "AI 服务器、整机与数据中心基础设施。"],
+      ["002230.SZ", "科大讯飞", "China AI software", "星火大模型、语音识别和教育办公 AI。"],
+      ["300308.SZ", "中际旭创", "China optical", "高速光模块，AI 数据中心互连核心。"],
+      ["300502.SZ", "新易盛", "China optical", "高速光模块与 AI 算力网络。"],
+      ["300394.SZ", "天孚通信", "China optical", "光器件与 AI 数据中心光互连。"],
+      ["688981.SS", "中芯国际", "China foundry", "国产晶圆制造，AI 芯片供应链基础。"],
+      ["002415.SZ", "海康威视", "China vision AI", "机器视觉、视频智能与边缘 AI。"],
+      ["000938.SZ", "紫光股份", "China AI infrastructure", "ICT 设备、网络和服务器基础设施。"],
+      ["600570.SS", "恒生电子", "China fintech AI", "金融软件、智能投研与行业 AI 应用。"],
+      ["300033.SZ", "同花顺", "China fintech AI", "金融信息服务、智能投顾与 AI 助手。"],
+      ["688008.SS", "澜起科技", "China memory interface", "服务器内存接口芯片与 AI 服务器链条。"],
+      ["688521.SS", "芯原股份", "China chip IP", "芯片 IP、定制 SoC 和 AI 芯片设计服务。"],
+      ["688327.SS", "云从科技", "China AI software", "视觉智能、人机协同与行业大模型应用。"],
+      ["688088.SS", "虹软科技", "China vision AI", "计算机视觉、影像算法与端侧 AI。"],
+      ["603501.SS", "韦尔股份", "China sensor chip", "图像传感器、汽车与边缘视觉 AI。"],
+      ["002236.SZ", "大华股份", "China vision AI", "视频物联、机器视觉与城市 AI。"],
+      ["300496.SZ", "中科创达", "China edge AI", "智能汽车、IoT 操作系统与边缘 AI。"],
+      ["002371.SZ", "北方华创", "China semi equipment", "半导体设备，国产先进制造链。"],
+      ["688120.SS", "华海清科", "China semi equipment", "CMP 设备与半导体制造国产化。"],
+      ["300476.SZ", "胜宏科技", "China AI PCB", "AI 服务器 PCB 和高速互连。"],
+      ["002463.SZ", "沪电股份", "China AI PCB", "AI 服务器与高速通信 PCB。"],
+      ["300604.SZ", "长川科技", "China semi test", "半导体测试设备与 AI 芯片检测。"],
+      ["688012.SS", "中微公司", "China semi equipment", "刻蚀设备与先进制程设备。"],
+      ["603893.SS", "瑞芯微", "China edge AI chip", "SoC、端侧 AI 和智能硬件芯片。"],
+      ["688169.SS", "石头科技", "China robotics", "服务机器人、视觉导航与家用 AI。"],
+      ["688728.SS", "格科微", "China sensor chip", "图像传感器与边缘视觉硬件。"]
     ].map((row, index) => ({
       rank: index + 1,
       ticker: row[0],
@@ -533,11 +604,14 @@
       marketCap: null,
       fallbackCap: (FALLBACK_CAP_B[row[0]] || 0) * 1e9,
       price: null,
+      currency: "USD",
       volume: null,
       changePercent: null
     }));
 
-    const state = { rows: [...COMPANIES], sort: "mcap", query: "", category: "ALL", selected: "NVDA" };
+    const ROWS_PER_PAGE = 100;
+    const CNY_PER_USD = 7.1;
+    const state = { rows: [...COMPANIES], sort: "mcap", query: "", category: "ALL", selected: "NVDA", page: 1 };
     const $ = (id) => document.getElementById(id);
 
     function formatCap(value) {
@@ -560,13 +634,17 @@
       const scale = span === 1 ? 0.22 : span === 24 ? 0.95 : span === 7 ? 2.2 : 5.8;
       return wave * scale;
     }
-    function formatPrice(value) {
+    function formatPrice(value, row) {
       if (!Number.isFinite(value) || value <= 0) return "—";
-      if (value < 1) return `$${value.toFixed(4)}`;
-      return `$${value.toFixed(2)}`;
+      const symbol = row?.currency === "CNY" ? "¥" : "$";
+      if (value < 1) return `${symbol}${value.toFixed(4)}`;
+      return `${symbol}${value.toFixed(2)}`;
     }
     function yahooLink(ticker) {
       return `https://finance.yahoo.com/quote/${encodeURIComponent(ticker)}`;
+    }
+    function flagFor(row) {
+      return row.country === "China" ? "🇨🇳" : "🇺🇸";
     }
     function formatChange(value) {
       if (!Number.isFinite(value)) return `<span class="change">—</span>`;
@@ -593,13 +671,13 @@
       </svg>`;
     }
     function categories() {
-      return ["ALL", ...Array.from(new Set(COMPANIES.map((row) => row.category))).sort()];
+      return ["ALL", "China AI", ...Array.from(new Set(COMPANIES.map((row) => row.category))).sort()];
     }
     function filteredRows() {
       const q = state.query.trim().toLowerCase();
       let rows = state.rows.filter((row) => {
-        const matchCategory = state.category === "ALL" || row.category === state.category;
-        const haystack = `${row.ticker} ${row.name} ${row.category} ${row.thesis}`.toLowerCase();
+        const matchCategory = state.category === "ALL" || (state.category === "China AI" ? row.country === "China" : row.category === state.category);
+        const haystack = `${row.ticker} ${row.name} ${row.category} ${row.thesis} ${row.country} ${flagFor(row)}`.toLowerCase();
         return matchCategory && (!q || haystack.includes(q));
       });
       if (state.sort === "mcap") {
@@ -619,8 +697,13 @@
     }
     function renderTable() {
       const rows = filteredRows();
-      $("count-note").textContent = `${rows.length} / ${COMPANIES.length} companies`;
-      $("rank-body").innerHTML = rows.map((row, idx) => {
+      const pageCount = Math.max(1, Math.ceil(rows.length / ROWS_PER_PAGE));
+      state.page = Math.min(Math.max(1, state.page), pageCount);
+      const start = (state.page - 1) * ROWS_PER_PAGE;
+      const pageRows = rows.slice(start, start + ROWS_PER_PAGE);
+      const end = Math.min(start + pageRows.length, rows.length);
+      $("count-note").textContent = `${rows.length ? start + 1 : 0}-${end} / ${rows.length} companies`;
+      $("rank-body").innerHTML = pageRows.map((row, idx) => {
         const h1 = pseudoChange(row, 1);
         const d1 = Number.isFinite(row.changePercent) ? row.changePercent : pseudoChange(row, 24);
         const d7 = pseudoChange(row, 7);
@@ -628,16 +711,16 @@
         const isActive = row.ticker === state.selected ? " class=\"active\"" : "";
         return `<tr data-ticker="${row.ticker}"${isActive}>
           <td><button class="watch" type="button" aria-label="关注 ${row.ticker}" title="关注">☆</button></td>
-          <td class="rank">${idx + 1}</td>
+          <td class="rank">${start + idx + 1}</td>
           <td>
             <div class="company-cell">
               <span>
-                <span class="company-line"><span class="company-name">${row.name}</span><span class="ticker">${row.ticker}</span></span>
+                <span class="company-line"><span class="company-name">${row.name}</span><span class="flag">${flagFor(row)}</span><span class="ticker">${row.ticker}</span></span>
                 <div class="subtext">${row.category}</div>
               </span>
             </div>
           </td>
-          <td>${formatPrice(row.price)}</td>
+          <td>${formatPrice(row.price, row)}</td>
           <td>${formatChange(h1)}</td>
           <td>${formatChange(d1)}</td>
           <td>${formatChange(d7)}</td>
@@ -647,6 +730,7 @@
           <td>${sparkline(row)}</td>
         </tr>`;
       }).join("") || `<tr><td colspan="11"><div class="empty">没有匹配结果</div></td></tr>`;
+      renderPager(rows.length, pageCount);
       document.querySelectorAll("#rank-body .watch").forEach((button) => {
         button.addEventListener("click", (event) => {
           event.stopPropagation();
@@ -658,6 +742,25 @@
         tr.addEventListener("click", () => {
           state.selected = tr.dataset.ticker;
           window.open(yahooLink(state.selected), "_blank", "noopener");
+          render();
+        });
+      });
+    }
+    function renderPager(totalRows, pageCount) {
+      const pager = $("pager");
+      if (!pager) return;
+      if (pageCount <= 1) {
+        pager.innerHTML = `<span>第 1 页 · ${totalRows} 家</span>`;
+        return;
+      }
+      const buttons = Array.from({ length: pageCount }, (_, i) => {
+        const page = i + 1;
+        return `<button class="page-btn ${page === state.page ? "active" : ""}" type="button" data-page="${page}">${page}</button>`;
+      }).join("");
+      pager.innerHTML = `<button class="page-btn" type="button" data-page="${Math.max(1, state.page - 1)}">‹</button>${buttons}<button class="page-btn" type="button" data-page="${Math.min(pageCount, state.page + 1)}">›</button><span>每页 ${ROWS_PER_PAGE} 家</span>`;
+      pager.querySelectorAll("[data-page]").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.page = Number(button.dataset.page) || 1;
           render();
         });
       });
@@ -709,11 +812,19 @@
       }
       state.rows = COMPANIES.map((row) => {
         const q = quotes.get(row.ticker) || {};
+        const quoteCurrency = q.currency || row.currency || "USD";
+        const quoteMarketCap = Number.isFinite(q.marketCap)
+          ? (quoteCurrency === "CNY" ? q.marketCap / CNY_PER_USD : q.marketCap)
+          : null;
+        const quoteVolume = Number.isFinite(q.regularMarketPrice) && Number.isFinite(q.regularMarketVolume)
+          ? (quoteCurrency === "CNY" ? (q.regularMarketPrice * q.regularMarketVolume) / CNY_PER_USD : q.regularMarketPrice * q.regularMarketVolume)
+          : null;
         return {
           ...row,
-          marketCap: Number.isFinite(q.marketCap) ? q.marketCap : null,
+          marketCap: quoteMarketCap,
           price: Number.isFinite(q.regularMarketPrice) ? q.regularMarketPrice : null,
-          volume: Number.isFinite(q.regularMarketPrice) && Number.isFinite(q.regularMarketVolume) ? q.regularMarketPrice * q.regularMarketVolume : null,
+          currency: quoteCurrency,
+          volume: quoteVolume,
           changePercent: Number.isFinite(q.regularMarketChangePercent) ? q.regularMarketChangePercent : null
         };
       });
@@ -722,19 +833,21 @@
     }
     function initControls() {
       $("category-filter").innerHTML = categories().map((cat) => `<option value="${cat}">${cat === "ALL" ? "全部子赛道" : cat}</option>`).join("");
-      $("search").addEventListener("input", (event) => { state.query = event.target.value; render(); });
-      $("category-filter").addEventListener("change", (event) => { state.category = event.target.value; render(); });
+      $("search").addEventListener("input", (event) => { state.query = event.target.value; state.page = 1; render(); });
+      $("category-filter").addEventListener("change", (event) => { state.category = event.target.value; state.page = 1; render(); });
       document.querySelectorAll(".tab").forEach((tab) => {
         tab.addEventListener("click", () => {
           document.querySelectorAll(".tab").forEach((item) => item.classList.toggle("active", item === tab));
           state.category = tab.dataset.tab;
-          $("category-filter").value = state.category;
+          if ([...$("category-filter").options].some((option) => option.value === state.category)) $("category-filter").value = state.category;
+          state.page = 1;
           render();
         });
       });
       [["sort-mcap", "mcap"], ["sort-rank", "rank"], ["sort-change", "change"]].forEach(([id, sort]) => {
         $(id).addEventListener("click", () => {
           state.sort = sort;
+          state.page = 1;
           ["sort-mcap", "sort-rank", "sort-change"].forEach((buttonId) => $(buttonId).classList.toggle("active", buttonId === id));
           render();
         });
