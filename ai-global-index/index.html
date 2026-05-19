@@ -687,12 +687,12 @@
   </nav>
   <main class="shell">
     <section class="hero">
-      <div class="news-sections" aria-label="行业/并购/股权融资/新科技 新闻切换">
-        <div class="news-tabs" role="tablist" aria-label="行业/并购/股权融资/新科技">
+      <div class="news-sections" aria-label="行业/公司/并购融资/新技术 新闻切换">
+        <div class="news-tabs" role="tablist" aria-label="行业/公司/并购融资/新技术">
           <button class="news-tab active" type="button" role="tab" aria-selected="true" aria-controls="news-panel-industry" data-news-tab="industry">行业</button>
-          <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-company" data-news-tab="company">并购</button>
-          <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-deals" data-news-tab="deals">股权融资</button>
-          <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-tech" data-news-tab="tech">新科技</button>
+          <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-company" data-news-tab="company">公司</button>
+          <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-deals" data-news-tab="deals">并购/融资</button>
+          <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-tech" data-news-tab="tech">新技术</button>
         </div>
         <div class="news-strip" id="news-panel-industry" role="tabpanel" aria-label="行业">
           <div class="news-strip-label">行业</div>
@@ -702,27 +702,27 @@
             </div>
           </div>
         </div>
-        <div class="news-strip" id="news-panel-company" role="tabpanel" aria-label="并购" hidden>
-          <div class="news-strip-label">并购</div>
+        <div class="news-strip" id="news-panel-company" role="tabpanel" aria-label="公司" hidden>
+          <div class="news-strip-label">公司</div>
           <div class="news-marquee">
             <div class="news-track" id="news-track-company">
-              <span class="news-item">正在加载并购…</span>
+              <span class="news-item">正在加载公司…</span>
             </div>
           </div>
         </div>
-        <div class="news-strip" id="news-panel-deals" role="tabpanel" aria-label="股权融资" hidden>
-          <div class="news-strip-label">股权融资</div>
+        <div class="news-strip" id="news-panel-deals" role="tabpanel" aria-label="并购/融资" hidden>
+          <div class="news-strip-label">并购/融资</div>
           <div class="news-marquee">
             <div class="news-track" id="news-track-deals">
-              <span class="news-item">正在加载股权融资…</span>
+              <span class="news-item">正在加载并购/融资…</span>
             </div>
           </div>
         </div>
-        <div class="news-strip" id="news-panel-tech" role="tabpanel" aria-label="新科技" hidden>
-          <div class="news-strip-label">新科技</div>
+        <div class="news-strip" id="news-panel-tech" role="tabpanel" aria-label="新技术" hidden>
+          <div class="news-strip-label">新技术</div>
           <div class="news-marquee">
             <div class="news-track" id="news-track-tech">
-              <span class="news-item">正在加载新科技…</span>
+              <span class="news-item">正在加载新技术…</span>
             </div>
           </div>
         </div>
@@ -1186,8 +1186,8 @@
         totalCap: "总市值", volume24h: "24小时交易量",
         initialQuote: "USD · 实时行情可用时更新",
         navAiChips: "人工智能芯片", navCloud: "AI云", navDataCenter: "数据中心", navEnterpriseAi: "企业人工智能", navSecurity: "安全", navQuantum: "量子", navChinaAi: "中国人工智能",
-        industry: "行业", company: "并购", market: "股权融资", frontier: "新科技",
-        loadingIndustry: "正在加载行业…", loadingCompany: "正在加载并购…", loadingMarket: "正在加载股权融资…", loadingFrontier: "正在加载新科技…",
+        industry: "行业", company: "公司", market: "并购/融资", frontier: "新技术",
+        loadingIndustry: "正在加载行业…", loadingCompany: "正在加载公司…", loadingMarket: "正在加载并购/融资…", loadingFrontier: "正在加载新技术…",
         currentFilter: "按当前筛选", realVolume: "真实成交额，可用时更新", hot: "热门", topGainer: "最大升幅", waitingQuotes: "等待行情或估算涨跌",
         modelRanking: "大模型排行", modelNote: "Opus 4.7 和 GPT-5.5 的公开评测为自报分数",
         tokenRanking: "Token 调用排行", tokenNote: "参考 OpenRouter Top Models，用量口径可切换",
@@ -1204,8 +1204,8 @@
         newsSource: "新闻来源", newsAuthor: "作者",
         footer: "说明：这是 AI 相关美股挂牌、港股、A 股公司与少量预上市公司观察名单，不是投资建议，也不是官方指数。价格、1小时/24小时/7天/30天变化、成交额与市值均优先使用在线 quote/chart 真实行情；不可用时显示为空。预上市公司使用估算美元市值参与排行，不抓取实时行情。非美元公司市值与成交额在内部按 USD/CNY、USD/HKD、USD/KRW 机制折算成美元口径，但页面不展示汇率。",
         fallbackIndustry: "行业动态持续追踪 AI 芯片、云、数据中心与大模型",
-        fallbackCompany: "并购新闻按收购、入股、持股与公司出资占股关键词追踪",
-        fallbackMarket: "股权融资新闻按股权、融资、投资关键词滚动更新",
+        fallbackCompany: "公司新闻按成分股关键词追踪 Bloomberg 与 Reuters",
+        fallbackMarket: "并购/融资新闻按收购、入股、股权、融资、投资关键词滚动更新",
         fallbackFrontier: "MIT Technology Review、Wired、New Scientist、Nature 与 Science 追踪新科技趋势",
       },
       en: {
@@ -1214,8 +1214,8 @@
         totalCap: "Market Cap", volume24h: "24h Volume",
         initialQuote: "USD · live quote when available",
         navAiChips: "AI Chips", navCloud: "AI Cloud", navDataCenter: "Data Centers", navEnterpriseAi: "Enterprise AI", navSecurity: "Security", navQuantum: "Quantum", navChinaAi: "China AI",
-        industry: "Industry", company: "M&A", market: "Equity Financing", frontier: "New Tech",
-        loadingIndustry: "Loading industry…", loadingCompany: "Loading M&A…", loadingMarket: "Loading equity financing…", loadingFrontier: "Loading new tech…",
+        industry: "Industry", company: "Companies", market: "M&A / Financing", frontier: "New Tech",
+        loadingIndustry: "Loading industry…", loadingCompany: "Loading companies…", loadingMarket: "Loading M&A / financing…", loadingFrontier: "Loading new tech…",
         currentFilter: "Current filter", realVolume: "Real traded value when available", hot: "Trending", topGainer: "Top Gainer", waitingQuotes: "Waiting for quotes or estimated moves",
         modelRanking: "Model Ranking", modelNote: "Opus 4.7 and GPT-5.5 public evals are self-reported",
         tokenRanking: "Token Usage Ranking", tokenNote: "Inspired by OpenRouter Top Models; period is switchable",
@@ -1232,8 +1232,8 @@
         newsSource: "Source", newsAuthor: "Author",
         footer: "Note: This is a watchlist of AI-related US-listed, Hong Kong-listed, A-share, Korean, and selected pre-IPO companies. It is not investment advice or an official index. Price, 1h/24h/7d/30d change, volume, and market cap use online quote/chart data when available; unavailable fields are left blank. Pre-IPO companies use estimated USD market caps for ranking and do not fetch live quotes. Non-USD market caps and volume are converted internally to USD using USD/CNY, USD/HKD, and USD/KRW logic; exchange rates are not displayed.",
         fallbackIndustry: "Industry news tracking AI chips, cloud, data centers, and foundation models",
-        fallbackCompany: "M&A news tracks acquisitions, stakes, investments, and equity ownership moves",
-        fallbackMarket: "Equity financing news tracking equity, funding, investment, and IPO keywords",
+        fallbackCompany: "Company news tracked by constituent names across Bloomberg and Reuters",
+        fallbackMarket: "M&A / financing news tracks acquisitions, stakes, equity, funding, investment, and IPO keywords",
         fallbackFrontier: "MIT Technology Review, Wired, New Scientist, Nature, and Science track new technology trends",
       }
     };
@@ -1533,10 +1533,10 @@
           { title: t("fallbackIndustry"), source: "AI Market Cap", author: "Industry", url: "#" },
         ],
         company: [
-          { title: t("fallbackCompany"), source: "AI Market Cap", author: "M&A", url: "#" },
+          { title: t("fallbackCompany"), source: "AI Market Cap", author: "Companies", url: "#" },
         ],
         deals: [
-          { title: t("fallbackMarket"), source: "AI Market Cap", author: "Market", url: "#" },
+          { title: t("fallbackMarket"), source: "AI Market Cap", author: "M&A / Financing", url: "#" },
         ],
         tech: [
           { title: t("fallbackFrontier"), source: "AI Market Cap", author: "Frontier", url: "#" },

@@ -330,13 +330,20 @@ INDUSTRY_NEWS_SOURCES = [
     google_news_query_source("New York Times", f"site:nytimes.com {AI_MARKET_NEWS_QUERY}"),
 ]
 COMPANY_NEWS_SOURCES = [
+    google_news_query_source(f"Bloomberg · Company Batch {index + 1}", f"site:bloomberg.com ({quoted_or_query(batch)})")
+    for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
+] + [
+    google_news_query_source(f"Reuters · Company Batch {index + 1}", f"site:reuters.com ({quoted_or_query(batch)})")
+    for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
+]
+MNA_NEWS_SOURCES = [
     google_news_query_source(f"Bloomberg · M&A Batch {index + 1}", f"site:bloomberg.com ({quoted_or_query(batch)}) {MNA_NEWS_TERMS_QUERY}")
     for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
 ] + [
     google_news_query_source(f"Reuters · M&A Batch {index + 1}", f"site:reuters.com ({quoted_or_query(batch)}) {MNA_NEWS_TERMS_QUERY}")
     for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
 ]
-MARKET_NEWS_SOURCES = [
+EQUITY_NEWS_SOURCES = [
     google_news_query_source("Bloomberg · Equity Financing", f"site:bloomberg.com {AI_MARKET_NEWS_QUERY} {DEAL_NEWS_TERMS_QUERY}"),
     google_news_query_source("Reuters · Equity Financing", f"site:reuters.com {AI_MARKET_NEWS_QUERY} {DEAL_NEWS_TERMS_QUERY}"),
 ] + [
@@ -346,6 +353,7 @@ MARKET_NEWS_SOURCES = [
     google_news_query_source(f"Reuters · Equity Batch {index + 1}", f"site:reuters.com ({quoted_or_query(batch)}) {DEAL_NEWS_TERMS_QUERY}")
     for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
 ]
+MARKET_NEWS_SOURCES = MNA_NEWS_SOURCES + EQUITY_NEWS_SOURCES
 TECH_NEWS_SOURCES = [
     google_news_query_source("MIT Technology Review", f"site:technologyreview.com {AI_MARKET_NEWS_QUERY}"),
     google_news_query_source("Wired", f"site:wired.com {AI_MARKET_NEWS_QUERY}"),
@@ -362,21 +370,20 @@ NEWS_SECTIONS = [
     },
     {
         "id": "company",
-        "title": "并购",
+        "title": "公司",
         "note": "Bloomberg / Reuters",
         "sources": COMPANY_NEWS_SOURCES,
-        "requiredKeywords": MNA_REQUIRED_KEYWORDS,
     },
     {
         "id": "deals",
-        "title": "股权融资",
+        "title": "并购/融资",
         "note": "Bloomberg / Reuters",
         "sources": MARKET_NEWS_SOURCES,
-        "requiredKeywords": DEAL_REQUIRED_KEYWORDS,
+        "requiredKeywords": MNA_REQUIRED_KEYWORDS + DEAL_REQUIRED_KEYWORDS,
     },
     {
         "id": "tech",
-        "title": "新科技",
+        "title": "新技术",
         "note": "MIT Technology Review / Wired / New Scientist / Nature / Science",
         "sources": TECH_NEWS_SOURCES,
     },
@@ -394,15 +401,13 @@ SOURCE_REQUIRED_KEYWORDS.update({
     source["name"]: AI_MARKET_REQUIRED_KEYWORDS for source in OFFICIAL_SOURCES
 })
 SOURCE_REQUIRED_KEYWORDS.update({
-    source["name"]: [
-        *[term.lower() for term in AI_COMPANY_NEWS_TERMS],
-        *MNA_REQUIRED_KEYWORDS,
-    ]
+    source["name"]: [term.lower() for term in AI_COMPANY_NEWS_TERMS]
     for source in COMPANY_NEWS_SOURCES
 })
 SOURCE_REQUIRED_KEYWORDS.update({
     source["name"]: [
         *[term.lower() for term in AI_COMPANY_NEWS_TERMS],
+        *MNA_REQUIRED_KEYWORDS,
         *DEAL_REQUIRED_KEYWORDS,
     ]
     for source in MARKET_NEWS_SOURCES
@@ -865,7 +870,7 @@ def main() -> int:
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "strategy": {
-            "primary": "Tabbed news sections: industry from WSJ/NYT, M&A from Bloomberg/Reuters company stake and acquisition searches, equity financing from Bloomberg/Reuters, new technology from Wired/MIT Technology Review/New Scientist/Nature/Science",
+            "primary": "Tabbed news sections: industry from WSJ/NYT, company from Bloomberg/Reuters company-name searches, M&A and financing from Bloomberg/Reuters stake/acquisition/equity searches, new technology from Wired/MIT Technology Review/New Scientist/Nature/Science",
             "primaryEnabled": True,
             "supplements": [
                 "Wall Street Journal",
