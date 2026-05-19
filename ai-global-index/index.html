@@ -126,18 +126,6 @@
       background: #ecfdf5;
       color: var(--green);
     }
-    .news-strip-label {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 11px 14px;
-      border-bottom: 1px solid var(--line);
-      color: var(--green);
-      background: #ecfdf5;
-      font-size: 12px;
-      font-weight: 860;
-    }
     .news-marquee {
       position: relative;
       overflow: hidden;
@@ -680,7 +668,6 @@
           <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-tech" data-news-tab="tech">新技术</button>
         </div>
         <div class="news-strip" id="news-panel-industry" role="tabpanel" aria-label="行业">
-          <div class="news-strip-label">行业</div>
           <div class="news-marquee">
             <div class="news-track" id="news-track-industry">
               <span class="news-item">正在加载行业…</span>
@@ -688,7 +675,6 @@
           </div>
         </div>
         <div class="news-strip" id="news-panel-company" role="tabpanel" aria-label="公司" hidden>
-          <div class="news-strip-label">公司</div>
           <div class="news-marquee">
             <div class="news-track" id="news-track-company">
               <span class="news-item">正在加载公司…</span>
@@ -696,7 +682,6 @@
           </div>
         </div>
         <div class="news-strip" id="news-panel-deals" role="tabpanel" aria-label="并购/融资" hidden>
-          <div class="news-strip-label">并购/融资</div>
           <div class="news-marquee">
             <div class="news-track" id="news-track-deals">
               <span class="news-item">正在加载并购/融资…</span>
@@ -704,7 +689,6 @@
           </div>
         </div>
         <div class="news-strip" id="news-panel-tech" role="tabpanel" aria-label="新技术" hidden>
-          <div class="news-strip-label">新技术</div>
           <div class="news-marquee">
             <div class="news-track" id="news-track-tech">
               <span class="news-item">正在加载新技术…</span>
@@ -1861,7 +1845,6 @@
       setAllText(".nav a[data-nav-tab]", [t("navAiChips"), t("navCloud"), t("navDataCenter"), t("navEnterpriseAi"), t("navSecurity"), t("navQuantum"), t("navChinaAi"), t("navLeopold")]);
       document.querySelector(".news-sections")?.setAttribute("aria-label", `${t("industry")}/${t("company")}/${t("market")}/${t("frontier")}`);
       setAllText(".news-tab", [t("industry"), t("company"), t("market"), t("frontier")]);
-      setAllText(".news-strip-label", [t("industry"), t("company"), t("market"), t("frontier")]);
       ["industry", "company", "deals", "tech"].forEach((id) => {
         const panel = $(`news-panel-${id}`);
         const label = id === "industry" ? t("industry") : id === "company" ? t("company") : id === "deals" ? t("market") : t("frontier");
