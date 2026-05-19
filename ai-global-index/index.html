@@ -359,6 +359,13 @@
       overflow: hidden;
       box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
     }
+    .market-panel {
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      overflow: visible;
+      box-shadow: none;
+    }
     .panel-head {
       display: flex;
       align-items: center;
@@ -367,6 +374,11 @@
       padding: 10px 13px;
       border-bottom: 1px solid var(--line);
       background: #f8fafc;
+    }
+    .market-panel .panel-head {
+      padding-right: 0;
+      padding-left: 0;
+      background: transparent;
     }
     .panel-title { font-size: 13px; color: var(--soft); font-weight: 800; }
     .panel-note { color: var(--muted); font-size: 12px; }
@@ -660,7 +672,7 @@
       <span>其他</span><span class="mini-select">行 100</span>
     </section>
 
-    <section class="panel">
+    <section class="panel market-panel">
       <div class="panel-head">
         <div>
           <div class="panel-title">Rank Name</div>
