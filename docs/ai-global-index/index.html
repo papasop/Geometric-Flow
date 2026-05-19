@@ -451,10 +451,27 @@
     }
     .panel-title { font-size: 13px; color: var(--soft); font-weight: 800; }
     .panel-note { color: var(--muted); font-size: 12px; }
-    .table-wrap { overflow: auto; }
-    table { width: 100%; border-collapse: collapse; min-width: 1180px; }
-    th, td { padding: 10px 11px; border-bottom: 1px solid var(--line-soft); text-align: right; white-space: nowrap; }
-    th:nth-child(1), td:nth-child(1) { text-align: center; width: 34px; }
+    .table-wrap { overflow: visible; width: 100%; }
+    table { width: 100%; border-collapse: collapse; min-width: 0; table-layout: fixed; }
+    th, td {
+      padding: 9px 6px;
+      border-bottom: 1px solid var(--line-soft);
+      text-align: right;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    th:nth-child(1), td:nth-child(1) { text-align: center; width: 3%; }
+    th:nth-child(2), td:nth-child(2) { width: 4%; }
+    th:nth-child(3), td:nth-child(3) { width: 24%; }
+    th:nth-child(4), td:nth-child(4) { width: 8%; }
+    th:nth-child(5), td:nth-child(5),
+    th:nth-child(6), td:nth-child(6),
+    th:nth-child(7), td:nth-child(7),
+    th:nth-child(8), td:nth-child(8) { width: 7%; }
+    th:nth-child(9), td:nth-child(9),
+    th:nth-child(10), td:nth-child(10) { width: 10%; }
+    th:nth-child(11), td:nth-child(11) { width: 13%; }
     th:nth-child(2), td:nth-child(2),
     th:nth-child(3), td:nth-child(3) { text-align: left; }
     th {
@@ -495,17 +512,17 @@
     .sort-head.active .sort-arrow {
       color: var(--blue);
     }
-    td { color: var(--text); font-size: 14px; }
+    td { color: var(--text); font-size: 13px; }
     tbody tr { cursor: pointer; transition: background 0.14s ease; }
     tbody tr:hover, tbody tr.active { background: #f8fbff; }
     .rank { color: #6b7280; font-weight: 780; width: 44px; }
     .company-cell {
       display: block;
       align-items: center;
-      min-width: 245px;
+      min-width: 0;
     }
-    .company-line { display: flex; align-items: baseline; gap: 6px; }
-    .company-name { color: var(--text); font-weight: 820; }
+    .company-line { display: flex; align-items: baseline; gap: 5px; min-width: 0; }
+    .company-name { color: var(--text); font-weight: 820; overflow: hidden; text-overflow: ellipsis; }
     .ticker { color: #8a94a6; font-weight: 780; font-size: 12px; }
     .prelist-badge {
       display: inline-flex;
@@ -518,7 +535,7 @@
       font-size: 11px;
       font-weight: 800;
     }
-    .subtext { color: var(--muted); font-size: 12px; margin-top: 3px; max-width: 290px; overflow: hidden; text-overflow: ellipsis; }
+    .subtext { color: var(--muted); font-size: 11px; margin-top: 3px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
     .mcap { color: var(--text); font-weight: 820; }
     .estimated { color: #7c8798; }
     .positive { color: var(--green); }
@@ -527,10 +544,10 @@
       display: inline-flex;
       align-items: center;
       justify-content: flex-end;
-      gap: 4px;
-      min-width: 72px;
-      padding: 3px 7px;
-      border-radius: 7px;
+      gap: 3px;
+      min-width: 0;
+      padding: 2px 4px;
+      border-radius: 5px;
       font-weight: 760;
     }
     .change.positive { background: #ecfdf5; }
@@ -546,7 +563,7 @@
       font-size: 12px;
       font-weight: 650;
     }
-    .spark { width: 128px; height: 34px; display: block; }
+    .spark { width: 100%; max-width: 128px; height: 34px; display: block; margin-left: auto; }
     .watch {
       display: inline-flex;
       align-items: center;
@@ -619,6 +636,12 @@
       .token-row:last-child { border-bottom: 0; }
       .toolbar { align-items: stretch; }
       .search, select, button { width: 100%; }
+      .sort-head { width: auto; font-size: 10px; }
+      .market-panel th,
+      .market-panel td { padding: 7px 3px; font-size: 11px; }
+      .change { font-size: 10px; padding: 2px 3px; }
+      .ticker, .subtext, .prelist-badge { font-size: 10px; }
+      .spark { height: 26px; }
       .news-tabs { width: 100%; }
       .news-tab { width: auto; flex: 1 0 auto; }
       h1 { font-size: 26px; }
@@ -1157,7 +1180,7 @@
         searchPlaceholder: "搜索公司、Ticker、子赛道", allSubsectors: "全部子赛道",
         sortMcap: "统一市值排序", sortRank: "名单顺序", sortChange: "涨跌排序", refresh: "刷新",
         custom: "自定义", priceChange: "价格更改", metric: "衡量指标", other: "其他", rows100: "行 100",
-        rankName: "Rank Name", tableNote: "Market Cap USD · 上市 + 预上市统一排名",
+        rankName: "排名 / 公司", tableNote: "市值（美元）· 上市 + IPO 前合并排名",
         thCompany: "公司", thPrice: "价格", th1h: "1小时", th24h: "24小时", th7d: "7天", th30d: "30天", thVolume: "24小时交易量", thMcap: "总市值", thSpark: "最近30天",
         companies: "companies", companiesZh: "家", page: "第", perPage: "每页", noResults: "没有匹配结果",
         watch: "关注", prelist: "预上市", est: " est.",
@@ -1184,7 +1207,7 @@
         searchPlaceholder: "Search company, ticker, or subsector", allSubsectors: "All subsectors",
         sortMcap: "Unified Market Cap", sortRank: "List Order", sortChange: "Performance", refresh: "Refresh",
         custom: "Customize", priceChange: "Price change", metric: "Metric", other: "Other", rows100: "Rows 100",
-        rankName: "Rank Name", tableNote: "Market Cap USD · Listed + Pre-IPO unified ranking",
+        rankName: "Rank / Name", tableNote: "Market Cap USD · Listed + Pre-IPO unified ranking",
         thCompany: "Company", thPrice: "Price", th1h: "1h", th24h: "24h", th7d: "7d", th30d: "30d", thVolume: "24h Volume", thMcap: "Market Cap", thSpark: "Last 30 days",
         companies: "companies", companiesZh: "companies", page: "Page", perPage: "Per page", noResults: "No matching results",
         watch: "Watch", prelist: "Pre-IPO", est: " est.",
