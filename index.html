@@ -332,7 +332,7 @@
   <div class="topline">
     <div class="topline-inner">
       <span>公司: <b id="top-company-count">100</b></span>
-      <span>市场: <b>NYSE / Nasdaq / A 股 / 预上市</b></span>
+      <span>市场: <b>NYSE / Nasdaq / A 股 / 韩股 / 预上市</b></span>
       <span>总市值: <b id="top-total-cap">—</b> <span class="up" id="market-change">0.0%</span></span>
       <span>24小时交易量: <b id="top-volume">—</b></span>
       <span>AI 龙头占比: <b id="dominance">NVDA — · MSFT —</b></span>
@@ -448,6 +448,7 @@
     const COUNTRY_OVERRIDES = {
       TSM: "Taiwan", ASML: "Netherlands", SAP: "Germany", ARM: "United Kingdom", SHOP: "Canada", NICE: "Israel",
       TSEM: "Israel", QCOM: "USA", NXPI: "Netherlands", GFS: "USA",
+      "005930.KS": "South Korea", "000660.KS": "South Korea",
       "688256.SS": "China", "688041.SS": "China", "688111.SS": "China", "603019.SS": "China", "000977.SZ": "China",
       "300750.SZ": "China",
       "002384.SZ": "China", "301666.SZ": "China", "688820.SS": "China", "601869.SS": "China", "688795.SS": "China", "603986.SS": "China",
@@ -485,6 +486,8 @@
       ["ARM", "Arm Holdings", "CPU IP", "CPU IP、端侧 AI 与数据中心架构。"],
       ["ANET", "Arista Networks", "AI networking", "高速交换机，AI 集群网络核心。"],
       ["MU", "Micron Technology", "AI memory", "HBM、DRAM 与数据中心存储。"],
+      ["005930.KS", "三星电子", "AI memory / foundry", "HBM、DRAM、NAND、先进封装与 AI 芯片代工供应链。"],
+      ["000660.KS", "SK 海力士", "AI memory", "HBM 高带宽内存、DRAM 与 AI 服务器存储核心供应商。"],
       ["PANW", "Palo Alto Networks", "AI security", "AI 安全运营、云安全和网络安全。"],
       ["PLTR", "Palantir", "AI operating system", "AIP、政府和企业 AI 操作系统。"],
       ["UBER", "Uber", "Applied AI", "调度、定价、自动驾驶生态和大规模算法。"],
@@ -679,7 +682,9 @@
       return `https://finance.yahoo.com/quote/${encodeURIComponent(ticker)}`;
     }
     function flagFor(row) {
-      return row.country === "China" ? "🇨🇳" : "🇺🇸";
+      if (row.country === "China") return "🇨🇳";
+      if (row.country === "South Korea") return "🇰🇷";
+      return "🇺🇸";
     }
     function formatChange(value) {
       if (!Number.isFinite(value)) return `<span class="change">—</span>`;
