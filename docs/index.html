@@ -1566,6 +1566,19 @@
       if (normalized === "new york times" || normalized === "the new york times") return "纽约时报";
       return raw;
     }
+    function displayNewsAuthor(sourceValue, authorValue) {
+      const source = displayNewsParty(sourceValue || "News");
+      const author = displayNewsParty(authorValue || "");
+      const normalizedSource = String(sourceValue || "").toLowerCase();
+      const normalizedAuthor = String(authorValue || "").toLowerCase();
+      if (!author || normalizedAuthor === normalizedSource) {
+        return state.lang === "zh" ? `${source}编辑部` : `${source} Editorial`;
+      }
+      if (state.lang === "zh" && / editorial$/i.test(String(authorValue || ""))) {
+        return `${source}编辑部`;
+      }
+      return author;
+    }
     function renderNewsStrip(sectionId, items) {
       const track = $(`news-track-${sectionId}`);
       if (!track) return;
@@ -1573,7 +1586,7 @@
       const news = clean.length ? clean : fallbackNewsItems(sectionId);
       const nodes = [...news, ...news].map((item) => {
         const source = displayNewsParty(item.source || "News");
-        const author = displayNewsParty(item.author || item.source || "News");
+        const author = displayNewsAuthor(item.source || "News", item.author || "");
         const href = item.url || "#";
         const title = state.lang === "zh" ? (item.titleZh || item.title) : (item.titleEn || item.title);
         return `<a class="news-item" href="${escapeHtml(href)}" target="_blank" rel="noopener">
