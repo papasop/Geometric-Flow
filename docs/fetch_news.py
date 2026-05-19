@@ -281,8 +281,20 @@ OFFICIAL_SOURCES = [
     google_news_query_source("New York Times", f"site:nytimes.com {AI_MARKET_NEWS_QUERY}"),
     google_news_query_source("Bloomberg", f"site:bloomberg.com {AI_MARKET_NEWS_QUERY}"),
     google_news_query_source("Reuters", f"site:reuters.com {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("Wired", f"site:wired.com {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("The New Yorker", f"site:newyorker.com {AI_MARKET_NEWS_QUERY}"),
 ]
 SOURCES = OFFICIAL_SOURCES
+
+AI_MARKET_REQUIRED_KEYWORDS = [
+    "a.i.", "artificial intelligence", "openai", "anthropic", "chatgpt",
+    "nvidia", "ai chip", "ai chips", "semiconductor", "data center",
+    "ai cloud", "large language model", "machine learning", "automation",
+    "robot", "robotics", "algorithm", "google", "microsoft", "meta",
+]
+SOURCE_REQUIRED_KEYWORDS.update({
+    source["name"]: AI_MARKET_REQUIRED_KEYWORDS for source in OFFICIAL_SOURCES
+})
 
 PORTFOLIO_KEYWORDS = {
     "ai-market": sorted(set([
@@ -694,13 +706,15 @@ def main() -> int:
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "strategy": {
-            "primary": "Wall Street Journal, New York Times, Bloomberg, Reuters",
+            "primary": "Wall Street Journal, New York Times, Bloomberg, Reuters, Wired, The New Yorker",
             "primaryEnabled": True,
             "supplements": [
                 "Wall Street Journal",
                 "New York Times",
                 "Bloomberg",
                 "Reuters",
+                "Wired",
+                "The New Yorker",
             ],
         },
         "sources": source_status,
