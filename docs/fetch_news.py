@@ -326,7 +326,7 @@ NEWS_SECTIONS = [
     },
     {
         "id": "company",
-        "title": "公司新闻",
+        "title": "行业/公司/市场",
         "note": "公司关键词 · Bloomberg / Reuters / WSJ",
         "sources": COMPANY_NEWS_SOURCES,
     },
