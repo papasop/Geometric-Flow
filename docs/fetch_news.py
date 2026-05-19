@@ -283,6 +283,7 @@ OFFICIAL_SOURCES = [
     google_news_query_source("Reuters", f"site:reuters.com {AI_MARKET_NEWS_QUERY}"),
     google_news_query_source("Wired", f"site:wired.com {AI_MARKET_NEWS_QUERY}"),
     google_news_query_source("The New Yorker", f"site:newyorker.com {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("MIT Technology Review", f"site:technologyreview.com {AI_MARKET_NEWS_QUERY}"),
 ]
 SOURCES = OFFICIAL_SOURCES
 
@@ -706,7 +707,7 @@ def main() -> int:
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "strategy": {
-            "primary": "Wall Street Journal, New York Times, Bloomberg, Reuters, Wired, The New Yorker",
+            "primary": "Wall Street Journal, New York Times, Bloomberg, Reuters, Wired, The New Yorker, MIT Technology Review",
             "primaryEnabled": True,
             "supplements": [
                 "Wall Street Journal",
@@ -715,6 +716,7 @@ def main() -> int:
                 "Reuters",
                 "Wired",
                 "The New Yorker",
+                "MIT Technology Review",
             ],
         },
         "sources": source_status,
