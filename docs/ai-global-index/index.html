@@ -1039,7 +1039,40 @@
         render();
       }
     }
-    async function fetchQuotes() {
+    function applyQuoteData(quotes, updatedAt, sourceLabel = "quotes.json") {
+      state.rows = COMPANIES.map((row) => {
+        if (row.status === "prelist") return { ...row };
+        const q = quotes.get(row.ticker) || {};
+        const quoteCurrency = q.currency || row.currency || "USD";
+        const quoteDate = updatedAt ? new Date(updatedAt) : new Date();
+        const quoteMarketCap = toUsd(q.marketCap, quoteCurrency, quoteDate);
+        const quoteVolume = toUsd(q.volume, quoteCurrency, quoteDate);
+        return {
+          ...row,
+          marketCap: quoteMarketCap,
+          price: Number.isFinite(q.price) ? q.price : null,
+          currency: quoteCurrency,
+          volume: quoteVolume,
+          changePercent: Number.isFinite(q.changePercent) ? q.changePercent : null,
+          change1h: Number.isFinite(q.change1h) ? q.change1h : null,
+          change7d: Number.isFinite(q.change7d) ? q.change7d : null,
+          change30d: Number.isFinite(q.change30d) ? q.change30d : null,
+          sparkPoints: Array.isArray(q.sparkPoints) ? q.sparkPoints : null
+        };
+      });
+      const labelDate = updatedAt ? new Date(updatedAt).toLocaleString() : new Date().toLocaleString();
+      $("updated-at").textContent = `${sourceLabel} · ${labelDate}`;
+      render();
+    }
+    async function fetchCachedQuotes() {
+      const response = await fetch("quotes.json", { cache: "no-store" });
+      if (!response.ok) throw new Error(`quotes.json ${response.status}`);
+      const payload = await response.json();
+      const quotes = new Map(Object.entries(payload.quotes || {}));
+      if (!quotes.size) throw new Error("quotes.json empty");
+      applyQuoteData(quotes, payload.meta?.updatedAt, "Daily quotes");
+    }
+    async function fetchLiveQuotes() {
       const quoteRows = COMPANIES.filter((row) => row.status !== "prelist");
       const symbols = quoteRows.map((row) => row.ticker);
       const chunks = [];
@@ -1052,32 +1085,34 @@
         const json = await response.json();
         (json.quoteResponse?.result || []).forEach((q) => quotes.set(q.symbol, q));
       }
-      state.rows = COMPANIES.map((row) => {
-        if (row.status === "prelist") return { ...row };
+      const normalized = new Map(COMPANIES.map((row) => {
         const q = quotes.get(row.ticker) || {};
         const quoteCurrency = q.currency || row.currency || "USD";
-        const quoteDate = new Date();
-        const quoteMarketCap = toUsd(q.marketCap, quoteCurrency, quoteDate);
         const rawQuoteVolume = Number.isFinite(q.regularMarketPrice) && Number.isFinite(q.regularMarketVolume)
           ? q.regularMarketPrice * q.regularMarketVolume
           : null;
-        const quoteVolume = toUsd(rawQuoteVolume, quoteCurrency, quoteDate);
-        return {
-          ...row,
-          marketCap: quoteMarketCap,
+        return [row.ticker, {
+          marketCap: Number.isFinite(q.marketCap) ? q.marketCap : null,
           price: Number.isFinite(q.regularMarketPrice) ? q.regularMarketPrice : null,
           currency: quoteCurrency,
-          volume: quoteVolume,
+          volume: rawQuoteVolume,
           changePercent: Number.isFinite(q.regularMarketChangePercent) ? q.regularMarketChangePercent : null,
           change1h: null,
           change7d: null,
           change30d: null,
           sparkPoints: null
-        };
-      });
-      $("updated-at").textContent = `Last refresh · ${new Date().toLocaleString()}`;
-      render();
+        }];
+      }));
+      applyQuoteData(normalized, new Date().toISOString(), "Live Yahoo fallback");
       fetchHistoricalMetrics().catch((error) => console.warn(error));
+    }
+    async function fetchQuotes() {
+      try {
+        await fetchCachedQuotes();
+      } catch (cacheError) {
+        console.warn(cacheError);
+        await fetchLiveQuotes();
+      }
     }
     function initControls() {
       $("category-filter").innerHTML = categories().map((cat) => `<option value="${cat}">${cat === "ALL" ? "全部子赛道" : cat}</option>`).join("");
