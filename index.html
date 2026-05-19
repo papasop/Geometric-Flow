@@ -127,6 +127,63 @@
     .highlight-card .label { color: var(--muted); font-size: 12px; font-weight: 720; margin-bottom: 8px; }
     .highlight-card .value { color: var(--text); font-size: 20px; font-weight: 860; }
     .highlight-card .mini { color: var(--muted); font-size: 12px; margin-top: 8px; line-height: 1.35; }
+    .model-ranking {
+      margin: 6px 0 16px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+    }
+    .model-ranking-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-end;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      background: #f8fafc;
+    }
+    .model-ranking-title { color: var(--text); font-size: 15px; font-weight: 860; }
+    .model-ranking-note { color: var(--muted); font-size: 12px; line-height: 1.4; text-align: right; }
+    .model-table-wrap { overflow-x: auto; background: #fff; }
+    .model-table {
+      min-width: 860px;
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    .model-table th,
+    .model-table td {
+      position: static;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line-soft);
+      background: #fff;
+      color: var(--text);
+      text-align: left;
+      white-space: normal;
+      min-width: 140px;
+    }
+    .model-table th {
+      color: var(--soft);
+      font-size: 13px;
+      font-weight: 820;
+    }
+    .model-table th:first-child,
+    .model-table td:first-child {
+      width: 210px;
+      min-width: 210px;
+      color: var(--soft);
+      font-weight: 760;
+    }
+    .model-table .featured-model {
+      background: #fff7ed;
+      box-shadow: inset 2px 0 0 #f97316, inset -2px 0 0 #f97316;
+    }
+    .model-table thead .featured-model { box-shadow: inset 2px 2px 0 #f97316, inset -2px 0 0 #f97316; }
+    .model-table tbody tr:last-child .featured-model { box-shadow: inset 2px 0 0 #f97316, inset -2px -2px 0 #f97316; }
+    .score { display: block; font-size: 17px; font-weight: 850; }
+    .score-note { display: block; margin-top: 5px; color: var(--muted); font-size: 12px; line-height: 1.35; }
     .tabs {
       display: flex;
       gap: 8px;
@@ -322,6 +379,9 @@
     @media (max-width: 760px) {
       .topline-inner { align-items: flex-start; flex-direction: column; }
       .highlight-grid { grid-template-columns: 1fr 1fr; }
+      .model-ranking-head { align-items: flex-start; flex-direction: column; }
+      .model-ranking-note { text-align: left; }
+      .model-table { min-width: 760px; }
       .toolbar { align-items: stretch; }
       .search, select, button { width: 100%; }
       h1 { font-size: 26px; }
@@ -381,6 +441,52 @@
         <div class="label">最大升幅</div>
         <div class="value positive" id="gainer-one">—</div>
         <div class="mini" id="gainer-list">等待行情或估算涨跌</div>
+      </div>
+    </section>
+
+    <section class="model-ranking" aria-label="大模型排行">
+      <div class="model-ranking-head">
+        <div>
+          <div class="model-ranking-title">大模型排行</div>
+          <div class="panel-note">Terminal-Bench · SWE-Bench · CursorBench</div>
+        </div>
+        <div class="model-ranking-note">Opus 4.7 和 GPT-5.5 的公开评测为自报分数</div>
+      </div>
+      <div class="model-table-wrap">
+        <table class="model-table">
+          <thead>
+            <tr>
+              <th>Benchmark</th>
+              <th class="featured-model">Composer 2.5</th>
+              <th>Opus 4.7</th>
+              <th>GPT-5.5</th>
+              <th>Composer 2</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Terminal-Bench 2.0</td>
+              <td class="featured-model"><span class="score">69.3%</span></td>
+              <td><span class="score">69.4%</span></td>
+              <td><span class="score">82.7%</span></td>
+              <td><span class="score">61.7%</span></td>
+            </tr>
+            <tr>
+              <td>SWE-Bench Multilingual</td>
+              <td class="featured-model"><span class="score">79.8%</span></td>
+              <td><span class="score">80.5%</span></td>
+              <td><span class="score">77.8%</span></td>
+              <td><span class="score">73.7%</span></td>
+            </tr>
+            <tr>
+              <td>CursorBench v3.1<br>(harder tasks)</td>
+              <td class="featured-model"><span class="score">63.2%</span></td>
+              <td><span class="score">64.8%</span><span class="score-note">max</span><span class="score">61.6%</span><span class="score-note">xhigh (default)</span></td>
+              <td><span class="score">64.3%</span><span class="score-note">xhigh</span><span class="score">59.2%</span><span class="score-note">medium (default)</span></td>
+              <td><span class="score">52.2%</span></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
