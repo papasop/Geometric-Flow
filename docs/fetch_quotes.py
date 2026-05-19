@@ -23,6 +23,10 @@ ROOT = Path(__file__).resolve().parent
 INDEX_HTML = ROOT / "index.html"
 OUTFILE = ROOT / "quotes.json"
 MIRROR_DIRS = [ROOT / "agi", ROOT / "ai-global-index"]
+FX_TICKERS = {
+    "USDCNY": "CNY=X",
+    "USDKRW": "KRW=X",
+}
 
 
 def finite(value):
@@ -164,6 +168,29 @@ def fetch_one(ticker):
     }
 
 
+def fetch_fx_rates():
+    rates = {}
+    for key, ticker in FX_TICKERS.items():
+        try:
+            fx = yf.Ticker(ticker)
+            fast_info = {}
+            try:
+                fast_info = dict(fx.fast_info or {})
+            except Exception:
+                fast_info = {}
+            info = {}
+            try:
+                info = fx.get_info() or {}
+            except Exception:
+                info = {}
+            rate = finite(fast_info.get("last_price") or info.get("regularMarketPrice") or info.get("currentPrice"))
+            if rate is not None and rate > 0:
+                rates[key] = rate
+        except Exception:
+            continue
+    return rates
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--limit", type=int, default=None, help="Fetch only the first N listed tickers for smoke tests.")
@@ -175,6 +202,7 @@ def main():
         tickers = tickers[: args.limit]
     quotes = {}
     errors = {}
+    fx_rates = fetch_fx_rates()
 
     for index, ticker in enumerate(tickers, start=1):
         print(f"[{index}/{len(tickers)}] {ticker}")
@@ -188,6 +216,7 @@ def main():
             "updatedAt": datetime.now(timezone.utc).isoformat(),
             "source": "Yahoo Finance via yfinance",
             "count": len(quotes),
+            "fx": fx_rates,
             "errors": errors,
         },
         "quotes": quotes,

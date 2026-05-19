@@ -906,6 +906,18 @@
       ["2025-12-31", 7.12],
       ["2026-05-19", 7.10]
     ];
+    const USD_KRW_HISTORY = [
+      ["2022-01-03", 1191],
+      ["2022-06-30", 1298],
+      ["2022-12-30", 1260],
+      ["2023-06-30", 1317],
+      ["2023-12-29", 1294],
+      ["2024-06-28", 1378],
+      ["2024-12-31", 1472],
+      ["2025-06-30", 1350],
+      ["2025-12-31", 1385],
+      ["2026-05-19", 1360]
+    ];
     const TOKEN_RANKINGS = {
       day: [
         ["Qwen3.6 Plus (free)", "qwen", 790e9, null],
@@ -945,7 +957,7 @@
       ]
     };
     const TOKEN_PERIOD_LABELS = { day: "日", week: "周", month: "月" };
-    const state = { rows: [...COMPANIES], sort: "mcap", query: "", category: "ALL", selected: "NVDA", page: 1, tokenPeriod: "month" };
+    const state = { rows: [...COMPANIES], sort: "mcap", query: "", category: "ALL", selected: "NVDA", page: 1, tokenPeriod: "month", fxRates: {} };
     const $ = (id) => document.getElementById(id);
 
     function formatTokens(value) {
@@ -969,9 +981,23 @@
       }
       return rate;
     }
+    function usdKrwRateFor(dateLike = new Date()) {
+      const key = typeof dateLike === "string" ? dateLike : dateLike.toISOString().slice(0, 10);
+      let rate = USD_KRW_HISTORY[0][1];
+      for (const [date, value] of USD_KRW_HISTORY) {
+        if (date <= key) rate = value;
+        else break;
+      }
+      return rate;
+    }
+    function fxRateFor(currency, dateLike) {
+      if (currency === "CNY") return Number.isFinite(state.fxRates.USDCNY) ? state.fxRates.USDCNY : usdCnyRateFor(dateLike);
+      if (currency === "KRW") return Number.isFinite(state.fxRates.USDKRW) ? state.fxRates.USDKRW : usdKrwRateFor(dateLike);
+      return 1;
+    }
     function toUsd(value, currency, dateLike) {
       if (!Number.isFinite(value)) return null;
-      if (currency === "CNY") return value / usdCnyRateFor(dateLike);
+      if (currency === "CNY" || currency === "KRW") return value / fxRateFor(currency, dateLike);
       return value;
     }
     function formatPercent(value) {
@@ -1283,7 +1309,8 @@
         render();
       }
     }
-    function applyQuoteData(quotes, updatedAt, sourceLabel = "quotes.json") {
+    function applyQuoteData(quotes, updatedAt, sourceLabel = "quotes.json", fxRates = {}) {
+      state.fxRates = { ...state.fxRates, ...fxRates };
       state.rows = COMPANIES.map((row) => {
         if (row.status === "prelist") return { ...row };
         const q = quotes.get(row.ticker) || {};
@@ -1291,11 +1318,14 @@
         const quoteDate = updatedAt ? new Date(updatedAt) : new Date();
         const quoteMarketCap = toUsd(q.marketCap, quoteCurrency, quoteDate);
         const quoteVolume = toUsd(q.volume, quoteCurrency, quoteDate);
+        const quotePrice = quoteCurrency === "KRW" ? toUsd(q.price, quoteCurrency, quoteDate) : q.price;
+        const displayCurrency = quoteCurrency === "KRW" ? "USD" : quoteCurrency;
         return {
           ...row,
           marketCap: quoteMarketCap,
-          price: Number.isFinite(q.price) ? q.price : null,
-          currency: quoteCurrency,
+          price: Number.isFinite(quotePrice) ? quotePrice : null,
+          currency: displayCurrency,
+          quoteCurrency,
           volume: quoteVolume,
           changePercent: Number.isFinite(q.changePercent) ? q.changePercent : null,
           change1h: Number.isFinite(q.change1h) ? q.change1h : null,
@@ -1314,11 +1344,11 @@
       const payload = await response.json();
       const quotes = new Map(Object.entries(payload.quotes || {}));
       if (!quotes.size) throw new Error("quotes.json empty");
-      applyQuoteData(quotes, payload.meta?.updatedAt, "Daily quotes");
+      applyQuoteData(quotes, payload.meta?.updatedAt, "Daily quotes", payload.meta?.fx || {});
     }
     async function fetchLiveQuotes() {
       const quoteRows = COMPANIES.filter((row) => row.status !== "prelist");
-      const symbols = quoteRows.map((row) => row.ticker);
+      const symbols = [...quoteRows.map((row) => row.ticker), "CNY=X", "KRW=X"];
       const chunks = [];
       for (let i = 0; i < symbols.length; i += 35) chunks.push(symbols.slice(i, i + 35));
       const quotes = new Map();
@@ -1347,7 +1377,12 @@
           sparkPoints: null
         }];
       }));
-      applyQuoteData(normalized, new Date().toISOString(), "Live Yahoo fallback");
+      const fx = {};
+      const usdCny = quotes.get("CNY=X");
+      const usdKrw = quotes.get("KRW=X");
+      if (Number.isFinite(usdCny?.regularMarketPrice)) fx.USDCNY = usdCny.regularMarketPrice;
+      if (Number.isFinite(usdKrw?.regularMarketPrice)) fx.USDKRW = usdKrw.regularMarketPrice;
+      applyQuoteData(normalized, new Date().toISOString(), "Live Yahoo fallback", fx);
       fetchHistoricalMetrics().catch((error) => console.warn(error));
     }
     async function fetchQuotes() {
