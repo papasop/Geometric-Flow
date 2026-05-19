@@ -275,8 +275,27 @@ AI_MARKET_NEWS_QUERY = (
     '"AI chip" OR semiconductor OR "data center" OR "AI cloud" OR '
     '"large language model" OR "machine learning")'
 )
+AI_COMPANY_NEWS_QUERY = (
+    '("Nvidia" OR "OpenAI" OR "Anthropic" OR "Microsoft" OR "Google" OR '
+    '"Meta" OR "Amazon" OR "Broadcom" OR "TSMC" OR "Tesla" OR "Palantir" OR '
+    '"CoreWeave" OR "Nebius" OR "Tencent" OR "Alibaba" OR "Baidu" OR '
+    '"SenseTime" OR "MiniMax" OR "Zhipu" OR "Horizon Robotics" OR '
+    '"Black Sesame" OR "SMIC" OR "Cambricon")'
+)
+DEAL_NEWS_QUERY = (
+    f'({AI_COMPANY_NEWS_QUERY} OR {AI_MARKET_NEWS_QUERY}) '
+    '("equity" OR "stake" OR "acquisition" OR "merger" OR "M&A" OR '
+    '"financing" OR "funding" OR "investment" OR "raises" OR "IPO" OR '
+    '"股权" OR "并购" OR "融资")'
+)
 
-OFFICIAL_SOURCES = [
+FINANCIAL_NEWS_SOURCES = [
+    ("Wall Street Journal", "site:wsj.com"),
+    ("Bloomberg", "site:bloomberg.com"),
+    ("Reuters", "site:reuters.com"),
+]
+
+INDUSTRY_NEWS_SOURCES = [
     google_news_query_source("Wall Street Journal", f"site:wsj.com {AI_MARKET_NEWS_QUERY}"),
     google_news_query_source("New York Times", f"site:nytimes.com {AI_MARKET_NEWS_QUERY}"),
     google_news_query_source("Bloomberg", f"site:bloomberg.com {AI_MARKET_NEWS_QUERY}"),
@@ -286,6 +305,45 @@ OFFICIAL_SOURCES = [
     google_news_query_source("MIT Technology Review", f"site:technologyreview.com {AI_MARKET_NEWS_QUERY}"),
     google_news_query_source("South China Morning Post", f"site:scmp.com {AI_MARKET_NEWS_QUERY}"),
 ]
+COMPANY_NEWS_SOURCES = [
+    google_news_query_source(name, f"{site} {AI_COMPANY_NEWS_QUERY}")
+    for name, site in FINANCIAL_NEWS_SOURCES
+]
+DEAL_NEWS_SOURCES = [
+    google_news_query_source(name, f"{site} {DEAL_NEWS_QUERY}")
+    for name, site in FINANCIAL_NEWS_SOURCES
+]
+TECH_NEWS_SOURCES = [
+    google_news_query_source("MIT Technology Review", f"site:technologyreview.com {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("Wired", f"site:wired.com {AI_MARKET_NEWS_QUERY}"),
+]
+NEWS_SECTIONS = [
+    {
+        "id": "industry",
+        "title": "行业新闻",
+        "note": "综合新闻源 · AI 行业动态",
+        "sources": INDUSTRY_NEWS_SOURCES,
+    },
+    {
+        "id": "company",
+        "title": "公司新闻",
+        "note": "公司关键词 · Bloomberg / Reuters / WSJ",
+        "sources": COMPANY_NEWS_SOURCES,
+    },
+    {
+        "id": "deals",
+        "title": "股权并购融资",
+        "note": "股权 · 并购 · 融资",
+        "sources": DEAL_NEWS_SOURCES,
+    },
+    {
+        "id": "tech",
+        "title": "新科技",
+        "note": "MIT Technology Review / Wired",
+        "sources": TECH_NEWS_SOURCES,
+    },
+]
+OFFICIAL_SOURCES = [source for section in NEWS_SECTIONS for source in section["sources"]]
 SOURCES = OFFICIAL_SOURCES
 
 AI_MARKET_REQUIRED_KEYWORDS = [
@@ -646,6 +704,11 @@ def classify(item: dict[str, str]) -> tuple[list[str], list[str]]:
     return sorted(set(matched)), sorted(set(tags))[:10]
 
 
+def item_matches_terms(item: dict[str, str], terms: list[str]) -> bool:
+    text = " ".join([item.get("title", ""), item.get("summary", ""), item.get("author", "")]).lower()
+    return any(term.lower() in text for term in terms)
+
+
 def apply_news_overrides(item: dict[str, object]) -> None:
     title = str(item.get("title") or "")
     for override in NEWS_OVERRIDES:
@@ -665,9 +728,9 @@ def apply_news_overrides(item: dict[str, object]) -> None:
 
 
 def main() -> int:
-    seen = set()
     items: list[dict[str, object]] = []
     source_status = []
+    section_payload: dict[str, dict[str, object]] = {}
 
     event_registry_key = os.environ.get("EVENT_REGISTRY_API_KEY", "").strip()
     if event_registry_key:
@@ -675,40 +738,64 @@ def main() -> int:
         source_status.extend(event_status)
         for item in event_items:
             key = (item.get("url") or item.get("title") or "").lower()
-            if not key or key in seen:
+            if not key:
                 continue
-            seen.add(key)
             items.append(item)
-    for source in OFFICIAL_SOURCES:
-        try:
-            raw = fetch_url(source["url"])
-            parsed = parse_feed(source, raw)
-            kept = 0
-            for item in parsed:
-                key = (item.get("url") or item.get("title") or "").lower()
-                if not key or key in seen:
-                    continue
-                seen.add(key)
-                matched, tags = classify(item)
-                if source["name"].startswith("AI Cloud · "):
-                    matched = sorted(set([*matched, "ai-cloud"]))
-                    tags = sorted(set([*tags, source["name"]]))[:10]
-                enrich_title_fields(item)
-                item["matchedPortfolios"] = matched
-                item["tags"] = tags
-                apply_news_overrides(item)
-                items.append(item)
-                kept += 1
-            source_status.append({"name": source["name"], "url": source["url"], "status": "ok", "count": kept})
-            time.sleep(0.35)
-        except (urllib.error.URLError, TimeoutError, socket.timeout, ET.ParseError, ValueError, OSError) as exc:
-            source_status.append({"name": source["name"], "url": source["url"], "status": "error", "error": str(exc)[:180], "count": 0})
+
+    for section in NEWS_SECTIONS:
+        section_seen = set()
+        section_items: list[dict[str, object]] = []
+        for source in section["sources"]:
+            try:
+                raw = fetch_url(source["url"])
+                parsed = parse_feed(source, raw)
+                kept = 0
+                for item in parsed:
+                    key = (item.get("url") or item.get("title") or "").lower()
+                    if not key or key in section_seen:
+                        continue
+                    matched, tags = classify(item)
+                    if not matched and not item_matches_terms(item, AI_MARKET_REQUIRED_KEYWORDS):
+                        continue
+                    section_seen.add(key)
+                    enrich_title_fields(item)
+                    item["section"] = section["id"]
+                    item["sectionTitle"] = section["title"]
+                    item["matchedPortfolios"] = matched
+                    item["tags"] = tags
+                    apply_news_overrides(item)
+                    section_items.append(item)
+                    items.append(item)
+                    kept += 1
+                source_status.append({
+                    "section": section["id"],
+                    "name": source["name"],
+                    "url": source["url"],
+                    "status": "ok",
+                    "count": kept,
+                })
+                time.sleep(0.35)
+            except (urllib.error.URLError, TimeoutError, socket.timeout, ET.ParseError, ValueError, OSError) as exc:
+                source_status.append({
+                    "section": section["id"],
+                    "name": source["name"],
+                    "url": source["url"],
+                    "status": "error",
+                    "error": str(exc)[:180],
+                    "count": 0,
+                })
+        section_items.sort(key=lambda item: item.get("publishedAt") or "", reverse=True)
+        section_payload[section["id"]] = {
+            "title": section["title"],
+            "note": section["note"],
+            "items": section_items[:32],
+        }
 
     items.sort(key=lambda item: (bool(item.get("matchedPortfolios")), item.get("publishedAt") or ""), reverse=True)
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "strategy": {
-            "primary": "Wall Street Journal, New York Times, Bloomberg, Reuters, Wired, The New Yorker, MIT Technology Review, South China Morning Post",
+            "primary": "Industry, company, equity/M&A/financing, and frontier technology news sections",
             "primaryEnabled": True,
             "supplements": [
                 "Wall Street Journal",
@@ -722,6 +809,7 @@ def main() -> int:
             ],
         },
         "sources": source_status,
+        "sections": section_payload,
         "items": items[:200],
     }
     OUT.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

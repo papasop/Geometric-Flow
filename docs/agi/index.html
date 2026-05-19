@@ -88,11 +88,17 @@
     h1 { margin: 0 0 8px; font-size: 30px; line-height: 1.18; letter-spacing: 0; font-weight: 760; }
     .subtitle { max-width: 860px; margin: 0; color: var(--soft); font-size: 14px; line-height: 1.55; }
     .news-strip {
-      margin-top: 14px;
+      margin-top: 0;
       border: 1px solid var(--line);
       border-radius: 6px;
       background: #fff;
       overflow: hidden;
+    }
+    .news-sections {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 14px;
     }
     .news-strip-label {
       display: flex;
@@ -120,6 +126,9 @@
       padding: 14px;
       animation: news-scroll 90s linear infinite;
     }
+    .news-strip:nth-child(2) .news-track { animation-duration: 96s; }
+    .news-strip:nth-child(3) .news-track { animation-duration: 102s; }
+    .news-strip:nth-child(4) .news-track { animation-duration: 108s; }
     .news-track:hover { animation-play-state: paused; }
     .news-item {
       display: flex;
@@ -584,11 +593,37 @@
   </nav>
   <main class="shell">
     <section class="hero">
-      <div class="news-strip" aria-label="AI company news">
-        <div class="news-strip-label">公司新闻 <span>标题 · 来源 · 作者</span></div>
-        <div class="news-marquee">
-          <div class="news-track" id="news-track">
-            <span class="news-item">正在加载四大新闻源…</span>
+      <div class="news-sections" aria-label="AI news sections">
+        <div class="news-strip" aria-label="行业新闻">
+          <div class="news-strip-label">行业新闻 <span>综合新闻源 · AI 行业动态</span></div>
+          <div class="news-marquee">
+            <div class="news-track" id="news-track-industry">
+              <span class="news-item">正在加载行业新闻…</span>
+            </div>
+          </div>
+        </div>
+        <div class="news-strip" aria-label="公司新闻">
+          <div class="news-strip-label">公司新闻 <span>公司关键词 · Bloomberg / Reuters / WSJ</span></div>
+          <div class="news-marquee">
+            <div class="news-track" id="news-track-company">
+              <span class="news-item">正在加载公司新闻…</span>
+            </div>
+          </div>
+        </div>
+        <div class="news-strip" aria-label="股权并购融资">
+          <div class="news-strip-label">股权并购融资 <span>股权 · 并购 · 融资</span></div>
+          <div class="news-marquee">
+            <div class="news-track" id="news-track-deals">
+              <span class="news-item">正在加载股权并购融资…</span>
+            </div>
+          </div>
+        </div>
+        <div class="news-strip" aria-label="新科技">
+          <div class="news-strip-label">新科技 <span>MIT Technology Review / Wired</span></div>
+          <div class="news-marquee">
+            <div class="news-track" id="news-track-tech">
+              <span class="news-item">正在加载新科技…</span>
+            </div>
           </div>
         </div>
       </div>
@@ -1285,12 +1320,23 @@
       $("gainer-one").textContent = gainers[0] ? `${gainers[0].ticker} ${formatPercent(gainers[0].changePercent)}` : "—";
       $("gainer-list").textContent = gainers.length ? gainers.map((row) => `${row.ticker} ${formatPercent(row.changePercent)}`).join(" · ") : "等待真实行情";
     }
-    function fallbackNewsItems() {
-      return [
-        { title: "华尔街日报、纽约时报、彭博、路透社 AI 新闻滚动更新", source: "AI Market Cap", author: "四大新闻源", url: "#" },
-        { title: "四大新闻源持续追踪 AI 芯片、云、数据中心与大模型动态", source: "AI Market Cap", author: "Markets", url: "#" },
-        { title: "预上市公司估值与上市公司市值统一进入美元口径排行", source: "AI Market Cap", author: "Ranking", url: "#" }
-      ];
+    const NEWS_SECTION_IDS = ["industry", "company", "deals", "tech"];
+    function fallbackNewsItems(sectionId = "industry") {
+      const fallback = {
+        industry: [
+          { title: "行业新闻持续追踪 AI 芯片、云、数据中心与大模型动态", source: "AI Market Cap", author: "Industry", url: "#" },
+        ],
+        company: [
+          { title: "公司新闻按公司关键词追踪 Bloomberg、Reuters 与 WSJ", source: "AI Market Cap", author: "Companies", url: "#" },
+        ],
+        deals: [
+          { title: "股权、并购、融资新闻按交易关键词滚动更新", source: "AI Market Cap", author: "Deals", url: "#" },
+        ],
+        tech: [
+          { title: "MIT Technology Review 与 Wired 追踪新科技趋势", source: "AI Market Cap", author: "New Tech", url: "#" },
+        ],
+      };
+      return fallback[sectionId] || fallback.industry;
     }
     function escapeHtml(value) {
       return String(value ?? "").replace(/[&<>"']/g, (char) => ({
@@ -1301,10 +1347,11 @@
         "'": "&#39;"
       }[char]));
     }
-    function renderNewsStrip(items) {
-      const track = $("news-track");
+    function renderNewsStrip(sectionId, items) {
+      const track = $(`news-track-${sectionId}`);
+      if (!track) return;
       const clean = (items || []).filter((item) => item?.title).slice(0, 16);
-      const news = clean.length ? clean : fallbackNewsItems();
+      const news = clean.length ? clean : fallbackNewsItems(sectionId);
       const nodes = [...news, ...news].map((item) => {
         const source = item.source || "News";
         const author = item.author || item.source || "News";
@@ -1316,13 +1363,20 @@
       }).join("");
       track.innerHTML = nodes;
     }
+    function renderNewsSections(payload) {
+      const sections = payload?.sections || {};
+      NEWS_SECTION_IDS.forEach((sectionId) => {
+        const sectionItems = sections[sectionId]?.items || (sectionId === "industry" ? payload?.items : []);
+        renderNewsStrip(sectionId, sectionItems || []);
+      });
+    }
     async function fetchNewsStrip() {
       try {
         const payload = await fetchJson("news.json");
-        renderNewsStrip(payload.items || []);
+        renderNewsSections(payload);
       } catch (error) {
         console.warn(error);
-        renderNewsStrip(fallbackNewsItems());
+        NEWS_SECTION_IDS.forEach((sectionId) => renderNewsStrip(sectionId, fallbackNewsItems(sectionId)));
       }
     }
     function render() {
