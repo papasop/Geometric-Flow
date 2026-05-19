@@ -866,7 +866,6 @@
               <th data-table-sort="h1"><button class="sort-head" type="button" tabindex="-1"><span>1小时</span><span class="sort-arrow"></span></button></th>
               <th data-table-sort="change"><button class="sort-head" type="button" tabindex="-1"><span>24小时</span><span class="sort-arrow"></span></button></th>
               <th data-table-sort="d7"><button class="sort-head" type="button" tabindex="-1"><span>7天</span><span class="sort-arrow"></span></button></th>
-              <th data-table-sort="d30"><button class="sort-head" type="button" tabindex="-1"><span>30天</span><span class="sort-arrow"></span></button></th>
               <th data-table-sort="volume"><button class="sort-head" type="button" tabindex="-1"><span>24小时交易量</span><span class="sort-arrow"></span></button></th>
               <th data-table-sort="mcap"><button class="sort-head" type="button" tabindex="-1"><span>总市值</span><span class="sort-arrow"></span></button></th>
               <th>最近30天</th>
@@ -1197,7 +1196,7 @@
         sortMcap: "统一市值排序", sortRank: "名单顺序", sortChange: "涨跌排序", refresh: "刷新",
         custom: "自定义", priceChange: "价格更改", metric: "衡量指标", other: "其他", rows100: "行 100",
         rankName: "排名 / 公司", tableNote: "市值（美元）· 上市 + IPO 前合并排名",
-        thCompany: "公司", thPrice: "价格", th1h: "1小时", th24h: "24小时", th7d: "7天", th30d: "30天", thVolume: "24小时交易量", thMcap: "总市值", thSpark: "最近30天",
+        thCompany: "公司", thPrice: "价格", th1h: "1小时", th24h: "24小时", th7d: "7天", thVolume: "24小时交易量", thMcap: "总市值", thSpark: "最近30天",
         companies: "companies", companiesZh: "家", page: "第", perPage: "每页", noResults: "没有匹配结果",
         watch: "关注", prelist: "预上市", est: " est.",
         quoteDaily: "Daily quotes", quoteLive: "Live Yahoo fallback", quoteError: "行情接口暂不可用，真实行情为空", waitingLive: "等待真实行情",
@@ -1225,7 +1224,7 @@
         sortMcap: "Unified Market Cap", sortRank: "List Order", sortChange: "Performance", refresh: "Refresh",
         custom: "Customize", priceChange: "Price change", metric: "Metric", other: "Other", rows100: "Rows 100",
         rankName: "Rank / Name", tableNote: "Market Cap USD · Listed + Pre-IPO unified ranking",
-        thCompany: "Company", thPrice: "Price", th1h: "1h", th24h: "24h", th7d: "7d", th30d: "30d", thVolume: "24h Volume", thMcap: "Market Cap", thSpark: "Last 30 days",
+        thCompany: "Company", thPrice: "Price", th1h: "1h", th24h: "24h", th7d: "7d", thVolume: "24h Volume", thMcap: "Market Cap", thSpark: "Last 30 days",
         companies: "companies", companiesZh: "companies", page: "Page", perPage: "Per page", noResults: "No matching results",
         watch: "Watch", prelist: "Pre-IPO", est: " est.",
         quoteDaily: "Daily quotes", quoteLive: "Live Yahoo fallback", quoteError: "Quote feed unavailable; live fields are blank", waitingLive: "Waiting for live quotes",
@@ -1357,7 +1356,7 @@
         rows = rows.sort((a, b) => compareMetric(a, b, "mcap"));
       } else if (state.sort === "change") {
         rows = rows.sort((a, b) => compareMetric(a, b, "change"));
-      } else if (["price", "h1", "d7", "d30", "volume"].includes(state.sort)) {
+      } else if (["price", "h1", "d7", "volume"].includes(state.sort)) {
         rows = rows.sort((a, b) => compareMetric(a, b, state.sort));
       } else {
         rows = rows.sort((a, b) => a.rank - b.rank);
@@ -1385,7 +1384,6 @@
       if (sort === "h1") return row.change1h;
       if (sort === "change") return row.changePercent;
       if (sort === "d7") return row.change7d;
-      if (sort === "d30") return row.change30d;
       if (sort === "volume") return effectiveVolume(row);
       if (sort === "mcap") return effectiveCap(row);
       return null;
@@ -1422,7 +1420,6 @@
         const h1 = row.change1h;
         const d1 = row.changePercent;
         const d7 = row.change7d;
-        const d30 = row.change30d;
         const isActive = row.ticker === state.selected ? " class=\"active\"" : "";
         return `<tr data-ticker="${row.ticker}"${isActive}>
           <td><button class="watch" type="button" aria-label="${t("watch")} ${row.ticker}" title="${t("watch")}">☆</button></td>
@@ -1439,12 +1436,11 @@
           <td>${formatChange(h1)}</td>
           <td>${formatChange(d1)}</td>
           <td>${formatChange(d7)}</td>
-          <td>${formatChange(d30)}</td>
           <td>${formatCap(effectiveVolume(row))}</td>
           <td class="${capClass(row)}">${capLabel(row)}</td>
           <td>${sparkline(row)}</td>
         </tr>`;
-      }).join("") || `<tr><td colspan="11"><div class="empty">${t("noResults")}</div></td></tr>`;
+      }).join("") || `<tr><td colspan="10"><div class="empty">${t("noResults")}</div></td></tr>`;
       renderPager(rows.length, pageCount);
       document.querySelectorAll("#rank-body .watch").forEach((button) => {
         button.addEventListener("click", (event) => {
@@ -1872,11 +1868,11 @@
       setText("#sort-rank", t("sortRank"));
       setText("#sort-change", t("sortChange"));
       setText("#refresh", t("refresh"));
-      setAllText(".custom-row > *", [t("custom"), t("priceChange"), t("th30d"), t("metric"), t("thMcap"), t("other"), t("rows100")]);
+      setAllText(".custom-row > *", [t("custom"), t("priceChange"), t("th7d"), t("metric"), t("thMcap"), t("other"), t("rows100")]);
       setText(".panel-title", t("rankName"));
       setText("#table-note", t("tableNote"));
-      setAllText(".market-panel thead th:nth-child(-n+3), .market-panel thead th:nth-child(11)", ["", "#", t("thCompany"), t("thSpark")]);
-      const sortLabels = { price: "thPrice", h1: "th1h", change: "th24h", d7: "th7d", d30: "th30d", volume: "thVolume", mcap: "thMcap" };
+      setAllText(".market-panel thead th:nth-child(-n+3), .market-panel thead th:nth-child(10)", ["", "#", t("thCompany"), t("thSpark")]);
+      const sortLabels = { price: "thPrice", h1: "th1h", change: "th24h", d7: "th7d", volume: "thVolume", mcap: "thMcap" };
       Object.entries(sortLabels).forEach(([sort, key]) => {
         const label = document.querySelector(`[data-table-sort="${sort}"] span:first-child`);
         if (label) label.textContent = t(key);
