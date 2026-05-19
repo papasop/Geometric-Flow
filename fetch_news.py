@@ -651,6 +651,7 @@ def parse_html_page(source: dict[str, str], data: bytes) -> list[dict[str, str]]
 def parse_feed(source: dict[str, str], data: bytes) -> list[dict[str, str]]:
     if re.search(br"<html\b|<!doctype html", data[:1000], re.I):
         return parse_html_page(source, data)
+    is_google_news_feed = "news.google.com" in source.get("url", "")
     root = ET.fromstring(data)
     root_name = root.tag.rsplit("}", 1)[-1].lower()
     nodes = []
@@ -666,7 +667,7 @@ def parse_feed(source: dict[str, str], data: bytes) -> list[dict[str, str]]:
         title = clean_text(text_of(node, ["title", "{http://www.w3.org/2005/Atom}title"]), 180)
         summary = clean_text(text_of(node, ["description", "summary", "content", "{http://www.w3.org/2005/Atom}summary", "{http://purl.org/rss/1.0/modules/content/}encoded"]))
         url = link_of(node)
-        author = normalize_author(author_of(node), source["name"])
+        author = "" if is_google_news_feed else normalize_author(author_of(node), source["name"])
         published = parse_date(text_of(node, ["pubDate", "published", "updated", "{http://www.w3.org/2005/Atom}published", "{http://www.w3.org/2005/Atom}updated"]))
         if title and url:
             items.append({
