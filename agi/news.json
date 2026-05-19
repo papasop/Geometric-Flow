@@ -1,2125 +1,1623 @@
 {
-  "generatedAt": "2026-05-14T06:11:50.426710Z",
+  "generatedAt": "2026-05-19T02:31:04.535073Z",
   "strategy": {
-    "primary": "Event Registry",
-    "primaryEnabled": false,
+    "primary": "Wall Street Journal, New York Times, Bloomberg, Reuters",
+    "primaryEnabled": true,
     "supplements": [
-      "SEC",
-      "Company IR",
-      "NASA",
-      "Defense.gov",
-      "WHO",
-      "Reuters",
-      "AP",
-      "BBC",
-      "CNBC",
-      "MarketWatch",
-      "WSJ / Dow Jones",
-      "Nikkei Asia",
-      "SCMP",
-      "Marketing Dive",
-      "Retail Dive",
-      "Food Dive",
-      "WWD",
-      "SpaceNews",
-      "Defense News",
-      "C4ISRNET",
-      "Breaking Defense",
-      "Fierce Biotech",
-      "BioPharma Dive",
-      "Endpoints News",
-      "TechCrunch",
-      "Semiconductor Engineering"
+      "Wall Street Journal",
+      "New York Times",
+      "Bloomberg",
+      "Reuters"
     ]
   },
   "sources": [
     {
-      "name": "Event Registry",
-      "status": "skipped",
-      "count": 0,
-      "note": "Set EVENT_REGISTRY_API_KEY to enable the unified primary news layer."
+      "name": "Wall Street Journal",
+      "url": "https://news.google.com/rss/search?q=site%3Awsj.com%20%28%22artificial%20intelligence%22%20OR%20AI%20OR%20Nvidia%20OR%20OpenAI%20OR%20Anthropic%20OR%20%22AI%20chip%22%20OR%20semiconductor%20OR%20%22data%20center%22%20OR%20%22AI%20cloud%22%20OR%20%22large%20language%20model%22%20OR%20%22machine%20learning%22%29&hl=en-US&gl=US&ceid=US:en",
+      "status": "ok",
+      "count": 24
+    },
+    {
+      "name": "New York Times",
+      "url": "https://news.google.com/rss/search?q=site%3Anytimes.com%20%28%22artificial%20intelligence%22%20OR%20AI%20OR%20Nvidia%20OR%20OpenAI%20OR%20Anthropic%20OR%20%22AI%20chip%22%20OR%20semiconductor%20OR%20%22data%20center%22%20OR%20%22AI%20cloud%22%20OR%20%22large%20language%20model%22%20OR%20%22machine%20learning%22%29&hl=en-US&gl=US&ceid=US:en",
+      "status": "ok",
+      "count": 24
+    },
+    {
+      "name": "Bloomberg",
+      "url": "https://news.google.com/rss/search?q=site%3Abloomberg.com%20%28%22artificial%20intelligence%22%20OR%20AI%20OR%20Nvidia%20OR%20OpenAI%20OR%20Anthropic%20OR%20%22AI%20chip%22%20OR%20semiconductor%20OR%20%22data%20center%22%20OR%20%22AI%20cloud%22%20OR%20%22large%20language%20model%22%20OR%20%22machine%20learning%22%29&hl=en-US&gl=US&ceid=US:en",
+      "status": "ok",
+      "count": 24
     },
     {
       "name": "Reuters",
-      "url": "https://www.reuters.com/arc/outboundfeeds/rss/?outputType=xml",
-      "status": "error",
-      "error": "HTTP Error 404: Not Found",
-      "count": 0
-    },
-    {
-      "name": "AP",
-      "url": "https://apnews.com/hub/ap-top-news?output=rss",
-      "status": "ok",
-      "count": 18
-    },
-    {
-      "name": "BBC",
-      "url": "https://feeds.bbci.co.uk/news/rss.xml",
+      "url": "https://news.google.com/rss/search?q=site%3Areuters.com%20%28%22artificial%20intelligence%22%20OR%20AI%20OR%20Nvidia%20OR%20OpenAI%20OR%20Anthropic%20OR%20%22AI%20chip%22%20OR%20semiconductor%20OR%20%22data%20center%22%20OR%20%22AI%20cloud%22%20OR%20%22large%20language%20model%22%20OR%20%22machine%20learning%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
       "count": 24
-    },
-    {
-      "name": "CNBC",
-      "url": "https://www.cnbc.com/id/100003114/device/rss/rss.html",
-      "status": "ok",
-      "count": 24
-    },
-    {
-      "name": "MarketWatch",
-      "url": "https://feeds.content.dowjones.io/public/rss/mw_topstories",
-      "status": "ok",
-      "count": 10
-    },
-    {
-      "name": "SEC filings",
-      "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&CIK=&type=&company=&dateb=&owner=include&start=0&count=40&output=atom",
-      "status": "error",
-      "error": "HTTP Error 403: Forbidden",
-      "count": 0
-    },
-    {
-      "name": "SEC press",
-      "url": "https://www.sec.gov/news/pressreleases.rss",
-      "status": "ok",
-      "count": 24
-    },
-    {
-      "name": "Defense.gov",
-      "url": "https://www.defense.gov/DesktopModules/ArticleCS/RSS.ashx?ContentType=1&Site=945&Category=675",
-      "status": "ok",
-      "count": 0
-    },
-    {
-      "name": "NASA",
-      "url": "https://www.nasa.gov/news-release/feed/",
-      "status": "ok",
-      "count": 10
-    },
-    {
-      "name": "ESA",
-      "url": "https://www.esa.int/rssfeed/TopNews",
-      "status": "ok",
-      "count": 9
-    },
-    {
-      "name": "WHO",
-      "url": "https://www.who.int/rss-feeds/news-english.xml",
-      "status": "ok",
-      "count": 24
-    },
-    {
-      "name": "Nasdaq",
-      "url": "https://www.nasdaq.com/feed/rssoutbound?category=Company%20News",
-      "status": "error",
-      "error": "The read operation timed out",
-      "count": 0
-    },
-    {
-      "name": "NYSE",
-      "url": "https://www.nyse.com/rss/news",
-      "status": "error",
-      "error": "HTTP Error 404: Not Found",
-      "count": 0
-    },
-    {
-      "name": "WSJ Markets",
-      "url": "https://feeds.a.dj.com/rss/RSSMarketsMain.xml",
-      "status": "ok",
-      "count": 20
-    },
-    {
-      "name": "WSJ Business",
-      "url": "https://feeds.a.dj.com/rss/WSJcomUSBusiness.xml",
-      "status": "ok",
-      "count": 20
-    },
-    {
-      "name": "Deflation News · TLT Treasuries",
-      "url": "https://news.google.com/rss/search?q=TLT%20OR%20%22long%20Treasury%22%20OR%20%22Treasury%20yields%22%20OR%20%22real%20yields%22%20OR%20%22Fed%20rate%20cuts%22&hl=en-US&gl=US&ceid=US:en",
-      "status": "ok",
-      "count": 24
-    },
-    {
-      "name": "Deflation News · Bitcoin Gold",
-      "url": "https://news.google.com/rss/search?q=Bitcoin%20OR%20BTC%20OR%20GLD%20OR%20%22SPDR%20Gold%20Shares%22%20OR%20%22gold%20prices%22&hl=en-US&gl=US&ceid=US:en",
-      "status": "ok",
-      "count": 24
-    },
-    {
-      "name": "Nikkei Asia",
-      "url": "https://asia.nikkei.com/rss/feed/nar",
-      "status": "ok",
-      "count": 0
-    },
-    {
-      "name": "SCMP Tech",
-      "url": "https://www.scmp.com/rss/36/feed",
-      "status": "ok",
-      "count": 24
-    },
-    {
-      "name": "SCMP Business",
-      "url": "https://www.scmp.com/rss/92/feed",
-      "status": "ok",
-      "count": 17
-    },
-    {
-      "name": "SCMP China",
-      "url": "https://www.scmp.com/rss/4/feed",
-      "status": "ok",
-      "count": 24
-    },
-    {
-      "name": "Marketing Dive",
-      "url": "https://www.marketingdive.com/feeds/news/",
-      "status": "ok",
-      "count": 10
-    },
-    {
-      "name": "Retail Dive",
-      "url": "https://www.retaildive.com/feeds/news/",
-      "status": "ok",
-      "count": 10
-    },
-    {
-      "name": "Food Dive",
-      "url": "https://www.fooddive.com/feeds/news/",
-      "status": "ok",
-      "count": 10
-    },
-    {
-      "name": "WWD",
-      "url": "https://wwd.com/feed/",
-      "status": "ok",
-      "count": 10
-    },
-    {
-      "name": "MINING.COM",
-      "url": "https://www.mining.com/feed/",
-      "status": "ok",
-      "count": 24
-    },
-    {
-      "name": "Mining Technology",
-      "url": "https://www.mining-technology.com/feed/",
-      "status": "ok",
-      "count": 10
-    },
-    {
-      "name": "Rare Earth News · Industry",
-      "url": "https://news.google.com/rss/search?q=%22US%20rare%20earth%22%20OR%20%22rare%20earth%20elements%22%20OR%20%22critical%20minerals%22%20OR%20%22neodymium%20magnet%22&hl=en-US&gl=US&ceid=US:en",
-      "status": "ok",
-      "count": 24
-    },
-    {
-      "name": "Rare Earth News · MP",
-      "url": "https://news.google.com/rss/search?q=%22MP%20Materials%22%20OR%20%22Mountain%20Pass%22%20%22rare%20earth%22&hl=en-US&gl=US&ceid=US:en",
-      "status": "ok",
-      "count": 23
-    },
-    {
-      "name": "Rare Earth News · USAR",
-      "url": "https://news.google.com/rss/search?q=%22USA%20Rare%20Earth%22%20OR%20%22USAR%22%20%22Round%20Top%22&hl=en-US&gl=US&ceid=US:en",
-      "status": "ok",
-      "count": 24
-    },
-    {
-      "name": "Rare Earth News · CRML",
-      "url": "https://news.google.com/rss/search?q=%22Critical%20Metals%20Corp%22%20OR%20%22CRML%22%20%22rare%20earth%22&hl=en-US&gl=US&ceid=US:en",
-      "status": "ok",
-      "count": 24
-    },
-    {
-      "name": "The Robot Report",
-      "url": "https://www.therobotreport.com/feed/",
-      "status": "ok",
-      "count": 15
-    },
-    {
-      "name": "Electrek",
-      "url": "https://electrek.co/feed/",
-      "status": "ok",
-      "count": 24
-    },
-    {
-      "name": "Automotive World",
-      "url": "https://www.automotiveworld.com/feed/",
-      "status": "ok",
-      "count": 20
-    },
-    {
-      "name": "Robotics & Automation News",
-      "url": "https://roboticsandautomationnews.com/feed/",
-      "status": "ok",
-      "count": 15
-    },
-    {
-      "name": "Autonomous Vehicle International",
-      "url": "https://www.autonomousvehicleinternational.com/feed",
-      "status": "ok",
-      "count": 10
-    },
-    {
-      "name": "SpaceNews",
-      "url": "https://spacenews.com/feed/",
-      "status": "ok",
-      "count": 24
-    },
-    {
-      "name": "Defense News",
-      "url": "https://www.defensenews.com/arc/outboundfeeds/rss/?outputType=xml",
-      "status": "ok",
-      "count": 24
-    },
-    {
-      "name": "C4ISRNET",
-      "url": "https://www.c4isrnet.com/arc/outboundfeeds/rss/?outputType=xml",
-      "status": "ok",
-      "count": 24
-    },
-    {
-      "name": "Breaking Defense",
-      "url": "https://breakingdefense.com/feed/",
-      "status": "ok",
-      "count": 15
-    },
-    {
-      "name": "Drone News · Companies",
-      "url": "https://news.google.com/rss/search?q=%22Ondas%22%20OR%20%22Unusual%20Machines%22%20OR%20%22Kopin%22%20OR%20%22Red%20Cat%20Holdings%22%20OR%20%22Kratos%20Defense%22%20OR%20%22Elbit%20Systems%22%20OR%20%22AeroVironment%22%20OR%20%22Terra%20Drone%22&hl=en-US&gl=US&ceid=US:en",
-      "status": "ok",
-      "count": 24
-    },
-    {
-      "name": "Drone News · Tickers",
-      "url": "https://news.google.com/rss/search?q=ONDS%20OR%20UMAC%20OR%20KOPN%20OR%20RCAT%20OR%20KTOS%20OR%20ESLT%20OR%20AVAV%20OR%20%22278A%22&hl=en-US&gl=US&ceid=US:en",
-      "status": "ok",
-      "count": 14
-    },
-    {
-      "name": "Fierce Biotech",
-      "url": "https://www.fiercebiotech.com/rss/biotech/xml",
-      "status": "ok",
-      "count": 0
-    },
-    {
-      "name": "BioPharma Dive",
-      "url": "https://www.biopharmadive.com/feeds/news/",
-      "status": "ok",
-      "count": 10
-    },
-    {
-      "name": "Endpoints News",
-      "url": "https://endpoints.news/feed/",
-      "status": "ok",
-      "count": 24
-    },
-    {
-      "name": "TechCrunch",
-      "url": "https://techcrunch.com/feed/",
-      "status": "ok",
-      "count": 20
-    },
-    {
-      "name": "Semiconductor Engineering",
-      "url": "https://semiengineering.com/feed/",
-      "status": "ok",
-      "count": 10
-    },
-    {
-      "name": "Palantir IR",
-      "url": "https://investors.palantir.com/news-events/press-releases/rss",
-      "status": "ok",
-      "count": 0
-    },
-    {
-      "name": "MP Materials IR",
-      "url": "https://investors.mpmaterials.com/news-releases/news-release-details/rss",
-      "status": "error",
-      "error": "HTTP Error 403: Forbidden",
-      "count": 0
-    },
-    {
-      "name": "Apple Newsroom",
-      "url": "https://www.apple.com/newsroom/rss-feed.rss",
-      "status": "ok",
-      "count": 20
-    },
-    {
-      "name": "Coca-Cola IR",
-      "url": "https://investors.coca-colacompany.com/news-events/press-releases/rss",
-      "status": "ok",
-      "count": 10
-    },
-    {
-      "name": "Brand News · Apple",
-      "url": "https://news.google.com/rss/search?q=%22Apple%22%20AAPL%20iPhone&hl=en-US&gl=US&ceid=US:en",
-      "status": "ok",
-      "count": 24
-    },
-    {
-      "name": "Brand News · Coca-Cola",
-      "url": "https://news.google.com/rss/search?q=%22Coca-Cola%22%20KO&hl=en-US&gl=US&ceid=US:en",
-      "status": "ok",
-      "count": 24
-    },
-    {
-      "name": "Brand News · NYT",
-      "url": "https://news.google.com/rss/search?q=%22New%20York%20Times%20Company%22%20OR%20%22NYSE%3ANYT%22%20OR%20%22NYT%20stock%22&hl=en-US&gl=US&ceid=US:en",
-      "status": "ok",
-      "count": 24
-    },
-    {
-      "name": "Brand News · Pop Mart",
-      "url": "https://news.google.com/rss/search?q=%22Pop%20Mart%22&hl=en-US&gl=US&ceid=US:en",
-      "status": "ok",
-      "count": 24
-    },
-    {
-      "name": "Brand News · Moutai",
-      "url": "https://news.google.com/rss/search?q=%22Kweichow%20Moutai%22&hl=en-US&gl=US&ceid=US:en",
-      "status": "ok",
-      "count": 24
-    },
-    {
-      "name": "Brand News · JNBY",
-      "url": "https://news.google.com/rss/search?q=%22Jiangnan%20Buyi%22&hl=en-US&gl=US&ceid=US:en",
-      "status": "ok",
-      "count": 2
-    },
-    {
-      "name": "Brand News · PDD",
-      "url": "https://news.google.com/rss/search?q=%22PDD%20Holdings%22%20OR%20Pinduoduo%20OR%20Temu&hl=en-US&gl=US&ceid=US:en",
-      "status": "ok",
-      "count": 24
-    },
-    {
-      "name": "China Robotics · Components",
-      "url": "https://news.google.com/rss/search?q=%22Tsugami%20China%22%20OR%20%22%E6%B4%A5%E4%B8%8A%E6%9C%BA%E5%BA%8A%E4%B8%AD%E5%9B%BD%22%20OR%20%2201651.HK%22%20OR%20%22RoboSense%22%20OR%20%22%E9%80%9F%E8%85%BE%E8%81%9A%E5%88%9B%22%20OR%20%2202498.HK%22%20OR%20%22robotics%22%20OR%20%22%E6%9C%BA%E5%99%A8%E4%BA%BA%22&hl=en-US&gl=US&ceid=US:en",
-      "status": "ok",
-      "count": 24
-    },
-    {
-      "name": "Huawei Hubble · Components",
-      "url": "https://news.google.com/rss/search?q=%22Huawei%20Hubble%22%20OR%20%22%E5%8D%8E%E4%B8%BA%E5%93%88%E5%8B%83%22%20OR%20%22Tianyue%20Advanced%22%20OR%20%223Peak%22%20OR%20%22Vanchip%22%20OR%20%22Focuslight%22%20OR%20%22Motorcomm%22%20OR%20%22Keli%20Motor%22%20OR%20%22Piotech%22%20OR%20%22Castech%22%20OR%20%22SuperFusion%22%20OR%20%22Semitronix%22%20OR%20%22Yinwang%22%20OR%20%22ModelBest%22%20OR%20%22Qianxun%20Intelligence%22%20OR%20%22GeekSight%22%20OR%20%22JoulWatt%22%20OR%20%22HHCK%22%20OR%20%22%E5%A4%A9%E5%B2%B3%E5%85%88%E8%BF%9B%22%20OR%20%22%E6%80%9D%E7%91%9E%E6%B5%A6%22%20OR%20%22%E4%B8%9C%E8%8A%AF%E5%8D%8A%E5%AF%BC%E4%BD%93%22%20OR%20%22%E7%81%BF%E5%8B%A4%E7%A7%91%E6%8A%80%22%20OR%20%22%E7%82%AC%E5%85%89%E7%A7%91%E6%8A%80%22%20OR%20%22%E8%B5%9B%E7%9B%AE%E7%A7%91%E6%8A%80%22%20OR%20%22%E6%9D%B0%E5%8D%8E%E7%89%B9%20OR%20%E5%8D%8E%E6%B5%B7%E8%AF%9A%E7%A7%91%20OR%20%E7%A7%91%E5%8A%9B%E5%B0%94%22%20OR%20%22%E6%8B%93%E8%8D%86%E7%A7%91%E6%8A%80%22%20OR%20%22%E7%A6%8F%E6%99%B6%E7%A7%91%E6%8A%80%20OR%20%E8%B6%85%E8%81%9A%E5%8F%98%20OR%20%E8%B5%9B%E7%BE%8E%E7%89%B9%20OR%20%E5%BC%95%E6%9C%9B%20OR%20%E9%9D%A2%E5%A3%81%E6%99%BA%E8%83%BD%20OR%20%E5%8D%83%E5%AF%BB%E6%99%BA%E8%83%BD%20OR%20%E6%9E%81%E4%BD%B3%E8%A7%86%E7%95%8C%22&hl=en-US&gl=US&ceid=US:en",
-      "status": "pending",
-      "count": 0
     }
   ],
   "items": [
     {
-      "source": "China Robotics · Components",
-      "title": "Comau, OMRON Robotics collaborate to advance industrial automation - Today's Medical Developments",
-      "summary": "Comau, OMRON Robotics collaborate to advance industrial automation Today's Medical Developments",
-      "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNclZnekYyWm1PQTV5NkxUeFpsZy1wajhfTTFneWUxSTB3NXhlQ2FyWGpZb1dOUUxKNDRJdzU3Rnhybkt2T2k4TXJOTHRjLTZHcnk2X2s3SEQwU0Q3V3N6dmx6bTZsQmh3emRORXRPVEdFaFlLeDlJckJuaktSVXNjVmYzSVpOUWYzWGFKYzAtZURzMnhaS3FBd0dzYWZFTGNZTzdISldaSVB0M3VtRkJN?oc=5",
-      "author": "Today's Medical Developments",
-      "publishedAt": "2026-05-14T06:00:00Z",
-      "titleEn": "Comau, OMRON Robotics collaborate to advance industrial automation - Today's Medical Developments",
-      "titleZh": "柯马与欧姆龙机器人公司合作推进工业自动化 - 当今的医疗发展",
-      "matchedPortfolios": [
-        "china-robotics"
-      ],
-      "tags": [
-        "China Robotics · Components",
-        "robotics"
-      ]
-    },
-    {
-      "source": "Brand News · Pop Mart",
-      "title": "Nomura Adjusts Pop Mart International Group's Price Target to HK$252 from HK$261, Keeps at Buy - marketscreener.com",
-      "summary": "Nomura Adjusts Pop Mart International Group's Price Target to HK$252 from HK$261, Keeps at Buy marketscreener.com",
-      "url": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxNS1kyb3htanRCX195R2ZRenl1TW1WU3Y5NjdzQnpkd0dKUEluTHFmdGFOaWdxRFVDR180S0dyMGg1ZWtlR1IydW04N28zaF92X3ZsS3p0N25yNzhLMUNPaURYZUhJSncxbkh2LUJXcjJXWDRsZXVCNXN2a25mQVpKZng2LWJRTG1rUkVnb25SOWRVNERWQ0JwOEpOOGVUVGlDbVRuT2VidFBsb2JWck9YN3VaNWtQUXlhOHdWQTZBUjdOSWp1QjU5bHRITGdIYVlIWDNtQlE5eFpENUR1U280?oc=5",
-      "author": "marketscreener.com",
-      "publishedAt": "2026-05-14T05:29:20Z",
-      "titleEn": "Nomura Adjusts Pop Mart International Group's Price Target to HK$252 from HK$261, Keeps at Buy - marketscreener.com",
-      "titleZh": "野村证券将泡泡玛特国际集团目标价从261港元调整至252港元，维持买入评级 - marketscreener.com",
-      "matchedPortfolios": [
-        "brand"
-      ],
-      "tags": [
-        "Brand News · Pop Mart",
-        "pop mart"
-      ]
-    },
-    {
-      "source": "Deflation News · TLT Treasuries",
-      "title": "Treasury Yields Stay High As Oil Fuels Inflation Fears - Finimize",
-      "summary": "Treasury Yields Stay High As Oil Fuels Inflation Fears Finimize",
-      "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNVEx3Q2J3RlZfZEJIOEc5WWpCOEhydUJzTndNcERiYWkzcHd2V3R3bWd2VWhVNERKaHR2cElfcXN2RWRsT202TWx2cnBfb01SRlh5Q0RWSE0xeVNrSEZxbk9nYnFXVXZUT3FsZ3l3LTFMWWs3LUd4OHJ1d3RySnpkMUwwRGppX3phZ0VN?oc=5",
-      "author": "Finimize",
-      "publishedAt": "2026-05-14T05:02:13Z",
-      "titleEn": "Treasury Yields Stay High As Oil Fuels Inflation Fears - Finimize",
-      "titleZh": "由于石油加剧通胀担忧，国债收益率保持高位 - Finimize",
-      "matchedPortfolios": [
-        "no-yield"
-      ],
-      "tags": [
-        "Deflation News · TLT Treasuries",
-        "deflation",
-        "tlt",
-        "treasury"
-      ]
-    },
-    {
-      "source": "Deflation News · TLT Treasuries",
-      "title": "Investors gird for high US Treasury yields as new Fed Chair Warsh battles inflation - Reuters",
-      "summary": "Investors gird for high US Treasury yields as new Fed Chair Warsh battles inflation Reuters",
-      "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNZjF1MThqUW1VME1LWjZDbVczTzU5TzVtTm1fV3dlbVF1a2RwdFE3dGptbExfS1Q2NGltMXEwREloVlNteWpkRXh0enQ4dE1PVDVwM1MxbGN4OG1JaDQ3YlpBS2pQUkVpOW8tVy1zbW5ZMXFaQWVXQ3h0MFpxSWg0N2p4a1M3aUVMejdISWo0a2VtMHF1RV9ER3Z0NWxmYWl2LWFGWFBQOENrQkRIcmpFc09lWFg3aHY0MDdITnh3?oc=5",
-      "author": "Reuters",
-      "publishedAt": "2026-05-14T05:02:00Z",
-      "titleEn": "Investors gird for high US Treasury yields as new Fed Chair Warsh battles inflation - Reuters",
-      "titleZh": "新任美联储主席沃什应对通胀，投资者对美国国债收益率高企做好准备 - 路透中文网",
-      "matchedPortfolios": [
-        "no-yield"
-      ],
-      "tags": [
-        "Deflation News · TLT Treasuries",
-        "deflation",
-        "tlt",
-        "treasury"
-      ]
-    },
-    {
-      "source": "Deflation News · TLT Treasuries",
-      "title": "Investors gird for high US Treasury yields as new Fed Chair Warsh battles inflation - marketscreener.com",
-      "summary": "Investors gird for high US Treasury yields as new Fed Chair Warsh battles inflation marketscreener.com",
-      "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxOWU9OVWZxX0xxZDlkVEhpaGd2RHdOclNweFNCN1NuVTlyb3RqbmFTbmIyRlRXZDRLZnNtc2Y5VUI5U0NhOFh6dDNkQXJJZko2U0lyS1daNUI0eVdTZURxc01fY0c3eXVvVjNKSlNFVDgxRUxITUxPUHBnbXRQcF9nR2xhNHVyNUtjb0tja0VvYl9hTmpORGo0dkRfRDkyY3c5alA3Q19tejI3V3VmZE4xUVc1T3hZblhveVNOc1ZhTEFtcGkxaS16d1pybFhYU21OTXc?oc=5",
-      "author": "marketscreener.com",
-      "publishedAt": "2026-05-14T05:01:46Z",
-      "titleEn": "Investors gird for high US Treasury yields as new Fed Chair Warsh battles inflation - marketscreener.com",
-      "titleZh": "新任美联储主席沃什与通胀作斗争，投资者对美国国债收益率高企做好准备 - marketscreener.com",
-      "matchedPortfolios": [
-        "no-yield"
-      ],
-      "tags": [
-        "Deflation News · TLT Treasuries",
-        "deflation",
-        "tlt",
-        "treasury"
-      ]
-    },
-    {
-      "source": "Deflation News · TLT Treasuries",
-      "title": "Investors gird for high US Treasury yields as new Fed Chair Warsh battles inflation - TradingView",
-      "summary": "Investors gird for high US Treasury yields as new Fed Chair Warsh battles inflation TradingView",
-      "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxPczU3eHlzY2ZJdXA5U1JLbXFBbXB3WjBxVUFlcjUtaXNpWFdEN1ladXk5LW80b3dqUzRVTl9FUFlURDZseDdMVzhobE1NUlNnMk11bVoydkh6VEZuOFIweUhsVjhZZVBNcTNOOWlFWTFaUWZUamdYZWs5UTNrSjluOFRGZmp0XzA5YVlPQjVyeXNJR3FIcnVIYkJ2dzdnSm9aVEM4cDU2bzZvcHh0dlpFN0plMC1jX0hZb1kyZkdXZ3J1YWRQSHNtOU9VeHBjbGxkLTZDY3JBOXJVTnlraUdKdzM1RW5oa1hs?oc=5",
-      "author": "TradingView",
-      "publishedAt": "2026-05-14T05:00:00Z",
-      "titleEn": "Investors gird for high US Treasury yields as new Fed Chair Warsh battles inflation - TradingView",
-      "titleZh": "随着新任美联储主席沃什与通胀作斗争，投资者对美国国债高收益率做好了准备 - TradingView",
-      "matchedPortfolios": [
-        "no-yield"
-      ],
-      "tags": [
-        "Deflation News · TLT Treasuries",
-        "deflation",
-        "tlt",
-        "treasury"
-      ]
-    },
-    {
-      "source": "China Robotics · Components",
-      "title": "Kleiner Perkins backs Rivian CEO RJ Scaringe’s Mind Robotics with $400M to bring AI robots into factories - Tech Funding News",
-      "summary": "Kleiner Perkins backs Rivian CEO RJ Scaringe’s Mind Robotics with $400M to bring AI robots into factories Tech Funding News",
-      "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNdTVaOTNEMHVTZVVzMkFkdW4zdTIyRlFsS0RxS2ZTaXpJTGl0WnlzQTFzYVdFbHhxLV8yVDhydEI0NTdaWEU4M0VDTk1tOFJVYmxRTmlUQ2JNNEtXSzRUc0c5Nzd2UEI0b2hpNXpPRFhmbU0wTE9nNmFqakNMdlh6S1hVWVkxWUJZQm1GWHE1Rlcta1lmVWNULUlsYjhNamFIakFiX3VmLWRjci1HYXIxckozUVQ2c0RVRmdkcy1zNVprdXdrME1HZUUzSHI?oc=5",
-      "author": "Tech Funding News",
-      "publishedAt": "2026-05-14T04:59:03Z",
-      "titleEn": "Kleiner Perkins backs Rivian CEO RJ Scaringe’s Mind Robotics with $400M to bring AI robots into factories - Tech Funding News",
-      "titleZh": "Kleiner Perkins 以 4 亿美元支持 Rivian 首席执行官 RJ Scaringe 的 Mind Robotics，将人工智能机器人带入工厂 - Tech Funding News",
-      "matchedPortfolios": [
-        "china-robotics"
-      ],
-      "tags": [
-        "China Robotics · Components",
-        "ai",
-        "robotics"
-      ]
-    },
-    {
-      "source": "Brand News · Pop Mart",
-      "title": "Pop Mart Warns of Shrinking Margins Amid Rising Production Costs and Market Uncertainties - Retail News Asia",
-      "summary": "Pop Mart Warns of Shrinking Margins Amid Rising Production Costs and Market Uncertainties Retail News Asia",
-      "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxQWk9JVE12a2s5czBtZFRaRHlxazhMWWFIMlJpeWNKdkVCOEdTLXF2MEhidXBkZGpweUloSWhIRG1QZmhfVjhpZlcyTlBHOC1nUlVta1ptQVNUQWN1UkhKYkZZUTBXOGd6OVM5QkxsblRJa3lxbW5NaUhQWUtXNWhkVUg3T25TZi1UQmZKOEUyNkhKbE1nYUJ5UkxXOS03Vi1ZQjUzdWxZVXRHX21xR0RCTTRia0RxU2lZZUE?oc=5",
-      "author": "Retail News Asia",
-      "publishedAt": "2026-05-14T04:48:09Z",
-      "titleEn": "Pop Mart Warns of Shrinking Margins Amid Rising Production Costs and Market Uncertainties - Retail News Asia",
-      "titleZh": "泡泡玛特警告称，由于生产成本上升和市场不确定性，利润将缩水 - 亚洲零售新闻",
-      "matchedPortfolios": [
-        "brand"
-      ],
-      "tags": [
-        "Brand News · Pop Mart",
-        "pop mart"
-      ]
-    },
-    {
-      "source": "Deflation News · Bitcoin Gold",
-      "title": "Why is bitcoin price down? BTC at $79,000 as Xi warns Trump on Taiwan conflict - CoinDesk",
-      "summary": "Why is bitcoin price down? BTC at $79,000 as Xi warns Trump on Taiwan conflict CoinDesk",
-      "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxQQVZmQ1FHTFlqd0NDRU9ZT05RMVRjM2pJbm04N094V2ZoTTZDS1FZdE5YWm1iemZfY3BLd3BIdGROWktDRXY1Zzh3SlZSNExsVnlhdWUzalJxZThfcHUzT0tLd1JDZC1kakxJa0p1Nkl3dGMyQkpvd3FsRTlJN0JiRXYwUVZid29jVGFYZV9YVWtMVzY5bkRrMG1CcDhGVG9RNGJEb2tPRm9kX2o5Rmpkekl6QlY5N2dLTUJB?oc=5",
-      "author": "CoinDesk",
-      "publishedAt": "2026-05-14T04:44:42Z",
-      "titleEn": "Why is bitcoin price down? BTC at $79,000 as Xi warns Trump on Taiwan conflict - CoinDesk",
-      "titleZh": "比特币价格为何下跌？习近平就台湾冲突警告特朗普，比特币价格达 79,000 美元 - 链闻 ChainNews",
-      "matchedPortfolios": [
-        "no-yield"
-      ],
-      "tags": [
-        "Deflation News · Bitcoin Gold",
-        "bitcoin",
-        "btc",
-        "deflation"
-      ]
-    },
-    {
-      "source": "Brand News · Pop Mart",
-      "title": "CMSI Reiterates Underweight on POP MART (09992.HK); Lacks Blockbuster IP After LABUBU Craze - AASTOCKS.com",
-      "summary": "CMSI Reiterates Underweight on POP MART (09992.HK); Lacks Blockbuster IP After LABUBU Craze AASTOCKS.com",
-      "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPT2tNR05wX2RDclY4SXphbGZiVEhobzltdTV2T1JoTFNEVnBRZS01TTJNU1l1RnRfZTJYcGQ1bWh3NTFJUG5fOGtlQVo1S3hIMl8tYWlmQ0tiMnZwLXp6X2p0dUlsd1BnOXB1NTRjejF5dFBFM1JOT25lR3dzSzhaUGxuX3Y?oc=5",
-      "author": "AASTOCKS.com",
-      "publishedAt": "2026-05-14T04:10:00Z",
-      "titleEn": "CMSI Reiterates Underweight on POP MART (09992.HK); Lacks Blockbuster IP After LABUBU Craze - AASTOCKS.com",
-      "titleZh": "招商证券重申泡泡玛特（09992.HK）减持； LABUBU热潮后缺乏重磅IP - AASTOCKS.com",
-      "matchedPortfolios": [
-        "brand"
-      ],
-      "tags": [
-        "Brand News · Pop Mart",
-        "pop mart"
-      ]
-    },
-    {
-      "source": "NASA",
-      "title": "Ice Moves Out of Aniak",
-      "summary": "Spring melt along Alaska’s Kuskokwim River caused ice jams and flooding.",
-      "url": "https://science.nasa.gov/earth/earth-observatory/ice-moves-out-of-aniak/",
-      "author": "NASA",
-      "publishedAt": "2026-05-14T04:01:00Z",
-      "titleEn": "Ice Moves Out of Aniak",
-      "titleZh": "冰块从阿尼亚克移出",
-      "matchedPortfolios": [
-        "satellite-intel"
-      ],
-      "tags": [
-        "nasa"
-      ]
-    },
-    {
-      "source": "China Robotics · Components",
-      "title": "SiEngine, SEER Robotics partner on embodied AI and industrial robotics platform - Gasgoo",
-      "summary": "SiEngine, SEER Robotics partner on embodied AI and industrial robotics platform Gasgoo",
-      "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxQYzZ2aGxUNDk2VzZIOXk2R0QwS1hOUkJDeUEzM2pUX0ltcDI5WGFqU3o4S0YxN1V3SmxHME4wS2RQOWlfdVlBU0FSRTBJTEMteS1pQ0hGS3dGMnlQand6Ym1YSk5oT2M4LW02bzB3YlczMjRCOXgtS1M4WkVIZUR2WUpUSDJCQ3FOY3JBVXc5ZFB5WUE5QlR1T0pfWDUzLW4taFRXc3NBSEpTYXhFb3FRbDB5WFJ2akZBOENWWFNHS0gzSkNjUTVWWV9WSi1QRVAxbzQ5dWFR?oc=5",
-      "author": "Gasgoo",
-      "publishedAt": "2026-05-14T03:52:19Z",
-      "titleEn": "SiEngine, SEER Robotics partner on embodied AI and industrial robotics platform - Gasgoo",
-      "titleZh": "SiEngine与SEER Robotics合作开发嵌入式人工智能和工业机器人平台 - 盖世汽车网",
-      "matchedPortfolios": [
-        "china-robotics"
-      ],
-      "tags": [
-        "China Robotics · Components",
-        "ai",
-        "robotics"
-      ]
-    },
-    {
-      "source": "Drone News · Tickers",
-      "title": "UWS baseball cleans up UMAC awards after standout season - WDIO.com",
-      "summary": "UWS baseball cleans up UMAC awards after standout season WDIO.com",
-      "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxOczNoMHpKWmIxWFg4MnZGRlI1TE9GOGFzclRwNkdoRmlrelBEa0t2ZTNyXzgtY1NIR2Fnb2ZabWFzOHBnaFZCYlhDRFFGZEVMbjM4dlc2dlI3dEVWWVNURzAxM3QzNWhkTm1IajM2Q25QY0pNaFdhRklGSklBMVA4dGdZODBGV2RxTHhrN3Rn?oc=5",
-      "author": "WDIO.com",
-      "publishedAt": "2026-05-14T03:11:17Z",
-      "titleEn": "UWS baseball cleans up UMAC awards after standout season - WDIO.com",
-      "titleZh": "UWS 棒球队在出色的赛季后斩获 UMAC 奖项 - WDIO.com",
-      "matchedPortfolios": [
-        "drone"
-      ],
-      "tags": [
-        "drone",
-        "umac"
-      ]
-    },
-    {
-      "source": "Brand News · Coca-Cola",
-      "title": "Coca-Cola Broadens Beverage Mix As Investors Weigh Growth And Supply Risks - simplywall.st",
-      "summary": "Coca-Cola Broadens Beverage Mix As Investors Weigh Growth And Supply Risks simplywall.st",
-      "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxNOVloUHAxMjlucTdMODF1NFRheTF0RGd5LU1MbkFubkRHY2V3NlItTmk3dUpJZ0FFZHhRSWJ6dUFtZXhrMDF2ZklMWWlPMXlvdXp6SDhnMTdjNEJuT2dISWQyZVVEczNTQzhOWm1Mem82bFlRUUt1Q2pJdTlQQmhIR0QtUHpuekNDQ1Rvcnp2WldyMGRURjVRZGp6NE5Pdl9fTXpCZDZ2N1ZWRGt3OEVNemdCM05GQU00QWpTRnBaSWh5OEFacFNYa1hHMjc5MktRQ3ZJ0gHYAUFVX3lxTFBQQTRpeE5hRHlkVVdtckJYYWdLdldodDI4SmFTeWRzYmJUZlZUaGpzY2o5MlM2U0c4amlUcmtWV1EzUnI5S19YWnVDMGh3bldGRW5KTmpBWWdTaGpGYlhOUnR3anFiOHJVYUI4c2RnYnNacnF2VGdYTHJZSXN3M05zNE9JSmtuNTdUWkxuS0F5LTlBSV9QeEN6aWJHblBKNV8xU3VaODFwZXNiMDRuS3g1MW1KcFRhdW5hWW9qY3RhcFdnWEtsVEh1N2J0Snl3Y0c4OFhkWXZ2Qg?oc=5",
-      "author": "simplywall.st",
-      "publishedAt": "2026-05-14T03:10:37Z",
-      "titleEn": "Coca-Cola Broadens Beverage Mix As Investors Weigh Growth And Supply Risks - simplywall.st",
-      "titleZh": "随着投资者权衡增长和供应风险，可口可乐扩大饮料组合 - simplewall.st",
-      "matchedPortfolios": [
-        "brand"
-      ],
-      "tags": [
-        "Brand News · Coca-Cola",
-        "coca-cola"
-      ]
-    },
-    {
-      "source": "China Robotics · Components",
-      "title": "Fanuc Shares Surge After Partnership With Google on Physical AI - Bloomberg.com",
-      "summary": "Fanuc Shares Surge After Partnership With Google on Physical AI Bloomberg.com",
-      "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOVi1vdGd6dDMtYzhoa0hfbGhKUlJ4N2NTeS1RZm1pcEw0YVYyeHNoMkdfbGxfOU1ncXdVQU9TSEx3V0k5X21NMElXMGFqTTg0dFBUQVhUd2RmLWF3elJwZ0hnZmMzRGo1NGR0LTBSN1k4aVNhSHlvV19sZzdmSjJmdUx3b0dRbXRrR0ZNblVHejZXS1pCNGRLT2FBelJKSzVlRVZyVlNlUjdoNkFod2JVVnYxbUU?oc=5",
+      "source": "Bloomberg",
+      "title": "Google to Create AI Cloud Business With Blackstone, WSJ Says - Bloomberg.com",
+      "summary": "Google to Create AI Cloud Business With Blackstone, WSJ Says Bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxOOTRwLThBaXI4RERIWm5KRW5IQnNxT1NHRmhQOUljeGRfb21Qc0p4UVA0bENQYTNPLWJ2T3ZaRkwxMVNpczhVd0s1TEJsTUZqM1d1dUs2VGJNRFY0bWV6TUN0X18tZWtPdGxGVjNEQ0JrRFBMTXh3TkJIQVR6WDUwMXg4UFFkc2FPX1c4ZG44WERNY2pudklNRDdObk9EajFKVWl2LU1HUWhqX0pOYktR?oc=5",
       "author": "Bloomberg.com",
-      "publishedAt": "2026-05-14T02:55:00Z",
-      "titleEn": "Fanuc Shares Surge After Partnership With Google on Physical AI - Bloomberg.com",
-      "titleZh": "与谷歌合作开发物理人工智能后发那科股价飙升 - Bloomberg.com",
+      "publishedAt": "2026-05-19T01:30:00Z",
+      "titleEn": "Google to Create AI Cloud Business With Blackstone, WSJ Says - Bloomberg.com",
+      "titleZh": "《华尔街日报》称，谷歌将与 Blackstone 合作创建人工智能云业务 - Bloomberg.com",
       "matchedPortfolios": [
-        "china-robotics"
+        "ai-market"
       ],
       "tags": [
-        "China Robotics · Components",
-        "ai",
-        "google",
-        "robotics"
+        "Bloomberg",
+        "Google",
+        "ai cloud"
       ]
     },
     {
-      "source": "Brand News · Pop Mart",
-      "title": "POP MART: No Plan to Veer into Traditional Home Appliance Field - AASTOCKS.com",
-      "summary": "POP MART: No Plan to Veer into Traditional Home Appliance Field AASTOCKS.com",
-      "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1yQ3NjNllkMF9xd3ctOXM0OFpJTFFXNFpEZlppd1d4ckRwT0h5RnRSUWFzcmcxUFZTNHMtLWdTZnVYSEJOUEZzckQ2a1lQV29hcmhhMUo3MUtFaEt3bTNTck5zOFdUUmd3RkFwR3QxWQ?oc=5",
-      "author": "AASTOCKS.com",
-      "publishedAt": "2026-05-14T02:20:00Z",
-      "titleEn": "POP MART: No Plan to Veer into Traditional Home Appliance Field - AASTOCKS.com",
-      "titleZh": "POP MART泡泡玛特：暂无进军传统家电领域的计划 - AASTOCKS.com",
+      "source": "New York Times",
+      "title": "Meta Reassigns 7,000 Employees to Focus on A.I. - The New York Times",
+      "summary": "Meta Reassigns 7,000 Employees to Focus on A.I. The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxORnVpMXh5RjM1NzVpTHA1NHFMbzhheVVqUElRUXEyVGZOV0lFZWRhdmdTelpMWDVLazJlaXlkd3ZVZHdTZ2VvR2oxZ251cng5aEFKdDh6NEJTeUlrQTJRa0xwTXJ0bFk0TTNpZy1zeTFkMDhocV9mZW5sNDNrRTJ6Rzhld3lySVBkZVJV?oc=5",
+      "author": "The New York Times",
+      "publishedAt": "2026-05-19T00:48:11Z",
+      "titleEn": "Meta Reassigns 7,000 Employees to Focus on A.I. - The New York Times",
+      "titleZh": "Meta 重新分配 7,000 名员工以专注于人工智能- 纽约时报",
       "matchedPortfolios": [
-        "brand"
+        "ai-market"
       ],
       "tags": [
-        "Brand News · Pop Mart",
-        "pop mart"
+        "Meta",
+        "New York Times"
       ]
     },
     {
-      "source": "Brand News · Pop Mart",
-      "title": "POP MART To Solidify Operations at Each Store to Achieve More Stable Growth - AASTOCKS.com",
-      "summary": "POP MART To Solidify Operations at Each Store to Achieve More Stable Growth AASTOCKS.com",
-      "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTFAyM1J2VXdnRHRMWnVWT0NsbEcwcmZ5eFJXTE5LNlFmV25YZkZrUFNHMjRpODFMbW5KUzBXcEc3cEwweWlnREwtSW01TFVZRVFhUDZIQzhqbk5tZFhJNEUyNnNqMk9kVHhmaFJPaXlNbw?oc=5",
-      "author": "AASTOCKS.com",
-      "publishedAt": "2026-05-14T02:12:00Z",
-      "titleEn": "POP MART To Solidify Operations at Each Store to Achieve More Stable Growth - AASTOCKS.com",
-      "titleZh": "POP MART泡泡玛特巩固各门店运营，实现更稳定增长 - AASTOCKS.com",
-      "matchedPortfolios": [
-        "brand"
-      ],
-      "tags": [
-        "Brand News · Pop Mart",
-        "pop mart"
-      ]
-    },
-    {
-      "source": "China Robotics · Components",
-      "title": "Faraday Future Announces that FF AI-Robotics has Signed an MOU with RobotShop, One of North America’s Leading Robotics-Focused E-Commerce Platforms - Business Wire",
-      "summary": "Faraday Future Announces that FF AI-Robotics has Signed an MOU with RobotShop, One of North America’s Leading Robotics-Focused E-Commerce Platforms Business Wire",
-      "url": "https://news.google.com/rss/articles/CBMiqgJBVV95cUxOYzhpa3FYRDdMSTdBZHRRR2pFSG1sTUtPZWlGTVMxUjM2N1Q3bDJ3akJuUS01dmxzVnVjT3NvQ0VDNExmTDZhTWRsejlfT2JQXzd1cm5HZ3QyNDh0VFZqUkt6YmFPaEtCdzlKYkhSU2dKa1lSTkpLbU1XRVA5X0w5U20xYkVtUy0wRDlKU1gxOXUtYmZjVTlWQUJSYmt3NlpqNGE5MWRSd3VRcklPT3BkM1RyYTBneWc3MjRuNGljUHozMjJxaGo5RjVMR0dhc2pIajNCRFlXanBrNFd6M1dhVHRWcHNFRGloNXV0UHk0WE8zYVJhQ2lkY3g1VHFZa1ZwTFNwRWE2XzRzcDcyOTM4MnNXUlFLUXhnTHpYcE1ZODRSVTh2R3ZlcWVB?oc=5",
-      "author": "Business Wire",
-      "publishedAt": "2026-05-14T02:07:00Z",
-      "titleEn": "Faraday Future Announces that FF AI-Robotics has Signed an MOU with RobotShop, One of North America’s Leading Robotics-Focused E-Commerce Platforms - Business Wire",
-      "titleZh": "法拉第未来宣布 FF AI-Robotics 与北美领先的机器人电商平台之一 RobotShop 签署谅解备忘录 - 美国商业资讯",
-      "matchedPortfolios": [
-        "china-robotics"
-      ],
-      "tags": [
-        "China Robotics · Components",
-        "ai",
-        "robotics"
-      ]
-    },
-    {
-      "source": "Brand News · Pop Mart",
-      "title": "POP MART Sags 2%+ as Citi and CLSA Cut TPs - AASTOCKS.com",
-      "summary": "POP MART Sags 2%+ as Citi and CLSA Cut TPs AASTOCKS.com",
-      "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE5qOFhuZGphWE45TTJkVlRWX1ZkN2Z5WVNxMndrMTJHYnhBNV9rV1NZbHlwV0dDdHdYbWRweUxsbkE2M2owYXJxamtxVzJoTE9lSlBEZThRUDhkcjgzTGVIaHRidEZKTl9mb3p3U1FoYw?oc=5",
-      "author": "AASTOCKS.com",
-      "publishedAt": "2026-05-14T01:52:00Z",
-      "titleEn": "POP MART Sags 2%+ as Citi and CLSA Cut TPs - AASTOCKS.com",
-      "titleZh": "花旗集团和里昂证券削减目标价，POP MART 股价下跌 2%+ - AASTOCKS.com",
-      "matchedPortfolios": [
-        "brand"
-      ],
-      "tags": [
-        "Brand News · Pop Mart",
-        "pop mart"
-      ]
-    },
-    {
-      "source": "Brand News · Pop Mart",
-      "title": "POP MART (09992.HK) Falls Over 2% as Citi and CLSA Cut TP - AASTOCKS.com",
-      "summary": "POP MART (09992.HK) Falls Over 2% as Citi and CLSA Cut TP AASTOCKS.com",
-      "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE91Qm1kWmdVci16Y2hpNTdlNkl3ckl2WGRZYVFpamwtRlo2QW4zVzZoXy1RU053cmpVd3c5aWlROFBMbk96Yy1xcDNyVXNsWmFjYXRCVHl4ZlFQWlJRYmlhT3FNUkNYQ0J2M2Q5RjdLcw?oc=5",
-      "author": "AASTOCKS.com",
-      "publishedAt": "2026-05-14T01:52:00Z",
-      "titleEn": "POP MART (09992.HK) Falls Over 2% as Citi and CLSA Cut TP - AASTOCKS.com",
-      "titleZh": "花旗及里昂证券下调目标价 泡泡玛特(09992.HK)跌逾2% - AASTOCKS.com",
-      "matchedPortfolios": [
-        "brand"
-      ],
-      "tags": [
-        "Brand News · Pop Mart",
-        "pop mart"
-      ]
-    },
-    {
-      "source": "SCMP Tech",
-      "title": "Alibaba shares surge 7% in Hong Kong as firm accelerates pivot to AI",
-      "summary": "Shares of Alibaba Group Holding opened up 7.8 per cent in Hong Kong, after the firm reported strong growth from its artificial intelligence products and ramped up its commitment to the technology. The Chinese tech giant also saw its New York-listed shares surge 8.2 per cent on Wednesday, closing at US$145.81, after it",
-      "url": "https://www.scmp.com/tech/big-tech/article/3353487/alibaba-shares-surge-8-new-york-firm-accelerates-pivot-ai?utm_source=rss_feed",
-      "author": "Coco Feng",
-      "publishedAt": "2026-05-14T01:19:53Z",
-      "titleEn": "Alibaba shares surge 7% in Hong Kong as firm accelerates pivot to AI",
-      "titleZh": "随着公司加速转向人工智能，阿里巴巴股价在香港飙升 7%",
-      "matchedPortfolios": [
-        "china-property"
-      ],
-      "tags": [
-        "ai",
-        "hong kong"
-      ]
-    },
-    {
-      "source": "Deflation News · Bitcoin Gold",
-      "title": "Gold prices edge up on weak dollar as Trump-Xi meeting, Iran war draw focus - Reuters",
-      "summary": "Gold prices edge up on weak dollar as Trump-Xi meeting, Iran war draw focus Reuters",
-      "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQcUl2UmU0WTRldHg1dEV4NnEtRmxXRlhKN1ctUXpWWFVlZno4bmJaR3dXWVl6NXJBX1E0d2F1b0hPMlhQOEtWRmUtU2NiV2hSaEJTZzdtTmtpc24xUVpWZFYwb3JMQmZTNUdJLWhtSkJjak90QWd1b3ZCM0xzZkpRYVZNd25xNm52SEVVYUV3eFJySTBGT2I0Rg?oc=5",
-      "author": "Reuters",
-      "publishedAt": "2026-05-14T01:10:00Z",
-      "titleEn": "Gold prices edge up on weak dollar as Trump-Xi meeting, Iran war draw focus - Reuters",
-      "titleZh": "特习会、伊朗战争成为焦点，美元疲软，金价小幅上涨 - 路透中文网",
-      "matchedPortfolios": [
-        "no-yield"
-      ],
-      "tags": [
-        "Deflation News · Bitcoin Gold",
-        "bitcoin",
-        "deflation"
-      ]
-    },
-    {
-      "source": "Drone News · Companies",
-      "title": "A Look at AeroVironment Inc (AVAV) After 4.7% Decline -- GF Value $239.36 vs Price $160.99 - GuruFocus",
-      "summary": "A Look at AeroVironment Inc (AVAV) After 4.7% Decline -- GF Value $239.36 vs Price $160.99 GuruFocus",
-      "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxQa0E0QllFZDgyMm1XaDFCUDlRSjNzNGpMR2FiMWdXOFZNX2FhakRXX3NiTGpmcU82YTVVMlh5ZEV0eTNRVVc4b01ZQkdKaXBJcnNCWXNVZWIwTFpteEJKM0F3TjFaR01kcnU2NlhjclpuX1lOWGFUTU01Y1M3MzM3ZHFrX2tiT29uQ285eGpoalVwMUdfY1pPd004UHVkUDVjZW1NQ3pUNHpPYldpa0E0Z3dnU1ZuOS16Ymc?oc=5",
-      "author": "GuruFocus",
-      "publishedAt": "2026-05-14T00:56:15Z",
-      "titleEn": "A Look at AeroVironment Inc (AVAV) After 4.7% Decline -- GF Value $239.36 vs Price $160.99 - GuruFocus",
-      "titleZh": "看看 AeroVironment Inc (AVAV) 下跌 4.7% 后的表现——GF 价值 239.36 美元 vs 价格 160.99 美元 - GuruFocus",
-      "matchedPortfolios": [
-        "drone"
-      ],
-      "tags": [
-        "aerovironment",
-        "avav",
-        "drone"
-      ]
-    },
-    {
-      "source": "China Robotics · Components",
-      "title": "Saline, Dexter High School Robotics Teams Compete at Worlds - The Sun Times News",
-      "summary": "Saline, Dexter High School Robotics Teams Compete at Worlds The Sun Times News",
-      "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxPWWViOUZScmtqVFRnWUdzc0hzOVlIaHc5ejVMNDk4WlRWOWhLVlFjRTdlaWI0QzNudUJoVF8zTTRvRlVBeGtKMTV5cGlZa3RfQl9LajRBd0d3bTVEVHN4MFV6dV95MWZuMkF6c1pXajBfRHRjWlRzV0N4ZUFkUnZqak5EdkNuZWJJQUhoaWU4ajU?oc=5",
-      "author": "The Sun Times News",
-      "publishedAt": "2026-05-14T00:32:56Z",
-      "titleEn": "Saline, Dexter High School Robotics Teams Compete at Worlds - The Sun Times News",
-      "titleZh": "Saline 和 Dexter 高中机器人团队参加世界大赛 - 太阳时报新闻",
-      "matchedPortfolios": [
-        "china-robotics"
-      ],
-      "tags": [
-        "China Robotics · Components",
-        "robotics"
-      ]
-    },
-    {
-      "source": "China Robotics · Components",
-      "title": "Japan’s Strengths in Robotics and Anime Can Offset Macro Headwinds - Nomura Connects",
-      "summary": "Japan’s Strengths in Robotics and Anime Can Offset Macro Headwinds Nomura Connects",
-      "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxNMjdIY0FWeHN6enhrYjZqYVhqLUVBU1ZrY2I5MWRxc0JPVWFlTFdWVnN3bWdlejd2dG85aElaVkI3VXFFTXlXNTNDR0szbHAyY0hWVDZrdFc0QkQ1c1E0VDVnbTVUQncyMXRsalhvRktfdjkzcmlsMGtsQUNXRTNjOTVQbEsyNU1maFRPenAtMmk2Z1NGRUh3aE54SlJCdTg4V2NseDhLZjZSWTAtNkMwdGltQ2JfakI5QTNrbg?oc=5",
-      "author": "Nomura Connects",
-      "publishedAt": "2026-05-14T00:22:16Z",
-      "titleEn": "Japan’s Strengths in Robotics and Anime Can Offset Macro Headwinds - Nomura Connects",
-      "titleZh": "日本在机器人和动漫领域的优势可以抵消宏观阻力 - Nomura Connects",
-      "matchedPortfolios": [
-        "china-robotics"
-      ],
-      "tags": [
-        "China Robotics · Components",
-        "robotics"
-      ]
-    },
-    {
-      "source": "Drone News · Companies",
-      "title": "Kratos Indiana Facility Deepens Hypersonic Ties While Valuation Raises Questions - simplywall.st",
-      "summary": "Kratos Indiana Facility Deepens Hypersonic Ties While Valuation Raises Questions simplywall.st",
-      "url": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxPS1BmRXR6Wkd1UmVmV092SjItc1I5YUhGNUZwOElQdWFGVEt5YTVQekwzM2tfbWktS3BXT2hNeXlZX2czZHB3cmM4UjU4ZWhTdU5HbUdiZl9OdS0wbEl5cU85eUlueW4zaDdJXzBCNkpaelhzMGVsTVV4cTVBWjdBUWlRVS1GX1kxQVZETlRmUTNHVDFXa05nY3hXU3pNRkZaa0xHeW9KT3NHQ05xNGhqd0JUVkV3aWw2dE9UbVpuSlpKamFjX0U2b0VBbUd4dFNJUDExODdtcEYyWm5QaVlMV0VLY2RFQ2JKM0VYMDB30gHzAUFVX3lxTFA0UzZDczE0ZVZxN0Y3ZFhqWEZzdXdfcDE3WTRmX3Ntem91TWpSRHhJQVB4ak10blA2U1dyVVpuVlhyak9wMlNSUHdFaTFOR1lscVhpMXJicGszQ2Z2eXl4ZUdyS2dJcng0Y1Z4T2p1b0FCWFQ5R1dCNTg1WUZZMWlOcU1iNXlYR3JJZlkxWUhZTHVLOVBKb0VXcy1UUjJ2X0syX2t6SXh6b3hUbUNnVkoxY2RzTllQV3F4ZkdOdnZob1Y5QS1sZDd3b244LWtldnlTajNqLTZaZWVfOGtQT2tlRmF1b21DMkNvT0d5ZXlTZ0ZjTQ?oc=5",
-      "author": "simplywall.st",
-      "publishedAt": "2026-05-14T00:13:43Z",
-      "titleEn": "Kratos Indiana Facility Deepens Hypersonic Ties While Valuation Raises Questions - simplywall.st",
-      "titleZh": "奎托斯印第安纳工厂深化高超音速联系，同时估值引发问题 - simplewall.st",
-      "matchedPortfolios": [
-        "drone"
-      ],
-      "tags": [
-        "drone",
-        "kratos"
-      ]
-    },
-    {
-      "source": "China Robotics · Components",
-      "title": "European Robotics League robotics competition held in The Hague - Xinhua",
-      "summary": "European Robotics League robotics competition held in The Hague Xinhua",
-      "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE9UMzVoNFhjdmlxWDg2dm1UUm1JTFBSMDhDQnBZamx4VWptNUhZTHp6WEswZWM5UmJPanQ5RWtxZ185S1N4VUxzd2FiVEFCZUZLb0tFNGFwbVN4WHNRTGh2cVlxUFJVZXctSDR3LUtsTnNSd2lYeEIwX0hRdw?oc=5",
-      "author": "Xinhua",
-      "publishedAt": "2026-05-13T23:55:29Z",
-      "titleEn": "European Robotics League robotics competition held in The Hague - Xinhua",
-      "titleZh": "欧洲机器人联盟机器人大赛在海牙举行-新华网",
-      "matchedPortfolios": [
-        "china-robotics"
-      ],
-      "tags": [
-        "China Robotics · Components",
-        "robotics"
-      ]
-    },
-    {
-      "source": "Brand News · PDD",
-      "title": "Shein vs. Temu Lawsuit: London's High Court Is Now Ground Zero for the Fast Fashion IP War - RETAILBOSS | Substack",
-      "summary": "Shein vs. Temu Lawsuit: London's High Court Is Now Ground Zero for the Fast Fashion IP War RETAILBOSS | Substack",
-      "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTFBCeGQyX25peVJSeUJkQXQzTm1wZFd4blRxSEcxM0xYT2pYQy1IWDJFTE13NV9xRjVTOThMV1dUUWJ0eGxPUkQwMWEwelgxWVJfNU9BNDhMMnVfNGg1ZGItcnVnaDZqOWt6d0RHUVY2ZFdtVkRLYnlF?oc=5",
-      "author": "RETAILBOSS | Substack",
-      "publishedAt": "2026-05-13T23:48:12Z",
-      "titleEn": "Shein vs. Temu Lawsuit: London's High Court Is Now Ground Zero for the Fast Fashion IP War - RETAILBOSS | Substack",
-      "titleZh": "Shein 诉 Temu 诉讼：伦敦高等法院现已成为快时尚知识产权战争的归零地 - RETAILBOSS |子栈",
-      "matchedPortfolios": [
-        "brand"
-      ],
-      "tags": [
-        "Brand News · PDD",
-        "pdd",
-        "temu"
-      ]
-    },
-    {
-      "source": "CNBC",
-      "title": "Kevin Warsh wins Senate confirmation as the next Federal Reserve chair",
-      "summary": "In the most divisive vote ever for a Fed chair, Warsh, 56, won confirmation to take over for Jerome Powell.",
-      "url": "https://www.cnbc.com/2026/05/13/kevin-warsh-wins-senate-confirmation-as-the-next-federal-reserve-chair.html",
-      "author": "CNBC",
-      "publishedAt": "2026-05-13T23:21:35Z",
-      "titleEn": "Kevin Warsh wins Senate confirmation as the next Federal Reserve chair",
-      "titleZh": "凯文·沃什 (Kevin Warsh) 获得参议院批准，担任下一任美联储主席",
-      "matchedPortfolios": [
-        "no-yield"
-      ],
-      "tags": [
-        "federal reserve"
-      ]
-    },
-    {
-      "source": "Drone News · Tickers",
-      "title": "UW-Superior baseball claims multiple major UMAC awards - fox21online.com",
-      "summary": "UW-Superior baseball claims multiple major UMAC awards fox21online.com",
-      "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNMEVNVXl1clBfN2hZcmx0eklnVTJhQ2twMFNPM2k3VmhtNG9tQmdGb0Vrbkxqc2c0WFZialFtS09IVDlqSVJKQU5kRWpoMWhyQkE5cEl6TF9iZFI4YmdQM1luM29xcVB4SlRheF8zSVpiOHFwVVJ2Zl9jV2Z0WkRWbkpkMUZ5cU1UcEJJajZjZVZnRGVCQnVLR0VSMXJQRTVjWXU0VzB0OTBCaTJuVnJodWFfbGpHTWpfU3pIemZZb1pSVEN0alpGLU5GeUlNRzZhRzZtQVJR?oc=5",
-      "author": "fox21online.com",
-      "publishedAt": "2026-05-13T23:13:18Z",
-      "titleEn": "UW-Superior baseball claims multiple major UMAC awards - fox21online.com",
-      "titleZh": "威斯康辛大学高级棒球队荣获 UMAC 多项主要奖项 -fox21online.com",
-      "matchedPortfolios": [
-        "drone"
-      ],
-      "tags": [
-        "drone",
-        "umac"
-      ]
-    },
-    {
-      "source": "Brand News · Pop Mart",
-      "title": "From Blind Boxes to Fine Jewelry, 'Mandalorian and Grogu' Serves Up a Bevy of Brand Collabs - The Hollywood Reporter",
-      "summary": "From Blind Boxes to Fine Jewelry, 'Mandalorian and Grogu' Serves Up a Bevy of Brand Collabs The Hollywood Reporter",
-      "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPb2Q3Q0oyVHhfUnlaWXE1N0xaV20yMml1Y3p4TkFjbU1XVWZfRnJkeHZpV2NNSDg3aVhQYUwzZE5FVlZDRGlYbzhwNWUwcm9MelR3c3pra3J0dUhpcE9jUUhxWTBtaWM4eWo5Sk5rUWx0NTIzNExQczFSZ3dfaVJSekJ6TU9NVHlMTGxJWDNIaGN0MFA5T1lsOXJHNHAwNmhBQ0lwRUJnN2N3MjFuNFd0QVhHUWVjWW5jTjhYRVlDVFU?oc=5",
-      "author": "The Hollywood Reporter",
-      "publishedAt": "2026-05-13T23:00:25Z",
-      "titleEn": "From Blind Boxes to Fine Jewelry, 'Mandalorian and Grogu' Serves Up a Bevy of Brand Collabs - The Hollywood Reporter",
-      "titleZh": "从盲盒到精美珠宝，“曼达洛人和格罗古”提供了一系列品牌合作 - 好莱坞报道",
-      "matchedPortfolios": [
-        "brand"
-      ],
-      "tags": [
-        "Brand News · Pop Mart",
-        "pop mart"
-      ]
-    },
-    {
-      "source": "SCMP Business",
-      "title": "Hong Kong’s Central office rents set to reverse multi-year slump with gains in second half",
-      "summary": "Office rents in Hong Kong’s Central district are expected to rise faster in the second quarter of the year, according to analysts, a reversal of a multi-year slump that began in the second half of 2019. The latest forecast was made by US bank Citi, which said premium offices in the city’s main business zone had seen re",
-      "url": "https://www.scmp.com/business/article/3353468/hong-kongs-central-office-rents-set-reverse-multi-year-slump-gains-second-half?utm_source=rss_feed",
-      "author": "Cheryl Arcibal",
-      "publishedAt": "2026-05-13T23:00:05Z",
-      "titleEn": "Hong Kong’s Central office rents set to reverse multi-year slump with gains in second half",
-      "titleZh": "香港中环写字楼租金下半年将扭转多年低迷势头",
-      "matchedPortfolios": [
-        "china-property"
-      ],
-      "tags": [
-        "hong kong"
-      ]
-    },
-    {
-      "source": "China Robotics · Components",
-      "title": "Rivian spinout Mind Robotics lands $400M to push AI robots onto factory floors - SiliconANGLE",
-      "summary": "Rivian spinout Mind Robotics lands $400M to push AI robots onto factory floors SiliconANGLE",
-      "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOYjBkWlcxSjdWQk1YQWluYkcwdGNORUdscG9MOUhvbGxnSG9WUEVkelpXN0FzR2dsamhwcFFjbWVUSnNvNXpMbWJzSGszVEJBeFNBQ2pubnNyZmJabUlsZzdzYW84Rkg1ZnpQUGxFMnd0NzU5UUpjSlpPcDhNNVNYNXB1SVhyalI2RHdLT1k2RGFNb2F0NjlUc2VuMXJVRFdGTDJ3eENKcHFSZlR5UFJOSA?oc=5",
-      "author": "SiliconANGLE",
-      "publishedAt": "2026-05-13T22:41:19Z",
-      "titleEn": "Rivian spinout Mind Robotics lands $400M to push AI robots onto factory floors - SiliconANGLE",
-      "titleZh": "Rivian 分拆公司 Mind Robotics 获得 4 亿美元融资，将人工智能机器人推向工厂车间 - SiliconANGLE",
-      "matchedPortfolios": [
-        "china-robotics"
-      ],
-      "tags": [
-        "China Robotics · Components",
-        "ai",
-        "robotics"
-      ]
-    },
-    {
-      "source": "SpaceNews",
-      "title": "SLS to launch without upper stage for Artemis 3",
-      "summary": "NASA plans to fly the Space Launch System on Artemis 3 without an upper stage as the agency begins to define revised plans for the mission.",
-      "url": "https://spacenews.com/sls-to-launch-without-upper-stage-for-artemis-3/",
-      "author": "0?ds=true&seed=1778738445",
-      "publishedAt": "2026-05-13T22:37:28Z",
-      "titleEn": "SLS to launch without upper stage for Artemis 3",
-      "titleZh": "阿尔忒弥斯 3 号 SLS 将在没有上级的情况下发射",
-      "matchedPortfolios": [
-        "satellite-intel"
-      ],
-      "tags": [
-        "nasa",
-        "space"
-      ]
-    },
-    {
-      "source": "Drone News · Tickers",
-      "title": "PLTR, KTOS, ALNY: 3 High P/E Stocks with 40%+ Upside Potential in 2026 - TipRanks",
-      "summary": "PLTR, KTOS, ALNY: 3 High P/E Stocks with 40%+ Upside Potential in 2026 TipRanks",
-      "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPSE9wVEt2V1pxUWF6ZGFNakV6eXRIMnBCWkh6ckhXV0l5WXlUczNnanE3Z200Q191VDBRR3pJNURMLXRKQUplQXU1SDVBVk4tay02ZlN4aWJpTTh0RmZxYnl4UjBHek1vQ2IzQTVaQ3dYd2kxbkt0TGNKMDZYZHdCV2xBeFBNdDlsemVIOTNhYzZyOHRFVGN6ckpFbw?oc=5",
-      "author": "TipRanks",
-      "publishedAt": "2026-05-13T22:12:57Z",
-      "titleEn": "PLTR, KTOS, ALNY: 3 High P/E Stocks with 40%+ Upside Potential in 2026 - TipRanks",
-      "titleZh": "PLTR、KTOS、ALNY：3 只高市盈率股票，2026 年上涨潜力超过 40% - TipRanks",
-      "matchedPortfolios": [
-        "drone",
-        "satellite-intel"
-      ],
-      "tags": [
-        "drone",
-        "ktos",
-        "pltr"
-      ]
-    },
-    {
-      "source": "Deflation News · TLT Treasuries",
-      "title": "Rates Spark: The evaporation of real yields - ING THINK economic and financial analysis | ING THINK",
-      "summary": "Rates Spark: The evaporation of real yields ING THINK economic and financial analysis | ING THINK",
-      "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTFA1Q2ZnVVk1aWF2TnFvNjNaUjJnemRuM1BfbWZJakYyR29MekdMZHQ1SDNhWS1NWjJkbEJGNFFQODVlR2F2a2p3TlBRQTljcmQ4dXpkSFZNNF81a1I5YVlfUkoxRDQ5SGJJM0dGenNRd3BjS1BlaHNFUFNHcmVoMUU?oc=5",
-      "author": "ING THINK economic and financial analysis | ING THINK",
-      "publishedAt": "2026-05-13T22:11:12Z",
-      "titleEn": "Rates Spark: The evaporation of real yields - ING THINK economic and financial analysis | ING THINK",
-      "titleZh": "Spark 利率：实际收益率的蒸发 - ING THINK 经济和金融分析ING思考",
-      "matchedPortfolios": [
-        "no-yield"
-      ],
-      "tags": [
-        "Deflation News · TLT Treasuries",
-        "deflation",
-        "tlt"
-      ]
-    },
-    {
-      "source": "Drone News · Tickers",
-      "title": "KOPN Maintained by Lake Street -- Price Target Raised to $7.00 - GuruFocus",
-      "summary": "KOPN Maintained by Lake Street -- Price Target Raised to $7.00 GuruFocus",
-      "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxPZjladGwtZWVMQzBLNTNzT3ZBT0N1ZmZNM01VY1NpbEJVN1BWWXVmNVFYSWFjUmFUU1RNVzBVYjVkRUxrSXVnbng0Rzk3X1NzZzgwQnd2d2Jkem5fNURjQTZnS3NrYWF0MFBhdWU2bmNlVnF4NzlnbWx0YUlvazA3ZFZ3RTJFaHJMT0FON3FwemlTUU1rVHQyNkRfUUo?oc=5",
-      "author": "GuruFocus",
-      "publishedAt": "2026-05-13T21:52:02Z",
-      "titleEn": "KOPN Maintained by Lake Street -- Price Target Raised to $7.00 - GuruFocus",
-      "titleZh": "KOPN 由 Lake Street 维护——目标价格提高至 7.00 美元 - GuruFocus",
-      "matchedPortfolios": [
-        "drone"
-      ],
-      "tags": [
-        "drone",
-        "kopn"
-      ]
-    },
-    {
-      "source": "China Robotics · Components",
-      "title": "Rear Adm. Tracy Hines engages Girl Scout Daisies in robotics at Cuyahoga Valley National Park: Growing STEM - WKYC",
-      "summary": "Rear Adm. Tracy Hines engages Girl Scout Daisies in robotics at Cuyahoga Valley National Park: Growing STEM WKYC",
-      "url": "https://news.google.com/rss/articles/CBMipAJBVV95cUxQVnFfSWdlMVdOWVlneTZvVlViYWhTM0tIWlU3bDJPOGVycVhZWXdYT3NYRzl3eDRLYWRHQzVQTWJmVnlkS3NqVnNmREVRZ0l0cXFyMURsLTdRdnZzeXpGcWpRMGI4ZWdWNG91QjJ5U0o4VFY5cGJJY1lnTlZJMHhzU3hxZTNsNjBfR3dRWWUzSFYxTllEQkFyR24tYlJqRlducDN0RERISG1jS01tczRqWmZHdnlpZmxMSGRROURLLVFzYVJhcTBHM3NaR3hFR25TcktxTUJVVmFqdkYzZDU4ZVA2UkhXNEhVNW5STWhFNVh2SVJKVVc1RnFMNHJqcWtiaE5KbHBLQ3l1cngzcmNGZ0Z1VVZEdy0yUmhEZFNuZzNhT00z?oc=5",
-      "author": "WKYC",
-      "publishedAt": "2026-05-13T21:52:00Z",
-      "titleEn": "Rear Adm. Tracy Hines engages Girl Scout Daisies in robotics at Cuyahoga Valley National Park: Growing STEM - WKYC",
-      "titleZh": "特雷西·海因斯 (Tracy Hines) 少将在凯霍加谷国家公园与女童子军雏菊一起参与机器人技术：发展 STEM - WKYC",
-      "matchedPortfolios": [
-        "china-robotics"
-      ],
-      "tags": [
-        "China Robotics · Components",
-        "robotics"
-      ]
-    },
-    {
-      "source": "China Robotics · Components",
-      "title": "NASA Invites Media to Annual Lunabotics Robotics Competition - NASA (.gov)",
-      "summary": "NASA Invites Media to Annual Lunabotics Robotics Competition NASA (.gov)",
-      "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQdVFyTWhZdTNpdjlqMFJPdldNNGVaYUV1RmxKN0V0aUtsTDhkLV92Z1J4NkZLQm1JbUZ3NFA5UmMxV01Tb2o2cEJtbkNGMmxyRjhYbGl0amtEcHFMV2Q1X3NaUEdDVmRKVURkRl9YZlNjOUktb3FmV3hGVEI5VlhZaTJIdFlja2kyY0p1X0pXRGhzSjdtOWZ4aWJDbw?oc=5",
-      "author": "NASA (.gov)",
-      "publishedAt": "2026-05-13T21:47:38Z",
-      "titleEn": "NASA Invites Media to Annual Lunabotics Robotics Competition - NASA (.gov)",
-      "titleZh": "NASA 邀请媒体参加年度 Lunabotics 机器人竞赛 - NASA (.gov)",
-      "matchedPortfolios": [
-        "china-robotics",
-        "satellite-intel"
-      ],
-      "tags": [
-        "China Robotics · Components",
-        "nasa",
-        "robotics"
-      ]
-    },
-    {
-      "source": "Robotics & Automation News",
-      "title": "Interview with Intrinsic’s Stefan Nusser: Traditional automation is ‘too expensive and too inflexible’",
-      "summary": "For years, industrial automation followed a relatively stable formula: high-volume production, long product lifecycles, and robotic systems designed to repeat the same process millions of times with minimal variation. That model helped transform industries such as automotive manufacturing, where fixed production lines",
-      "url": "https://roboticsandautomationnews.com/2026/05/13/interview-with-intrinsics-stefan-nusser-traditional-automation-is-too-expensive-and-too-inflexible/101497/",
-      "author": "David Edwards",
-      "publishedAt": "2026-05-13T21:19:34Z",
-      "titleEn": "Interview with Intrinsic’s Stefan Nusser: Traditional automation is ‘too expensive and too inflexible’",
-      "titleZh": "采访 Intrinsic 的 Stefan Nusser：传统自动化“太昂贵且太不灵活”",
-      "matchedPortfolios": [
-        "china-robotics"
-      ],
-      "tags": [
-        "robotics"
-      ]
-    },
-    {
-      "source": "China Robotics · Components",
-      "title": "Rear Adm. Tracy Hines engages Girl Scout Daisies in robotics at Cuyahoga Valley National Park: Growing STEM - WKYC",
-      "summary": "Rear Adm. Tracy Hines engages Girl Scout Daisies in robotics at Cuyahoga Valley National Park: Growing STEM WKYC",
-      "url": "https://news.google.com/rss/articles/CBMilAJBVV95cUxPZ0FqSVQ0ZmFzTE56aFBxWFdvVFIxQjU5UlpjU0NNenhWQ3RHSTU1N01YZTR1RENBUUwwdFU4ZnFHbmFERXhWcmdBVVhMV2tYWkVqR3hmR2VHbS10ejJ0Y0tXQ0FBTWk4aTU4UENFcXVrdjJfR3B4WC03N3RZamNiVjd6REYxVk40X2ROczVaakxnM3pma1VuX0tsVlBmNHIwN18xN3FhNkJKT0RyX19CY2lENkhfSU94ZkNRcmNLcHNBTUltTDdIZWFLdHNncnN0R3J1OWVITXdSZFJrY0NqS1hHSXZlQk9NenpKaU94eGxmZzh1YmI3LUc3cW12UnY4RFdHMC1iMk5PTFFsMHJEOTBhalI?oc=5",
-      "author": "WKYC",
-      "publishedAt": "2026-05-13T21:15:00Z",
-      "titleEn": "Rear Adm. Tracy Hines engages Girl Scout Daisies in robotics at Cuyahoga Valley National Park: Growing STEM - WKYC",
-      "titleZh": "特雷西·海因斯 (Tracy Hines) 少将在凯霍加谷国家公园与女童子军雏菊一起参与机器人技术：发展 STEM - WKYC",
-      "matchedPortfolios": [
-        "china-robotics"
-      ],
-      "tags": [
-        "China Robotics · Components",
-        "robotics"
-      ]
-    },
-    {
-      "source": "Robotics & Automation News",
-      "title": "Expert opinion: Extending remote work to the factory floor through telepresence",
-      "summary": "By Yonas Teodros Tefera, research team lead of the Vicarios Lab in the Department of Advanced Robotics at the Italian Institute of Technology Remote work has largely been defined by office jobs. Video calls, shared documents, and digital collaboration tools have allowed knowledge workers to operate from almost anywhere",
-      "url": "https://roboticsandautomationnews.com/2026/05/13/expert-opinion-extending-remote-work-to-the-factory-floor-through-telepresence/101491/",
-      "author": "David Edwards",
-      "publishedAt": "2026-05-13T20:49:43Z",
-      "titleEn": "Expert opinion: Extending remote work to the factory floor through telepresence",
-      "titleZh": "专家观点：通过网真将远程工作延伸到工厂车间",
-      "matchedPortfolios": [
-        "china-robotics"
-      ],
-      "tags": [
-        "robotics"
-      ]
-    },
-    {
-      "source": "Rare Earth News · USAR",
-      "title": "USA Rare Earth Reports First Quarter 2026 Financial Results - The Manila Times",
-      "summary": "USA Rare Earth Reports First Quarter 2026 Financial Results The Manila Times",
-      "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxNRldnaFllUXZfb25iNnVnc1VDT0NKZEhHSm5YRDRQQ1d5aXdscDY0YUNXR2xLdERMakpNZWI4UXJkcjBPc2IyX1VkRjlvZjVKNHAyWmF1RVN5d19hT0loeGo2VVZwWkstTUNueXEyTURYcGw4OF9lRnR1aDZFNWo5XzJZX1RYcGdVTXpMMWdXMTNXaFhHSXQ1UkJpMGNzTGRVakZhM0dTaEpoa3l2X0RRaWZyUUtwcEtGV1F3QlBQeGNwUkU5dkxmMkNCcVN4QdIB0wFBVV95cUxQRV9lMk9GT2diSktYRXlUSVY4emdVdV9BaDk4STIydEFud2I0Rk91bXFGSG1vZkhhMDBEZjdUbjBOTi1oLVFVQTJldDAwdDdFWDNOa1cwYWhDNFFkUlZKRjA5cE14T3ZJeGZFS3phRERjZHdZV0tOOFNBTGd4cFlORExOak1rQm55azlrUUJBd08zNG83T1E2MWFnU3VEWThJTVljN1NST0stT3UzUTdBSGhwZlNwUkpONWRvaWpNcHJrZm0tSEpyOXMtdDh2LUtIVXFr?oc=5",
-      "author": "The Manila Times",
-      "publishedAt": "2026-05-13T20:35:29Z",
-      "titleEn": "USA Rare Earth Reports First Quarter 2026 Financial Results - The Manila Times",
-      "titleZh": "美国稀土公司公布 2026 年第一季度财务业绩 - 马尼拉时报",
-      "matchedPortfolios": [
-        "us-rare-earth"
-      ],
-      "tags": [
-        "Rare Earth News · USAR",
-        "rare earth",
-        "usa rare earth",
-        "usar"
-      ]
-    },
-    {
-      "source": "Deflation News · Bitcoin Gold",
-      "title": "10 Important Cryptocurrencies Other Than Bitcoin - Investopedia",
-      "summary": "10 Important Cryptocurrencies Other Than Bitcoin Investopedia",
-      "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQWlBxWU5fdzgxRHNGNTRLaXl0M19QZlNCdzhXMDlNalcwQVRNMkN4Tl9TbVZkdndIaGRwbWpiNDJBQWdJN2ZuUXIzaUYxdzBZcnhfbFZ2NUJaNXBVRV9obEw1V1J5VTZyNWxPbFl4Z2xsZDBQeHU3Sk9NMFNSZFAwUTV1RElLWHh4dktMM2t3?oc=5",
-      "author": "Investopedia",
-      "publishedAt": "2026-05-13T20:16:25Z",
-      "titleEn": "10 Important Cryptocurrencies Other Than Bitcoin - Investopedia",
-      "titleZh": "比特币以外的 10 种重要加密货币 - Investopedia",
-      "matchedPortfolios": [
-        "no-yield"
-      ],
-      "tags": [
-        "Deflation News · Bitcoin Gold",
-        "bitcoin",
-        "deflation"
-      ]
-    },
-    {
-      "source": "China Robotics · Components",
-      "title": "Rivian CEO’s robotics startup tops $1 billion in funding: report - Crain's Chicago Business",
-      "summary": "Rivian CEO’s robotics startup tops $1 billion in funding: report Crain's Chicago Business",
-      "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPZ3RRalBnU1RNRkU3Zl9SOUcxWTZKVTU3d0pvX0ZuTTJ0U193VUUtWkxWb0xPYkJITVBoNC16VUFhN3lQMGlHdTl0U0FCTkVpV0NhZGViU1ZKcmZld0RTeEx2S016MEMzdnJieFNFcVhQcENTejdZckxCNkFuLVNrYXFwS0tGUXFheVF0bzdMS1gzSU4xVHpleWhlaFltTUdrZlJrRTZ5enBpWUhVem1HU0tjang?oc=5",
-      "author": "Crain's Chicago Business",
-      "publishedAt": "2026-05-13T20:05:00Z",
-      "titleEn": "Rivian CEO’s robotics startup tops $1 billion in funding: report - Crain's Chicago Business",
-      "titleZh": "Rivian 首席执行官的机器人初创公司融资额突破 10 亿美元：报告 - Crain's Chicago Business",
-      "matchedPortfolios": [
-        "china-robotics"
-      ],
-      "tags": [
-        "China Robotics · Components",
-        "robotics"
-      ]
-    },
-    {
-      "source": "China Robotics · Components",
-      "title": "MSU’s industrial technology program hosts robotics, industrial finishing summer camps - Mississippi State University",
-      "summary": "MSU’s industrial technology program hosts robotics, industrial finishing summer camps Mississippi State University",
-      "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxQdS1YMDFSNklLQXJBLWJFckJxUWUzSE5YY094cHVZRkkzXzg4Z1pMeHFQV0g3V2w1NEdGTEJzZ09sWHdDcS1BQlpGZnRNbkQxaUlqN0t6ODRSSG1kZ29MZEZ1bFROZDhQX25lVnRHR2dxanYyb21XdS1Sdnl4WjFKMVYtUXJZeHRLcDdkd3p2LWxwbEx5dVBMZDUzX3FUZm9KdmU2YTlnVGJzSFFjRXA4TGZNcmcxTk9nYmc?oc=5",
-      "author": "Mississippi State University",
-      "publishedAt": "2026-05-13T20:02:22Z",
-      "titleEn": "MSU’s industrial technology program hosts robotics, industrial finishing summer camps - Mississippi State University",
-      "titleZh": "密西西比州立大学工业技术项目举办机器人、工业精加工夏令营 - 密西西比州立大学",
-      "matchedPortfolios": [
-        "china-robotics"
-      ],
-      "tags": [
-        "China Robotics · Components",
-        "robotics"
-      ]
-    },
-    {
-      "source": "Rare Earth News · Industry",
-      "title": "Australia-US rare earth deal sparks backlash in Malaysia - Muslim Network TV",
-      "summary": "Australia-US rare earth deal sparks backlash in Malaysia Muslim Network TV",
-      "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxOTU13V3lUc0JSYWNXTnhZQ3pUMkxVUUhBcmNJSnJMRWNhOS1jdGNpQ25CdFMtRmg2Y2lXbzk3bkVYRWlfQzdUZm1mOXRDQUtrc1ZaRUZ6dmpsNmZNNDNqYVljREs0blpYSVlRR3R3SGZmeFZhZHNQTVgtNEdMcFBIeXhGVkM2MTdsQ3J5TGZkaw?oc=5",
-      "author": "Muslim Network TV",
-      "publishedAt": "2026-05-13T19:56:04Z",
-      "titleEn": "Australia-US rare earth deal sparks backlash in Malaysia - Muslim Network TV",
-      "titleZh": "澳大利亚与美国稀土交易引发马来西亚强烈反对 - 穆斯林网络电视",
-      "matchedPortfolios": [
-        "us-rare-earth"
-      ],
-      "tags": [
-        "Rare Earth News · Industry",
-        "rare earth"
-      ]
-    },
-    {
-      "source": "Drone News · Companies",
-      "title": "AeroVironment’s PANTHER Deal Extends Role In Hypersonic Test Support - simplywall.st",
-      "summary": "AeroVironment’s PANTHER Deal Extends Role In Hypersonic Test Support simplywall.st",
-      "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxQbjQ3Yll6T25nbkhsZHAyUDQ5TTdDYTh2QUIzR19RQlpvM2F1aWJNVElnXy0tbEFDMjU0MDlKT1ExRUdIdjZERXVobHhwX3FqbW9hU3d1dDRvMXVwNHRiYklCM2ItLXVHbnI2NFBsSVpsamtfYU5YLUgzUWc0MWpvMXowa0dEb2NRcF8wOFAxY2lBWnpRSm1peTJlYjlndFdPTHlUeXdPRlg2OElXMk1ET1N2OXZBb1pxd0YzTUhmbVdiTFRTTE9iREVTUkh4dmZXZEHSAdcBQVVfeXFMTkMzWmQ4SmsyekJyTGlyWmJRYVVON2w3MDY4aFVGOGpYdWdFZ2haTkhqd2ZyUHRFVkMtcmhUYndHQ2ItNkk5cjFjbjZ2MGl6cFNkZjZlRGx0TXZTa0UtZUx1ZWlYcTlnNFd5WWJGOWhrZGNOTzR5Uzl2VjNlUE54ZHFCYWNCdTNkeDgwUjE0NDYyZ3RfVi1nQXh5aUZuN1FKdmtBRC11Vl9PbERYc2xCa1lOaV9GWjhVMmdRZDdEcTBzYkotZlVVTjFra0tvYVM4MHdzWGozWGs?oc=5",
-      "author": "simplywall.st",
-      "publishedAt": "2026-05-13T19:54:55Z",
-      "titleEn": "AeroVironment’s PANTHER Deal Extends Role In Hypersonic Test Support - simplywall.st",
-      "titleZh": "AeroVironment 的 PANTHER 协议扩大了在高超音速测试支持中的作用 - simplewall.st",
-      "matchedPortfolios": [
-        "drone"
-      ],
-      "tags": [
-        "aerovironment",
-        "drone"
-      ]
-    },
-    {
-      "source": "NASA",
-      "title": "NASA-Supported Space Tech Advances Earthly Construction",
-      "summary": "An innovative 3D printing process that advanced NASA’s approach to outfitting a lunar habitat is making buildings on Earth beautiful, efficient, and strong. Instead of building structures layer by layer, Branch Technology Inc. of Chattanooga, Tennessee, has developed a process the company calls Freeform 3D Printing, wh",
-      "url": "https://www.nasa.gov/technology/tech-transfer-spinoffs/nasa-supported-space-tech-advances-earthly-construction/",
-      "author": "Andrew Wagner",
-      "publishedAt": "2026-05-13T19:47:08Z",
-      "titleEn": "NASA-Supported Space Tech Advances Earthly Construction",
-      "titleZh": "美国宇航局支持的太空技术推进地球建设",
-      "matchedPortfolios": [
-        "satellite-intel"
-      ],
-      "tags": [
-        "nasa",
-        "space"
-      ]
-    },
-    {
-      "source": "Drone News · Tickers",
-      "title": "KOPN Initiated Coverage by Lucid Capital Markets -- Rating Set t - GuruFocus",
-      "summary": "KOPN Initiated Coverage by Lucid Capital Markets -- Rating Set t GuruFocus",
-      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQNUpFRThIZVJ4NWlRcXJQQnR6RHNuajMxSnd3b1NVdG5uMUtBOE5XTmxLaVk5TUhGSDlLaEY4T3pqR0VpbFV5Q0RKS1lhZDlITnNJNi1uUVlsZW9lYjJDdWlBRDk3Wm8ycWhjX29GUVRuY21FZXRvdDVCUVlvTm1XMGNfSUk5ekg0UVdXQ2pJSmRTd1RCUzg2LTIwNzdmRUVUa2JDNmlyVFk?oc=5",
-      "author": "GuruFocus",
-      "publishedAt": "2026-05-13T19:43:43Z",
-      "titleEn": "KOPN Initiated Coverage by Lucid Capital Markets -- Rating Set t - GuruFocus",
-      "titleZh": "Lucid Capital Markets 开始对 KOPN 进行覆盖——评级设置 - GuruFocus",
-      "matchedPortfolios": [
-        "drone"
-      ],
-      "tags": [
-        "drone",
-        "kopn"
-      ]
-    },
-    {
-      "source": "Brand News · PDD",
-      "title": "Oklahoma AG sues Temu, alleging unlawful data collection, counterfeit goods - KOAM News Now",
-      "summary": "Oklahoma AG sues Temu, alleging unlawful data collection, counterfeit goods KOAM News Now",
-      "url": "https://news.google.com/rss/articles/CBMi9AFBVV95cUxQdkJ0SXp1TVR3anRJeWFSMGh5SExQNFRwMV9QT21qX3J6QTZlTkZpdlV6d3hFTUs3NldISnlWMFl0dVdpdXQyb2hnQ1g5Xy10X1BoWWFWQUNwYXUzYmJyMkhRcHZGOUEwNmJJOWphY21oUmpqbmJIQ1Q1aG5GYUhxZERibzFMQzdKS0l1N1lCZzNWMlJERmVnb1ZXbGVJZnRpQUJJRkYxdTNITXlzTFBhS0JNN3VqRDFmMTVwSlJta2ozcE5IZnFsemFhNm1JX1A1blFXelVpaUU3akNkWmZBQ2hRMWd3bzhqU1lBQkFGRUlET2J2?oc=5",
-      "author": "KOAM News Now",
-      "publishedAt": "2026-05-13T19:21:17Z",
-      "titleEn": "Oklahoma AG sues Temu, alleging unlawful data collection, counterfeit goods - KOAM News Now",
-      "titleZh": "俄克拉荷马州 AG 起诉 Temu，指控其非法数据收集和假冒商品 - KOAM News Now",
-      "matchedPortfolios": [
-        "brand"
-      ],
-      "tags": [
-        "Brand News · PDD",
-        "pdd",
-        "temu"
-      ]
-    },
-    {
-      "source": "NASA",
-      "title": "Rise Goes to Washington",
-      "summary": "“Rise,” the Artemis II zero gravity indicator, is seen sitting on the dais as NASA astronauts Reid Wiseman, Victor Glover, and Christina Koch, and CSA (Canadian Space Agency) astronaut Jeremy Hansen speak with congressional staff, Tuesday, May 12, 2026, in Washington. NASA’s Artemis II mission took Wiseman, Glover, Koc",
-      "url": "https://www.nasa.gov/image-article/rise-goes-to-washington/",
-      "author": "HQ Web Team",
-      "publishedAt": "2026-05-13T19:17:12Z",
-      "titleEn": "Rise Goes to Washington",
-      "titleZh": "崛起前往华盛顿",
-      "matchedPortfolios": [
-        "satellite-intel"
-      ],
-      "tags": [
-        "nasa",
-        "space"
-      ]
-    },
-    {
-      "source": "Brand News · Apple",
-      "title": "Apple stock nears $300 as Cook joins Trump in China - Rolling Out",
-      "summary": "Apple stock nears $300 as Cook joins Trump in China Rolling Out",
-      "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE4tZXpqNGVBblVEVDYtUk1hY0x2NTh4ZE5CaWlWSllPLXE1dThVcExBZGhtOVhZeldvcXhiRUNLMVYzeGVCY19USkxYS2t3ODdJOTg5Q1k0S0VXTVRWSEFXUFAxdE9yamdsVmx5dlQ1V0ZBZ2VzXzhOVHlR?oc=5",
-      "author": "Rolling Out",
-      "publishedAt": "2026-05-13T19:03:40Z",
-      "titleEn": "Apple stock nears $300 as Cook joins Trump in China - Rolling Out",
-      "titleZh": "库克加入特朗普中国行列，苹果股价逼近 300 美元",
-      "matchedPortfolios": [
-        "brand"
-      ],
-      "tags": [
-        "Brand News · Apple",
-        "apple"
-      ]
-    },
-    {
-      "source": "Endpoints News",
-      "title": "After an apparent cure, a gene editing company struggles to repeat the magic",
-      "summary": "BOSTON — Early last year, startup iECURE’s experimental gene therapy seemingly cured a baby of a life-threatening genetic disease. But new results testing the same therapy in a larger number of babies show ...",
-      "url": "https://endpoints.news/after-an-apparent-cure-a-gene-editing-company-struggles-to-repeat-the-magic/",
-      "author": "Ryan Cross",
-      "publishedAt": "2026-05-13T18:50:53Z",
-      "titleEn": "After an apparent cure, a gene editing company struggles to repeat the magic",
-      "titleZh": "经过明显的治愈后，一家基因编辑公司努力重复奇迹",
-      "matchedPortfolios": [
-        "biotech"
-      ],
-      "tags": [
-        "gene",
-        "therapy"
-      ]
-    },
-    {
-      "source": "Breaking Defense",
-      "title": "L3Harris turns handheld radios into counter-drone jammers",
-      "summary": "The forthcoming Wraith Shield software update uses the existing antenna to scan for drone control signals, identify enemy ones, and jam them, L3Harris executives told reporters.",
-      "url": "https://breakingdefense.com/2026/05/l3harris-turns-handheld-radios-into-counter-drone-jammers/",
-      "author": "Sydney J. Freedberg Jr.",
-      "publishedAt": "2026-05-13T18:33:00Z",
-      "titleEn": "L3Harris turns handheld radios into counter-drone jammers",
-      "titleZh": "L3Harris 将手持式无线电转变为反无人机干扰器",
-      "matchedPortfolios": [
-        "drone",
-        "satellite-intel"
-      ],
-      "tags": [
-        "drone",
-        "l3harris",
-        "software"
-      ]
-    },
-    {
-      "source": "Brand News · Apple",
-      "title": "Apple Stock Is Gaining Today: What's Happening Behind The Scenes? - Benzinga",
-      "summary": "Apple Stock Is Gaining Today: What's Happening Behind The Scenes? Benzinga",
-      "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxONW43LXVXZlNYXzZXMDZfR2hpUFF0N1ZObGE5UG1kamo1ZGFyQ0xtV20xSnpUa0ZUeVlIOExmZkc1ZE1EUlE4Y3NHX3U4aklaTFVQOHJ5UWRpVTNybUQ5QjZCUV8wWjZidUxTUzlJcllPd1BiTmhkVVRmVFI5Y2F2azc5T0QxeUtCcVBGV2VramJLVWdQUThXUW5YcW14X1lsYm1fc1c0QVdpRlBkZ3FxdjNkbUx2cGtBX0ZUM29jTGc?oc=5",
-      "author": "Benzinga",
-      "publishedAt": "2026-05-13T18:17:29Z",
-      "titleEn": "Apple Stock Is Gaining Today: What's Happening Behind The Scenes? - Benzinga",
-      "titleZh": "苹果股票今天上涨：幕后发生了什么？ - 本辛加",
-      "matchedPortfolios": [
-        "brand"
-      ],
-      "tags": [
-        "Brand News · Apple",
-        "apple"
-      ]
-    },
-    {
-      "source": "Robotics & Automation News",
-      "title": "Why Disconnected Teams Are Silently Killing Your Retention, Says Ubitello Limited",
-      "summary": "Two companies acquire users at the same cost, in the same market, with similar products. Twelve months later, one has 38% revenue retention and the other has 71%. The product isn’t the variable. The marketing isn’t the variable. The variable, in nearly every case Ubitello Limited has examined, is whether the company’s",
-      "url": "https://roboticsandautomationnews.com/2026/05/13/why-disconnected-teams-are-silently-killing-your-retention-says-ubitello-limited/101485/",
-      "author": "David Edwards",
-      "publishedAt": "2026-05-13T18:08:54Z",
-      "titleEn": "Why Disconnected Teams Are Silently Killing Your Retention, Says Ubitello Limited",
-      "titleZh": "Ubitello Limited 表示，为什么脱节的团队正在悄悄地扼杀你的留存率",
-      "matchedPortfolios": [
-        "china-robotics"
-      ],
-      "tags": [
-        "robotics"
-      ]
-    },
-    {
-      "source": "Brand News · PDD",
-      "title": "Temu and Shein App Downloads Soar as Gas Prices Head Higher - Barron's",
-      "summary": "Temu and Shein App Downloads Soar as Gas Prices Head Higher Barron's",
-      "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxOVGdHLWYzMDdxNldRdmNralVBaVV6ZFFKWXhkajVCN0R5TkdjS1NBQ1d3Yl9LajJlNEcwenZNam9FSXRCeW1sM2Z0eERWei1PQXhSanFINTl3Y09qUGJaWno1NFU3VkxqcFJ5dlZnc2dJYldsZmgyUGtmTmVFUkJIa1RLYnhfaXBMR0tpU2E0SEJ1WnY2QkJVbUxDZFE?oc=5",
-      "author": "Barron's",
-      "publishedAt": "2026-05-13T18:01:00Z",
-      "titleEn": "Temu and Shein App Downloads Soar as Gas Prices Head Higher - Barron's",
-      "titleZh": "随着天然气价格上涨，Temu 和 Shein 应用程序下载量飙升 - Barron's",
-      "matchedPortfolios": [
-        "brand"
-      ],
-      "tags": [
-        "Brand News · PDD",
-        "pdd",
-        "temu"
-      ]
-    },
-    {
-      "source": "Drone News · Companies",
-      "title": "Kratos Defense & Security Solutions (NASDAQ:KTOS) Stock Price Down 9.2% - Here's What Happened - MarketBeat",
-      "summary": "Kratos Defense & Security Solutions (NASDAQ:KTOS) Stock Price Down 9.2% - Here's What Happened MarketBeat",
-      "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxQbHlCd3ZSc2UyR1ltM2I4U1Zucy1EWXktOC1Sc3pPMjZad1lvNHNlSnE5WUhyZ2t2UXVTVFYwSjdjcUh1bGRGTzdQY3NWMEpWS0V5eXFkUjNKakdaRUlhc3ZMMGdILUgySE5pRW13UVhpdEh2NW5Cd0c1ZGp3S0xhTTZobms4bDJhQ3lTOU9ZRkFmV1VvYVQ1OXpJUjRWTmxoTVB0eW10Qnlld01tQ3kxQl9BaXJUR2MwY1hNT3pMMGkxeFFJMjhETjRZRElqaXBGOVdSag?oc=5",
-      "author": "MarketBeat",
-      "publishedAt": "2026-05-13T17:58:49Z",
-      "titleEn": "Kratos Defense & Security Solutions (NASDAQ:KTOS) Stock Price Down 9.2% - Here's What Happened - MarketBeat",
-      "titleZh": "Kratos Defense & Security Solutions（纳斯达克股票代码：KTOS）股价下跌 9.2% - 以下是发生的事情 - MarketBeat",
-      "matchedPortfolios": [
-        "drone"
-      ],
-      "tags": [
-        "drone",
-        "kratos",
-        "ktos",
-        "security"
-      ]
-    },
-    {
-      "source": "Robotics & Automation News",
-      "title": "Zinelio Corp.’s Top Tips for Managing User Acquisition Without Losing Operational Control",
-      "summary": "There’s a version of growth that looks great on paper and quietly wrecks a company from the inside. It usually starts the same way: a business enters a new market – let’s say the U.S. – gains some momentum, starts pulling in users faster than expected, and then realizes too late that the back end […]",
-      "url": "https://roboticsandautomationnews.com/2026/05/13/zinelio-corp-tips-managing-user-acquisition-operational-control/101479/",
-      "author": "David Edwards",
-      "publishedAt": "2026-05-13T17:57:52Z",
-      "titleEn": "Zinelio Corp.’s Top Tips for Managing User Acquisition Without Losing Operational Control",
-      "titleZh": "Zinelio Corp. 在不失去运营控制的情况下管理用户获取的重要技巧",
-      "matchedPortfolios": [
-        "china-robotics"
-      ],
-      "tags": [
-        "robotics"
-      ]
-    },
-    {
-      "source": "Brand News · Apple",
-      "title": "Tim Cook Just Sold Apple Stock Near All Time Highs. Here Is Why One Analyst Says Alphabet Is the Smarter Trade - 24/7 Wall St.",
-      "summary": "Tim Cook Just Sold Apple Stock Near All Time Highs. Here Is Why One Analyst Says Alphabet Is the Smarter Trade 24/7 Wall St.",
-      "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxPUjVCWUlfZzZ2LWx4SDdQVjJ2VDlaYzYtMlZ3dkVJbG5FdFBDYTRMcEtSd19JRFBGY2M1VzEycE9OYm5IYThKRkNrc2xsUzVOYXhsby1LdUdfLUtGNUhnM3hNOG5DSVh5MEZIOEJRRS1mR19Xc0h6UjB4VGpWV1lVQmhEU1BOOEcyLV8xM3doNzcwdmtYMnFGUkV2Z3U3c1Mzc2RfSThlb0ZhWnBaLVI5RWVBM0MtLTVfSS1BUVBCUUFCSHQ0ZzBuTU1ROElJME5kU1B4aHBiVzQ4WGk5ck9NY3Z0WGdnU2FS?oc=5",
-      "author": "24/7 Wall St.",
-      "publishedAt": "2026-05-13T17:50:03Z",
-      "titleEn": "Tim Cook Just Sold Apple Stock Near All Time Highs. Here Is Why One Analyst Says Alphabet Is the Smarter Trade - 24/7 Wall St.",
-      "titleZh": "蒂姆·库克刚刚在接近历史高点的位置出售了苹果股票。这就是为什么一位分析师说 Alphabet 是更明智的交易 - 24/7 Wall St.",
-      "matchedPortfolios": [
-        "brand"
-      ],
-      "tags": [
-        "Brand News · Apple",
-        "apple"
-      ]
-    },
-    {
-      "source": "Deflation News · TLT Treasuries",
-      "title": "Wells Fargo still sees two Fed rate cuts in 2026 despite recent hot inflation reports - Seeking Alpha",
-      "summary": "Wells Fargo still sees two Fed rate cuts in 2026 despite recent hot inflation reports Seeking Alpha",
-      "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPeGJmTUFCQldtOGdjWGFmWVBuOG1PNXozVUNWNHZ2QkF5UkN4a0JXS1A2SHZTNmVIN1pZOE9WLWsxbmRkci1xaHpDZ2ZUYUtaempHWU81QXZoZ0owNDVscDJZeDM4dXdxN0R5ekU3Q3RHeUhwZE8yN0Q0eUc4akQ1RV9sOG15V29VYTViQUQ0RHdJWWYzTWppaXNRQUJxYVQzNUhpWHUxTDc5NGhGbGRiNGhtakJzTVd2eWZkQzZZNlk?oc=5",
-      "author": "Seeking Alpha",
-      "publishedAt": "2026-05-13T17:49:14Z",
-      "titleEn": "Wells Fargo still sees two Fed rate cuts in 2026 despite recent hot inflation reports - Seeking Alpha",
-      "titleZh": "尽管近期通胀报告热门，但富国银行仍预计 2026 年美联储将降息两次 - 美股指南 - 美股开户 - 港股开户",
-      "matchedPortfolios": [
-        "no-yield"
-      ],
-      "tags": [
-        "Deflation News · TLT Treasuries",
-        "deflation",
-        "rate cuts",
-        "tlt"
-      ]
-    },
-    {
-      "source": "Endpoints News",
-      "title": "Valneva to cut up to 15% of jobs as reduced travel hits vaccine demand",
-      "summary": "French vaccine maker Valneva is laying off 10% to 15% of its workforce and reducing revenue projections due to \"an emerging adverse trend in travel vaccine uptake across key markets.\" The drugmaker",
-      "url": "https://endpoints.news/valneva-to-cut-up-to-15-of-jobs-as-reduced-travel-hits-vaccine-demand/",
-      "author": "Kyle LaHucik",
-      "publishedAt": "2026-05-13T17:46:51Z",
-      "titleEn": "Valneva to cut up to 15% of jobs as reduced travel hits vaccine demand",
-      "titleZh": "由于旅行减少影响疫苗需求，瓦尔内瓦将裁员多达 15%",
-      "matchedPortfolios": [
-        "biotech"
-      ],
-      "tags": [
-        "vaccine"
-      ]
-    },
-    {
-      "source": "Deflation News · TLT Treasuries",
-      "title": "Hot U.S. PPI data moves markets and Treasury yields. - CME Group",
-      "summary": "Hot U.S. PPI data moves markets and Treasury yields. CME Group",
-      "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxONHVEa0ktNGFuRFBBZ1ZxbzNLbTk5dXhNQlUxTlVNbEhsUm9aN2VqbGRRQXhLUl9ham1PZVI1SENXN0pPSUN3Y3V2dXJQQ0VoMkpRVHhXSFB2Y3E4VUNLY0tJc2t1WnhDU3RrbDY5d3pJbDI2amNueFo4aFgzOWliU2Jub08tNmphRUdSQ0NSNC13VUVDLWZyT0NQVG1sX1BtQlVfUFk5dmItUQ?oc=5",
-      "author": "CME Group",
-      "publishedAt": "2026-05-13T17:38:44Z",
-      "titleEn": "Hot U.S. PPI data moves markets and Treasury yields. - CME Group",
-      "titleZh": "热门的美国 PPI 数据影响市场和国债收益率。 - 芝商所",
-      "matchedPortfolios": [
-        "no-yield"
-      ],
-      "tags": [
-        "Deflation News · TLT Treasuries",
-        "deflation",
-        "tlt",
-        "treasury"
-      ]
-    },
-    {
-      "source": "Drone News · Companies",
-      "title": "Ondas Stock on Watch After SkyLance Test and Mistral Share Filing Before Q1 Earnings - TechStock²",
-      "summary": "Ondas Stock on Watch After SkyLance Test and Mistral Share Filing Before Q1 Earnings TechStock²",
-      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPU3ltOUYyX0VPdjBJUHIxVEszU3hXWUhYRzlZZEhQZ3BqZWJ5QlVBR1ZwUnIzNXdnUVBCckNpYzg3aW16dVlPSG9zNV9FSlVrRHQwZS16TVRWREFnZ1RjZ3VrcjZPYzZ6Q2lwaW9QMThrVF9vZEdmanZDcHE0UG84LVNRY245cDlHazItbkVUbmtlZUtCSGJOYXBZRUZ6TzlURGxwSV90Z1I?oc=5",
-      "author": "TechStock²",
-      "publishedAt": "2026-05-13T17:23:11Z",
-      "titleEn": "Ondas Stock on Watch After SkyLance Test and Mistral Share Filing Before Q1 Earnings - TechStock²",
-      "titleZh": "在 SkyLance 测试和 Mistral 股票备案后，Ondas 股票在第一季度收益之前受到关注 - TechStock²",
-      "matchedPortfolios": [
-        "drone"
-      ],
-      "tags": [
-        "drone",
-        "ondas"
-      ]
-    },
-    {
-      "source": "Brand News · Apple",
-      "title": "Soaring iPhone Sales Have Supercharged This Under-the-Radar Stock That's Outperforming Apple. Buy It Before It Soars Another 59% - The Motley Fool",
-      "summary": "Soaring iPhone Sales Have Supercharged This Under-the-Radar Stock That's Outperforming Apple. Buy It Before It Soars Another 59% The Motley Fool",
-      "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQQ0tVYzhmNDhCSlpJVkhtcWQySmdtNmhrVnBrRFJ2SDVocXhwbnhuWllJTG83Y1BPQ01GQ1BjOG5ZRGl1NzZzakJ5Xy1jbXhEN1N4Q2dRUGh1V1lhbmJCLTVDN3JTS3hUcmtmT0FpQ3k2MEJDbHdSUTB5SzhvZEJLcGdabnlOV1k4SElJancxZUtQVXhlSkMw?oc=5",
-      "author": "The Motley Fool",
-      "publishedAt": "2026-05-13T17:23:00Z",
-      "titleEn": "Soaring iPhone Sales Have Supercharged This Under-the-Radar Stock That's Outperforming Apple. Buy It Before It Soars Another 59% - The Motley Fool",
-      "titleZh": "iPhone 销量的飙升让这只低调的股票表现优于苹果。在股价再飙升 59% 之前买入 - 91配资",
-      "matchedPortfolios": [
-        "brand"
-      ],
-      "tags": [
-        "Brand News · Apple",
-        "apple",
-        "iphone"
-      ]
-    },
-    {
-      "source": "Brand News · Coca-Cola",
-      "title": "Coca-Cola (NYSE: KO) chair makes bona fide gift of 89,356 shares - Stock Titan",
-      "summary": "Coca-Cola (NYSE: KO) chair makes bona fide gift of 89,356 shares Stock Titan",
-      "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQREl1QjRSMHFUZFVvXzJYNXR4WElDODFuTlJ1T3ZVdnhPazZYVGVQQThzbHhZTmVuWjJ0dGRycmh6NVAyeEJpNHVOaEZDS3I1ZS1PRU1pVUJGWm5xTmI1Y2tBd2tMMlZjcjRKb3p2djRYTkVQc1E4c1lrZ1BMYjRzUmh4MG1uUVlBSmhfWDBoWWxYOXFvbkJlYjNGSkR4S0ZoU2E4ZFgwSQ?oc=5",
-      "author": "Stock Titan",
-      "publishedAt": "2026-05-13T17:21:48Z",
-      "titleEn": "Coca-Cola (NYSE: KO) chair makes bona fide gift of 89,356 shares - Stock Titan",
-      "titleZh": "可口可乐（纽约证券交易所股票代码：KO）董事长善意赠送 89,356 股股票 - Stock Titan",
-      "matchedPortfolios": [
-        "brand"
-      ],
-      "tags": [
-        "Brand News · Coca-Cola",
-        "coca-cola",
-        "ko"
-      ]
-    },
-    {
-      "source": "China Robotics · Components",
-      "title": "Tucker fourth graders to compete in global Lego robotics competition - Rough Draft Atlanta",
-      "summary": "Tucker fourth graders to compete in global Lego robotics competition Rough Draft Atlanta",
-      "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9rYmotYWtIQ05zY0FtU09IbjFaX2w4Z0hEZnFDZ3hORGtkREZ4NHYteTVZc1c0YzZNbEpTSW15ZnJzaUE4bTc4Nnl4Y3dvTFNPSTR5d2RYSzVUbC01MWFjbWd6RnF3b2hKbXBKS0l0MzFYNEk?oc=5",
-      "author": "Rough Draft Atlanta",
-      "publishedAt": "2026-05-13T17:09:08Z",
-      "titleEn": "Tucker fourth graders to compete in global Lego robotics competition - Rough Draft Atlanta",
-      "titleZh": "塔克四年级学生将参加全球乐高机器人竞赛 - 亚特兰大草稿",
-      "matchedPortfolios": [
-        "china-robotics"
-      ],
-      "tags": [
-        "China Robotics · Components",
-        "robotics"
-      ]
-    },
-    {
-      "source": "Brand News · Apple",
-      "title": "Soaring iPhone Sales Have Supercharged This Under-the-Radar Stock That's Outperforming Apple. Buy It Before It Soars Another 59% - AOL.com",
-      "summary": "Soaring iPhone Sales Have Supercharged This Under-the-Radar Stock That's Outperforming Apple. Buy It Before It Soars Another 59% AOL.com",
-      "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNaTQ4aUxheEFnY21od0hCeUY0WlJrbl93NVkwUTdSci1YVmw5SFFJai1wQ3VsYTBsX0dUWkJtalJ6RmVxajQ4NTJUVlR0bFlDMFU4dVdTUV9TUGowX0VXTXUxRGNmaUZMRTAtdGo1UmlXcHhDYktCOS1QM0E1ODBhMmE0UHN5bXVtVWVj?oc=5",
-      "author": "AOL.com",
-      "publishedAt": "2026-05-13T17:03:15Z",
-      "titleEn": "Soaring iPhone Sales Have Supercharged This Under-the-Radar Stock That's Outperforming Apple. Buy It Before It Soars Another 59% - AOL.com",
-      "titleZh": "iPhone 销量的飙升让这只低调的股票表现优于苹果。在股价再飙升 59% 之前买入 - AOL.com",
-      "matchedPortfolios": [
-        "brand"
-      ],
-      "tags": [
-        "Brand News · Apple",
-        "apple",
-        "iphone"
-      ]
-    },
-    {
-      "source": "Brand News · Coca-Cola",
-      "title": "3 Unstoppable Stocks to Buy and Hold, Regardless of What Happens in the Stock Market in 2026 - The Motley Fool",
-      "summary": "3 Unstoppable Stocks to Buy and Hold, Regardless of What Happens in the Stock Market in 2026 The Motley Fool",
-      "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQY0MtNHBDcEVLdUlvaUN3SEpFU09uenhfdEZfOVVnWjdtV0ZHa1dMTldleDJ2LUZPcmtsWTl1STlJV3lkZl9DUEJvbkRZTmZpSmpjeHlZOGdHSjk5RnkySXJLb2VYQmx6QzEyUnhuczlFR3ZDX1JLZUVpRjBXNk5xWjFNTVFBTkdEbzl2eE1kcGlLYXZsR2o2UQ?oc=5",
-      "author": "The Motley Fool",
-      "publishedAt": "2026-05-13T17:00:00Z",
-      "titleEn": "3 Unstoppable Stocks to Buy and Hold, Regardless of What Happens in the Stock Market in 2026 - The Motley Fool",
-      "titleZh": "无论 2026 年股市发生什么，这 3 只不可阻挡的股票值得买入和持有 - Motley Fool",
-      "matchedPortfolios": [
-        "brand"
-      ],
-      "tags": [
-        "Brand News · Coca-Cola",
-        "coca-cola"
-      ]
-    },
-    {
-      "source": "Deflation News · Bitcoin Gold",
-      "title": "Cryptocurrencies: Bitcoin Holds Above $80K as Support Firms - ETF Database",
-      "summary": "Cryptocurrencies: Bitcoin Holds Above $80K as Support Firms ETF Database",
-      "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE9vdlAxemo0MjdrY0ZHeUdMNHc3aEdweWdvaTZNekVhWS0xOXRsbjhoSWlnazNMcWY0RTV3NXIxSXRFMGszYzhKTWc3eldIZjhmM0ZCMmtQdVozbVY3YjRTNHd0R1dCWlR6TDlGazdaV2pJYm9XT2h6Xw?oc=5",
-      "author": "ETF Database",
-      "publishedAt": "2026-05-13T16:58:10Z",
-      "titleEn": "Cryptocurrencies: Bitcoin Holds Above $80K as Support Firms - ETF Database",
-      "titleZh": "加密货币：作为支持公司，比特币保持在 8 万美元以上 - ETF 数据库",
-      "matchedPortfolios": [
-        "no-yield"
-      ],
-      "tags": [
-        "Deflation News · Bitcoin Gold",
-        "bitcoin",
-        "deflation"
-      ]
-    },
-    {
-      "source": "Rare Earth News · Industry",
-      "title": "15 Billion Pounds of Nickel: Nikolai Emerges as a Strategic U.S. Critical Minerals Giant - CarbonCredits.com",
-      "summary": "15 Billion Pounds of Nickel: Nikolai Emerges as a Strategic U.S. Critical Minerals Giant CarbonCredits.com",
-      "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNUjRieXBVWnRnMnZxajdBb3Foekx5RXEtM1YxQ255NGpCWWxWa09FUkN4VU8tdkVROThtQWprd1pSa1h3REtXSnFtcm1LM01rVVNUNS1VSk9pZ0ctV3JHX0VwbVh0eDl4RUpJSWxSNkVVREhJWXNteEtVX3A1cUdDOVJ3bThteWJrT1BOX2tkOFZzSm1seU9xR081VGxleVd2NFdhUHRyTjVhejZ5allLYTEybw?oc=5",
-      "author": "CarbonCredits.com",
-      "publishedAt": "2026-05-13T16:55:06Z",
-      "titleEn": "15 Billion Pounds of Nickel: Nikolai Emerges as a Strategic U.S. Critical Minerals Giant - CarbonCredits.com",
-      "titleZh": "150 亿磅镍：Nikolai 成为美国战略性关键矿产巨头 - CarbonCredits.com",
-      "matchedPortfolios": [
-        "us-rare-earth"
-      ],
-      "tags": [
-        "Rare Earth News · Industry",
-        "critical minerals",
-        "rare earth"
-      ]
-    },
-    {
-      "source": "TechCrunch",
-      "title": "Rivian spinoff Mind Robotics raises another $400M",
-      "summary": "Mind Robotics, which was first revealed in late 2025, has now raised more than $1 billion to date.",
-      "url": "https://techcrunch.com/2026/05/13/rivian-spinoff-mind-robotics-raises-another-400m/",
-      "author": "Sean O'Kane",
-      "publishedAt": "2026-05-13T16:34:21Z",
-      "titleEn": "Rivian spinoff Mind Robotics raises another $400M",
-      "titleZh": "Rivian 分拆公司 Mind Robotics 又融资 4 亿美元",
-      "matchedPortfolios": [
-        "china-robotics"
-      ],
-      "tags": [
-        "robotics"
-      ]
-    },
-    {
-      "source": "China Robotics · Components",
-      "title": "Rivian spinoff Mind Robotics raises another $400M - TechCrunch",
-      "summary": "Rivian spinoff Mind Robotics raises another $400M TechCrunch",
-      "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQMUZsb0g4VTk4dHdQMVE0V0N0bFFlN3c1dkk4WW1EN2kwSWE1LU4zdDByR19XT1hlZXdaLUlZVEQzSFJZSXZGSGlueFJlNTRyNW9GNk54R0tGQ3BURWx3c3FKZHg1eVE0bHl1ajFsMzd2ZEZSUFdZOWhBS2RKUjB2c1RmckF5S1ZWcVp3?oc=5",
-      "author": "TechCrunch",
-      "publishedAt": "2026-05-13T16:34:21Z",
-      "titleEn": "Rivian spinoff Mind Robotics raises another $400M - TechCrunch",
-      "titleZh": "Rivian 分拆公司 Mind Robotics 又融资 4 亿美元 - TechCrunch",
-      "matchedPortfolios": [
-        "china-robotics"
-      ],
-      "tags": [
-        "China Robotics · Components",
-        "robotics"
-      ]
-    },
-    {
-      "source": "Deflation News · Bitcoin Gold",
-      "title": "Charles Schwab Begins Offering Bitcoin, Ethereum Trading to US Users - Decrypt",
-      "summary": "Charles Schwab Begins Offering Bitcoin, Ethereum Trading to US Users Decrypt",
-      "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNakJaUml4bl9lS2hNR0xSbHd3cnZ6NUxhejJ6RUMzNTFoS0l5UmUwbDR2QWJZUGxwTC0xS1VKSnVsTGdmbHdiWFF1am5vZ05BSzAwRndRX3NXOXNxREo0NlZ3Z2ZBZ3hXYzNvWUxPWlQyUlBTZG1yUTRERS1uT0NEMXg4VE5XZUpK0gGQAUFVX3lxTE5lQlJrMl9McDVSVVZhbElPcG5YV0FlTjZGQmFpdnFZUUlzTnptbzJERmUwdERSdjliYW1yejF1bnlUTE9nWVBjSWtVMnJsV0I2V3J3RGM5b2Fwd2FGaGJJaURleHZjVDFRamZoMl9TRkhvTGQzYjhMVGhRc3hFTGRNbVdxcDJNaTBuSFNxSFNVQQ?oc=5",
-      "author": "Decrypt",
-      "publishedAt": "2026-05-13T16:31:05Z",
-      "titleEn": "Charles Schwab Begins Offering Bitcoin, Ethereum Trading to US Users - Decrypt",
-      "titleZh": "嘉信理财开始向美国用户提供比特币、以太坊交易 - Decrypt",
-      "matchedPortfolios": [
-        "no-yield"
-      ],
-      "tags": [
-        "Deflation News · Bitcoin Gold",
-        "bitcoin",
-        "deflation"
-      ]
-    },
-    {
-      "source": "Deflation News · Bitcoin Gold",
-      "title": "Bitcoin Suisse Secures Bermuda Regulatory Approvals for International Digital Asset Expansion - Bitcoin Magazine",
-      "summary": "Bitcoin Suisse Secures Bermuda Regulatory Approvals for International Digital Asset Expansion Bitcoin Magazine",
-      "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTFA2M0VLcDFLYmVnRHcxSXFUSUZBMjZmVGtkckp5anhpNk5pX1VJd3Z4c2ZlMjlDS3lpV0gwdW8zcktvdndqM3dLeVRjYllWWEw3VENxczZnT1Z0dDloWUlLV0RjLVIxdGtfV2ZHUF9uUmpja1N5b0tiUDRYbXdEWGs?oc=5",
-      "author": "Bitcoin Magazine",
-      "publishedAt": "2026-05-13T16:26:25Z",
-      "titleEn": "Bitcoin Suisse Secures Bermuda Regulatory Approvals for International Digital Asset Expansion - Bitcoin Magazine",
-      "titleZh": "Bitcoin Suisse 获得百慕大监管机构批准其国际数字资产扩张 - 比特币杂志",
-      "matchedPortfolios": [
-        "no-yield"
-      ],
-      "tags": [
-        "Deflation News · Bitcoin Gold",
-        "bitcoin",
-        "deflation"
-      ]
-    },
-    {
-      "source": "Robotics & Automation News",
-      "title": "What to Look for When Comparing Term Life Insurance Quotes Online",
-      "summary": "Over 170 million people in the US have life insurance, and if you’re one of them, comparing term life insurance quotes online is about more than finding the lowest monthly premium. You need to verify that the death benefit actually lands in the hands of your beneficiaries without a legal struggle. Modern digital tools",
-      "url": "https://roboticsandautomationnews.com/2026/05/13/what-to-look-for-when-comparing-term-life-insurance-quotes-online/101476/",
-      "author": "David Edwards",
-      "publishedAt": "2026-05-13T16:19:03Z",
-      "titleEn": "What to Look for When Comparing Term Life Insurance Quotes Online",
-      "titleZh": "在线比较定期人寿保险报价时要注意什么",
-      "matchedPortfolios": [
-        "china-robotics"
-      ],
-      "tags": [
-        "robotics"
-      ]
-    },
-    {
-      "source": "Deflation News · Bitcoin Gold",
-      "title": "Crypto Long & Short: Bitcoin vs. gold: 26% relative undervaluation - CoinDesk",
-      "summary": "Crypto Long & Short: Bitcoin vs. gold: 26% relative undervaluation CoinDesk",
-      "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQRG9ZZGpPdU5Ca21uNVRnOGUtemJueHZjUWlNRzhYSmtUaE9aWUttTS1NVlpYLTBFMENJYXlWSzFkWTRpajN0QTRtSVBNSE1aUjNaRk1tbVNYelNPQmlJMlQxN0I3ME5uZXZjVUVRei1EU1JsU2VCN09IMTJveWlTMmZFY0hIdmw5bGc1YWZlZWJMNHBmODA1MWJ6UlFrYjBaWkdjVkU2eGV4UkYxWHFOSXRnZXJrTkZ2?oc=5",
-      "author": "CoinDesk",
-      "publishedAt": "2026-05-13T16:09:01Z",
-      "titleEn": "Crypto Long & Short: Bitcoin vs. gold: 26% relative undervaluation - CoinDesk",
-      "titleZh": "加密多空：比特币与黄金：相对低估 26% - CoinDesk",
-      "matchedPortfolios": [
-        "no-yield"
-      ],
-      "tags": [
-        "Deflation News · Bitcoin Gold",
-        "bitcoin",
-        "deflation"
-      ]
-    },
-    {
-      "source": "Brand News · PDD",
-      "title": "France urges tougher EU action on Shein and Temu – report - Retail Insight Network",
-      "summary": "France urges tougher EU action on Shein and Temu – report Retail Insight Network",
-      "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxNbFB1clJxanBoelRJMVJJSzNfYlhDSmk3RnBvbVhMcWJLenRJMkduSzI5MHJtN25fRU1lS3lQRXhjdnQ5dkRLekdBWDVMY1RCcFdfWC1wNkVyVERJSkFFY1ptdVRhb2hXU3RXTEVmQkg5eDVQOE13RDZRS2dQbWVhaE0tRXdiZ0U?oc=5",
-      "author": "Retail Insight Network",
-      "publishedAt": "2026-05-13T16:04:04Z",
-      "titleEn": "France urges tougher EU action on Shein and Temu – report - Retail Insight Network",
-      "titleZh": "法国敦促欧盟对 Shein 和 Temu 采取更严厉的行动 - 报告 - Retail Insight Network",
-      "matchedPortfolios": [
-        "brand"
-      ],
-      "tags": [
-        "Brand News · PDD",
-        "pdd",
-        "temu"
-      ]
-    },
-    {
-      "source": "BioPharma Dive",
-      "title": "FDA’s leadership void leaves biotech with renewed ‘uncertainty’",
-      "summary": "Marty Makary's resignation leaves the agency with temporary directors in three top positions, and a number of newly instituted policies with an unclear future.",
-      "url": "https://www.biopharmadive.com/news/makary-fda-resign-biotech-impact/820090/",
-      "author": "Jonathan Gardner",
-      "publishedAt": "2026-05-13T16:02:00Z",
-      "titleEn": "FDA’s leadership void leaves biotech with renewed ‘uncertainty’",
-      "titleZh": "FDA 的领导空缺给生物技术带来了新的“不确定性”",
-      "matchedPortfolios": [
-        "biotech"
-      ],
-      "tags": [
-        "biotech",
-        "fda"
-      ]
-    },
-    {
-      "source": "China Robotics · Components",
-      "title": "Bausch + Lomb launches robotics apprenticeship to build manufacturing workforce - Rochester Business Journal",
-      "summary": "Bausch + Lomb launches robotics apprenticeship to build manufacturing workforce Rochester Business Journal",
-      "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxQQ2hkLXhVczRFZl95b0hyRW10cHNsNlg0VHEwaVc3dzRHSlhwNTlIOXQ5N1YySFdab3FqajRGejlRa3pneUlDQmpmY1BfYmx6OUlzRGlSVlkwbV9UeUd6YXkzTFNkQVVRR3VBWjNUY2daOHhTOXExN1BrdkVIYkNvelp5NE5NN3dXSnc?oc=5",
-      "author": "Rochester Business Journal",
-      "publishedAt": "2026-05-13T16:01:14Z",
-      "titleEn": "Bausch + Lomb launches robotics apprenticeship to build manufacturing workforce - Rochester Business Journal",
-      "titleZh": "博士伦推出机器人学徒计划以培养制造业劳动力 - 罗彻斯特商业杂志",
-      "matchedPortfolios": [
-        "china-robotics"
-      ],
-      "tags": [
-        "China Robotics · Components",
-        "robotics"
-      ]
-    },
-    {
-      "source": "Endpoints News",
-      "title": "Abeona pivots to T cells; AstraZeneca's rare disease drug passes Phase 3",
-      "summary": "Plus, news about Amicus Therapeutics, Fosun Pharma, Duality Biotherapeutics, BioNTech and C4 Therapeutics. 👁️ Abeona drops eye gene therapies, pivots to solid tumor T cell therapy: The biotech, which is known for marketing the rare ...",
-      "url": "https://endpoints.news/abeona-pivots-to-t-cells-astrazenecas-rare-disease-drug-passes-phase-3/",
-      "author": "ENDPOINTS",
-      "publishedAt": "2026-05-13T15:36:52Z",
-      "titleEn": "Abeona pivots to T cells; AstraZeneca's rare disease drug passes Phase 3",
-      "titleZh": "Abeona 以 T 细胞为中心；阿斯利康罕见病药物通过第三阶段",
-      "matchedPortfolios": [
-        "biotech"
-      ],
-      "tags": [
-        "biotech",
-        "drug",
-        "pharma"
-      ]
-    },
-    {
-      "source": "NASA",
-      "title": "NASA Outlines Preliminary Artemis III Mission Plans",
-      "summary": "NASA is moving quickly to define next year’s Artemis III mission in Earth orbit, a crewed flight that will test rendezvous and docking capabilities between the agency’s Orion spacecraft and commercial landers from Blue Origin and SpaceX. Since a February announcement adding an Artemis mission ahead of crewed landing mi",
-      "url": "https://www.nasa.gov/missions/artemis/artemis-3/nasa-outlines-preliminary-artemis-iii-mission-plans/",
-      "author": "Lauren E. Low",
-      "publishedAt": "2026-05-13T15:33:56Z",
-      "titleEn": "NASA Outlines Preliminary Artemis III Mission Plans",
-      "titleZh": "NASA 概述了初步的阿耳忒弥斯 III 任务计划",
-      "matchedPortfolios": [
-        "satellite-intel"
-      ],
-      "tags": [
-        "nasa",
-        "spacex"
-      ]
-    },
-    {
-      "source": "CNBC",
-      "title": "Anduril doubles valuation to over $60 billion as defense tech funding boom continues",
-      "summary": "The company is working on space-based interceptors for Trump's $185 billion Golden Dome defense system",
-      "url": "https://www.cnbc.com/2026/05/13/anduril-valuation-defense-tech-funding-boom.html",
-      "author": "CNBC",
-      "publishedAt": "2026-05-13T15:25:31Z",
-      "titleEn": "Anduril doubles valuation to over $60 billion as defense tech funding boom continues",
-      "titleZh": "随着国防技术融资热潮的持续，Anduril 估值翻倍至超过 600 亿美元",
-      "matchedPortfolios": [
-        "satellite-intel"
-      ],
-      "tags": [
-        "space"
-      ]
-    },
-    {
-      "source": "Rare Earth News · MP",
-      "title": "MP Materials beats Q1 estimates as Wedbush sees rare earth production rebound ahead - Proactive financial news",
-      "summary": "MP Materials beats Q1 estimates as Wedbush sees rare earth production rebound ahead Proactive financial news",
-      "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxPM2pxSnhFdGQ1bElCTE5SbEFBbHpua2daaERhaGdXSkQ1MmZfMVZxZjNfRkNUR19zdk9sVXJfMFRUYmxrQ2JSSG10RFZ6UlFnTF9XT2YzSkNWOHQzeG5iSVZPUUlHWEdwRzlpUE92c0ZPaEZUNzU0Y2pXM2Rwc2ZUTXJsYVRrOFB4U2xDckFob19DeG4yUzNnTXNmQy05cGh5S2VUM0RqYmZPUHhyQ2xIZnhOYXpfWFFlU0JROGJjdlh2Mk1jM19BeHJzMjRmU2ZYSkVFeUU4WFJXMzUzX3VhZ2ZUTDZJaVJFc0E?oc=5",
-      "author": "Proactive financial news",
-      "publishedAt": "2026-05-13T15:21:00Z",
-      "titleEn": "MP Materials beats Q1 estimates as Wedbush sees rare earth production rebound ahead - Proactive financial news",
-      "titleZh": "韦德布什预计稀土产量将反弹，MP Materials 第一季度业绩好于预期 - 主动财经新闻",
-      "matchedPortfolios": [
-        "us-rare-earth"
-      ],
-      "tags": [
-        "Rare Earth News · MP",
-        "mp materials",
-        "rare earth"
-      ]
-    },
-    {
-      "source": "Breaking Defense",
-      "title": "Air Force greenlights requirements for MQ-9A Reaper drone replacement",
-      "summary": "“There is, I think, a burgeoning interest across the broader defense industrial base on what comes next,” said Air Force Lt. Gen. Luke Cropsey.",
-      "url": "https://breakingdefense.com/2026/05/air-force-greenlights-requirements-for-mq-9a-reaper-drone-replacement/",
-      "author": "Michael Marrow",
-      "publishedAt": "2026-05-13T15:17:49Z",
-      "titleEn": "Air Force greenlights requirements for MQ-9A Reaper drone replacement",
-      "titleZh": "空军批准 MQ-9A Reaper 无人机更换要求",
-      "matchedPortfolios": [
-        "drone"
-      ],
-      "tags": [
-        "drone"
-      ]
-    },
-    {
-      "source": "Drone News · Tickers",
-      "title": "AeroVironment (AVAV) Drops 5.6% to $159.39 - AlphaStreet",
-      "summary": "AeroVironment (AVAV) Drops 5.6% to $159.39 AlphaStreet",
-      "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE5GWld5MlVtdEpFbjYwdVdmbGVPSkNVYnJ0WUtoRTRjSUFaVXNCTXotcXRZeWZNQTVMVi1HMFAzTUtaMWZibDFETS1nQ2Y3M29Cdjk5Z05aWjRLemZaSTVNcnlCbWhxdkUxV2c4UWVIMXBjU1RWR1Jr0gF3QVVfeXFMTkZaV3kyVW10SkVuNjB1V2ZsZU9KQ1VicnRZS2hFNGNJQVpVc0JNei1xdFl5Zk1BNUxWLUcwUDNNS1oxZmJsMURNLWdDZjczb0J2OTlnTlpaNEt6ZlpJNU1yeUJtaHF2RTFXZzhRZUgxcGNTVFZHUms?oc=5",
-      "author": "AlphaStreet",
-      "publishedAt": "2026-05-13T15:15:34Z",
-      "titleEn": "AeroVironment (AVAV) Drops 5.6% to $159.39 - AlphaStreet",
-      "titleZh": "AeroVironment (AVAV) 下跌 5.6% 至 159.39 美元 - AlphaStreet",
-      "matchedPortfolios": [
-        "drone"
-      ],
-      "tags": [
-        "aerovironment",
-        "avav",
-        "drone"
-      ]
-    },
-    {
-      "source": "Robotics & Automation News",
-      "title": "Why Tech Travelers Need a Personal Killswitch for Hotel Wi-Fi",
-      "summary": "Commissioning a project at a remote facility usually involves a suitcase full of proprietary hardware and a laptop housing months of R&D. In other words, it usually means moving through the world with what feels like your entire life on your back. You may not be as slow as an IRL snail, but you’re certainly […]",
-      "url": "https://roboticsandautomationnews.com/2026/05/13/why-tech-travelers-need-a-personal-killswitch-for-hotel-wi-fi/101470/",
-      "author": "David Edwards",
-      "publishedAt": "2026-05-13T15:08:16Z",
-      "titleEn": "Why Tech Travelers Need a Personal Killswitch for Hotel Wi-Fi",
-      "titleZh": "为什么科技旅行者需要酒店 Wi-Fi 的个人终止开关",
-      "matchedPortfolios": [
-        "china-robotics"
-      ],
-      "tags": [
-        "robotics"
-      ]
-    },
-    {
-      "source": "Drone News · Tickers",
-      "title": "RCAT Increases Offering Range to $225 Million - GuruFocus",
-      "summary": "RCAT Increases Offering Range to $225 Million GuruFocus",
-      "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxOTS1zdHhZRUh0QlV4RVFVeXhscW9iMEhjODk2U0l5cjlNTVcxbDYyMEVmQVB5S2ZKMXpkMHplSDdDaXJnb1VsSFN6VU1HcTZILTNtUURsTkhMVWVkXy1VZ1VKOXFGM21zTmhXeXpkM0tJSlpPWXhCYzBYTXVWRVp0YVcwcUJGUW5hb1lr?oc=5",
-      "author": "GuruFocus",
-      "publishedAt": "2026-05-13T15:02:32Z",
-      "titleEn": "RCAT Increases Offering Range to $225 Million - GuruFocus",
-      "titleZh": "RCAT 将发行范围扩大至 2.25 亿美元 - GuruFocus",
-      "matchedPortfolios": [
-        "drone"
-      ],
-      "tags": [
-        "drone",
-        "rcat"
-      ]
-    },
-    {
-      "source": "Breaking Defense",
-      "title": "Working ‘outside the lines’ to scale production isn’t working: Cadenazzi",
-      "summary": "DIU still vets drone tech, but a new strategy says wartime scaling requires internal attention and reform from others.",
-      "url": "https://breakingdefense.com/2026/05/working-outside-the-lines-to-scale-production-isnt-working-cadenazzi/",
-      "author": "Barry Rosenberg",
-      "publishedAt": "2026-05-13T15:01:00Z",
-      "titleEn": "Working ‘outside the lines’ to scale production isn’t working: Cadenazzi",
-      "titleZh": "Cadenazzi：通过“线外”扩大生产是行不通的",
-      "matchedPortfolios": [
-        "drone"
-      ],
-      "tags": [
-        "drone"
-      ]
-    },
-    {
-      "source": "Robotics & Automation News",
-      "title": "Humanoid and Schaeffler strike deal to deploy thousands of humanoid robots in factories",
-      "summary": "Humanoid, a UK-based AI and robotics company, has signed a binding, phased deployment and supply agreement with Schaeffler, a leading motion technology company, to integrate humanoid robots directly into live manufacturing operations. The first systems go live in Germany before the end of 2026. Humanoid will also purch",
-      "url": "https://roboticsandautomationnews.com/2026/05/13/humanoid-secures-landmark-deal-with-schaeffler-to-deploy-thousands-of-humanoid-robots/101411/",
-      "author": "David Edwards",
-      "publishedAt": "2026-05-13T15:00:54Z",
-      "titleEn": "Humanoid and Schaeffler strike deal to deploy thousands of humanoid robots in factories",
-      "titleZh": "Humanoid 与舍弗勒达成协议，在工厂部署数千台人形机器人",
-      "matchedPortfolios": [
-        "china-robotics"
-      ],
-      "tags": [
-        "ai",
-        "robotics"
-      ]
-    },
-    {
-      "source": "Food Dive",
-      "title": "Beyond Meat puts protein drinks at the center of turnaround plan",
-      "summary": "CEO Ethan Brown said it's been acting as a “beverage company in hiding,” with a board of executives from Coke, Boston Beer and more.",
-      "url": "https://www.fooddive.com/news/beyond-meat-turnaround-plan-functional-beverage-food/820116/",
-      "author": "Laurel Deppen",
-      "publishedAt": "2026-05-13T15:00:00Z",
-      "titleEn": "Beyond Meat puts protein drinks at the center of turnaround plan",
-      "titleZh": "Beyond Meat 将蛋白质饮料置于扭亏为盈计划的中心",
-      "matchedPortfolios": [
-        "brand"
-      ],
-      "tags": [
-        "coke"
-      ]
-    },
-    {
-      "source": "China Robotics · Components",
-      "title": "Rivian CEO’s Robotics Company Raises $400 Million - WSJ",
-      "summary": "Rivian CEO’s Robotics Company Raises $400 Million WSJ",
-      "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxObEtRdktyZl9TQkhuVzFGREJ5YzFkOXk0T2tfT1AtSnc1U2syYm5mWG1WZUxINERiZm84N2p1YkxnQjZvN0J4Z3RTeGphcmpJMzlvODFzSFRTZTFuREhZZGl0bmViU2tOUDNoOHg0dzhaUDM2Znc5TEVDV2FqNlpJbjNmUE1NQ1prODRCZFhjYkxuZ0ZOR3c?oc=5",
+      "source": "Wall Street Journal",
+      "title": "Jury Rejects Musk’s Claims Against OpenAI - WSJ",
+      "summary": "Jury Rejects Musk’s Claims Against OpenAI WSJ",
+      "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxPZVJhUWNncmpfRUdxeGJhRlZsLVlKVFlURVljZndIdHlIb2llMmgyM2xRTTdWV1BaTFMwWWkzYWUxMXpjakJCeUtqbkJlbkZuSEF0TzJtdU0zd2E5Tm9EcU9ReHk0QXJaUmVQOEdRQURTX3JkMVpfNUxLYUNnT0VVQlNtZ0U5bWRGR0VKYlJfSWFPRVRPM0VsV1l1ZXJtc0df?oc=5",
       "author": "WSJ",
-      "publishedAt": "2026-05-13T15:00:00Z",
-      "titleEn": "Rivian CEO’s Robotics Company Raises $400 Million - WSJ",
-      "titleZh": "Rivian 首席执行官旗下机器人公司融资 4 亿美元 - 华尔街日报",
+      "publishedAt": "2026-05-19T00:37:00Z",
+      "titleEn": "Jury Rejects Musk’s Claims Against OpenAI - WSJ",
+      "titleZh": "陪审团驳回马斯克针对 OpenAI 的指控 - 华尔街日报",
       "matchedPortfolios": [
-        "china-robotics"
+        "ai-market"
       ],
       "tags": [
-        "China Robotics · Components",
-        "robotics"
+        "OpenAI",
+        "Wall Street Journal"
       ]
     },
     {
-      "source": "China Robotics · Components",
-      "title": "Mind Robotics Announces $400M in New Funding to Expand Industrial Robotics Deployment - Business Wire",
-      "summary": "Mind Robotics Announces $400M in New Funding to Expand Industrial Robotics Deployment Business Wire",
-      "url": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxPMVlZS0Z0UkdLVXFldTBCaGFSQ3VXMU9EWWtoYnY1U1VReHZib3NiZW9WcTJnUGlTX0JjX3lYQXF1YnlWSzdSZ2lSZzNkTEFzRU1hSHVsTUxZSzZjNnlWMEdyaEpvOGxQbHMzd3pPRjEzd2xOV3pkTEtVSkNUeUZoS05zV0hqaTh6dEVkc1gzZjlXNnhRUGp4NFZUMnptZ3hpYkNXbWxZdVRXcDVudW5TR19WNEh6eGVRTTZvSm5HVVN4RWJfdzBYcU9iWFdVUHBUeGtxSnREMkFjYklO?oc=5",
-      "author": "Business Wire",
-      "publishedAt": "2026-05-13T15:00:00Z",
-      "titleEn": "Mind Robotics Announces $400M in New Funding to Expand Industrial Robotics Deployment - Business Wire",
-      "titleZh": "Mind Robotics 宣布获得 4 亿美元新资金以扩大工业机器人部署 - 美国商业资讯",
+      "source": "Bloomberg",
+      "title": "Bond Yield Surge Poses Threat to Asia’s AI-Fueled Stock Rally - Bloomberg.com",
+      "summary": "Bond Yield Surge Poses Threat to Asia’s AI-Fueled Stock Rally Bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPWmlZV0d4UUtwM0llVXlYdzRlMDNvZmpJcHp2bmE1NTQyM0I1c2FwNHNIdlpNcDIyR0IxQ2ZqYlZXZGZqMzNjMWZoY3E1dWFXY1U4RmtFS0VWMEZkNkRDaE1tM01qb0JMbjZzcHpsLXRHQUNYbzZ1MkRXWVc0eWxKbWkyU1hpbFBIbFZ3MFMzRzhLVHA1N2NYYnBYQmxTeUxjTEdMVXcwNnZvMFI0VDRfbWRB?oc=5",
+      "author": "Bloomberg.com",
+      "publishedAt": "2026-05-19T00:13:00Z",
+      "titleEn": "Bond Yield Surge Poses Threat to Asia’s AI-Fueled Stock Rally - Bloomberg.com",
+      "titleZh": "债券收益率飙升对人工智能推动的亚洲股市上涨构成威胁 - Bloomberg.com",
       "matchedPortfolios": [
-        "china-robotics"
+        "ai-market"
       ],
       "tags": [
-        "China Robotics · Components",
-        "robotics"
+        "Bloomberg"
       ]
     },
     {
-      "source": "Robotics & Automation News",
-      "title": "How Industrial Automation Services Are Modernizing Legacy Facilities",
-      "summary": "Many older plants still produce dependable output, yet the systems behind that output often show their age. Support teams are asked to meet modern production goals using control systems built for a slower operating model. The gap becomes obvious when downtime rises, and fault detection arrives too late. Luckily, expert",
-      "url": "https://roboticsandautomationnews.com/2026/05/13/how-industrial-automation-services-are-modernizing-legacy-facilities/101465/",
-      "author": "David Edwards",
-      "publishedAt": "2026-05-13T14:54:26Z",
-      "titleEn": "How Industrial Automation Services Are Modernizing Legacy Facilities",
-      "titleZh": "工业自动化服务如何对传统设施进行现代化改造",
+      "source": "Reuters",
+      "title": "Google, Blackstone plan AI cloud venture with $5 billion backing, WSJ reports - Reuters",
+      "summary": "Google, Blackstone plan AI cloud venture with $5 billion backing, WSJ reports Reuters",
+      "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQS3BSTU96Y2NQdlNRMTdlYlJkOU5TYVU0bWdvM1NiRVdabzhGNlppWjRXWGwzdnFHaFlJUzh5QVVpcnZRZl9GMDR5Tkg3VVNoS19vUlB1X2VXWTdwdWtjLVp1dHpRQ0EwLTlsT2RkWHdlVEZyRHBFcTUxYk12X0xFcXpLNWtUbWpMNEtaNlFxb0JPdlhldTNMZ2NhR09qSkliNF9jUw?oc=5",
+      "author": "Reuters",
+      "publishedAt": "2026-05-19T00:13:00Z",
+      "titleEn": "Google, Blackstone plan AI cloud venture with $5 billion backing, WSJ reports - Reuters",
+      "titleZh": "据《华尔街日报》报道，谷歌和黑石计划斥资 50 亿美元组建人工智能云合资企业 - 路透中文网",
       "matchedPortfolios": [
-        "china-robotics"
+        "ai-market"
       ],
       "tags": [
-        "robotics"
+        "Google",
+        "Reuters",
+        "ai cloud"
       ]
     },
     {
-      "source": "Endpoints News",
-      "title": "Post-Hoc: Why FDA Commissioner Marty Makary was ousted",
-      "summary": "Marty Makary never stood a chance. Over the last few days, the now-former FDA commissioner had been left to twist in the wind, after headlines emerged late last week that President Donald Trump had signed ...",
-      "url": "https://endpoints.news/post-hoc-why-fda-commissioner-marty-makary-was-ousted/",
-      "author": "Drew Armstrong",
-      "publishedAt": "2026-05-13T14:46:37Z",
-      "titleEn": "Post-Hoc: Why FDA Commissioner Marty Makary was ousted",
-      "titleZh": "事后： FDA 专员马蒂·马卡里 (Marty Makary) 为何被罢免",
+      "source": "New York Times",
+      "title": "After Elon Musk’s Court Loss Comes the Long Hot A.I. Summer - The New York Times",
+      "summary": "After Elon Musk’s Court Loss Comes the Long Hot A.I. Summer The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTFBDc0ZReW8xTEdPQm5mTFFfaE1kMl9aNTZnZHhZal9tU2I0Wm5MREFnTlVJeEtkNDJSRU1IQ1VjTEhDVGhtMWlSa3g0a0V5bnY3Z0F4OFg2aVltYllYcG11bkl2ZHh1T0dFdEYzUkRLRGJWVXpyU2g4NGJEdkl1QQ?oc=5",
+      "author": "The New York Times",
+      "publishedAt": "2026-05-19T00:12:22Z",
+      "titleEn": "After Elon Musk’s Court Loss Comes the Long Hot A.I. Summer - The New York Times",
+      "titleZh": "埃隆·马斯克(Elon Musk)在法庭上败诉后，人工智能领域长期炙手可热。夏天 - 纽约时报",
       "matchedPortfolios": [
-        "biotech"
+        "ai-market"
       ],
       "tags": [
-        "fda"
+        "New York Times"
       ]
     },
     {
-      "source": "NASA",
-      "title": "Studying Pneumonia in Space for Heart Health on Earth",
-      "summary": "Expedition 74 astronauts aboard the International Space Station are uncovering how bacteria that causes pneumonia can lead to long-term damage in the heart. Researchers are leveraging the space environment to observe how stem cell derived heart tissues respond to bacterial infections, to discover new methods to manage",
-      "url": "https://www.nasa.gov/missions/station/iss-research/studying-pneumonia-in-space-for-heart-health-on-earth/",
-      "author": "Christian M. Getteau",
-      "publishedAt": "2026-05-13T14:45:00Z",
-      "titleEn": "Studying Pneumonia in Space for Heart Health on Earth",
-      "titleZh": "研究太空肺炎以促进地球上的心脏健康",
+      "source": "Wall Street Journal",
+      "title": "Exclusive | Google and Blackstone to Create New AI Cloud Company - WSJ",
+      "summary": "Exclusive | Google and Blackstone to Create New AI Cloud Company WSJ",
+      "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxQanVETXBuREY3VEdSekgyX1h4WmltRlVSNGpsdXh3cnIyVUVGN3k4Ylg5bzl4UXBLb1NJQzNPZFpNZ0pQVE9MejBFWE9oNWtRcE4wS1hqMURRbzZoTFFEX0J2UGlfZWx0d1JMcFdsMHpyR0NHWFcyTHAzbDZnTWdFRVpRakdkdGNhV1BRUDlzNkY0S00?oc=5",
+      "author": "WSJ",
+      "publishedAt": "2026-05-19T00:00:00Z",
+      "titleEn": "Exclusive | Google and Blackstone to Create New AI Cloud Company - WSJ",
+      "titleZh": "独家|谷歌和黑石将创建新的人工智能云公司 - 华尔街日报",
       "matchedPortfolios": [
-        "satellite-intel"
+        "ai-market"
       ],
       "tags": [
-        "nasa",
-        "space"
+        "Google",
+        "Wall Street Journal",
+        "ai cloud"
       ]
     },
     {
-      "source": "Brand News · PDD",
-      "title": "Why PDD Holdings Stock Is Surging Right Now - TipRanks",
-      "summary": "Why PDD Holdings Stock Is Surging Right Now TipRanks",
-      "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxQSlZ3RmVFZldnMWR2cDdBUXVtY1lqMC02TExMVlduUmMxVnR3cXYwWDFYcENyNk9FZG5venFmRWY3OTBkREpoZ2xlZXNKOUVHVkNOS0JlZG9td3FWdDZnNk44aW1IVHhMbDJqVlFVb3JoQmtVVGZsdG1tc3NzQnlpWnNCbXN0c081Rmc?oc=5",
-      "author": "TipRanks",
-      "publishedAt": "2026-05-13T14:44:16Z",
-      "titleEn": "Why PDD Holdings Stock Is Surging Right Now - TipRanks",
-      "titleZh": "为什么PDD Holdings的股票现在正在飙升 - TipRanks",
+      "source": "New York Times",
+      "title": "Opinion | The Generation That Grew Up With A.I. Hates It - The New York Times",
+      "summary": "Opinion | The Generation That Grew Up With A.I. Hates It The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxNQVc5a2dCLWpNek9CNVdNVDF6RVpjc01LWm9aV2pOTGh4ZnhGc0o2TGtGdExFWmFrUDUtSldUeVZWU2tZZm8xQTNlQ1hHQ2UxWmtRY0FFTnU2NzFHWks5VjVYQW5sTjJZY1F4M09OZFdCWkRvMzFwTnFMRzhzZWhuQW5R?oc=5",
+      "author": "The New York Times",
+      "publishedAt": "2026-05-18T23:46:52Z",
+      "titleEn": "Opinion | The Generation That Grew Up With A.I. Hates It - The New York Times",
+      "titleZh": "意见 |与人工智能一起成长的一代讨厌它 - 纽约时报",
       "matchedPortfolios": [
-        "brand"
+        "ai-market"
       ],
       "tags": [
-        "Brand News · PDD",
-        "pdd",
-        "pdd holdings"
+        "New York Times"
       ]
     },
     {
-      "source": "Drone News · Companies",
-      "title": "Why AeroVironment Stock Is Suddenly Sinking - TipRanks",
-      "summary": "Why AeroVironment Stock Is Suddenly Sinking TipRanks",
-      "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNbmF3Mkl3TXJGa251T0hHTlh6QVk2amg4TnN4eG9CQnhscm1LcjBhdG4yUmZicDlSY2NSRVAwNzVSMTQzUGZBMDhNSjFxQ0ZLaGg3elpPVUxoNU5XWGtLTkt1bTE2RTFteGVZbmFSeW9WU3dtOEFVM1IyY0RwSmxjNVRxZEdHUW5oX2Nscg?oc=5",
-      "author": "TipRanks",
-      "publishedAt": "2026-05-13T14:44:15Z",
-      "titleEn": "Why AeroVironment Stock Is Suddenly Sinking - TipRanks",
-      "titleZh": "为什么 AeroVironment 股票突然下跌 - TipRanks",
+      "source": "Reuters",
+      "title": "OpenAI defeats Elon Musk's lawsuit, removes obstacle to IPO - Reuters",
+      "summary": "OpenAI defeats Elon Musk's lawsuit, removes obstacle to IPO Reuters",
+      "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxPZUxNM3REVGdHdjAzd3g4WEtOb3gxTmdsRGxIZXJ0bUFZZGdKLXAxVUZEQUhCTFFWbUhsdnFKdy1Hd3N2YncxcERpcEloNUZEbkdOZldab3lGRVdLMENiZTJwUlZ4MWZoV1BRTUJpcTJ5V3p6SVlYVC1pdU9CbFoyZG1Vd1JqZ183eElQMDVlYzNaYzk0VXc?oc=5",
+      "author": "Reuters",
+      "publishedAt": "2026-05-18T23:45:32Z",
+      "titleEn": "OpenAI defeats Elon Musk's lawsuit, removes obstacle to IPO - Reuters",
+      "titleZh": "OpenAI 击败埃隆·马斯克诉讼，扫清 IPO 障碍 - 路透中文网",
       "matchedPortfolios": [
-        "drone"
+        "ai-market"
       ],
       "tags": [
-        "aerovironment",
-        "drone"
+        "OpenAI",
+        "Reuters"
+      ]
+    },
+    {
+      "source": "Bloomberg",
+      "title": "Meta Moves 7,000 Workers Into AI Roles Ahead of Job Cuts - Bloomberg.com",
+      "summary": "Meta Moves 7,000 Workers Into AI Roles Ahead of Job Cuts Bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxOc21xdGxpVWF6UFVuTHpRWmVYTGpmTkFlUUxSaE1YN0lkZThjd0hhcFVDOHZ5eHpmcDk1bi1qYzZ1aHV2QWJnRHg1ZmlYQUoyeFkydFFBc0xLSXVxQ3FNbHctcUc1UE1YbldBRDNON2JxMmprSHItODdFTkR4SVRnMmhjNGp3WW40QkVQb25NOGxEa1BoZkUxSk1PaFNTdGtvZXR6a0xRV25vbkE?oc=5",
+      "author": "Bloomberg.com",
+      "publishedAt": "2026-05-18T23:00:01Z",
+      "titleEn": "Meta Moves 7,000 Workers Into AI Roles Ahead of Job Cuts - Bloomberg.com",
+      "titleZh": "Meta 在裁员之前将 7,000 名员工调入人工智能岗位 - Bloomberg.com",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Bloomberg",
+        "Meta"
+      ]
+    },
+    {
+      "source": "New York Times",
+      "title": "Five Takeaways From the Blockbuster Trial Pitting Elon Musk Against OpenAI - The New York Times",
+      "summary": "Five Takeaways From the Blockbuster Trial Pitting Elon Musk Against OpenAI The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNOGZMM2t1Z2xvTnR2a09tSjI0YS1fcFhiYUU0NTk3Vk9HMW5rX0xleUtqYjVjc2FSN0tiSjhqeHFNTzJnbElmTi0tbFdnWHVMdmJBSWpHMDhiRFJQZm1RclpfU05LN3o2cjQ2UXZybXlESGZobTg0ell4MUdud09RZURIcmNzSHVuY080?oc=5",
+      "author": "The New York Times",
+      "publishedAt": "2026-05-18T22:45:53Z",
+      "titleEn": "Five Takeaways From the Blockbuster Trial Pitting Elon Musk Against OpenAI - The New York Times",
+      "titleZh": "埃隆·马斯克 (Elon Musk) 与 OpenAI 的重磅审判的五个要点 - 纽约时报中文网",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "New York Times",
+        "OpenAI"
+      ]
+    },
+    {
+      "source": "Reuters",
+      "title": "Exclusive: Meta lays out details of May 20 restructuring in internal document - Reuters",
+      "summary": "Exclusive: Meta lays out details of May 20 restructuring in internal document Reuters",
+      "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxOeU9uWEUtam15N0pKQzdxSGZBOGVhZG84V3BETV9USHJsSjhmSThFSE5Cd3FfeGMzeUZneWxyemRqNjF4Sjc4clRPeDdMUzBud19OYzBnWENaLVQwRnBiNUZTYUlNU01qd1NYdFNqZk5MZW1QTXRCdWwxLTdndTdyTm1lR2dCRmtrYl9ybEVacXV4dDRhQ1kwcUdqeXBxeEkwYVNKWjJlSkRMWVBscnhpQndJUQ?oc=5",
+      "author": "Reuters",
+      "publishedAt": "2026-05-18T22:43:02Z",
+      "titleEn": "Exclusive: Meta lays out details of May 20 restructuring in internal document - Reuters",
+      "titleZh": "独家：Meta 在内部文件中列出了 5 月 20 日重组的细节 - 路透",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Meta",
+        "Reuters"
+      ]
+    },
+    {
+      "source": "Reuters",
+      "title": "Anthropic to let partners share Mythos cybersecurity findings with others - Reuters",
+      "summary": "Anthropic to let partners share Mythos cybersecurity findings with others Reuters",
+      "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQTU1iLXNwcmo0aHRLMlJvcW9NamNLbENsRUphbW50cWthNFBjS3Y3dHJ4MlpmWWJhVzhIUk5kOGdla3d2cDlLVW95WTQtREk0X0tIZVFkWmxNQ2p2ODBqX3RDci1VcXZJYi1XNm9HaGNxb2d3VEFka2I1YjUwSTJMSHR6MjN1T3VUYWZtYVZodGRwQktDc0RyVkZPLXFZZ3hQVGcyclR1MWVlcW94Q2lYU1Rfc1VpVllv?oc=5",
+      "author": "Reuters",
+      "publishedAt": "2026-05-18T22:30:42Z",
+      "titleEn": "Anthropic to let partners share Mythos cybersecurity findings with others - Reuters",
+      "titleZh": "Anthropic 让合作伙伴与其他人分享 Mythos 网络安全发现 - 路透中文网",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Anthropic",
+        "Reuters"
+      ]
+    },
+    {
+      "source": "Reuters",
+      "title": "As chip industry chases AI, U.S. national labs look to newcomers for supercomputers - Reuters",
+      "summary": "As chip industry chases AI, U.S. national labs look to newcomers for supercomputers Reuters",
+      "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxNV0hfaDc2NVRGcEpWTXRqMHB1UlQzeXhOVkp6dG8xUVZpNDZGc2VEYlBNSklIcTZCc1ZUa3lIVWVQQzJNTDZfVkhrdTMtT3gtWF9PQU5TZEdQNlZYSERiS0tZdW9WNzgtTVphX3dDS0Z0UkhUZ0tYYzZTNlNfSTN0dk43d1l1NFlvWW1JQW9LalBfclEtSnBNZnhfcTdLaWh4amFBMWVReVFPaTc1aXNPejh0eVFsNXYw?oc=5",
+      "author": "Reuters",
+      "publishedAt": "2026-05-18T22:23:11Z",
+      "titleEn": "As chip industry chases AI, U.S. national labs look to newcomers for supercomputers - Reuters",
+      "titleZh": "随着芯片行业追逐人工智能，美国国家实验室寻找超级计算机新人 - 路透中文网",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Reuters"
+      ]
+    },
+    {
+      "source": "New York Times",
+      "title": "Elon Musk Loses His Blockbuster Case Against OpenAI - The New York Times",
+      "summary": "Elon Musk Loses His Blockbuster Case Against OpenAI The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE94NThlcXB6aEtXSDRmZEU0Y29yMjVWd3l5UG5YZHFjVjFLaFdyOHJ3a1lLa1VrMkFOaklKMnE3MFUyQ3JFZTZkRWRoMlo2a3RKMnZoSWIzc2VVbDFwT01lblJmT1A0cGljdFZyRWRKQjR1UDN0NUxIdkFzMA?oc=5",
+      "author": "The New York Times",
+      "publishedAt": "2026-05-18T21:59:59Z",
+      "titleEn": "Elon Musk Loses His Blockbuster Case Against OpenAI - The New York Times",
+      "titleZh": "埃隆·马斯克 (Elon Musk) 在针对 OpenAI 的重磅官司中败诉 - 纽约时报中文网",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "New York Times",
+        "OpenAI"
+      ]
+    },
+    {
+      "source": "New York Times",
+      "title": "Elon Musk Loses $150 Billion Suit Against OpenAI and Sam Altman - The New York Times",
+      "summary": "Elon Musk Loses $150 Billion Suit Against OpenAI and Sam Altman The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxOekVDTHVodFJGOXJnclNHZVFzM09NVUt1ZXE1UXpsQ055b1d1M1d4Qko1LUpybjBwblJIT1dVQTVMdmQxVVQ4emktUDRPcFRtcjZQTzZiZS1Ub3V0Mk84SGMwRTc5OUJqTWR1UDNiZGpRTXcwcTVVd2I1TlZhdkh3OFhLbWRvOW5aRWg0MVI2aw?oc=5",
+      "author": "The New York Times",
+      "publishedAt": "2026-05-18T21:31:32Z",
+      "titleEn": "Elon Musk Loses $150 Billion Suit Against OpenAI and Sam Altman - The New York Times",
+      "titleZh": "埃隆·马斯克 (Elon Musk) 在针对 OpenAI 和 Sam Altman 的诉讼中败诉 1500 亿美元 - 纽约时报中文网",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "New York Times",
+        "OpenAI"
+      ]
+    },
+    {
+      "source": "Bloomberg",
+      "title": "Elon Musk Loses Case Against Sam Altman to Force OpenAI Overhaul - Bloomberg.com",
+      "summary": "Elon Musk Loses Case Against Sam Altman to Force OpenAI Overhaul Bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOU0p2Q3Q3dGh5M3ZhSE9EQlF6MDZ0RGlWcmpKWkdzXzFEa2xVLWM2cGZYQXprdFhFWElwb1FhOEZxazhZOHhoNzB1T2xiRVdJRWdhZnlsWW9ZbVk3bTVCZUM2dDh2T0luUG5jTVFFcUVwWG5TX0tHMF9ySDFJb3hrZ2g5OGp2VUFfVy1PVG9LVFNvSG1sc2thT1dtMTYzSXVZaDVYcDlNdWk3MU43SEx2MjdJaEZEZw?oc=5",
+      "author": "Bloomberg.com",
+      "publishedAt": "2026-05-18T21:23:17Z",
+      "titleEn": "Elon Musk Loses Case Against Sam Altman to Force OpenAI Overhaul - Bloomberg.com",
+      "titleZh": "埃隆·马斯克 (Elon Musk) 败诉萨姆·奥尔特曼 (Sam Altman)，迫使 OpenAI 进行彻底改革 - Bloomberg.com",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Bloomberg",
+        "OpenAI"
+      ]
+    },
+    {
+      "source": "Bloomberg",
+      "title": "AI Chip Startup Tenstorrent Draws Takeover Interest From Intel, Qualcomm - Bloomberg.com",
+      "summary": "AI Chip Startup Tenstorrent Draws Takeover Interest From Intel, Qualcomm Bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxPU2xHOXVuS3QydHdycTRteE15WjV3WGRObUpZdnJpTDlfYWhtZ280TUtXa0hBZVBLdldPTlRZdFQ1SzZsdEdwclVNYjUweDRWZUkzSHA2alpfdmd1ZlM3dTdDd3FwdTZtekZGZlhNSms4Y29nMUtEbld6UnlzVTlqblhrNjdQaW1UdWROWHZ1RDJkXzRwcTlSYno5ci1RMlRoSDNWRVlBV1hzNU80R1VTRlBIc05JcTZpTEdycGprYw?oc=5",
+      "author": "Bloomberg.com",
+      "publishedAt": "2026-05-18T21:19:36Z",
+      "titleEn": "AI Chip Startup Tenstorrent Draws Takeover Interest From Intel, Qualcomm - Bloomberg.com",
+      "titleZh": "AI 芯片初创公司 Tenstorrent 吸引了英特尔、高通的收购兴趣 - Bloomberg.com",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "AI chip",
+        "Bloomberg"
+      ]
+    },
+    {
+      "source": "Wall Street Journal",
+      "title": "Opinion | AI Regulation Needs a ‘Bank Examiner’ - WSJ",
+      "summary": "Opinion | AI Regulation Needs a ‘Bank Examiner’ WSJ",
+      "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE1ONXlEd2xjYjl0N0NNNnIxVmg4MU1MX0RtYUpRTUdIVnJNMk0wVGY1WEE3WVd1ZlVPbm9TQmk5TVBRQWZDdnRMZnU0dTNHZXh5NHVUNXUyMHNyLVlOS1FOR0xKMWl3UmFwZG96VHNwN1BQcDNwQjdxNzEwdUI?oc=5",
+      "author": "WSJ",
+      "publishedAt": "2026-05-18T21:18:00Z",
+      "titleEn": "Opinion | AI Regulation Needs a ‘Bank Examiner’ - WSJ",
+      "titleZh": "意见 |人工智能监管需要“银行审查员” - 华尔街日报",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Wall Street Journal"
+      ]
+    },
+    {
+      "source": "Wall Street Journal",
+      "title": "Move Over CoreWeave, Here Comes Nebius - WSJ",
+      "summary": "Move Over CoreWeave, Here Comes Nebius WSJ",
+      "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTFAxNzAxNV9OdV9lckhWUnNBeExTQ2w0dXY3Y1FSc2Z4NFdRcUZfcG1yS0FHeDZIV0RBSlh1aDc3bi1NZXhrYWtXLW9PNGdYdV9JbGJicGpyN1oyeHNlcnhQd3VLMV9WcWNBWEhBMnZOaTZrYmZfZEY0VmF6RjJ2enc?oc=5",
+      "author": "WSJ",
+      "publishedAt": "2026-05-18T21:10:00Z",
+      "titleEn": "Move Over CoreWeave, Here Comes Nebius - WSJ",
+      "titleZh": "Nebius 取代 CoreWeave - 华尔街日报",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Nebius",
+        "Wall Street Journal",
+        "nebius"
+      ]
+    },
+    {
+      "source": "Bloomberg",
+      "title": "Meta Is Transforming Rural Louisiana With a $200 Billion Data Center - Bloomberg.com",
+      "summary": "Meta Is Transforming Rural Louisiana With a $200 Billion Data Center Bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxPRFBfZktZYmFuZWJkNV9pcTM5b004dllfaUNTel9aakZ5NVhUYkRIZnF0eXJKVEpEcFNvNmM0WTVvNll5c2o1elZURmdHdXkwaTVSUEh1Wm9peGVyRkdUbi03T3cxY3NKXzFEeEFWNWtORnAtOGhjRnlwV1ZreFUxVjczQ2FZQQ?oc=5",
+      "author": "Bloomberg.com",
+      "publishedAt": "2026-05-18T21:00:00Z",
+      "titleEn": "Meta Is Transforming Rural Louisiana With a $200 Billion Data Center - Bloomberg.com",
+      "titleZh": "Meta 正在利用 2000 亿美元的数据中心改造路易斯安那州农村地区 - Bloomberg.com",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Bloomberg",
+        "Meta",
+        "data center"
+      ]
+    },
+    {
+      "source": "Bloomberg",
+      "title": "Baidu Tops Sales Estimates in Endorsement of Agentic AI Pivot - Bloomberg.com",
+      "summary": "Baidu Tops Sales Estimates in Endorsement of Agentic AI Pivot Bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPTzdMTk00NDk4X3B0RVczRWFMOEJuWHRLODVuQW1pTEZtMmNzWXVjM3hxUFdDR0Z1N0xoMGdYM1hHS3d1YkVoUVhUNDU5MV91bU1OQl9oY2NNa1pRR2wtZllIbEgzbmF6VmdDUUZHNHY5aUdWNUpJSi1rd0xQYndWaExaQmhjTU9keFN1ZmE2NUZWMW1GUDBVNmM3a3FuaWJsRVFNa0lpeHp2Q1dLSjNkSVZn?oc=5",
+      "author": "Bloomberg.com",
+      "publishedAt": "2026-05-18T20:08:38Z",
+      "titleEn": "Baidu Tops Sales Estimates in Endorsement of Agentic AI Pivot - Bloomberg.com",
+      "titleZh": "百度支持 Agentic AI Pivot 销量超过预期 - Bloomberg.com",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Bloomberg"
+      ]
+    },
+    {
+      "source": "Reuters",
+      "title": "Key moments in the Musk vs OpenAI trial - Reuters",
+      "summary": "Key moments in the Musk vs OpenAI trial Reuters",
+      "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQcWJ6QW5FVXU1UzdpOExwU1JPTmREQ3JvSVB0TDlQbUdtcGNNZ3cyUldHVEw2c2hXRlZ0SHFMQ1lxUTM0UlUxOXZuWHpOYkNUbl82UlNJTWxyOGd0R0M4SzYtQVR2aDU4T3FMenl2bkpKV2pQLVpDTXFxNC1feUdObHc4UDBhcnp6eFZLMTZB?oc=5",
+      "author": "Reuters",
+      "publishedAt": "2026-05-18T20:03:49Z",
+      "titleEn": "Key moments in the Musk vs OpenAI trial - Reuters",
+      "titleZh": "马斯克与 OpenAI 审判的关键时刻 - 路透中文网",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "OpenAI",
+        "Reuters"
+      ]
+    },
+    {
+      "source": "New York Times",
+      "title": "The Villain of This Year’s Commencement Speeches: A.I. - The New York Times",
+      "summary": "The Villain of This Year’s Commencement Speeches: A.I. The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxON291X181OUN4R3p5SGRZeFRNXzlrUklXTGlkd09OYnJjVDR3ZDU5RDN5Q2FJTjgzRU5GRGNCZXRfSUk3a0ppd2ZMRko1QzFvM2w3R29fWmZGM0QydWR6TVQwaWZUV1ZJbk13cE04S01OOVBJd3lCQ2Z4cFNzdTJLbkk4anl0Ri1HWHpRV01sVDl5MEJjRGc?oc=5",
+      "author": "The New York Times",
+      "publishedAt": "2026-05-18T19:52:52Z",
+      "titleEn": "The Villain of This Year’s Commencement Speeches: A.I. - The New York Times",
+      "titleZh": "今年毕业典礼演讲的恶棍：A.I. - 纽约时报",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "New York Times"
+      ]
+    },
+    {
+      "source": "New York Times",
+      "title": "What to Know About Elon Musk’s Trial Against OpenAI - The New York Times",
+      "summary": "What to Know About Elon Musk’s Trial Against OpenAI The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxOaE16Tk8yOWxVVE91ZjN5YkZReWRLR1FKQ0VaNzExOTZPZktXVkZEeG9raTJ1WDVhXzNZOEtLRTB2bU54Q3RrNGhiYmFjdHlUNlRxd0hxV2g3WURkRDhsYzJIZ2pSQ1IxU2lidDJ1VklTa2liWnVGLVo5TGZObHAzeEl2V2ZfWENoaHpJeQ?oc=5",
+      "author": "The New York Times",
+      "publishedAt": "2026-05-18T19:35:29Z",
+      "titleEn": "What to Know About Elon Musk’s Trial Against OpenAI - The New York Times",
+      "titleZh": "关于埃隆·马斯克针对 OpenAI 的审判需要了解什么 - 纽约时报中文网",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "New York Times",
+        "OpenAI"
+      ]
+    },
+    {
+      "source": "Bloomberg",
+      "title": "Nvidia’s CEO Sees China Opening Market to AI Chips From US - Bloomberg.com",
+      "summary": "Nvidia’s CEO Sees China Opening Market to AI Chips From US Bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNcHFnZHNZYjZkSXpjRXFQV3ZJbEZva3V2di1WNUZ6clVxbUZSckdrTDF1OGxiaS1ubjdPemxqejVXY3FmQnFZbFM0RV9SRzhQS1BSZkZ5N3VrcDhicW5MNU5ZYnZUZWpQYUV3TTU0Wk5BYTNSWnB4OXRpRE1YZWtXcTBkc0FHMUNxT29lME9pcUVSMXg0cU15U1dMMjh5bnlxakNXNEhEX2VxLU93UkRvX2ZjUVl0dw?oc=5",
+      "author": "Bloomberg.com",
+      "publishedAt": "2026-05-18T19:25:18Z",
+      "titleEn": "Nvidia’s CEO Sees China Opening Market to AI Chips From US - Bloomberg.com",
+      "titleZh": "英伟达首席执行官认为中国将向美国人工智能芯片开放市场 - Bloomberg.com",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Bloomberg",
+        "Nvidia"
+      ]
+    },
+    {
+      "source": "Reuters",
+      "title": "NextEra plans to buy Dominion Energy for $66.8 billion, form biggest US power company as AI demand booms - Reuters",
+      "summary": "NextEra plans to buy Dominion Energy for $66.8 billion, form biggest US power company as AI demand booms Reuters",
+      "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNeVVIYTNmN0FtUHgyakFHYkFyTjNpQTJ5TDdzbHJILXl5cWxZU1AtSGF0eUt3VEN4TmlVSTdrRzQxT0twYUtzTnFmb2lNbEE3c292ek9uN1JERTI3b0RIeTN3T1M3X3VlUlVER1lWbUVxcDFfaGJrb2dxNHNyZk9zWlhZTk5MaGs1WHQ5WU14clVKcHdKTmFUSEhma0w4eGpJVWpaSjNIYXQtdw?oc=5",
+      "author": "Reuters",
+      "publishedAt": "2026-05-18T19:10:42Z",
+      "titleEn": "NextEra plans to buy Dominion Energy for $66.8 billion, form biggest US power company as AI demand booms - Reuters",
+      "titleZh": "NextEra 计划以 668 亿美元收购 Dominion Energy，随着人工智能需求的蓬勃发展组建美国最大电力公司 - 路透中文网",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Reuters"
+      ]
+    },
+    {
+      "source": "Reuters",
+      "title": "Nvidia CEO says he believes China market will open over time - Reuters",
+      "summary": "Nvidia CEO says he believes China market will open over time Reuters",
+      "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPdnVDbVBRcmJCcE5ZVGZXRVA0ejdJM3dBN2l5VUFvT3cyS3Bnbk5pZ0FCWHJ1aDEzTEh1QVJ5d0lMeERrMnlCWndmSlJJeld5bGNqTEhMaHo0VlMyaC1fak1VdXpkRXU3cFl2TzFTR3FhVWNSTG9Ed3VGekNyUU80Q2F0ZjB0QlJONzMzWmxmZHk1RlRKcmw4WWVPMU1Gb21Jd1NYMDl1dGVFWmdP?oc=5",
+      "author": "Reuters",
+      "publishedAt": "2026-05-18T18:56:27Z",
+      "titleEn": "Nvidia CEO says he believes China market will open over time - Reuters",
+      "titleZh": "英伟达首席执行官表示，他相信中国市场将随着时间的推移而开放 - 路透中文网",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Nvidia",
+        "Reuters"
+      ]
+    },
+    {
+      "source": "Bloomberg",
+      "title": "Apple Readies AI Writing Help, App Shortcuts and Wallpapers for iOS 27 - Bloomberg.com",
+      "summary": "Apple Readies AI Writing Help, App Shortcuts and Wallpapers for iOS 27 Bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPeXdYbk9wZEROajA4bmRjRUY4SW82OHM3Y3JzOU43dkVQQ1NKOGNkbjV1bmE2dGpxR3Q2UTBFak5yeDY0aDNZR2E1YjZTZzJKWks4MzExX3FraXNmN0lGZzB4Q2VwaUtZcld3Nzc5Q2VVYkc2dTlkVDNEVmh1N0t5V202OTFHMW9tWnpzR292NmJzMWstM0RZVGJiRmloOHJ0VDNycXEwTHlpRnpVeWpDcld5UzhFLUJOeUdGeWk3UjY?oc=5",
+      "author": "Bloomberg.com",
+      "publishedAt": "2026-05-18T17:29:04Z",
+      "titleEn": "Apple Readies AI Writing Help, App Shortcuts and Wallpapers for iOS 27 - Bloomberg.com",
+      "titleZh": "Apple 为 iOS 27 准备了人工智能写作帮助、应用程序快捷方式和壁纸 - Bloomberg.com",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Bloomberg"
+      ]
+    },
+    {
+      "source": "Reuters",
+      "title": "OpenAI says ChatGPT is not a lawyer, asks court to toss insurer's lawsuit - Reuters",
+      "summary": "OpenAI says ChatGPT is not a lawyer, asks court to toss insurer's lawsuit Reuters",
+      "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxQQTRrWjFIZ2JTd0g5Wjlyc29wN1hKRXRGRW9DdWc5SzI1LW9WLXlIVjFUMHM3aUVuREFaOS1OTWdCT0ZHM2tsZVNpaURPb0dIcndCcnZMeWJfQk1ORjFIRzJ1ek1XTy1TNHBIazVILWlIc2N4VjMydU04TUZodFMzNzczS091dlNtWlVxX1owUWtUY2lieUQxMFpheXo1TkZsTlZUMWNfLW1vdE9JUkVXV3VEc0I4NGNHZVZZeGp6VQ?oc=5",
+      "author": "Reuters",
+      "publishedAt": "2026-05-18T17:08:45Z",
+      "titleEn": "OpenAI says ChatGPT is not a lawyer, asks court to toss insurer's lawsuit - Reuters",
+      "titleZh": "OpenAI 称 ChatGPT 不是律师，要求法院驳回保险公司诉讼 - 路透",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "OpenAI",
+        "Reuters"
+      ]
+    },
+    {
+      "source": "Bloomberg",
+      "title": "Dell Adds 1,000 Clients for AI Gear, Targets Corporate Users - Bloomberg.com",
+      "summary": "Dell Adds 1,000 Clients for AI Gear, Targets Corporate Users Bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNMldVUUZ3VEpMTXhhVHBWWlNNZGdZVy1CX21EMzBLdHM2eTRXTlg1Wjc5a3pGbF9rZHRhSWtPcnJ4a1A0UVJXMDdaeVZhRlRaRXBmc2hzOFJId3NDdDV0aVp1YmVESlViVlFLdjRCYUEyS1R4VGowM24zTm9sQ3JPUl9JUGJHRFNNZFVpa0Q2QUowUEhzT3dJal96SXl3bUJIN2xlT0xNaWFaaVNxRklBRDdscmR3Zw?oc=5",
+      "author": "Bloomberg.com",
+      "publishedAt": "2026-05-18T16:45:00Z",
+      "titleEn": "Dell Adds 1,000 Clients for AI Gear, Targets Corporate Users - Bloomberg.com",
+      "titleZh": "戴尔为 AI Gear 添加 1,000 个客户端，瞄准企业用户 - Bloomberg.com",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Bloomberg"
+      ]
+    },
+    {
+      "source": "Bloomberg",
+      "title": "Anthropic Sends Jolt Through Market for Buying Shares in Hot Pre-IPO Startups - Bloomberg.com",
+      "summary": "Anthropic Sends Jolt Through Market for Buying Shares in Hot Pre-IPO Startups Bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxNS1kxLVlkdXpWSUY0LWpUMjh5U05OM2YtZjY2T0kwRENKQnpRZXVmQzlGQzRDYzAxdlk3VXNubkRmWkNINGtMYlJQZFNpblBDSkVYOXd1R3I5dExJbDhJRURVWTNjaDE2UC1mMy1MWlR0Z3lEVGY5czE5OTZXekQ5OVVjbGpLdUlRclp5TlFOMUVHTzV4N01ZQlBhRERWSU5tZzZVeGYyUE1LT0FfaDdVdldVb0xScy1FNHFBaDVQM2lnakUwNDd1NlAwZmZ2bkRfSEhFalRVWQ?oc=5",
+      "author": "Bloomberg.com",
+      "publishedAt": "2026-05-18T16:44:19Z",
+      "titleEn": "Anthropic Sends Jolt Through Market for Buying Shares in Hot Pre-IPO Startups - Bloomberg.com",
+      "titleZh": "Anthropic 购买热门上市前初创公司股票引发市场震动 - Bloomberg.com",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Anthropic",
+        "Bloomberg"
+      ]
+    },
+    {
+      "source": "Bloomberg",
+      "title": "NextEra’s $118 Billion Deal Will Define the AI Power Boom - Bloomberg.com",
+      "summary": "NextEra’s $118 Billion Deal Will Define the AI Power Boom Bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxOT1FtM1NDU1JmellMeWg0NmtyQXRENzhLbUtJbEhSRjFsVWd5cS14OGJ4NzJ3T3BsZVhwejNjWVg1N1RrQ2xUODRsUWRianM0MnE4ZkltR3EtSVRHLWphNy0zMG82MW4weW5XLUtGeW1fcWlJS0xYT21XM01uX0hoUGxlRXRQN0s5Q045NTYyVUV6bEFfMVVMdHIySFNDUXJyX3V0NmtycTZHNG94dVFz?oc=5",
+      "author": "Bloomberg.com",
+      "publishedAt": "2026-05-18T16:40:19Z",
+      "titleEn": "NextEra’s $118 Billion Deal Will Define the AI Power Boom - Bloomberg.com",
+      "titleZh": "NextEra 1180 亿美元的交易将定义 AI 力量的繁荣 - Bloomberg.com",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Bloomberg"
+      ]
+    },
+    {
+      "source": "New York Times",
+      "title": "NextEra Energy to Acquire Dominion, Creating a Utility Giant - The New York Times",
+      "summary": "NextEra Energy to Acquire Dominion, Creating a Utility Giant The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE1VNllENWc2ZVFtdUZHX3E3aGZRWTAzV1lnQXp4OXpZYzV4QUNBSE9LM2ZhZTR0VzAxU3lHOEdmR0hBSXBGUGVKMGxfWk15cmxpSi1NakJkdEMxX1R0SEhBMFV1ZDB5SnZTNWdoUldiM3d2bnJEaXRXT1VB?oc=5",
+      "author": "The New York Times",
+      "publishedAt": "2026-05-18T16:23:00Z",
+      "titleEn": "NextEra Energy to Acquire Dominion, Creating a Utility Giant - The New York Times",
+      "titleZh": "NextEra Energy 收购 Dominion，打造公用事业巨头 - 纽约时报中文网",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "New York Times"
+      ]
+    },
+    {
+      "source": "Wall Street Journal",
+      "title": "Amazon Web Services CEO Pushes Back on AI Job Apocalypse Warnings - WSJ",
+      "summary": "Amazon Web Services CEO Pushes Back on AI Job Apocalypse Warnings WSJ",
+      "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOYlMtelBFc2ZQMGJFSFZCZ2lDY0l4MFFNRjlrOG8wR2Iza25kdnhhYWNLR3hQN1dDNGZlamViZHBXclBhS1o4MnVUdHpCdEdWQXcwb1ZBd054YmplV2ZZWTJOTFZLc0NzOFNISEkyaTZyQWFkTHpVSHBYeUlBYlh6N0FLWHo4ZFZvVWJiRTRfWEVmY1d1dFNFdTVKTlBFUnFOQlhzUw?oc=5",
+      "author": "WSJ",
+      "publishedAt": "2026-05-18T16:04:00Z",
+      "titleEn": "Amazon Web Services CEO Pushes Back on AI Job Apocalypse Warnings - WSJ",
+      "titleZh": "亚马逊网络服务首席执行官反驳人工智能就业启示录警告 - 华尔街日报",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Amazon",
+        "Wall Street Journal"
+      ]
+    },
+    {
+      "source": "Bloomberg",
+      "title": "NextEra-Dominion Deal Signals New Era of AI Utility Mega-Mergers - Bloomberg.com",
+      "summary": "NextEra-Dominion Deal Signals New Era of AI Utility Mega-Mergers Bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNSE5sQ3VacURCcDFvV0ZFV01XcVhOX3R2RlA1UlhRNFFYQk5UdmhVT1Y3TEdNeUNvQjZBRDlYTzFINnRla1pXSFd4TVBaS1JQaFFhU3NFRHNKdkgxNEpQSEVuamtxLWZQUlpyUWI3TzBlamNIcFNSd05HbFpDTHpIeVROTkJKcDF0ajR4Z29KQ1BLLXhNQmlYejFXSGlJN0lzcm5DM0xWX3Jac01jNThjZE9YNXFuQQ?oc=5",
+      "author": "Bloomberg.com",
+      "publishedAt": "2026-05-18T15:56:25Z",
+      "titleEn": "NextEra-Dominion Deal Signals New Era of AI Utility Mega-Mergers - Bloomberg.com",
+      "titleZh": "NextEra-Dominion 交易标志着人工智能公用事业大型合并的新时代 - Bloomberg.com",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Bloomberg"
+      ]
+    },
+    {
+      "source": "Reuters",
+      "title": "Brazil's Omnia, Casa dos Ventos sign $2 billion energy deal for TikTok data center - Reuters",
+      "summary": "Brazil's Omnia, Casa dos Ventos sign $2 billion energy deal for TikTok data center Reuters",
+      "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxQem9heS1UbWpHTmljeGdvVFFMMHAza2JCVDg2cWFLTmw5SDhCNEljZmxDUEtqczRsT1NtTWFqQVoyZVoxNTdnbnl1RzJmYlU5anNNb3NoQUZXSU4yOFlFLVpxeEhjVlg5aDVxTHoxWjRJYjV6NWoyTWxnclBBVjFXQUJnbEhHa2s1XzNISENnYllxYzhkQkM4aThpQmVFNF9aNl9xV1VEcVpKRy04T2VpUGxJM0M2dnVLX0toVThCZlBGSTJ5ZGc?oc=5",
+      "author": "Reuters",
+      "publishedAt": "2026-05-18T15:20:48Z",
+      "titleEn": "Brazil's Omnia, Casa dos Ventos sign $2 billion energy deal for TikTok data center - Reuters",
+      "titleZh": "巴西 Omnia 与 Casa dos Ventos 签署价值 20 亿美元的 TikTok 数据中心能源协议 - 路透中文网",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Reuters",
+        "data center"
+      ]
+    },
+    {
+      "source": "Reuters",
+      "title": "Battery storage firms eye AI demand but face grid, supply hurdles - Reuters",
+      "summary": "Battery storage firms eye AI demand but face grid, supply hurdles Reuters",
+      "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPdlEzaGl5VnJfNXJEQVhRQWVTOUlUNU5XSkFUOFo1SU5WUkdPYU16RmVsNUZfcF9xUFRTOE1zWC1nNlEwUlk2UXl6NDNaY1ZSamRWaGJuWGV2U285dF9ZczJTS2lxRGNmYWtWS0ozX3pUV1pRazN3c1I2LVhkR1pfQ21XMXNIbzlvN3ZQZ1ZHRnd3RWh6bTlIVkFqZ1lObVdpQ1FxckJ1b3NSdlVJVTdnQU93?oc=5",
+      "author": "Reuters",
+      "publishedAt": "2026-05-18T15:18:37Z",
+      "titleEn": "Battery storage firms eye AI demand but face grid, supply hurdles - Reuters",
+      "titleZh": "电池存储公司关注人工智能需求，但面临电网和供应障碍 - 路透中文网",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Reuters"
+      ]
+    },
+    {
+      "source": "Reuters",
+      "title": "Global centres in India slow hiring as AI reshapes work, ANSR CEO says - Reuters",
+      "summary": "Global centres in India slow hiring as AI reshapes work, ANSR CEO says Reuters",
+      "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxPWHJuRUE5U1lDaFhsMVdfbVd0NUplb1MtazhjWDJEUmhtdlRaUW1na0JDdzJuay1TWk9PZ1o4RE9VdVhjSzhEbWR3NUg3eXlQc1pCZzdCUkJjdWhINFg0Y3lwUTJDUFN1ak44QURQc0tWaXQzY0oxck9kTk1zWVZ1OFZBWm9ibHU1MkdIeUtIVW1US0ZMWDFUck9nUFRZSkVoMzFmRi1SZUtPdHo2MkVuY3Z0VExyWXBwbnYzbTlEOA?oc=5",
+      "author": "Reuters",
+      "publishedAt": "2026-05-18T15:12:24Z",
+      "titleEn": "Global centres in India slow hiring as AI reshapes work, ANSR CEO says - Reuters",
+      "titleZh": "ANSR 首席执行官表示，随着人工智能重塑工作方式，印度的全球中心放缓了招聘速度 - 路透中文网",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Reuters"
+      ]
+    },
+    {
+      "source": "Wall Street Journal",
+      "title": "France’s Publicis to Acquire LiveRamp for $2.55 Billion in AI Push - WSJ",
+      "summary": "France’s Publicis to Acquire LiveRamp for $2.55 Billion in AI Push WSJ",
+      "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPUTBhSEhrRG0za2p3ZkhXMXBGd2Z1cWN4MUdvRjB4SDNiTGRjUko3ZjBSUW5QdFZVeGhhbVNXTWlKeGdNdjVrTGVBMVRoT2tGWTZfNktnWkZEWDhlOGduUUlCVW5WX0ZRSlBEdlFfazN0d2xyM2lqcjZ0dWtNZTkxVzQ1WXdzcm9USmQydlBINVJLbkgtNDFlN1p0bkduSXFuRDZXZnpjVlM2VmRE?oc=5",
+      "author": "WSJ",
+      "publishedAt": "2026-05-18T13:23:00Z",
+      "titleEn": "France’s Publicis to Acquire LiveRamp for $2.55 Billion in AI Push - WSJ",
+      "titleZh": "法国阳狮集团将以 25.5 亿美元收购 LiveRamp 进军人工智能领域 - 华尔街日报",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Wall Street Journal"
+      ]
+    },
+    {
+      "source": "Reuters",
+      "title": "Pope Leo to address rise of AI in first major text on May 25 - Reuters",
+      "summary": "Pope Leo to address rise of AI in first major text on May 25 Reuters",
+      "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNa185T205VjBkUXY4VUZBc2VaLVZoUjhjdjZTZEdaOFNpbXVNN0dHR21HZHRfS196blE1c0VubWREdDZqU1RZUlJieVJ5TjVrOVBhdllQZGZBYWtOWnotd2Znbnp4QWFiX29ERER4RlUzaEs1c2JaOXBmZlgzYXk0Vjhwel9tdUJ5SWk5aURUeHd5OGdnMGp1bnVNMU1kUGt4OFpz?oc=5",
+      "author": "Reuters",
+      "publishedAt": "2026-05-18T13:13:32Z",
+      "titleEn": "Pope Leo to address rise of AI in first major text on May 25 - Reuters",
+      "titleZh": "教皇利奥将于 5 月 25 日在第一份重要文本中讨论人工智能的崛起 - 路透中文网",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Reuters"
+      ]
+    },
+    {
+      "source": "Bloomberg",
+      "title": "Anthropic’s Co-Founder to Launch Encyclical on AI With Pope Leo - Bloomberg.com",
+      "summary": "Anthropic’s Co-Founder to Launch Encyclical on AI With Pope Leo Bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQNmItWFlscGtJOERBak1nWFE2X1NPYUhkRUlaUVJUdUZ3cnE5ZFZXUFVxUWJrX2tIVWFCRDZjV3pXRjBLSGVLc1pvRUt6Qi04V0hRQ3JXWWt0QV95cmFNeDBLVXdtdjNaanNocUM0blVuZDNBVnl1SHNfak83MmlhSW5KU2ROSGpGUDFoZU85UkNzVlR5Nm1PSFNPLXBSZVRvR0QzUS1zVC1BRDk0R29xM2oyYkU?oc=5",
+      "author": "Bloomberg.com",
+      "publishedAt": "2026-05-18T13:09:02Z",
+      "titleEn": "Anthropic’s Co-Founder to Launch Encyclical on AI With Pope Leo - Bloomberg.com",
+      "titleZh": "Anthropic 联合创始人将与教皇利奥一起发布人工智能通谕 - Bloomberg.com",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Anthropic",
+        "Bloomberg"
+      ]
+    },
+    {
+      "source": "Wall Street Journal",
+      "title": "Exclusive | Startup Makes Switching AI Chips Easier—and Nvidia Is a New Investor - WSJ",
+      "summary": "Exclusive | Startup Makes Switching AI Chips Easier—and Nvidia Is a New Investor WSJ",
+      "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxPQzEzU191bU5EM3BOX3JESTlYZWRYY3FRVmNfcDBNNGJ6MW9qMXoxeWFKbmFrSmxZRUJXUzFzRWozNjRRSklIMTJLRzFNMXNzSjMwMmlIYXhrLU04MmpmV3dxd3Z1NGtsNTkweWd3cUZZOEhBWklIM1lUSFJyVHB4TzZLQnd1YUtPVlptYnQ5dW5UTi0yc1hRN2dnSktIdzc5bjFnYlhMUQ?oc=5",
+      "author": "WSJ",
+      "publishedAt": "2026-05-18T13:01:00Z",
+      "titleEn": "Exclusive | Startup Makes Switching AI Chips Easier—and Nvidia Is a New Investor - WSJ",
+      "titleZh": "独家|初创公司让更换人工智能芯片变得更容易——英伟达成为新投资者 - 华尔街日报",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Nvidia",
+        "Wall Street Journal"
+      ]
+    },
+    {
+      "source": "Bloomberg",
+      "title": "Google’s Own AI Researchers Jockey for Access to Its Computing - Bloomberg.com",
+      "summary": "Google’s Own AI Researchers Jockey for Access to Its Computing Bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNT2NtVHlibkxtY2VCelJDMVlQMDBOYWItNTg4RTdnZnB6UG5YSVhLZHNZQ2tmdUhGOGJ1SHgyQ2laVVdybnlINHlwTjJTbUJEVFg1LTBOQTBabU1jWE5WQ1ZtV3BhZzdXZHZkSGxLUDhSam1wbk9CNVJTU2xuUkx4RUlqMXBMVjltcEd3bTczUzU1NWZXRGw0RVkyWGtoOVEzYnBXeHUxVXg4cnhNYlJTRWNkVQ?oc=5",
+      "author": "Bloomberg.com",
+      "publishedAt": "2026-05-18T12:45:11Z",
+      "titleEn": "Google’s Own AI Researchers Jockey for Access to Its Computing - Bloomberg.com",
+      "titleZh": "谷歌自己的人工智能研究人员争夺其计算资源 - Bloomberg.com",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Bloomberg",
+        "Google"
+      ]
+    },
+    {
+      "source": "Wall Street Journal",
+      "title": "Your Work Team Is Now a ‘Pod’ and Your Co-Workers Are AI Agents - WSJ",
+      "summary": "Your Work Team Is Now a ‘Pod’ and Your Co-Workers Are AI Agents WSJ",
+      "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOY1Zscnh1aUxSWHpaeTRrZERPMWpLQVNKQ2lORFBOd3RQNjNoRHJBOFBLMWc4V3FyUE4yeFNKSzVHQVFpQVRuVWpVQU5wM001Vko5TDNFZnZ6OGZldVk3bTU0YkJ0SFhEZFZ2WGpKX0xwUUpIazNITXExeWpuXzhUbWZxMW05X1Z4MkNKR1p1aHB4SmVZRnUwVFVnWkVLRjloa3hTbA?oc=5",
+      "author": "WSJ",
+      "publishedAt": "2026-05-18T12:00:00Z",
+      "titleEn": "Your Work Team Is Now a ‘Pod’ and Your Co-Workers Are AI Agents - WSJ",
+      "titleZh": "你的工作团队现在是一个“Pod”，你的同事是人工智能代理 - 华尔街日报",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Wall Street Journal"
+      ]
+    },
+    {
+      "source": "Wall Street Journal",
+      "title": "Baidu’s Profit Slides Again Amid Slow AI Payoff - WSJ",
+      "summary": "Baidu’s Profit Slides Again Amid Slow AI Payoff WSJ",
+      "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQUy1Fb0JoRDFtZVBSSW5NMzh6Z1JTd1UzRlNrNGhKSWwwY3dPZFBiZ1VlY2FhZ0t3Vm8wTjdrdWJxV2hXc2FNUjZGWjhTMnhRbXRucDk5bnRXQ28tMlFaSEhUQmVZT2dyOTZoZjBWNjd3d1RWdDRGM0gxS3ZTcUxrSmpZeTdwN2E2d3dGYVdqVDdrZWlEU04taw?oc=5",
+      "author": "WSJ",
+      "publishedAt": "2026-05-18T11:03:00Z",
+      "titleEn": "Baidu’s Profit Slides Again Amid Slow AI Payoff - WSJ",
+      "titleZh": "人工智能回报缓慢，百度利润再次下滑 - 华尔街日报",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Wall Street Journal"
+      ]
+    },
+    {
+      "source": "Reuters",
+      "title": "Morning Bid: Bonds spoil the AI party - Reuters",
+      "summary": "Morning Bid: Bonds spoil the AI party Reuters",
+      "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPYm1yRVZ2ZGgxUWRTbVZFZG1xUmd5QXhfSTgxQktjX3R5WGQwS3ZXVzBNbW41RDBQeWVWV0huMTQwLUMtYzMyN2MzZzN1LUZmbjY1ZmVGX3M1NlZtc3d0NlM3eWF4X2g2eHRjZXU4bVI4Y0ZfZXJkZGZNeU1UTGtuUUFSdjVhNDB2SkZSSHVtYk95azFOZmR3?oc=5",
+      "author": "Reuters",
+      "publishedAt": "2026-05-18T10:43:19Z",
+      "titleEn": "Morning Bid: Bonds spoil the AI party - Reuters",
+      "titleZh": "早盘竞价：债券破坏人工智能派对 - 路透中文网",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Reuters"
+      ]
+    },
+    {
+      "source": "Bloomberg",
+      "title": "Can AI Drug Development Live Up to the Hype? - Bloomberg.com",
+      "summary": "Can AI Drug Development Live Up to the Hype? Bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNak5Yd05zdGV4RFktMVhYSHNvQVdSWVo5YVhUWHBTbXY1TmVhUjdiUUw1ekZCVHVyWVNxZzFfM3VsQ2I3STluLXQ2VThjelREM3RfVWl3UmlaRThnaEc1dmh6Q296b0lBdTZBVTZhaFdnNHNuNEVKWF9zbjQ0OWYwSmlXdTRnNTk2ZjZfNEFqQ0ZsX05DZGsyTDlR?oc=5",
+      "author": "Bloomberg.com",
+      "publishedAt": "2026-05-18T10:00:14Z",
+      "titleEn": "Can AI Drug Development Live Up to the Hype? - Bloomberg.com",
+      "titleZh": "人工智能药物开发能否达到宣传的效果？ - 彭博社",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Bloomberg"
+      ]
+    },
+    {
+      "source": "New York Times",
+      "title": "The Courtroom Showdown Between Elon Musk and Sam Altman - The New York Times",
+      "summary": "The Courtroom Showdown Between Elon Musk and Sam Altman The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxOdi1GdGhTdzRzeWZpSkhLX0VjdzB1dEVsZS1WMXdKNWJETGZCNElJVUUxdUNpVVNzcWZJNVFkQ3F2czd4SDdoMkVKRWh2Ni15Q2NWSS1GN0thRElCOEVyODByYnBXWVQ4UW1YZnowNm9QMDVHWlVFU1o1Q2pWSDdrNWJRVlVIOTd2dG5scUhB?oc=5",
+      "author": "The New York Times",
+      "publishedAt": "2026-05-18T10:00:12Z",
+      "titleEn": "The Courtroom Showdown Between Elon Musk and Sam Altman - The New York Times",
+      "titleZh": "埃隆·马斯克和山姆·奥尔特曼的法庭对决 - 纽约时报中文网",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "New York Times"
+      ]
+    },
+    {
+      "source": "Bloomberg",
+      "title": "I Have Seen the Future of Physical AI in Dusty West Texas - Bloomberg.com",
+      "summary": "I Have Seen the Future of Physical AI in Dusty West Texas Bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOOWdHZ3NTZGQxOVk4VEo3dU0wdVpFckhzYmNqZUQwNG5mNGFDVFNDXzdicGZBRi1ZLXE1NHRsRXdsVEpwWTBoaXlBUUVMdW94Sk5LMFBPZkRzLW53UlhqekhnNktqZnNkejlhMFlrRllnOHJ2b2ZFOTVNZ3RrOWdFcENBQlNRREVQLUxkclhCUkJOTUxRVFFHMFk2aENkWkdsSnMwSU9fMkZDZ2V0VWIwQg?oc=5",
+      "author": "Bloomberg.com",
+      "publishedAt": "2026-05-18T10:00:11Z",
+      "titleEn": "I Have Seen the Future of Physical AI in Dusty West Texas - Bloomberg.com",
+      "titleZh": "我在尘土飞扬的德克萨斯州西部看到了物理人工智能的未来 - Bloomberg.com",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Bloomberg"
+      ]
+    },
+    {
+      "source": "Bloomberg",
+      "title": "DraftKings, Meta, AI Firms Have a New Election Playbook: Flood State-Level Races With Cash - Bloomberg.com",
+      "summary": "DraftKings, Meta, AI Firms Have a New Election Playbook: Flood State-Level Races With Cash Bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxOVjgxY2dod3NaakwyVnFlNVhsdWhVaXRmamlsRmN2a3FOM19rRFdRUlh0bFFacG9XYUQ5YVN6U0h3ME12dDdDbUN4X1ZvNklQT0N4bVpNem1kckpBZk91ZGxwYndEakdITHpXbUFzdmh2emh5RXRaNWt0d3VDemZYZktSTGR3U1ozVlp6QjZwZTBvZnVRalk2R1o1eTdSenlHVThxZkhnVHBRR1pZdkZhZkNRUk52cVBxZWwzZTk0QzhiN3dXRUNubQ?oc=5",
+      "author": "Bloomberg.com",
+      "publishedAt": "2026-05-18T09:30:15Z",
+      "titleEn": "DraftKings, Meta, AI Firms Have a New Election Playbook: Flood State-Level Races With Cash - Bloomberg.com",
+      "titleZh": "DraftKings、Meta、人工智能公司制定了新的选举策略：用现金淹没州级竞选 - Bloomberg.com",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Bloomberg",
+        "Meta"
+      ]
+    },
+    {
+      "source": "Wall Street Journal",
+      "title": "The Academic Scramble to Prepare Future Accountants for AI - WSJ",
+      "summary": "The Academic Scramble to Prepare Future Accountants for AI WSJ",
+      "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNVGw4RHJZdFZIWG5sR1ZHeXhDRWdrRHpoMjFSbVlRcG5SWWJscV9zcm1ZNm1UaWVEUUVUbGhOVlhKd00teDdvcFZuUlJSdXZUNlpoMnRZUGV6WXlpMkFJNjRNbkpOS192dlI4eGhWLTdkMzBPUjBmdU9zRjJlU0JIcTBiUV9LM29jOXF3a0RqUkdCZVk4ODZLTzBMVG9MNWJv?oc=5",
+      "author": "WSJ",
+      "publishedAt": "2026-05-18T09:30:00Z",
+      "titleEn": "The Academic Scramble to Prepare Future Accountants for AI - WSJ",
+      "titleZh": "为未来会计师做好人工智能准备的学术争夺战 - 华尔街日报",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Wall Street Journal"
+      ]
+    },
+    {
+      "source": "New York Times",
+      "title": "Opinion | Tech Workers Have Fears About A.I., Too. They Can Do Something About It. - The New York Times",
+      "summary": "Opinion | Tech Workers Have Fears About A.I., Too. They Can Do Something About It. The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE1Kc1VfbTVOXzdTeVBIcGU5RkNUR2JEY3FMVkF5VDZnZXlvcXBMa3QxTVFBZ05Sbk05NkJWT1UwRDZJS0FNLXhYTGU2dG4xNTJWa0ktQkRLQTVnRC1NR1dCYS1JamlMXzVodnJXdTlKdnNSR1ZvN3lDY3A4LTBQZw?oc=5",
+      "author": "The New York Times",
+      "publishedAt": "2026-05-18T05:00:05Z",
+      "titleEn": "Opinion | Tech Workers Have Fears About A.I., Too. They Can Do Something About It. - The New York Times",
+      "titleZh": "意见 |科技工作者也对人工智能感到恐惧。他们可以做点什么。 - 纽约时报",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "New York Times"
+      ]
+    },
+    {
+      "source": "Reuters",
+      "title": "Anthropic to brief global financial watchdog on cyber flaws exposed by Mythos, FT reports - Reuters",
+      "summary": "Anthropic to brief global financial watchdog on cyber flaws exposed by Mythos, FT reports Reuters",
+      "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPaE96UFNSbUJBTS12SUdiU3NZTHNiVU92TmNuZVhuOHQwSFFnQngtZjQ4Qi04WTN1T1lzU2RlLUFEZnZBQlFNVnlpZzIwdDdsM29TVks5aVpiTUkxZkdLVndheWxmLU51TXFwSWFRb1EtRFhNMDRUc3FDZUUzZExiUDlLbklWa3V1dFRrUUFNcGZxWE1CN0dFTlprS1JwUFBxZzJpb2Rhdm54aTl5TXZGNWdGeE9vSEUzdzdsZGd3?oc=5",
+      "author": "Reuters",
+      "publishedAt": "2026-05-18T04:18:00Z",
+      "titleEn": "Anthropic to brief global financial watchdog on cyber flaws exposed by Mythos, FT reports - Reuters",
+      "titleZh": "据英国《金融时报》报道，Anthropic 将向全球金融监管机构通报 Mythos 暴露的网络缺陷 - 路透",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Anthropic",
+        "Reuters"
+      ]
+    },
+    {
+      "source": "Reuters",
+      "title": "Stocks mostly ease with tech shares while oil prices climb to two-week high - Reuters",
+      "summary": "Stocks mostly ease with tech shares while oil prices climb to two-week high Reuters",
+      "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxQdEhBcUJIcDBQemM0MHNJWmFZT29Qc0JIT3RSR2ZFTTZKdGJjSVJnendPNGVSdm9ES2VJRmx3MEJIM1I4MC10ZVBQMHBsVEFKVUI3UXlOd1dnZ2h6c3lzbjdPX1N3ckNWSll5ei1pVjcwUkRaQ3dRYUlxclA4Z21RQ19qYw?oc=5",
+      "author": "Reuters",
+      "publishedAt": "2026-05-18T00:26:00Z",
+      "titleEn": "Stocks mostly ease with tech shares while oil prices climb to two-week high - Reuters",
+      "titleZh": "科技股大多走低，而油价攀升至两周高点 - 路透中文网",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Reuters"
+      ]
+    },
+    {
+      "source": "Bloomberg",
+      "title": "Watch Nvidia CEO Huang Sees Demand for Memory Outpacing Capacity - Bloomberg.com",
+      "summary": "Watch Nvidia CEO Huang Sees Demand for Memory Outpacing Capacity Bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQRE9DRjhraUtvLU9XazNFSEdBT1NwSzFfSnFxVUgwaTdQY1gwZDlUN1dPWGw0VVN5WWdqeGZMRVlFY2RhNWdGcHNKNG5sYjMxeVpIVWxFemowNUJSWmZIdVZPaW9sX2p4NU1aRW1KY3BwemZ5T2xpdFpmMHlpeDZTN1l3NFRFOW1NcG5EZER4WUtjMVQtdkF4cmFKN2RIeEhRSk5BREhaYnJDZGwxbXgyTA?oc=5",
+      "author": "Bloomberg.com",
+      "publishedAt": "2026-05-18T00:00:00Z",
+      "titleEn": "Watch Nvidia CEO Huang Sees Demand for Memory Outpacing Capacity - Bloomberg.com",
+      "titleZh": "Nvidia 首席执行官黄仁勋认为内存需求超过容量 - Bloomberg.com",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Bloomberg",
+        "Nvidia"
+      ]
+    },
+    {
+      "source": "Bloomberg",
+      "title": "Watch IREN CEO: Have Great Relationship With Dell and Nvidia - Bloomberg.com",
+      "summary": "Watch IREN CEO: Have Great Relationship With Dell and Nvidia Bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxONlhVS1JiaVRmU1pwUUljQUxMckw0THRncDlEYkRZQ3FEbjNHWmxNa2NQQUYwM3F1aUxRMUI0T09iMV82ZzdmRlVRNFZ3c1ZzT0FPLXFvT3RpcTBGc1I4ZUY3bWRWalBwb0ZRWjVLYURnN3NmcWdsc3Rlck9KODJKMWQxTWQ0cWkyWTJuMGloX3JaNjJIWGQtUW1ubVVlZ2xCYkhHeHd3OHBDbllL?oc=5",
+      "author": "Bloomberg.com",
+      "publishedAt": "2026-05-18T00:00:00Z",
+      "titleEn": "Watch IREN CEO: Have Great Relationship With Dell and Nvidia - Bloomberg.com",
+      "titleZh": "观看 IREN 首席执行官：与戴尔和 Nvidia 有着良好的关系 - Bloomberg.com",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Bloomberg",
+        "Nvidia"
+      ]
+    },
+    {
+      "source": "Wall Street Journal",
+      "title": "Who Owns the Future of AI? - WSJ",
+      "summary": "Who Owns the Future of AI? WSJ",
+      "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE84WlU2dUpIa3ZJRVlIQVpuU2JjQUp1S0k3ekZEbHNUSWpSRnZmNno3dTNnT1NHNnFIaWlGQjV5VHdacHpWMmRhOGo1ZDk5REZqUGY1emJVVmotWFZvQ0xqSzJtVDhNNzlhSnFVTTlmWQ?oc=5",
+      "author": "WSJ",
+      "publishedAt": "2026-05-17T13:28:00Z",
+      "titleEn": "Who Owns the Future of AI? - WSJ",
+      "titleZh": "谁拥有人工智能的未来？ - 华尔街日报",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Wall Street Journal"
+      ]
+    },
+    {
+      "source": "New York Times",
+      "title": "Opinion | The Great Disruption: How A.I. Will Shape Our Future - The New York Times",
+      "summary": "Opinion | The Great Disruption: How A.I. Will Shape Our Future The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE90VWxIQWtmU2dCaGxmRnhfeWJMQzdRdjB1amx0QnEtVDNCU3ZLZWo2X0dSOWFOdlZFRTE1dTRaSzRSS2EzdVp3Nkp3cjdJbkEyaWhtNVhVT016NjJfNVlIOGQ0Z0thd0xt?oc=5",
+      "author": "The New York Times",
+      "publishedAt": "2026-05-17T13:00:05Z",
+      "titleEn": "Opinion | The Great Disruption: How A.I. Will Shape Our Future - The New York Times",
+      "titleZh": "意见 |巨大的颠覆：人工智能如何将塑造我们的未来 - 纽约时报",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "New York Times"
+      ]
+    },
+    {
+      "source": "Wall Street Journal",
+      "title": "How Amazon Went From an AI Also-Ran to a Real Contender - WSJ",
+      "summary": "How Amazon Went From an AI Also-Ran to a Real Contender WSJ",
+      "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQWmZ2SE8xU20yeHVZSklDeDR4d01VMk9rMWN6OGlKZmd1aTJ1TGMwSm5qVlp5bGY2TTU4TFFaRm1MQWtKeFl5TjNoVEFxcHh2dXhoaEEyMjZMN1BBRDJTRWtwVmF2YTdEZVhyLWN1NDhhbTMxaVh2bXZ3N0xqNHo5V3dUbXBLOGxCeFMwMjFlR1hHNEpsWlNr?oc=5",
+      "author": "WSJ",
+      "publishedAt": "2026-05-17T09:30:00Z",
+      "titleEn": "How Amazon Went From an AI Also-Ran to a Real Contender - WSJ",
+      "titleZh": "亚马逊如何从人工智能的落选者变成真正的竞争者 - 华尔街日报",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Amazon",
+        "Wall Street Journal"
+      ]
+    },
+    {
+      "source": "Reuters",
+      "title": "Exclusive: At Samsung, the global AI boom spurred a looming strike and deep divisions - Reuters",
+      "summary": "Exclusive: At Samsung, the global AI boom spurred a looming strike and deep divisions Reuters",
+      "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxPazhhTjBlZFhaU1F0MVhQc0liUUhodERHaFIwOGI5amFWemRFejQ5SXJZWDZlY01tTEtkaEtoVzQ0aVc5dFpoWDlLUmtEQVRyVzRsVlhIX2N5LWxZUzY5UkVaUVhlOWVoelUtenlraVpGQk5XekM4VWlNUE5qTVRoUGRiUWdhcXVxQXp1eDRLWFVSNkFQTTNqR00wei1SWkZaX0ZnTHFFOVB5VGVmczQ0cUxEOW8tN041U2I4?oc=5",
+      "author": "Reuters",
+      "publishedAt": "2026-05-17T07:00:00Z",
+      "titleEn": "Exclusive: At Samsung, the global AI boom spurred a looming strike and deep divisions - Reuters",
+      "titleZh": "独家：在三星，全球人工智能热潮引发了迫在眉睫的罢工和深刻的分歧 - 路透中文网",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Reuters"
+      ]
+    },
+    {
+      "source": "New York Times",
+      "title": "Opinion | What A.I. Did to My College Class - The New York Times",
+      "summary": "Opinion | What A.I. Did to My College Class The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQRXdaM3BjTnVXRkJmbGx4TWNGM3pwUG94dUY4VEFYNDAxNnczbEUySHhyaHF4VEpBd0hkWFlMN3hwWklNVTR4Sl9TSVlpLVBMcXdEN2ZwT3lnbjNPeVhwSXVhQ0NBQkRleV9xaEZYOUVfTTRqTGlOWmJVc0h1eUFVaC1KU3NHOWwtTWpkOQ?oc=5",
+      "author": "The New York Times",
+      "publishedAt": "2026-05-17T05:00:05Z",
+      "titleEn": "Opinion | What A.I. Did to My College Class - The New York Times",
+      "titleZh": "意见 |什么人工智能？对我的大学课堂做了什么 - 纽约时报",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "New York Times"
+      ]
+    },
+    {
+      "source": "Bloomberg",
+      "title": "India Missed Out on AI and Now Its Run as Market Darling May Be Over - Bloomberg.com",
+      "summary": "India Missed Out on AI and Now Its Run as Market Darling May Be Over Bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNbzNNRmRLNDQ1SVFtaGdRYzBXRVliV2ZyZWRBRW1RWGFHdmhpNFJHdTN2ZUswQ2VtY3VwUmR2STBLdlI2Y3ZFS3hMelZBU2VIN1VZaURRT0V1RHEzQ0VhTEdRb2V1el84T1BDaklCSlJNLU9FZnhfeVBFak1DdWJPRWZoX3l2NVZHMEYwY2FkTTRiNDRkTy1rU3hnTFY1alJ1T3pVbjdjdDROUVk4NnE0MEZzY0lQUnJ5dXBN?oc=5",
+      "author": "Bloomberg.com",
+      "publishedAt": "2026-05-17T00:00:00Z",
+      "titleEn": "India Missed Out on AI and Now Its Run as Market Darling May Be Over - Bloomberg.com",
+      "titleZh": "印度错过了人工智能，现在它作为市场宠儿的地位可能结束了 - Bloomberg.com",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Bloomberg"
+      ]
+    },
+    {
+      "source": "Reuters",
+      "title": "Tata Electronics and ASML partner on India's first semiconductor fab - Reuters",
+      "summary": "Tata Electronics and ASML partner on India's first semiconductor fab Reuters",
+      "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQaDhQbXFWbWV5WFRBX1FmOVRoT3NIeVVIR1FCVUdSTnE2QmVwWjRvRkZXUml6T1FtX0ZtU0lWN3I3cTQzVkJ5LWhZVGR3RjJpVmNUZ0pzaV9CLV9TOTJRQ3BDZm8yMXVWYUdkamFHY1FFWS03MGRQc3pYQTRoN2hibGdvSkpybGdCN0ZiQWpCeFNHVXRqMTVVNGRiRHZVTkNFY1hlQjhsa2VIQXo1?oc=5",
+      "author": "Reuters",
+      "publishedAt": "2026-05-16T16:57:00Z",
+      "titleEn": "Tata Electronics and ASML partner on India's first semiconductor fab - Reuters",
+      "titleZh": "塔塔电子与 ASML 合作建设印度首家半导体工厂 - 路透中文网",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Reuters"
+      ]
+    },
+    {
+      "source": "Bloomberg",
+      "title": "AI Poised to Tilt Job Market Leverage Toward Older Workers - Bloomberg.com",
+      "summary": "AI Poised to Tilt Job Market Leverage Toward Older Workers Bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQY1pJY3V4RlBSRTFqMkNwMHNkazZjM1R2X3N6OWxyX3ZaLVRUSW16NGd4SlNEOTlpaW5KTklGdXprd1FOVFdFTzNtM1NxN05uV2oyLTljT2ExQlJfOFI1Z0l3dnRIWWwyZlY0YjlqRHBxM19FY3AwVVYyanBlNXZZQXlQU0VHRUFjVnhqeHpmNUhrZTkyZlN3ejZKZ3EzS2RBdmdkT2NvSWRWY05QaFE?oc=5",
+      "author": "Bloomberg.com",
+      "publishedAt": "2026-05-16T15:00:00Z",
+      "titleEn": "AI Poised to Tilt Job Market Leverage Toward Older Workers - Bloomberg.com",
+      "titleZh": "人工智能有望将就业市场杠杆向老年工人倾斜 - Bloomberg.com",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Bloomberg"
+      ]
+    },
+    {
+      "source": "Bloomberg",
+      "title": "Bond Selloff Threatens to Knock AI Stock Frenzy Off Course - Bloomberg.com",
+      "summary": "Bond Selloff Threatens to Knock AI Stock Frenzy Off Course Bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQZDBPcWE2dkJCZVJycHpPUTYwYUtsOEJ6MGlheEZmS1doblF3VVYwSjUxSTdKR1Rta1ZYUWdNa3NObUg1eFRCWTFYUkNVLUpNMDRmVUpQRmdJb1dveUJkUmVWdC1tSC0zZDliNTFsQmhsSlE2N18xdzJQc2hsZTNDS2l6aUI2VFo2ZUxjVGN0T3E5RzhZQVBKWEZNMmM4YWRsWnFmRW54d21YTV9jSWc?oc=5",
+      "author": "Bloomberg.com",
+      "publishedAt": "2026-05-16T13:31:01Z",
+      "titleEn": "Bond Selloff Threatens to Knock AI Stock Frenzy Off Course - Bloomberg.com",
+      "titleZh": "债券抛售可能会打乱人工智能股票的狂热 - Bloomberg.com",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Bloomberg"
+      ]
+    },
+    {
+      "source": "New York Times",
+      "title": "Opinion | What A.I. Kant Do - The New York Times",
+      "summary": "Opinion | What A.I. Kant Do The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1hWURmSndUXzNBVXBSYVkxbm1wemZHeTZHNFVwUXhMLW92WFlGZWpJWjNQOWxFSG1VU0oxeHJhdkl4OFNmX1IyMHNTTE9CSjNFM0FJZHZTb3NkZHNIQnhnNWVFWHZjQjMzaDFTSkd0VUU?oc=5",
+      "author": "The New York Times",
+      "publishedAt": "2026-05-16T11:00:11Z",
+      "titleEn": "Opinion | What A.I. Kant Do - The New York Times",
+      "titleZh": "意见 |什么人工智能？康德道 - 纽约时报",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "New York Times"
+      ]
+    },
+    {
+      "source": "Reuters",
+      "title": "OpenAI seals deal in Malta to give all Maltese access to ChatGPT Plus - Reuters",
+      "summary": "OpenAI seals deal in Malta to give all Maltese access to ChatGPT Plus Reuters",
+      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPc2FfNVN5cmZ5SWF4WFBlOWluNFRfdEpkdVVwNXpKZUNyanhWN3RvZURrQkVNWFFILWptTzlkVGFpSlg2V1FKbWZIUlhGSXdJc3g4TmdQUEM1QkpsM2ctVjFWTjUxcUhvTS0teFFxekE0YnhhQ0tLZWNwNUdZZTQ5VFB2cF96STV0ZWQ2N2ladko0N1NXbzVLRWlHMnFQdHlheXlfVDJDUDE?oc=5",
+      "author": "Reuters",
+      "publishedAt": "2026-05-16T10:31:40Z",
+      "titleEn": "OpenAI seals deal in Malta to give all Maltese access to ChatGPT Plus - Reuters",
+      "titleZh": "OpenAI 在马耳他达成协议，让所有马耳他人都能使用 ChatGPT Plus - 路透",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "OpenAI",
+        "Reuters"
+      ]
+    },
+    {
+      "source": "Reuters",
+      "title": "Why this 25-year-old is banking on her soft skills - Reuters",
+      "summary": "Why this 25-year-old is banking on her soft skills Reuters",
+      "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxOcTNPS0pWVWRxcnJOWjN5MlJfUERhNDRIdzMyV2NwcFJCNFByS0Fnd0ZIWWd0S1RKM09rcHFqSTYzOVFtczFZY1hoQk5ZQmg2U3ZuZ1BabnBaN1Fmai1DS2dLWnQ0aTdjU3o3cE5BNk1lM1l0enlUUGVfNUFvaTFQek5lMUQxYUNNV1lQbzdDY2h6SUV4bHB0QVRFWjcxSXZ1MkZ4RmkxZw?oc=5",
+      "author": "Reuters",
+      "publishedAt": "2026-05-16T10:00:00Z",
+      "titleEn": "Why this 25-year-old is banking on her soft skills - Reuters",
+      "titleZh": "为什么这位 25 岁的女孩依赖她的软技能 - 路透",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Reuters"
+      ]
+    },
+    {
+      "source": "New York Times",
+      "title": "OpenAI and Khan Academy Made a Chatbot. What Can We Learn? - The New York Times",
+      "summary": "OpenAI and Khan Academy Made a Chatbot. What Can We Learn? The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQZEZ1N2lTLXBXNlB2UVlRR2hLOFVnSVBTdkRlZHZsWkViX1JxMXQzTzBpZ3k0VDEtX19ucEdJYzFJY3RSX2NBWGFLZGJTQ3VtWVI2Vm4yUWFlNUgwb3NGRk13RWE0OWdtcEYtUVhnS3ZyeVV4N3laaHpSYW5KXzJFSHlzZ1pQYXhxaUNUeFZxRzZ1RTE2d2RFX0RvTQ?oc=5",
+      "author": "The New York Times",
+      "publishedAt": "2026-05-16T09:01:00Z",
+      "titleEn": "OpenAI and Khan Academy Made a Chatbot. What Can We Learn? - The New York Times",
+      "titleZh": "OpenAI 和可汗学院制作了一个聊天机器人。我们能学到什么？ - 纽约时报",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "New York Times",
+        "OpenAI"
+      ]
+    },
+    {
+      "source": "Wall Street Journal",
+      "title": "Bill Ackman’s Pershing Square Bets on Microsoft’s AI Ambitions With New Stake - WSJ",
+      "summary": "Bill Ackman’s Pershing Square Bets on Microsoft’s AI Ambitions With New Stake WSJ",
+      "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxQQnVaakJ1OWFZeFBQa2VfUHR3akowMnB1M2FJaDJNVC1Gc0tOWkgtYkY1cVk0TDZvVGJQVkZqanJKaWpiNVhUT1hmUHRZSHdVakZ5V3lxbnRkeWZ0Z05FYWVQRE1IR05DeWhJQklocGNQaGJuaXVvREVGNno4M2toOXNNb0VJTEI0bHBHaUlyYXVsZHg5TFhwZl9IejdfRGlaR2VzeVo3VjVLVXc?oc=5",
+      "author": "WSJ",
+      "publishedAt": "2026-05-15T21:30:00Z",
+      "titleEn": "Bill Ackman’s Pershing Square Bets on Microsoft’s AI Ambitions With New Stake - WSJ",
+      "titleZh": "比尔·阿克曼（Bill Ackman）的潘兴广场（Pershing Square）新注股份押注微软的人工智能野心 - 华尔街日报",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Microsoft",
+        "Wall Street Journal"
+      ]
+    },
+    {
+      "source": "Wall Street Journal",
+      "title": "So You Think You Own Shares in a Hot Startup? Anthropic Says Not So Fast. - WSJ",
+      "summary": "So You Think You Own Shares in a Hot Startup? Anthropic Says Not So Fast. WSJ",
+      "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxOVjIydDNLTjBXdmUwbWVaalVjc05jVW9NZGp3and1cFBiNmZfRTZqLWtJNjhGNVllMm5kbVljeXA2bURBVUMzbEFsaWJGMXhkR0Jsb0hrVWVyZFhnVF9IQzRlbThVWXRqeW1YVG9FS04zcUI1TUtqbEw0S2NaVWwwMHBIcGxjTHBrOXVNeWNQaS1LenJPUDZ3UXg3MzFZRERMQXVNWFBoNllKYTBhTUw1VmhtMjdoQ1U3RVE?oc=5",
+      "author": "WSJ",
+      "publishedAt": "2026-05-15T19:51:00Z",
+      "titleEn": "So You Think You Own Shares in a Hot Startup? Anthropic Says Not So Fast. - WSJ",
+      "titleZh": "那么您认为自己拥有一家热门初创公司的股票吗？人择说没那么快。 - 华尔街日报",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Anthropic",
+        "Wall Street Journal"
+      ]
+    },
+    {
+      "source": "Bloomberg",
+      "title": "US Is Starting to See Heavy Job Losses in Roles Exposed to AI - Bloomberg.com",
+      "summary": "US Is Starting to See Heavy Job Losses in Roles Exposed to AI Bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNZGxXRUJGX3lfc2haVzFkVS1BME1vYUtQa01kdUdlUHFqRXhrQW9qUDBzYnV1NG95Y1JNXy1oSklIYTZjcmJYdkFONXUtek5ic1luMnY1ZlFNb25jT0tXN2JGeS1xM0trWFRfa1N1c3hnNjFqY3FNalV0WXAycnNmWjl3VFIzbXJmeXRrQkNiOEExSnVUSTlyUnZoaHMwa2xmeHNBc2Y2WUNpUVFabVBnaGRB?oc=5",
+      "author": "Bloomberg.com",
+      "publishedAt": "2026-05-15T19:06:43Z",
+      "titleEn": "US Is Starting to See Heavy Job Losses in Roles Exposed to AI - Bloomberg.com",
+      "titleZh": "美国开始看到与人工智能相关的岗位大量失业 - Bloomberg.com",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Bloomberg"
+      ]
+    },
+    {
+      "source": "New York Times",
+      "title": "A.I. Safety Is So Back + Mythos Mayhem with Nikesh Arora + Hot Mess Express - The New York Times",
+      "summary": "A.I. Safety Is So Back + Mythos Mayhem with Nikesh Arora + Hot Mess Express The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxPY1JHMjVnbTdSekFfNkVHUnBYN3Z3dGNzbmNOcG1LQXZqSFpjdTZEcE5zd3ZIOThQZjdWdS16OURBVVQ3cmxIRUN4MGRhWVhFblZVOHN5NVVTeU9ZbFN5dE1ScFlabU0wZF9xc05iZlNTTC1ETlF1N2FnRmZPUnNUUUJETC1WYzhjU3N2eGtrX3VTRmhaS3ZsZUhja2pLTnY0Y3VCamdVWklRdGxUVlNrclcyY0RJdzhfaXc?oc=5",
+      "author": "The New York Times",
+      "publishedAt": "2026-05-15T11:00:06Z",
+      "titleEn": "A.I. Safety Is So Back + Mythos Mayhem with Nikesh Arora + Hot Mess Express - The New York Times",
+      "titleZh": "人工智能。安全又回来了 + 尼克什·阿罗拉 (Nikesh Arora) 的神话混乱 + Hot Mess Express - 纽约时报",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "New York Times"
+      ]
+    },
+    {
+      "source": "Wall Street Journal",
+      "title": "Companies Have a New AI Problem: Too Many Agents - WSJ",
+      "summary": "Companies Have a New AI Problem: Too Many Agents WSJ",
+      "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxNaHpaT1EzVFdxbkN0cXdRYWZlRnUzQlppN2poeUwyVW5DdFMwSVJKeVVxRENFWTNlZXpJaHNSNjJtaERrNktHNGRJZnFnRlJDcExsWk1rRVR3TEZrWVlXUFVSTWZJNng2MHRYUVNzOTd5YzlNWVdDUEc2aGk4dURvS1hFeGlVWnZtdTBIOGxVN29ZUQ?oc=5",
+      "author": "WSJ",
+      "publishedAt": "2026-05-15T11:00:00Z",
+      "titleEn": "Companies Have a New AI Problem: Too Many Agents - WSJ",
+      "titleZh": "公司面临新的人工智能问题：代理过多 - 华尔街日报",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Wall Street Journal"
+      ]
+    },
+    {
+      "source": "Reuters",
+      "title": "Wall St Week Ahead Nvidia, retailer reports to shed light on AI boom, consumer spending - Reuters",
+      "summary": "Wall St Week Ahead Nvidia, retailer reports to shed light on AI boom, consumer spending Reuters",
+      "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxQNUp4ckdjeHVMbndkZTlTRFd5ZWp0MV9QQlVTWEZmRmRYMlR2TUxMRmhPRk42VWxyLVh2enE4SHVWR01iWmI0V0tmRmRkSHpkVTJuQTF6cEc1T2tRYjdQbVd1bWpjQ0MwSFl5c0ttaV9FNU1FX0tzcmhDaGRJY2tNYzh0MGJDT0lVNDZDSzY1VVBjaDBFSFBFbU52dzVsaUhQV3dGTGFJLTVZWmNibWFkZC1IS1A5T2NuOXc?oc=5",
+      "author": "Reuters",
+      "publishedAt": "2026-05-15T10:05:00Z",
+      "titleEn": "Wall St Week Ahead Nvidia, retailer reports to shed light on AI boom, consumer spending - Reuters",
+      "titleZh": "华尔街未来一周 Nvidia、零售商报告揭示人工智能繁荣和消费者支出 - 路透中文网",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Nvidia",
+        "Reuters"
+      ]
+    },
+    {
+      "source": "New York Times",
+      "title": "Opinion | The Revolt Against the Girl Bosses Has Finally Come - The New York Times",
+      "summary": "Opinion | The Revolt Against the Girl Bosses Has Finally Come The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxPMXFKejNFRTdNMUdLTV9zakI2aV9FZ3FCd2lJRFZjYklGaFpFem9JM01MaWVNVzd5R25yT1ltY2pmajZUWVhfVDNQWEJWTWxIdnlHb2l2bHlUR295d01OaWxDR19TVlBfTWFCajNWTl8tVmNsYWdjWmxzaWlhWmlZSy1YVnl0Rm1oN285VVhrY2Z1dHM?oc=5",
+      "author": "The New York Times",
+      "publishedAt": "2026-05-15T09:02:12Z",
+      "titleEn": "Opinion | The Revolt Against the Girl Bosses Has Finally Come - The New York Times",
+      "titleZh": "意见 |反对女老板的反抗终于来临 - 纽约时报中文网",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "New York Times"
+      ]
+    },
+    {
+      "source": "New York Times",
+      "title": "Nvidia’s Future in China Remains Unclear After Trump-Xi Summit - The New York Times",
+      "summary": "Nvidia’s Future in China Remains Unclear After Trump-Xi Summit The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE5XaThLYXdncmRRTjYzYmpKcGhDRFVUWHIxelpZd25aMVZhaDM5OWpWSngzazQtbjZQSHUzUHZxV1psVU8tSnBuRU5OYm5sMWN3LUtYTDZTdjhKUEtZLU5ObVlaVnBNeDFLSE9GdTlOQXpPTFpSR3c?oc=5",
+      "author": "The New York Times",
+      "publishedAt": "2026-05-15T06:20:33Z",
+      "titleEn": "Nvidia’s Future in China Remains Unclear After Trump-Xi Summit - The New York Times",
+      "titleZh": "习特会后，英伟达在中国的未来仍不明朗 - 纽约时报中文网",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "New York Times",
+        "Nvidia"
+      ]
+    },
+    {
+      "source": "Reuters",
+      "title": "US judge considers Anthropic's $1.5 billion settlement of authors' lawsuit - Reuters",
+      "summary": "US judge considers Anthropic's $1.5 billion settlement of authors' lawsuit Reuters",
+      "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxOckQtRG1PRWF5M3ZYU2dGb043NXpaSmd3UWt3cmdyeFJKc0J1aWRCbGVPbXZuYV9HUm9LSlhZQ2pRNUNSRlItS21YVC1xcWVMSDFncTRXRmFVN1Bhb2wyLWZIVjgzZTRTaGFVMW5reEtWN2gzRXlCWlB2TG55dWtqaGxMdjRsZjMtWUZLSWNiRmtIWGVpTlFXeFc3T3U3ZjVnLUFfZDV1YUhNY1UwT0dBaHlOamhLRzcyQVJjbg?oc=5",
+      "author": "Reuters",
+      "publishedAt": "2026-05-14T23:51:01Z",
+      "titleEn": "US judge considers Anthropic's $1.5 billion settlement of authors' lawsuit - Reuters",
+      "titleZh": "美国法官考虑 Anthropic 以 15 亿美元解决作者诉讼 - 路透中文网",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Anthropic",
+        "Reuters"
+      ]
+    },
+    {
+      "source": "Wall Street Journal",
+      "title": "Apple’s Security Has Been Tough to Crack. Mythos Helped Find a Way In. - WSJ",
+      "summary": "Apple’s Security Has Been Tough to Crack. Mythos Helped Find a Way In. WSJ",
+      "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTFBFZk5ObXgyc3dYYkNQMU9tWGwyZVAxdVdWa002T0dwaVRrZTY5OW5CVmwzcl9Qa2p0R25jTzEyMHQ0RTNKVXczSXhjMzdFT3pYbXplNWo0UExaTUhPYS1GMFVqMjg4Y0plaWlqTzliQnQ1aDVuLWVQZw?oc=5",
+      "author": "WSJ",
+      "publishedAt": "2026-05-14T18:23:00Z",
+      "titleEn": "Apple’s Security Has Been Tough to Crack. Mythos Helped Find a Way In. - WSJ",
+      "titleZh": "苹果的安全性一直难以破解。神话帮助找到了出路。 - 华尔街日报",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Wall Street Journal"
+      ]
+    },
+    {
+      "source": "Reuters",
+      "title": "Exclusive: US clears H200 chip sales to 10 China firms as Nvidia CEO looks for breakthrough - Reuters",
+      "summary": "Exclusive: US clears H200 chip sales to 10 China firms as Nvidia CEO looks for breakthrough Reuters",
+      "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQaUpEd0t1dDVoYTlhVG9iN1JpUm43NkxhWS1DZXE2Vm9JN0x1c1MyM2FuVHV1XzVBN29BWnU2eEEtN19UVG80WXhQTnlZQkcyTXpMNS1ORFFWOFZtVWRWNFBiWmU2MzhfTnU2dzAtMExWMkdqM3BpY01aOHB2M1ROWGN4Zk13czloNGJsQkl6d2t6eGpwXzd2UFN1QXJ6YWl5NzVva0ZwVlB3TFk2cDE4YUxDekp1YnZNRnlVQ0JPdmpjb0p0YnRyUFZzRQ?oc=5",
+      "author": "Reuters",
+      "publishedAt": "2026-05-14T12:08:50Z",
+      "titleEn": "Exclusive: US clears H200 chip sales to 10 China firms as Nvidia CEO looks for breakthrough - Reuters",
+      "titleZh": "独家：英伟达首席执行官寻求突破，美国批准向 10 家中国公司销售 H200 芯片 - 路透中文网",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Nvidia",
+        "Reuters"
+      ]
+    },
+    {
+      "source": "New York Times",
+      "title": "Graduates Boo Commencement Speech About A.I. - The New York Times",
+      "summary": "Graduates Boo Commencement Speech About A.I. The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQQjFSM1FZVHBEdnV6UzhBN1JWQVR3WEVnTThRNlQ3dWROQWZhUGM1Rjd4ZVUxV3A3ZFQ0b3dYaHhIUDVrWmRYTmN1d01scjAwelFyX3pmc1BXQXN4NEZUMlhhMHhFYVh5d0c0NUhyVThpb0o3Rk5QZThDM3dEN2duYmlHZERXWExwVnBqTFBmRkVkdw?oc=5",
+      "author": "The New York Times",
+      "publishedAt": "2026-05-14T09:05:23Z",
+      "titleEn": "Graduates Boo Commencement Speech About A.I. - The New York Times",
+      "titleZh": "毕业生们关于人工智能的毕业典礼演讲- 纽约时报",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "New York Times"
+      ]
+    },
+    {
+      "source": "Reuters",
+      "title": "TSMC says global chip market to hit $1.5 trillion by 2030 as AI drives growth - Reuters",
+      "summary": "TSMC says global chip market to hit $1.5 trillion by 2030 as AI drives growth Reuters",
+      "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxQVUh3UjVGTi1HbGJ6WC1hSmtfTkx6dU5BMEpsQkpsSlZWeGVYanJZencxb0dCX2JLTkZISmF0WXFNZUpjNUxVd0F3S3haZWRRX2NOdjZzNUlRY1MxcWxicDlpUnRIcTRJWE9ieTctT3N2WDlFNFUzZzhTU2JQQ05uSmZqcEh5NFVFTVNPS1RzWVdvamt0NGJsbmJFOHNsUjZzN2Z5b2F2eHBIYWxjWk1NOXFzVTlHYUk0LUFkYlR0T3NjUQ?oc=5",
+      "author": "Reuters",
+      "publishedAt": "2026-05-14T02:06:00Z",
+      "titleEn": "TSMC says global chip market to hit $1.5 trillion by 2030 as AI drives growth - Reuters",
+      "titleZh": "台积电表示，随着人工智能推动增长，到 2030 年全球芯片市场将达到 1.5 万亿美元 - 路透中文网",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Reuters",
+        "TSMC"
+      ]
+    },
+    {
+      "source": "Wall Street Journal",
+      "title": "Taiwan Is the Key to AI Dominance - WSJ",
+      "summary": "Taiwan Is the Key to AI Dominance WSJ",
+      "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE9YQlVIRHpPZWlaenFLT1VJWmthVGxMM3dCMVdJeGp0UThHaVZFbUZ4aTVUMEhyS3pqdm9EVVNiWU9DQm9oeWZUc1psdTQtZllZc01CTzlkV0V2Qm16T25OclVzY0RlVHZncnQ1N0hjbnhyMXUxOTZWTkZB?oc=5",
+      "author": "WSJ",
+      "publishedAt": "2026-05-13T21:01:00Z",
+      "titleEn": "Taiwan Is the Key to AI Dominance - WSJ",
+      "titleZh": "台湾是人工智能主导地位的关键 - 华尔街日报",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Wall Street Journal"
+      ]
+    },
+    {
+      "source": "Wall Street Journal",
+      "title": "YouTube Promises All Things to All Advertisers, With Some Help from AI - WSJ",
+      "summary": "YouTube Promises All Things to All Advertisers, With Some Help from AI WSJ",
+      "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxNOEZoYWhUZkZqY2ljV1FPQ2Zab0htSndETllILXdMeWZUZy1XS1hucGNScktyVUx6d0tRVS0ydjB2Q3h4a1pXb3NVZ2FTdWdmM3I0Q2c0WW03SzRuMjNZaV80ZmN2cUh6MjlKZ1ZGTVFJNHRPNDBER2ktUDhwNFBPcW16TW8zYUZBWVUyLWtqcXlPMmxYNWE5Z3VWTzRKZjR1Nmc5S2tieUJ1OVlC?oc=5",
+      "author": "WSJ",
+      "publishedAt": "2026-05-13T17:09:00Z",
+      "titleEn": "YouTube Promises All Things to All Advertisers, With Some Help from AI - WSJ",
+      "titleZh": "YouTube 在人工智能的帮助下向所有广告商承诺一切 - 华尔街日报",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Wall Street Journal"
+      ]
+    },
+    {
+      "source": "Wall Street Journal",
+      "title": "The Tech Jobs That Are Safe From AI - WSJ",
+      "summary": "The Tech Jobs That Are Safe From AI WSJ",
+      "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE1LZU12WHE2NkdjMGlOYU9XRTU0WnE2RU5NUG91Q1ZjYllZLTRNZVF6VXhMM2llNjdQZ3V6QmpjRnpDUUVpNFg1d2dXX0ZZSkZ6REVRSzltNk1YWEtvRDhuUU45Qkk5RGR1SDdKNHBQZ0hXSlNpVGpVMFJuUXo?oc=5",
+      "author": "WSJ",
+      "publishedAt": "2026-05-13T15:45:00Z",
+      "titleEn": "The Tech Jobs That Are Safe From AI - WSJ",
+      "titleZh": "不受人工智能影响的科技工作 - 华尔街日报",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Wall Street Journal"
+      ]
+    },
+    {
+      "source": "New York Times",
+      "title": "Notable Researchers Join $4 Billion Effort to Build Self-Improving A.I. - The New York Times",
+      "summary": "Notable Researchers Join $4 Billion Effort to Build Self-Improving A.I. The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxPQ2xzSVdwN0pmcEJBZFVZR0FGTzF0c0V5R0NaX21GZVJuQ1d5RGg3Y0dsM2w2Nm1CNnJhcHhLeVB3U0oxZVk2TC1Jcnk1VWRYOGhRVnFHanhvZlBaU3M4bzZlekFyS2ZXejJ1SnExMS1kdDI2cFg0ZE00anByXzYxLVdxaFEtc0FkM2lEX2FNMmd1MTg?oc=5",
+      "author": "The New York Times",
+      "publishedAt": "2026-05-13T09:02:46Z",
+      "titleEn": "Notable Researchers Join $4 Billion Effort to Build Self-Improving A.I. - The New York Times",
+      "titleZh": "著名研究人员携手耗资 40 亿美元打造自我改进的人工智能- 纽约时报",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "New York Times"
+      ]
+    },
+    {
+      "source": "Wall Street Journal",
+      "title": "Princeton Changes Its 133-Year-Old Honor Code Over AI Cheating Fears - WSJ",
+      "summary": "Princeton Changes Its 133-Year-Old Honor Code Over AI Cheating Fears WSJ",
+      "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxPSlV3ZGg0dEt5S2huZnU3Sm92MUVqWjF5QklaWHdkRUVibFZBUFNaNVUwQi1xSGNLSkNLUV9MbWRyR1E3OF9mYllkbXJvdFNWT0tnWkhPMHJpbXdLZjNBRG9oaFl3SkV6UHIxZGpnY2tSbVNqZjlVcGlYeUxySVExN0k3NA?oc=5",
+      "author": "WSJ",
+      "publishedAt": "2026-05-12T22:51:00Z",
+      "titleEn": "Princeton Changes Its 133-Year-Old Honor Code Over AI Cheating Fears - WSJ",
+      "titleZh": "因担心人工智能作弊，普林斯顿大学改变了已有 133 年历史的荣誉守则 - 华尔街日报",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Wall Street Journal"
+      ]
+    },
+    {
+      "source": "New York Times",
+      "title": "After Deaths, Lawsuits Against A.I. Companies Test a New Strategy - The New York Times",
+      "summary": "After Deaths, Lawsuits Against A.I. Companies Test a New Strategy The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOcF9BWnVjNHBqSUJ0a1NLcHlKR1NwSW9yQjVrVENOZU1aYThfeWZqc3ZyZU5XS19NcVRnUmRRRklvVVR3cU5jU1NEcExfMnBCVG51WmJlb0c4dDFQN1pLd0hWTXVDMlJUQmk3YllGUWVaWTVleGRScFFMN0pZMnJLZ0cxMl8zc3lk?oc=5",
+      "author": "The New York Times",
+      "publishedAt": "2026-05-12T19:50:57Z",
+      "titleEn": "After Deaths, Lawsuits Against A.I. Companies Test a New Strategy - The New York Times",
+      "titleZh": "死亡之后，针对人工智能的诉讼公司测试新战略 - 纽约时报中文网",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "New York Times"
+      ]
+    },
+    {
+      "source": "Wall Street Journal",
+      "title": "Nvidia Is Buying the Chip Supply Chain - WSJ",
+      "summary": "Nvidia Is Buying the Chip Supply Chain WSJ",
+      "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTFBlZXV6cFd6aVpuTi0zaUhVQWhZSkE3X2lBVnl5UUhBWmJ2Q280OHRTcmhGdnl0ODBvZEUtYm5keWRLM3A3VTcwLVY2YUl4M2R1NGJkSkxvb3hqcWtaVGdlWk5lWGJpMDFNNGJ4ZkwzOG16QkJuRV8wQXFaSV8?oc=5",
+      "author": "WSJ",
+      "publishedAt": "2026-05-12T16:00:00Z",
+      "titleEn": "Nvidia Is Buying the Chip Supply Chain - WSJ",
+      "titleZh": "英伟达正在收购芯片供应链 - 华尔街日报",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Nvidia",
+        "Wall Street Journal"
+      ]
+    },
+    {
+      "source": "Wall Street Journal",
+      "title": "Data Centers in Space: A Pipe Dream, or AI’s Next Big Thing? - WSJ",
+      "summary": "Data Centers in Space: A Pipe Dream, or AI’s Next Big Thing? WSJ",
+      "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPZU9RQUdkRHp5N0ZVT010VWtXWFV5eVl5ZVB0TUlTamhHd3AyS0VSRkpwUUI5ZlZEcGxPQVNDNFRGZ3B3UGNCVEJtRl94MXF0SnJoV0FtZVpELUs3d3d3NG9fS1RrRkcyY25reXJzWElWNHFrUWpIM2lhUDJBNThUUFFfV3BzdUlGYVFhd2wwX2xhNUxXUEtmbg?oc=5",
+      "author": "WSJ",
+      "publishedAt": "2026-05-12T15:45:00Z",
+      "titleEn": "Data Centers in Space: A Pipe Dream, or AI’s Next Big Thing? - WSJ",
+      "titleZh": "太空数据中心：白日梦，还是人工智能的下一件大事？ - 华尔街日报",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Wall Street Journal"
+      ]
+    },
+    {
+      "source": "New York Times",
+      "title": "Opinion | Kevin Warsh Is Already Getting It Wrong - The New York Times",
+      "summary": "Opinion | Kevin Warsh Is Already Getting It Wrong The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE5DNTVwMUMtM3JhM1lCdmdadW9sUkhPeEdGOFRvY2JEYUpKSGtTX2hIZDNORkRFTlMyTFBzVE0ybkhPak9pTUVhZ1hFSnJRa2FDb1k5WGJRQm11aXktbFFLWEpPSHFYNEdMSmFCM3ZzX3g2MFR4?oc=5",
+      "author": "The New York Times",
+      "publishedAt": "2026-05-12T09:02:11Z",
+      "titleEn": "Opinion | Kevin Warsh Is Already Getting It Wrong - The New York Times",
+      "titleZh": "意见 |凯文·沃什已经犯错了 - 纽约时报中文网",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "New York Times"
+      ]
+    },
+    {
+      "source": "New York Times",
+      "title": "Opinion | The Shared Feeling of Being Harvested by the Future - The New York Times",
+      "summary": "Opinion | The Shared Feeling of Being Harvested by the Future The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE5rdG5jVDdPZlpING5rYll1Wk1fN2hRZlA3VW1UdndNUHNQM2lQZUJaS25wVUtBM3M1SWN0OXdicG0zTFN1WFYza2N2bFNwR1F2emxBNHM2Z28zWWNJSDJTODk1ZG1QVm9jaWdkcFd2d2dTRnVh?oc=5",
+      "author": "The New York Times",
+      "publishedAt": "2026-05-12T09:01:41Z",
+      "titleEn": "Opinion | The Shared Feeling of Being Harvested by the Future - The New York Times",
+      "titleZh": "意见 |被未来收获的共同感受 - 纽约时报中文网",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "New York Times"
+      ]
+    },
+    {
+      "source": "Wall Street Journal",
+      "title": "Elon Musk’s Grok Is Losing Ground in AI Race - WSJ",
+      "summary": "Elon Musk’s Grok Is Losing Ground in AI Race WSJ",
+      "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTFBBRDNiLUhRajZYcjRHY05vbWhxZm9uLXVHNXItanQyMzc4azZEdGhqTUk0dTNPV0J6d0ZXV2N0N2t6dUlIWmdscGpoVWJLX1hSMnFKZmR0VGc1a0FfNEpsMHVpbVAzZUhNRzVXbjFvNExDWDhkQlk2UEdBUQ?oc=5",
+      "author": "WSJ",
+      "publishedAt": "2026-05-12T02:00:00Z",
+      "titleEn": "Elon Musk’s Grok Is Losing Ground in AI Race - WSJ",
+      "titleZh": "埃隆·马斯克 (Elon Musk) 的 Grok 在人工智能竞赛中节节败退 - 华尔街日报",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Wall Street Journal"
+      ]
+    },
+    {
+      "source": "New York Times",
+      "title": "Opinion | This Is Why You’re Drowning in Busywork - The New York Times",
+      "summary": "Opinion | This Is Why You’re Drowning in Busywork The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTFBSTzBJN19VU2xxRm5GMm1PZWYzNVNQcWVuSHA4SkFEWmlGZ0dVLTloREJtaG1fLWtESGJ0aVQ0MGt2TkRmajhZUUQ2TU1SNGZDZFZzQ1VFY1JvMVFhX1JlMTdfYjFNRW9aZHMwRGZ1eWh1eXdQUmc?oc=5",
+      "author": "The New York Times",
+      "publishedAt": "2026-05-11T09:01:24Z",
+      "titleEn": "Opinion | This Is Why You’re Drowning in Busywork - The New York Times",
+      "titleZh": "意见 |这就是你陷入忙碌工作的原因 - 纽约时报中文网",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "New York Times"
+      ]
+    },
+    {
+      "source": "Wall Street Journal",
+      "title": "AI Can’t Agree on Which Jobs AI Might Destroy - WSJ",
+      "summary": "AI Can’t Agree on Which Jobs AI Might Destroy WSJ",
+      "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE1jd3Z1MnRFUDNfcXpSbEZJVzlUajdQM1ZJTjk4MG8wc0NvVzRQellTR0VPYzdZZmNKeTV0NkZpQk85bTdiZ01CV3owR1l1UVk4ajZHc3ViTmhWSVlENDFRc1g2aWJMRHV1?oc=5",
+      "author": "WSJ",
+      "publishedAt": "2026-05-10T07:00:00Z",
+      "titleEn": "AI Can’t Agree on Which Jobs AI Might Destroy - WSJ",
+      "titleZh": "人工智能无法就人工智能可能会摧毁哪些工作达成一致 - 华尔街日报",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Wall Street Journal"
       ]
     }
   ]
