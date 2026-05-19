@@ -1409,8 +1409,7 @@
     }
     function capLabel(row) {
       const cap = effectiveCap(row);
-      const suffix = row.status === "prelist" && !Number.isFinite(row.marketCap) && cap ? " est." : "";
-      return `${formatCap(cap)}${suffix}`;
+      return formatCap(cap);
     }
     function renderTable() {
       const rows = filteredRows();
