@@ -1538,7 +1538,7 @@
       if (!author || normalizedAuthor === normalizedSource) {
         return "";
       }
-      if (/ editorial$|\beditorial\b|\bstaff\b|^news$/i.test(String(authorValue || ""))) {
+      if (/ editorial$|\beditorial\b|\bstaff\b|^news$|\breuters\b|\bbloomberg\b|\byahoo\b|\bgoogle\b|\bmarketwatch\b|\bwall street journal\b|\bnew york times\b|\bthe motley fool\b|\btech advisor\b|\bcoincentral\b|\bthe globe and mail\b|\bnews\b|\bjournal\b|\btimes\b|\bpress\b|\bmedia\b/i.test(String(authorValue || ""))) {
         return "";
       }
       return author;
