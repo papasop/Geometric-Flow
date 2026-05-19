@@ -99,6 +99,33 @@
       gap: 12px;
       margin-top: 14px;
     }
+    .news-tabs {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      width: fit-content;
+      max-width: 100%;
+      overflow-x: auto;
+    }
+    .news-tab {
+      border: 0;
+      border-radius: 5px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 840;
+      padding: 8px 14px;
+      white-space: nowrap;
+    }
+    .news-tab.active {
+      background: #ecfdf5;
+      color: var(--green);
+    }
     .news-strip-label {
       display: flex;
       align-items: center;
@@ -124,9 +151,10 @@
       padding: 14px;
       animation: news-scroll 90s linear infinite;
     }
-    .news-strip:nth-child(2) .news-track { animation-duration: 96s; }
-    .news-strip:nth-child(3) .news-track { animation-duration: 102s; }
-    .news-strip:nth-child(4) .news-track { animation-duration: 108s; }
+    #news-track-company { animation-duration: 96s; }
+    #news-track-deals { animation-duration: 102s; }
+    #news-track-tech { animation-duration: 108s; }
+    .news-strip[hidden] { display: none; }
     .news-track:hover { animation-play-state: paused; }
     .news-item {
       display: flex;
@@ -562,6 +590,8 @@
       .token-row:last-child { border-bottom: 0; }
       .toolbar { align-items: stretch; }
       .search, select, button { width: 100%; }
+      .news-tabs { width: 100%; }
+      .news-tab { width: auto; flex: 1 0 auto; }
       h1 { font-size: 26px; }
     }
   </style>
@@ -591,36 +621,42 @@
   </nav>
   <main class="shell">
     <section class="hero">
-      <div class="news-sections" aria-label="AI news sections">
-        <div class="news-strip" aria-label="行业新闻">
-          <div class="news-strip-label">行业新闻</div>
+      <div class="news-sections" aria-label="行业/公司/市场/前沿 新闻切换">
+        <div class="news-tabs" role="tablist" aria-label="行业/公司/市场/前沿">
+          <button class="news-tab active" type="button" role="tab" aria-selected="true" aria-controls="news-panel-industry" data-news-tab="industry">行业</button>
+          <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-company" data-news-tab="company">公司</button>
+          <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-deals" data-news-tab="deals">市场</button>
+          <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-tech" data-news-tab="tech">前沿</button>
+        </div>
+        <div class="news-strip" id="news-panel-industry" role="tabpanel" aria-label="行业">
+          <div class="news-strip-label">行业</div>
           <div class="news-marquee">
             <div class="news-track" id="news-track-industry">
-              <span class="news-item">正在加载行业新闻…</span>
+              <span class="news-item">正在加载行业…</span>
             </div>
           </div>
         </div>
-        <div class="news-strip" aria-label="行业/公司/市场">
-          <div class="news-strip-label">行业/公司/市场</div>
+        <div class="news-strip" id="news-panel-company" role="tabpanel" aria-label="公司" hidden>
+          <div class="news-strip-label">公司</div>
           <div class="news-marquee">
             <div class="news-track" id="news-track-company">
-              <span class="news-item">正在加载行业/公司/市场…</span>
+              <span class="news-item">正在加载公司…</span>
             </div>
           </div>
         </div>
-        <div class="news-strip" aria-label="股权并购融资">
-          <div class="news-strip-label">股权并购融资</div>
+        <div class="news-strip" id="news-panel-deals" role="tabpanel" aria-label="市场" hidden>
+          <div class="news-strip-label">市场</div>
           <div class="news-marquee">
             <div class="news-track" id="news-track-deals">
-              <span class="news-item">正在加载股权并购融资…</span>
+              <span class="news-item">正在加载市场…</span>
             </div>
           </div>
         </div>
-        <div class="news-strip" aria-label="新科技">
-          <div class="news-strip-label">新科技</div>
+        <div class="news-strip" id="news-panel-tech" role="tabpanel" aria-label="前沿" hidden>
+          <div class="news-strip-label">前沿</div>
           <div class="news-marquee">
             <div class="news-track" id="news-track-tech">
-              <span class="news-item">正在加载新科技…</span>
+              <span class="news-item">正在加载前沿…</span>
             </div>
           </div>
         </div>
@@ -1321,16 +1357,16 @@
     function fallbackNewsItems(sectionId = "industry") {
       const fallback = {
         industry: [
-          { title: "行业新闻持续追踪 AI 芯片、云、数据中心与大模型动态", source: "AI Market Cap", author: "Industry", url: "#" },
+          { title: "行业动态持续追踪 AI 芯片、云、数据中心与大模型", source: "AI Market Cap", author: "Industry", url: "#" },
         ],
         company: [
-          { title: "行业/公司/市场按公司关键词追踪 Bloomberg、Reuters 与 WSJ", source: "AI Market Cap", author: "Companies", url: "#" },
+          { title: "公司动态按成分股关键词追踪 Bloomberg、Reuters 与 WSJ", source: "AI Market Cap", author: "Companies", url: "#" },
         ],
         deals: [
-          { title: "股权、并购、融资新闻按交易关键词滚动更新", source: "AI Market Cap", author: "Deals", url: "#" },
+          { title: "市场新闻按股权、并购、融资关键词滚动更新", source: "AI Market Cap", author: "Market", url: "#" },
         ],
         tech: [
-          { title: "MIT Technology Review 与 Wired 追踪新科技趋势", source: "AI Market Cap", author: "New Tech", url: "#" },
+          { title: "MIT Technology Review 与 Wired 追踪前沿技术趋势", source: "AI Market Cap", author: "Frontier", url: "#" },
         ],
       };
       return fallback[sectionId] || fallback.industry;
@@ -1375,6 +1411,17 @@
         console.warn(error);
         NEWS_SECTION_IDS.forEach((sectionId) => renderNewsStrip(sectionId, fallbackNewsItems(sectionId)));
       }
+    }
+    function setNewsTab(sectionId) {
+      document.querySelectorAll("[data-news-tab]").forEach((button) => {
+        const isActive = button.dataset.newsTab === sectionId;
+        button.classList.toggle("active", isActive);
+        button.setAttribute("aria-selected", isActive ? "true" : "false");
+      });
+      NEWS_SECTION_IDS.forEach((id) => {
+        const panel = $(`news-panel-${id}`);
+        if (panel) panel.hidden = id !== sectionId;
+      });
     }
     function render() {
       renderTable();
@@ -1574,6 +1621,9 @@
           document.querySelectorAll(".token-tab").forEach((item) => item.classList.toggle("active", item === button));
           renderTokenRanking();
         });
+      });
+      document.querySelectorAll(".news-tab").forEach((button) => {
+        button.addEventListener("click", () => setNewsTab(button.dataset.newsTab || "industry"));
       });
       [["sort-mcap", "mcap"], ["sort-rank", "rank"], ["sort-change", "change"]].forEach(([id, sort]) => {
         $(id).addEventListener("click", () => {

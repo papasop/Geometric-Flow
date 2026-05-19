@@ -99,7 +99,7 @@ OFFICIAL_SOURCES = [
     {"name": "Brand News · JNBY", "url": "https://news.google.com/rss/search?q=%22Jiangnan%20Buyi%22&hl=en-US&gl=US&ceid=US:en"},
     {"name": "Brand News · PDD", "url": "https://news.google.com/rss/search?q=%22PDD%20Holdings%22%20OR%20Pinduoduo%20OR%20Temu&hl=en-US&gl=US&ceid=US:en"},
     {"name": "China Robotics · Components", "url": "https://news.google.com/rss/search?q=%22Tsugami%20China%22%20OR%20%22%E6%B4%A5%E4%B8%8A%E6%9C%BA%E5%BA%8A%E4%B8%AD%E5%9B%BD%22%20OR%20%2201651.HK%22%20OR%20%22RoboSense%22%20OR%20%22%E9%80%9F%E8%85%BE%E8%81%9A%E5%88%9B%22%20OR%20%2202498.HK%22%20OR%20%22robotics%22%20OR%20%22%E6%9C%BA%E5%99%A8%E4%BA%BA%22&hl=en-US&gl=US&ceid=US:en"},
-    {"name": "AI Cloud · Components", "url": "https://news.google.com/rss/search?q=%22Nebius%22%20OR%20%22NBIS%22%20OR%20%22CoreWeave%22%20OR%20%22CRWV%22%20OR%20%22IREN%22%20OR%20%22Applied%20Digital%22%20OR%20%22APLD%22%20OR%20%22TeraWulf%22%20OR%20%22WULF%22%20OR%20%22Hut%208%22%20OR%20%22HUT%22%20OR%20%22Core%20Scientific%22%20OR%20%22CORZ%22%20OR%20%22Digital%20Realty%22%20OR%20%22DLR%22%20OR%20%22VNET%22%20OR%20%22%E4%B8%96%E7%BA%AA%E4%BA%92%E8%BF%9E%22%20OR%20%22Lambda%20Labs%22%20OR%20%22GPU%20cloud%22%20OR%20%22AI%20data%20center%22&hl=en-US&gl=US&ceid=US:en"},
+    {"name": "AI Cloud · Components", "url": "https://news.google.com/rss/search?q=%22Nebius%22%20OR%20%22NBIS%22%20OR%20%22VNET%22%20OR%20%22%E4%B8%96%E7%BA%AA%E4%BA%92%E8%BF%9E%22%20OR%20%22AI%20cloud%22%20OR%20%22AI%20data%20center%22&hl=en-US&gl=US&ceid=US:en"},
     {"name": "Huawei Hubble · Components", "url": "https://news.google.com/rss/search?q=%22Huawei%20Hubble%22%20OR%20%22%E5%8D%8E%E4%B8%BA%E5%93%88%E5%8B%83%22%20OR%20%22Tianyue%20Advanced%22%20OR%20%223Peak%22%20OR%20%22JoulWatt%22%20OR%20%22Vanchip%22%20OR%20%22Focuslight%22%20OR%20%22Motorcomm%22%20OR%20%22HHCK%22%20OR%20%22Keli%20Motor%22%20OR%20%22Piotech%22%20OR%20%22Castech%22%20OR%20%22SuperFusion%22%20OR%20%22Semitronix%22%20OR%20%22Yinwang%22%20OR%20%22ModelBest%22%20OR%20%22Qianxun%20Intelligence%22%20OR%20%22GeekSight%22%20OR%20%22%E5%A4%A9%E5%B2%B3%E5%85%88%E8%BF%9B%22%20OR%20%22%E6%80%9D%E7%91%9E%E6%B5%A6%22%20OR%20%22%E4%B8%9C%E8%8A%AF%E8%82%A1%E4%BB%BD%22%20OR%20%22%E6%9D%B0%E5%8D%8E%E7%89%B9%22%20OR%20%22%E5%8D%8E%E6%B5%B7%E8%AF%9A%E7%A7%91%22%20OR%20%22%E7%81%BF%E5%8B%A4%E7%A7%91%E6%8A%80%22%20OR%20%22%E7%82%AC%E5%85%89%E7%A7%91%E6%8A%80%22%20OR%20%22%E8%B5%9B%E7%9B%AE%E7%A7%91%E6%8A%80%22%20OR%20%22%E7%A7%91%E5%8A%9B%E5%B0%94%22%20OR%20%22%E6%8B%93%E8%8D%86%E7%A7%91%E6%8A%80%22%20OR%20%22%E7%A6%8F%E6%99%B6%E7%A7%91%E6%8A%80%20OR%20%E8%B6%85%E8%81%9A%E5%8F%98%20OR%20%E8%B5%9B%E7%BE%8E%E7%89%B9%20OR%20%E5%BC%95%E6%9C%9B%20OR%20%E9%9D%A2%E5%A3%81%E6%99%BA%E8%83%BD%20OR%20%E5%8D%83%E5%AF%BB%E6%99%BA%E8%83%BD%20OR%20%E6%9E%81%E4%BD%B3%E8%A7%86%E7%95%8C%22&hl=en-US&gl=US&ceid=US:en"},
 ]
 
@@ -126,11 +126,9 @@ PORTFOLIO_KEYWORDS = {
         "津上机床中国", "津上机床", "速腾聚创", "激光雷达", "机器人视觉", "数控机床",
     ],
     "ai-cloud": [
-        "ai cloud", "gpu cloud", "gpu compute", "ai infrastructure", "data center",
-        "nebius", "nebius group", "nbis", "coreweave", "crwv", "iren", "applied digital", "apld", "terawulf", "wulf", "hut 8", "hut", "core scientific", "corz", "digital realty", "dlr", "vnet", "vnet group", "世纪互连", "lambda labs", "lambda",
-        "cloud gpu", "accelerated compute", "ai data center", "renewable compute", "data center reit", "liquid cooling",
-        "AI 云", "GPU 云", "AI 基础设施", "数据中心", "算力租赁",
-        "Nebius", "CoreWeave", "IREN", "Applied Digital", "TeraWulf", "Hut 8", "Core Scientific", "Digital Realty", "VNET", "世纪互连", "Lambda Labs", "新云", "AI 新云",
+        "ai cloud", "ai infrastructure", "data center", "ai data center",
+        "nebius", "nebius group", "nbis", "vnet", "vnet group", "世纪互连",
+        "AI 云", "AI 基础设施", "数据中心", "Nebius", "VNET", "世纪互连", "新云", "AI 新云",
     ],
     "huawei": [
         "huawei", "hubble", "huawei hubble", "semiconductor", "sic", "silicon carbide",
@@ -244,43 +242,10 @@ AI_CLOUD_NEWS_COMPANIES = [
         "terms": ["Nebius Group", "Nebius", "NBIS"],
     },
     {
-        "source": "AI Cloud · CoreWeave",
-        "terms": ["CoreWeave", "CRWV"],
-    },
-    {
-        "source": "AI Cloud · IREN",
-        "terms": ["IREN", "IREN Limited", "Iris Energy"],
-    },
-    {
-        "source": "AI Cloud · Applied Digital",
-        "terms": ["Applied Digital", "APLD"],
-    },
-    {
-        "source": "AI Cloud · TeraWulf",
-        "terms": ["TeraWulf", "WULF", "Lake Mariner"],
-    },
-    {
-        "source": "AI Cloud · Hut 8",
-        "terms": ["Hut 8", "HUT"],
-    },
-    {
-        "source": "AI Cloud · Core Scientific",
-        "terms": ["Core Scientific", "CORZ"],
-    },
-    {
-        "source": "AI Cloud · Digital Realty",
-        "terms": ["Digital Realty", "DLR"],
-    },
-    {
         "source": "AI Cloud · VNET",
         "terms": ["VNET", "VNET Group", "\u4e16\u7eaa\u4e92\u8fde"],
     },
-    {
-        "source": "AI Cloud · Lambda Labs",
-        "terms": ["Lambda Labs", "Lambda GPU cloud"],
-    },
 ]
-
 
 def google_news_source(name: str, terms: list[str]) -> dict[str, str]:
     query = " OR ".join(f'"{term}"' for term in terms)
@@ -294,33 +259,115 @@ def google_news_source(name: str, terms: list[str]) -> dict[str, str]:
     }
 
 
-AI_CLOUD_THEME_SOURCES = [
-    google_news_source("AI Cloud · Components", [
-        "Nebius", "NBIS", "CoreWeave", "CRWV", "IREN", "Applied Digital", "APLD",
-        "TeraWulf", "WULF", "Hut 8", "HUT", "Core Scientific", "CORZ",
-        "Digital Realty", "DLR", "VNET", "\u4e16\u7eaa\u4e92\u8fde", "Lambda Labs",
-    ]),
-    google_news_source("AI Cloud · Infrastructure", [
-        "GPU cloud", "AI data center", "AI infrastructure", "liquid cooling",
-        "data center power", "neocloud",
-    ]),
+def google_news_query_source(name: str, query: str) -> dict[str, str]:
+    return {
+        "name": name,
+        "url": (
+            "https://news.google.com/rss/search?q="
+            + urllib.parse.quote(query)
+            + "&hl=en-US&gl=US&ceid=US:en"
+        ),
+    }
+
+
+AI_MARKET_NEWS_QUERY = (
+    '("artificial intelligence" OR AI OR Nvidia OR OpenAI OR Anthropic OR '
+    '"AI chip" OR semiconductor OR "data center" OR "AI cloud" OR '
+    '"large language model" OR "machine learning")'
+)
+AI_COMPANY_NEWS_QUERY = (
+    '("Nvidia" OR "OpenAI" OR "Anthropic" OR "Microsoft" OR "Google" OR '
+    '"Meta" OR "Amazon" OR "Broadcom" OR "TSMC" OR "Tesla" OR "Palantir" OR '
+    '"CoreWeave" OR "Nebius" OR "Tencent" OR "Alibaba" OR "Baidu" OR '
+    '"SenseTime" OR "MiniMax" OR "Zhipu" OR "Horizon Robotics" OR '
+    '"Black Sesame" OR "SMIC" OR "Cambricon")'
+)
+DEAL_NEWS_QUERY = (
+    f'({AI_COMPANY_NEWS_QUERY} OR {AI_MARKET_NEWS_QUERY}) '
+    '("equity" OR "stake" OR "acquisition" OR "merger" OR "M&A" OR '
+    '"financing" OR "funding" OR "investment" OR "raises" OR "IPO" OR '
+    '"股权" OR "并购" OR "融资")'
+)
+
+FINANCIAL_NEWS_SOURCES = [
+    ("Wall Street Journal", "site:wsj.com"),
+    ("Bloomberg", "site:bloomberg.com"),
+    ("Reuters", "site:reuters.com"),
 ]
 
-OFFICIAL_SOURCES = [
-    *AI_CLOUD_THEME_SOURCES,
-    *[google_news_source(company["source"], company["terms"]) for company in AI_CLOUD_NEWS_COMPANIES],
+INDUSTRY_NEWS_SOURCES = [
+    google_news_query_source("Wall Street Journal", f"site:wsj.com {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("New York Times", f"site:nytimes.com {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("Bloomberg", f"site:bloomberg.com {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("Reuters", f"site:reuters.com {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("Wired", f"site:wired.com {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("The New Yorker", f"site:newyorker.com {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("MIT Technology Review", f"site:technologyreview.com {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("South China Morning Post", f"site:scmp.com {AI_MARKET_NEWS_QUERY}"),
 ]
+COMPANY_NEWS_SOURCES = [
+    google_news_query_source(name, f"{site} {AI_COMPANY_NEWS_QUERY}")
+    for name, site in FINANCIAL_NEWS_SOURCES
+]
+DEAL_NEWS_SOURCES = [
+    google_news_query_source(name, f"{site} {DEAL_NEWS_QUERY}")
+    for name, site in FINANCIAL_NEWS_SOURCES
+]
+TECH_NEWS_SOURCES = [
+    google_news_query_source("MIT Technology Review", f"site:technologyreview.com {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("Wired", f"site:wired.com {AI_MARKET_NEWS_QUERY}"),
+]
+NEWS_SECTIONS = [
+    {
+        "id": "industry",
+        "title": "行业",
+        "note": "综合新闻源 · AI 行业动态",
+        "sources": INDUSTRY_NEWS_SOURCES,
+    },
+    {
+        "id": "company",
+        "title": "公司",
+        "note": "公司关键词 · Bloomberg / Reuters / WSJ",
+        "sources": COMPANY_NEWS_SOURCES,
+    },
+    {
+        "id": "deals",
+        "title": "市场",
+        "note": "股权 · 并购 · 融资",
+        "sources": DEAL_NEWS_SOURCES,
+    },
+    {
+        "id": "tech",
+        "title": "前沿",
+        "note": "MIT Technology Review / Wired",
+        "sources": TECH_NEWS_SOURCES,
+    },
+]
+OFFICIAL_SOURCES = [source for section in NEWS_SECTIONS for source in section["sources"]]
 SOURCES = OFFICIAL_SOURCES
 
+AI_MARKET_REQUIRED_KEYWORDS = [
+    "a.i.", "artificial intelligence", "openai", "anthropic", "chatgpt",
+    "nvidia", "ai chip", "ai chips", "semiconductor", "data center",
+    "ai cloud", "large language model", "machine learning", "automation",
+    "robot", "robotics", "algorithm", "google", "microsoft", "meta",
+]
+SOURCE_REQUIRED_KEYWORDS.update({
+    source["name"]: AI_MARKET_REQUIRED_KEYWORDS for source in OFFICIAL_SOURCES
+})
+
 PORTFOLIO_KEYWORDS = {
-    "ai-cloud": sorted(set([
-        *PORTFOLIO_KEYWORDS["ai-cloud"],
+    "ai-market": sorted(set([
+        *PORTFOLIO_KEYWORDS.get("ai-cloud", []),
+        "Nvidia", "OpenAI", "Anthropic", "Microsoft", "Google", "Amazon",
+        "Meta", "Broadcom", "Marvell", "TSMC", "AI chip", "AI data center",
+        "artificial intelligence", "large language model",
         *(term for company in AI_CLOUD_NEWS_COMPANIES for term in company["terms"]),
     ])),
 }
 
 SOURCE_PORTFOLIO_MATCHES = {
-    source["name"]: ["ai-cloud"] for source in OFFICIAL_SOURCES
+    source["name"]: ["ai-market"] for source in OFFICIAL_SOURCES
 }
 
 NEWS_OVERRIDES = [
@@ -657,6 +704,11 @@ def classify(item: dict[str, str]) -> tuple[list[str], list[str]]:
     return sorted(set(matched)), sorted(set(tags))[:10]
 
 
+def item_matches_terms(item: dict[str, str], terms: list[str]) -> bool:
+    text = " ".join([item.get("title", ""), item.get("summary", ""), item.get("author", "")]).lower()
+    return any(term.lower() in text for term in terms)
+
+
 def apply_news_overrides(item: dict[str, object]) -> None:
     title = str(item.get("title") or "")
     for override in NEWS_OVERRIDES:
@@ -676,9 +728,9 @@ def apply_news_overrides(item: dict[str, object]) -> None:
 
 
 def main() -> int:
-    seen = set()
     items: list[dict[str, object]] = []
     source_status = []
+    section_payload: dict[str, dict[str, object]] = {}
 
     event_registry_key = os.environ.get("EVENT_REGISTRY_API_KEY", "").strip()
     if event_registry_key:
@@ -686,61 +738,78 @@ def main() -> int:
         source_status.extend(event_status)
         for item in event_items:
             key = (item.get("url") or item.get("title") or "").lower()
-            if not key or key in seen:
+            if not key:
                 continue
-            seen.add(key)
             items.append(item)
-    else:
-        source_status.append({
-            "name": "Event Registry",
-            "status": "skipped",
-            "count": 0,
-            "note": "Set EVENT_REGISTRY_API_KEY to enable the unified primary news layer.",
-        })
 
-    for source in OFFICIAL_SOURCES:
-        try:
-            raw = fetch_url(source["url"])
-            parsed = parse_feed(source, raw)
-            kept = 0
-            for item in parsed:
-                key = (item.get("url") or item.get("title") or "").lower()
-                if not key or key in seen:
-                    continue
-                seen.add(key)
-                matched, tags = classify(item)
-                if source["name"].startswith("AI Cloud · "):
-                    matched = sorted(set([*matched, "ai-cloud"]))
-                    tags = sorted(set([*tags, source["name"]]))[:10]
-                enrich_title_fields(item)
-                item["matchedPortfolios"] = matched
-                item["tags"] = tags
-                apply_news_overrides(item)
-                items.append(item)
-                kept += 1
-            source_status.append({"name": source["name"], "url": source["url"], "status": "ok", "count": kept})
-            time.sleep(0.35)
-        except (urllib.error.URLError, TimeoutError, socket.timeout, ET.ParseError, ValueError, OSError) as exc:
-            source_status.append({"name": source["name"], "url": source["url"], "status": "error", "error": str(exc)[:180], "count": 0})
+    for section in NEWS_SECTIONS:
+        section_seen = set()
+        section_items: list[dict[str, object]] = []
+        for source in section["sources"]:
+            try:
+                raw = fetch_url(source["url"])
+                parsed = parse_feed(source, raw)
+                kept = 0
+                for item in parsed:
+                    key = (item.get("url") or item.get("title") or "").lower()
+                    if not key or key in section_seen:
+                        continue
+                    matched, tags = classify(item)
+                    if not matched and not item_matches_terms(item, AI_MARKET_REQUIRED_KEYWORDS):
+                        continue
+                    section_seen.add(key)
+                    enrich_title_fields(item)
+                    item["section"] = section["id"]
+                    item["sectionTitle"] = section["title"]
+                    item["matchedPortfolios"] = matched
+                    item["tags"] = tags
+                    apply_news_overrides(item)
+                    section_items.append(item)
+                    items.append(item)
+                    kept += 1
+                source_status.append({
+                    "section": section["id"],
+                    "name": source["name"],
+                    "url": source["url"],
+                    "status": "ok",
+                    "count": kept,
+                })
+                time.sleep(0.35)
+            except (urllib.error.URLError, TimeoutError, socket.timeout, ET.ParseError, ValueError, OSError) as exc:
+                source_status.append({
+                    "section": section["id"],
+                    "name": source["name"],
+                    "url": source["url"],
+                    "status": "error",
+                    "error": str(exc)[:180],
+                    "count": 0,
+                })
+        section_items.sort(key=lambda item: item.get("publishedAt") or "", reverse=True)
+        section_payload[section["id"]] = {
+            "title": section["title"],
+            "note": section["note"],
+            "items": section_items[:32],
+        }
 
     items.sort(key=lambda item: (bool(item.get("matchedPortfolios")), item.get("publishedAt") or ""), reverse=True)
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "strategy": {
-            "primary": "Event Registry",
-            "primaryEnabled": bool(event_registry_key),
+            "primary": "Industry, company, equity/M&A/financing, and frontier technology news sections",
+            "primaryEnabled": True,
             "supplements": [
-                "SEC", "Company IR", "NASA", "Defense.gov", "WHO",
-                "Reuters", "AP", "BBC", "CNBC", "MarketWatch",
-                "WSJ / Dow Jones", "Nikkei Asia", "SCMP",
-                "Marketing Dive", "Retail Dive", "Food Dive", "WWD",
-                "SpaceNews", "Defense News", "C4ISRNET", "Breaking Defense",
-                "Fierce Biotech", "BioPharma Dive", "Endpoints News",
-                "TechCrunch",
-                "Semiconductor Engineering",
+                "Wall Street Journal",
+                "New York Times",
+                "Bloomberg",
+                "Reuters",
+                "Wired",
+                "The New Yorker",
+                "MIT Technology Review",
+                "South China Morning Post",
             ],
         },
         "sources": source_status,
+        "sections": section_payload,
         "items": items[:200],
     }
     OUT.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
