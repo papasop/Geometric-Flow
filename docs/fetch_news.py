@@ -309,16 +309,31 @@ DEAL_NEWS_TERMS_QUERY = (
     '"investment" OR "raises" OR "IPO" OR "private placement" OR '
     '"股权" OR "融资" OR "投资")'
 )
+MNA_NEWS_TERMS_QUERY = (
+    '("acquires" OR "acquisition" OR "merger" OR "M&A" OR "buys stake" OR '
+    '"takes stake" OR "takes a stake" OR "invests in" OR "investment in" OR '
+    '"stake in" OR "to buy" OR "buyout" OR "takeover" OR "收购" OR "并购" OR '
+    '"入股" OR "持股" OR "股权")'
+)
+MNA_REQUIRED_KEYWORDS = [
+    "acquires", "acquisition", "merger", "m&a", "buys stake", "takes stake",
+    "takes a stake", "invests in", "investment in", "stake in",
+    "to buy", "buyout", "takeover", "收购", "并购", "入股", "持股", "股权",
+]
+DEAL_REQUIRED_KEYWORDS = [
+    "equity", "stake", "financing", "funding", "investment", "raises", "ipo",
+    "private placement", "股权", "融资", "投资",
+]
 
 INDUSTRY_NEWS_SOURCES = [
     google_news_query_source("Wall Street Journal", f"site:wsj.com {AI_MARKET_NEWS_QUERY}"),
     google_news_query_source("New York Times", f"site:nytimes.com {AI_MARKET_NEWS_QUERY}"),
 ]
 COMPANY_NEWS_SOURCES = [
-    google_news_query_source(f"Bloomberg · Company Batch {index + 1}", f"site:bloomberg.com ({quoted_or_query(batch)})")
+    google_news_query_source(f"Bloomberg · M&A Batch {index + 1}", f"site:bloomberg.com ({quoted_or_query(batch)}) {MNA_NEWS_TERMS_QUERY}")
     for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
 ] + [
-    google_news_query_source(f"Reuters · Company Batch {index + 1}", f"site:reuters.com ({quoted_or_query(batch)})")
+    google_news_query_source(f"Reuters · M&A Batch {index + 1}", f"site:reuters.com ({quoted_or_query(batch)}) {MNA_NEWS_TERMS_QUERY}")
     for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
 ]
 MARKET_NEWS_SOURCES = [
@@ -344,15 +359,17 @@ NEWS_SECTIONS = [
     },
     {
         "id": "company",
-        "title": "公司",
+        "title": "并购",
         "note": "Bloomberg / Reuters",
         "sources": COMPANY_NEWS_SOURCES,
+        "requiredKeywords": MNA_REQUIRED_KEYWORDS,
     },
     {
         "id": "deals",
         "title": "股权融资",
         "note": "Bloomberg / Reuters",
         "sources": MARKET_NEWS_SOURCES,
+        "requiredKeywords": DEAL_REQUIRED_KEYWORDS,
     },
     {
         "id": "tech",
@@ -374,14 +391,16 @@ SOURCE_REQUIRED_KEYWORDS.update({
     source["name"]: AI_MARKET_REQUIRED_KEYWORDS for source in OFFICIAL_SOURCES
 })
 SOURCE_REQUIRED_KEYWORDS.update({
-    source["name"]: [term.lower() for term in AI_COMPANY_NEWS_TERMS]
+    source["name"]: [
+        *[term.lower() for term in AI_COMPANY_NEWS_TERMS],
+        *MNA_REQUIRED_KEYWORDS,
+    ]
     for source in COMPANY_NEWS_SOURCES
 })
 SOURCE_REQUIRED_KEYWORDS.update({
     source["name"]: [
         *[term.lower() for term in AI_COMPANY_NEWS_TERMS],
-        "equity", "stake", "financing", "funding", "investment", "raises", "ipo",
-        "private placement", "股权", "融资", "投资",
+        *DEAL_REQUIRED_KEYWORDS,
     ]
     for source in MARKET_NEWS_SOURCES
 })
@@ -776,6 +795,7 @@ def main() -> int:
     for section in NEWS_SECTIONS:
         section_seen = set()
         section_items: list[dict[str, object]] = []
+        section_required_keywords = section.get("requiredKeywords", [])
         for source in section["sources"]:
             try:
                 raw = fetch_url(source["url"])
@@ -784,6 +804,8 @@ def main() -> int:
                 for item in parsed:
                     key = (item.get("url") or item.get("title") or "").lower()
                     if not key or key in section_seen:
+                        continue
+                    if section_required_keywords and not item_matches_terms(item, section_required_keywords):
                         continue
                     matched, tags = classify(item)
                     if not matched and not item_matches_terms(item, AI_MARKET_REQUIRED_KEYWORDS):
@@ -826,7 +848,7 @@ def main() -> int:
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "strategy": {
-            "primary": "Tabbed news sections: industry from WSJ/NYT, company from Bloomberg/Reuters company-name searches, equity financing from Bloomberg/Reuters, new technology from Wired/MIT Technology Review",
+            "primary": "Tabbed news sections: industry from WSJ/NYT, M&A from Bloomberg/Reuters company stake and acquisition searches, equity financing from Bloomberg/Reuters, new technology from Wired/MIT Technology Review",
             "primaryEnabled": True,
             "supplements": [
                 "Wall Street Journal",
