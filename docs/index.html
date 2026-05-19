@@ -86,7 +86,6 @@
       padding: 26px 0 14px;
     }
     h1 { margin: 0 0 8px; font-size: 30px; line-height: 1.18; letter-spacing: 0; font-weight: 760; }
-    .subtitle { max-width: 860px; margin: 0; color: var(--soft); font-size: 14px; line-height: 1.55; }
     .news-strip {
       margin-top: 0;
       border: 1px solid var(--line);
@@ -1306,7 +1305,6 @@
       const gainers = [...changeRows].sort((a, b) => b.changePercent - a.changePercent).slice(0, 3);
       $("top-company-count").textContent = String(rows.length);
       $("top-total-cap").textContent = formatCap(total);
-      if ($("inline-total-cap")) $("inline-total-cap").textContent = formatCap(total);
       $("highlight-cap").textContent = formatCap(total);
       $("top-volume").textContent = formatCap(volume);
       $("highlight-volume").textContent = formatCap(volume);
