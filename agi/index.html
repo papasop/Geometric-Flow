@@ -240,14 +240,29 @@
     .ranking-panel-head {
       display: flex;
       justify-content: space-between;
-      gap: 12px;
-      align-items: flex-end;
-      padding: 12px 14px;
+      gap: 16px;
+      align-items: center;
+      padding: 14px 16px;
       border-bottom: 1px solid var(--line);
-      background: #f8fafc;
+      background: #fbfdff;
     }
-    .ranking-panel-title { color: var(--text); font-size: 15px; font-weight: 860; }
-    .ranking-panel-note { color: var(--muted); font-size: 12px; line-height: 1.4; }
+    .ranking-heading {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      flex-wrap: wrap;
+    }
+    .ranking-panel-title { color: var(--text); font-size: 17px; font-weight: 880; }
+    .ranking-panel-note {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+      border: 1px solid var(--line-soft);
+      background: #fff;
+      border-radius: 999px;
+      padding: 5px 9px;
+    }
     .ranking-switch {
       display: inline-flex;
       align-items: center;
@@ -256,6 +271,7 @@
       border: 1px solid var(--line);
       border-radius: 7px;
       background: #fff;
+      flex: 0 0 auto;
     }
     .ranking-switch button {
       height: 30px;
@@ -269,17 +285,30 @@
     }
     .ranking-switch button.active { color: var(--green); background: #ecfdf5; }
     .ranking-view[hidden] { display: none; }
-    .model-table-wrap { overflow-x: auto; background: #fff; }
+    .model-table-wrap { overflow-x: auto; background: #fff; padding: 12px; }
     .model-table {
       min-width: 720px;
       width: 100%;
       border-collapse: separate;
       border-spacing: 0;
+      border: 1px solid var(--line-soft);
+      border-radius: 7px;
+      overflow: hidden;
+    }
+    .model-table caption {
+      caption-side: top;
+      padding: 10px 12px;
+      color: var(--muted);
+      background: #fff;
+      border-bottom: 1px solid var(--line-soft);
+      font-size: 12px;
+      font-weight: 760;
+      text-align: left;
     }
     .model-table th,
     .model-table td {
       position: static;
-      padding: 15px 14px;
+      padding: 14px 14px;
       border-bottom: 1px solid var(--line-soft);
       background: #fff;
       color: var(--text);
@@ -291,6 +320,7 @@
       color: var(--soft);
       font-size: 13px;
       font-weight: 820;
+      background: #f8fafc;
     }
     .model-table th:first-child,
     .model-table td:first-child {
@@ -301,10 +331,12 @@
     }
     .model-table .featured-model {
       background: #fff7ed;
-      box-shadow: inset 2px 0 0 #f97316, inset -2px 0 0 #f97316;
+      box-shadow: inset 2px 0 0 #f97316;
     }
-    .model-table thead .featured-model { box-shadow: inset 2px 2px 0 #f97316, inset -2px 0 0 #f97316; }
-    .model-table tbody tr:last-child .featured-model { box-shadow: inset 2px 0 0 #f97316, inset -2px -2px 0 #f97316; }
+    .model-table .best-score {
+      background: #ecfdf5;
+      box-shadow: inset 2px 0 0 var(--green);
+    }
     .score { display: block; font-size: 17px; font-weight: 850; }
     .score-note { display: block; margin-top: 5px; color: var(--muted); font-size: 12px; line-height: 1.35; }
     .token-ranking {
@@ -613,6 +645,7 @@
       .topline-inner { align-items: flex-start; flex-direction: column; }
       .highlight-grid { grid-template-columns: 1fr 1fr; }
       .ranking-panel-head { align-items: flex-start; flex-direction: column; }
+      .ranking-heading { align-items: flex-start; flex-direction: column; gap: 6px; }
       .ranking-switch { width: 100%; }
       .ranking-switch button { flex: 1; }
       .model-table { min-width: 760px; }
@@ -723,7 +756,7 @@
 
     <section class="ranking-panel" aria-label="大模型与 Token 调用排行">
       <div class="ranking-panel-head">
-        <div>
+        <div class="ranking-heading">
           <div class="ranking-panel-title">大模型排行</div>
           <div class="ranking-panel-note" id="ranking-panel-note">Terminal-Bench · SWE-Bench · CursorBench</div>
         </div>
@@ -736,6 +769,7 @@
         <div class="model-table-wrap">
           <table class="model-table">
             <thead>
+              <caption>Terminal-Bench · SWE-Bench · CursorBench</caption>
               <tr>
                 <th>Benchmark</th>
                 <th class="featured-model">Composer 2.5</th>
@@ -749,20 +783,20 @@
                 <td>Terminal-Bench 2.0</td>
                 <td class="featured-model"><span class="score">69.3%</span></td>
                 <td><span class="score">69.4%</span></td>
-                <td><span class="score">82.7%</span></td>
+                <td class="best-score"><span class="score">82.7%</span></td>
                 <td><span class="score">61.7%</span></td>
               </tr>
               <tr>
                 <td>SWE-Bench Multilingual</td>
                 <td class="featured-model"><span class="score">79.8%</span></td>
-                <td><span class="score">80.5%</span></td>
+                <td class="best-score"><span class="score">80.5%</span></td>
                 <td><span class="score">77.8%</span></td>
                 <td><span class="score">73.7%</span></td>
               </tr>
               <tr>
                 <td>CursorBench v3.1<br>(harder tasks)</td>
                 <td class="featured-model"><span class="score">63.2%</span></td>
-                <td><span class="score">64.8%</span><span class="score-note">max</span><span class="score">61.6%</span><span class="score-note">xhigh (default)</span></td>
+                <td class="best-score"><span class="score">64.8%</span><span class="score-note">max</span><span class="score">61.6%</span><span class="score-note">xhigh (default)</span></td>
                 <td><span class="score">64.3%</span><span class="score-note">xhigh</span><span class="score">59.2%</span><span class="score-note">medium (default)</span></td>
                 <td><span class="score">52.2%</span></td>
               </tr>
@@ -1625,7 +1659,7 @@
       if (modelPanel) modelPanel.hidden = state.rankingView !== "model";
       if (tokenPanel) tokenPanel.hidden = state.rankingView !== "token";
       setText(".ranking-panel-title", state.rankingView === "token" ? t("tokenRanking") : t("modelRanking"));
-      setText("#ranking-panel-note", state.rankingView === "token" ? t("tokenNote") : "Terminal-Bench · SWE-Bench · CursorBench");
+      setText("#ranking-panel-note", state.rankingView === "token" ? t("tokenNote") : "Benchmarks");
     }
     function renderTokenRanking() {
       const rows = TOKEN_RANKINGS[state.tokenPeriod] || TOKEN_RANKINGS.month;
