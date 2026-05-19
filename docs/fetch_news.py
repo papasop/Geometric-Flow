@@ -305,9 +305,10 @@ AI_COMPANY_NEWS_TERMS = extract_company_news_terms() or [
     "CoreWeave", "Nebius Group", "Tencent", "Alibaba", "Baidu", "寒武纪",
 ]
 DEAL_NEWS_TERMS_QUERY = (
-    '("equity" OR "stake" OR "financing" OR "funding" OR '
-    '"investment" OR "raises" OR "IPO" OR "private placement" OR '
-    '"股权" OR "融资" OR "投资")'
+    '("equity" OR "stake" OR "financing" OR "funding" OR "financial" OR '
+    '"capital" OR "valuation" OR "investment" OR "raises" OR "IPO" OR '
+    '"private placement" OR "venture capital" OR "debt financing" OR '
+    '"股权" OR "融资" OR "金融" OR "资本" OR "估值" OR "投资")'
 )
 MNA_NEWS_TERMS_QUERY = (
     '("acquires" OR "acquisition" OR "merger" OR "M&A" OR "buys stake" OR '
@@ -321,8 +322,10 @@ MNA_REQUIRED_KEYWORDS = [
     "to buy", "buyout", "takeover", "收购", "并购", "入股", "持股", "股权",
 ]
 DEAL_REQUIRED_KEYWORDS = [
-    "equity", "stake", "financing", "funding", "investment", "raises", "ipo",
-    "private placement", "股权", "融资", "投资",
+    "equity", "stake", "financing", "funding", "financial", "capital",
+    "valuation", "investment", "raises", "raised", "ipo", "private placement",
+    "venture capital", "debt financing", "series a", "series b", "series c",
+    "backed", "funds", "股权", "融资", "金融", "资本", "估值", "投资",
 ]
 
 INDUSTRY_NEWS_SOURCES = [
@@ -374,6 +377,10 @@ EQUITY_NEWS_SOURCES = [
     for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
 ]
 MARKET_NEWS_SOURCES = MNA_NEWS_SOURCES + EQUITY_NEWS_SOURCES
+for source in MNA_NEWS_SOURCES:
+    source["requiredKeywords"] = MNA_REQUIRED_KEYWORDS
+for source in EQUITY_NEWS_SOURCES:
+    source["requiredKeywords"] = DEAL_REQUIRED_KEYWORDS
 TECH_NEWS_SOURCES = [
     google_news_query_source("MIT Technology Review", f"site:technologyreview.com {AI_MARKET_NEWS_QUERY}"),
     google_news_query_source("Wired", f"site:wired.com {AI_MARKET_NEWS_QUERY}"),
@@ -399,7 +406,6 @@ NEWS_SECTIONS = [
         "title": "并购/融资",
         "note": "Bloomberg / Reuters / Google / Yahoo",
         "sources": MARKET_NEWS_SOURCES,
-        "requiredKeywords": MNA_REQUIRED_KEYWORDS + DEAL_REQUIRED_KEYWORDS,
     },
     {
         "id": "tech",
@@ -839,6 +845,7 @@ def main() -> int:
         section_items: list[dict[str, object]] = []
         section_required_keywords = section.get("requiredKeywords", [])
         for source in section["sources"]:
+            source_required_keywords = source.get("requiredKeywords", [])
             try:
                 raw = fetch_url(source["url"])
                 parsed = parse_feed(source, raw)
@@ -848,6 +855,8 @@ def main() -> int:
                     if not key or key in section_seen:
                         continue
                     if section_required_keywords and not item_matches_terms(item, section_required_keywords):
+                        continue
+                    if source_required_keywords and not item_matches_terms(item, source_required_keywords):
                         continue
                     matched, tags = classify(item)
                     if not matched and not item_matches_terms(item, AI_MARKET_REQUIRED_KEYWORDS):
