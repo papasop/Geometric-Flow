@@ -188,6 +188,15 @@
       font-size: 12px;
       line-height: 1.25;
     }
+    .news-meta span {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+    .news-meta-label {
+      color: var(--muted);
+      font-weight: 680;
+    }
     .news-meta b { color: var(--green); font-weight: 820; }
     .news-dot { display: none; }
     @keyframes news-scroll {
@@ -1191,6 +1200,7 @@
         companies: "companies", companiesZh: "家", page: "第", perPage: "每页", noResults: "没有匹配结果",
         watch: "关注", prelist: "预上市", est: " est.",
         quoteDaily: "Daily quotes", quoteLive: "Live Yahoo fallback", quoteError: "行情接口暂不可用，真实行情为空", waitingLive: "等待真实行情",
+        newsSource: "新闻来源", newsAuthor: "作者",
         footer: "说明：这是 AI 相关美股挂牌、港股、A 股公司与少量预上市公司观察名单，不是投资建议，也不是官方指数。价格、1小时/24小时/7天/30天变化、成交额与市值均优先使用在线 quote/chart 真实行情；不可用时显示为空。预上市公司使用估算美元市值参与排行，不抓取实时行情。非美元公司市值与成交额在内部按 USD/CNY、USD/HKD、USD/KRW 机制折算成美元口径，但页面不展示汇率。",
         fallbackIndustry: "行业动态持续追踪 AI 芯片、云、数据中心与大模型",
         fallbackCompany: "并购新闻按收购、入股、持股与公司出资占股关键词追踪",
@@ -1218,6 +1228,7 @@
         companies: "companies", companiesZh: "companies", page: "Page", perPage: "Per page", noResults: "No matching results",
         watch: "Watch", prelist: "Pre-IPO", est: " est.",
         quoteDaily: "Daily quotes", quoteLive: "Live Yahoo fallback", quoteError: "Quote feed unavailable; live fields are blank", waitingLive: "Waiting for live quotes",
+        newsSource: "Source", newsAuthor: "Author",
         footer: "Note: This is a watchlist of AI-related US-listed, Hong Kong-listed, A-share, Korean, and selected pre-IPO companies. It is not investment advice or an official index. Price, 1h/24h/7d/30d change, volume, and market cap use online quote/chart data when available; unavailable fields are left blank. Pre-IPO companies use estimated USD market caps for ranking and do not fetch live quotes. Non-USD market caps and volume are converted internally to USD using USD/CNY, USD/HKD, and USD/KRW logic; exchange rates are not displayed.",
         fallbackIndustry: "Industry news tracking AI chips, cloud, data centers, and foundation models",
         fallbackCompany: "M&A news tracks acquisitions, stakes, investments, and equity ownership moves",
@@ -1545,19 +1556,30 @@
         "'": "&#39;"
       }[char]));
     }
+    function displayNewsParty(value) {
+      const raw = String(value || "News");
+      if (state.lang !== "zh") return raw;
+      const normalized = raw.toLowerCase();
+      if (normalized === "wall street journal" || normalized === "wsj") return "华尔街日报";
+      if (normalized === "new york times" || normalized === "the new york times") return "纽约时报";
+      return raw;
+    }
     function renderNewsStrip(sectionId, items) {
       const track = $(`news-track-${sectionId}`);
       if (!track) return;
       const clean = (items || []).filter((item) => item?.title).slice(0, 16);
       const news = clean.length ? clean : fallbackNewsItems(sectionId);
       const nodes = [...news, ...news].map((item) => {
-        const source = item.source || "News";
-        const author = item.author || item.source || "News";
+        const source = displayNewsParty(item.source || "News");
+        const author = displayNewsParty(item.author || item.source || "News");
         const href = item.url || "#";
         const title = state.lang === "zh" ? (item.titleZh || item.title) : (item.titleEn || item.title);
         return `<a class="news-item" href="${escapeHtml(href)}" target="_blank" rel="noopener">
           <span class="news-title">${escapeHtml(title)}</span>
-          <span class="news-meta"><b>${escapeHtml(source)}</b><span>${escapeHtml(author)}</span></span>
+          <span class="news-meta">
+            <span><span class="news-meta-label">${escapeHtml(t("newsSource"))}</span><b>${escapeHtml(source)}</b></span>
+            <span><span class="news-meta-label">${escapeHtml(t("newsAuthor"))}</span><b>${escapeHtml(author)}</b></span>
+          </span>
         </a>`;
       }).join("");
       track.innerHTML = nodes;
