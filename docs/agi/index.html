@@ -395,25 +395,6 @@
       cursor: pointer;
     }
     .tab.active { color: var(--green); background: #ecfdf5; border-color: #bbf7d0; }
-    .custom-row {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 9px;
-      color: var(--muted);
-      font-size: 13px;
-      margin: 12px 0;
-    }
-    .custom-row b { color: var(--soft); font-size: 12px; }
-    .mini-select {
-      height: 32px;
-      border: 1px solid var(--line);
-      border-radius: 7px;
-      padding: 0 9px;
-      background: #fff;
-      color: var(--soft);
-      font-weight: 700;
-    }
     .search, select, button {
       height: 36px;
       border: 1px solid var(--line);
@@ -840,13 +821,6 @@
       <button id="refresh" type="button">刷新</button>
     </section>
 
-    <section class="custom-row" aria-label="Table settings">
-      <b>自定义</b>
-      <span>价格更改</span><span class="mini-select">30天</span>
-      <span>衡量指标</span><span class="mini-select">市值</span>
-      <span>其他</span><span class="mini-select">行 100</span>
-    </section>
-
     <section class="panel market-panel">
       <div class="panel-head">
         <div>
@@ -1196,7 +1170,6 @@
         all: "所有", aiChips: "AI 芯片", aiCloud: "新云", dataCenter: "数据中心", enterpriseAi: "企业 AI", security: "安全", quantum: "量子", chinaAi: "中国 AI",
         searchPlaceholder: "搜索公司、Ticker、子赛道", allSubsectors: "全部子赛道",
         sortMcap: "统一市值排序", sortRank: "名单顺序", sortChange: "涨跌排序", refresh: "刷新",
-        custom: "自定义", priceChange: "价格更改", metric: "衡量指标", other: "其他", rows100: "行 100",
         rankName: "排名 / 公司", tableNote: "市值（美元）· 上市 + IPO 前合并排名",
         thCompany: "公司", thPrice: "价格", th1h: "1小时", th24h: "24小时", th7d: "7天", thVolume: "24小时交易量", thMcap: "总市值", thSpark: "最近30天",
         companies: "companies", companiesZh: "家", page: "第", perPage: "每页", noResults: "没有匹配结果",
@@ -1224,7 +1197,6 @@
         all: "All", aiChips: "AI Chips", aiCloud: "AI Cloud", dataCenter: "Data Centers", enterpriseAi: "Enterprise AI", security: "Security", quantum: "Quantum", chinaAi: "China AI",
         searchPlaceholder: "Search company, ticker, or subsector", allSubsectors: "All subsectors",
         sortMcap: "Unified Market Cap", sortRank: "List Order", sortChange: "Performance", refresh: "Refresh",
-        custom: "Customize", priceChange: "Price change", metric: "Metric", other: "Other", rows100: "Rows 100",
         rankName: "Rank / Name", tableNote: "Market Cap USD · Listed + Pre-IPO unified ranking",
         thCompany: "Company", thPrice: "Price", th1h: "1h", th24h: "24h", th7d: "7d", thVolume: "24h Volume", thMcap: "Market Cap", thSpark: "Last 30 days",
         companies: "companies", companiesZh: "companies", page: "Page", perPage: "Per page", noResults: "No matching results",
@@ -1870,7 +1842,6 @@
       setText("#sort-rank", t("sortRank"));
       setText("#sort-change", t("sortChange"));
       setText("#refresh", t("refresh"));
-      setAllText(".custom-row > *", [t("custom"), t("priceChange"), t("th7d"), t("metric"), t("thMcap"), t("other"), t("rows100")]);
       setText(".panel-title", t("rankName"));
       setText("#table-note", t("tableNote"));
       setAllText(".market-panel thead th:nth-child(-n+3), .market-panel thead th:nth-child(10)", ["", "#", t("thCompany"), t("thSpark")]);
