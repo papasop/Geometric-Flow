@@ -504,7 +504,7 @@
     <section class="toolbar" aria-label="AI Market Cap controls">
       <input class="search" id="search" type="search" placeholder="搜索公司、Ticker、子赛道" />
       <select id="category-filter" aria-label="Category filter"></select>
-      <button id="sort-mcap" class="active" type="button">市值排序</button>
+      <button id="sort-mcap" class="active" type="button">统一市值排序</button>
       <button id="sort-rank" type="button">名单顺序</button>
       <button id="sort-change" type="button">涨跌排序</button>
       <button id="refresh" type="button">刷新</button>
@@ -521,7 +521,7 @@
       <div class="panel-head">
         <div>
           <div class="panel-title">Rank Name</div>
-          <div class="panel-note" id="table-note">Market Cap · Price · Today · Price (30 days) · Country</div>
+          <div class="panel-note" id="table-note">Market Cap USD · Listed + Pre-IPO unified ranking</div>
         </div>
         <div class="panel-note" id="count-note">100 companies</div>
       </div>
@@ -827,7 +827,7 @@
         return matchCategory && (!q || haystack.includes(q));
       });
       if (state.sort === "mcap") {
-        rows = rows.sort((a, b) => (effectiveCap(b) || -1) - (effectiveCap(a) || -1) || a.rank - b.rank);
+        rows = rows.sort(compareByUnifiedCap);
       } else if (state.sort === "change") {
         rows = rows.sort((a, b) => (b.changePercent ?? -999) - (a.changePercent ?? -999) || a.rank - b.rank);
       } else {
@@ -840,6 +840,16 @@
       if (row.status === "prelist" && Number.isFinite(row.estimatedMarketCap) && row.estimatedMarketCap > 0) return row.estimatedMarketCap;
       if (row.status === "prelist" && Number.isFinite(row.estimatedMarketCapCny) && row.estimatedMarketCapCny > 0) return toUsd(row.estimatedMarketCapCny, "CNY", new Date());
       return null;
+    }
+    function compareByUnifiedCap(a, b) {
+      const aCap = effectiveCap(a);
+      const bCap = effectiveCap(b);
+      const aHasCap = Number.isFinite(aCap) && aCap > 0;
+      const bHasCap = Number.isFinite(bCap) && bCap > 0;
+      if (aHasCap && bHasCap) return bCap - aCap || a.rank - b.rank;
+      if (aHasCap) return -1;
+      if (bHasCap) return 1;
+      return a.rank - b.rank;
     }
     function capClass(row) {
       return row.status === "prelist" && !Number.isFinite(row.marketCap) ? "mcap estimated" : "mcap";
