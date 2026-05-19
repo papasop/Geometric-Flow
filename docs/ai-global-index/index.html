@@ -93,45 +93,68 @@
       border-radius: 6px;
       background: #fff;
       overflow: hidden;
-      display: flex;
-      align-items: center;
-      min-height: 38px;
     }
     .news-strip-label {
-      flex: 0 0 auto;
-      height: 100%;
-      padding: 10px 12px;
-      border-right: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--line);
       color: var(--green);
       background: #ecfdf5;
       font-size: 12px;
       font-weight: 860;
-      white-space: nowrap;
     }
+    .news-strip-label span { color: var(--muted); font-size: 11px; font-weight: 760; }
     .news-marquee {
       position: relative;
-      flex: 1 1 auto;
       overflow: hidden;
       min-width: 0;
     }
     .news-track {
       display: inline-flex;
-      align-items: center;
-      gap: 22px;
+      align-items: stretch;
+      gap: 12px;
       min-width: max-content;
-      padding: 0 14px;
-      animation: news-scroll 68s linear infinite;
+      padding: 14px;
+      animation: news-scroll 90s linear infinite;
     }
     .news-track:hover { animation-play-state: paused; }
     .news-item {
-      color: var(--soft);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+      width: 320px;
+      min-height: 128px;
+      padding: 14px;
+      border: 1px solid var(--line-soft);
+      border-radius: 6px;
+      background: #fbfdff;
+      color: var(--text);
       text-decoration: none;
-      font-size: 13px;
-      font-weight: 720;
-      white-space: nowrap;
+      white-space: normal;
     }
-    .news-item span { color: var(--muted); font-weight: 650; margin-left: 6px; }
-    .news-dot { color: #cbd5e1; }
+    .news-title {
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      font-size: 14px;
+      font-weight: 820;
+      line-height: 1.35;
+    }
+    .news-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 10px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.25;
+    }
+    .news-meta b { color: var(--green); font-weight: 820; }
+    .news-dot { display: none; }
     @keyframes news-scroll {
       from { transform: translateX(0); }
       to { transform: translateX(-50%); }
@@ -564,7 +587,7 @@
       <h1>AI 公司行情与市值排名</h1>
       <p class="subtitle">当前 AI 相关美国上市、美股挂牌与中国港股、A 股公司市值为 <b id="inline-total-cap">—</b>。本页从英伟达开始，追踪 AI 产业链公司；美国公司标注 🇺🇸，中国公司标注 🇨🇳，每页显示 100 家，超过 100 家进入第二页。</p>
       <div class="news-strip" aria-label="AI company news">
-        <div class="news-strip-label">四大新闻源</div>
+        <div class="news-strip-label">公司新闻 <span>标题 · 来源 · 作者</span></div>
         <div class="news-marquee">
           <div class="news-track" id="news-track">
             <span class="news-item">正在加载四大新闻源…</span>
@@ -1266,19 +1289,32 @@
     }
     function fallbackNewsItems() {
       return [
-        { title: "华尔街日报、纽约时报、彭博、路透社 AI 新闻滚动更新", source: "AI Market Cap", url: "#" },
-        { title: "四大新闻源持续追踪 AI 芯片、云、数据中心与大模型动态", source: "AI Market Cap", url: "#" },
-        { title: "预上市公司估值与上市公司市值统一进入美元口径排行", source: "AI Market Cap", url: "#" }
+        { title: "华尔街日报、纽约时报、彭博、路透社 AI 新闻滚动更新", source: "AI Market Cap", author: "四大新闻源", url: "#" },
+        { title: "四大新闻源持续追踪 AI 芯片、云、数据中心与大模型动态", source: "AI Market Cap", author: "Markets", url: "#" },
+        { title: "预上市公司估值与上市公司市值统一进入美元口径排行", source: "AI Market Cap", author: "Ranking", url: "#" }
       ];
+    }
+    function escapeHtml(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\"": "&quot;",
+        "'": "&#39;"
+      }[char]));
     }
     function renderNewsStrip(items) {
       const track = $("news-track");
-      const clean = (items || []).filter((item) => item?.title).slice(0, 18);
+      const clean = (items || []).filter((item) => item?.title).slice(0, 16);
       const news = clean.length ? clean : fallbackNewsItems();
       const nodes = [...news, ...news].map((item) => {
-        const source = item.author || item.source || "News";
+        const source = item.source || "News";
+        const author = item.author || item.source || "News";
         const href = item.url || "#";
-        return `<a class="news-item" href="${href}" target="_blank" rel="noopener">${item.title}<span>${source}</span></a><span class="news-dot">•</span>`;
+        return `<a class="news-item" href="${escapeHtml(href)}" target="_blank" rel="noopener">
+          <span class="news-title">${escapeHtml(item.title)}</span>
+          <span class="news-meta"><b>${escapeHtml(source)}</b><span>${escapeHtml(author)}</span></span>
+        </a>`;
       }).join("");
       track.innerHTML = nodes;
     }
