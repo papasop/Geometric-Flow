@@ -563,6 +563,20 @@ def author_of(node: ET.Element) -> str:
     return ""
 
 
+def default_author(source_name: str) -> str:
+    return clean_text(f"{source_name} Editorial", 80)
+
+
+def normalize_author(author: str, source_name: str) -> str:
+    author = clean_text(author, 80)
+    source_name = clean_text(source_name, 80)
+    if not author:
+        return default_author(source_name)
+    if author.lower() == source_name.lower():
+        return default_author(source_name)
+    return author
+
+
 def parse_html_page(source: dict[str, str], data: bytes) -> list[dict[str, str]]:
     page = data.decode("utf-8", errors="ignore")
     items = []
@@ -584,7 +598,7 @@ def parse_html_page(source: dict[str, str], data: bytes) -> list[dict[str, str]]
             "title": body,
             "summary": body,
             "url": url,
-            "author": source["name"],
+            "author": default_author(source["name"]),
             "publishedAt": None,
         })
         if len(items) >= 18:
@@ -610,7 +624,7 @@ def parse_feed(source: dict[str, str], data: bytes) -> list[dict[str, str]]:
         title = clean_text(text_of(node, ["title", "{http://www.w3.org/2005/Atom}title"]), 180)
         summary = clean_text(text_of(node, ["description", "summary", "content", "{http://www.w3.org/2005/Atom}summary", "{http://purl.org/rss/1.0/modules/content/}encoded"]))
         url = link_of(node)
-        author = author_of(node) or source["name"]
+        author = normalize_author(author_of(node), source["name"])
         published = parse_date(text_of(node, ["pubDate", "published", "updated", "{http://www.w3.org/2005/Atom}published", "{http://www.w3.org/2005/Atom}updated"]))
         if title and url:
             items.append({
