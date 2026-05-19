@@ -580,8 +580,8 @@
       ["601869.SS", "长飞光纤", "China optical", "光纤、光缆、光模块与 AI 算力网络连接基础设施。"],
       ["688795.SS", "摩尔线程", "China GPU", "国产全功能 GPU 与 MUSA 架构，覆盖智算加速和图形计算。"],
       ["603986.SS", "兆易创新", "China memory chip", "存储芯片、MCU 与端侧 AI 硬件供应链。"],
-      ["YMTC.PRE", "长江存储", "China memory pre-IPO", "预上市 NAND 闪存龙头，AI 数据中心存储供应链。", { status: "prelist", estimatedMarketCap: 30000000000 }],
-      ["CXMT.PRE", "长鑫存储", "China memory pre-IPO", "预上市 DRAM 存储厂商，AI 服务器内存供应链。", { status: "prelist", estimatedMarketCap: 25000000000 }],
+      ["YMTC.PRE", "长江存储", "China memory pre-IPO", "预上市 NAND 闪存龙头，AI 数据中心存储供应链。", { status: "prelist", estimatedMarketCapCny: 213000000000 }],
+      ["CXMT.PRE", "长鑫存储", "China memory pre-IPO", "预上市 DRAM 存储厂商，AI 服务器内存供应链。", { status: "prelist", estimatedMarketCapCny: 177500000000 }],
       ["002230.SZ", "科大讯飞", "China AI software", "星火大模型、语音识别和教育办公 AI。"],
       ["300308.SZ", "中际旭创", "China optical", "高速光模块，AI 数据中心互连核心。"],
       ["300502.SZ", "新易盛", "China optical", "高速光模块与 AI 算力网络。"],
@@ -618,6 +618,7 @@
         thesis: row[3],
         status: meta.status || "listed",
         estimatedMarketCap: Number.isFinite(meta.estimatedMarketCap) ? meta.estimatedMarketCap : null,
+        estimatedMarketCapCny: Number.isFinite(meta.estimatedMarketCapCny) ? meta.estimatedMarketCapCny : null,
         country: COUNTRY_OVERRIDES[row[0]] || "USA",
         marketCap: null,
         price: null,
@@ -731,6 +732,7 @@
     function effectiveCap(row) {
       if (Number.isFinite(row.marketCap) && row.marketCap > 0) return row.marketCap;
       if (row.status === "prelist" && Number.isFinite(row.estimatedMarketCap) && row.estimatedMarketCap > 0) return row.estimatedMarketCap;
+      if (row.status === "prelist" && Number.isFinite(row.estimatedMarketCapCny) && row.estimatedMarketCapCny > 0) return toUsd(row.estimatedMarketCapCny, "CNY", new Date());
       return null;
     }
     function capClass(row) {
