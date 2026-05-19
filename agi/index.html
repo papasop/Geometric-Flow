@@ -184,6 +184,74 @@
     .model-table tbody tr:last-child .featured-model { box-shadow: inset 2px 0 0 #f97316, inset -2px -2px 0 #f97316; }
     .score { display: block; font-size: 17px; font-weight: 850; }
     .score-note { display: block; margin-top: 5px; color: var(--muted); font-size: 12px; line-height: 1.35; }
+    .token-ranking {
+      margin: 0 0 16px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+    }
+    .token-ranking-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      background: #f8fafc;
+    }
+    .token-title { color: var(--text); font-size: 15px; font-weight: 860; }
+    .token-tabs {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+    }
+    .token-tab {
+      height: 28px;
+      padding: 0 10px;
+      border: 0;
+      border-radius: 5px;
+      color: var(--muted);
+      background: transparent;
+      font-size: 12px;
+      font-weight: 820;
+    }
+    .token-tab.active { color: var(--green); background: #ecfdf5; }
+    .token-summary {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .token-metric {
+      border: 1px solid var(--line-soft);
+      border-radius: 6px;
+      padding: 10px;
+      background: #fbfdff;
+    }
+    .token-metric span { display: block; color: var(--muted); font-size: 11px; font-weight: 760; margin-bottom: 5px; }
+    .token-metric b { color: var(--text); font-size: 16px; }
+    .token-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0 22px; padding: 12px 14px 14px; }
+    .token-row {
+      display: grid;
+      grid-template-columns: 30px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 10px;
+      min-height: 46px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .token-row:nth-last-child(-n + 2) { border-bottom: 0; }
+    .token-rank { color: var(--muted); font-weight: 820; font-size: 13px; }
+    .token-name { color: var(--text); font-weight: 820; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .token-provider { color: var(--muted); font-size: 12px; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .token-value { text-align: right; color: var(--text); font-weight: 850; }
+    .token-change { display: block; margin-top: 2px; color: var(--muted); font-size: 12px; font-weight: 700; }
     .tabs {
       display: flex;
       gap: 8px;
@@ -382,6 +450,11 @@
       .model-ranking-head { align-items: flex-start; flex-direction: column; }
       .model-ranking-note { text-align: left; }
       .model-table { min-width: 760px; }
+      .token-ranking-head { align-items: flex-start; flex-direction: column; }
+      .token-summary { grid-template-columns: 1fr; }
+      .token-list { grid-template-columns: 1fr; }
+      .token-row:nth-last-child(-n + 2) { border-bottom: 1px solid var(--line-soft); }
+      .token-row:last-child { border-bottom: 0; }
       .toolbar { align-items: stretch; }
       .search, select, button { width: 100%; }
       h1 { font-size: 26px; }
@@ -488,6 +561,26 @@
           </tbody>
         </table>
       </div>
+    </section>
+
+    <section class="token-ranking" aria-label="Token 调用排行">
+      <div class="token-ranking-head">
+        <div>
+          <div class="token-title">Token 调用排行</div>
+          <div class="panel-note">参考 OpenRouter Top Models，用量口径可切换</div>
+        </div>
+        <div class="token-tabs" role="tablist" aria-label="Token ranking period">
+          <button class="token-tab" data-token-period="day" type="button">日</button>
+          <button class="token-tab" data-token-period="week" type="button">周</button>
+          <button class="token-tab active" data-token-period="month" type="button">月</button>
+        </div>
+      </div>
+      <div class="token-summary" aria-label="Token ranking summary">
+        <div class="token-metric"><span>周期</span><b id="token-period-label">月</b></div>
+        <div class="token-metric"><span>Top 10 Tokens</span><b id="token-total">—</b></div>
+        <div class="token-metric"><span>第一名占比</span><b id="token-share">—</b></div>
+      </div>
+      <div class="token-list" id="token-ranking-list"></div>
     </section>
 
     <section class="tabs" aria-label="Category shortcuts">
@@ -751,9 +844,54 @@
       ["2025-12-31", 7.12],
       ["2026-05-19", 7.10]
     ];
-    const state = { rows: [...COMPANIES], sort: "mcap", query: "", category: "ALL", selected: "NVDA", page: 1 };
+    const TOKEN_RANKINGS = {
+      day: [
+        ["Qwen3.6 Plus (free)", "qwen", 790e9, null],
+        ["Mimo V2 Pro", "xiaomi", 360e9, 42],
+        ["DeepSeek V3.2", "deepseek", 210e9, 4],
+        ["Step 3.5 Flash (free)", "stepfun", 180e9, 15],
+        ["Gemini 3 Pro", "google", 160e9, 8],
+        ["Kimi K2.5", "moonshot", 140e9, 11],
+        ["GLM-5", "z.ai", 128e9, 6],
+        ["Claude Sonnet 4.5", "anthropic", 104e9, -3],
+        ["GPT-5.1", "openai", 92e9, 2],
+        ["Qwen Coder", "qwen", 84e9, 17]
+      ],
+      week: [
+        ["Qwen3.6 Plus (free)", "qwen", 5.53e12, null],
+        ["Mimo V2 Pro", "xiaomi", 2.41e12, 42],
+        ["Qwen3.6 Plus Preview (free)", "qwen", 1.62e12, 9088],
+        ["Step 3.5 Flash (free)", "stepfun", 1.25e12, 15],
+        ["DeepSeek V3.2", "deepseek", 1.19e12, 4],
+        ["Gemini 3 Pro", "google", 930e9, 8],
+        ["Kimi K2.5", "moonshot", 870e9, 11],
+        ["GLM-5", "z.ai", 810e9, 6],
+        ["Claude Sonnet 4.5", "anthropic", 620e9, -3],
+        ["GPT-5.1", "openai", 540e9, 2]
+      ],
+      month: [
+        ["MiniMax M2.5", "minimax", 4.55e12, 26],
+        ["Kimi K2.5", "moonshot", 4.02e12, 19],
+        ["Hy3", "tencent", 3.66e12, 298],
+        ["GLM-5", "z.ai", 3.18e12, 34],
+        ["DeepSeek V3.2", "deepseek", 2.74e12, 18],
+        ["Qwen3.6 Plus (free)", "qwen", 2.52e12, null],
+        ["Gemini 3 Pro", "google", 2.10e12, 8],
+        ["Claude Sonnet 4.5", "anthropic", 1.85e12, -3],
+        ["GPT-5.1", "openai", 1.42e12, 2],
+        ["Grok 4", "xAI", 920e9, 5]
+      ]
+    };
+    const TOKEN_PERIOD_LABELS = { day: "日", week: "周", month: "月" };
+    const state = { rows: [...COMPANIES], sort: "mcap", query: "", category: "ALL", selected: "NVDA", page: 1, tokenPeriod: "month" };
     const $ = (id) => document.getElementById(id);
 
+    function formatTokens(value) {
+      if (!Number.isFinite(value) || value <= 0) return "—";
+      if (value >= 1e12) return `${(value / 1e12).toFixed(2)}T`;
+      if (value >= 1e9) return `${(value / 1e9).toFixed(0)}B`;
+      return `${(value / 1e6).toFixed(0)}M`;
+    }
     function formatCap(value) {
       if (!Number.isFinite(value) || value <= 0) return "—";
       if (value >= 1e12) return `$${(value / 1e12).toFixed(2)}T`;
@@ -969,6 +1107,25 @@
       renderTable();
       renderSummary();
     }
+    function renderTokenRanking() {
+      const rows = TOKEN_RANKINGS[state.tokenPeriod] || TOKEN_RANKINGS.month;
+      const total = rows.reduce((sum, row) => sum + row[2], 0);
+      $("token-period-label").textContent = TOKEN_PERIOD_LABELS[state.tokenPeriod] || "月";
+      $("token-total").textContent = formatTokens(total);
+      $("token-share").textContent = total ? `${((rows[0][2] / total) * 100).toFixed(1)}%` : "—";
+      $("token-ranking-list").innerHTML = rows.map(([name, provider, tokens, change], index) => {
+        const changeLabel = change === null ? "new" : `${change > 0 ? "+" : ""}${change}%`;
+        const changeClass = change === null || change >= 0 ? "positive" : "negative";
+        return `<div class="token-row">
+          <div class="token-rank">${index + 1}</div>
+          <div>
+            <div class="token-name">${name}</div>
+            <div class="token-provider">by ${provider}</div>
+          </div>
+          <div class="token-value">${formatTokens(tokens)}<span class="token-change ${changeClass}">${changeLabel}</span></div>
+        </div>`;
+      }).join("");
+    }
     async function fetchJson(url) {
       const response = await fetch(url, { cache: "no-store" });
       if (!response.ok) throw new Error(`fetch ${response.status}`);
@@ -1127,6 +1284,13 @@
           render();
         });
       });
+      document.querySelectorAll(".token-tab").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.tokenPeriod = button.dataset.tokenPeriod || "month";
+          document.querySelectorAll(".token-tab").forEach((item) => item.classList.toggle("active", item === button));
+          renderTokenRanking();
+        });
+      });
       [["sort-mcap", "mcap"], ["sort-rank", "rank"], ["sort-change", "change"]].forEach(([id, sort]) => {
         $(id).addEventListener("click", () => {
           state.sort = sort;
@@ -1143,6 +1307,7 @@
       render();
     }
     initControls();
+    renderTokenRanking();
     render();
     fetchQuotes().catch(handleQuoteError);
   </script>
