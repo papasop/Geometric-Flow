@@ -670,7 +670,6 @@
       <span>市场: <b>NYSE / Nasdaq / A 股 / 韩股 / 预上市</b></span>
       <span>总市值: <b id="top-total-cap">—</b> <span class="up" id="market-change">0.0%</span></span>
       <span>24小时交易量: <b id="top-volume">—</b></span>
-      <span>AI 龙头占比: <b id="dominance">NVDA — · MSFT —</b></span>
       <span id="updated-at">USD · live quote when available</span>
     </div>
   </div>
@@ -1184,7 +1183,7 @@
       zh: {
         pageTitle: "AI 公司行情与市值排名",
         topCompanies: "公司", topMarket: "市场", topMarketValue: "NYSE / Nasdaq / A 股 / 韩股 / 预上市",
-        totalCap: "总市值", volume24h: "24小时交易量", dominance: "AI 龙头占比",
+        totalCap: "总市值", volume24h: "24小时交易量",
         initialQuote: "USD · 实时行情可用时更新",
         navCap: "按市值", navCategory: "类别", navCloud: "新云", navSemi: "半导体", navDataCenter: "数据中心", navMovers: "涨与跌", navCharts: "全球图表",
         industry: "行业", company: "并购", market: "股权融资", frontier: "新科技",
@@ -1212,7 +1211,7 @@
       en: {
         pageTitle: "AI Market Cap",
         topCompanies: "Companies", topMarket: "Markets", topMarketValue: "NYSE / Nasdaq / A-shares / Korea / Pre-IPO",
-        totalCap: "Market Cap", volume24h: "24h Volume", dominance: "AI Leaders",
+        totalCap: "Market Cap", volume24h: "24h Volume",
         initialQuote: "USD · live quote when available",
         navCap: "Market Cap", navCategory: "Categories", navCloud: "AI Cloud", navSemi: "Semiconductors", navDataCenter: "Data Centers", navMovers: "Gainers / Losers", navCharts: "Global Charts",
         industry: "Industry", company: "M&A", market: "Equity Financing", frontier: "New Tech",
@@ -1510,8 +1509,6 @@
       const volume = volumeRows.reduce((sum, row) => sum + effectiveVolume(row), 0);
       const nvda = rows.find((row) => row.ticker === "NVDA");
       const msft = rows.find((row) => row.ticker === "MSFT");
-      const nvdaShare = nvda && total ? `${((effectiveCap(nvda) / total) * 100).toFixed(1)}%` : "—";
-      const msftShare = msft && total ? `${((effectiveCap(msft) / total) * 100).toFixed(1)}%` : "—";
       const changeRows = rows.filter((row) => Number.isFinite(row.changePercent));
       const avgChange = changeRows.length ? changeRows.reduce((sum, row) => sum + row.changePercent, 0) / changeRows.length : null;
       const gainers = [...changeRows].sort((a, b) => b.changePercent - a.changePercent).slice(0, 3);
@@ -1520,7 +1517,6 @@
       $("highlight-cap").textContent = formatCap(total);
       $("top-volume").textContent = formatCap(volume);
       $("highlight-volume").textContent = formatCap(volume);
-      $("dominance").textContent = `NVDA ${nvdaShare} · MSFT ${msftShare}`;
       $("market-change").textContent = formatPercent(avgChange);
       $("market-change").className = percentClass(avgChange);
       $("highlight-change").textContent = formatPercent(avgChange);
@@ -1830,7 +1826,6 @@
       if (market) market.innerHTML = `${t("topMarket")}: <b>${t("topMarketValue")}</b>`;
       setFirstText(".topline-inner > span:nth-child(3)", `${t("totalCap")}: `);
       setFirstText(".topline-inner > span:nth-child(4)", `${t("volume24h")}: `);
-      setFirstText(".topline-inner > span:nth-child(5)", `${t("dominance")}: `);
       if (/live quote|实时行情/.test($("updated-at")?.textContent || "")) $("updated-at").textContent = t("initialQuote");
       setAllText(".nav a", [t("navCap"), t("navCategory"), t("navCloud"), t("navSemi"), t("navDataCenter"), t("navMovers"), t("navCharts")]);
       document.querySelector(".news-sections")?.setAttribute("aria-label", `${t("industry")}/${t("company")}/${t("market")}/${t("frontier")}`);
