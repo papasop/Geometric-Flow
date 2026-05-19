@@ -359,7 +359,7 @@
       <div class="highlight-card">
         <div class="label">24小时交易量</div>
         <div class="value" id="highlight-volume">—</div>
-        <div class="mini">估算或实时成交额</div>
+        <div class="mini">真实成交额，可用时更新</div>
       </div>
       <div class="highlight-card">
         <div class="label">热门</div>
@@ -430,28 +430,10 @@
       </div>
       <div class="pager" id="pager"></div>
     </section>
-    <p class="footer-note">说明：这是 AI 相关美股挂牌公司观察名单，不是投资建议，也不是官方指数。市值优先使用在线 quote；接口不可用时使用内置估算市值保持排序可读。点击公司行可打开对应 Yahoo Finance 页面。</p>
+    <p class="footer-note">说明：这是 AI 相关美股挂牌与 A 股公司观察名单，不是投资建议，也不是官方指数。价格、1小时/24小时/7天/30天变化、成交额与市值均优先使用在线 quote/chart 真实行情；不可用时显示为空。中国公司市值与成交额在内部按 USD/CNY 历史机制折算成美元口径，但页面不展示汇率。</p>
   </main>
 
   <script>
-    const FALLBACK_CAP_B = {
-      NVDA: 4900, MSFT: 3900, AAPL: 3600, GOOG: 3000, AMZN: 2700, META: 1900, AVGO: 1700, TSM: 1500, ORCL: 1000, AMD: 400,
-      ASML: 360, CRM: 300, SAP: 300, IBM: 300, CSCO: 270, INTU: 220, NOW: 210, ISRG: 200, QCOM: 180, UBER: 180,
-      ADBE: 175, TXN: 170, AMAT: 170, SHOP: 170, ARM: 160, APP: 160, INTC: 150, ANET: 150, MU: 150, PANW: 140,
-      LRCX: 130, CRWD: 120, ADI: 120, KLAC: 110, SNPS: 100, CDNS: 95, DELL: 90, EQIX: 75, SMCI: 70, NET: 70,
-      VRT: 70, CRWV: 70, SNOW: 65, MRVL: 60, WDAY: 60, DDOG: 55, TEAM: 55, DLR: 55, FTNT: 55, ADSK: 45,
-      ZS: 45, VEEV: 40, NXPI: 40, HUBS: 35, TTD: 35, MPWR: 35, HPE: 35, IOT: 30, SYM: 30, MDB: 25,
-      ON: 25, MCHP: 25, RBRK: 20, TER: 20, GFS: 20, IREN: 18, OKTA: 16, DT: 16, NBIS: 15, IONQ: 15,
-      COHR: 15, DOCU: 12, TWLO: 12, APLD: 12, TEM: 10, NICE: 10, WULF: 8, LITE: 8, CFLT: 7, PATH: 6,
-      CORZ: 6, TSEM: 6, SOUN: 5, RGTI: 5, IPGP: 5, VNET: 4, HUT: 4, QBTS: 4, ACMR: 4, AI: 3,
-      ACLS: 3, VECO: 3, FORM: 3, UCTT: 2, QUBT: 2, BBAI: 1, AEHR: 1, COHU: 1,
-      "688256.SS": 80, "688041.SS": 55, "688111.SS": 45, "603019.SS": 42, "000977.SZ": 38,
-      "002230.SZ": 35, "300308.SZ": 32, "300502.SZ": 28, "300394.SZ": 25, "688981.SS": 95,
-      "002415.SZ": 36, "000938.SZ": 24, "600570.SS": 18, "300033.SZ": 24, "688008.SS": 20,
-      "688521.SS": 13, "688327.SS": 5, "688088.SS": 4, "603501.SS": 42, "002236.SZ": 15,
-      "300496.SZ": 12, "002371.SZ": 44, "688120.SS": 12, "300476.SZ": 14, "002463.SZ": 18,
-      "300604.SZ": 8, "688012.SS": 24, "603893.SS": 16, "688169.SS": 15, "688728.SS": 9
-    };
     const COUNTRY_OVERRIDES = {
       TSM: "Taiwan", ASML: "Netherlands", SAP: "Germany", ARM: "United Kingdom", SHOP: "Canada", NICE: "Israel",
       TSEM: "Israel", QCOM: "USA", NXPI: "Netherlands", GFS: "USA",
@@ -602,11 +584,14 @@
       thesis: row[3],
       country: COUNTRY_OVERRIDES[row[0]] || "USA",
       marketCap: null,
-      fallbackCap: (FALLBACK_CAP_B[row[0]] || 0) * 1e9,
       price: null,
       currency: "USD",
       volume: null,
-      changePercent: null
+      change1h: null,
+      changePercent: null,
+      change7d: null,
+      change30d: null,
+      sparkPoints: null
     }));
 
     const ROWS_PER_PAGE = 100;
@@ -653,12 +638,6 @@
     function percentClass(value) {
       return (value || 0) >= 0 ? "positive" : "negative";
     }
-    function pseudoChange(row, span) {
-      const seed = row.rank * 17 + span * 31;
-      const wave = Math.sin(seed) * 1.8 + Math.cos(seed / 3) * 1.1;
-      const scale = span === 1 ? 0.22 : span === 24 ? 0.95 : span === 7 ? 2.2 : 5.8;
-      return wave * scale;
-    }
     function formatPrice(value, row) {
       if (!Number.isFinite(value) || value <= 0) return "—";
       const symbol = row?.currency === "CNY" ? "¥" : "$";
@@ -678,19 +657,14 @@
     }
     function effectiveVolume(row) {
       if (Number.isFinite(row.volume) && row.volume > 0) return row.volume;
-      return effectiveCap(row) * (0.0025 + ((row.rank % 13) / 10000));
+      return null;
     }
     function sparkline(row) {
-      const base = effectiveCap(row) || row.rank * 1000;
-      const points = Array.from({ length: 18 }, (_, i) => {
-        const wave = Math.sin((i + row.rank) * 0.72) * 7;
-        const slope = (i - 9) * ((row.changePercent || ((row.rank % 7) - 3)) * 0.18);
-        const noise = Math.cos((i + 3) * (row.rank % 11 + 1)) * 2.4;
-        return 18 - Math.max(-14, Math.min(14, wave + slope + noise));
-      });
+      if (!Array.isArray(row.sparkPoints) || row.sparkPoints.length < 2) return "—";
+      const points = row.sparkPoints;
       const step = 120 / (points.length - 1);
       const d = points.map((y, i) => `${i ? "L" : "M"}${(i * step).toFixed(1)},${y.toFixed(1)}`).join(" ");
-      const color = (row.changePercent || 0) >= 0 ? "#168a55" : "#c2414b";
+      const color = (row.change30d || row.changePercent || 0) >= 0 ? "#168a55" : "#c2414b";
       return `<svg class="spark" viewBox="0 0 128 34" aria-hidden="true">
         <path d="${d}" fill="none" stroke="${color}" stroke-width="2.2" stroke-linecap="round" />
       </svg>`;
@@ -706,7 +680,7 @@
         return matchCategory && (!q || haystack.includes(q));
       });
       if (state.sort === "mcap") {
-        rows = rows.sort((a, b) => effectiveCap(b) - effectiveCap(a) || a.rank - b.rank);
+        rows = rows.sort((a, b) => (effectiveCap(b) || -1) - (effectiveCap(a) || -1) || a.rank - b.rank);
       } else if (state.sort === "change") {
         rows = rows.sort((a, b) => (b.changePercent ?? -999) - (a.changePercent ?? -999) || a.rank - b.rank);
       } else {
@@ -715,10 +689,10 @@
       return rows;
     }
     function effectiveCap(row) {
-      return Number.isFinite(row.marketCap) ? row.marketCap : (row.fallbackCap || 0);
+      return Number.isFinite(row.marketCap) ? row.marketCap : null;
     }
     function capClass(row) {
-      return Number.isFinite(row.marketCap) ? "mcap" : "mcap estimated";
+      return Number.isFinite(row.marketCap) ? "mcap" : "mcap";
     }
     function renderTable() {
       const rows = filteredRows();
@@ -729,10 +703,10 @@
       const end = Math.min(start + pageRows.length, rows.length);
       $("count-note").textContent = `${rows.length ? start + 1 : 0}-${end} / ${rows.length} companies`;
       $("rank-body").innerHTML = pageRows.map((row, idx) => {
-        const h1 = pseudoChange(row, 1);
-        const d1 = Number.isFinite(row.changePercent) ? row.changePercent : pseudoChange(row, 24);
-        const d7 = pseudoChange(row, 7);
-        const d30 = pseudoChange(row, 30);
+        const h1 = row.change1h;
+        const d1 = row.changePercent;
+        const d7 = row.change7d;
+        const d30 = row.change30d;
         const isActive = row.ticker === state.selected ? " class=\"active\"" : "";
         return `<tr data-ticker="${row.ticker}"${isActive}>
           <td><button class="watch" type="button" aria-label="关注 ${row.ticker}" title="关注">☆</button></td>
@@ -751,7 +725,7 @@
           <td>${formatChange(d7)}</td>
           <td>${formatChange(d30)}</td>
           <td>${formatCap(effectiveVolume(row))}</td>
-          <td class="${capClass(row)}">${formatCap(effectiveCap(row))}${Number.isFinite(row.marketCap) ? "" : " est."}</td>
+          <td class="${capClass(row)}">${formatCap(effectiveCap(row))}</td>
           <td>${sparkline(row)}</td>
         </tr>`;
       }).join("") || `<tr><td colspan="11"><div class="empty">没有匹配结果</div></td></tr>`;
@@ -794,13 +768,15 @@
       const rows = filteredRows();
       const liveRows = rows.filter((row) => effectiveCap(row) > 0);
       const total = liveRows.reduce((sum, row) => sum + effectiveCap(row), 0);
-      const volume = liveRows.reduce((sum, row) => sum + effectiveVolume(row), 0);
+      const volumeRows = rows.filter((row) => effectiveVolume(row) > 0);
+      const volume = volumeRows.reduce((sum, row) => sum + effectiveVolume(row), 0);
       const nvda = rows.find((row) => row.ticker === "NVDA");
       const msft = rows.find((row) => row.ticker === "MSFT");
       const nvdaShare = nvda && total ? `${((effectiveCap(nvda) / total) * 100).toFixed(1)}%` : "—";
       const msftShare = msft && total ? `${((effectiveCap(msft) / total) * 100).toFixed(1)}%` : "—";
-      const avgChange = liveRows.length ? liveRows.reduce((sum, row) => sum + (Number.isFinite(row.changePercent) ? row.changePercent : pseudoChange(row, 24)), 0) / liveRows.length : 0;
-      const gainers = [...rows].sort((a, b) => (Number.isFinite(b.changePercent) ? b.changePercent : pseudoChange(b, 24)) - (Number.isFinite(a.changePercent) ? a.changePercent : pseudoChange(a, 24))).slice(0, 3);
+      const changeRows = rows.filter((row) => Number.isFinite(row.changePercent));
+      const avgChange = changeRows.length ? changeRows.reduce((sum, row) => sum + row.changePercent, 0) / changeRows.length : null;
+      const gainers = [...changeRows].sort((a, b) => b.changePercent - a.changePercent).slice(0, 3);
       $("top-company-count").textContent = String(rows.length);
       $("summary-count").textContent = String(rows.length);
       $("top-total-cap").textContent = formatCap(total);
@@ -816,12 +792,81 @@
       $("highlight-change").className = percentClass(avgChange);
       $("trending-one").textContent = rows[0]?.ticker || "—";
       $("trending-list").textContent = rows.slice(0, 3).map((row) => `${row.name} ${formatCap(effectiveCap(row))}`).join(" · ");
-      $("gainer-one").textContent = gainers[0] ? `${gainers[0].ticker} ${formatPercent(Number.isFinite(gainers[0].changePercent) ? gainers[0].changePercent : pseudoChange(gainers[0], 24))}` : "—";
-      $("gainer-list").textContent = gainers.map((row) => `${row.ticker} ${formatPercent(Number.isFinite(row.changePercent) ? row.changePercent : pseudoChange(row, 24))}`).join(" · ");
+      $("gainer-one").textContent = gainers[0] ? `${gainers[0].ticker} ${formatPercent(gainers[0].changePercent)}` : "—";
+      $("gainer-list").textContent = gainers.length ? gainers.map((row) => `${row.ticker} ${formatPercent(row.changePercent)}`).join(" · ") : "等待真实行情";
     }
     function render() {
       renderTable();
       renderSummary();
+    }
+    async function fetchJson(url) {
+      const response = await fetch(url, { cache: "no-store" });
+      if (!response.ok) throw new Error(`fetch ${response.status}`);
+      return response.json();
+    }
+    function validCloses(result) {
+      const quote = result?.indicators?.quote?.[0] || {};
+      const closes = quote.close || [];
+      const timestamps = result?.timestamp || [];
+      return closes
+        .map((close, index) => ({ close, ts: timestamps[index] }))
+        .filter((point) => Number.isFinite(point.close) && Number.isFinite(point.ts));
+    }
+    function percentMove(current, previous) {
+      if (!Number.isFinite(current) || !Number.isFinite(previous) || previous <= 0) return null;
+      return ((current / previous) - 1) * 100;
+    }
+    function changeFromLookback(points, lookbackSeconds) {
+      if (!points.length) return null;
+      const last = points[points.length - 1];
+      const targetTs = last.ts - lookbackSeconds;
+      const previous = [...points].reverse().find((point) => point.ts <= targetTs) || points[0];
+      return percentMove(last.close, previous.close);
+    }
+    function normalizeSpark(closes) {
+      const values = closes.filter((value) => Number.isFinite(value));
+      if (values.length < 2) return null;
+      const min = Math.min(...values);
+      const max = Math.max(...values);
+      if (max === min) return values.map(() => 17);
+      return values.map((value) => 30 - ((value - min) / (max - min)) * 24);
+    }
+    async function fetchChartMetrics(ticker) {
+      const encoded = encodeURIComponent(ticker);
+      const [intraday, month] = await Promise.allSettled([
+        fetchJson(`https://query1.finance.yahoo.com/v8/finance/chart/${encoded}?range=1d&interval=5m`),
+        fetchJson(`https://query1.finance.yahoo.com/v8/finance/chart/${encoded}?range=1mo&interval=1d`)
+      ]);
+      const metrics = {};
+      if (intraday.status === "fulfilled") {
+        const points = validCloses(intraday.value.chart?.result?.[0]);
+        metrics.change1h = changeFromLookback(points, 60 * 60);
+      }
+      if (month.status === "fulfilled") {
+        const points = validCloses(month.value.chart?.result?.[0]);
+        if (points.length) {
+          const last = points[points.length - 1];
+          const d7Point = points[Math.max(0, points.length - 6)];
+          const d30Point = points[0];
+          metrics.change7d = percentMove(last.close, d7Point.close);
+          metrics.change30d = percentMove(last.close, d30Point.close);
+          metrics.sparkPoints = normalizeSpark(points.map((point) => point.close));
+        }
+      }
+      return metrics;
+    }
+    async function fetchHistoricalMetrics() {
+      const batchSize = 8;
+      for (let i = 0; i < state.rows.length; i += batchSize) {
+        const batch = state.rows.slice(i, i + batchSize);
+        const updates = await Promise.allSettled(batch.map((row) => fetchChartMetrics(row.ticker)));
+        updates.forEach((result, index) => {
+          if (result.status !== "fulfilled") return;
+          const ticker = batch[index].ticker;
+          state.rows = state.rows.map((row) => row.ticker === ticker ? { ...row, ...result.value } : row);
+        });
+        render();
+      }
     }
     async function fetchQuotes() {
       const symbols = COMPANIES.map((row) => row.ticker);
@@ -850,11 +895,16 @@
           price: Number.isFinite(q.regularMarketPrice) ? q.regularMarketPrice : null,
           currency: quoteCurrency,
           volume: quoteVolume,
-          changePercent: Number.isFinite(q.regularMarketChangePercent) ? q.regularMarketChangePercent : null
+          changePercent: Number.isFinite(q.regularMarketChangePercent) ? q.regularMarketChangePercent : null,
+          change1h: null,
+          change7d: null,
+          change30d: null,
+          sparkPoints: null
         };
       });
       $("updated-at").textContent = `Last refresh · ${new Date().toLocaleString()}`;
       render();
+      fetchHistoricalMetrics().catch((error) => console.warn(error));
     }
     function initControls() {
       $("category-filter").innerHTML = categories().map((cat) => `<option value="${cat}">${cat === "ALL" ? "全部子赛道" : cat}</option>`).join("");
@@ -881,7 +931,7 @@
     }
     function handleQuoteError(error) {
       console.warn(error);
-      $("updated-at").textContent = "行情接口暂不可用，使用内置估算市值";
+      $("updated-at").textContent = "行情接口暂不可用，真实行情为空";
       render();
     }
     initControls();
