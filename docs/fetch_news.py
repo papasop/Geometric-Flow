@@ -579,7 +579,6 @@ def author_of(node: ET.Element) -> str:
     direct = text_of(node, [
         "author",
         "creator",
-        "source",
         "{http://purl.org/dc/elements/1.1/}creator",
         "{http://purl.org/dc/terms/}creator",
     ])
@@ -594,17 +593,15 @@ def author_of(node: ET.Element) -> str:
     return ""
 
 
-def default_author(source_name: str) -> str:
-    return clean_text(f"{source_name} Editorial", 80)
-
-
 def normalize_author(author: str, source_name: str) -> str:
     author = clean_text(author, 80)
     source_name = clean_text(source_name, 80)
     if not author:
-        return default_author(source_name)
+        return ""
     if author.lower() == source_name.lower():
-        return default_author(source_name)
+        return ""
+    if re.search(r"\beditorial\b|\bstaff\b|^news$", author, re.I):
+        return ""
     return author
 
 
@@ -629,7 +626,7 @@ def parse_html_page(source: dict[str, str], data: bytes) -> list[dict[str, str]]
             "title": body,
             "summary": body,
             "url": url,
-            "author": default_author(source["name"]),
+            "author": "",
             "publishedAt": None,
         })
         if len(items) >= 18:
@@ -710,7 +707,7 @@ def parse_event_registry_article(article: dict[str, object], portfolio: str) -> 
         "title": title,
         "summary": body or title,
         "url": url,
-        "author": author or source_name or "Event Registry",
+        "author": normalize_author(author, source_name),
         "publishedAt": published,
         "matchedPortfolios": [portfolio],
     }

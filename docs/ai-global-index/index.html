@@ -1500,16 +1500,16 @@
     function fallbackNewsItems(sectionId = "industry") {
       const fallback = {
         industry: [
-          { title: t("fallbackIndustry"), source: "AI Market Cap", author: "Industry", url: "#" },
+          { title: t("fallbackIndustry"), source: "AI Market Cap", author: "", url: "#" },
         ],
         company: [
-          { title: t("fallbackCompany"), source: "AI Market Cap", author: "Companies", url: "#" },
+          { title: t("fallbackCompany"), source: "AI Market Cap", author: "", url: "#" },
         ],
         deals: [
-          { title: t("fallbackMarket"), source: "AI Market Cap", author: "M&A / Financing", url: "#" },
+          { title: t("fallbackMarket"), source: "AI Market Cap", author: "", url: "#" },
         ],
         tech: [
-          { title: t("fallbackFrontier"), source: "AI Market Cap", author: "Frontier", url: "#" },
+          { title: t("fallbackFrontier"), source: "AI Market Cap", author: "", url: "#" },
         ],
       };
       return fallback[sectionId] || fallback.industry;
@@ -1532,15 +1532,14 @@
       return raw;
     }
     function displayNewsAuthor(sourceValue, authorValue) {
-      const source = displayNewsParty(sourceValue || "News");
       const author = displayNewsParty(authorValue || "");
       const normalizedSource = String(sourceValue || "").toLowerCase();
       const normalizedAuthor = String(authorValue || "").toLowerCase();
       if (!author || normalizedAuthor === normalizedSource) {
-        return state.lang === "zh" ? `${source}编辑部` : `${source} Editorial`;
+        return "";
       }
-      if (state.lang === "zh" && / editorial$/i.test(String(authorValue || ""))) {
-        return `${source}编辑部`;
+      if (/ editorial$|\beditorial\b|\bstaff\b|^news$/i.test(String(authorValue || ""))) {
+        return "";
       }
       return author;
     }
@@ -1554,11 +1553,12 @@
         const author = displayNewsAuthor(item.source || "News", item.author || "");
         const href = item.url || "#";
         const title = state.lang === "zh" ? (item.titleZh || item.title) : (item.titleEn || item.title);
+        const authorNode = author ? `<span><span class="news-meta-label">${escapeHtml(t("newsAuthor"))}</span><b>${escapeHtml(author)}</b></span>` : "";
         return `<a class="news-item" href="${escapeHtml(href)}" target="_blank" rel="noopener">
           <span class="news-title">${escapeHtml(title)}</span>
           <span class="news-meta">
             <span><span class="news-meta-label">${escapeHtml(t("newsSource"))}</span><b>${escapeHtml(source)}</b></span>
-            <span><span class="news-meta-label">${escapeHtml(t("newsAuthor"))}</span><b>${escapeHtml(author)}</b></span>
+            ${authorNode}
           </span>
         </a>`;
       }).join("");
