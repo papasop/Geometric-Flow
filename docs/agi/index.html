@@ -667,6 +667,7 @@
       <a href="#" data-nav-tab="AI security">安全</a>
       <a href="#" data-nav-tab="Quantum">量子</a>
       <a href="#" data-nav-tab="China AI">中国人工智能</a>
+      <a href="#" data-nav-tab="Leopold Aschenbrenner">Leopold Aschenbrenner</a>
     </div>
   </nav>
   <main class="shell">
@@ -813,6 +814,7 @@
       <button class="tab" data-tab="AI security" type="button">安全</button>
       <button class="tab" data-tab="Quantum" type="button">量子</button>
       <button class="tab" data-tab="China AI" type="button">中国 AI</button>
+      <button class="tab" data-tab="Leopold Aschenbrenner" type="button">Leopold Aschenbrenner</button>
     </section>
 
     <section class="toolbar" aria-label="AI Market Cap controls">
@@ -859,7 +861,7 @@
   <script>
     const COUNTRY_OVERRIDES = {
       TSM: "Taiwan", ASML: "Netherlands", SAP: "Germany", ARM: "United Kingdom", SHOP: "Canada", NICE: "Israel",
-      TSEM: "Israel", QCOM: "USA", NXPI: "Netherlands", GFS: "USA",
+      TSEM: "Israel", QCOM: "USA", NXPI: "Netherlands", GFS: "USA", INFY: "India", BTDR: "Singapore",
       "005930.KS": "South Korea", "000660.KS": "South Korea",
       "688256.SS": "China", "688041.SS": "China", "688111.SS": "China", "603019.SS": "China", "000977.SZ": "China",
       "300750.SZ": "China",
@@ -872,6 +874,12 @@
       "300496.SZ": "China", "002371.SZ": "China", "688120.SS": "China", "300476.SZ": "China", "002463.SZ": "China",
       "300604.SZ": "China", "688012.SS": "China", "603893.SS": "China", "688169.SS": "China", "688728.SS": "China"
     };
+
+    const LEOPOLD_TICKERS = new Set([
+      "APLD", "BE", "BTDR", "BW", "CIFR", "CLSK", "COHR", "CORZ", "CRWV", "EQT",
+      "HUT", "INFY", "INTC", "IREN", "KEEL", "KRC", "LBRT", "LITE", "PSIX", "PUMP",
+      "RIOT", "SEI", "SNDK", "TSEM", "WYFI"
+    ]);
 
     const COMPANIES = [
       ["NVDA", "NVIDIA", "AI GPU / CUDA", "AI 训练和推理算力核心，从英伟达开始。"],
@@ -956,11 +964,26 @@
       ["LEPTON.PRE", "Lepton AI", "AI cloud", "预上市 AI 应用与推理云平台，面向开发者的模型部署、API 与弹性算力。", { status: "prelist", estimatedMarketCap: 120000000 }],
       ["VNET", "VNET Group", "AI data center", "中国数据中心与 AI 基础设施。"],
       ["CRWV", "CoreWeave", "AI cloud", "GPU 云、AI 训练和推理基础设施。"],
+      ["BE", "Bloom Energy", "AI power / fuel cells", "燃料电池与现场发电，AI 数据中心电力供应链。"],
       ["IREN", "IREN", "AI data center", "低成本电力和 AI 数据中心转型。"],
       ["APLD", "Applied Digital", "AI data center", "AI 托管、数据中心和高功率机房。"],
+      ["SNDK", "SanDisk", "AI storage", "闪存与数据存储，AI 数据中心存储链。"],
+      ["EQT", "EQT", "AI power / natural gas", "天然气与能源基础设施，服务 AI 数据中心电力需求。"],
+      ["CIFR", "Cipher Mining", "AI data center / bitcoin miner", "矿场电力资产向 HPC 与 AI 数据中心转型。"],
+      ["RIOT", "Riot Platforms", "AI data center / bitcoin miner", "比特币矿场、电力与高功率数据中心潜在转型。"],
       ["WULF", "TeraWulf", "AI power / data center", "低碳能源和 AI 数据中心。"],
       ["HUT", "Hut 8", "AI infrastructure", "矿场电力资产向 AI 算力基础设施转型。"],
       ["CORZ", "Core Scientific", "AI data center", "CoreWeave 长约托管与 AI 数据中心。"],
+      ["SEI", "Solaris Energy Infrastructure", "AI power / data center", "分布式电力与能源基础设施，面向高密度算力负载。"],
+      ["BTDR", "Bitdeer Technologies", "AI data center / bitcoin miner", "矿场、算力与数据中心资产，潜在 AI/HPC 转型。"],
+      ["CLSK", "CleanSpark", "AI data center / bitcoin miner", "低成本电力与矿场基础设施，潜在 AI 数据中心容量。"],
+      ["KRC", "Kilroy Realty", "AI data center real estate", "湾区与西海岸地产资产，数据中心与科技地产观察。"],
+      ["INFY", "Infosys", "AI services", "企业 AI 服务、软件外包与数字化转型。"],
+      ["KEEL", "Keel Infrastructure", "AI power / data center", "数字与能源基础设施，面向 HPC 和 AI 工作负载。"],
+      ["LBRT", "Liberty Energy", "AI power / energy services", "能源服务与分布式电力链条。"],
+      ["PSIX", "Power Solutions International", "AI power systems", "发动机与电力系统，面向数据中心备用与分布式供电。"],
+      ["PUMP", "ProPetro", "AI power / energy services", "油服与能源服务，AI 电力供应链侧翼观察。"],
+      ["BW", "Babcock & Wilcox", "AI power / industrial", "工业锅炉、发电与能源解决方案。"],
       ["RGTI", "Rigetti Computing", "Quantum", "量子计算，长期 AI 计算范式观察。"],
       ["IONQ", "IonQ", "Quantum", "量子计算硬件和云访问。"],
       ["QBTS", "D-Wave Quantum", "Quantum", "量子退火和优化。"],
@@ -983,6 +1006,7 @@
       ["VECO", "Veeco Instruments", "Semi equipment", "沉积、离子束和先进封装设备。"],
       ["FORM", "FormFactor", "Probe cards", "晶圆探针卡和半导体测试。"],
       ["IPGP", "IPG Photonics", "Industrial lasers", "工业激光和自动化制造。"],
+      ["WYFI", "WhiteFiber", "AI infrastructure", "AI 基础设施与高性能计算云服务。"],
       ["SYM", "Symbotic", "Warehouse robotics", "仓储机器人和 AI 自动化。"],
       ["ISRG", "Intuitive Surgical", "Robotic surgery", "手术机器人和医疗自动化。"],
       ["NICE", "NICE", "Customer AI", "客服 AI、语音分析和 CX 自动化。"],
@@ -1066,6 +1090,7 @@
         name: row[1],
         category: row[2],
         thesis: row[3],
+        tags: meta.tags || (LEOPOLD_TICKERS.has(row[0]) ? ["Leopold Aschenbrenner"] : []),
         status: meta.status || "listed",
         estimatedMarketCap: Number.isFinite(meta.estimatedMarketCap) ? meta.estimatedMarketCap : null,
         estimatedMarketCapCny: Number.isFinite(meta.estimatedMarketCapCny) ? meta.estimatedMarketCapCny : null,
@@ -1163,14 +1188,14 @@
         topCompanies: "公司", topMarket: "市场", topMarketValue: "NYSE / Nasdaq / A 股 / 韩股 / 预上市",
         totalCap: "总市值", volume24h: "24小时交易量",
         initialQuote: "USD · 实时行情可用时更新",
-        navAiChips: "人工智能芯片", navCloud: "AI云", navDataCenter: "数据中心", navEnterpriseAi: "企业人工智能", navSecurity: "安全", navQuantum: "量子", navChinaAi: "中国人工智能",
+        navAiChips: "人工智能芯片", navCloud: "AI云", navDataCenter: "数据中心", navEnterpriseAi: "企业人工智能", navSecurity: "安全", navQuantum: "量子", navChinaAi: "中国人工智能", navLeopold: "Leopold Aschenbrenner",
         industry: "行业", company: "公司", market: "并购/融资", frontier: "新技术",
         loadingIndustry: "正在加载行业…", loadingCompany: "正在加载公司…", loadingMarket: "正在加载并购/融资…", loadingFrontier: "正在加载新技术…",
         currentFilter: "按当前筛选", realVolume: "真实成交额，可用时更新", hot: "热门", topGainer: "最大升幅", waitingQuotes: "等待行情或估算涨跌",
         modelRanking: "大模型排行", modelNote: "Opus 4.7 和 GPT-5.5 的公开评测为自报分数",
         tokenRanking: "Token 调用排行", tokenNote: "参考 OpenRouter Top Models，用量口径可切换",
         day: "日", week: "周", month: "月", period: "周期", firstShare: "第一名占比",
-        all: "所有", aiChips: "AI 芯片", aiCloud: "新云", dataCenter: "数据中心", enterpriseAi: "企业 AI", security: "安全", quantum: "量子", chinaAi: "中国 AI",
+        all: "所有", aiChips: "AI 芯片", aiCloud: "新云", dataCenter: "数据中心", enterpriseAi: "企业 AI", security: "安全", quantum: "量子", chinaAi: "中国 AI", leopold: "Leopold Aschenbrenner",
         searchPlaceholder: "搜索公司、Ticker、子赛道", allSubsectors: "全部子赛道",
         sortMcap: "统一市值排序", sortRank: "名单顺序", sortChange: "涨跌排序", refresh: "刷新",
         rankName: "排名 / 公司", tableNote: "市值（美元）· 上市 + IPO 前合并排名",
@@ -1190,14 +1215,14 @@
         topCompanies: "Companies", topMarket: "Markets", topMarketValue: "NYSE / Nasdaq / A-shares / Korea / Pre-IPO",
         totalCap: "Market Cap", volume24h: "24h Volume",
         initialQuote: "USD · live quote when available",
-        navAiChips: "AI Chips", navCloud: "AI Cloud", navDataCenter: "Data Centers", navEnterpriseAi: "Enterprise AI", navSecurity: "Security", navQuantum: "Quantum", navChinaAi: "China AI",
+        navAiChips: "AI Chips", navCloud: "AI Cloud", navDataCenter: "Data Centers", navEnterpriseAi: "Enterprise AI", navSecurity: "Security", navQuantum: "Quantum", navChinaAi: "China AI", navLeopold: "Leopold Aschenbrenner",
         industry: "Industry", company: "Companies", market: "M&A / Financing", frontier: "New Tech",
         loadingIndustry: "Loading industry…", loadingCompany: "Loading companies…", loadingMarket: "Loading M&A / financing…", loadingFrontier: "Loading new tech…",
         currentFilter: "Current filter", realVolume: "Real traded value when available", hot: "Trending", topGainer: "Top Gainer", waitingQuotes: "Waiting for quotes or estimated moves",
         modelRanking: "Model Ranking", modelNote: "Opus 4.7 and GPT-5.5 public evals are self-reported",
         tokenRanking: "Token Usage Ranking", tokenNote: "Inspired by OpenRouter Top Models; period is switchable",
         day: "Day", week: "Week", month: "Month", period: "Period", firstShare: "Top share",
-        all: "All", aiChips: "AI Chips", aiCloud: "AI Cloud", dataCenter: "Data Centers", enterpriseAi: "Enterprise AI", security: "Security", quantum: "Quantum", chinaAi: "China AI",
+        all: "All", aiChips: "AI Chips", aiCloud: "AI Cloud", dataCenter: "Data Centers", enterpriseAi: "Enterprise AI", security: "Security", quantum: "Quantum", chinaAi: "China AI", leopold: "Leopold Aschenbrenner",
         searchPlaceholder: "Search company, ticker, or subsector", allSubsectors: "All subsectors",
         sortMcap: "Unified Market Cap", sortRank: "List Order", sortChange: "Performance", refresh: "Refresh",
         rankName: "Rank / Name", tableNote: "Market Cap USD · Listed + Pre-IPO unified ranking",
@@ -1315,18 +1340,25 @@
       </svg>`;
     }
     function categories() {
-      return ["ALL", "China AI", ...Array.from(new Set(COMPANIES.map((row) => row.category))).sort()];
+      return ["ALL", "China AI", "Leopold Aschenbrenner", ...Array.from(new Set(COMPANIES.map((row) => row.category))).sort()];
     }
     function categoryLabel(cat) {
       if (cat === "ALL") return t("allSubsectors");
       if (cat === "China AI") return t("chinaAi");
+      if (cat === "Leopold Aschenbrenner") return t("leopold");
       return cat;
+    }
+    function matchesCategory(row, category) {
+      if (category === "ALL") return true;
+      if (category === "China AI") return row.country === "China";
+      if (category === "Leopold Aschenbrenner") return row.tags?.includes("Leopold Aschenbrenner");
+      return row.category === category;
     }
     function filteredRows() {
       const q = state.query.trim().toLowerCase();
       let rows = state.rows.filter((row) => {
-        const matchCategory = state.category === "ALL" || (state.category === "China AI" ? row.country === "China" : row.category === state.category);
-        const haystack = `${row.ticker} ${row.name} ${row.category} ${row.thesis} ${row.country} ${flagFor(row)}`.toLowerCase();
+        const matchCategory = matchesCategory(row, state.category);
+        const haystack = `${row.ticker} ${row.name} ${row.category} ${row.thesis} ${row.country} ${flagFor(row)} ${(row.tags || []).join(" ")}`.toLowerCase();
         return matchCategory && (!q || haystack.includes(q));
       });
       if (state.sort === "mcap") {
@@ -1827,7 +1859,7 @@
       setFirstText(".topline-inner > span:nth-child(3)", `${t("totalCap")}: `);
       setFirstText(".topline-inner > span:nth-child(4)", `${t("volume24h")}: `);
       if (/live quote|实时行情/.test($("updated-at")?.textContent || "")) $("updated-at").textContent = t("initialQuote");
-      setAllText(".nav a[data-nav-tab]", [t("navAiChips"), t("navCloud"), t("navDataCenter"), t("navEnterpriseAi"), t("navSecurity"), t("navQuantum"), t("navChinaAi")]);
+      setAllText(".nav a[data-nav-tab]", [t("navAiChips"), t("navCloud"), t("navDataCenter"), t("navEnterpriseAi"), t("navSecurity"), t("navQuantum"), t("navChinaAi"), t("navLeopold")]);
       document.querySelector(".news-sections")?.setAttribute("aria-label", `${t("industry")}/${t("company")}/${t("market")}/${t("frontier")}`);
       setAllText(".news-tab", [t("industry"), t("company"), t("market"), t("frontier")]);
       setAllText(".news-strip-label", [t("industry"), t("company"), t("market"), t("frontier")]);
@@ -1852,7 +1884,7 @@
       setText(".token-ranking-head .panel-note", t("tokenNote"));
       setAllText(".token-tab", [t("day"), t("week"), t("month")]);
       setAllText(".token-metric span", [t("period"), "Top 10 Tokens", t("firstShare")]);
-      setAllText(".tabs .tab", [t("all"), t("aiChips"), t("aiCloud"), t("dataCenter"), t("enterpriseAi"), t("security"), t("quantum"), t("chinaAi")]);
+      setAllText(".tabs .tab", [t("all"), t("aiChips"), t("aiCloud"), t("dataCenter"), t("enterpriseAi"), t("security"), t("quantum"), t("chinaAi"), t("leopold")]);
       $("search").placeholder = t("searchPlaceholder");
       setText("#sort-mcap", t("sortMcap"));
       setText("#sort-rank", t("sortRank"));

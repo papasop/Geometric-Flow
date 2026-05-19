@@ -62,7 +62,9 @@ def normalize_spark(values):
 
 def extract_listed_tickers(html):
     tickers = []
-    for ticker in re.findall(r'\["([^"]+)",\s*"[^"]+",\s*"[^"]+",', html):
+    match = re.search(r"const\s+COMPANIES\s*=\s*\[(.*?)\]\.map\(", html, re.S)
+    company_block = match.group(1) if match else html
+    for ticker in re.findall(r'\["([^"]+)",\s*"[^"]+",\s*"[^"]+",', company_block):
         if ticker.endswith(".PRE"):
             continue
         if ticker not in tickers:
