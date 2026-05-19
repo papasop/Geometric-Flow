@@ -259,31 +259,43 @@ def google_news_source(name: str, terms: list[str]) -> dict[str, str]:
     }
 
 
-AI_CLOUD_THEME_SOURCES = [
-    google_news_source("AI Cloud · Components", [
-        "Nebius", "NBIS", "VNET", "\u4e16\u7eaa\u4e92\u8fde", "AI cloud", "AI data center",
-    ]),
-    google_news_source("AI Cloud · Infrastructure", [
-        "AI cloud", "AI data center", "AI infrastructure",
-    ]),
+def google_news_query_source(name: str, query: str) -> dict[str, str]:
+    return {
+        "name": name,
+        "url": (
+            "https://news.google.com/rss/search?q="
+            + urllib.parse.quote(query)
+            + "&hl=en-US&gl=US&ceid=US:en"
+        ),
+    }
 
-]
+
+AI_MARKET_NEWS_QUERY = (
+    '("artificial intelligence" OR AI OR Nvidia OR OpenAI OR Anthropic OR '
+    '"AI chip" OR semiconductor OR "data center" OR "AI cloud" OR '
+    '"large language model" OR "machine learning")'
+)
 
 OFFICIAL_SOURCES = [
-    *AI_CLOUD_THEME_SOURCES,
-    *[google_news_source(company["source"], company["terms"]) for company in AI_CLOUD_NEWS_COMPANIES],
+    google_news_query_source("Wall Street Journal", f"site:wsj.com {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("New York Times", f"site:nytimes.com {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("Bloomberg", f"site:bloomberg.com {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("Reuters", f"site:reuters.com {AI_MARKET_NEWS_QUERY}"),
 ]
 SOURCES = OFFICIAL_SOURCES
 
 PORTFOLIO_KEYWORDS = {
-    "ai-cloud": sorted(set([
-        *PORTFOLIO_KEYWORDS["ai-cloud"],
+    "ai-market": sorted(set([
+        *PORTFOLIO_KEYWORDS.get("ai-cloud", []),
+        "Nvidia", "OpenAI", "Anthropic", "Microsoft", "Google", "Amazon",
+        "Meta", "Broadcom", "Marvell", "TSMC", "AI chip", "AI data center",
+        "artificial intelligence", "large language model",
         *(term for company in AI_CLOUD_NEWS_COMPANIES for term in company["terms"]),
     ])),
 }
 
 SOURCE_PORTFOLIO_MATCHES = {
-    source["name"]: ["ai-cloud"] for source in OFFICIAL_SOURCES
+    source["name"]: ["ai-market"] for source in OFFICIAL_SOURCES
 }
 
 NEWS_OVERRIDES = [
@@ -653,14 +665,6 @@ def main() -> int:
                 continue
             seen.add(key)
             items.append(item)
-    else:
-        source_status.append({
-            "name": "Event Registry",
-            "status": "skipped",
-            "count": 0,
-            "note": "Set EVENT_REGISTRY_API_KEY to enable the unified primary news layer.",
-        })
-
     for source in OFFICIAL_SOURCES:
         try:
             raw = fetch_url(source["url"])
@@ -690,17 +694,13 @@ def main() -> int:
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "strategy": {
-            "primary": "Event Registry",
-            "primaryEnabled": bool(event_registry_key),
+            "primary": "Wall Street Journal, New York Times, Bloomberg, Reuters",
+            "primaryEnabled": True,
             "supplements": [
-                "SEC", "Company IR", "NASA", "Defense.gov", "WHO",
-                "Reuters", "AP", "BBC", "CNBC", "MarketWatch",
-                "WSJ / Dow Jones", "Nikkei Asia", "SCMP",
-                "Marketing Dive", "Retail Dive", "Food Dive", "WWD",
-                "SpaceNews", "Defense News", "C4ISRNET", "Breaking Defense",
-                "Fierce Biotech", "BioPharma Dive", "Endpoints News",
-                "TechCrunch",
-                "Semiconductor Engineering",
+                "Wall Street Journal",
+                "New York Times",
+                "Bloomberg",
+                "Reuters",
             ],
         },
         "sources": source_status,
