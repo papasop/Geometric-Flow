@@ -270,48 +270,60 @@ def google_news_query_source(name: str, query: str) -> dict[str, str]:
     }
 
 
+def extract_company_news_terms() -> list[str]:
+    """Use the site ranking table as the company-news keyword source."""
+    html_path = ROOT / "index.html"
+    try:
+        html_text = html_path.read_text(encoding="utf-8")
+    except OSError:
+        return []
+    terms = []
+    for match in re.finditer(r'\[\s*"[^"]+"\s*,\s*"([^"]+)"', html_text):
+        name = html.unescape(match.group(1)).strip()
+        if len(name) < 2:
+            continue
+        terms.append(name)
+    return sorted(dict.fromkeys(terms), key=str.casefold)
+
+
+def quoted_or_query(terms: list[str]) -> str:
+    return " OR ".join(f'"{term}"' for term in terms)
+
+
+def chunked_terms(terms: list[str], size: int = 18) -> list[list[str]]:
+    return [terms[index:index + size] for index in range(0, len(terms), size)]
+
+
 AI_MARKET_NEWS_QUERY = (
     '("artificial intelligence" OR AI OR Nvidia OR OpenAI OR Anthropic OR '
     '"AI chip" OR semiconductor OR "data center" OR "AI cloud" OR '
     '"large language model" OR "machine learning")'
 )
-AI_COMPANY_NEWS_QUERY = (
-    '("Nvidia" OR "OpenAI" OR "Anthropic" OR "Microsoft" OR "Google" OR '
-    '"Meta" OR "Amazon" OR "Broadcom" OR "TSMC" OR "Tesla" OR "Palantir" OR '
-    '"CoreWeave" OR "Nebius" OR "Tencent" OR "Alibaba" OR "Baidu" OR '
-    '"SenseTime" OR "MiniMax" OR "Zhipu" OR "Horizon Robotics" OR '
-    '"Black Sesame" OR "SMIC" OR "Cambricon")'
-)
+AI_COMPANY_NEWS_TERMS = extract_company_news_terms() or [
+    "NVIDIA", "Microsoft", "OpenAI", "Apple", "Alphabet", "Amazon",
+    "Anthropic", "Meta Platforms", "Tesla", "SpaceX", "Broadcom", "Palantir",
+    "CoreWeave", "Nebius Group", "Tencent", "Alibaba", "Baidu", "寒武纪",
+]
 DEAL_NEWS_QUERY = (
-    f'({AI_COMPANY_NEWS_QUERY} OR {AI_MARKET_NEWS_QUERY}) '
+    f'({AI_MARKET_NEWS_QUERY}) '
     '("equity" OR "stake" OR "acquisition" OR "merger" OR "M&A" OR '
     '"financing" OR "funding" OR "investment" OR "raises" OR "IPO" OR '
     '"股权" OR "并购" OR "融资")'
 )
 
-FINANCIAL_NEWS_SOURCES = [
-    ("Wall Street Journal", "site:wsj.com"),
-    ("Bloomberg", "site:bloomberg.com"),
-    ("Reuters", "site:reuters.com"),
-]
-
 INDUSTRY_NEWS_SOURCES = [
     google_news_query_source("Wall Street Journal", f"site:wsj.com {AI_MARKET_NEWS_QUERY}"),
     google_news_query_source("New York Times", f"site:nytimes.com {AI_MARKET_NEWS_QUERY}"),
-    google_news_query_source("Bloomberg", f"site:bloomberg.com {AI_MARKET_NEWS_QUERY}"),
-    google_news_query_source("Reuters", f"site:reuters.com {AI_MARKET_NEWS_QUERY}"),
-    google_news_query_source("Wired", f"site:wired.com {AI_MARKET_NEWS_QUERY}"),
-    google_news_query_source("The New Yorker", f"site:newyorker.com {AI_MARKET_NEWS_QUERY}"),
-    google_news_query_source("MIT Technology Review", f"site:technologyreview.com {AI_MARKET_NEWS_QUERY}"),
-    google_news_query_source("South China Morning Post", f"site:scmp.com {AI_MARKET_NEWS_QUERY}"),
 ]
 COMPANY_NEWS_SOURCES = [
-    google_news_query_source(name, f"{site} {AI_COMPANY_NEWS_QUERY}")
-    for name, site in FINANCIAL_NEWS_SOURCES
+    google_news_query_source(f"Company Names · Batch {index + 1}", quoted_or_query(batch))
+    for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
 ]
-DEAL_NEWS_SOURCES = [
-    google_news_query_source(name, f"{site} {DEAL_NEWS_QUERY}")
-    for name, site in FINANCIAL_NEWS_SOURCES
+MARKET_NEWS_SOURCES = [
+    google_news_query_source("Bloomberg", f"site:bloomberg.com {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("Reuters", f"site:reuters.com {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("Bloomberg · Deals", f"site:bloomberg.com {DEAL_NEWS_QUERY}"),
+    google_news_query_source("Reuters · Deals", f"site:reuters.com {DEAL_NEWS_QUERY}"),
 ]
 TECH_NEWS_SOURCES = [
     google_news_query_source("MIT Technology Review", f"site:technologyreview.com {AI_MARKET_NEWS_QUERY}"),
@@ -321,20 +333,20 @@ NEWS_SECTIONS = [
     {
         "id": "industry",
         "title": "行业",
-        "note": "综合新闻源 · AI 行业动态",
+        "note": "Wall Street Journal / New York Times",
         "sources": INDUSTRY_NEWS_SOURCES,
     },
     {
         "id": "company",
         "title": "公司",
-        "note": "公司关键词 · Bloomberg / Reuters / WSJ",
+        "note": "排行榜公司名关键词",
         "sources": COMPANY_NEWS_SOURCES,
     },
     {
         "id": "deals",
         "title": "市场",
-        "note": "股权 · 并购 · 融资",
-        "sources": DEAL_NEWS_SOURCES,
+        "note": "Bloomberg / Reuters",
+        "sources": MARKET_NEWS_SOURCES,
     },
     {
         "id": "tech",
@@ -355,10 +367,15 @@ AI_MARKET_REQUIRED_KEYWORDS = [
 SOURCE_REQUIRED_KEYWORDS.update({
     source["name"]: AI_MARKET_REQUIRED_KEYWORDS for source in OFFICIAL_SOURCES
 })
+SOURCE_REQUIRED_KEYWORDS.update({
+    source["name"]: [term.lower() for term in AI_COMPANY_NEWS_TERMS]
+    for source in COMPANY_NEWS_SOURCES
+})
 
 PORTFOLIO_KEYWORDS = {
     "ai-market": sorted(set([
         *PORTFOLIO_KEYWORDS.get("ai-cloud", []),
+        *AI_COMPANY_NEWS_TERMS,
         "Nvidia", "OpenAI", "Anthropic", "Microsoft", "Google", "Amazon",
         "Meta", "Broadcom", "Marvell", "TSMC", "AI chip", "AI data center",
         "artificial intelligence", "large language model",
@@ -795,7 +812,7 @@ def main() -> int:
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "strategy": {
-            "primary": "Industry, company, equity/M&A/financing, and frontier technology news sections",
+            "primary": "Tabbed news sections: industry from WSJ/NYT, company from ranking names, market from Bloomberg/Reuters, frontier from Wired/MIT Technology Review",
             "primaryEnabled": True,
             "supplements": [
                 "Wall Street Journal",
@@ -803,9 +820,7 @@ def main() -> int:
                 "Bloomberg",
                 "Reuters",
                 "Wired",
-                "The New Yorker",
                 "MIT Technology Review",
-                "South China Morning Post",
             ],
         },
         "sources": source_status,
