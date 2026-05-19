@@ -335,6 +335,12 @@ COMPANY_NEWS_SOURCES = [
 ] + [
     google_news_query_source(f"Reuters · Company Batch {index + 1}", f"site:reuters.com ({quoted_or_query(batch)})")
     for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
+] + [
+    google_news_query_source(f"Google · Company Batch {index + 1}", f"({quoted_or_query(batch)}) {AI_MARKET_NEWS_QUERY}")
+    for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
+] + [
+    google_news_query_source(f"Yahoo · Company Batch {index + 1}", f"(site:yahoo.com OR site:finance.yahoo.com) ({quoted_or_query(batch)}) {AI_MARKET_NEWS_QUERY}")
+    for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
 ]
 MNA_NEWS_SOURCES = [
     google_news_query_source(f"Bloomberg · M&A Batch {index + 1}", f"site:bloomberg.com ({quoted_or_query(batch)}) {MNA_NEWS_TERMS_QUERY}")
@@ -342,15 +348,29 @@ MNA_NEWS_SOURCES = [
 ] + [
     google_news_query_source(f"Reuters · M&A Batch {index + 1}", f"site:reuters.com ({quoted_or_query(batch)}) {MNA_NEWS_TERMS_QUERY}")
     for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
+] + [
+    google_news_query_source(f"Google · M&A Batch {index + 1}", f"({quoted_or_query(batch)}) {MNA_NEWS_TERMS_QUERY}")
+    for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
+] + [
+    google_news_query_source(f"Yahoo · M&A Batch {index + 1}", f"(site:yahoo.com OR site:finance.yahoo.com) ({quoted_or_query(batch)}) {MNA_NEWS_TERMS_QUERY}")
+    for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
 ]
 EQUITY_NEWS_SOURCES = [
     google_news_query_source("Bloomberg · Equity Financing", f"site:bloomberg.com {AI_MARKET_NEWS_QUERY} {DEAL_NEWS_TERMS_QUERY}"),
     google_news_query_source("Reuters · Equity Financing", f"site:reuters.com {AI_MARKET_NEWS_QUERY} {DEAL_NEWS_TERMS_QUERY}"),
+    google_news_query_source("Google · Equity Financing", f"{AI_MARKET_NEWS_QUERY} {DEAL_NEWS_TERMS_QUERY}"),
+    google_news_query_source("Yahoo · Equity Financing", f"(site:yahoo.com OR site:finance.yahoo.com) {AI_MARKET_NEWS_QUERY} {DEAL_NEWS_TERMS_QUERY}"),
 ] + [
     google_news_query_source(f"Bloomberg · Equity Batch {index + 1}", f"site:bloomberg.com ({quoted_or_query(batch)}) {DEAL_NEWS_TERMS_QUERY}")
     for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
 ] + [
     google_news_query_source(f"Reuters · Equity Batch {index + 1}", f"site:reuters.com ({quoted_or_query(batch)}) {DEAL_NEWS_TERMS_QUERY}")
+    for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
+] + [
+    google_news_query_source(f"Google · Equity Batch {index + 1}", f"({quoted_or_query(batch)}) {DEAL_NEWS_TERMS_QUERY}")
+    for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
+] + [
+    google_news_query_source(f"Yahoo · Equity Batch {index + 1}", f"(site:yahoo.com OR site:finance.yahoo.com) ({quoted_or_query(batch)}) {DEAL_NEWS_TERMS_QUERY}")
     for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
 ]
 MARKET_NEWS_SOURCES = MNA_NEWS_SOURCES + EQUITY_NEWS_SOURCES
@@ -371,13 +391,13 @@ NEWS_SECTIONS = [
     {
         "id": "company",
         "title": "公司",
-        "note": "Bloomberg / Reuters",
+        "note": "Bloomberg / Reuters / Google / Yahoo",
         "sources": COMPANY_NEWS_SOURCES,
     },
     {
         "id": "deals",
         "title": "并购/融资",
-        "note": "Bloomberg / Reuters",
+        "note": "Bloomberg / Reuters / Google / Yahoo",
         "sources": MARKET_NEWS_SOURCES,
         "requiredKeywords": MNA_REQUIRED_KEYWORDS + DEAL_REQUIRED_KEYWORDS,
     },
