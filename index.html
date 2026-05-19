@@ -1111,9 +1111,70 @@
         ["Grok 4", "xAI", 920e9, 5]
       ]
     };
-    const TOKEN_PERIOD_LABELS = { day: "日", week: "周", month: "月" };
-    const state = { rows: [...COMPANIES], sort: "mcap", query: "", category: "ALL", selected: "NVDA", page: 1, tokenPeriod: "month", fxRates: {} };
+    const I18N = {
+      zh: {
+        pageTitle: "AI 公司行情与市值排名",
+        topCompanies: "公司", topMarket: "市场", topMarketValue: "NYSE / Nasdaq / A 股 / 韩股 / 预上市",
+        totalCap: "总市值", volume24h: "24小时交易量", dominance: "AI 龙头占比",
+        initialQuote: "USD · 实时行情可用时更新",
+        navCap: "按市值", navCategory: "类别", navCloud: "新云", navSemi: "半导体", navDataCenter: "数据中心", navMovers: "涨与跌", navCharts: "全球图表",
+        industry: "行业", company: "公司", market: "市场", frontier: "前沿",
+        loadingIndustry: "正在加载行业…", loadingCompany: "正在加载公司…", loadingMarket: "正在加载市场…", loadingFrontier: "正在加载前沿…",
+        currentFilter: "按当前筛选", realVolume: "真实成交额，可用时更新", hot: "热门", topGainer: "最大升幅", waitingQuotes: "等待行情或估算涨跌",
+        modelRanking: "大模型排行", modelNote: "Opus 4.7 和 GPT-5.5 的公开评测为自报分数",
+        tokenRanking: "Token 调用排行", tokenNote: "参考 OpenRouter Top Models，用量口径可切换",
+        day: "日", week: "周", month: "月", period: "周期", firstShare: "第一名占比",
+        all: "所有", aiChips: "AI 芯片", aiCloud: "新云", dataCenter: "数据中心", enterpriseAi: "企业 AI", security: "安全", quantum: "量子", chinaAi: "中国 AI",
+        searchPlaceholder: "搜索公司、Ticker、子赛道", allSubsectors: "全部子赛道",
+        sortMcap: "统一市值排序", sortRank: "名单顺序", sortChange: "涨跌排序", refresh: "刷新",
+        custom: "自定义", priceChange: "价格更改", metric: "衡量指标", other: "其他", rows100: "行 100",
+        rankName: "Rank Name", tableNote: "Market Cap USD · 上市 + 预上市统一排名",
+        thCompany: "公司", thPrice: "价格", th1h: "1小时", th24h: "24小时", th7d: "7天", th30d: "30天", thVolume: "24小时交易量", thMcap: "总市值", thSpark: "最近30天",
+        companies: "companies", companiesZh: "家", page: "第", perPage: "每页", noResults: "没有匹配结果",
+        watch: "关注", prelist: "预上市", est: " est.",
+        quoteDaily: "Daily quotes", quoteLive: "Live Yahoo fallback", quoteError: "行情接口暂不可用，真实行情为空", waitingLive: "等待真实行情",
+        footer: "说明：这是 AI 相关美股挂牌、港股、A 股公司与少量预上市公司观察名单，不是投资建议，也不是官方指数。价格、1小时/24小时/7天/30天变化、成交额与市值均优先使用在线 quote/chart 真实行情；不可用时显示为空。预上市公司使用估算美元市值参与排行，不抓取实时行情。非美元公司市值与成交额在内部按 USD/CNY、USD/HKD、USD/KRW 机制折算成美元口径，但页面不展示汇率。",
+        fallbackIndustry: "行业动态持续追踪 AI 芯片、云、数据中心与大模型",
+        fallbackCompany: "公司动态按成分股关键词追踪 Bloomberg、Reuters 与 WSJ",
+        fallbackMarket: "市场新闻按股权、并购、融资关键词滚动更新",
+        fallbackFrontier: "MIT Technology Review 与 Wired 追踪前沿技术趋势",
+      },
+      en: {
+        pageTitle: "AI Market Cap",
+        topCompanies: "Companies", topMarket: "Markets", topMarketValue: "NYSE / Nasdaq / A-shares / Korea / Pre-IPO",
+        totalCap: "Market Cap", volume24h: "24h Volume", dominance: "AI Leaders",
+        initialQuote: "USD · live quote when available",
+        navCap: "Market Cap", navCategory: "Categories", navCloud: "AI Cloud", navSemi: "Semiconductors", navDataCenter: "Data Centers", navMovers: "Gainers / Losers", navCharts: "Global Charts",
+        industry: "Industry", company: "Companies", market: "Market", frontier: "Frontier",
+        loadingIndustry: "Loading industry…", loadingCompany: "Loading companies…", loadingMarket: "Loading market…", loadingFrontier: "Loading frontier…",
+        currentFilter: "Current filter", realVolume: "Real traded value when available", hot: "Trending", topGainer: "Top Gainer", waitingQuotes: "Waiting for quotes or estimated moves",
+        modelRanking: "Model Ranking", modelNote: "Opus 4.7 and GPT-5.5 public evals are self-reported",
+        tokenRanking: "Token Usage Ranking", tokenNote: "Inspired by OpenRouter Top Models; period is switchable",
+        day: "Day", week: "Week", month: "Month", period: "Period", firstShare: "Top share",
+        all: "All", aiChips: "AI Chips", aiCloud: "AI Cloud", dataCenter: "Data Centers", enterpriseAi: "Enterprise AI", security: "Security", quantum: "Quantum", chinaAi: "China AI",
+        searchPlaceholder: "Search company, ticker, or subsector", allSubsectors: "All subsectors",
+        sortMcap: "Unified Market Cap", sortRank: "List Order", sortChange: "Performance", refresh: "Refresh",
+        custom: "Customize", priceChange: "Price change", metric: "Metric", other: "Other", rows100: "Rows 100",
+        rankName: "Rank Name", tableNote: "Market Cap USD · Listed + Pre-IPO unified ranking",
+        thCompany: "Company", thPrice: "Price", th1h: "1h", th24h: "24h", th7d: "7d", th30d: "30d", thVolume: "24h Volume", thMcap: "Market Cap", thSpark: "Last 30 days",
+        companies: "companies", companiesZh: "companies", page: "Page", perPage: "Per page", noResults: "No matching results",
+        watch: "Watch", prelist: "Pre-IPO", est: " est.",
+        quoteDaily: "Daily quotes", quoteLive: "Live Yahoo fallback", quoteError: "Quote feed unavailable; live fields are blank", waitingLive: "Waiting for live quotes",
+        footer: "Note: This is a watchlist of AI-related US-listed, Hong Kong-listed, A-share, Korean, and selected pre-IPO companies. It is not investment advice or an official index. Price, 1h/24h/7d/30d change, volume, and market cap use online quote/chart data when available; unavailable fields are left blank. Pre-IPO companies use estimated USD market caps for ranking and do not fetch live quotes. Non-USD market caps and volume are converted internally to USD using USD/CNY, USD/HKD, and USD/KRW logic; exchange rates are not displayed.",
+        fallbackIndustry: "Industry news tracking AI chips, cloud, data centers, and foundation models",
+        fallbackCompany: "Company news tracked by constituent names across Bloomberg, Reuters, and WSJ",
+        fallbackMarket: "Market news tracking equity, M&A, financing, funding, and IPO keywords",
+        fallbackFrontier: "MIT Technology Review and Wired track frontier technology trends",
+      }
+    };
+    const CHINESE_REGION_CODES = new Set(["CN", "HK", "MO", "TW"]);
+    function browserLang() {
+      const langs = navigator.languages?.length ? navigator.languages : [navigator.language || ""];
+      return langs.some((lang) => /^zh\b/i.test(lang)) ? "zh" : "en";
+    }
+    const state = { rows: [...COMPANIES], sort: "mcap", query: "", category: "ALL", selected: "NVDA", page: 1, tokenPeriod: "month", fxRates: {}, lang: browserLang() };
     const $ = (id) => document.getElementById(id);
+    const t = (key) => (I18N[state.lang] && I18N[state.lang][key]) || I18N.zh[key] || key;
 
     function formatTokens(value) {
       if (!Number.isFinite(value) || value <= 0) return "—";
@@ -1210,6 +1271,11 @@
     function categories() {
       return ["ALL", "China AI", ...Array.from(new Set(COMPANIES.map((row) => row.category))).sort()];
     }
+    function categoryLabel(cat) {
+      if (cat === "ALL") return t("allSubsectors");
+      if (cat === "China AI") return t("chinaAi");
+      return cat;
+    }
     function filteredRows() {
       const q = state.query.trim().toLowerCase();
       let rows = state.rows.filter((row) => {
@@ -1257,7 +1323,7 @@
       const start = (state.page - 1) * ROWS_PER_PAGE;
       const pageRows = rows.slice(start, start + ROWS_PER_PAGE);
       const end = Math.min(start + pageRows.length, rows.length);
-      $("count-note").textContent = `${rows.length ? start + 1 : 0}-${end} / ${rows.length} companies`;
+      $("count-note").textContent = `${rows.length ? start + 1 : 0}-${end} / ${rows.length} ${t("companies")}`;
       $("rank-body").innerHTML = pageRows.map((row, idx) => {
         const h1 = row.change1h;
         const d1 = row.changePercent;
@@ -1265,12 +1331,12 @@
         const d30 = row.change30d;
         const isActive = row.ticker === state.selected ? " class=\"active\"" : "";
         return `<tr data-ticker="${row.ticker}"${isActive}>
-          <td><button class="watch" type="button" aria-label="关注 ${row.ticker}" title="关注">☆</button></td>
+          <td><button class="watch" type="button" aria-label="${t("watch")} ${row.ticker}" title="${t("watch")}">☆</button></td>
           <td class="rank">${start + idx + 1}</td>
           <td>
             <div class="company-cell">
               <span>
-                <span class="company-line"><span class="company-name">${row.name}</span><span class="flag">${flagFor(row)}</span><span class="ticker">${row.ticker}</span>${row.status === "prelist" ? "<span class=\"prelist-badge\">预上市</span>" : ""}</span>
+                <span class="company-line"><span class="company-name">${row.name}</span><span class="flag">${flagFor(row)}</span><span class="ticker">${row.ticker}</span>${row.status === "prelist" ? `<span class="prelist-badge">${t("prelist")}</span>` : ""}</span>
                 <div class="subtext">${row.category}</div>
               </span>
             </div>
@@ -1284,7 +1350,7 @@
           <td class="${capClass(row)}">${capLabel(row)}</td>
           <td>${sparkline(row)}</td>
         </tr>`;
-      }).join("") || `<tr><td colspan="11"><div class="empty">没有匹配结果</div></td></tr>`;
+      }).join("") || `<tr><td colspan="11"><div class="empty">${t("noResults")}</div></td></tr>`;
       renderPager(rows.length, pageCount);
       document.querySelectorAll("#rank-body .watch").forEach((button) => {
         button.addEventListener("click", (event) => {
@@ -1310,14 +1376,14 @@
       const pager = $("pager");
       if (!pager) return;
       if (pageCount <= 1) {
-        pager.innerHTML = `<span>第 1 页 · ${totalRows} 家</span>`;
+        pager.innerHTML = `<span>${t("page")} 1 · ${totalRows} ${t("companiesZh")}</span>`;
         return;
       }
       const buttons = Array.from({ length: pageCount }, (_, i) => {
         const page = i + 1;
         return `<button class="page-btn ${page === state.page ? "active" : ""}" type="button" data-page="${page}">${page}</button>`;
       }).join("");
-      pager.innerHTML = `<button class="page-btn" type="button" data-page="${Math.max(1, state.page - 1)}">‹</button>${buttons}<button class="page-btn" type="button" data-page="${Math.min(pageCount, state.page + 1)}">›</button><span>每页 ${ROWS_PER_PAGE} 家</span>`;
+      pager.innerHTML = `<button class="page-btn" type="button" data-page="${Math.max(1, state.page - 1)}">‹</button>${buttons}<button class="page-btn" type="button" data-page="${Math.min(pageCount, state.page + 1)}">›</button><span>${t("perPage")} ${ROWS_PER_PAGE} ${t("companiesZh")}</span>`;
       pager.querySelectorAll("[data-page]").forEach((button) => {
         button.addEventListener("click", () => {
           state.page = Number(button.dataset.page) || 1;
@@ -1351,22 +1417,22 @@
       $("trending-one").textContent = rows[0]?.ticker || "—";
       $("trending-list").textContent = rows.slice(0, 3).map((row) => `${row.name} ${formatCap(effectiveCap(row))}`).join(" · ");
       $("gainer-one").textContent = gainers[0] ? `${gainers[0].ticker} ${formatPercent(gainers[0].changePercent)}` : "—";
-      $("gainer-list").textContent = gainers.length ? gainers.map((row) => `${row.ticker} ${formatPercent(row.changePercent)}`).join(" · ") : "等待真实行情";
+      $("gainer-list").textContent = gainers.length ? gainers.map((row) => `${row.ticker} ${formatPercent(row.changePercent)}`).join(" · ") : t("waitingLive");
     }
     const NEWS_SECTION_IDS = ["industry", "company", "deals", "tech"];
     function fallbackNewsItems(sectionId = "industry") {
       const fallback = {
         industry: [
-          { title: "行业动态持续追踪 AI 芯片、云、数据中心与大模型", source: "AI Market Cap", author: "Industry", url: "#" },
+          { title: t("fallbackIndustry"), source: "AI Market Cap", author: "Industry", url: "#" },
         ],
         company: [
-          { title: "公司动态按成分股关键词追踪 Bloomberg、Reuters 与 WSJ", source: "AI Market Cap", author: "Companies", url: "#" },
+          { title: t("fallbackCompany"), source: "AI Market Cap", author: "Companies", url: "#" },
         ],
         deals: [
-          { title: "市场新闻按股权、并购、融资关键词滚动更新", source: "AI Market Cap", author: "Market", url: "#" },
+          { title: t("fallbackMarket"), source: "AI Market Cap", author: "Market", url: "#" },
         ],
         tech: [
-          { title: "MIT Technology Review 与 Wired 追踪前沿技术趋势", source: "AI Market Cap", author: "Frontier", url: "#" },
+          { title: t("fallbackFrontier"), source: "AI Market Cap", author: "Frontier", url: "#" },
         ],
       };
       return fallback[sectionId] || fallback.industry;
@@ -1389,8 +1455,9 @@
         const source = item.source || "News";
         const author = item.author || item.source || "News";
         const href = item.url || "#";
+        const title = state.lang === "zh" ? (item.titleZh || item.title) : (item.titleEn || item.title);
         return `<a class="news-item" href="${escapeHtml(href)}" target="_blank" rel="noopener">
-          <span class="news-title">${escapeHtml(item.title)}</span>
+          <span class="news-title">${escapeHtml(title)}</span>
           <span class="news-meta"><b>${escapeHtml(source)}</b><span>${escapeHtml(author)}</span></span>
         </a>`;
       }).join("");
@@ -1430,7 +1497,7 @@
     function renderTokenRanking() {
       const rows = TOKEN_RANKINGS[state.tokenPeriod] || TOKEN_RANKINGS.month;
       const total = rows.reduce((sum, row) => sum + row[2], 0);
-      $("token-period-label").textContent = TOKEN_PERIOD_LABELS[state.tokenPeriod] || "月";
+      $("token-period-label").textContent = t(state.tokenPeriod) || t("month");
       $("token-total").textContent = formatTokens(total);
       $("token-share").textContent = total ? `${((rows[0][2] / total) * 100).toFixed(1)}%` : "—";
       $("token-ranking-list").innerHTML = rows.map(([name, provider, tokens, change], index) => {
@@ -1551,7 +1618,7 @@
       const payload = await response.json();
       const quotes = new Map(Object.entries(payload.quotes || {}));
       if (!quotes.size) throw new Error("quotes.json empty");
-      applyQuoteData(quotes, payload.meta?.updatedAt, "Daily quotes", payload.meta?.fx || {});
+      applyQuoteData(quotes, payload.meta?.updatedAt, t("quoteDaily"), payload.meta?.fx || {});
     }
     async function fetchLiveQuotes() {
       const quoteRows = COMPANIES.filter((row) => row.status !== "prelist");
@@ -1591,7 +1658,7 @@
       if (Number.isFinite(usdCny?.regularMarketPrice)) fx.USDCNY = usdCny.regularMarketPrice;
       if (Number.isFinite(usdHkd?.regularMarketPrice)) fx.USDHKD = usdHkd.regularMarketPrice;
       if (Number.isFinite(usdKrw?.regularMarketPrice)) fx.USDKRW = usdKrw.regularMarketPrice;
-      applyQuoteData(normalized, new Date().toISOString(), "Live Yahoo fallback", fx);
+      applyQuoteData(normalized, new Date().toISOString(), t("quoteLive"), fx);
       fetchHistoricalMetrics().catch((error) => console.warn(error));
     }
     async function fetchQuotes() {
@@ -1602,8 +1669,99 @@
         await fetchLiveQuotes();
       }
     }
+    function setText(selector, value) {
+      const el = document.querySelector(selector);
+      if (el) el.textContent = value;
+    }
+    function setAllText(selector, values) {
+      document.querySelectorAll(selector).forEach((el, index) => {
+        if (values[index] !== undefined) el.textContent = values[index];
+      });
+    }
+    function setFirstText(selector, value) {
+      const el = document.querySelector(selector);
+      if (el?.firstChild) el.firstChild.nodeValue = value;
+    }
+    function renderCategoryFilter() {
+      const current = $("category-filter")?.value || state.category;
+      $("category-filter").innerHTML = categories().map((cat) => `<option value="${cat}">${categoryLabel(cat)}</option>`).join("");
+      if ([...$("category-filter").options].some((option) => option.value === current)) $("category-filter").value = current;
+    }
+    function applyLocale() {
+      document.documentElement.lang = state.lang === "zh" ? "zh-CN" : "en";
+      document.title = t("pageTitle");
+      setFirstText(".topline-inner > span:nth-child(1)", `${t("topCompanies")}: `);
+      const market = document.querySelector(".topline-inner > span:nth-child(2)");
+      if (market) market.innerHTML = `${t("topMarket")}: <b>${t("topMarketValue")}</b>`;
+      setFirstText(".topline-inner > span:nth-child(3)", `${t("totalCap")}: `);
+      setFirstText(".topline-inner > span:nth-child(4)", `${t("volume24h")}: `);
+      setFirstText(".topline-inner > span:nth-child(5)", `${t("dominance")}: `);
+      if (/live quote|实时行情/.test($("updated-at")?.textContent || "")) $("updated-at").textContent = t("initialQuote");
+      setAllText(".nav a", [t("navCap"), t("navCategory"), t("navCloud"), t("navSemi"), t("navDataCenter"), t("navMovers"), t("navCharts")]);
+      document.querySelector(".news-sections")?.setAttribute("aria-label", `${t("industry")}/${t("company")}/${t("market")}/${t("frontier")}`);
+      setAllText(".news-tab", [t("industry"), t("company"), t("market"), t("frontier")]);
+      setAllText(".news-strip-label", [t("industry"), t("company"), t("market"), t("frontier")]);
+      ["industry", "company", "deals", "tech"].forEach((id) => {
+        const panel = $(`news-panel-${id}`);
+        const label = id === "industry" ? t("industry") : id === "company" ? t("company") : id === "deals" ? t("market") : t("frontier");
+        if (panel) panel.setAttribute("aria-label", label);
+      });
+      const loading = { industry: "loadingIndustry", company: "loadingCompany", deals: "loadingMarket", tech: "loadingFrontier" };
+      Object.entries(loading).forEach(([id, key]) => {
+        const track = $(`news-track-${id}`);
+        if (track && track.children.length === 1 && track.textContent.includes("加载")) track.innerHTML = `<span class="news-item">${t(key)}</span>`;
+      });
+      setAllText(".highlight-card .label", [t("totalCap"), t("volume24h"), t("hot"), t("topGainer")]);
+      const changeMini = document.querySelector(".highlight-card:first-child .mini");
+      const changeValue = $("highlight-change")?.textContent || "0.0%";
+      const changeClass = $("highlight-change")?.className || "positive";
+      if (changeMini) changeMini.innerHTML = `<span class="${changeClass}" id="highlight-change">${changeValue}</span> · ${t("currentFilter")}`;
+      setText(".highlight-card:nth-child(2) .mini", t("realVolume"));
+      setText(".model-ranking-title", t("modelRanking"));
+      setText(".model-ranking-note", t("modelNote"));
+      setText(".token-title", t("tokenRanking"));
+      setAllText(".ranking-duo .panel-note", ["Terminal-Bench · SWE-Bench · CursorBench", t("tokenNote")]);
+      setAllText(".token-tab", [t("day"), t("week"), t("month")]);
+      setAllText(".token-metric span", [t("period"), "Top 10 Tokens", t("firstShare")]);
+      setAllText(".tabs .tab", [t("all"), t("aiChips"), t("aiCloud"), t("dataCenter"), t("enterpriseAi"), t("security"), t("quantum"), t("chinaAi")]);
+      $("search").placeholder = t("searchPlaceholder");
+      setText("#sort-mcap", t("sortMcap"));
+      setText("#sort-rank", t("sortRank"));
+      setText("#sort-change", t("sortChange"));
+      setText("#refresh", t("refresh"));
+      setAllText(".custom-row > *", [t("custom"), t("priceChange"), t("th30d"), t("metric"), t("thMcap"), t("other"), t("rows100")]);
+      setText(".panel-title", t("rankName"));
+      setText("#table-note", t("tableNote"));
+      setAllText(".market-panel thead th", ["", "#", t("thCompany"), t("thPrice"), t("th1h"), t("th24h"), t("th7d"), t("th30d"), t("thVolume"), t("thMcap"), t("thSpark")]);
+      setText(".footer-note", t("footer"));
+      if ($("category-filter")) renderCategoryFilter();
+    }
+    function setLanguage(lang) {
+      if (lang !== "zh" && lang !== "en") return;
+      if (state.lang === lang) return;
+      state.lang = lang;
+      applyLocale();
+      renderTokenRanking();
+      render();
+      fetchNewsStrip();
+    }
+    async function detectLanguageByIp() {
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), 1800);
+      try {
+        const response = await fetch("https://ipapi.co/json/", { cache: "no-store", signal: controller.signal });
+        if (!response.ok) throw new Error(`ipapi ${response.status}`);
+        const payload = await response.json();
+        const code = String(payload.country_code || "").toUpperCase();
+        if (code) setLanguage(CHINESE_REGION_CODES.has(code) ? "zh" : "en");
+      } catch (error) {
+        setLanguage(browserLang());
+      } finally {
+        window.clearTimeout(timeout);
+      }
+    }
     function initControls() {
-      $("category-filter").innerHTML = categories().map((cat) => `<option value="${cat}">${cat === "ALL" ? "全部子赛道" : cat}</option>`).join("");
+      renderCategoryFilter();
       $("search").addEventListener("input", (event) => { state.query = event.target.value; state.page = 1; render(); });
       $("category-filter").addEventListener("change", (event) => { state.category = event.target.value; state.page = 1; render(); });
       document.querySelectorAll(".tab").forEach((tab) => {
@@ -1637,14 +1795,16 @@
     }
     function handleQuoteError(error) {
       console.warn(error);
-      $("updated-at").textContent = "行情接口暂不可用，真实行情为空";
+      $("updated-at").textContent = t("quoteError");
       render();
     }
     initControls();
+    applyLocale();
     fetchNewsStrip();
     renderTokenRanking();
     render();
     fetchQuotes().catch(handleQuoteError);
+    detectLanguageByIp();
   </script>
 </body>
 </html>
