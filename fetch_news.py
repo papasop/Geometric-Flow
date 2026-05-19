@@ -304,11 +304,10 @@ AI_COMPANY_NEWS_TERMS = extract_company_news_terms() or [
     "Anthropic", "Meta Platforms", "Tesla", "SpaceX", "Broadcom", "Palantir",
     "CoreWeave", "Nebius Group", "Tencent", "Alibaba", "Baidu", "寒武纪",
 ]
-DEAL_NEWS_QUERY = (
-    f'({AI_MARKET_NEWS_QUERY}) '
-    '("equity" OR "stake" OR "acquisition" OR "merger" OR "M&A" OR '
-    '"financing" OR "funding" OR "investment" OR "raises" OR "IPO" OR '
-    '"股权" OR "并购" OR "融资")'
+DEAL_NEWS_TERMS_QUERY = (
+    '("equity" OR "stake" OR "financing" OR "funding" OR '
+    '"investment" OR "raises" OR "IPO" OR "private placement" OR '
+    '"股权" OR "融资" OR "投资")'
 )
 
 INDUSTRY_NEWS_SOURCES = [
@@ -316,14 +315,17 @@ INDUSTRY_NEWS_SOURCES = [
     google_news_query_source("New York Times", f"site:nytimes.com {AI_MARKET_NEWS_QUERY}"),
 ]
 COMPANY_NEWS_SOURCES = [
-    google_news_query_source(f"Company Names · Batch {index + 1}", quoted_or_query(batch))
+    google_news_query_source(f"Bloomberg · Company Batch {index + 1}", f"site:bloomberg.com ({quoted_or_query(batch)})")
+    for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
+] + [
+    google_news_query_source(f"Reuters · Company Batch {index + 1}", f"site:reuters.com ({quoted_or_query(batch)})")
     for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
 ]
 MARKET_NEWS_SOURCES = [
-    google_news_query_source("Bloomberg", f"site:bloomberg.com {AI_MARKET_NEWS_QUERY}"),
-    google_news_query_source("Reuters", f"site:reuters.com {AI_MARKET_NEWS_QUERY}"),
-    google_news_query_source("Bloomberg · Deals", f"site:bloomberg.com {DEAL_NEWS_QUERY}"),
-    google_news_query_source("Reuters · Deals", f"site:reuters.com {DEAL_NEWS_QUERY}"),
+    google_news_query_source("Equity Financing · AI Market", f"{AI_MARKET_NEWS_QUERY} {DEAL_NEWS_TERMS_QUERY}"),
+] + [
+    google_news_query_source(f"Equity Financing · Batch {index + 1}", f"({quoted_or_query(batch)}) {DEAL_NEWS_TERMS_QUERY}")
+    for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
 ]
 TECH_NEWS_SOURCES = [
     google_news_query_source("MIT Technology Review", f"site:technologyreview.com {AI_MARKET_NEWS_QUERY}"),
@@ -339,13 +341,13 @@ NEWS_SECTIONS = [
     {
         "id": "company",
         "title": "公司",
-        "note": "排行榜公司名关键词",
+        "note": "Bloomberg / Reuters",
         "sources": COMPANY_NEWS_SOURCES,
     },
     {
         "id": "deals",
-        "title": "并购融资",
-        "note": "Bloomberg / Reuters",
+        "title": "股权融资",
+        "note": "Any source",
         "sources": MARKET_NEWS_SOURCES,
     },
     {
@@ -370,6 +372,14 @@ SOURCE_REQUIRED_KEYWORDS.update({
 SOURCE_REQUIRED_KEYWORDS.update({
     source["name"]: [term.lower() for term in AI_COMPANY_NEWS_TERMS]
     for source in COMPANY_NEWS_SOURCES
+})
+SOURCE_REQUIRED_KEYWORDS.update({
+    source["name"]: [
+        *[term.lower() for term in AI_COMPANY_NEWS_TERMS],
+        "equity", "stake", "financing", "funding", "investment", "raises", "ipo",
+        "private placement", "股权", "融资", "投资",
+    ]
+    for source in MARKET_NEWS_SOURCES
 })
 
 PORTFOLIO_KEYWORDS = {
@@ -812,7 +822,7 @@ def main() -> int:
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "strategy": {
-            "primary": "Tabbed news sections: industry from WSJ/NYT, company from ranking names, M&A/financing from Bloomberg/Reuters, new technology from Wired/MIT Technology Review",
+            "primary": "Tabbed news sections: industry from WSJ/NYT, company from Bloomberg/Reuters company-name searches, equity financing from any source, new technology from Wired/MIT Technology Review",
             "primaryEnabled": True,
             "supplements": [
                 "Wall Street Journal",

@@ -673,11 +673,11 @@
   </nav>
   <main class="shell">
     <section class="hero">
-      <div class="news-sections" aria-label="行业/公司/并购融资/新科技 新闻切换">
-        <div class="news-tabs" role="tablist" aria-label="行业/公司/并购融资/新科技">
+      <div class="news-sections" aria-label="行业/公司/股权融资/新科技 新闻切换">
+        <div class="news-tabs" role="tablist" aria-label="行业/公司/股权融资/新科技">
           <button class="news-tab active" type="button" role="tab" aria-selected="true" aria-controls="news-panel-industry" data-news-tab="industry">行业</button>
           <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-company" data-news-tab="company">公司</button>
-          <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-deals" data-news-tab="deals">并购融资</button>
+          <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-deals" data-news-tab="deals">股权融资</button>
           <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-tech" data-news-tab="tech">新科技</button>
         </div>
         <div class="news-strip" id="news-panel-industry" role="tabpanel" aria-label="行业">
@@ -696,11 +696,11 @@
             </div>
           </div>
         </div>
-        <div class="news-strip" id="news-panel-deals" role="tabpanel" aria-label="并购融资" hidden>
-          <div class="news-strip-label">并购融资</div>
+        <div class="news-strip" id="news-panel-deals" role="tabpanel" aria-label="股权融资" hidden>
+          <div class="news-strip-label">股权融资</div>
           <div class="news-marquee">
             <div class="news-track" id="news-track-deals">
-              <span class="news-item">正在加载并购融资…</span>
+              <span class="news-item">正在加载股权融资…</span>
             </div>
           </div>
         </div>
@@ -1170,8 +1170,8 @@
         totalCap: "总市值", volume24h: "24小时交易量", dominance: "AI 龙头占比",
         initialQuote: "USD · 实时行情可用时更新",
         navCap: "按市值", navCategory: "类别", navCloud: "新云", navSemi: "半导体", navDataCenter: "数据中心", navMovers: "涨与跌", navCharts: "全球图表",
-        industry: "行业", company: "公司", market: "并购融资", frontier: "新科技",
-        loadingIndustry: "正在加载行业…", loadingCompany: "正在加载公司…", loadingMarket: "正在加载并购融资…", loadingFrontier: "正在加载新科技…",
+        industry: "行业", company: "公司", market: "股权融资", frontier: "新科技",
+        loadingIndustry: "正在加载行业…", loadingCompany: "正在加载公司…", loadingMarket: "正在加载股权融资…", loadingFrontier: "正在加载新科技…",
         currentFilter: "按当前筛选", realVolume: "真实成交额，可用时更新", hot: "热门", topGainer: "最大升幅", waitingQuotes: "等待行情或估算涨跌",
         modelRanking: "大模型排行", modelNote: "Opus 4.7 和 GPT-5.5 的公开评测为自报分数",
         tokenRanking: "Token 调用排行", tokenNote: "参考 OpenRouter Top Models，用量口径可切换",
@@ -1188,7 +1188,7 @@
         footer: "说明：这是 AI 相关美股挂牌、港股、A 股公司与少量预上市公司观察名单，不是投资建议，也不是官方指数。价格、1小时/24小时/7天/30天变化、成交额与市值均优先使用在线 quote/chart 真实行情；不可用时显示为空。预上市公司使用估算美元市值参与排行，不抓取实时行情。非美元公司市值与成交额在内部按 USD/CNY、USD/HKD、USD/KRW 机制折算成美元口径，但页面不展示汇率。",
         fallbackIndustry: "行业动态持续追踪 AI 芯片、云、数据中心与大模型",
         fallbackCompany: "公司动态按成分股关键词追踪 Bloomberg、Reuters 与 WSJ",
-        fallbackMarket: "并购融资新闻按股权、并购、融资关键词滚动更新",
+        fallbackMarket: "股权融资新闻按股权、融资、投资关键词滚动更新",
         fallbackFrontier: "MIT Technology Review 与 Wired 追踪新科技趋势",
       },
       en: {
@@ -1197,8 +1197,8 @@
         totalCap: "Market Cap", volume24h: "24h Volume", dominance: "AI Leaders",
         initialQuote: "USD · live quote when available",
         navCap: "Market Cap", navCategory: "Categories", navCloud: "AI Cloud", navSemi: "Semiconductors", navDataCenter: "Data Centers", navMovers: "Gainers / Losers", navCharts: "Global Charts",
-        industry: "Industry", company: "Companies", market: "M&A / Financing", frontier: "New Tech",
-        loadingIndustry: "Loading industry…", loadingCompany: "Loading companies…", loadingMarket: "Loading M&A / financing…", loadingFrontier: "Loading new tech…",
+        industry: "Industry", company: "Companies", market: "Equity Financing", frontier: "New Tech",
+        loadingIndustry: "Loading industry…", loadingCompany: "Loading companies…", loadingMarket: "Loading equity financing…", loadingFrontier: "Loading new tech…",
         currentFilter: "Current filter", realVolume: "Real traded value when available", hot: "Trending", topGainer: "Top Gainer", waitingQuotes: "Waiting for quotes or estimated moves",
         modelRanking: "Model Ranking", modelNote: "Opus 4.7 and GPT-5.5 public evals are self-reported",
         tokenRanking: "Token Usage Ranking", tokenNote: "Inspired by OpenRouter Top Models; period is switchable",
@@ -1215,7 +1215,7 @@
         footer: "Note: This is a watchlist of AI-related US-listed, Hong Kong-listed, A-share, Korean, and selected pre-IPO companies. It is not investment advice or an official index. Price, 1h/24h/7d/30d change, volume, and market cap use online quote/chart data when available; unavailable fields are left blank. Pre-IPO companies use estimated USD market caps for ranking and do not fetch live quotes. Non-USD market caps and volume are converted internally to USD using USD/CNY, USD/HKD, and USD/KRW logic; exchange rates are not displayed.",
         fallbackIndustry: "Industry news tracking AI chips, cloud, data centers, and foundation models",
         fallbackCompany: "Company news tracked by constituent names across Bloomberg, Reuters, and WSJ",
-        fallbackMarket: "M&A and financing news tracking equity, deals, funding, and IPO keywords",
+        fallbackMarket: "Equity financing news tracking equity, funding, investment, and IPO keywords",
         fallbackFrontier: "MIT Technology Review and Wired track new technology trends",
       }
     };
