@@ -349,6 +349,7 @@ MARKET_NEWS_SOURCES = [
 TECH_NEWS_SOURCES = [
     google_news_query_source("MIT Technology Review", f"site:technologyreview.com {AI_MARKET_NEWS_QUERY}"),
     google_news_query_source("Wired", f"site:wired.com {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("New Scientist", f"site:newscientist.com {AI_MARKET_NEWS_QUERY}"),
 ]
 NEWS_SECTIONS = [
     {
@@ -374,7 +375,7 @@ NEWS_SECTIONS = [
     {
         "id": "tech",
         "title": "新科技",
-        "note": "MIT Technology Review / Wired",
+        "note": "MIT Technology Review / Wired / New Scientist",
         "sources": TECH_NEWS_SOURCES,
     },
 ]
@@ -848,7 +849,7 @@ def main() -> int:
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "strategy": {
-            "primary": "Tabbed news sections: industry from WSJ/NYT, M&A from Bloomberg/Reuters company stake and acquisition searches, equity financing from Bloomberg/Reuters, new technology from Wired/MIT Technology Review",
+            "primary": "Tabbed news sections: industry from WSJ/NYT, M&A from Bloomberg/Reuters company stake and acquisition searches, equity financing from Bloomberg/Reuters, new technology from Wired/MIT Technology Review/New Scientist",
             "primaryEnabled": True,
             "supplements": [
                 "Wall Street Journal",
@@ -857,6 +858,7 @@ def main() -> int:
                 "Reuters",
                 "Wired",
                 "MIT Technology Review",
+                "New Scientist",
             ],
         },
         "sources": source_status,
