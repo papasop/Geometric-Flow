@@ -240,22 +240,16 @@
     .highlight-card .label { color: var(--muted); font-size: 12px; font-weight: 720; margin-bottom: 8px; }
     .highlight-card .value { color: var(--text); font-size: 20px; font-weight: 860; }
     .highlight-card .mini { color: var(--muted); font-size: 12px; margin-top: 8px; line-height: 1.35; }
-    .ranking-duo {
-      display: grid;
-      grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.92fr);
-      gap: 14px;
-      align-items: stretch;
-      margin: 6px 0 16px;
-    }
-    .model-ranking {
+    .ranking-panel {
       margin: 0;
       background: #fff;
       border: 1px solid var(--line);
       border-radius: 6px;
       overflow: hidden;
       box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+      margin-bottom: 16px;
     }
-    .model-ranking-head {
+    .ranking-panel-head {
       display: flex;
       justify-content: space-between;
       gap: 12px;
@@ -264,8 +258,29 @@
       border-bottom: 1px solid var(--line);
       background: #f8fafc;
     }
-    .model-ranking-title { color: var(--text); font-size: 15px; font-weight: 860; }
-    .model-ranking-note { color: var(--muted); font-size: 12px; line-height: 1.4; text-align: right; }
+    .ranking-panel-title { color: var(--text); font-size: 15px; font-weight: 860; }
+    .ranking-panel-note { color: var(--muted); font-size: 12px; line-height: 1.4; }
+    .ranking-switch {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+    }
+    .ranking-switch button {
+      height: 30px;
+      padding: 0 12px;
+      border: 0;
+      border-radius: 5px;
+      color: var(--muted);
+      background: transparent;
+      font-size: 12px;
+      font-weight: 820;
+    }
+    .ranking-switch button.active { color: var(--green); background: #ecfdf5; }
+    .ranking-view[hidden] { display: none; }
     .model-table-wrap { overflow-x: auto; background: #fff; }
     .model-table {
       min-width: 720px;
@@ -305,24 +320,17 @@
     .score { display: block; font-size: 17px; font-weight: 850; }
     .score-note { display: block; margin-top: 5px; color: var(--muted); font-size: 12px; line-height: 1.35; }
     .token-ranking {
-      margin: 0 0 16px;
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 6px;
-      overflow: hidden;
-      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+      margin: 0;
     }
-    .ranking-duo .token-ranking { margin: 0; }
     .token-ranking-head {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
       padding: 12px 14px;
-      border-bottom: 1px solid var(--line);
-      background: #f8fafc;
+      border-bottom: 1px solid var(--line-soft);
+      background: #fff;
     }
-    .token-title { color: var(--text); font-size: 15px; font-weight: 860; }
     .token-tabs {
       display: inline-flex;
       align-items: center;
@@ -359,9 +367,6 @@
     .token-metric span { display: block; color: var(--muted); font-size: 11px; font-weight: 760; margin-bottom: 5px; }
     .token-metric b { color: var(--text); font-size: 16px; }
     .token-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0 22px; padding: 12px 14px 14px; }
-    .ranking-duo .token-list { grid-template-columns: 1fr; }
-    .ranking-duo .token-row:nth-last-child(-n + 2) { border-bottom: 1px solid var(--line-soft); }
-    .ranking-duo .token-row:last-child { border-bottom: 0; }
     .token-row {
       display: grid;
       grid-template-columns: 30px minmax(0, 1fr) auto;
@@ -614,20 +619,18 @@
     }
     .empty { padding: 32px; color: var(--muted); text-align: center; }
     @media (max-width: 1120px) {
-      .ranking-duo { grid-template-columns: 1fr; }
       .model-table { min-width: 760px; }
-      .ranking-duo .token-list { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 760px) {
       .topline-inner { align-items: flex-start; flex-direction: column; }
       .highlight-grid { grid-template-columns: 1fr 1fr; }
-      .model-ranking-head { align-items: flex-start; flex-direction: column; }
-      .model-ranking-note { text-align: left; }
+      .ranking-panel-head { align-items: flex-start; flex-direction: column; }
+      .ranking-switch { width: 100%; }
+      .ranking-switch button { flex: 1; }
       .model-table { min-width: 760px; }
       .token-ranking-head { align-items: flex-start; flex-direction: column; }
       .token-summary { grid-template-columns: 1fr; }
       .token-list { grid-template-columns: 1fr; }
-      .ranking-duo .token-list { grid-template-columns: 1fr; }
       .token-row:nth-last-child(-n + 2) { border-bottom: 1px solid var(--line-soft); }
       .token-row:last-child { border-bottom: 0; }
       .toolbar { align-items: stretch; }
@@ -733,15 +736,18 @@
       </div>
     </section>
 
-    <section class="ranking-duo" aria-label="大模型与 Token 调用排行">
-      <section class="model-ranking" aria-label="大模型排行">
-        <div class="model-ranking-head">
-          <div>
-            <div class="model-ranking-title">大模型排行</div>
-            <div class="panel-note">Terminal-Bench · SWE-Bench · CursorBench</div>
-          </div>
-          <div class="model-ranking-note">Opus 4.7 和 GPT-5.5 的公开评测为自报分数</div>
+    <section class="ranking-panel" aria-label="大模型与 Token 调用排行">
+      <div class="ranking-panel-head">
+        <div>
+          <div class="ranking-panel-title">大模型排行</div>
+          <div class="ranking-panel-note" id="ranking-panel-note">Terminal-Bench · SWE-Bench · CursorBench</div>
         </div>
+        <div class="ranking-switch" role="tablist" aria-label="排行切换">
+          <button class="active" data-ranking-view="model" type="button" role="tab" aria-selected="true">大模型排行</button>
+          <button data-ranking-view="token" type="button" role="tab" aria-selected="false">Token 调用排行</button>
+        </div>
+      </div>
+      <section class="ranking-view" id="ranking-view-model" aria-label="大模型排行">
         <div class="model-table-wrap">
           <table class="model-table">
             <thead>
@@ -780,12 +786,9 @@
         </div>
       </section>
 
-      <section class="token-ranking" aria-label="Token 调用排行">
+      <section class="ranking-view token-ranking" id="ranking-view-token" aria-label="Token 调用排行" hidden>
         <div class="token-ranking-head">
-          <div>
-            <div class="token-title">Token 调用排行</div>
-            <div class="panel-note">参考 OpenRouter Top Models，用量口径可切换</div>
-          </div>
+          <div class="panel-note">参考 OpenRouter Top Models，用量口径可切换</div>
           <div class="token-tabs" role="tablist" aria-label="Token ranking period">
             <button class="token-tab" data-token-period="day" type="button">日</button>
             <button class="token-tab" data-token-period="week" type="button">周</button>
@@ -1215,7 +1218,7 @@
       const langs = navigator.languages?.length ? navigator.languages : [navigator.language || ""];
       return langs.some((lang) => /^zh\b/i.test(lang)) ? "zh" : "en";
     }
-    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", selected: "NVDA", page: 1, tokenPeriod: "month", fxRates: {}, lang: browserLang() };
+    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", selected: "NVDA", page: 1, rankingView: "model", tokenPeriod: "month", fxRates: {}, lang: browserLang() };
     const $ = (id) => document.getElementById(id);
     const t = (key) => (I18N[state.lang] && I18N[state.lang][key]) || I18N.zh[key] || key;
 
@@ -1595,6 +1598,20 @@
       renderTable();
       renderSummary();
     }
+    function setRankingView(view) {
+      state.rankingView = view === "token" ? "token" : "model";
+      document.querySelectorAll("[data-ranking-view]").forEach((button) => {
+        const isActive = button.dataset.rankingView === state.rankingView;
+        button.classList.toggle("active", isActive);
+        button.setAttribute("aria-selected", isActive ? "true" : "false");
+      });
+      const modelPanel = $("ranking-view-model");
+      const tokenPanel = $("ranking-view-token");
+      if (modelPanel) modelPanel.hidden = state.rankingView !== "model";
+      if (tokenPanel) tokenPanel.hidden = state.rankingView !== "token";
+      setText(".ranking-panel-title", state.rankingView === "token" ? t("tokenRanking") : t("modelRanking"));
+      setText("#ranking-panel-note", state.rankingView === "token" ? t("tokenNote") : "Terminal-Bench · SWE-Bench · CursorBench");
+    }
     function renderTokenRanking() {
       const rows = TOKEN_RANKINGS[state.tokenPeriod] || TOKEN_RANKINGS.month;
       const total = rows.reduce((sum, row) => sum + row[2], 0);
@@ -1830,10 +1847,9 @@
       const changeClass = $("highlight-change")?.className || "positive";
       if (changeMini) changeMini.innerHTML = `<span class="${changeClass}" id="highlight-change">${changeValue}</span> · ${t("currentFilter")}`;
       setText(".highlight-card:nth-child(2) .mini", t("realVolume"));
-      setText(".model-ranking-title", t("modelRanking"));
-      setText(".model-ranking-note", t("modelNote"));
-      setText(".token-title", t("tokenRanking"));
-      setAllText(".ranking-duo .panel-note", ["Terminal-Bench · SWE-Bench · CursorBench", t("tokenNote")]);
+      setAllText(".ranking-switch button", [t("modelRanking"), t("tokenRanking")]);
+      setRankingView(state.rankingView);
+      setText(".token-ranking-head .panel-note", t("tokenNote"));
       setAllText(".token-tab", [t("day"), t("week"), t("month")]);
       setAllText(".token-metric span", [t("period"), "Top 10 Tokens", t("firstShare")]);
       setAllText(".tabs .tab", [t("all"), t("aiChips"), t("aiCloud"), t("dataCenter"), t("enterpriseAi"), t("security"), t("quantum"), t("chinaAi")]);
@@ -1891,6 +1907,9 @@
       });
       document.querySelectorAll(".tab").forEach((tab) => {
         tab.addEventListener("click", () => selectCategory(tab.dataset.tab));
+      });
+      document.querySelectorAll("[data-ranking-view]").forEach((button) => {
+        button.addEventListener("click", () => setRankingView(button.dataset.rankingView || "model"));
       });
       document.querySelectorAll(".token-tab").forEach((button) => {
         button.addEventListener("click", () => {
