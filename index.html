@@ -610,7 +610,18 @@
     }));
 
     const ROWS_PER_PAGE = 100;
-    const CNY_PER_USD = 7.1;
+    const USD_CNY_HISTORY = [
+      ["2022-01-03", 6.37],
+      ["2022-06-30", 6.70],
+      ["2022-12-30", 6.90],
+      ["2023-06-30", 7.25],
+      ["2023-12-29", 7.10],
+      ["2024-06-28", 7.27],
+      ["2024-12-31", 7.30],
+      ["2025-06-30", 7.17],
+      ["2025-12-31", 7.12],
+      ["2026-05-19", 7.10]
+    ];
     const state = { rows: [...COMPANIES], sort: "mcap", query: "", category: "ALL", selected: "NVDA", page: 1 };
     const $ = (id) => document.getElementById(id);
 
@@ -619,6 +630,20 @@
       if (value >= 1e12) return `$${(value / 1e12).toFixed(2)}T`;
       if (value >= 1e9) return `$${(value / 1e9).toFixed(1)}B`;
       return `$${(value / 1e6).toFixed(0)}M`;
+    }
+    function usdCnyRateFor(dateLike = new Date()) {
+      const key = typeof dateLike === "string" ? dateLike : dateLike.toISOString().slice(0, 10);
+      let rate = USD_CNY_HISTORY[0][1];
+      for (const [date, value] of USD_CNY_HISTORY) {
+        if (date <= key) rate = value;
+        else break;
+      }
+      return rate;
+    }
+    function toUsd(value, currency, dateLike) {
+      if (!Number.isFinite(value)) return null;
+      if (currency === "CNY") return value / usdCnyRateFor(dateLike);
+      return value;
     }
     function formatPercent(value) {
       if (!Number.isFinite(value)) return "—";
@@ -813,12 +838,12 @@
       state.rows = COMPANIES.map((row) => {
         const q = quotes.get(row.ticker) || {};
         const quoteCurrency = q.currency || row.currency || "USD";
-        const quoteMarketCap = Number.isFinite(q.marketCap)
-          ? (quoteCurrency === "CNY" ? q.marketCap / CNY_PER_USD : q.marketCap)
+        const quoteDate = new Date();
+        const quoteMarketCap = toUsd(q.marketCap, quoteCurrency, quoteDate);
+        const rawQuoteVolume = Number.isFinite(q.regularMarketPrice) && Number.isFinite(q.regularMarketVolume)
+          ? q.regularMarketPrice * q.regularMarketVolume
           : null;
-        const quoteVolume = Number.isFinite(q.regularMarketPrice) && Number.isFinite(q.regularMarketVolume)
-          ? (quoteCurrency === "CNY" ? (q.regularMarketPrice * q.regularMarketVolume) / CNY_PER_USD : q.regularMarketPrice * q.regularMarketVolume)
-          : null;
+        const quoteVolume = toUsd(rawQuoteVolume, quoteCurrency, quoteDate);
         return {
           ...row,
           marketCap: quoteMarketCap,
