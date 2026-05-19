@@ -25,6 +25,7 @@ OUTFILE = ROOT / "quotes.json"
 MIRROR_DIRS = [ROOT / "agi", ROOT / "ai-global-index"]
 FX_TICKERS = {
     "USDCNY": "CNY=X",
+    "USDHKD": "HKD=X",
     "USDKRW": "KRW=X",
 }
 

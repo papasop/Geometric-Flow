@@ -562,7 +562,7 @@
   <main class="shell">
     <section class="hero">
       <h1>AI 公司行情与市值排名</h1>
-      <p class="subtitle">当前 AI 相关美国上市、美股挂牌与中国 A 股公司市值为 <b id="inline-total-cap">—</b>。本页从英伟达开始，追踪 AI 产业链公司；美国公司标注 🇺🇸，中国公司标注 🇨🇳，每页显示 100 家，超过 100 家进入第二页。</p>
+      <p class="subtitle">当前 AI 相关美国上市、美股挂牌与中国港股、A 股公司市值为 <b id="inline-total-cap">—</b>。本页从英伟达开始，追踪 AI 产业链公司；美国公司标注 🇺🇸，中国公司标注 🇨🇳，每页显示 100 家，超过 100 家进入第二页。</p>
       <div class="news-strip" aria-label="AI company news">
         <div class="news-strip-label">四大新闻源</div>
         <div class="news-marquee">
@@ -721,7 +721,7 @@
       </div>
       <div class="pager" id="pager"></div>
     </section>
-    <p class="footer-note">说明：这是 AI 相关美股挂牌、A 股公司与少量预上市公司观察名单，不是投资建议，也不是官方指数。价格、1小时/24小时/7天/30天变化、成交额与市值均优先使用在线 quote/chart 真实行情；不可用时显示为空。预上市公司使用估算美元市值参与排行，不抓取实时行情。中国公司市值与成交额在内部按 USD/CNY 历史机制折算成美元口径，但页面不展示汇率。</p>
+    <p class="footer-note">说明：这是 AI 相关美股挂牌、港股、A 股公司与少量预上市公司观察名单，不是投资建议，也不是官方指数。价格、1小时/24小时/7天/30天变化、成交额与市值均优先使用在线 quote/chart 真实行情；不可用时显示为空。预上市公司使用估算美元市值参与排行，不抓取实时行情。非美元公司市值与成交额在内部按 USD/CNY、USD/HKD、USD/KRW 机制折算成美元口径，但页面不展示汇率。</p>
   </main>
 
   <script>
@@ -874,6 +874,40 @@
       ["300033.SZ", "同花顺", "China fintech AI", "金融信息服务、智能投顾与 AI 助手。"],
       ["688008.SS", "澜起科技", "China memory interface", "服务器内存接口芯片与 AI 服务器链条。"],
       ["688521.SS", "芯原股份", "China chip IP", "芯片 IP、定制 SoC 和 AI 芯片设计服务。"],
+      ["0700.HK", "腾讯控股", "China AI platform HK", "混元大模型、微信生态、云服务、游戏与广告 AI。"],
+      ["9988.HK", "阿里巴巴", "China AI cloud HK", "通义千问、阿里云、AI 电商与企业模型服务。"],
+      ["9888.HK", "百度集团", "China AI platform HK", "文心大模型、搜索 AI、智能云与自动驾驶。"],
+      ["1810.HK", "小米集团", "China edge AI HK", "手机端侧 AI、汽车智能化、IoT 与机器人生态。"],
+      ["3690.HK", "美团", "China applied AI HK", "本地生活调度算法、无人配送与商户 AI。"],
+      ["9618.HK", "京东集团", "China logistics AI HK", "供应链、物流机器人、零售 AI 与云服务。"],
+      ["9999.HK", "网易", "China gaming AI HK", "游戏 AI、内容生成、教育与音乐智能化。"],
+      ["1024.HK", "快手", "China video AI HK", "短视频推荐、生成式内容、电商与广告 AI。"],
+      ["0100.HK", "MiniMax", "China AI LLM HK", "多模态大模型、海螺 AI、文本、语音、图像与音乐生成。"],
+      ["2513.HK", "智谱", "China AI LLM HK", "GLM 大模型、MaaS 平台、CodeGeeX 与企业 AI 应用。"],
+      ["6082.HK", "壁仞科技", "China AI GPU HK", "国产通用 GPU、AI 训练推理加速与高性能计算。"],
+      ["0020.HK", "商汤科技", "China AI software HK", "计算机视觉、生成式 AI、日日新大模型与自动驾驶。"],
+      ["6682.HK", "第四范式", "China enterprise AI HK", "企业决策 AI、先知平台和行业大模型应用。"],
+      ["9660.HK", "地平线机器人", "China auto AI chip HK", "智能驾驶芯片、车载计算方案与机器人感知计算。"],
+      ["2533.HK", "黑芝麻智能", "China auto AI chip HK", "自动驾驶计算芯片、车规 SoC 与智能汽车算力。"],
+      ["9880.HK", "优必选", "China robotics HK", "人形机器人、服务机器人和具身智能。"],
+      ["2026.HK", "小马智行", "China autonomous driving HK", "Robotaxi、自动驾驶卡车与无人驾驶商业化。"],
+      ["0800.HK", "文远知行", "China autonomous driving HK", "Robotaxi、Robobus、无人环卫与自动驾驶方案。"],
+      ["2525.HK", "禾赛科技", "China lidar HK", "激光雷达、ADAS、机器人感知与自动驾驶传感器。"],
+      ["2498.HK", "速腾聚创", "China lidar HK", "车载激光雷达、机器人传感器与感知硬件。"],
+      ["0992.HK", "联想集团", "China AI PC / server HK", "AI PC、AI 服务器、边缘计算与企业智能设备。"],
+      ["0981.HK", "中芯国际", "China foundry HK", "国产晶圆制造，AI 芯片供应链基础。"],
+      ["1347.HK", "华虹半导体", "China foundry HK", "特色工艺代工，功率、MCU、传感与边缘 AI 芯片链。"],
+      ["0522.HK", "ASMPT", "China semi equipment HK", "先进封装、半导体装配和 AI 芯片封装设备。"],
+      ["6088.HK", "鸿腾精密", "China AI hardware HK", "连接器、服务器互连与 AI 硬件供应链。"],
+      ["2018.HK", "瑞声科技", "China edge AI hardware HK", "声学、光学、触觉与端侧 AI 硬件。"],
+      ["2382.HK", "舜宇光学科技", "China vision AI hardware HK", "光学镜头、车载视觉与机器视觉硬件。"],
+      ["9698.HK", "万国数据", "China AI data center HK", "中国数据中心、云托管与 AI 算力基础设施。"],
+      ["3888.HK", "金山软件", "China enterprise AI HK", "WPS AI、办公软件、云服务和游戏 AI。"],
+      ["0354.HK", "中国软件国际", "China AI services HK", "企业数字化、云服务、AI 解决方案和 MiniMax 投资。"],
+      ["0268.HK", "金蝶国际", "China enterprise AI HK", "企业管理云、财务 AI 与业务智能化。"],
+      ["2158.HK", "医渡科技", "China healthcare AI HK", "医疗大数据、临床研究和健康 AI。"],
+      ["2013.HK", "微盟集团", "China commerce AI HK", "SaaS、营销自动化、电商和商户 AI。"],
+      ["0909.HK", "明源云", "China vertical AI software HK", "地产与产业链 SaaS、企业数据和垂直 AI。"],
       ["688327.SS", "云从科技", "China AI software", "视觉智能、人机协同与行业大模型应用。"],
       ["688088.SS", "虹软科技", "China vision AI", "计算机视觉、影像算法与端侧 AI。"],
       ["603501.SS", "韦尔股份", "China sensor chip", "图像传感器、汽车与边缘视觉 AI。"],
@@ -899,7 +933,7 @@
         status: meta.status || "listed",
         estimatedMarketCap: Number.isFinite(meta.estimatedMarketCap) ? meta.estimatedMarketCap : null,
         estimatedMarketCapCny: Number.isFinite(meta.estimatedMarketCapCny) ? meta.estimatedMarketCapCny : null,
-        country: COUNTRY_OVERRIDES[row[0]] || "USA",
+        country: COUNTRY_OVERRIDES[row[0]] || (row[0].endsWith(".HK") ? "China" : "USA"),
         marketCap: null,
         price: null,
         currency: "USD",
@@ -924,6 +958,18 @@
       ["2025-06-30", 7.17],
       ["2025-12-31", 7.12],
       ["2026-05-19", 7.10]
+    ];
+    const USD_HKD_HISTORY = [
+      ["2022-01-03", 7.80],
+      ["2022-06-30", 7.85],
+      ["2022-12-30", 7.80],
+      ["2023-06-30", 7.84],
+      ["2023-12-29", 7.81],
+      ["2024-06-28", 7.81],
+      ["2024-12-31", 7.77],
+      ["2025-06-30", 7.85],
+      ["2025-12-31", 7.80],
+      ["2026-05-19", 7.80]
     ];
     const USD_KRW_HISTORY = [
       ["2022-01-03", 1191],
@@ -1000,6 +1046,15 @@
       }
       return rate;
     }
+    function usdHkdRateFor(dateLike = new Date()) {
+      const key = typeof dateLike === "string" ? dateLike : dateLike.toISOString().slice(0, 10);
+      let rate = USD_HKD_HISTORY[0][1];
+      for (const [date, value] of USD_HKD_HISTORY) {
+        if (date <= key) rate = value;
+        else break;
+      }
+      return rate;
+    }
     function usdKrwRateFor(dateLike = new Date()) {
       const key = typeof dateLike === "string" ? dateLike : dateLike.toISOString().slice(0, 10);
       let rate = USD_KRW_HISTORY[0][1];
@@ -1011,12 +1066,13 @@
     }
     function fxRateFor(currency, dateLike) {
       if (currency === "CNY") return Number.isFinite(state.fxRates.USDCNY) ? state.fxRates.USDCNY : usdCnyRateFor(dateLike);
+      if (currency === "HKD") return Number.isFinite(state.fxRates.USDHKD) ? state.fxRates.USDHKD : usdHkdRateFor(dateLike);
       if (currency === "KRW") return Number.isFinite(state.fxRates.USDKRW) ? state.fxRates.USDKRW : usdKrwRateFor(dateLike);
       return 1;
     }
     function toUsd(value, currency, dateLike) {
       if (!Number.isFinite(value)) return null;
-      if (currency === "CNY" || currency === "KRW") return value / fxRateFor(currency, dateLike);
+      if (currency === "CNY" || currency === "HKD" || currency === "KRW") return value / fxRateFor(currency, dateLike);
       return value;
     }
     function formatPercent(value) {
@@ -1029,7 +1085,7 @@
     }
     function formatPrice(value, row) {
       if (!Number.isFinite(value) || value <= 0) return "—";
-      const symbol = row?.currency === "CNY" ? "¥" : "$";
+      const symbol = row?.currency === "CNY" ? "¥" : row?.currency === "HKD" ? "HK$" : "$";
       if (value < 1) return `${symbol}${value.toFixed(4)}`;
       return `${symbol}${value.toFixed(2)}`;
     }
@@ -1367,7 +1423,7 @@
     }
     async function fetchLiveQuotes() {
       const quoteRows = COMPANIES.filter((row) => row.status !== "prelist");
-      const symbols = [...quoteRows.map((row) => row.ticker), "CNY=X", "KRW=X"];
+      const symbols = [...quoteRows.map((row) => row.ticker), "CNY=X", "HKD=X", "KRW=X"];
       const chunks = [];
       for (let i = 0; i < symbols.length; i += 35) chunks.push(symbols.slice(i, i + 35));
       const quotes = new Map();
@@ -1398,8 +1454,10 @@
       }));
       const fx = {};
       const usdCny = quotes.get("CNY=X");
+      const usdHkd = quotes.get("HKD=X");
       const usdKrw = quotes.get("KRW=X");
       if (Number.isFinite(usdCny?.regularMarketPrice)) fx.USDCNY = usdCny.regularMarketPrice;
+      if (Number.isFinite(usdHkd?.regularMarketPrice)) fx.USDHKD = usdHkd.regularMarketPrice;
       if (Number.isFinite(usdKrw?.regularMarketPrice)) fx.USDKRW = usdKrw.regularMarketPrice;
       applyQuoteData(normalized, new Date().toISOString(), "Live Yahoo fallback", fx);
       fetchHistoricalMetrics().catch((error) => console.warn(error));
