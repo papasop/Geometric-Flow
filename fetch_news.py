@@ -322,9 +322,13 @@ COMPANY_NEWS_SOURCES = [
     for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
 ]
 MARKET_NEWS_SOURCES = [
-    google_news_query_source("Equity Financing · AI Market", f"{AI_MARKET_NEWS_QUERY} {DEAL_NEWS_TERMS_QUERY}"),
+    google_news_query_source("Bloomberg · Equity Financing", f"site:bloomberg.com {AI_MARKET_NEWS_QUERY} {DEAL_NEWS_TERMS_QUERY}"),
+    google_news_query_source("Reuters · Equity Financing", f"site:reuters.com {AI_MARKET_NEWS_QUERY} {DEAL_NEWS_TERMS_QUERY}"),
 ] + [
-    google_news_query_source(f"Equity Financing · Batch {index + 1}", f"({quoted_or_query(batch)}) {DEAL_NEWS_TERMS_QUERY}")
+    google_news_query_source(f"Bloomberg · Equity Batch {index + 1}", f"site:bloomberg.com ({quoted_or_query(batch)}) {DEAL_NEWS_TERMS_QUERY}")
+    for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
+] + [
+    google_news_query_source(f"Reuters · Equity Batch {index + 1}", f"site:reuters.com ({quoted_or_query(batch)}) {DEAL_NEWS_TERMS_QUERY}")
     for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
 ]
 TECH_NEWS_SOURCES = [
@@ -347,7 +351,7 @@ NEWS_SECTIONS = [
     {
         "id": "deals",
         "title": "股权融资",
-        "note": "Any source",
+        "note": "Bloomberg / Reuters",
         "sources": MARKET_NEWS_SOURCES,
     },
     {
@@ -822,7 +826,7 @@ def main() -> int:
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "strategy": {
-            "primary": "Tabbed news sections: industry from WSJ/NYT, company from Bloomberg/Reuters company-name searches, equity financing from any source, new technology from Wired/MIT Technology Review",
+            "primary": "Tabbed news sections: industry from WSJ/NYT, company from Bloomberg/Reuters company-name searches, equity financing from Bloomberg/Reuters, new technology from Wired/MIT Technology Review",
             "primaryEnabled": True,
             "supplements": [
                 "Wall Street Journal",
