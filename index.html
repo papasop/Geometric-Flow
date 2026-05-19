@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Market Cap | Top 100</title>
+  <title>AI Market Cap</title>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LY00KSNQ2E"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -226,6 +226,17 @@
     .company-line { display: flex; align-items: baseline; gap: 6px; }
     .company-name { color: var(--text); font-weight: 820; }
     .ticker { color: #8a94a6; font-weight: 780; font-size: 12px; }
+    .prelist-badge {
+      display: inline-flex;
+      align-items: center;
+      height: 18px;
+      padding: 0 6px;
+      border-radius: 5px;
+      background: #fff7ed;
+      color: #c2410c;
+      font-size: 11px;
+      font-weight: 800;
+    }
     .subtext { color: var(--muted); font-size: 12px; margin-top: 3px; max-width: 290px; overflow: hidden; text-overflow: ellipsis; }
     .mcap { color: var(--text); font-weight: 820; }
     .estimated { color: #7c8798; }
@@ -321,7 +332,7 @@
   <div class="topline">
     <div class="topline-inner">
       <span>公司: <b id="top-company-count">100</b></span>
-      <span>交易所: <b>NYSE / Nasdaq / ADR</b></span>
+      <span>市场: <b>NYSE / Nasdaq / A 股 / 预上市</b></span>
       <span>总市值: <b id="top-total-cap">—</b> <span class="up" id="market-change">0.0%</span></span>
       <span>24小时交易量: <b id="top-volume">—</b></span>
       <span>AI 龙头占比: <b id="dominance">NVDA — · MSFT —</b></span>
@@ -430,7 +441,7 @@
       </div>
       <div class="pager" id="pager"></div>
     </section>
-    <p class="footer-note">说明：这是 AI 相关美股挂牌与 A 股公司观察名单，不是投资建议，也不是官方指数。价格、1小时/24小时/7天/30天变化、成交额与市值均优先使用在线 quote/chart 真实行情；不可用时显示为空。中国公司市值与成交额在内部按 USD/CNY 历史机制折算成美元口径，但页面不展示汇率。</p>
+    <p class="footer-note">说明：这是 AI 相关美股挂牌、A 股公司与少量预上市公司观察名单，不是投资建议，也不是官方指数。价格、1小时/24小时/7天/30天变化、成交额与市值均优先使用在线 quote/chart 真实行情；不可用时显示为空。预上市公司使用估算美元市值参与排行，不抓取实时行情。中国公司市值与成交额在内部按 USD/CNY 历史机制折算成美元口径，但页面不展示汇率。</p>
   </main>
 
   <script>
@@ -440,6 +451,7 @@
       "688256.SS": "China", "688041.SS": "China", "688111.SS": "China", "603019.SS": "China", "000977.SZ": "China",
       "300750.SZ": "China",
       "002384.SZ": "China", "301666.SZ": "China", "688820.SS": "China", "601869.SS": "China", "688795.SS": "China", "603986.SS": "China",
+      "YMTC.PRE": "China", "CXMT.PRE": "China",
       "002230.SZ": "China", "300308.SZ": "China", "300502.SZ": "China", "300394.SZ": "China", "688981.SS": "China",
       "002475.SZ": "China",
       "002415.SZ": "China", "000938.SZ": "China", "600570.SS": "China", "300033.SZ": "China", "688008.SS": "China",
@@ -561,6 +573,8 @@
       ["601869.SS", "长飞光纤", "China optical", "光纤、光缆、光模块与 AI 算力网络连接基础设施。"],
       ["688795.SS", "摩尔线程", "China GPU", "国产全功能 GPU 与 MUSA 架构，覆盖智算加速和图形计算。"],
       ["603986.SS", "兆易创新", "China memory chip", "存储芯片、MCU 与端侧 AI 硬件供应链。"],
+      ["YMTC.PRE", "长江存储", "China memory pre-IPO", "预上市 NAND 闪存龙头，AI 数据中心存储供应链。", { status: "prelist", estimatedMarketCap: 30000000000 }],
+      ["CXMT.PRE", "长鑫存储", "China memory pre-IPO", "预上市 DRAM 存储厂商，AI 服务器内存供应链。", { status: "prelist", estimatedMarketCap: 25000000000 }],
       ["002230.SZ", "科大讯飞", "China AI software", "星火大模型、语音识别和教育办公 AI。"],
       ["300308.SZ", "中际旭创", "China optical", "高速光模块，AI 数据中心互连核心。"],
       ["300502.SZ", "新易盛", "China optical", "高速光模块与 AI 算力网络。"],
@@ -587,23 +601,28 @@
       ["603893.SS", "瑞芯微", "China edge AI chip", "SoC、端侧 AI 和智能硬件芯片。"],
       ["688169.SS", "石头科技", "China robotics", "服务机器人、视觉导航与家用 AI。"],
       ["688728.SS", "格科微", "China sensor chip", "图像传感器与边缘视觉硬件。"]
-    ].map((row, index) => ({
-      rank: index + 1,
-      ticker: row[0],
-      name: row[1],
-      category: row[2],
-      thesis: row[3],
-      country: COUNTRY_OVERRIDES[row[0]] || "USA",
-      marketCap: null,
-      price: null,
-      currency: "USD",
-      volume: null,
-      change1h: null,
-      changePercent: null,
-      change7d: null,
-      change30d: null,
-      sparkPoints: null
-    }));
+    ].map((row, index) => {
+      const meta = row[4] || {};
+      return {
+        rank: index + 1,
+        ticker: row[0],
+        name: row[1],
+        category: row[2],
+        thesis: row[3],
+        status: meta.status || "listed",
+        estimatedMarketCap: Number.isFinite(meta.estimatedMarketCap) ? meta.estimatedMarketCap : null,
+        country: COUNTRY_OVERRIDES[row[0]] || "USA",
+        marketCap: null,
+        price: null,
+        currency: "USD",
+        volume: null,
+        change1h: null,
+        changePercent: null,
+        change7d: null,
+        change30d: null,
+        sparkPoints: null
+      };
+    });
 
     const ROWS_PER_PAGE = 100;
     const USD_CNY_HISTORY = [
@@ -656,6 +675,7 @@
       return `${symbol}${value.toFixed(2)}`;
     }
     function yahooLink(ticker) {
+      if (ticker.endsWith(".PRE")) return "#";
       return `https://finance.yahoo.com/quote/${encodeURIComponent(ticker)}`;
     }
     function flagFor(row) {
@@ -700,10 +720,17 @@
       return rows;
     }
     function effectiveCap(row) {
-      return Number.isFinite(row.marketCap) ? row.marketCap : null;
+      if (Number.isFinite(row.marketCap) && row.marketCap > 0) return row.marketCap;
+      if (row.status === "prelist" && Number.isFinite(row.estimatedMarketCap) && row.estimatedMarketCap > 0) return row.estimatedMarketCap;
+      return null;
     }
     function capClass(row) {
-      return Number.isFinite(row.marketCap) ? "mcap" : "mcap";
+      return row.status === "prelist" && !Number.isFinite(row.marketCap) ? "mcap estimated" : "mcap";
+    }
+    function capLabel(row) {
+      const cap = effectiveCap(row);
+      const suffix = row.status === "prelist" && !Number.isFinite(row.marketCap) && cap ? " est." : "";
+      return `${formatCap(cap)}${suffix}`;
     }
     function renderTable() {
       const rows = filteredRows();
@@ -725,7 +752,7 @@
           <td>
             <div class="company-cell">
               <span>
-                <span class="company-line"><span class="company-name">${row.name}</span><span class="flag">${flagFor(row)}</span><span class="ticker">${row.ticker}</span></span>
+                <span class="company-line"><span class="company-name">${row.name}</span><span class="flag">${flagFor(row)}</span><span class="ticker">${row.ticker}</span>${row.status === "prelist" ? "<span class=\"prelist-badge\">预上市</span>" : ""}</span>
                 <div class="subtext">${row.category}</div>
               </span>
             </div>
@@ -736,7 +763,7 @@
           <td>${formatChange(d7)}</td>
           <td>${formatChange(d30)}</td>
           <td>${formatCap(effectiveVolume(row))}</td>
-          <td class="${capClass(row)}">${formatCap(effectiveCap(row))}</td>
+          <td class="${capClass(row)}">${capLabel(row)}</td>
           <td>${sparkline(row)}</td>
         </tr>`;
       }).join("") || `<tr><td colspan="11"><div class="empty">没有匹配结果</div></td></tr>`;
@@ -751,6 +778,11 @@
       document.querySelectorAll("#rank-body tr[data-ticker]").forEach((tr) => {
         tr.addEventListener("click", () => {
           state.selected = tr.dataset.ticker;
+          const selectedRow = state.rows.find((row) => row.ticker === state.selected);
+          if (selectedRow?.status === "prelist") {
+            render();
+            return;
+          }
           window.open(yahooLink(state.selected), "_blank", "noopener");
           render();
         });
@@ -868,8 +900,9 @@
     }
     async function fetchHistoricalMetrics() {
       const batchSize = 8;
-      for (let i = 0; i < state.rows.length; i += batchSize) {
-        const batch = state.rows.slice(i, i + batchSize);
+      const chartRows = state.rows.filter((row) => row.status !== "prelist");
+      for (let i = 0; i < chartRows.length; i += batchSize) {
+        const batch = chartRows.slice(i, i + batchSize);
         const updates = await Promise.allSettled(batch.map((row) => fetchChartMetrics(row.ticker)));
         updates.forEach((result, index) => {
           if (result.status !== "fulfilled") return;
@@ -880,7 +913,8 @@
       }
     }
     async function fetchQuotes() {
-      const symbols = COMPANIES.map((row) => row.ticker);
+      const quoteRows = COMPANIES.filter((row) => row.status !== "prelist");
+      const symbols = quoteRows.map((row) => row.ticker);
       const chunks = [];
       for (let i = 0; i < symbols.length; i += 35) chunks.push(symbols.slice(i, i + 35));
       const quotes = new Map();
@@ -892,6 +926,7 @@
         (json.quoteResponse?.result || []).forEach((q) => quotes.set(q.symbol, q));
       }
       state.rows = COMPANIES.map((row) => {
+        if (row.status === "prelist") return { ...row };
         const q = quotes.get(row.ticker) || {};
         const quoteCurrency = q.currency || row.currency || "USD";
         const quoteDate = new Date();
