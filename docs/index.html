@@ -466,6 +466,35 @@
       font-size: 12px;
       font-weight: 800;
     }
+    .sort-head {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 4px;
+      height: auto;
+      border: 0;
+      border-radius: 4px;
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 800;
+      padding: 0;
+      white-space: nowrap;
+    }
+    .sort-head:hover,
+    .sort-head.active {
+      color: var(--blue);
+      background: transparent;
+    }
+    .sort-arrow {
+      color: #9ca3af;
+      font-size: 10px;
+      min-width: 10px;
+    }
+    .sort-head.active .sort-arrow {
+      color: var(--blue);
+    }
     td { color: var(--text); font-size: 14px; }
     tbody tr { cursor: pointer; transition: background 0.14s ease; }
     tbody tr:hover, tbody tr.active { background: #f8fbff; }
@@ -796,13 +825,13 @@
               <th></th>
               <th>#</th>
               <th>公司</th>
-              <th>价格</th>
-              <th>1小时</th>
-              <th>24小时</th>
-              <th>7天</th>
-              <th>30天</th>
-              <th>24小时交易量</th>
-              <th>总市值</th>
+              <th><button class="sort-head" type="button" data-table-sort="price"><span>价格</span><span class="sort-arrow"></span></button></th>
+              <th><button class="sort-head" type="button" data-table-sort="h1"><span>1小时</span><span class="sort-arrow"></span></button></th>
+              <th><button class="sort-head" type="button" data-table-sort="change"><span>24小时</span><span class="sort-arrow"></span></button></th>
+              <th><button class="sort-head" type="button" data-table-sort="d7"><span>7天</span><span class="sort-arrow"></span></button></th>
+              <th><button class="sort-head" type="button" data-table-sort="d30"><span>30天</span><span class="sort-arrow"></span></button></th>
+              <th><button class="sort-head" type="button" data-table-sort="volume"><span>24小时交易量</span><span class="sort-arrow"></span></button></th>
+              <th><button class="sort-head" type="button" data-table-sort="mcap"><span>总市值</span><span class="sort-arrow"></span></button></th>
               <th>最近30天</th>
             </tr>
           </thead>
@@ -1172,7 +1201,7 @@
       const langs = navigator.languages?.length ? navigator.languages : [navigator.language || ""];
       return langs.some((lang) => /^zh\b/i.test(lang)) ? "zh" : "en";
     }
-    const state = { rows: [...COMPANIES], sort: "mcap", query: "", category: "ALL", selected: "NVDA", page: 1, tokenPeriod: "month", fxRates: {}, lang: browserLang() };
+    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", selected: "NVDA", page: 1, tokenPeriod: "month", fxRates: {}, lang: browserLang() };
     const $ = (id) => document.getElementById(id);
     const t = (key) => (I18N[state.lang] && I18N[state.lang][key]) || I18N.zh[key] || key;
 
@@ -1284,9 +1313,11 @@
         return matchCategory && (!q || haystack.includes(q));
       });
       if (state.sort === "mcap") {
-        rows = rows.sort(compareByUnifiedCap);
+        rows = rows.sort((a, b) => compareMetric(a, b, "mcap"));
       } else if (state.sort === "change") {
-        rows = rows.sort((a, b) => (b.changePercent ?? -999) - (a.changePercent ?? -999) || a.rank - b.rank);
+        rows = rows.sort((a, b) => compareMetric(a, b, "change"));
+      } else if (["price", "h1", "d7", "d30", "volume"].includes(state.sort)) {
+        rows = rows.sort((a, b) => compareMetric(a, b, state.sort));
       } else {
         rows = rows.sort((a, b) => a.rank - b.rank);
       }
@@ -1306,6 +1337,29 @@
       if (aHasCap && bHasCap) return bCap - aCap || a.rank - b.rank;
       if (aHasCap) return -1;
       if (bHasCap) return 1;
+      return a.rank - b.rank;
+    }
+    function sortValue(row, sort) {
+      if (sort === "price") return row.price;
+      if (sort === "h1") return row.change1h;
+      if (sort === "change") return row.changePercent;
+      if (sort === "d7") return row.change7d;
+      if (sort === "d30") return row.change30d;
+      if (sort === "volume") return effectiveVolume(row);
+      if (sort === "mcap") return effectiveCap(row);
+      return null;
+    }
+    function compareMetric(a, b, sort) {
+      const av = sortValue(a, sort);
+      const bv = sortValue(b, sort);
+      const aHas = Number.isFinite(av);
+      const bHas = Number.isFinite(bv);
+      if (aHas && bHas) {
+        const diff = state.sortDir === "asc" ? av - bv : bv - av;
+        return diff || a.rank - b.rank;
+      }
+      if (aHas) return -1;
+      if (bHas) return 1;
       return a.rank - b.rank;
     }
     function capClass(row) {
@@ -1370,6 +1424,22 @@
           window.open(yahooLink(state.selected), "_blank", "noopener");
           render();
         });
+      });
+      updateSortControls();
+    }
+    function updateSortControls() {
+      document.querySelectorAll("[data-table-sort]").forEach((button) => {
+        const isActive = button.dataset.tableSort === state.sort;
+        button.classList.toggle("active", isActive);
+        button.setAttribute("aria-sort", isActive ? (state.sortDir === "asc" ? "ascending" : "descending") : "none");
+        const arrow = button.querySelector(".sort-arrow");
+        if (arrow) arrow.textContent = isActive ? (state.sortDir === "asc" ? "↑" : "↓") : "";
+      });
+      ["sort-mcap", "sort-rank", "sort-change"].forEach((buttonId) => {
+        const button = $(buttonId);
+        if (!button) return;
+        const buttonSort = buttonId === "sort-mcap" ? "mcap" : buttonId === "sort-rank" ? "rank" : "change";
+        button.classList.toggle("active", buttonSort === state.sort);
       });
     }
     function renderPager(totalRows, pageCount) {
@@ -1732,9 +1802,15 @@
       setAllText(".custom-row > *", [t("custom"), t("priceChange"), t("th30d"), t("metric"), t("thMcap"), t("other"), t("rows100")]);
       setText(".panel-title", t("rankName"));
       setText("#table-note", t("tableNote"));
-      setAllText(".market-panel thead th", ["", "#", t("thCompany"), t("thPrice"), t("th1h"), t("th24h"), t("th7d"), t("th30d"), t("thVolume"), t("thMcap"), t("thSpark")]);
+      setAllText(".market-panel thead th:nth-child(-n+3), .market-panel thead th:nth-child(11)", ["", "#", t("thCompany"), t("thSpark")]);
+      const sortLabels = { price: "thPrice", h1: "th1h", change: "th24h", d7: "th7d", d30: "th30d", volume: "thVolume", mcap: "thMcap" };
+      Object.entries(sortLabels).forEach(([sort, key]) => {
+        const label = document.querySelector(`[data-table-sort="${sort}"] span:first-child`);
+        if (label) label.textContent = t(key);
+      });
       setText(".footer-note", t("footer"));
       if ($("category-filter")) renderCategoryFilter();
+      updateSortControls();
     }
     function setLanguage(lang) {
       if (lang !== "zh" && lang !== "en") return;
@@ -1786,8 +1862,19 @@
       [["sort-mcap", "mcap"], ["sort-rank", "rank"], ["sort-change", "change"]].forEach(([id, sort]) => {
         $(id).addEventListener("click", () => {
           state.sort = sort;
+          state.sortDir = sort === "rank" ? "asc" : "desc";
           state.page = 1;
-          ["sort-mcap", "sort-rank", "sort-change"].forEach((buttonId) => $(buttonId).classList.toggle("active", buttonId === id));
+          updateSortControls();
+          render();
+        });
+      });
+      document.querySelectorAll("[data-table-sort]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const sort = button.dataset.tableSort || "mcap";
+          state.sortDir = state.sort === sort && state.sortDir === "desc" ? "asc" : "desc";
+          state.sort = sort;
+          state.page = 1;
+          updateSortControls();
           render();
         });
       });
