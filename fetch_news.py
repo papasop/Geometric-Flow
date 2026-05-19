@@ -593,6 +593,18 @@ def author_of(node: ET.Element) -> str:
     return ""
 
 
+PUBLISHER_AUTHOR_RE = re.compile(
+    r"\b("
+    r"reuters|bloomberg|associated press|ap news|cnbc|cnn|bbc|yahoo|google|marketwatch|"
+    r"wall street journal|new york times|the information|the verge|techcrunch|wired|"
+    r"forbes|fortune|business insider|financial times|investing\.com|seeking alpha|"
+    r"the motley fool|tech advisor|coindesk|cointelegraph|coincentral|the globe and mail|"
+    r"news|journal|times|post|daily|weekly|magazine|review|press|media"
+    r")\b",
+    re.I,
+)
+
+
 def normalize_author(author: str, source_name: str) -> str:
     author = clean_text(author, 80)
     source_name = clean_text(source_name, 80)
@@ -601,6 +613,8 @@ def normalize_author(author: str, source_name: str) -> str:
     if author.lower() == source_name.lower():
         return ""
     if re.search(r"\beditorial\b|\bstaff\b|^news$", author, re.I):
+        return ""
+    if PUBLISHER_AUTHOR_RE.search(author):
         return ""
     return author
 
