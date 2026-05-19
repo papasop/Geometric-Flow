@@ -320,25 +320,25 @@ TECH_NEWS_SOURCES = [
 NEWS_SECTIONS = [
     {
         "id": "industry",
-        "title": "行业新闻",
+        "title": "行业",
         "note": "综合新闻源 · AI 行业动态",
         "sources": INDUSTRY_NEWS_SOURCES,
     },
     {
         "id": "company",
-        "title": "行业/公司/市场",
+        "title": "公司",
         "note": "公司关键词 · Bloomberg / Reuters / WSJ",
         "sources": COMPANY_NEWS_SOURCES,
     },
     {
         "id": "deals",
-        "title": "股权并购融资",
+        "title": "市场",
         "note": "股权 · 并购 · 融资",
         "sources": DEAL_NEWS_SOURCES,
     },
     {
         "id": "tech",
-        "title": "新科技",
+        "title": "前沿",
         "note": "MIT Technology Review / Wired",
         "sources": TECH_NEWS_SOURCES,
     },
