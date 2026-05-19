@@ -344,13 +344,13 @@ NEWS_SECTIONS = [
     },
     {
         "id": "deals",
-        "title": "市场",
+        "title": "并购融资",
         "note": "Bloomberg / Reuters",
         "sources": MARKET_NEWS_SOURCES,
     },
     {
         "id": "tech",
-        "title": "前沿",
+        "title": "新科技",
         "note": "MIT Technology Review / Wired",
         "sources": TECH_NEWS_SOURCES,
     },
@@ -812,7 +812,7 @@ def main() -> int:
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "strategy": {
-            "primary": "Tabbed news sections: industry from WSJ/NYT, company from ranking names, market from Bloomberg/Reuters, frontier from Wired/MIT Technology Review",
+            "primary": "Tabbed news sections: industry from WSJ/NYT, company from ranking names, M&A/financing from Bloomberg/Reuters, new technology from Wired/MIT Technology Review",
             "primaryEnabled": True,
             "supplements": [
                 "Wall Street Journal",
