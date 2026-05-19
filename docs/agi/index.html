@@ -676,13 +676,13 @@
   <nav class="nav" aria-label="AI Market Cap navigation">
     <div class="nav-inner">
       <span class="brand">AI Market Cap</span>
-      <a class="active" href="#">按市值</a>
-      <a href="#">类别</a>
-      <a href="#">新云</a>
-      <a href="#">半导体</a>
-      <a href="#">数据中心</a>
-      <a href="#">涨与跌</a>
-      <a href="#">全球图表</a>
+      <a href="#" data-nav-tab="AI GPU / CUDA">人工智能芯片</a>
+      <a href="#" data-nav-tab="AI cloud">AI云</a>
+      <a href="#" data-nav-tab="AI data center">数据中心</a>
+      <a href="#" data-nav-tab="Enterprise AI">企业人工智能</a>
+      <a href="#" data-nav-tab="AI security">安全</a>
+      <a href="#" data-nav-tab="Quantum">量子</a>
+      <a href="#" data-nav-tab="China AI">中国人工智能</a>
     </div>
   </nav>
   <main class="shell">
@@ -1185,7 +1185,7 @@
         topCompanies: "公司", topMarket: "市场", topMarketValue: "NYSE / Nasdaq / A 股 / 韩股 / 预上市",
         totalCap: "总市值", volume24h: "24小时交易量",
         initialQuote: "USD · 实时行情可用时更新",
-        navCap: "按市值", navCategory: "类别", navCloud: "新云", navSemi: "半导体", navDataCenter: "数据中心", navMovers: "涨与跌", navCharts: "全球图表",
+        navAiChips: "人工智能芯片", navCloud: "AI云", navDataCenter: "数据中心", navEnterpriseAi: "企业人工智能", navSecurity: "安全", navQuantum: "量子", navChinaAi: "中国人工智能",
         industry: "行业", company: "并购", market: "股权融资", frontier: "新科技",
         loadingIndustry: "正在加载行业…", loadingCompany: "正在加载并购…", loadingMarket: "正在加载股权融资…", loadingFrontier: "正在加载新科技…",
         currentFilter: "按当前筛选", realVolume: "真实成交额，可用时更新", hot: "热门", topGainer: "最大升幅", waitingQuotes: "等待行情或估算涨跌",
@@ -1213,7 +1213,7 @@
         topCompanies: "Companies", topMarket: "Markets", topMarketValue: "NYSE / Nasdaq / A-shares / Korea / Pre-IPO",
         totalCap: "Market Cap", volume24h: "24h Volume",
         initialQuote: "USD · live quote when available",
-        navCap: "Market Cap", navCategory: "Categories", navCloud: "AI Cloud", navSemi: "Semiconductors", navDataCenter: "Data Centers", navMovers: "Gainers / Losers", navCharts: "Global Charts",
+        navAiChips: "AI Chips", navCloud: "AI Cloud", navDataCenter: "Data Centers", navEnterpriseAi: "Enterprise AI", navSecurity: "Security", navQuantum: "Quantum", navChinaAi: "China AI",
         industry: "Industry", company: "M&A", market: "Equity Financing", frontier: "New Tech",
         loadingIndustry: "Loading industry…", loadingCompany: "Loading M&A…", loadingMarket: "Loading equity financing…", loadingFrontier: "Loading new tech…",
         currentFilter: "Current filter", realVolume: "Real traded value when available", hot: "Trending", topGainer: "Top Gainer", waitingQuotes: "Waiting for quotes or estimated moves",
@@ -1818,6 +1818,19 @@
       $("category-filter").innerHTML = categories().map((cat) => `<option value="${cat}">${categoryLabel(cat)}</option>`).join("");
       if ([...$("category-filter").options].some((option) => option.value === current)) $("category-filter").value = current;
     }
+    function updateCategoryControls() {
+      document.querySelectorAll(".tab").forEach((item) => item.classList.toggle("active", item.dataset.tab === state.category));
+      document.querySelectorAll(".nav a[data-nav-tab]").forEach((item) => item.classList.toggle("active", item.dataset.navTab === state.category));
+      if ($("category-filter") && [...$("category-filter").options].some((option) => option.value === state.category)) {
+        $("category-filter").value = state.category;
+      }
+    }
+    function selectCategory(category) {
+      state.category = category || "ALL";
+      state.page = 1;
+      updateCategoryControls();
+      render();
+    }
     function applyLocale() {
       document.documentElement.lang = state.lang === "zh" ? "zh-CN" : "en";
       document.title = t("pageTitle");
@@ -1827,7 +1840,7 @@
       setFirstText(".topline-inner > span:nth-child(3)", `${t("totalCap")}: `);
       setFirstText(".topline-inner > span:nth-child(4)", `${t("volume24h")}: `);
       if (/live quote|实时行情/.test($("updated-at")?.textContent || "")) $("updated-at").textContent = t("initialQuote");
-      setAllText(".nav a", [t("navCap"), t("navCategory"), t("navCloud"), t("navSemi"), t("navDataCenter"), t("navMovers"), t("navCharts")]);
+      setAllText(".nav a[data-nav-tab]", [t("navAiChips"), t("navCloud"), t("navDataCenter"), t("navEnterpriseAi"), t("navSecurity"), t("navQuantum"), t("navChinaAi")]);
       document.querySelector(".news-sections")?.setAttribute("aria-label", `${t("industry")}/${t("company")}/${t("market")}/${t("frontier")}`);
       setAllText(".news-tab", [t("industry"), t("company"), t("market"), t("frontier")]);
       setAllText(".news-strip-label", [t("industry"), t("company"), t("market"), t("frontier")]);
@@ -1870,6 +1883,7 @@
       });
       setText(".footer-note", t("footer"));
       if ($("category-filter")) renderCategoryFilter();
+      updateCategoryControls();
       updateSortControls();
     }
     function setLanguage(lang) {
@@ -1899,15 +1913,15 @@
     function initControls() {
       renderCategoryFilter();
       $("search").addEventListener("input", (event) => { state.query = event.target.value; state.page = 1; render(); });
-      $("category-filter").addEventListener("change", (event) => { state.category = event.target.value; state.page = 1; render(); });
-      document.querySelectorAll(".tab").forEach((tab) => {
-        tab.addEventListener("click", () => {
-          document.querySelectorAll(".tab").forEach((item) => item.classList.toggle("active", item === tab));
-          state.category = tab.dataset.tab;
-          if ([...$("category-filter").options].some((option) => option.value === state.category)) $("category-filter").value = state.category;
-          state.page = 1;
-          render();
+      $("category-filter").addEventListener("change", (event) => selectCategory(event.target.value));
+      document.querySelectorAll(".nav a[data-nav-tab]").forEach((link) => {
+        link.addEventListener("click", (event) => {
+          event.preventDefault();
+          selectCategory(link.dataset.navTab);
         });
+      });
+      document.querySelectorAll(".tab").forEach((tab) => {
+        tab.addEventListener("click", () => selectCategory(tab.dataset.tab));
       });
       document.querySelectorAll(".token-tab").forEach((button) => {
         button.addEventListener("click", () => {
