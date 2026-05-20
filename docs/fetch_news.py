@@ -385,6 +385,8 @@ for source in EQUITY_NEWS_SOURCES:
 TECH_NEWS_SOURCES = [
     google_news_query_source("MIT Technology Review", f"site:technologyreview.com {AI_MARKET_NEWS_QUERY}"),
     google_news_query_source("Wired", f"site:wired.com {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("Stanford Engineering Magazine", f"site:engineering.stanford.edu/magazine {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("Stanford Business Magazine", f"site:gsb.stanford.edu/stanford-business {AI_MARKET_NEWS_QUERY}"),
 ]
 PAPER_NEWS_SOURCES = [
     google_news_query_source("Nature", f"site:nature.com {AI_MARKET_NEWS_QUERY}"),
@@ -425,7 +427,7 @@ NEWS_SECTIONS = [
     {
         "id": "tech",
         "title": "前沿",
-        "note": "MIT Technology Review / Wired",
+        "note": "MIT Technology Review / Wired / Stanford Engineering / Stanford Business",
         "sources": TECH_NEWS_SOURCES,
     },
     {
@@ -1021,6 +1023,8 @@ def main() -> int:
                 "Reuters",
                 "Wired",
                 "MIT Technology Review",
+                "Stanford Engineering Magazine",
+                "Stanford Business Magazine",
                 "Nature",
                 "Nature Machine Intelligence",
                 "Science",
