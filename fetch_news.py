@@ -28,6 +28,7 @@ from urllib.parse import urljoin
 ROOT = Path(__file__).resolve().parent
 OUT = ROOT / "news.json"
 VERSIONED_OUT = ROOT / "news-a8febb0.json"
+MIRROR_DIRS = [ROOT / "agi", ROOT / "ai-global-index"]
 
 USER_AGENT = (
     "EntropyAI/1.0 (portfolio-news; https://papasop.github.io/AGI/; "
@@ -384,7 +385,8 @@ for source in EQUITY_NEWS_SOURCES:
 TECH_NEWS_SOURCES = [
     google_news_query_source("MIT Technology Review", f"site:technologyreview.com {AI_MARKET_NEWS_QUERY}"),
     google_news_query_source("Wired", f"site:wired.com {AI_MARKET_NEWS_QUERY}"),
-    google_news_query_source("New Scientist", f"site:newscientist.com {AI_MARKET_NEWS_QUERY}"),
+]
+PAPER_NEWS_SOURCES = [
     google_news_query_source("Nature", f"site:nature.com {AI_MARKET_NEWS_QUERY}"),
     google_news_query_source("Science", f"site:science.org {AI_MARKET_NEWS_QUERY}"),
 ]
@@ -409,9 +411,15 @@ NEWS_SECTIONS = [
     },
     {
         "id": "tech",
-        "title": "新技术",
-        "note": "MIT Technology Review / Wired / New Scientist / Nature / Science",
+        "title": "前沿",
+        "note": "MIT Technology Review / Wired",
         "sources": TECH_NEWS_SOURCES,
+    },
+    {
+        "id": "papers",
+        "title": "论文",
+        "note": "Nature / Science",
+        "sources": PAPER_NEWS_SOURCES,
     },
 ]
 OFFICIAL_SOURCES = [source for section in NEWS_SECTIONS for source in section["sources"]]
@@ -911,7 +919,7 @@ def main() -> int:
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "strategy": {
-            "primary": "Tabbed news sections: industry from WSJ/NYT, company from Bloomberg/Reuters company-name searches, M&A and financing from Bloomberg/Reuters stake/acquisition/equity searches, new technology from Wired/MIT Technology Review/New Scientist/Nature/Science",
+            "primary": "Tabbed news sections: industry from WSJ/NYT, company from Bloomberg/Reuters company-name searches, M&A and financing from Bloomberg/Reuters stake/acquisition/equity searches, frontier technology from Wired/MIT Technology Review, papers from Nature/Science",
             "primaryEnabled": True,
             "supplements": [
                 "Wall Street Journal",
@@ -920,7 +928,6 @@ def main() -> int:
                 "Reuters",
                 "Wired",
                 "MIT Technology Review",
-                "New Scientist",
                 "Nature",
                 "Science",
             ],
@@ -929,8 +936,13 @@ def main() -> int:
         "sections": section_payload,
         "items": items[:200],
     }
-    OUT.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    VERSIONED_OUT.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    text = json.dumps(payload, ensure_ascii=False, indent=2) + "\n"
+    OUT.write_text(text, encoding="utf-8")
+    VERSIONED_OUT.write_text(text, encoding="utf-8")
+    for mirror in MIRROR_DIRS:
+        mirror.mkdir(parents=True, exist_ok=True)
+        (mirror / OUT.name).write_text(text, encoding="utf-8")
+        (mirror / VERSIONED_OUT.name).write_text(text, encoding="utf-8")
     print(f"wrote {OUT} and {VERSIONED_OUT} with {len(payload['items'])} items from {sum(1 for s in source_status if s['status'] == 'ok')} sources")
     return 0
 
