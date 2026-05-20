@@ -1027,11 +1027,6 @@
 
     <section class="toolbar" aria-label="AI Market Cap controls">
       <input class="search" id="search" name="ai-market-company-search" type="search" placeholder="搜索公司、Ticker、子赛道" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" inputmode="search" />
-      <select id="category-filter" aria-label="Category filter"></select>
-      <button id="sort-mcap" class="active" type="button">统一市值排序</button>
-      <button id="sort-rank" type="button">名单顺序</button>
-      <button id="sort-change" type="button">涨跌排序</button>
-      <button id="refresh" type="button">刷新</button>
     </section>
 
     <section class="panel market-panel">
@@ -2284,7 +2279,6 @@
         day: "日", week: "周", month: "月", history: "历史", period: "周期", firstShare: "第一名占比",
         all: "所有", aiChips: "AI 芯片", aiCloud: "新云", dataCenter: "数据中心", enterpriseAi: "企业 AI", security: "安全", quantum: "量子", chinaAi: "中国 AI", leopold: "Leopold Aschenbrenner",
         searchPlaceholder: "搜索公司、Ticker、子赛道", allSubsectors: "全部子赛道",
-        sortMcap: "统一市值排序", sortRank: "名单顺序", sortChange: "涨跌排序", refresh: "刷新",
         rankName: "排名 / 公司", tableNote: "市值（美元）· 上市 + IPO 前合并排名",
         thCompany: "公司", thPrice: "价格", th1h: "1小时", th24h: "24小时", th7d: "7天", thVolume: "24小时交易量", thMcap: "总市值", thSpark: "最近30天",
         companies: "companies", companiesZh: "家", page: "第", perPage: "每页", noResults: "没有匹配结果",
@@ -2313,7 +2307,6 @@
         day: "Day", week: "Week", month: "Month", history: "History", period: "Period", firstShare: "Top share",
         all: "All", aiChips: "AI Chips", aiCloud: "AI Cloud", dataCenter: "Data Centers", enterpriseAi: "Enterprise AI", security: "Security", quantum: "Quantum", chinaAi: "China AI", leopold: "Leopold Aschenbrenner",
         searchPlaceholder: "Search company, ticker, or subsector", allSubsectors: "All subsectors",
-        sortMcap: "Unified Market Cap", sortRank: "List Order", sortChange: "Performance", refresh: "Refresh",
         rankName: "Rank / Name", tableNote: "Market Cap USD · Listed + Pre-IPO unified ranking",
         thCompany: "Company", thPrice: "Price", th1h: "1h", th24h: "24h", th7d: "7d", thVolume: "24h Volume", thMcap: "Market Cap", thSpark: "Last 30 days",
         companies: "companies", companiesZh: "companies", page: "Page", perPage: "Per page", noResults: "No matching results",
@@ -3132,6 +3125,7 @@
       if (el?.firstChild) el.firstChild.nodeValue = value;
     }
     function renderCategoryFilter() {
+      if (!$("category-filter")) return;
       const current = $("category-filter")?.value || state.category;
       $("category-filter").innerHTML = categories().map((cat) => `<option value="${cat}">${categoryLabel(cat)}</option>`).join("");
       if ([...$("category-filter").options].some((option) => option.value === current)) $("category-filter").value = current;
@@ -3190,10 +3184,6 @@
       setAllText(".token-metric span", [t("period"), "Top 10 Tokens", t("firstShare")]);
       setAllText(".tabs .tab", [t("all"), ...AIBOTT_THEMES, t("chinaAi"), t("leopold")]);
       $("search").placeholder = t("searchPlaceholder");
-      setText("#sort-mcap", t("sortMcap"));
-      setText("#sort-rank", t("sortRank"));
-      setText("#sort-change", t("sortChange"));
-      setText("#refresh", t("refresh"));
       setText(".panel-title", t("rankName"));
       setText("#table-note", t("tableNote"));
       setAllText(".market-panel thead th:nth-child(-n+3), .market-panel thead th:nth-child(10)", ["", "#", t("thCompany"), t("thSpark")]);
@@ -3234,7 +3224,7 @@
     function initControls() {
       renderCategoryFilter();
       $("search").addEventListener("input", (event) => { state.query = event.target.value; state.page = 1; render(); });
-      $("category-filter").addEventListener("change", (event) => selectCategory(event.target.value));
+      $("category-filter")?.addEventListener("change", (event) => selectCategory(event.target.value));
       $("brand-all")?.addEventListener("click", showAllCompanies);
       document.querySelectorAll(".nav a[data-nav-tab]").forEach((link) => {
         link.addEventListener("click", (event) => {
@@ -3266,7 +3256,7 @@
         button.addEventListener("click", () => setNewsTab(button.dataset.newsTab || "industry"));
       });
       [["sort-mcap", "mcap"], ["sort-rank", "rank"], ["sort-change", "change"]].forEach(([id, sort]) => {
-        $(id).addEventListener("click", () => {
+        $(id)?.addEventListener("click", () => {
           state.sort = sort;
           state.sortDir = sort === "rank" ? "asc" : "desc";
           state.page = 1;
@@ -3284,7 +3274,7 @@
           render();
         });
       });
-      $("refresh").addEventListener("click", () => fetchQuotes().catch(handleQuoteError));
+      $("refresh")?.addEventListener("click", () => fetchQuotes().catch(handleQuoteError));
     }
     function handleQuoteError(error) {
       console.warn(error);
