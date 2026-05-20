@@ -2671,7 +2671,7 @@
     }
     function displayNewsAuthor(sourceValue, authorValue) {
       const rawAuthor = String(authorValue || "").replace(/^(by|from)\s+/i, "").split(/\s+(?:and|&|,)\s+/i)[0].trim();
-      const author = displayNewsParty(rawAuthor);
+      const author = rawAuthor;
       const normalizedSource = String(sourceValue || "").toLowerCase();
       const normalizedAuthor = rawAuthor.toLowerCase();
       if (!author || normalizedAuthor === normalizedSource) {
