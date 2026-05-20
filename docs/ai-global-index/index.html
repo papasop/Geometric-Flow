@@ -1027,11 +1027,6 @@
 
     <section class="toolbar" aria-label="AI Market Cap controls">
       <input class="search" id="search" name="ai-market-company-search" type="search" placeholder="搜索公司、Ticker、子赛道" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" inputmode="search" />
-      <select id="category-filter" aria-label="Category filter"></select>
-      <button id="sort-mcap" class="active" type="button">统一市值排序</button>
-      <button id="sort-rank" type="button">名单顺序</button>
-      <button id="sort-change" type="button">涨跌排序</button>
-      <button id="refresh" type="button">刷新</button>
     </section>
 
     <section class="panel market-panel">
@@ -3132,6 +3127,7 @@
       if (el?.firstChild) el.firstChild.nodeValue = value;
     }
     function renderCategoryFilter() {
+      if (!$("category-filter")) return;
       const current = $("category-filter")?.value || state.category;
       $("category-filter").innerHTML = categories().map((cat) => `<option value="${cat}">${categoryLabel(cat)}</option>`).join("");
       if ([...$("category-filter").options].some((option) => option.value === current)) $("category-filter").value = current;
@@ -3190,10 +3186,6 @@
       setAllText(".token-metric span", [t("period"), "Top 10 Tokens", t("firstShare")]);
       setAllText(".tabs .tab", [t("all"), ...AIBOTT_THEMES, t("chinaAi"), t("leopold")]);
       $("search").placeholder = t("searchPlaceholder");
-      setText("#sort-mcap", t("sortMcap"));
-      setText("#sort-rank", t("sortRank"));
-      setText("#sort-change", t("sortChange"));
-      setText("#refresh", t("refresh"));
       setText(".panel-title", t("rankName"));
       setText("#table-note", t("tableNote"));
       setAllText(".market-panel thead th:nth-child(-n+3), .market-panel thead th:nth-child(10)", ["", "#", t("thCompany"), t("thSpark")]);
@@ -3234,7 +3226,7 @@
     function initControls() {
       renderCategoryFilter();
       $("search").addEventListener("input", (event) => { state.query = event.target.value; state.page = 1; render(); });
-      $("category-filter").addEventListener("change", (event) => selectCategory(event.target.value));
+      $("category-filter")?.addEventListener("change", (event) => selectCategory(event.target.value));
       $("brand-all")?.addEventListener("click", showAllCompanies);
       document.querySelectorAll(".nav a[data-nav-tab]").forEach((link) => {
         link.addEventListener("click", (event) => {
@@ -3266,7 +3258,7 @@
         button.addEventListener("click", () => setNewsTab(button.dataset.newsTab || "industry"));
       });
       [["sort-mcap", "mcap"], ["sort-rank", "rank"], ["sort-change", "change"]].forEach(([id, sort]) => {
-        $(id).addEventListener("click", () => {
+        $(id)?.addEventListener("click", () => {
           state.sort = sort;
           state.sortDir = sort === "rank" ? "asc" : "desc";
           state.page = 1;
@@ -3284,7 +3276,7 @@
           render();
         });
       });
-      $("refresh").addEventListener("click", () => fetchQuotes().catch(handleQuoteError));
+      $("refresh")?.addEventListener("click", () => fetchQuotes().catch(handleQuoteError));
     }
     function handleQuoteError(error) {
       console.warn(error);
