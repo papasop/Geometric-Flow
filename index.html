@@ -885,11 +885,10 @@
   </nav>
   <main class="shell">
     <section class="hero">
-      <div class="news-sections" aria-label="行业/公司/并购融资/前沿/论文 新闻切换">
-        <div class="news-tabs" role="tablist" aria-label="行业/公司/并购融资/前沿/论文">
+      <div class="news-sections" aria-label="行业/公司/前沿/论文 新闻切换">
+        <div class="news-tabs" role="tablist" aria-label="行业/公司/前沿/论文">
           <button class="news-tab active" type="button" role="tab" aria-selected="true" aria-controls="news-panel-industry" data-news-tab="industry">行业</button>
           <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-company" data-news-tab="company">公司</button>
-          <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-deals" data-news-tab="deals">并购/融资</button>
           <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-tech" data-news-tab="tech">前沿</button>
           <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-papers" data-news-tab="papers">论文</button>
         </div>
@@ -904,13 +903,6 @@
           <div class="news-marquee">
             <div class="news-track" id="news-track-company">
               <span class="news-item">正在加载公司…</span>
-            </div>
-          </div>
-        </div>
-        <div class="news-strip" id="news-panel-deals" role="tabpanel" aria-label="并购/融资" hidden>
-          <div class="news-marquee">
-            <div class="news-track" id="news-track-deals">
-              <span class="news-item">正在加载并购/融资…</span>
             </div>
           </div>
         </div>
@@ -2281,7 +2273,7 @@
         newsSource: "新闻来源", newsAuthor: "作者",
         footer: "说明：这是 AI 相关美股挂牌、港股、A 股公司与少量预上市公司观察名单，不是投资建议，也不是官方指数。价格、1小时/24小时/7天/30天变化、成交额与市值均优先使用在线 quote/chart 真实行情；不可用时显示为空。预上市公司使用估算美元市值参与排行，不抓取实时行情。非美元公司市值与成交额在内部按 USD/CNY、USD/HKD、USD/KRW 机制折算成美元口径，但页面不展示汇率。",
         fallbackIndustry: "行业动态持续追踪 AI 芯片、云、数据中心与大模型",
-        fallbackCompany: "公司新闻按成分股关键词追踪 Bloomberg、Reuters、Google 与 Yahoo",
+        fallbackCompany: "公司新闻按成分股、并购、入股、股权与融资关键词追踪 Bloomberg、Reuters、Google 与 Yahoo",
         fallbackMarket: "并购/融资新闻按收购、入股、股权、融资、投资关键词追踪 Bloomberg、Reuters、Google 与 Yahoo",
         fallbackFrontier: "MIT Technology Review、Wired、Stanford Engineering 与 Stanford Business 追踪 AI 前沿技术趋势",
         fallbackPapers: "Nature、Science、NeurIPS、ICML、ICLR、ACL、CVPR、AAAI、JMLR 与 arXiv 追踪 AI 论文和科研突破",
@@ -2309,7 +2301,7 @@
         newsSource: "Source", newsAuthor: "Author",
         footer: "Note: This is a watchlist of AI-related US-listed, Hong Kong-listed, A-share, Korean, and selected pre-IPO companies. It is not investment advice or an official index. Price, 1h/24h/7d/30d change, volume, and market cap use online quote/chart data when available; unavailable fields are left blank. Pre-IPO companies use estimated USD market caps for ranking and do not fetch live quotes. Non-USD market caps and volume are converted internally to USD using USD/CNY, USD/HKD, and USD/KRW logic; exchange rates are not displayed.",
         fallbackIndustry: "Industry news tracking AI chips, cloud, data centers, and foundation models",
-        fallbackCompany: "Company news tracked by constituent names across Bloomberg, Reuters, Google, and Yahoo",
+        fallbackCompany: "Company news tracks constituent names plus M&A, stakes, equity, funding, and investment keywords across Bloomberg, Reuters, Google, and Yahoo",
         fallbackMarket: "M&A / financing news tracks acquisitions, stakes, equity, funding, investment, and IPO keywords across Bloomberg, Reuters, Google, and Yahoo",
         fallbackFrontier: "MIT Technology Review, Wired, Stanford Engineering, and Stanford Business track AI frontier technology trends",
         fallbackPapers: "Nature, Science, NeurIPS, ICML, ICLR, ACL, CVPR, AAAI, JMLR, and arXiv track AI papers and research breakthroughs",
@@ -2609,7 +2601,7 @@
       $("gainer-one").textContent = gainers[0] ? `${gainers[0].ticker} ${formatPercent(gainers[0].changePercent)}` : "—";
       $("gainer-list").textContent = gainers.length ? gainers.map((row) => `${row.ticker} ${formatPercent(row.changePercent)}`).join(" · ") : t("waitingLive");
     }
-    const NEWS_SECTION_IDS = ["industry", "company", "deals", "tech", "papers"];
+    const NEWS_SECTION_IDS = ["industry", "company", "tech", "papers"];
     const PAPER_SOURCE_PATTERN = /nature|science|neurips|icml|iclr|acl anthology|cvf|cvpr|aaai|jmlr|pmlr|ieee tpami|acm digital library|arxiv/i;
     function fallbackNewsItems(sectionId = "industry") {
       const fallback = {
@@ -2618,9 +2610,6 @@
         ],
         company: [
           { title: t("fallbackCompany"), source: "AI Market Cap", author: "", url: "#" },
-        ],
-        deals: [
-          { title: t("fallbackMarket"), source: "AI Market Cap", author: "", url: "#" },
         ],
         tech: [
           { title: t("fallbackFrontier"), source: "AI Market Cap", author: "", url: "#" },
@@ -2712,7 +2701,12 @@
       NEWS_SECTION_IDS.forEach((sectionId) => {
         const legacyTechItems = sections.tech?.items || [];
         const paperItems = sectionId === "papers" && !sections.papers?.items ? legacyTechItems.filter((item) => PAPER_SOURCE_PATTERN.test(item.source || "")) : [];
-        const sectionItems = sections[sectionId]?.items || paperItems || (sectionId === "industry" ? payload?.items : []);
+        const companyItems = sectionId === "company"
+          ? [...(sections.company?.items || []), ...(sections.deals?.items || [])]
+            .filter((item, index, list) => item?.title && list.findIndex((other) => (other.url || other.title) === (item.url || item.title)) === index)
+            .sort((a, b) => String(b.publishedAt || "").localeCompare(String(a.publishedAt || "")))
+          : null;
+        const sectionItems = companyItems || sections[sectionId]?.items || paperItems || (sectionId === "industry" ? payload?.items : []);
         const filteredItems = sectionId === "tech"
           ? (sectionItems || []).filter((item) => /wired|mit technology review|stanford engineering|stanford business/i.test(item.source || ""))
           : sectionId === "papers"
@@ -3132,14 +3126,14 @@
       setFirstText(".topline-inner > span:nth-child(4)", `${t("volume24h")}: `);
       if (/live quote|实时行情/.test($("updated-at")?.textContent || "")) $("updated-at").textContent = t("initialQuote");
       setAllText(".nav a[data-nav-tab]", [...AIBOTT_THEMES, t("navChinaAi"), t("navLeopold")]);
-      document.querySelector(".news-sections")?.setAttribute("aria-label", `${t("industry")}/${t("company")}/${t("market")}/${t("frontier")}/${t("papers")}`);
-      setAllText(".news-tab", [t("industry"), t("company"), t("market"), t("frontier"), t("papers")]);
-      ["industry", "company", "deals", "tech", "papers"].forEach((id) => {
+      document.querySelector(".news-sections")?.setAttribute("aria-label", `${t("industry")}/${t("company")}/${t("frontier")}/${t("papers")}`);
+      setAllText(".news-tab", [t("industry"), t("company"), t("frontier"), t("papers")]);
+      ["industry", "company", "tech", "papers"].forEach((id) => {
         const panel = $(`news-panel-${id}`);
-        const label = id === "industry" ? t("industry") : id === "company" ? t("company") : id === "deals" ? t("market") : id === "papers" ? t("papers") : t("frontier");
+        const label = id === "industry" ? t("industry") : id === "company" ? t("company") : id === "papers" ? t("papers") : t("frontier");
         if (panel) panel.setAttribute("aria-label", label);
       });
-      const loading = { industry: "loadingIndustry", company: "loadingCompany", deals: "loadingMarket", tech: "loadingFrontier", papers: "loadingPapers" };
+      const loading = { industry: "loadingIndustry", company: "loadingCompany", tech: "loadingFrontier", papers: "loadingPapers" };
       Object.entries(loading).forEach(([id, key]) => {
         const track = $(`news-track-${id}`);
         if (track && track.children.length === 1 && track.textContent.includes("加载")) track.innerHTML = `<span class="news-item">${t(key)}</span>`;

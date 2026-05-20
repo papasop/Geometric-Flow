@@ -415,14 +415,8 @@ NEWS_SECTIONS = [
     {
         "id": "company",
         "title": "公司",
-        "note": "Bloomberg / Reuters / Google / Yahoo",
-        "sources": COMPANY_NEWS_SOURCES,
-    },
-    {
-        "id": "deals",
-        "title": "并购/融资",
-        "note": "Bloomberg / Reuters / Google / Yahoo",
-        "sources": MARKET_NEWS_SOURCES,
+        "note": "Bloomberg / Reuters / Google / Yahoo + M&A / financing keywords",
+        "sources": COMPANY_NEWS_SOURCES + MARKET_NEWS_SOURCES,
     },
     {
         "id": "tech",
@@ -1014,7 +1008,7 @@ def main() -> int:
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "strategy": {
-            "primary": "Tabbed news sections: industry from WSJ/NYT, company from Bloomberg/Reuters company-name searches, M&A and financing from Bloomberg/Reuters stake/acquisition/equity searches, frontier technology from Wired/MIT Technology Review, papers from top AI journals, conferences, proceedings, and preprint sources",
+            "primary": "Tabbed news sections: industry from WSJ/NYT, company from company-name searches plus M&A and financing keywords, frontier technology from Wired/MIT Technology Review/Stanford sources, papers from top AI journals, conferences, proceedings, and preprint sources",
             "primaryEnabled": True,
             "supplements": [
                 "Wall Street Journal",
