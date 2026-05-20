@@ -662,6 +662,47 @@ def normalize_author(author: str, source_name: str) -> str:
     return author
 
 
+def extract_article_author(url: str, source_name: str) -> str:
+    if not url or "news.google.com" in url:
+        return ""
+    try:
+        page = fetch_url(url).decode("utf-8", errors="ignore")
+    except (urllib.error.URLError, TimeoutError, socket.timeout, ValueError, OSError, UnicodeError):
+        return ""
+
+    candidates: list[str] = []
+    meta_patterns = [
+        r'<meta[^>]+(?:name|property)=["\'](?:author|article:author|parsely-author|sailthru.author|byl)["\'][^>]+content=["\']([^"\']+)["\']',
+        r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+(?:name|property)=["\'](?:author|article:author|parsely-author|sailthru.author|byl)["\']',
+    ]
+    for pattern in meta_patterns:
+        candidates.extend(re.findall(pattern, page, flags=re.I | re.S))
+
+    jsonld_patterns = [
+        r'"author"\s*:\s*\{[^{}]*"name"\s*:\s*"([^"]+)"',
+        r'"author"\s*:\s*\[[^\]]*?"name"\s*:\s*"([^"]+)"',
+        r'"name"\s*:\s*"([^"]+)"\s*,\s*"@type"\s*:\s*"Person"',
+    ]
+    for pattern in jsonld_patterns:
+        candidates.extend(re.findall(pattern, page, flags=re.I | re.S))
+
+    byline_patterns = [
+        r'<[^>]+(?:class|id)=["\'][^"\']*(?:byline|author|article-author)[^"\']*["\'][^>]*>(.*?)</[^>]+>',
+        r'\bBy\s+([A-Z][A-Za-z.\'’\-]+(?:\s+[A-Z][A-Za-z.\'’\-]+){1,3})\b',
+    ]
+    for pattern in byline_patterns:
+        candidates.extend(re.findall(pattern, page, flags=re.I | re.S))
+
+    for candidate in candidates:
+        text = re.sub(r"<[^>]+>", " ", html.unescape(str(candidate)))
+        text = re.sub(r"\s+", " ", text).strip()
+        text = re.sub(r"^(by|from)\s+", "", text, flags=re.I).strip()
+        author = normalize_author(text, source_name)
+        if author:
+            return author
+    return ""
+
+
 def parse_html_page(source: dict[str, str], data: bytes) -> list[dict[str, str]]:
     page = data.decode("utf-8", errors="ignore")
     items = []
@@ -899,6 +940,7 @@ def main() -> int:
         section_seen = set()
         section_items: list[dict[str, object]] = []
         section_required_keywords = section.get("requiredKeywords", [])
+        author_fetches = 0
         for source in section["sources"]:
             source_required_keywords = source.get("requiredKeywords", [])
             try:
@@ -916,6 +958,9 @@ def main() -> int:
                     matched, tags = classify(item)
                     if not matched and not item_matches_terms(item, AI_MARKET_REQUIRED_KEYWORDS):
                         continue
+                    if not item.get("author") and author_fetches < 16:
+                        item["author"] = extract_article_author(str(item.get("url") or ""), source["name"])
+                        author_fetches += 1
                     section_seen.add(key)
                     enrich_title_fields(item)
                     item["section"] = section["id"]
