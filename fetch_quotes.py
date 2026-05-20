@@ -27,6 +27,7 @@ FX_TICKERS = {
     "USDCNY": "CNY=X",
     "USDHKD": "HKD=X",
     "USDKRW": "KRW=X",
+    "USDJPY": "JPY=X",
 }
 
 
