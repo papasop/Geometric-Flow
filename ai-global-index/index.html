@@ -14,16 +14,16 @@
   <style>
     * { box-sizing: border-box; }
     :root {
-      --bg: #f5f7fb;
-      --panel: #ffffff;
-      --line: #dde3ec;
-      --line-soft: #edf1f6;
-      --text: #172033;
-      --muted: #6d788a;
-      --soft: #435065;
-      --blue: #2563eb;
-      --green: #168a55;
-      --red: #c2414b;
+      --bg: #020617;
+      --panel: #07111f;
+      --line: #1e293b;
+      --line-soft: #111827;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --soft: #cbd5e1;
+      --blue: #60a5fa;
+      --green: #34d399;
+      --red: #f87171;
       --amber: #f59e0b;
     }
     body {
@@ -741,6 +741,86 @@
       margin: 16px 0 0;
       max-width: 900px;
     }
+    .topline,
+    .nav {
+      background: #020617;
+      border-color: var(--line);
+    }
+    .nav a.active,
+    .news-tab.active,
+    .tab.active,
+    .token-tab.active,
+    .page-btn.active,
+    button.active {
+      color: #ecfeff;
+      background: rgba(34, 211, 238, 0.16);
+      border-color: rgba(34, 211, 238, 0.34);
+    }
+    .news-tabs,
+    .news-item,
+    .icon-btn,
+    .highlight-card,
+    .ranking-panel,
+    .ranking-panel-head,
+    .ranking-switch,
+    .token-ranking-head,
+    .token-tabs,
+    .token-metric,
+    .tab,
+    .search,
+    select,
+    button,
+    .panel,
+    .panel-head,
+    .page-btn,
+    .pager {
+      background: #07111f;
+      border-color: var(--line);
+      color: var(--text);
+    }
+    .ranking-panel-head,
+    .panel-head,
+    th {
+      background: #0b1220;
+      color: var(--soft);
+    }
+    .ranking-panel,
+    .highlight-card,
+    .news-item,
+    .panel {
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.26);
+    }
+    .market-panel,
+    .market-panel .panel-head {
+      background: transparent;
+    }
+    tbody tr:hover,
+    tbody tr.active {
+      background: rgba(34, 211, 238, 0.08);
+    }
+    .prelist-badge {
+      background: rgba(251, 146, 60, 0.16);
+      color: #fdba74;
+    }
+    .change.positive { background: rgba(52, 211, 153, 0.14); }
+    .change.negative { background: rgba(248, 113, 113, 0.14); }
+    .pill {
+      color: #cbd5e1;
+      background: #111827;
+    }
+    .ticker,
+    .estimated,
+    .rank {
+      color: #94a3b8;
+    }
+    .sort-arrow,
+    .watch {
+      color: #64748b;
+    }
+    .spark path:first-child {
+      stroke: rgba(148, 163, 184, 0.32);
+    }
+    .empty { color: var(--muted); }
     .empty { padding: 32px; color: var(--muted); text-align: center; }
     @media (max-width: 760px) {
       .topline-inner { align-items: flex-start; flex-direction: column; }
