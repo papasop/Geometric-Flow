@@ -351,8 +351,17 @@
       font-weight: 840;
     }
     .model-table .featured-model {
+      background: #fffaf5;
+      box-shadow: inset 2px 0 0 #fdba74;
+    }
+    .model-table th.featured-model {
+      color: #9a3412;
       background: #fff7ed;
-      box-shadow: inset 2px 0 0 #f97316;
+    }
+    .model-name {
+      display: inline-block;
+      white-space: nowrap;
+      font-weight: 860;
     }
     .model-table .best-score {
       background: #ecfdf5;
@@ -422,9 +431,7 @@
     .best-score .score {
       color: #047857;
     }
-    .featured-model .score {
-      color: #c2410c;
-    }
+    .featured-model .score { color: var(--text); }
     .best-badge {
       display: inline-flex;
       align-items: center;
@@ -1018,10 +1025,10 @@
             <thead>
               <tr>
                 <th scope="col">Benchmark</th>
-                <th scope="col" class="featured-model">Composer 2.5</th>
-                <th scope="col">Opus 4.7</th>
-                <th scope="col">GPT-5.5</th>
-                <th scope="col">Composer 2</th>
+                <th scope="col" class="featured-model"><span class="model-name" translate="no">Composer 2.5</span></th>
+                <th scope="col"><span class="model-name" translate="no">Opus 4.7</span></th>
+                <th scope="col"><span class="model-name" translate="no">GPT-5.5</span></th>
+                <th scope="col"><span class="model-name" translate="no">Composer 2</span></th>
               </tr>
             </thead>
             <tbody>
