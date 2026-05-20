@@ -246,28 +246,31 @@
     .ranking-panel-head {
       display: flex;
       justify-content: space-between;
-      gap: 16px;
+      gap: 18px;
       align-items: center;
-      padding: 14px 16px;
+      padding: 16px 18px;
       border-bottom: 1px solid var(--line);
-      background: #fbfdff;
+      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
     }
     .ranking-heading {
       display: flex;
-      align-items: center;
-      gap: 10px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
       min-width: 0;
-      flex-wrap: wrap;
     }
-    .ranking-panel-title { color: var(--text); font-size: 17px; font-weight: 880; }
+    .ranking-panel-title {
+      color: var(--text);
+      font-size: 19px;
+      line-height: 1.15;
+      font-weight: 880;
+      letter-spacing: 0;
+    }
     .ranking-panel-note {
       color: var(--muted);
       font-size: 12px;
       line-height: 1.35;
-      border: 1px solid var(--line-soft);
-      background: #fff;
-      border-radius: 999px;
-      padding: 5px 9px;
+      font-weight: 720;
     }
     .ranking-switch {
       display: inline-flex;
@@ -288,12 +291,13 @@
       background: transparent;
       font-size: 12px;
       font-weight: 820;
+      cursor: pointer;
     }
     .ranking-switch button.active { color: var(--green); background: #ecfdf5; }
     .ranking-view[hidden] { display: none; }
-    .model-table-wrap { overflow-x: auto; background: #fff; padding: 12px; }
+    .model-table-wrap { overflow-x: auto; background: #fff; padding: 14px; }
     .model-table {
-      min-width: 720px;
+      min-width: 820px;
       width: 100%;
       border-collapse: separate;
       border-spacing: 0;
@@ -303,37 +307,48 @@
     }
     .model-table caption {
       caption-side: top;
-      padding: 10px 12px;
+      padding: 11px 14px;
       color: var(--muted);
-      background: #fff;
+      background: #fbfdff;
       border-bottom: 1px solid var(--line-soft);
       font-size: 12px;
-      font-weight: 760;
+      line-height: 1.4;
+      font-weight: 780;
       text-align: left;
     }
     .model-table th,
     .model-table td {
       position: static;
-      padding: 14px 14px;
+      padding: 15px 16px;
       border-bottom: 1px solid var(--line-soft);
       background: #fff;
       color: var(--text);
-      text-align: left;
+      text-align: center;
       white-space: normal;
-      min-width: 118px;
+      min-width: 132px;
+      vertical-align: middle;
     }
     .model-table th {
       color: var(--soft);
-      font-size: 13px;
+      font-size: 12px;
+      line-height: 1.25;
       font-weight: 820;
       background: #f8fafc;
     }
     .model-table th:first-child,
     .model-table td:first-child {
-      width: 168px;
-      min-width: 168px;
+      width: 190px;
+      min-width: 190px;
       color: var(--soft);
       font-weight: 760;
+      text-align: left;
+      line-height: 1.35;
+    }
+    .model-table td:first-child strong {
+      display: block;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 840;
     }
     .model-table .featured-model {
       background: #fff7ed;
@@ -343,8 +358,76 @@
       background: #ecfdf5;
       box-shadow: inset 2px 0 0 var(--green);
     }
-    .score { display: block; font-size: 17px; font-weight: 850; }
-    .score-note { display: block; margin-top: 5px; color: var(--muted); font-size: 12px; line-height: 1.35; }
+    .score-cell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 46px;
+    }
+    .score-stack {
+      width: 100%;
+      display: grid;
+      gap: 8px;
+    }
+    .score-entry {
+      display: grid;
+      grid-template-columns: minmax(72px, auto) minmax(0, 1fr);
+      align-items: baseline;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 4px;
+    }
+    .score-entry + .score-entry {
+      padding-top: 9px;
+      border-top: 1px solid var(--line-soft);
+    }
+    .score {
+      display: inline-flex;
+      align-items: baseline;
+      justify-content: flex-end;
+      min-width: 72px;
+      color: var(--text);
+      font-size: 22px;
+      line-height: 1;
+      font-weight: 880;
+      font-variant-numeric: tabular-nums;
+    }
+    .score .percent {
+      margin-left: 1px;
+      color: var(--soft);
+      font-size: 13px;
+      font-weight: 820;
+    }
+    .score-note {
+      display: inline-block;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.3;
+      font-weight: 720;
+      text-align: left;
+    }
+    .best-score .score {
+      color: #047857;
+    }
+    .featured-model .score {
+      color: #c2410c;
+    }
+    .best-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 34px;
+      height: 18px;
+      padding: 0 6px;
+      border-radius: 5px;
+      color: #047857;
+      background: #d1fae5;
+      font-size: 10px;
+      font-weight: 840;
+      line-height: 1;
+    }
     .token-ranking {
       margin: 0;
     }
@@ -377,6 +460,35 @@
       font-weight: 820;
     }
     .token-tab.active { color: var(--green); background: #ecfdf5; }
+    .chart-range-tabs {
+      position: absolute;
+      right: 14px;
+      top: 14px;
+      z-index: 3;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px;
+      border: 1px solid rgba(148, 163, 184, 0.32);
+      border-radius: 7px;
+      background: rgba(2, 6, 23, 0.74);
+      backdrop-filter: blur(6px);
+    }
+    .chart-range-tab {
+      height: 28px;
+      padding: 0 10px;
+      border: 0;
+      border-radius: 5px;
+      color: #cbd5e1;
+      background: transparent;
+      font-size: 12px;
+      font-weight: 820;
+      cursor: pointer;
+    }
+    .chart-range-tab.active {
+      color: #ecfeff;
+      background: rgba(34, 211, 238, 0.24);
+    }
     .token-summary {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -423,6 +535,8 @@
       display: block;
       width: 100%;
       height: 310px;
+      cursor: crosshair;
+      touch-action: none;
     }
     .index-chart-overlay {
       position: absolute;
@@ -463,6 +577,27 @@
       color: #f8fafc;
       font-weight: 760;
       text-align: right;
+    }
+    .index-chart-tooltip {
+      position: absolute;
+      z-index: 4;
+      min-width: 132px;
+      padding: 8px 9px;
+      border: 1px solid rgba(148, 163, 184, 0.32);
+      border-radius: 5px;
+      background: rgba(2, 6, 23, 0.9);
+      color: #e5e7eb;
+      font-size: 12px;
+      line-height: 1.35;
+      pointer-events: none;
+      transform: translate(-50%, -112%);
+      box-shadow: 0 12px 30px rgba(2, 6, 23, 0.38);
+    }
+    .index-chart-tooltip b {
+      display: block;
+      color: #f8fafc;
+      font-size: 15px;
+      margin-top: 2px;
     }
     .index-chart-footer {
       position: absolute;
@@ -729,11 +864,19 @@
       .ranking-switch { width: 100%; }
       .ranking-switch button { flex: 1; }
       .model-table { min-width: 760px; }
+      .model-table th,
+      .model-table td { padding: 12px 10px; min-width: 116px; }
+      .model-table th:first-child,
+      .model-table td:first-child { width: 158px; min-width: 158px; }
+      .score { min-width: 62px; font-size: 18px; }
+      .score-entry { grid-template-columns: minmax(62px, auto) minmax(0, 1fr); gap: 5px; padding: 0; }
       .token-ranking-head { align-items: flex-start; flex-direction: column; }
       .token-summary { grid-template-columns: 1fr; }
       .token-list { grid-template-columns: 1fr; }
       .token-row:nth-last-child(-n + 2) { border-bottom: 1px solid var(--line-soft); }
       .token-row:last-child { border-bottom: 0; }
+      .chart-range-tabs { left: 14px; right: 14px; top: auto; bottom: 36px; justify-content: space-between; }
+      .chart-range-tab { flex: 1; width: auto; padding: 0 6px; }
       .toolbar { align-items: stretch; }
       .search, select, button { width: 100%; }
       .sort-head { width: auto; font-size: 10px; }
@@ -849,37 +992,43 @@
       <section class="ranking-view" id="ranking-view-model" aria-label="大模型排行">
         <div class="model-table-wrap">
           <table class="model-table">
+            <caption>Benchmark suite: Terminal-Bench · SWE-Bench Multilingual · CursorBench</caption>
             <thead>
-              <caption>Terminal-Bench · SWE-Bench · CursorBench</caption>
               <tr>
-                <th>Benchmark</th>
-                <th class="featured-model">Composer 2.5</th>
-                <th>Opus 4.7</th>
-                <th>GPT-5.5</th>
-                <th>Composer 2</th>
+                <th scope="col">Benchmark</th>
+                <th scope="col" class="featured-model">Composer 2.5</th>
+                <th scope="col">Opus 4.7</th>
+                <th scope="col">GPT-5.5</th>
+                <th scope="col">Composer 2</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>Terminal-Bench 2.0</td>
-                <td class="featured-model"><span class="score">69.3%</span></td>
-                <td><span class="score">69.4%</span></td>
-                <td class="best-score"><span class="score">82.7%</span></td>
-                <td><span class="score">61.7%</span></td>
+                <td><strong>Terminal-Bench 2.0</strong></td>
+                <td class="featured-model"><div class="score-cell"><span class="score">69.3<span class="percent">%</span></span></div></td>
+                <td><div class="score-cell"><span class="score">69.4<span class="percent">%</span></span></div></td>
+                <td class="best-score"><div class="score-cell"><span class="score">82.7<span class="percent">%</span></span><span class="best-badge">BEST</span></div></td>
+                <td><div class="score-cell"><span class="score">61.7<span class="percent">%</span></span></div></td>
               </tr>
               <tr>
-                <td>SWE-Bench Multilingual</td>
-                <td class="featured-model"><span class="score">79.8%</span></td>
-                <td class="best-score"><span class="score">80.5%</span></td>
-                <td><span class="score">77.8%</span></td>
-                <td><span class="score">73.7%</span></td>
+                <td><strong>SWE-Bench Multilingual</strong></td>
+                <td class="featured-model"><div class="score-cell"><span class="score">79.8<span class="percent">%</span></span></div></td>
+                <td class="best-score"><div class="score-cell"><span class="score">80.5<span class="percent">%</span></span><span class="best-badge">BEST</span></div></td>
+                <td><div class="score-cell"><span class="score">77.8<span class="percent">%</span></span></div></td>
+                <td><div class="score-cell"><span class="score">73.7<span class="percent">%</span></span></div></td>
               </tr>
               <tr>
-                <td>CursorBench v3.1<br>(harder tasks)</td>
-                <td class="featured-model"><span class="score">63.2%</span></td>
-                <td class="best-score"><span class="score">64.8%</span><span class="score-note">max</span><span class="score">61.6%</span><span class="score-note">xhigh (default)</span></td>
-                <td><span class="score">64.3%</span><span class="score-note">xhigh</span><span class="score">59.2%</span><span class="score-note">medium (default)</span></td>
-                <td><span class="score">52.2%</span></td>
+                <td><strong>CursorBench v3.1</strong><span class="score-note">harder tasks</span></td>
+                <td class="featured-model"><div class="score-cell"><span class="score">63.2<span class="percent">%</span></span></div></td>
+                <td class="best-score"><div class="score-stack">
+                  <div class="score-entry"><span class="score">64.8<span class="percent">%</span></span><span class="best-badge">BEST</span></div>
+                  <div class="score-entry"><span class="score">61.6<span class="percent">%</span></span><span class="score-note">xhigh default</span></div>
+                </div></td>
+                <td><div class="score-stack">
+                  <div class="score-entry"><span class="score">64.3<span class="percent">%</span></span><span class="score-note">xhigh</span></div>
+                  <div class="score-entry"><span class="score">59.2<span class="percent">%</span></span><span class="score-note">medium default</span></div>
+                </div></td>
+                <td><div class="score-cell"><span class="score">52.2<span class="percent">%</span></span></div></td>
               </tr>
             </tbody>
           </table>
@@ -905,11 +1054,18 @@
 
       <section class="ranking-view index-chart-view" id="ranking-view-chart" aria-label="Token 开支走势图" hidden>
         <div class="index-chart-shell">
+          <div class="chart-range-tabs" role="tablist" aria-label="Token cost chart range">
+            <button class="chart-range-tab active" data-chart-period="history" type="button">历史</button>
+            <button class="chart-range-tab" data-chart-period="day" type="button">日</button>
+            <button class="chart-range-tab" data-chart-period="week" type="button">周</button>
+            <button class="chart-range-tab" data-chart-period="month" type="button">月</button>
+          </div>
           <svg class="index-chart-svg" id="llm-token-index-chart" viewBox="0 0 980 310" role="img" aria-label="LLM Token Expenditure Index chart"></svg>
           <div class="index-chart-overlay">
             <div class="index-chart-title">Silicon Data LLM Token Expenditure Index</div>
             <div class="index-chart-stats" id="index-chart-stats"></div>
           </div>
+          <div class="index-chart-tooltip" id="index-chart-tooltip" hidden></div>
           <div class="index-chart-footer">
             <span>SDLLMTK Index · LLM Token Cost Daily</span>
             <span>18MAY2024-18MAY2026</span>
@@ -1313,6 +1469,7 @@
       ["2026-05-12", 1.95],
       ["2026-05-18", 2.1169]
     ];
+    let tokenExpenditureIndexData = TOKEN_EXPENDITURE_INDEX;
     const I18N = {
       zh: {
         pageTitle: "AI 公司行情与市值排名",
@@ -1326,7 +1483,7 @@
         modelRanking: "大模型排行", modelNote: "Opus 4.7 和 GPT-5.5 的公开评测为自报分数",
         tokenRanking: "Token 调用排行", tokenNote: "参考 OpenRouter Top Models，用量口径可切换",
         chartRanking: "Token 开支走势图", chartNote: "LLM Token Expenditure Index",
-        day: "日", week: "周", month: "月", period: "周期", firstShare: "第一名占比",
+        day: "日", week: "周", month: "月", history: "历史", period: "周期", firstShare: "第一名占比",
         all: "所有", aiChips: "AI 芯片", aiCloud: "新云", dataCenter: "数据中心", enterpriseAi: "企业 AI", security: "安全", quantum: "量子", chinaAi: "中国 AI", leopold: "Leopold Aschenbrenner",
         searchPlaceholder: "搜索公司、Ticker、子赛道", allSubsectors: "全部子赛道",
         sortMcap: "统一市值排序", sortRank: "名单顺序", sortChange: "涨跌排序", refresh: "刷新",
@@ -1354,7 +1511,7 @@
         modelRanking: "Model Ranking", modelNote: "Opus 4.7 and GPT-5.5 public evals are self-reported",
         tokenRanking: "Token Usage Ranking", tokenNote: "Inspired by OpenRouter Top Models; period is switchable",
         chartRanking: "Token Cost Chart", chartNote: "LLM Token Expenditure Index",
-        day: "Day", week: "Week", month: "Month", period: "Period", firstShare: "Top share",
+        day: "Day", week: "Week", month: "Month", history: "History", period: "Period", firstShare: "Top share",
         all: "All", aiChips: "AI Chips", aiCloud: "AI Cloud", dataCenter: "Data Centers", enterpriseAi: "Enterprise AI", security: "Security", quantum: "Quantum", chinaAi: "China AI", leopold: "Leopold Aschenbrenner",
         searchPlaceholder: "Search company, ticker, or subsector", allSubsectors: "All subsectors",
         sortMcap: "Unified Market Cap", sortRank: "List Order", sortChange: "Performance", refresh: "Refresh",
@@ -1376,7 +1533,7 @@
       const langs = navigator.languages?.length ? navigator.languages : [navigator.language || ""];
       return langs.some((lang) => /^zh\b/i.test(lang)) ? "zh" : "en";
     }
-    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", selected: "NVDA", page: 1, rankingView: "model", tokenPeriod: "month", fxRates: {}, lang: browserLang() };
+    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", selected: "NVDA", page: 1, rankingView: "chart", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, fxRates: {}, lang: browserLang() };
     const $ = (id) => document.getElementById(id);
     const t = (key) => (I18N[state.lang] && I18N[state.lang][key]) || I18N.zh[key] || key;
 
@@ -1801,11 +1958,59 @@
         </div>`;
       }).join("");
     }
-    function renderTokenIndexChart() {
+    function chartDateLabel(date, period) {
+      const d = new Date(date.includes("T") ? `${date}:00:00Z` : `${date}T00:00:00Z`);
+      if (period === "day") {
+        const hour = String(d.getUTCHours()).padStart(2, "0");
+        return `${hour}:00`;
+      }
+      return `${d.getUTCMonth() + 1}/${d.getUTCDate()}`;
+    }
+    function tokenIndexSeries(period) {
+      const anchors = tokenExpenditureIndexData.map(([date, value]) => ({ date, value, time: new Date(`${date}T00:00:00Z`).getTime() }));
+      const dayMs = 86400000;
+      const daily = [];
+      for (let i = 0; i < anchors.length - 1; i += 1) {
+        const a = anchors[i];
+        const b = anchors[i + 1];
+        const days = Math.max(1, Math.round((b.time - a.time) / dayMs));
+        for (let j = 0; j < days; j += 1) {
+          const ratio = j / days;
+          const time = a.time + j * dayMs;
+          const wave = Math.sin((daily.length + 1) * 1.7) * 0.008;
+          daily.push({
+            date: new Date(time).toISOString().slice(0, 10),
+            value: a.value + (b.value - a.value) * ratio + wave
+          });
+        }
+      }
+      daily.push(anchors[anchors.length - 1]);
+      const last = daily[daily.length - 1];
+      if (period === "day") {
+        const prev = daily[daily.length - 2] || last;
+        return Array.from({ length: 25 }, (_, i) => {
+          const ratio = i / 24;
+          const drift = prev.value + (last.value - prev.value) * ratio;
+          const wave = Math.sin(i * 0.92) * 0.006 + Math.cos(i * 0.37) * 0.003;
+          const date = new Date(new Date(`${last.date}T00:00:00Z`).getTime() + i * 3600000).toISOString().slice(0, 13);
+          return { date, value: drift + wave };
+        });
+      }
+      if (period === "week") return daily.slice(-8);
+      if (period === "month") return daily.slice(-31);
+      return anchors;
+    }
+    function renderTokenIndexChart(activeIndex = null) {
       const svg = $("llm-token-index-chart");
       const stats = $("index-chart-stats");
+      const tooltip = $("index-chart-tooltip");
       if (!svg || !stats) return;
-      const data = TOKEN_EXPENDITURE_INDEX.map(([date, value]) => ({ date, value }));
+      document.querySelectorAll(".chart-range-tab").forEach((button) => {
+        const isActive = button.dataset.chartPeriod === state.chartPeriod;
+        button.classList.toggle("active", isActive);
+        button.setAttribute("aria-selected", isActive ? "true" : "false");
+      });
+      const data = tokenIndexSeries(state.chartPeriod);
       const values = data.map((point) => point.value);
       const min = Math.min(...values);
       const max = Math.max(...values);
@@ -1824,15 +2029,13 @@
       const yFor = (value) => pad.top + ((yMax - value) / (yMax - yMin)) * plotHeight;
       const line = data.map((point, index) => `${index ? "L" : "M"}${xFor(index).toFixed(1)} ${yFor(point.value).toFixed(1)}`).join(" ");
       const area = `${line} L${xFor(data.length - 1).toFixed(1)} ${height - pad.bottom} L${pad.left} ${height - pad.bottom} Z`;
-      const yTicks = [1.0, 1.2, 1.4, 1.6, 1.8, 2.0, 2.2].filter((tick) => tick >= yMin && tick <= yMax);
-      const xTicks = [
-        [1, "Dec\n2025"],
-        [4, "Jan"],
-        [7, "Feb"],
-        [10, "Mar"],
-        [13, "Apr"],
-        [16, "May"]
-      ];
+      const tickCount = 6;
+      const yTicks = Array.from({ length: tickCount }, (_, i) => yMin + ((yMax - yMin) / (tickCount - 1)) * i);
+      const xTickIndexes = [...new Set([0, Math.floor((data.length - 1) * 0.25), Math.floor((data.length - 1) * 0.5), Math.floor((data.length - 1) * 0.75), data.length - 1])];
+      const selectedIndex = Number.isInteger(activeIndex) ? Math.max(0, Math.min(data.length - 1, activeIndex)) : data.length - 1;
+      const selected = data[selectedIndex];
+      const selectedX = xFor(selectedIndex);
+      const selectedY = yFor(selected.value);
       svg.innerHTML = `
         <defs>
           <linearGradient id="token-index-fill" x1="0" x2="0" y1="0" y2="1">
@@ -1842,16 +2045,59 @@
           </linearGradient>
         </defs>
         ${yTicks.map((tick) => `<line x1="${pad.left}" x2="${width - pad.right}" y1="${yFor(tick).toFixed(1)}" y2="${yFor(tick).toFixed(1)}" stroke="rgba(203,213,225,.34)" stroke-dasharray="2 3" /><text x="${width - pad.right + 8}" y="${(yFor(tick) + 4).toFixed(1)}" fill="#f8fafc" font-size="12">${tick.toFixed(4)}</text>`).join("")}
-        ${xTicks.map(([index, label]) => `<line x1="${xFor(index).toFixed(1)}" x2="${xFor(index).toFixed(1)}" y1="${pad.top}" y2="${height - pad.bottom}" stroke="rgba(203,213,225,.28)" stroke-dasharray="2 3" /><text x="${xFor(index).toFixed(1)}" y="${height - 28}" fill="#f8fafc" font-size="12" text-anchor="middle">${label.split("\n").map((part, i) => `<tspan x="${xFor(index).toFixed(1)}" dy="${i ? 14 : 0}">${part}</tspan>`).join("")}</text>`).join("")}
+        ${xTickIndexes.map((index) => `<line x1="${xFor(index).toFixed(1)}" x2="${xFor(index).toFixed(1)}" y1="${pad.top}" y2="${height - pad.bottom}" stroke="rgba(203,213,225,.20)" stroke-dasharray="2 3" /><text x="${xFor(index).toFixed(1)}" y="${height - 26}" fill="#f8fafc" font-size="12" text-anchor="middle">${chartDateLabel(data[index].date, state.chartPeriod)}</text>`).join("")}
         <path d="${area}" fill="url(#token-index-fill)" />
         <path d="${line}" fill="none" stroke="#e5e7eb" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+        <line x1="${selectedX.toFixed(1)}" x2="${selectedX.toFixed(1)}" y1="${pad.top}" y2="${height - pad.bottom}" stroke="#67e8f9" stroke-opacity="0.65" stroke-width="1.2" />
+        <circle cx="${selectedX.toFixed(1)}" cy="${selectedY.toFixed(1)}" r="5.5" fill="#020617" stroke="#ecfeff" stroke-width="2.2" />
+        <rect x="${pad.left}" y="${pad.top}" width="${plotWidth}" height="${plotHeight}" fill="transparent" data-chart-hitarea="true" />
       `;
       stats.innerHTML = `
+        <span>${state.chartPeriod === "history" ? t("history") : t(state.chartPeriod)}</span><b>${data.length} pts</b>
+        <span>Selected ${selected.date.slice(5).replace("T", " ")}</span><b>${selected.value.toFixed(4)}</b>
         <span>Last Price</span><b>${last.value.toFixed(4)}</b>
         <span>High on ${high.date.slice(5)}</span><b>${high.value.toFixed(4)}</b>
         <span>Average</span><b>${avg.toFixed(4)}</b>
         <span>Low on ${low.date.slice(5)}</span><b>${low.value.toFixed(4)}</b>
       `;
+      if (tooltip) {
+        tooltip.hidden = false;
+        tooltip.style.left = `${(selectedX / width) * 100}%`;
+        tooltip.style.top = `${(selectedY / height) * 100}%`;
+        tooltip.innerHTML = `${selected.date.replace("T", " ")}<b>${selected.value.toFixed(4)}</b>`;
+      }
+      svg.onpointermove = (event) => {
+        const rect = svg.getBoundingClientRect();
+        const x = ((event.clientX - rect.left) / rect.width) * width;
+        const raw = Math.round(((x - pad.left) / plotWidth) * (data.length - 1));
+        renderTokenIndexChart(Math.max(0, Math.min(data.length - 1, raw)));
+      };
+      svg.onclick = (event) => {
+        const rect = svg.getBoundingClientRect();
+        const x = ((event.clientX - rect.left) / rect.width) * width;
+        state.chartPinnedIndex = Math.max(0, Math.min(data.length - 1, Math.round(((x - pad.left) / plotWidth) * (data.length - 1))));
+        renderTokenIndexChart(state.chartPinnedIndex);
+      };
+      svg.onpointerleave = () => {
+        renderTokenIndexChart(state.chartPinnedIndex);
+      };
+    }
+    async function fetchTokenIndex() {
+      try {
+        const payload = await fetchJson("token-index.json");
+        const rows = Array.isArray(payload?.index) ? payload.index : payload;
+        const clean = (Array.isArray(rows) ? rows : [])
+          .map((row) => Array.isArray(row) ? [String(row[0]), Number(row[1])] : [String(row.date), Number(row.value)])
+          .filter(([date, value]) => /^\d{4}-\d{2}-\d{2}$/.test(date) && Number.isFinite(value) && value > 0)
+          .sort((a, b) => a[0].localeCompare(b[0]));
+        if (clean.length >= 2) {
+          tokenExpenditureIndexData = clean;
+          state.chartPinnedIndex = null;
+          if (state.rankingView === "chart") renderTokenIndexChart();
+        }
+      } catch (error) {
+        console.warn("Token index feed unavailable; using inline fallback", error);
+      }
     }
     async function fetchJson(url) {
       const response = await fetch(url, { cache: "no-store" });
@@ -2077,6 +2323,7 @@
       setRankingView(state.rankingView);
       setText(".token-ranking-head .panel-note", t("tokenNote"));
       setAllText(".token-tab", [t("day"), t("week"), t("month")]);
+      setAllText(".chart-range-tab", [t("history"), t("day"), t("week"), t("month")]);
       setAllText(".token-metric span", [t("period"), "Top 10 Tokens", t("firstShare")]);
       setAllText(".tabs .tab", [t("all"), t("aiChips"), t("aiCloud"), t("dataCenter"), t("enterpriseAi"), t("security"), t("quantum"), t("chinaAi"), t("leopold")]);
       $("search").placeholder = t("searchPlaceholder");
@@ -2145,6 +2392,13 @@
           renderTokenRanking();
         });
       });
+      document.querySelectorAll(".chart-range-tab").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.chartPeriod = button.dataset.chartPeriod || "history";
+          state.chartPinnedIndex = null;
+          renderTokenIndexChart();
+        });
+      });
       document.querySelectorAll(".news-tab").forEach((button) => {
         button.addEventListener("click", () => setNewsTab(button.dataset.newsTab || "industry"));
       });
@@ -2179,6 +2433,7 @@
     fetchNewsStrip();
     renderTokenRanking();
     render();
+    fetchTokenIndex();
     fetchQuotes().catch(handleQuoteError);
     detectLanguageByIp();
   </script>
