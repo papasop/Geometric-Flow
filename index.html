@@ -297,7 +297,7 @@
     .ranking-view[hidden] { display: none; }
     .model-table-wrap { overflow-x: auto; background: #fff; padding: 14px; }
     .model-table {
-      min-width: 820px;
+      min-width: 940px;
       width: 100%;
       border-collapse: separate;
       border-spacing: 0;
@@ -325,7 +325,7 @@
       color: var(--text);
       text-align: center;
       white-space: normal;
-      min-width: 132px;
+      min-width: 168px;
       vertical-align: middle;
     }
     .model-table th {
@@ -337,8 +337,8 @@
     }
     .model-table th:first-child,
     .model-table td:first-child {
-      width: 190px;
-      min-width: 190px;
+      width: 200px;
+      min-width: 200px;
       color: var(--soft);
       font-weight: 760;
       text-align: left;
@@ -351,6 +351,8 @@
       font-weight: 840;
     }
     .model-table .featured-model {
+      width: 190px;
+      min-width: 190px;
       background: #fffaf5;
       box-shadow: inset 2px 0 0 #fdba74;
     }
@@ -370,7 +372,7 @@
     .score-cell {
       position: relative;
       width: 100%;
-      max-width: 132px;
+      max-width: 154px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -385,7 +387,7 @@
     }
     .score-stack {
       width: 100%;
-      max-width: 150px;
+      max-width: 168px;
       margin: 0 auto;
       display: grid;
       gap: 7px;
@@ -883,7 +885,7 @@
     }
     .empty { padding: 32px; color: var(--muted); text-align: center; }
     @media (max-width: 1120px) {
-      .model-table { min-width: 760px; }
+      .model-table { min-width: 900px; }
     }
     @media (max-width: 760px) {
       .topline-inner { align-items: flex-start; flex-direction: column; }
@@ -892,11 +894,13 @@
       .ranking-heading { align-items: flex-start; flex-direction: column; gap: 6px; }
       .ranking-switch { width: 100%; }
       .ranking-switch button { flex: 1; }
-      .model-table { min-width: 760px; }
+      .model-table { min-width: 900px; }
       .model-table th,
-      .model-table td { padding: 12px 10px; min-width: 116px; }
+      .model-table td { padding: 12px 10px; min-width: 150px; }
       .model-table th:first-child,
-      .model-table td:first-child { width: 158px; min-width: 158px; }
+      .model-table td:first-child { width: 170px; min-width: 170px; }
+      .model-table .featured-model { width: 170px; min-width: 170px; }
+      .score-cell { max-width: 140px; }
       .score { min-width: 62px; font-size: 18px; }
       .score-entry { grid-template-columns: minmax(62px, auto) minmax(0, 1fr); gap: 5px; padding: 0; }
       .token-ranking-head { align-items: flex-start; flex-direction: column; }
