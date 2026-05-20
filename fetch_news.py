@@ -388,7 +388,20 @@ TECH_NEWS_SOURCES = [
 ]
 PAPER_NEWS_SOURCES = [
     google_news_query_source("Nature", f"site:nature.com {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("Nature Machine Intelligence", f"site:nature.com/natmachintell {AI_MARKET_NEWS_QUERY}"),
     google_news_query_source("Science", f"site:science.org {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("Science Robotics", f"site:science.org/journal/scirobotics {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("NeurIPS", f"site:neurips.cc {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("ICML", f"site:icml.cc {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("ICLR", f"site:openreview.net ICLR {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("ACL Anthology", f"site:aclanthology.org {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("CVF Open Access", f"site:openaccess.thecvf.com {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("AAAI", f"site:ojs.aaai.org {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("JMLR", f"site:jmlr.org {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("PMLR", f"site:proceedings.mlr.press {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("IEEE TPAMI", f"site:ieeexplore.ieee.org TPAMI {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("ACM Digital Library", f"site:dl.acm.org {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("arXiv AI", f"site:arxiv.org {AI_MARKET_NEWS_QUERY}"),
 ]
 NEWS_SECTIONS = [
     {
@@ -418,7 +431,7 @@ NEWS_SECTIONS = [
     {
         "id": "papers",
         "title": "论文",
-        "note": "Nature / Science",
+        "note": "Nature / Science / NeurIPS / ICML / ICLR / ACL / CVPR / AAAI / JMLR / arXiv",
         "sources": PAPER_NEWS_SOURCES,
     },
 ]
@@ -999,7 +1012,7 @@ def main() -> int:
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "strategy": {
-            "primary": "Tabbed news sections: industry from WSJ/NYT, company from Bloomberg/Reuters company-name searches, M&A and financing from Bloomberg/Reuters stake/acquisition/equity searches, frontier technology from Wired/MIT Technology Review, papers from Nature/Science",
+            "primary": "Tabbed news sections: industry from WSJ/NYT, company from Bloomberg/Reuters company-name searches, M&A and financing from Bloomberg/Reuters stake/acquisition/equity searches, frontier technology from Wired/MIT Technology Review, papers from top AI journals, conferences, proceedings, and preprint sources",
             "primaryEnabled": True,
             "supplements": [
                 "Wall Street Journal",
@@ -1009,7 +1022,20 @@ def main() -> int:
                 "Wired",
                 "MIT Technology Review",
                 "Nature",
+                "Nature Machine Intelligence",
                 "Science",
+                "Science Robotics",
+                "NeurIPS",
+                "ICML",
+                "ICLR",
+                "ACL Anthology",
+                "CVF Open Access",
+                "AAAI",
+                "JMLR",
+                "PMLR",
+                "IEEE TPAMI",
+                "ACM Digital Library",
+                "arXiv AI",
             ],
         },
         "sources": source_status,
