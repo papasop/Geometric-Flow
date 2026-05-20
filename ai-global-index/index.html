@@ -295,169 +295,6 @@
     }
     .ranking-switch button.active { color: var(--green); background: #ecfdf5; }
     .ranking-view[hidden] { display: none; }
-    .model-table-wrap { overflow-x: auto; background: #fff; padding: 14px; }
-    .model-table {
-      table-layout: fixed;
-      min-width: 960px;
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 0;
-      border: 1px solid var(--line-soft);
-      border-radius: 7px;
-      overflow: hidden;
-    }
-    .model-table caption {
-      caption-side: top;
-      padding: 11px 14px;
-      color: var(--muted);
-      background: #fbfdff;
-      border-bottom: 1px solid var(--line-soft);
-      font-size: 12px;
-      line-height: 1.4;
-      font-weight: 780;
-      text-align: left;
-    }
-    .model-table th,
-    .model-table td {
-      position: static;
-      padding: 15px 16px;
-      border-bottom: 1px solid var(--line-soft);
-      background: #fff;
-      color: var(--text);
-      text-align: center;
-      white-space: normal;
-      width: 190px;
-      min-width: 190px;
-      vertical-align: middle;
-    }
-    .model-table th {
-      color: var(--soft);
-      font-size: 12px;
-      line-height: 1.25;
-      font-weight: 820;
-      background: #f8fafc;
-    }
-    .model-table th:first-child,
-    .model-table td:first-child {
-      width: 200px;
-      min-width: 200px;
-      color: var(--soft);
-      font-weight: 760;
-      text-align: left;
-      line-height: 1.35;
-    }
-    .model-table td:first-child strong {
-      display: block;
-      color: var(--text);
-      font-size: 13px;
-      font-weight: 840;
-    }
-    .model-table .featured-model {
-      background: #fffaf5;
-      box-shadow: inset 2px 0 0 #fdba74;
-    }
-    .model-table th.featured-model {
-      color: #9a3412;
-      background: #fff7ed;
-    }
-    .model-name {
-      display: inline-block;
-      white-space: nowrap;
-      font-weight: 860;
-    }
-    .model-table .best-score {
-      background: #ecfdf5;
-      box-shadow: inset 2px 0 0 var(--green);
-    }
-    .score-cell {
-      position: relative;
-      width: 148px;
-      max-width: 148px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      min-height: 58px;
-      margin: 0 auto;
-      padding: 8px 10px;
-      border: 1px solid rgba(148, 163, 184, 0.12);
-      border-radius: 7px;
-      background: rgba(255, 255, 255, 0.56);
-    }
-    .score-stack {
-      width: 148px;
-      max-width: 148px;
-      margin: 0 auto;
-      display: grid;
-      gap: 7px;
-    }
-    .score-entry {
-      display: grid;
-      grid-template-columns: 72px 1fr;
-      align-items: center;
-      gap: 7px;
-      padding: 7px 8px;
-      border: 1px solid rgba(148, 163, 184, 0.13);
-      border-radius: 7px;
-      background: rgba(255, 255, 255, 0.58);
-    }
-    .score-entry + .score-entry {
-      padding-top: 7px;
-    }
-    .score {
-      display: inline-flex;
-      align-items: baseline;
-      justify-content: flex-end;
-      min-width: 70px;
-      width: 72px;
-      color: var(--text);
-      font-size: 24px;
-      line-height: 1;
-      font-weight: 880;
-      font-variant-numeric: tabular-nums;
-    }
-    .score .percent {
-      margin-left: 2px;
-      color: var(--soft);
-      font-size: 12px;
-      font-weight: 820;
-    }
-    .score-note {
-      display: inline-block;
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.3;
-      font-weight: 720;
-      text-align: left;
-    }
-    .best-score .score {
-      color: #047857;
-    }
-    .featured-model .score { color: var(--text); }
-    .best-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 32px;
-      height: 17px;
-      padding: 0 6px;
-      border-radius: 5px;
-      color: #047857;
-      background: #d1fae5;
-      font-size: 10px;
-      font-weight: 840;
-      line-height: 1;
-    }
-    .score-cell > .best-badge {
-      position: absolute;
-      top: 5px;
-      right: 6px;
-      min-width: 0;
-      height: 16px;
-      padding: 0 5px;
-      font-size: 9px;
-    }
     .token-ranking {
       margin: 0;
     }
@@ -885,9 +722,6 @@
       max-width: 900px;
     }
     .empty { padding: 32px; color: var(--muted); text-align: center; }
-    @media (max-width: 1120px) {
-      .model-table { min-width: 960px; }
-    }
     @media (max-width: 760px) {
       .topline-inner { align-items: flex-start; flex-direction: column; }
       .highlight-grid { grid-template-columns: 1fr 1fr; }
@@ -895,15 +729,6 @@
       .ranking-heading { align-items: flex-start; flex-direction: column; gap: 6px; }
       .ranking-switch { width: 100%; }
       .ranking-switch button { flex: 1; }
-      .model-table { min-width: 900px; }
-      .model-table th,
-      .model-table td { width: 172px; min-width: 172px; padding: 12px 10px; }
-      .model-table th:first-child,
-      .model-table td:first-child { width: 170px; min-width: 170px; }
-      .score-cell { width: 136px; max-width: 136px; }
-      .score-stack { width: 136px; max-width: 136px; }
-      .score { width: 66px; min-width: 66px; font-size: 18px; }
-      .score-entry { grid-template-columns: 66px 1fr; gap: 5px; padding: 6px; }
       .token-ranking-head { align-items: flex-start; flex-direction: column; }
       .token-summary { grid-template-columns: 1fr; }
       .token-list { grid-template-columns: 1fr; }
@@ -1011,64 +836,17 @@
       </div>
     </section>
 
-    <section class="ranking-panel" aria-label="大模型与 Token 调用排行">
+    <section class="ranking-panel" aria-label="Token 调用排行与开支走势图">
       <div class="ranking-panel-head">
         <div class="ranking-heading">
-          <div class="ranking-panel-title">大模型排行</div>
-          <div class="ranking-panel-note" id="ranking-panel-note">Terminal-Bench · SWE-Bench · CursorBench</div>
+          <div class="ranking-panel-title">Token 开支走势图</div>
+          <div class="ranking-panel-note" id="ranking-panel-note">LLM Token Expenditure Index</div>
         </div>
         <div class="ranking-switch" role="tablist" aria-label="排行切换">
-          <button class="active" data-ranking-view="model" type="button" role="tab" aria-selected="true">大模型排行</button>
           <button data-ranking-view="token" type="button" role="tab" aria-selected="false">Token 调用排行</button>
-          <button data-ranking-view="chart" type="button" role="tab" aria-selected="false">走势图</button>
+          <button class="active" data-ranking-view="chart" type="button" role="tab" aria-selected="true">走势图</button>
         </div>
       </div>
-      <section class="ranking-view" id="ranking-view-model" aria-label="大模型排行">
-        <div class="model-table-wrap">
-          <table class="model-table">
-            <caption>Benchmark suite: Terminal-Bench · SWE-Bench Multilingual · CursorBench</caption>
-            <thead>
-              <tr>
-                <th scope="col">Benchmark</th>
-                <th scope="col" class="featured-model"><span class="model-name" translate="no">Composer 2.5</span></th>
-                <th scope="col"><span class="model-name" translate="no">Opus 4.7</span></th>
-                <th scope="col"><span class="model-name" translate="no">GPT-5.5</span></th>
-                <th scope="col"><span class="model-name" translate="no">Composer 2</span></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>Terminal-Bench 2.0</strong></td>
-                <td class="featured-model"><div class="score-cell"><span class="score">69.3<span class="percent">%</span></span></div></td>
-                <td><div class="score-cell"><span class="score">69.4<span class="percent">%</span></span></div></td>
-                <td class="best-score"><div class="score-cell"><span class="score">82.7<span class="percent">%</span></span><span class="best-badge">BEST</span></div></td>
-                <td><div class="score-cell"><span class="score">61.7<span class="percent">%</span></span></div></td>
-              </tr>
-              <tr>
-                <td><strong>SWE-Bench Multilingual</strong></td>
-                <td class="featured-model"><div class="score-cell"><span class="score">79.8<span class="percent">%</span></span></div></td>
-                <td class="best-score"><div class="score-cell"><span class="score">80.5<span class="percent">%</span></span><span class="best-badge">BEST</span></div></td>
-                <td><div class="score-cell"><span class="score">77.8<span class="percent">%</span></span></div></td>
-                <td><div class="score-cell"><span class="score">73.7<span class="percent">%</span></span></div></td>
-              </tr>
-              <tr>
-                <td><strong>CursorBench v3.1</strong><span class="score-note">harder tasks</span></td>
-                <td class="featured-model"><div class="score-cell"><span class="score">63.2<span class="percent">%</span></span></div></td>
-                <td class="best-score"><div class="score-stack">
-                  <div class="score-entry"><span class="score">64.8<span class="percent">%</span></span><span class="best-badge">BEST</span></div>
-                  <div class="score-entry"><span class="score">61.6<span class="percent">%</span></span><span class="score-note">xhigh default</span></div>
-                </div></td>
-                <td><div class="score-stack">
-                  <div class="score-entry"><span class="score">64.3<span class="percent">%</span></span><span class="score-note">xhigh</span></div>
-                  <div class="score-entry"><span class="score">59.2<span class="percent">%</span></span><span class="score-note">medium default</span></div>
-                </div></td>
-                <td><div class="score-cell"><span class="score">52.2<span class="percent">%</span></span></div></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
       <section class="ranking-view token-ranking" id="ranking-view-token" aria-label="Token 调用排行" hidden>
         <div class="token-ranking-head">
           <div class="panel-note">参考 OpenRouter Top Models，用量口径可切换</div>
@@ -1514,7 +1292,6 @@
         industry: "行业", company: "公司", market: "并购/融资", frontier: "新技术",
         loadingIndustry: "正在加载行业…", loadingCompany: "正在加载公司…", loadingMarket: "正在加载并购/融资…", loadingFrontier: "正在加载新技术…",
         currentFilter: "按当前筛选", realVolume: "真实成交额，可用时更新", hot: "热门", topGainer: "最大升幅", waitingQuotes: "等待行情或估算涨跌",
-        modelRanking: "大模型排行", modelNote: "Opus 4.7 和 GPT-5.5 的公开评测为自报分数",
         tokenRanking: "Token 调用排行", tokenNote: "参考 OpenRouter Top Models，用量口径可切换",
         chartRanking: "Token 开支走势图", chartNote: "LLM Token Expenditure Index",
         day: "日", week: "周", month: "月", history: "历史", period: "周期", firstShare: "第一名占比",
@@ -1542,7 +1319,6 @@
         industry: "Industry", company: "Companies", market: "M&A / Financing", frontier: "New Tech",
         loadingIndustry: "Loading industry…", loadingCompany: "Loading companies…", loadingMarket: "Loading M&A / financing…", loadingFrontier: "Loading new tech…",
         currentFilter: "Current filter", realVolume: "Real traded value when available", hot: "Trending", topGainer: "Top Gainer", waitingQuotes: "Waiting for quotes or estimated moves",
-        modelRanking: "Model Ranking", modelNote: "Opus 4.7 and GPT-5.5 public evals are self-reported",
         tokenRanking: "Token Usage Ranking", tokenNote: "Inspired by OpenRouter Top Models; period is switchable",
         chartRanking: "Token Cost Chart", chartNote: "LLM Token Expenditure Index",
         day: "Day", week: "Week", month: "Month", history: "History", period: "Period", firstShare: "Top share",
@@ -1955,20 +1731,18 @@
       renderSummary();
     }
     function setRankingView(view) {
-      state.rankingView = ["model", "token", "chart"].includes(view) ? view : "model";
+      state.rankingView = ["token", "chart"].includes(view) ? view : "chart";
       document.querySelectorAll("[data-ranking-view]").forEach((button) => {
         const isActive = button.dataset.rankingView === state.rankingView;
         button.classList.toggle("active", isActive);
         button.setAttribute("aria-selected", isActive ? "true" : "false");
       });
-      const modelPanel = $("ranking-view-model");
       const tokenPanel = $("ranking-view-token");
       const chartPanel = $("ranking-view-chart");
-      if (modelPanel) modelPanel.hidden = state.rankingView !== "model";
       if (tokenPanel) tokenPanel.hidden = state.rankingView !== "token";
       if (chartPanel) chartPanel.hidden = state.rankingView !== "chart";
-      const titleByView = { model: t("modelRanking"), token: t("tokenRanking"), chart: t("chartRanking") };
-      const noteByView = { model: "Benchmarks", token: t("tokenNote"), chart: t("chartNote") };
+      const titleByView = { token: t("tokenRanking"), chart: t("chartRanking") };
+      const noteByView = { token: t("tokenNote"), chart: t("chartNote") };
       setText(".ranking-panel-title", titleByView[state.rankingView]);
       setText("#ranking-panel-note", noteByView[state.rankingView]);
       if (state.rankingView === "chart") renderTokenIndexChart();
@@ -2360,7 +2134,7 @@
       const changeClass = $("highlight-change")?.className || "positive";
       if (changeMini) changeMini.innerHTML = `<span class="${changeClass}" id="highlight-change">${changeValue}</span> · ${t("currentFilter")}`;
       setText(".highlight-card:nth-child(2) .mini", t("realVolume"));
-      setAllText(".ranking-switch button", [t("modelRanking"), t("tokenRanking"), t("chartRanking")]);
+      setAllText(".ranking-switch button", [t("tokenRanking"), t("chartRanking")]);
       setRankingView(state.rankingView);
       setText(".token-ranking-head .panel-note", t("tokenNote"));
       setAllText(".token-tab", [t("day"), t("week"), t("month")]);
@@ -2424,7 +2198,7 @@
         tab.addEventListener("click", () => selectCategory(tab.dataset.tab));
       });
       document.querySelectorAll("[data-ranking-view]").forEach((button) => {
-        button.addEventListener("click", () => setRankingView(button.dataset.rankingView || "model"));
+        button.addEventListener("click", () => setRankingView(button.dataset.rankingView || "chart"));
       });
       document.querySelectorAll(".token-tab").forEach((button) => {
         button.addEventListener("click", () => {
