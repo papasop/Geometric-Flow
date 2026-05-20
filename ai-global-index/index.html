@@ -243,6 +243,11 @@
       box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
       margin-bottom: 16px;
     }
+    .ranking-panel.chart-mode {
+      background: #05070a;
+      border-color: rgba(148, 163, 184, 0.28);
+      box-shadow: 0 12px 32px rgba(2, 6, 23, 0.18);
+    }
     .ranking-panel-head {
       display: flex;
       justify-content: space-between;
@@ -251,6 +256,10 @@
       padding: 16px 18px;
       border-bottom: 1px solid var(--line);
       background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    }
+    .ranking-panel.chart-mode .ranking-panel-head {
+      border-bottom-color: rgba(148, 163, 184, 0.22);
+      background: #05070a;
     }
     .ranking-heading {
       display: flex;
@@ -266,12 +275,14 @@
       font-weight: 880;
       letter-spacing: 0;
     }
+    .ranking-panel.chart-mode .ranking-panel-title { color: #f8fafc; }
     .ranking-panel-note {
       color: var(--muted);
       font-size: 12px;
       line-height: 1.35;
       font-weight: 720;
     }
+    .ranking-panel.chart-mode .ranking-panel-note { color: #94a3b8; }
     .ranking-switch {
       display: inline-flex;
       align-items: center;
@@ -281,6 +292,10 @@
       border-radius: 7px;
       background: #fff;
       flex: 0 0 auto;
+    }
+    .ranking-panel.chart-mode .ranking-switch {
+      border-color: rgba(148, 163, 184, 0.32);
+      background: rgba(2, 6, 23, 0.76);
     }
     .ranking-switch button {
       height: 30px;
@@ -293,7 +308,12 @@
       font-weight: 820;
       cursor: pointer;
     }
+    .ranking-panel.chart-mode .ranking-switch button { color: #cbd5e1; }
     .ranking-switch button.active { color: var(--green); background: #ecfdf5; }
+    .ranking-panel.chart-mode .ranking-switch button.active {
+      color: #ecfeff;
+      background: rgba(34, 211, 238, 0.24);
+    }
     .ranking-view[hidden] { display: none; }
     .token-ranking {
       margin: 0;
@@ -836,7 +856,7 @@
       </div>
     </section>
 
-    <section class="ranking-panel" aria-label="Token 调用排行与开支走势图">
+    <section class="ranking-panel chart-mode" aria-label="Token 调用排行与开支走势图">
       <div class="ranking-panel-head">
         <div class="ranking-heading">
           <div class="ranking-panel-title">Token 开支走势图</div>
@@ -864,7 +884,7 @@
         <div class="token-list" id="token-ranking-list"></div>
       </section>
 
-      <section class="ranking-view index-chart-view" id="ranking-view-chart" aria-label="Token 开支走势图" hidden>
+      <section class="ranking-view index-chart-view" id="ranking-view-chart" aria-label="Token 开支走势图">
         <div class="index-chart-shell">
           <div class="chart-range-tabs" role="tablist" aria-label="Token cost chart range">
             <button class="chart-range-tab active" data-chart-period="history" type="button">历史</button>
@@ -1741,6 +1761,7 @@
       const chartPanel = $("ranking-view-chart");
       if (tokenPanel) tokenPanel.hidden = state.rankingView !== "token";
       if (chartPanel) chartPanel.hidden = state.rankingView !== "chart";
+      document.querySelector(".ranking-panel")?.classList.toggle("chart-mode", state.rankingView === "chart");
       const titleByView = { token: t("tokenRanking"), chart: t("chartRanking") };
       const noteByView = { token: t("tokenNote"), chart: t("chartNote") };
       setText(".ranking-panel-title", titleByView[state.rankingView]);
