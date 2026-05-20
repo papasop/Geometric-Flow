@@ -864,12 +864,21 @@
   <nav class="nav" aria-label="AI Market Cap navigation">
     <div class="nav-inner">
       <button class="brand" type="button" id="brand-all">AI Market Cap</button>
-      <a href="#" data-nav-tab="AI GPU / CUDA">人工智能芯片</a>
-      <a href="#" data-nav-tab="AI cloud">AI云</a>
-      <a href="#" data-nav-tab="AI data center">数据中心</a>
-      <a href="#" data-nav-tab="Enterprise AI">企业人工智能</a>
-      <a href="#" data-nav-tab="AI security">安全</a>
-      <a href="#" data-nav-tab="Quantum">量子</a>
+      <a href="#" data-nav-tab="InP & Substrates">InP & Substrates</a>
+      <a href="#" data-nav-tab="Photonics / CPO">Photonics / CPO</a>
+      <a href="#" data-nav-tab="Networking / Retimers">Networking / Retimers</a>
+      <a href="#" data-nav-tab="Power & Grid">Power & Grid</a>
+      <a href="#" data-nav-tab="HBM / Packaging">HBM / Packaging</a>
+      <a href="#" data-nav-tab="Custom Silicon">Custom Silicon</a>
+      <a href="#" data-nav-tab="Cooling">Cooling</a>
+      <a href="#" data-nav-tab="Memory Supercycle">Memory Supercycle</a>
+      <a href="#" data-nav-tab="Rare Earths">Rare Earths</a>
+      <a href="#" data-nav-tab="Lithography & Fab Tools">Lithography & Fab Tools</a>
+      <a href="#" data-nav-tab="Connectors & Interconnect">Connectors & Interconnect</a>
+      <a href="#" data-nav-tab="Construction & MEP">Construction & MEP</a>
+      <a href="#" data-nav-tab="AI Cloud / Neoclouds">AI Cloud / Neoclouds</a>
+      <a href="#" data-nav-tab="Storage">Storage</a>
+      <a href="#" data-nav-tab="Outliers">Outliers</a>
       <a href="#" data-nav-tab="China AI">中国人工智能</a>
       <a href="#" data-nav-tab="Leopold Aschenbrenner">Leopold Aschenbrenner</a>
     </div>
@@ -997,12 +1006,21 @@
 
     <section class="tabs" aria-label="Category shortcuts">
       <button class="tab active" data-tab="ALL" type="button">所有</button>
-      <button class="tab" data-tab="AI GPU / CUDA" type="button">AI 芯片</button>
-      <button class="tab" data-tab="AI cloud" type="button">新云</button>
-      <button class="tab" data-tab="AI data center" type="button">数据中心</button>
-      <button class="tab" data-tab="Enterprise AI" type="button">企业 AI</button>
-      <button class="tab" data-tab="AI security" type="button">安全</button>
-      <button class="tab" data-tab="Quantum" type="button">量子</button>
+      <button class="tab" data-tab="InP & Substrates" type="button">InP & Substrates</button>
+      <button class="tab" data-tab="Photonics / CPO" type="button">Photonics / CPO</button>
+      <button class="tab" data-tab="Networking / Retimers" type="button">Networking / Retimers</button>
+      <button class="tab" data-tab="Power & Grid" type="button">Power & Grid</button>
+      <button class="tab" data-tab="HBM / Packaging" type="button">HBM / Packaging</button>
+      <button class="tab" data-tab="Custom Silicon" type="button">Custom Silicon</button>
+      <button class="tab" data-tab="Cooling" type="button">Cooling</button>
+      <button class="tab" data-tab="Memory Supercycle" type="button">Memory Supercycle</button>
+      <button class="tab" data-tab="Rare Earths" type="button">Rare Earths</button>
+      <button class="tab" data-tab="Lithography & Fab Tools" type="button">Lithography & Fab Tools</button>
+      <button class="tab" data-tab="Connectors & Interconnect" type="button">Connectors & Interconnect</button>
+      <button class="tab" data-tab="Construction & MEP" type="button">Construction & MEP</button>
+      <button class="tab" data-tab="AI Cloud / Neoclouds" type="button">AI Cloud / Neoclouds</button>
+      <button class="tab" data-tab="Storage" type="button">Storage</button>
+      <button class="tab" data-tab="Outliers" type="button">Outliers</button>
       <button class="tab" data-tab="China AI" type="button">中国 AI</button>
       <button class="tab" data-tab="Leopold Aschenbrenner" type="button">Leopold Aschenbrenner</button>
     </section>
@@ -1065,13 +1083,852 @@
       "300604.SZ": "China", "688012.SS": "China", "603893.SS": "China", "688169.SS": "China", "688728.SS": "China"
     };
 
+    function countryForTicker(ticker) {
+      if (COUNTRY_OVERRIDES[ticker]) return COUNTRY_OVERRIDES[ticker];
+      if (ticker.endsWith(".HK")) return "China";
+      if (ticker.endsWith(".SS") || ticker.endsWith(".SZ")) return "China";
+      if (ticker.endsWith(".KS")) return "South Korea";
+      if (ticker.endsWith(".TW") || ticker.endsWith(".TWO")) return "Taiwan";
+      if (ticker.endsWith(".T")) return "Japan";
+      if (ticker.endsWith(".PA")) return "France";
+      if (ticker.endsWith(".L")) return "United Kingdom";
+      if (ticker.endsWith(".AS")) return "Netherlands";
+      if (ticker.endsWith(".ST")) return "Sweden";
+      if (ticker.endsWith(".AX")) return "Australia";
+      return "USA";
+    }
+
     const LEOPOLD_TICKERS = new Set([
       "APLD", "BE", "BTDR", "BW", "CIFR", "CLSK", "COHR", "CORZ", "CRWV", "EQT",
       "HUT", "INFY", "INTC", "IREN", "KEEL", "KRC", "LBRT", "LITE", "PSIX", "PUMP",
       "RIOT", "SEI", "SNDK", "TSEM", "WYFI"
     ]);
 
-    const COMPANIES = [
+    const AIBOTT_WATCHLIST = [
+      [
+            "AXTI",
+            "AXT Inc.",
+            "InP & Substrates",
+            "InP duopoly (~80-90% ex-China share). The Strait of AXTI v2.0.",
+            "HIGHEST"
+      ],
+      [
+            "COHR",
+            "Coherent Corp.",
+            "Photonics / CPO",
+            "Vertically integrated InP → EML → 1.6T/3.2T → CPO stack.",
+            "HIGHEST"
+      ],
+      [
+            "ALAB",
+            "Astera Labs",
+            "Networking / Retimers",
+            "PCIe Gen 6 retimer monopoly + Scorpio scale-up fabric.",
+            "HIGHEST"
+      ],
+      [
+            "GEV",
+            "GE Vernova",
+            "Power & Grid",
+            "Gas-turbine triopoly. Sold out to 2030.",
+            "HIGH"
+      ],
+      [
+            "CAMT",
+            "Camtek",
+            "HBM / Packaging",
+            "3D metrology tool of reference at every HBM/CoWoS player.",
+            "HIGHEST"
+      ],
+      [
+            "LITE",
+            "Lumentum",
+            "Photonics / CPO",
+            "Best way to play datacenter optics normalization with free option on OCS and CPO.",
+            "HIGH"
+      ],
+      [
+            "MRVL",
+            "Marvell",
+            "Custom Silicon",
+            "Custom-silicon duopoly with AVGO. 18 active programs.",
+            "HIGH"
+      ],
+      [
+            "CRDO",
+            "Credo Technology",
+            "Networking / Retimers",
+            "ZeroFlap AECs are de-facto AI scale-up cabling standard.",
+            "HIGH"
+      ],
+      [
+            "ONTO",
+            "Onto Innovation",
+            "HBM / Packaging",
+            "Inspection chokepoint at the intersection of advanced packaging, HBM, and advanced nodes.",
+            "HIGH"
+      ],
+      [
+            "VRT",
+            "Vertiv",
+            "Cooling",
+            "Liquid cooling pure play. $15B backlog. Nvidia GB200/300 partner.",
+            "HIGH"
+      ],
+      [
+            "AAOI",
+            "Applied Optoelectronics",
+            "Photonics / CPO",
+            "Highest operating-leverage version of the 800G/1.6T boom. Most execution-sensitive.",
+            "HIGH"
+      ],
+      [
+            "AEHR",
+            "Aehr Test Systems",
+            "HBM / Packaging",
+            "Strait of Wafer-Level Burn-In. Only volume WLBI vendor.",
+            "MED-HIGH"
+      ],
+      [
+            "KLIC",
+            "Kulicke & Soffa",
+            "HBM / Packaging",
+            "Strait of HBM TCB. Wire-bond cash cow funding TCB transition.",
+            "MED-HIGH"
+      ],
+      [
+            "BESIY",
+            "BE Semiconductor (ADR)",
+            "HBM / Packaging",
+            "Hybrid-bonder duopoly with ASMPT. Q1 26 orders €269.7M record.",
+            "HIGH"
+      ],
+      [
+            "MTSI",
+            "MACOM",
+            "InP & Substrates",
+            "RF + photonics + InP photodetectors. IQE strategic stake.",
+            "HIGH"
+      ],
+      [
+            "FN",
+            "Fabrinet",
+            "Photonics / CPO",
+            "THE optical contract manufacturer. Q2 FY26 record $1.13B (+36%).",
+            "HIGH"
+      ],
+      [
+            "CIEN",
+            "Ciena",
+            "Photonics / CPO",
+            "WaveLogic 6 Extreme 1.6T coherent. Cloud direct +76% YoY.",
+            "HIGH"
+      ],
+      [
+            "AVGO",
+            "Broadcom",
+            "Custom Silicon",
+            "Custom-ASIC duopoly w/ MRVL. Best way to play custom AI silicon at massive scale.",
+            "HIGH"
+      ],
+      [
+            "NVDA",
+            "Nvidia",
+            "Custom Silicon",
+            "De facto standard for accelerated AI. Moat is the full system, not the GPU alone.",
+            "HIGH"
+      ],
+      [
+            "AMD",
+            "AMD",
+            "Custom Silicon",
+            "Only credible merchant GPU alternative.",
+            "MED-HIGH"
+      ],
+      [
+            "ANET",
+            "Arista",
+            "Networking / Retimers",
+            "Only Ethernet-AI fabric vendor with hyperscaler depth at GB200 scale.",
+            "HIGH"
+      ],
+      [
+            "CSCO",
+            "Cisco",
+            "Networking / Retimers",
+            "Acacia + 1.6T silicon photonics dark-horse. Cheap.",
+            "MED-HIGH"
+      ],
+      [
+            "MU",
+            "Micron",
+            "Memory Supercycle",
+            "Only Western HBM player with material US capacity. Anchor of the memory supercycle.",
+            "HIGH"
+      ],
+      [
+            "TLN",
+            "Talen Energy",
+            "Power & Grid",
+            "Susquehanna 1,920 MW AWS PPA through 2042.",
+            "HIGH"
+      ],
+      [
+            "CEG",
+            "Constellation Energy",
+            "Power & Grid",
+            "20-yr MSFT Three Mile Island restart + Meta Clinton.",
+            "HIGH"
+      ],
+      [
+            "VST",
+            "Vistra",
+            "Power & Grid",
+            "Comanche Peak 1,200 MW nuclear PPA + Meta agreements.",
+            "HIGH"
+      ],
+      [
+            "ETN",
+            "Eaton",
+            "Power & Grid",
+            "Boyd $9.5B acquisition adds $1.5B liquid-cooling revenue.",
+            "MED-HIGH"
+      ],
+      [
+            "MOD",
+            "Modine",
+            "Cooling",
+            "FY25 data-center +119% YoY to $644M; FY28 target >$2B.",
+            "HIGH"
+      ],
+      [
+            "NVT",
+            "nVent",
+            "Cooling",
+            "Enclosures + liquid cooling adjacencies + bus/protection for AI data centers.",
+            "HIGH"
+      ],
+      [
+            "MP",
+            "MP Materials",
+            "Rare Earths",
+            "Vertical integration + magnetics. No longer just Mountain Pass.",
+            "HIGH"
+      ],
+      [
+            "ENTG",
+            "Entegris",
+            "HBM / Packaging",
+            "Consumables/process materials with rising unit content per advanced wafer.",
+            "MED-HIGH"
+      ],
+      [
+            "ASML",
+            "ASML Holding",
+            "Lithography & Fab Tools",
+            "EUV monopoly. Zero alternatives sub-7nm. Every Rubin GPU & HBM4 die passes through an ASML tool.",
+            "HIGHEST"
+      ],
+      [
+            "TSM",
+            "TSMC",
+            "Lithography & Fab Tools",
+            "Foundry monopoly for advanced nodes + the entire CoWoS pipeline.",
+            "HIGHEST"
+      ],
+      [
+            "LRCX",
+            "Lam Research",
+            "Lithography & Fab Tools",
+            "Etch monopoly for HBM TSV + 3D NAND staircase + advanced packaging.",
+            "HIGH"
+      ],
+      [
+            "KLAC",
+            "KLA Corp",
+            "Lithography & Fab Tools",
+            "Process-control duopoly (~50% share). The umbrella above CAMT/ONTO.",
+            "HIGH"
+      ],
+      [
+            "AMAT",
+            "Applied Materials",
+            "Lithography & Fab Tools",
+            "Most complete basket for HBM + advanced packaging + leading-edge logic.",
+            "HIGH"
+      ],
+      [
+            "SOI.PA",
+            "Soitec",
+            "InP & Substrates",
+            "Genuine monopoly on SOI substrates for silicon-photonics PICs / CPO engines.",
+            "HIGH"
+      ],
+      [
+            "IQE.L",
+            "IQE plc",
+            "InP & Substrates",
+            "Merchant InP epitaxy leader, the epiwafer 'foundry' layer.",
+            "HIGH"
+      ],
+      [
+            "SMTOY",
+            "Sumitomo Electric Industries",
+            "InP & Substrates",
+            "Global #1 InP substrate leader (~30-60% share). The stable industrial anchor to AXTI.",
+            "HIGH"
+      ],
+      [
+            "VECO",
+            "Veeco Instruments",
+            "Lithography & Fab Tools",
+            "Strait of InP laser manufacturing tools. $250M+ orders May 2026.",
+            "HIGH"
+      ],
+      [
+            "LPKFF",
+            "LPKF Laser & Electronics",
+            "HBM / Packaging",
+            "LIDE glass-substrate laser structuring for TGVs, mass production 2027.",
+            "HIGH"
+      ],
+      [
+            "APH",
+            "Amphenol",
+            "Connectors & Interconnect",
+            "Least speculative interconnect pick-and-shovel. The everyone-needs-it tax.",
+            "HIGH"
+      ],
+      [
+            "PWR",
+            "Quanta Services",
+            "Construction & MEP",
+            "Grid, transmission, utility-scale power integration. The 'cannot connect to the grid' trade.",
+            "HIGH"
+      ],
+      [
+            "EME",
+            "EMCOR",
+            "Construction & MEP",
+            "Best listed name for MEP construction in data centers with execution discipline.",
+            "HIGH"
+      ],
+      [
+            "FIX",
+            "Comfort Systems USA",
+            "Construction & MEP",
+            "Pure-play HVAC/plumbing/electrical for critical campuses, highly exposed to AI buildouts.",
+            "HIGH"
+      ],
+      [
+            "POWL",
+            "Powell Industries",
+            "Power & Grid",
+            "Engineered-to-order electrical distribution for AI/power megaprojects.",
+            "HIGH"
+      ],
+      [
+            "HUBB",
+            "Hubbell",
+            "Power & Grid",
+            "Utility transformers, the actual grid bottleneck (2-4yr lead times).",
+            "MED-HIGH"
+      ],
+      [
+            "VICR",
+            "Vicor",
+            "Power & Grid",
+            "Last-inch power delivery modules for dense AI racks.",
+            "MED-HIGH"
+      ],
+      [
+            "GNRC",
+            "Generac",
+            "Power & Grid",
+            "Backup generation for data-center reliability. Hyperscaler vendor approvals progressing.",
+            "MED-HIGH"
+      ],
+      [
+            "IREN",
+            "Iris Energy",
+            "AI Cloud / Neoclouds",
+            "Land + power + GPU financing machine. $9.7B MSFT AI cloud contract.",
+            "HIGH"
+      ],
+      [
+            "NBIS",
+            "Nebius",
+            "AI Cloud / Neoclouds",
+            "Hypergrowth AI neocloud, mostly about capacity expansion and commercial land-grab.",
+            "HIGH"
+      ],
+      [
+            "CRWV",
+            "CoreWeave",
+            "AI Cloud / Neoclouds",
+            "Most institutionalized neocloud. Platform explicitly built for AI.",
+            "MED-HIGH"
+      ],
+      [
+            "CLS",
+            "Celestica",
+            "AI Cloud / Neoclouds",
+            "AI hardware manufacturing / hyperscaler infra build. FY26 guide ~$19B.",
+            "MED-HIGH"
+      ],
+      [
+            "STX",
+            "Seagate",
+            "Storage",
+            "Mass-capacity HDDs are the AI cold-storage / training-data layer.",
+            "MED-HIGH"
+      ],
+      [
+            "WDC",
+            "Western Digital",
+            "Storage",
+            "HDD duopoly + post-split focus. AI storage demand tailwind.",
+            "MED-HIGH"
+      ],
+      [
+            "SIVE.ST",
+            "Sivers Semiconductors",
+            "Photonics / CPO",
+            "Independent CW laser supplier, AMD/Meta/Ayar/POET/Lightmatter overflow chokepoint.",
+            "HIGH"
+      ],
+      [
+            "POET",
+            "POET Technologies",
+            "Photonics / CPO",
+            "Photonic-integrated CPO engine outlier.",
+            "MED-HIGH"
+      ],
+      [
+            "ALOY",
+            "REalloys",
+            "Rare Earths",
+            "Ex-China heavy rare-earth metallization/alloying. Pentagon contracts.",
+            "MED-HIGH"
+      ],
+      [
+            "SNDK",
+            "SanDisk",
+            "Memory Supercycle",
+            "Highest-beta NAND/enterprise SSD play for AI storage and checkpointing.",
+            "HIGH"
+      ],
+      [
+            "6315.T",
+            "TOWA Corporation",
+            "Memory Supercycle",
+            "Functional monopoly in compression molding for HBM stacks. Sleeper HBM4 choke.",
+            "HIGH"
+      ],
+      [
+            "INTC",
+            "Intel",
+            "Custom Silicon",
+            "De-facto US gov semi arm. CPU inference ratio flipped 1:8 → 1:1.",
+            "MED-HIGH"
+      ],
+      [
+            "ARM",
+            "Arm Holdings",
+            "Custom Silicon",
+            "Royalty model riding the custom-silicon + edge-inference wave.",
+            "MED-HIGH"
+      ],
+      [
+            "TXN",
+            "Texas Instruments",
+            "Power & Grid",
+            "Analog/PMIC tollbooth on every AI server board.",
+            "MEDIUM"
+      ],
+      [
+            "AMSC",
+            "American Superconductor",
+            "Power & Grid",
+            "HTS wires + power electronics. Direct DPA / national-energy-emergency play.",
+            "HIGH"
+      ],
+      [
+            "BE",
+            "Bloom Energy",
+            "Power & Grid",
+            "Solid-oxide fuel cells = on-site, dispatchable power for grid-stuck DCs.",
+            "HIGH"
+      ],
+      [
+            "TEL",
+            "TE Connectivity",
+            "Connectors & Interconnect",
+            "#2 high-speed/power connectors for hyperscale racks. Industrial wrapper, AI mix re-rating.",
+            "MED-HIGH"
+      ],
+      [
+            "AMKR",
+            "Amkor Technology",
+            "HBM / Packaging",
+            "Cleanest way to play advanced packaging/HBM without paying tool-designer multiples.",
+            "HIGH"
+      ],
+      [
+            "HUT",
+            "Hut 8 Corp",
+            "AI Cloud / Neoclouds",
+            "Ex-BTC miner pivoted to AI/HPC cloud. $9.8B AI data-center lease announced.",
+            "MED-HIGH"
+      ],
+      [
+            "PSTG",
+            "Pure Storage",
+            "Storage",
+            "AI-optimized high-performance storage. The 'AI storage' rotation name.",
+            "HIGH"
+      ],
+      [
+            "MXL",
+            "MaxLinear",
+            "Photonics / CPO",
+            "DSPs for optical/PAM4, 800G/1.6T transceiver inside.",
+            "MED-HIGH"
+      ],
+      [
+            "FLNC",
+            "Fluence Energy",
+            "Power & Grid",
+            "Hyperscaler energy-storage frameworks. Tiny mcap, two contracts = re-rate.",
+            "MED-HIGH"
+      ],
+      [
+            "SMCI",
+            "Super Micro Computer",
+            "AI Cloud / Neoclouds",
+            "Leading AI server / rack-scale + liquid-cooling hardware provider.",
+            "MED-HIGH"
+      ],
+      [
+            "5802.T",
+            "Sumitomo Electric (Tokyo)",
+            "InP & Substrates",
+            "EML / CW-LD primary listing, true upstream optical brick.",
+            "MEDIUM"
+      ],
+      [
+            "3436.T",
+            "SUMCO",
+            "InP & Substrates",
+            "300mm wafer chokepoint for AI logic + DRAM/HBM.",
+            "MEDIUM"
+      ],
+      [
+            "SU.PA",
+            "Schneider Electric",
+            "Power & Grid",
+            "Switchgear, UPS, busway, DCIM, substation to white space.",
+            "MEDIUM"
+      ],
+      [
+            "3711.TW",
+            "ASE Technology (Taipei)",
+            "HBM / Packaging",
+            "Largest OSAT, advanced packaging / FOCoS / FC-BGA scale.",
+            "MEDIUM"
+      ],
+      [
+            "BESI.AS",
+            "BE Semiconductor (Amsterdam)",
+            "HBM / Packaging",
+            "Hybrid bonder, the cleanest convexity on 2.5D/3D AI compute.",
+            "HIGH"
+      ],
+      [
+            "TT",
+            "Trane Technologies",
+            "Cooling",
+            "Quality industrial monetising high-density cooling without the pure-play fragility.",
+            "MEDIUM"
+      ],
+      [
+            "JCI",
+            "Johnson Controls",
+            "Cooling",
+            "Chillers + critical-building infra for AI clusters.",
+            "MEDIUM"
+      ],
+      [
+            "4004.T",
+            "Resonac (Tokyo)",
+            "HBM / Packaging",
+            "Back-end materials + AI packaging chemistries.",
+            "MEDIUM"
+      ],
+      [
+            "MKSI",
+            "MKS Instruments",
+            "Lithography & Fab Tools",
+            "Vacuum, photonics, power delivery, packaging, multi-choke exposure.",
+            "MEDIUM"
+      ],
+      [
+            "000660.KS",
+            "SK hynix (Seoul)",
+            "Memory Supercycle",
+            "Cleanest leader of the HBM chokepoint.",
+            "HIGH"
+      ],
+      [
+            "005930.KS",
+            "Samsung Electronics (Seoul)",
+            "Memory Supercycle",
+            "Liquid HBM catch-up option.",
+            "MEDIUM"
+      ],
+      [
+            "LYC.AX",
+            "Lynas Rare Earths",
+            "Rare Earths",
+            "Main ex-China NdPr pillar.",
+            "MEDIUM"
+      ],
+      [
+            "ILU.AX",
+            "Iluka Resources",
+            "Rare Earths",
+            "Heavy rare earths ex-China via Eneabba.",
+            "MEDIUM"
+      ],
+      [
+            "GLW",
+            "Corning",
+            "HBM / Packaging",
+            "Glass-core substrate material leader + AI campus fiber. T-glass undersupply play.",
+            "HIGH"
+      ],
+      [
+            "009150.KS",
+            "Samsung Electro-Mechanics",
+            "HBM / Packaging",
+            "High-end ABF + MLCC leader. Korea anchor of the AI substrate supply chain.",
+            "HIGH"
+      ],
+      [
+            "3037.TW",
+            "Unimicron Technology",
+            "HBM / Packaging",
+            "Taiwan ABF leader for AI GPUs. Most direct 2027 undersupply beneficiary.",
+            "HIGH"
+      ],
+      [
+            "8046.TW",
+            "Nanya PCB",
+            "HBM / Packaging",
+            "High-end ABF play named alongside Unimicron/SEMCO for AI accelerator substrates.",
+            "MED-HIGH"
+      ],
+      [
+            "4062.T",
+            "Ibiden Co.",
+            "HBM / Packaging",
+            "Japan #1 ABF substrate leader. Highest-quality AI-qualified anchor.",
+            "HIGH"
+      ],
+      [
+            "2449.TW",
+            "King Yuan Electronics (KYEC)",
+            "HBM / Packaging",
+            "Most-preferred Taiwan OSAT. Pure AI packaging/testing chokepoint.",
+            "HIGH"
+      ],
+      [
+            "322310.KS",
+            "Auros Technology",
+            "HBM / Packaging",
+            "Hybrid-bonding 3D metrology micro-cap. Deepest inspection layer for HBM4E.",
+            "HIGH"
+      ],
+      [
+            "6146.T",
+            "DISCO Corporation",
+            "HBM / Packaging",
+            "Dicing/grinding monopoly for HBM die singulation and advanced packaging.",
+            "HIGH"
+      ],
+      [
+            "7729.T",
+            "Tokyo Seimitsu (Accretech)",
+            "HBM / Packaging",
+            "Wafer probing + dicing duopoly with DISCO. Silent HBM yield chokepoint.",
+            "MED-HIGH"
+      ],
+      [
+            "ORCL",
+            "Oracle",
+            "AI Cloud / Neoclouds",
+            "Hypercloud where AI demand still exceeds available supply.",
+            "MEDIUM"
+      ],
+      [
+            "NTAP",
+            "NetApp",
+            "Storage",
+            "Enterprise + cloud data fabric around AI workflows.",
+            "MEDIUM"
+      ],
+      [
+            "ASX",
+            "ASE Technology Holding (ADR)",
+            "HBM / Packaging",
+            "World's #1 OSAT. Direct CoWoS / advanced-packaging / burn-in choke.",
+            "HIGH"
+      ],
+      [
+            "NVTS",
+            "Navitas Semiconductor",
+            "Power & Grid",
+            "Pure-play GaN power IC for 800V AI rack architectures.",
+            "MED-HIGH"
+      ],
+      [
+            "ON",
+            "ON Semiconductor",
+            "Power & Grid",
+            "SiC + analog power for AI data centers. ~50% loss reduction vs Si.",
+            "MEDIUM"
+      ],
+      [
+            "NOK",
+            "Nokia",
+            "Photonics / CPO",
+            "Coherent optics + DCI for AI bandwidth (post-Infinera).",
+            "MEDIUM"
+      ],
+      [
+            "KOPN",
+            "Kopin",
+            "Photonics / CPO",
+            "MicroLED-based optical interconnect - potential CPO paradigm shift.",
+            "MED-HIGH"
+      ],
+      [
+            "PLAB",
+            "Photronics",
+            "HBM / Packaging",
+            "Photomasks for advanced packaging and HBM. Every CoWoS / HBM4 die needs custom masks.",
+            "MED-HIGH"
+      ],
+      [
+            "TRT",
+            "Trio-Tech International",
+            "HBM / Packaging",
+            "Burn-in test equipment and services for high-power AI GPUs. AEHR peer.",
+            "MED-HIGH"
+      ],
+      [
+            "HGRAF",
+            "HydroGraph Clean Power",
+            "Outliers",
+            "99.8% pure graphene via detonation process. Thermal management and battery play for AI racks.",
+            "MED-HIGH"
+      ],
+      [
+            "ASPI",
+            "ASP Isotopes",
+            "Outliers",
+            "Isotope enrichment (Silicon-28, etc.) for next-gen semiconductors and nuclear.",
+            "MEDIUM"
+      ],
+      [
+            "ENVX",
+            "Enovix",
+            "Power & Grid",
+            "Silicon-anode batteries pivoting to data-center stationary storage.",
+            "MEDIUM"
+      ],
+      [
+            "LASR",
+            "nLIGHT",
+            "Photonics / CPO",
+            "Fiber lasers and beam-delivery for optical module manufacturing.",
+            "MEDIUM"
+      ],
+      [
+            "TMC",
+            "The Metals Company",
+            "Rare Earths",
+            "Deep-sea nodule mining for nickel/cobalt/manganese (magnets and batteries).",
+            "MEDIUM"
+      ],
+      [
+            "6451.TW",
+            "ShunSin Technology Holdings",
+            "Photonics / CPO",
+            "Foxconn-backed CPO SiP / advanced packaging with Broadcom design wins. Vietnam fab ramp 2026.",
+            "MED-HIGH"
+      ],
+      [
+            "6830.TW",
+            "MSSCORPS Co., Ltd.",
+            "HBM / Packaging",
+            "Functional monopoly in CPO PIC inspection / light-leakage detection.",
+            "HIGH"
+      ],
+      [
+            "3105.TWO",
+            "WIN Semiconductors",
+            "Photonics / CPO",
+            "Leading merchant InP foundry for CPO laser arrays. EPS +30x YoY in Q1 2026.",
+            "HIGH"
+      ],
+      [
+            "4979.TWO",
+            "LuxNet Corporation",
+            "Photonics / CPO",
+            "Taiwan CPO transceiver / optical module player. High-beta to 800G/1.6T ramp.",
+            "MED-HIGH"
+      ]
+];
+    const AIBOTT_THEMES = [
+      "InP & Substrates",
+      "Photonics / CPO",
+      "Networking / Retimers",
+      "Power & Grid",
+      "HBM / Packaging",
+      "Custom Silicon",
+      "Cooling",
+      "Memory Supercycle",
+      "Rare Earths",
+      "Lithography & Fab Tools",
+      "Connectors & Interconnect",
+      "Construction & MEP",
+      "AI Cloud / Neoclouds",
+      "Storage",
+      "Outliers"
+];
+    const AIBOTT_BY_TICKER = new Map(AIBOTT_WATCHLIST.map(([symbol, name, theme, oneLiner, conviction]) => [symbol, { name, theme, oneLiner, conviction }]));
+    function inferAibottTheme(category, thesis, ticker) {
+      const text = String(ticker || "") + " " + String(category || "") + " " + String(thesis || "");
+      const lower = text.toLowerCase();
+      if (/inp|substrate|epitax|soi|wafer/.test(lower)) return "InP & Substrates";
+      if (/photon|optic|laser|cpo|coherent|transceiver|fiber|eml|silicon photonics/.test(lower)) return "Photonics / CPO";
+      if (/hbm|packag|cowos|osat|substrate|pcb|abf|metrology|inspection|bond|test|mask|burn-in|burn in/.test(lower)) return "HBM / Packaging";
+      if (/memory|dram|nand|storage|ssd|hdd|checkpoint/.test(lower)) return "Memory Supercycle";
+      if (/lithography|euv|fab tool|semi equipment|etch|deposition|cmp|process control|foundry|advanced manufacturing/.test(lower)) return "Lithography & Fab Tools";
+      if (/network|retimer|ethernet|switch|fabric|interconnect|cable|connector/.test(lower)) return "Networking / Retimers";
+      if (/connector/.test(lower)) return "Connectors & Interconnect";
+      if (/power|grid|electric|switchgear|transformer|nuclear|energy|battery|gan|sic|pmic|analog/.test(lower)) return "Power & Grid";
+      if (/cool|thermal|chiller|hvac|liquid/.test(lower)) return "Cooling";
+      if (/construction|mep|buildout|campus/.test(lower)) return "Construction & MEP";
+      if (/rare earth|magnet|mining|metals/.test(lower)) return "Rare Earths";
+      if (/cloud|neocloud|data center|datacenter|server|rack|hyperscaler|oci|aws|azure|gpu lease|ai factory/.test(lower)) return "AI Cloud / Neoclouds";
+      if (/storage|data fabric/.test(lower)) return "Storage";
+      if (/asic|gpu|cuda|accelerator|npu|tpu|cpu|eda|ip|chip|semiconductor|inference|edge ai|custom silicon|foundry/.test(lower)) return "Custom Silicon";
+      return "Outliers";
+    }
+
+    const BASE_COMPANIES = [
       ["NVDA", "NVIDIA", "AI GPU / CUDA", "AI 训练和推理算力核心，从英伟达开始。"],
       ["MSFT", "Microsoft", "Hyperscaler / Copilot", "Azure、Copilot、OpenAI 生态与企业 AI 平台。"],
       ["OPENAI.PRE", "OpenAI", "Frontier AI pre-IPO", "预上市前沿大模型公司，ChatGPT、企业 AI 与模型基础设施。", { status: "prelist", estimatedMarketCap: 852000000000 }],
@@ -1271,19 +2128,28 @@
       ["603893.SS", "瑞芯微", "China edge AI chip", "SoC、端侧 AI 和智能硬件芯片。"],
       ["688169.SS", "石头科技", "China robotics", "服务机器人、视觉导航与家用 AI。"],
       ["688728.SS", "格科微", "China sensor chip", "图像传感器与边缘视觉硬件。"]
-    ].map((row, index) => {
+    ];
+    const BASE_TICKERS = new Set(BASE_COMPANIES.map((row) => row[0]));
+    const AIBOTT_ROWS = AIBOTT_WATCHLIST
+      .filter(([symbol]) => !BASE_TICKERS.has(symbol))
+      .map(([symbol, name, theme, oneLiner, conviction]) => [symbol, name, theme, oneLiner, { tags: [theme, conviction, "AI Bottlenecks"] }]);
+    const COMPANIES = [...BASE_COMPANIES, ...AIBOTT_ROWS].map((row, index) => {
       const meta = row[4] || {};
+      const aibott = AIBOTT_BY_TICKER.get(row[0]);
+      const baseTags = meta.tags || (LEOPOLD_TICKERS.has(row[0]) ? ["Leopold Aschenbrenner"] : []);
+      const aibottTheme = aibott?.theme || inferAibottTheme(row[2], row[3], row[0]);
+      const tags = [...new Set([...baseTags, aibottTheme, ...(aibott ? [aibott.conviction, "AI Bottlenecks"] : [])].filter(Boolean))];
       return {
         rank: index + 1,
         ticker: row[0],
         name: row[1],
-        category: row[2],
-        thesis: row[3],
-        tags: meta.tags || (LEOPOLD_TICKERS.has(row[0]) ? ["Leopold Aschenbrenner"] : []),
+        category: aibottTheme,
+        thesis: aibott?.oneLiner || row[3],
+        tags,
         status: meta.status || "listed",
         estimatedMarketCap: Number.isFinite(meta.estimatedMarketCap) ? meta.estimatedMarketCap : null,
         estimatedMarketCapCny: Number.isFinite(meta.estimatedMarketCapCny) ? meta.estimatedMarketCapCny : null,
-        country: COUNTRY_OVERRIDES[row[0]] || (row[0].endsWith(".HK") ? "China" : "USA"),
+        country: countryForTicker(row[0]),
         marketCap: null,
         price: null,
         currency: "USD",
@@ -1551,7 +2417,8 @@
       </svg>`;
     }
     function categories() {
-      return ["ALL", "China AI", "Leopold Aschenbrenner", ...Array.from(new Set(COMPANIES.map((row) => row.category))).sort()];
+      const remaining = Array.from(new Set(COMPANIES.map((row) => row.category))).filter((cat) => !AIBOTT_THEMES.includes(cat)).sort();
+      return ["ALL", ...AIBOTT_THEMES, "China AI", "Leopold Aschenbrenner", ...remaining];
     }
     function categoryLabel(cat) {
       if (cat === "ALL") return t("allSubsectors");
@@ -2263,7 +3130,7 @@
       setFirstText(".topline-inner > span:nth-child(3)", `${t("totalCap")}: `);
       setFirstText(".topline-inner > span:nth-child(4)", `${t("volume24h")}: `);
       if (/live quote|实时行情/.test($("updated-at")?.textContent || "")) $("updated-at").textContent = t("initialQuote");
-      setAllText(".nav a[data-nav-tab]", [t("navAiChips"), t("navCloud"), t("navDataCenter"), t("navEnterpriseAi"), t("navSecurity"), t("navQuantum"), t("navChinaAi"), t("navLeopold")]);
+      setAllText(".nav a[data-nav-tab]", [...AIBOTT_THEMES, t("navChinaAi"), t("navLeopold")]);
       document.querySelector(".news-sections")?.setAttribute("aria-label", `${t("industry")}/${t("company")}/${t("market")}/${t("frontier")}/${t("papers")}`);
       setAllText(".news-tab", [t("industry"), t("company"), t("market"), t("frontier"), t("papers")]);
       ["industry", "company", "deals", "tech", "papers"].forEach((id) => {
@@ -2288,7 +3155,7 @@
       setAllText(".token-tab", [t("day"), t("week"), t("month")]);
       setAllText(".chart-range-tab", [t("history"), t("day"), t("week"), t("month")]);
       setAllText(".token-metric span", [t("period"), "Top 10 Tokens", t("firstShare")]);
-      setAllText(".tabs .tab", [t("all"), t("aiChips"), t("aiCloud"), t("dataCenter"), t("enterpriseAi"), t("security"), t("quantum"), t("chinaAi"), t("leopold")]);
+      setAllText(".tabs .tab", [t("all"), ...AIBOTT_THEMES, t("chinaAi"), t("leopold")]);
       $("search").placeholder = t("searchPlaceholder");
       setText("#sort-mcap", t("sortMcap"));
       setText("#sort-rank", t("sortRank"));
