@@ -145,8 +145,8 @@
       padding: 10px 0 0;
       animation: news-scroll 90s linear infinite;
     }
+    #news-track-person { animation-duration: 92s; }
     #news-track-company { animation-duration: 96s; }
-    #news-track-deals { animation-duration: 102s; }
     #news-track-tech { animation-duration: 108s; }
     #news-track-papers { animation-duration: 112s; }
     .news-strip[hidden] { display: none; }
@@ -885,9 +885,10 @@
   </nav>
   <main class="shell">
     <section class="hero">
-      <div class="news-sections" aria-label="行业/公司/前沿/论文 新闻切换">
-        <div class="news-tabs" role="tablist" aria-label="行业/公司/前沿/论文">
+      <div class="news-sections" aria-label="行业/人物/公司/前沿/论文 新闻切换">
+        <div class="news-tabs" role="tablist" aria-label="行业/人物/公司/前沿/论文">
           <button class="news-tab active" type="button" role="tab" aria-selected="true" aria-controls="news-panel-industry" data-news-tab="industry">行业</button>
+          <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-person" data-news-tab="person">人物</button>
           <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-company" data-news-tab="company">公司</button>
           <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-tech" data-news-tab="tech">前沿</button>
           <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-papers" data-news-tab="papers">论文</button>
@@ -903,6 +904,13 @@
           <div class="news-marquee">
             <div class="news-track" id="news-track-company">
               <span class="news-item">正在加载公司…</span>
+            </div>
+          </div>
+        </div>
+        <div class="news-strip" id="news-panel-person" role="tabpanel" aria-label="人物" hidden>
+          <div class="news-marquee">
+            <div class="news-track" id="news-track-person">
+              <span class="news-item">正在加载人物…</span>
             </div>
           </div>
         </div>
@@ -2256,8 +2264,8 @@
         totalCap: "总市值", volume24h: "24小时交易量",
         initialQuote: "USD · 实时行情可用时更新",
         navAiChips: "人工智能芯片", navCloud: "AI云", navDataCenter: "数据中心", navEnterpriseAi: "企业人工智能", navSecurity: "安全", navQuantum: "量子", navChinaAi: "中国人工智能", navLeopold: "Leopold Aschenbrenner",
-        industry: "行业", company: "公司", market: "并购/融资", frontier: "前沿", papers: "论文",
-        loadingIndustry: "正在加载行业…", loadingCompany: "正在加载公司…", loadingMarket: "正在加载并购/融资…", loadingFrontier: "正在加载前沿…", loadingPapers: "正在加载论文…",
+        industry: "行业", person: "人物", company: "公司", market: "并购/融资", frontier: "前沿", papers: "论文",
+        loadingIndustry: "正在加载行业…", loadingPerson: "正在加载人物…", loadingCompany: "正在加载公司…", loadingMarket: "正在加载并购/融资…", loadingFrontier: "正在加载前沿…", loadingPapers: "正在加载论文…",
         currentFilter: "按当前筛选", realVolume: "真实成交额，可用时更新", hot: "热门", topGainer: "最大升幅", waitingQuotes: "等待行情或估算涨跌",
         tokenRanking: "Token 调用排行", tokenNote: "参考 OpenRouter Top Models，用量口径可切换",
         chartRanking: "Token 开支走势图", chartNote: "LLM Token Expenditure Index",
@@ -2273,6 +2281,7 @@
         newsSource: "新闻来源", newsAuthor: "作者",
         footer: "说明：这是 AI 相关美股挂牌、港股、A 股公司与少量预上市公司观察名单，不是投资建议，也不是官方指数。价格、1小时/24小时/7天/30天变化、成交额与市值均优先使用在线 quote/chart 真实行情；不可用时显示为空。预上市公司使用估算美元市值参与排行，不抓取实时行情。非美元公司市值与成交额在内部按 USD/CNY、USD/HKD、USD/KRW 机制折算成美元口径，但页面不展示汇率。",
         fallbackIndustry: "行业动态持续追踪 AI 芯片、云、数据中心与大模型",
+        fallbackPerson: "人物动态追踪 AI 知名人士在推特/X 上的公开发言",
         fallbackCompany: "公司新闻按成分股、并购、入股、股权与融资关键词追踪 Bloomberg、Reuters、Google 与 Yahoo",
         fallbackMarket: "并购/融资新闻按收购、入股、股权、融资、投资关键词追踪 Bloomberg、Reuters、Google 与 Yahoo",
         fallbackFrontier: "MIT Technology Review、Wired、Stanford Engineering 与 Stanford Business 追踪 AI 前沿技术趋势",
@@ -2284,8 +2293,8 @@
         totalCap: "Market Cap", volume24h: "24h Volume",
         initialQuote: "USD · live quote when available",
         navAiChips: "AI Chips", navCloud: "AI Cloud", navDataCenter: "Data Centers", navEnterpriseAi: "Enterprise AI", navSecurity: "Security", navQuantum: "Quantum", navChinaAi: "China AI", navLeopold: "Leopold Aschenbrenner",
-        industry: "Industry", company: "Companies", market: "M&A / Financing", frontier: "Frontier Tech", papers: "Research Papers",
-        loadingIndustry: "Loading industry…", loadingCompany: "Loading companies…", loadingMarket: "Loading M&A / financing…", loadingFrontier: "Loading frontier tech…", loadingPapers: "Loading research papers…",
+        industry: "Industry", person: "People", company: "Companies", market: "M&A / Financing", frontier: "Frontier Tech", papers: "Research Papers",
+        loadingIndustry: "Loading industry…", loadingPerson: "Loading people…", loadingCompany: "Loading companies…", loadingMarket: "Loading M&A / financing…", loadingFrontier: "Loading frontier tech…", loadingPapers: "Loading research papers…",
         currentFilter: "Current filter", realVolume: "Real traded value when available", hot: "Trending", topGainer: "Top Gainer", waitingQuotes: "Waiting for quotes or estimated moves",
         tokenRanking: "Token Usage Ranking", tokenNote: "Inspired by OpenRouter Top Models; period is switchable",
         chartRanking: "Token Cost Chart", chartNote: "LLM Token Expenditure Index",
@@ -2301,6 +2310,7 @@
         newsSource: "Source", newsAuthor: "Author",
         footer: "Note: This is a watchlist of AI-related US-listed, Hong Kong-listed, A-share, Korean, and selected pre-IPO companies. It is not investment advice or an official index. Price, 1h/24h/7d/30d change, volume, and market cap use online quote/chart data when available; unavailable fields are left blank. Pre-IPO companies use estimated USD market caps for ranking and do not fetch live quotes. Non-USD market caps and volume are converted internally to USD using USD/CNY, USD/HKD, and USD/KRW logic; exchange rates are not displayed.",
         fallbackIndustry: "Industry news tracking AI chips, cloud, data centers, and foundation models",
+        fallbackPerson: "People news tracks public AI comments from notable figures on Twitter/X",
         fallbackCompany: "Company news tracks constituent names plus M&A, stakes, equity, funding, and investment keywords across Bloomberg, Reuters, Google, and Yahoo",
         fallbackMarket: "M&A / financing news tracks acquisitions, stakes, equity, funding, investment, and IPO keywords across Bloomberg, Reuters, Google, and Yahoo",
         fallbackFrontier: "MIT Technology Review, Wired, Stanford Engineering, and Stanford Business track AI frontier technology trends",
@@ -2601,12 +2611,15 @@
       $("gainer-one").textContent = gainers[0] ? `${gainers[0].ticker} ${formatPercent(gainers[0].changePercent)}` : "—";
       $("gainer-list").textContent = gainers.length ? gainers.map((row) => `${row.ticker} ${formatPercent(row.changePercent)}`).join(" · ") : t("waitingLive");
     }
-    const NEWS_SECTION_IDS = ["industry", "company", "tech", "papers"];
+    const NEWS_SECTION_IDS = ["industry", "person", "company", "tech", "papers"];
     const PAPER_SOURCE_PATTERN = /nature|science|neurips|icml|iclr|acl anthology|cvf|cvpr|aaai|jmlr|pmlr|ieee tpami|acm digital library|arxiv/i;
     function fallbackNewsItems(sectionId = "industry") {
       const fallback = {
         industry: [
           { title: t("fallbackIndustry"), source: "AI Market Cap", author: "", url: "#" },
+        ],
+        person: [
+          { title: t("fallbackPerson"), source: "Twitter / X", author: "", url: "#" },
         ],
         company: [
           { title: t("fallbackCompany"), source: "AI Market Cap", author: "", url: "#" },
@@ -3126,14 +3139,14 @@
       setFirstText(".topline-inner > span:nth-child(4)", `${t("volume24h")}: `);
       if (/live quote|实时行情/.test($("updated-at")?.textContent || "")) $("updated-at").textContent = t("initialQuote");
       setAllText(".nav a[data-nav-tab]", [...AIBOTT_THEMES, t("navChinaAi"), t("navLeopold")]);
-      document.querySelector(".news-sections")?.setAttribute("aria-label", `${t("industry")}/${t("company")}/${t("frontier")}/${t("papers")}`);
-      setAllText(".news-tab", [t("industry"), t("company"), t("frontier"), t("papers")]);
-      ["industry", "company", "tech", "papers"].forEach((id) => {
+      document.querySelector(".news-sections")?.setAttribute("aria-label", `${t("industry")}/${t("person")}/${t("company")}/${t("frontier")}/${t("papers")}`);
+      setAllText(".news-tab", [t("industry"), t("person"), t("company"), t("frontier"), t("papers")]);
+      ["industry", "person", "company", "tech", "papers"].forEach((id) => {
         const panel = $(`news-panel-${id}`);
-        const label = id === "industry" ? t("industry") : id === "company" ? t("company") : id === "papers" ? t("papers") : t("frontier");
+        const label = id === "industry" ? t("industry") : id === "person" ? t("person") : id === "company" ? t("company") : id === "papers" ? t("papers") : t("frontier");
         if (panel) panel.setAttribute("aria-label", label);
       });
-      const loading = { industry: "loadingIndustry", company: "loadingCompany", tech: "loadingFrontier", papers: "loadingPapers" };
+      const loading = { industry: "loadingIndustry", person: "loadingPerson", company: "loadingCompany", tech: "loadingFrontier", papers: "loadingPapers" };
       Object.entries(loading).forEach(([id, key]) => {
         const track = $(`news-track-${id}`);
         if (track && track.children.length === 1 && track.textContent.includes("加载")) track.innerHTML = `<span class="news-item">${t(key)}</span>`;
