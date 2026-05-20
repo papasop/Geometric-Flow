@@ -60,15 +60,56 @@ def normalize_spark(values):
     return [30 - ((value - low) / (high - low)) * 24 for value in clean]
 
 
+def extract_js_array_block(html, const_name):
+    match = re.search(rf"const\s+{re.escape(const_name)}\s*=\s*\[", html)
+    if not match:
+        return ""
+    start = match.end() - 1
+    depth = 0
+    quote = None
+    escaped = False
+    for index in range(start, len(html)):
+        char = html[index]
+        if quote:
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == quote:
+                quote = None
+            continue
+        if char in ("'", '"', "`"):
+            quote = char
+            continue
+        if char == "[":
+            depth += 1
+        elif char == "]":
+            depth -= 1
+            if depth == 0:
+                return html[start : index + 1]
+    return ""
+
+
+def looks_like_ticker(value):
+    if value.endswith(".PRE"):
+        return False
+    return bool(re.fullmatch(r"[A-Z0-9]{1,8}(?:\.[A-Z]{1,4})?", value))
+
+
 def extract_listed_tickers(html):
     tickers = []
-    match = re.search(r"const\s+COMPANIES\s*=\s*\[(.*?)\]\.map\(", html, re.S)
-    company_block = match.group(1) if match else html
-    for ticker in re.findall(r'\["([^"]+)",\s*"[^"]+",\s*"[^"]+",', company_block):
-        if ticker.endswith(".PRE"):
-            continue
-        if ticker not in tickers:
-            tickers.append(ticker)
+    blocks = [
+        extract_js_array_block(html, "BASE_COMPANIES"),
+        extract_js_array_block(html, "AIBOTT_WATCHLIST"),
+    ]
+    if not any(blocks):
+        blocks = [html]
+    for block in blocks:
+        for ticker in re.findall(r'\[\s*"([^"]+)"\s*,', block):
+            if not looks_like_ticker(ticker):
+                continue
+            if ticker not in tickers:
+                tickers.append(ticker)
     return tickers
 
 
