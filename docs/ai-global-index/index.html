@@ -148,6 +148,7 @@
     #news-track-company { animation-duration: 96s; }
     #news-track-deals { animation-duration: 102s; }
     #news-track-tech { animation-duration: 108s; }
+    #news-track-papers { animation-duration: 112s; }
     .news-strip[hidden] { display: none; }
     .news-track:hover { animation-play-state: paused; }
     .news-item {
@@ -875,12 +876,13 @@
   </nav>
   <main class="shell">
     <section class="hero">
-      <div class="news-sections" aria-label="行业/公司/并购融资/新技术 新闻切换">
-        <div class="news-tabs" role="tablist" aria-label="行业/公司/并购融资/新技术">
+      <div class="news-sections" aria-label="行业/公司/并购融资/前沿/论文 新闻切换">
+        <div class="news-tabs" role="tablist" aria-label="行业/公司/并购融资/前沿/论文">
           <button class="news-tab active" type="button" role="tab" aria-selected="true" aria-controls="news-panel-industry" data-news-tab="industry">行业</button>
           <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-company" data-news-tab="company">公司</button>
           <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-deals" data-news-tab="deals">并购/融资</button>
-          <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-tech" data-news-tab="tech">新技术</button>
+          <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-tech" data-news-tab="tech">前沿</button>
+          <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-papers" data-news-tab="papers">论文</button>
         </div>
         <div class="news-strip" id="news-panel-industry" role="tabpanel" aria-label="行业">
           <div class="news-marquee">
@@ -903,10 +905,17 @@
             </div>
           </div>
         </div>
-        <div class="news-strip" id="news-panel-tech" role="tabpanel" aria-label="新技术" hidden>
+        <div class="news-strip" id="news-panel-tech" role="tabpanel" aria-label="前沿" hidden>
           <div class="news-marquee">
             <div class="news-track" id="news-track-tech">
-              <span class="news-item">正在加载新技术…</span>
+              <span class="news-item">正在加载前沿…</span>
+            </div>
+          </div>
+        </div>
+        <div class="news-strip" id="news-panel-papers" role="tabpanel" aria-label="论文" hidden>
+          <div class="news-marquee">
+            <div class="news-track" id="news-track-papers">
+              <span class="news-item">正在加载论文…</span>
             </div>
           </div>
         </div>
@@ -1389,8 +1398,8 @@
         totalCap: "总市值", volume24h: "24小时交易量",
         initialQuote: "USD · 实时行情可用时更新",
         navAiChips: "人工智能芯片", navCloud: "AI云", navDataCenter: "数据中心", navEnterpriseAi: "企业人工智能", navSecurity: "安全", navQuantum: "量子", navChinaAi: "中国人工智能", navLeopold: "Leopold Aschenbrenner",
-        industry: "行业", company: "公司", market: "并购/融资", frontier: "新技术",
-        loadingIndustry: "正在加载行业…", loadingCompany: "正在加载公司…", loadingMarket: "正在加载并购/融资…", loadingFrontier: "正在加载新技术…",
+        industry: "行业", company: "公司", market: "并购/融资", frontier: "前沿", papers: "论文",
+        loadingIndustry: "正在加载行业…", loadingCompany: "正在加载公司…", loadingMarket: "正在加载并购/融资…", loadingFrontier: "正在加载前沿…", loadingPapers: "正在加载论文…",
         currentFilter: "按当前筛选", realVolume: "真实成交额，可用时更新", hot: "热门", topGainer: "最大升幅", waitingQuotes: "等待行情或估算涨跌",
         tokenRanking: "Token 调用排行", tokenNote: "参考 OpenRouter Top Models，用量口径可切换",
         chartRanking: "Token 开支走势图", chartNote: "LLM Token Expenditure Index",
@@ -1408,7 +1417,8 @@
         fallbackIndustry: "行业动态持续追踪 AI 芯片、云、数据中心与大模型",
         fallbackCompany: "公司新闻按成分股关键词追踪 Bloomberg、Reuters、Google 与 Yahoo",
         fallbackMarket: "并购/融资新闻按收购、入股、股权、融资、投资关键词追踪 Bloomberg、Reuters、Google 与 Yahoo",
-        fallbackFrontier: "MIT Technology Review、Wired、New Scientist、Nature 与 Science 追踪新科技趋势",
+        fallbackFrontier: "MIT Technology Review 与 Wired 追踪 AI 前沿技术趋势",
+        fallbackPapers: "Nature 与 Science 追踪 AI 相关论文和科研突破",
       },
       en: {
         pageTitle: "AI Market Cap",
@@ -1416,8 +1426,8 @@
         totalCap: "Market Cap", volume24h: "24h Volume",
         initialQuote: "USD · live quote when available",
         navAiChips: "AI Chips", navCloud: "AI Cloud", navDataCenter: "Data Centers", navEnterpriseAi: "Enterprise AI", navSecurity: "Security", navQuantum: "Quantum", navChinaAi: "China AI", navLeopold: "Leopold Aschenbrenner",
-        industry: "Industry", company: "Companies", market: "M&A / Financing", frontier: "New Tech",
-        loadingIndustry: "Loading industry…", loadingCompany: "Loading companies…", loadingMarket: "Loading M&A / financing…", loadingFrontier: "Loading new tech…",
+        industry: "Industry", company: "Companies", market: "M&A / Financing", frontier: "Frontier", papers: "Papers",
+        loadingIndustry: "Loading industry…", loadingCompany: "Loading companies…", loadingMarket: "Loading M&A / financing…", loadingFrontier: "Loading frontier…", loadingPapers: "Loading papers…",
         currentFilter: "Current filter", realVolume: "Real traded value when available", hot: "Trending", topGainer: "Top Gainer", waitingQuotes: "Waiting for quotes or estimated moves",
         tokenRanking: "Token Usage Ranking", tokenNote: "Inspired by OpenRouter Top Models; period is switchable",
         chartRanking: "Token Cost Chart", chartNote: "LLM Token Expenditure Index",
@@ -1435,7 +1445,8 @@
         fallbackIndustry: "Industry news tracking AI chips, cloud, data centers, and foundation models",
         fallbackCompany: "Company news tracked by constituent names across Bloomberg, Reuters, Google, and Yahoo",
         fallbackMarket: "M&A / financing news tracks acquisitions, stakes, equity, funding, investment, and IPO keywords across Bloomberg, Reuters, Google, and Yahoo",
-        fallbackFrontier: "MIT Technology Review, Wired, New Scientist, Nature, and Science track new technology trends",
+        fallbackFrontier: "MIT Technology Review and Wired track AI frontier technology trends",
+        fallbackPapers: "Nature and Science track AI papers and research breakthroughs",
       }
     };
     const CHINESE_REGION_CODES = new Set(["CN", "HK", "MO", "TW"]);
@@ -1731,7 +1742,7 @@
       $("gainer-one").textContent = gainers[0] ? `${gainers[0].ticker} ${formatPercent(gainers[0].changePercent)}` : "—";
       $("gainer-list").textContent = gainers.length ? gainers.map((row) => `${row.ticker} ${formatPercent(row.changePercent)}`).join(" · ") : t("waitingLive");
     }
-    const NEWS_SECTION_IDS = ["industry", "company", "deals", "tech"];
+    const NEWS_SECTION_IDS = ["industry", "company", "deals", "tech", "papers"];
     function fallbackNewsItems(sectionId = "industry") {
       const fallback = {
         industry: [
@@ -1745,6 +1756,9 @@
         ],
         tech: [
           { title: t("fallbackFrontier"), source: "AI Market Cap", author: "", url: "#" },
+        ],
+        papers: [
+          { title: t("fallbackPapers"), source: "AI Market Cap", author: "", url: "#" },
         ],
       };
       return fallback[sectionId] || fallback.industry;
@@ -1802,8 +1816,15 @@
     function renderNewsSections(payload) {
       const sections = payload?.sections || {};
       NEWS_SECTION_IDS.forEach((sectionId) => {
-        const sectionItems = sections[sectionId]?.items || (sectionId === "industry" ? payload?.items : []);
-        renderNewsStrip(sectionId, sectionItems || []);
+        const legacyTechItems = sections.tech?.items || [];
+        const paperItems = sectionId === "papers" && !sections.papers?.items ? legacyTechItems.filter((item) => /nature|science/i.test(item.source || "")) : [];
+        const sectionItems = sections[sectionId]?.items || paperItems || (sectionId === "industry" ? payload?.items : []);
+        const filteredItems = sectionId === "tech"
+          ? (sectionItems || []).filter((item) => /wired|mit technology review/i.test(item.source || ""))
+          : sectionId === "papers"
+            ? (sectionItems || []).filter((item) => /nature|science/i.test(item.source || ""))
+            : sectionItems;
+        renderNewsStrip(sectionId, filteredItems || []);
       });
     }
     async function fetchNewsStrip() {
@@ -2217,14 +2238,14 @@
       setFirstText(".topline-inner > span:nth-child(4)", `${t("volume24h")}: `);
       if (/live quote|实时行情/.test($("updated-at")?.textContent || "")) $("updated-at").textContent = t("initialQuote");
       setAllText(".nav a[data-nav-tab]", [t("navAiChips"), t("navCloud"), t("navDataCenter"), t("navEnterpriseAi"), t("navSecurity"), t("navQuantum"), t("navChinaAi"), t("navLeopold")]);
-      document.querySelector(".news-sections")?.setAttribute("aria-label", `${t("industry")}/${t("company")}/${t("market")}/${t("frontier")}`);
-      setAllText(".news-tab", [t("industry"), t("company"), t("market"), t("frontier")]);
-      ["industry", "company", "deals", "tech"].forEach((id) => {
+      document.querySelector(".news-sections")?.setAttribute("aria-label", `${t("industry")}/${t("company")}/${t("market")}/${t("frontier")}/${t("papers")}`);
+      setAllText(".news-tab", [t("industry"), t("company"), t("market"), t("frontier"), t("papers")]);
+      ["industry", "company", "deals", "tech", "papers"].forEach((id) => {
         const panel = $(`news-panel-${id}`);
-        const label = id === "industry" ? t("industry") : id === "company" ? t("company") : id === "deals" ? t("market") : t("frontier");
+        const label = id === "industry" ? t("industry") : id === "company" ? t("company") : id === "deals" ? t("market") : id === "papers" ? t("papers") : t("frontier");
         if (panel) panel.setAttribute("aria-label", label);
       });
-      const loading = { industry: "loadingIndustry", company: "loadingCompany", deals: "loadingMarket", tech: "loadingFrontier" };
+      const loading = { industry: "loadingIndustry", company: "loadingCompany", deals: "loadingMarket", tech: "loadingFrontier", papers: "loadingPapers" };
       Object.entries(loading).forEach(([id, key]) => {
         const track = $(`news-track-${id}`);
         if (track && track.children.length === 1 && track.textContent.includes("加载")) track.innerHTML = `<span class="news-item">${t(key)}</span>`;
