@@ -305,6 +305,19 @@ AI_COMPANY_NEWS_TERMS = extract_company_news_terms() or [
     "Anthropic", "Meta Platforms", "Tesla", "SpaceX", "Broadcom", "Palantir",
     "CoreWeave", "Nebius Group", "Tencent", "Alibaba", "Baidu", "寒武纪",
 ]
+AI_PERSON_NEWS_TERMS = [
+    "Sam Altman", "Elon Musk", "Jensen Huang", "Satya Nadella",
+    "Dario Amodei", "Demis Hassabis", "Mark Zuckerberg", "Sundar Pichai",
+    "Yann LeCun", "Andrew Ng", "Andrej Karpathy", "Fei-Fei Li",
+    "Ilya Sutskever", "Leopold Aschenbrenner", "Lisa Su", "Hock Tan",
+    "Masayoshi Son", "Mira Murati", "Kai-Fu Lee", "李飞飞", "李开复",
+]
+AI_PERSON_NEWS_QUERY = (
+    f"({quoted_or_query(AI_PERSON_NEWS_TERMS)}) "
+    '("AI" OR "artificial intelligence" OR "OpenAI" OR "Nvidia" OR '
+    '"large language model" OR "AI chip" OR "agent" OR "robotics" OR "人工智能") '
+    '("says" OR "said" OR "warns" OR "predicts" OR "tweet" OR "post" OR "X" OR "推特" OR "发文" OR "表示")'
+)
 DEAL_NEWS_TERMS_QUERY = (
     '("equity" OR "stake" OR "financing" OR "funding" OR "financial" OR '
     '"capital" OR "valuation" OR "investment" OR "raises" OR "IPO" OR '
@@ -332,6 +345,9 @@ DEAL_REQUIRED_KEYWORDS = [
 INDUSTRY_NEWS_SOURCES = [
     google_news_query_source("Wall Street Journal", f"site:wsj.com {AI_MARKET_NEWS_QUERY}"),
     google_news_query_source("New York Times", f"site:nytimes.com {AI_MARKET_NEWS_QUERY}"),
+]
+PERSON_NEWS_SOURCES = [
+    google_news_query_source("Twitter / X · AI People", f"(site:x.com OR site:twitter.com) {AI_PERSON_NEWS_QUERY}"),
 ]
 COMPANY_NEWS_SOURCES = [
     google_news_query_source(f"Bloomberg · Company Batch {index + 1}", f"site:bloomberg.com ({quoted_or_query(batch)})")
@@ -413,6 +429,12 @@ NEWS_SECTIONS = [
         "sources": INDUSTRY_NEWS_SOURCES,
     },
     {
+        "id": "person",
+        "title": "人物",
+        "note": "Twitter / X",
+        "sources": PERSON_NEWS_SOURCES,
+    },
+    {
         "id": "company",
         "title": "公司",
         "note": "Bloomberg / Reuters / Google / Yahoo + M&A / financing keywords",
@@ -442,6 +464,14 @@ AI_MARKET_REQUIRED_KEYWORDS = [
 ]
 SOURCE_REQUIRED_KEYWORDS.update({
     source["name"]: AI_MARKET_REQUIRED_KEYWORDS for source in OFFICIAL_SOURCES
+})
+SOURCE_REQUIRED_KEYWORDS.update({
+    source["name"]: [
+        *[term.lower() for term in AI_PERSON_NEWS_TERMS],
+        "ai", "artificial intelligence", "openai", "nvidia",
+        "large language model", "人工智能",
+    ]
+    for source in PERSON_NEWS_SOURCES
 })
 SOURCE_REQUIRED_KEYWORDS.update({
     source["name"]: [term.lower() for term in AI_COMPANY_NEWS_TERMS]
@@ -1008,11 +1038,12 @@ def main() -> int:
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "strategy": {
-            "primary": "Tabbed news sections: industry from WSJ/NYT, company from company-name searches plus M&A and financing keywords, frontier technology from Wired/MIT Technology Review/Stanford sources, papers from top AI journals, conferences, proceedings, and preprint sources",
+            "primary": "Tabbed news sections: industry from WSJ/NYT, people from Twitter/X searches for notable AI figures, company from company-name searches plus M&A and financing keywords, frontier technology from Wired/MIT Technology Review/Stanford sources, papers from top AI journals, conferences, proceedings, and preprint sources",
             "primaryEnabled": True,
             "supplements": [
                 "Wall Street Journal",
                 "New York Times",
+                "Twitter / X",
                 "Bloomberg",
                 "Reuters",
                 "Wired",
