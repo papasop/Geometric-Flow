@@ -622,6 +622,16 @@ def link_of(node: ET.Element) -> str:
     return ""
 
 
+def source_details_of(node: ET.Element) -> tuple[str, str]:
+    for child in node:
+        if child.tag.rsplit("}", 1)[-1].lower() != "source":
+            continue
+        name = clean_text(child.text or "", 80)
+        url = clean_text(child.attrib.get("url", ""), 240)
+        return name, url
+    return "", ""
+
+
 def author_of(node: ET.Element) -> str:
     direct = text_of(node, [
         "author",
@@ -701,9 +711,105 @@ def normalize_author(author: str, source_name: str) -> str:
     return author
 
 
-def extract_article_author(url: str, source_name: str) -> str:
-    if not url or "news.google.com" in url:
+def host_of(url: str) -> str:
+    try:
+        return urllib.parse.urlparse(url).netloc.lower().removeprefix("www.")
+    except ValueError:
         return ""
+
+
+def google_news_article_id(url: str) -> str:
+    try:
+        parsed = urllib.parse.urlparse(url)
+    except ValueError:
+        return ""
+    parts = [part for part in parsed.path.split("/") if part]
+    if "articles" not in parts:
+        return ""
+    index = parts.index("articles")
+    if index + 1 >= len(parts):
+        return ""
+    return parts[index + 1].strip()
+
+
+def normalize_url_candidate(url: str) -> str:
+    url = html.unescape(url)
+    url = url.replace("\\u003d", "=").replace("\\u0026", "&").replace("\\/", "/")
+    url = url.strip().strip('"\'.,)]}')
+    return url
+
+
+def resolve_google_news_url(url: str, source_url: str = "") -> str:
+    article_id = google_news_article_id(url)
+    if not article_id:
+        return ""
+    try:
+        page = fetch_url(url).decode("utf-8", errors="ignore")
+    except (urllib.error.URLError, TimeoutError, socket.timeout, ValueError, OSError, UnicodeError):
+        return ""
+
+    preferred_host = host_of(source_url)
+    raw_urls = re.findall(r'https?://[^"\'<>\s\\]+', page)
+    for raw in raw_urls:
+        candidate = normalize_url_candidate(raw)
+        candidate_host = host_of(candidate)
+        if not candidate_host or any(blocked in candidate_host for blocked in ("google.", "gstatic.", "googleusercontent.", "schema.org")):
+            continue
+        if preferred_host and preferred_host not in candidate_host and candidate_host not in preferred_host:
+            continue
+        return candidate
+
+    signature_match = re.search(r'data-n-a-sg=["\']([^"\']+)["\']', page)
+    timestamp_match = re.search(r'data-n-a-ts=["\'](\d+)["\']', page)
+    if not signature_match or not timestamp_match:
+        return ""
+
+    timestamp = int(timestamp_match.group(1))
+    signature = signature_match.group(1)
+    inner = [
+        "garturlreq",
+        [
+            ["en-US", "US", ["FINANCE_TOP_INDICES", "WEB_TEST_1_0_0"], None, None, 1, 1, "US:en", None, 180, None, None, None, None, None, 0, None, None, [timestamp, 0]],
+            "en-US", "US", 1, [2, 3, 4, 8], 1, 0, "655000234", 0, 0, None, 0,
+        ],
+        article_id,
+        timestamp,
+        signature,
+    ]
+    request_body = urllib.parse.urlencode({
+        "f.req": json.dumps([[["Fbv4je", json.dumps(inner, separators=(",", ":")), None, "generic"]]], separators=(",", ":")),
+    }).encode("utf-8")
+    request = urllib.request.Request(
+        "https://news.google.com/_/DotsSplashUi/data/batchexecute?rpcids=Fbv4je",
+        data=request_body,
+        headers={
+            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+            "User-Agent": USER_AGENT,
+        },
+    )
+    try:
+        response = urllib.request.urlopen(request, timeout=20).read().decode("utf-8", errors="ignore")
+    except (urllib.error.URLError, TimeoutError, socket.timeout, ValueError, OSError, UnicodeError):
+        return ""
+    for raw in re.findall(r'https?://[^"\\]+', response):
+        candidate = normalize_url_candidate(raw)
+        candidate_host = host_of(candidate)
+        if not candidate_host or "google." in candidate_host:
+            continue
+        if preferred_host and preferred_host not in candidate_host and candidate_host not in preferred_host:
+            continue
+        return candidate
+    return ""
+
+
+def extract_article_author(url: str, source_name: str, source_url: str = "") -> str:
+    if not url:
+        return ""
+    if "news.google.com" in url:
+        original_url = resolve_google_news_url(url, source_url)
+        if not original_url or original_url == url:
+            return ""
+        url = original_url
     try:
         page = fetch_url(url).decode("utf-8", errors="ignore")
     except (urllib.error.URLError, TimeoutError, socket.timeout, ValueError, OSError, UnicodeError):
@@ -790,11 +896,15 @@ def parse_feed(source: dict[str, str], data: bytes) -> list[dict[str, str]]:
         title = clean_text(text_of(node, ["title", "{http://www.w3.org/2005/Atom}title"]), 180)
         summary = clean_text(text_of(node, ["description", "summary", "content", "{http://www.w3.org/2005/Atom}summary", "{http://purl.org/rss/1.0/modules/content/}encoded"]))
         url = link_of(node)
-        author = "" if is_google_news_feed else normalize_author(author_of(node), source["name"])
+        rss_source_name, rss_source_url = source_details_of(node)
+        display_source = rss_source_name or source["name"]
+        author = "" if is_google_news_feed else normalize_author(author_of(node), display_source)
         published = parse_date(text_of(node, ["pubDate", "published", "updated", "{http://www.w3.org/2005/Atom}published", "{http://www.w3.org/2005/Atom}updated"]))
         if title and url:
             items.append({
-                "source": source["name"],
+                "source": display_source,
+                "feedSource": source["name"],
+                "sourceUrl": rss_source_url,
                 "title": title,
                 "summary": summary or title,
                 "url": url,
@@ -997,8 +1107,12 @@ def main() -> int:
                     matched, tags = classify(item)
                     if not matched and not item_matches_terms(item, AI_MARKET_REQUIRED_KEYWORDS):
                         continue
-                    if not item.get("author") and author_fetches < 16:
-                        item["author"] = extract_article_author(str(item.get("url") or ""), source["name"])
+                    if not item.get("author") and author_fetches < 24:
+                        item["author"] = extract_article_author(
+                            str(item.get("url") or ""),
+                            str(item.get("source") or source["name"]),
+                            str(item.get("sourceUrl") or ""),
+                        )
                         author_fetches += 1
                     section_seen.add(key)
                     enrich_title_fields(item)
