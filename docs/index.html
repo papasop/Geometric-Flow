@@ -1780,14 +1780,40 @@
       if (normalized === "new york times" || normalized === "the new york times") return "纽约时报";
       return raw;
     }
+    function isRealPersonName(value) {
+      let raw = String(value || "").trim();
+      if (!raw || /[@:/\\]|\d/.test(raw)) return false;
+      raw = raw.replace(/^(by|from)\s+/i, "").trim();
+      raw = raw.split(/\s+(?:and|&|,)\s+/i)[0].trim();
+      if (/^[\u4e00-\u9fff]{2,4}$/.test(raw)) return true;
+      const parts = raw.replace(/\./g, ". ").split(/\s+/).filter(Boolean);
+      if (parts.length < 2 || parts.length > 4) return false;
+      const particles = new Set(["de", "del", "der", "van", "von", "da", "di", "la", "le", "du"]);
+      let personalParts = 0;
+      for (const part of parts) {
+        const cleaned = part.replace(/^[.,'’()-]+|[.,'’()-]+$/g, "");
+        if (!cleaned) continue;
+        if (particles.has(cleaned.toLowerCase())) continue;
+        if (/^[A-Z]\.?$/.test(cleaned) || /^[A-Z][a-z]+(?:[-'’][A-Z][a-z]+)?$/.test(cleaned)) {
+          personalParts += 1;
+          continue;
+        }
+        return false;
+      }
+      return personalParts >= 2;
+    }
     function displayNewsAuthor(sourceValue, authorValue) {
-      const author = displayNewsParty(authorValue || "");
+      const rawAuthor = String(authorValue || "").replace(/^(by|from)\s+/i, "").split(/\s+(?:and|&|,)\s+/i)[0].trim();
+      const author = displayNewsParty(rawAuthor);
       const normalizedSource = String(sourceValue || "").toLowerCase();
-      const normalizedAuthor = String(authorValue || "").toLowerCase();
+      const normalizedAuthor = rawAuthor.toLowerCase();
       if (!author || normalizedAuthor === normalizedSource) {
         return "";
       }
-      if (/ editorial$|\beditorial\b|\bstaff\b|^news$|\breuters\b|\bbloomberg\b|\byahoo\b|\bgoogle\b|\bmarketwatch\b|\bwall street journal\b|\bnew york times\b|\bthe motley fool\b|\btech advisor\b|\bcoincentral\b|\bthe globe and mail\b|\bnews\b|\bjournal\b|\btimes\b|\bpress\b|\bmedia\b/i.test(String(authorValue || ""))) {
+      if (/ editorial$|\beditorial\b|\bstaff\b|^news$|\breuters\b|\bbloomberg\b|\byahoo\b|\bgoogle\b|\bmarketwatch\b|\bwall street journal\b|\bnew york times\b|\bthe motley fool\b|\btech advisor\b|\bcoincentral\b|\bthe globe and mail\b|\bnews\b|\bjournal\b|\btimes\b|\bpress\b|\bmedia\b/i.test(rawAuthor)) {
+        return "";
+      }
+      if (!isRealPersonName(rawAuthor)) {
         return "";
       }
       return author;

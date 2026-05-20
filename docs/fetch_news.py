@@ -613,16 +613,51 @@ PUBLISHER_AUTHOR_RE = re.compile(
 )
 
 
+def looks_like_person_name(author: str) -> bool:
+    author = clean_text(author, 80)
+    if not author:
+        return False
+    if re.search(r"[@:/\\]|\d", author):
+        return False
+    author = re.sub(r"^(by|from)\s+", "", author, flags=re.I).strip()
+    author = re.split(r"\s+(?:and|&|,)\s+", author, maxsplit=1, flags=re.I)[0].strip()
+    if re.fullmatch(r"[\u4e00-\u9fff]{2,4}", author):
+        return True
+    parts = [part for part in re.split(r"\s+", author.replace(".", ". ")) if part]
+    if len(parts) < 2 or len(parts) > 4:
+        return False
+    allowed_particles = {"de", "del", "der", "van", "von", "da", "di", "la", "le", "du"}
+    personal_parts = 0
+    for part in parts:
+        cleaned = part.strip(".,'’()-")
+        if not cleaned:
+            continue
+        if cleaned.lower() in allowed_particles:
+            continue
+        if re.fullmatch(r"[A-Z]\.?", cleaned):
+            personal_parts += 1
+            continue
+        if re.fullmatch(r"[A-Z][a-z]+(?:[-'’][A-Z][a-z]+)?", cleaned):
+            personal_parts += 1
+            continue
+        return False
+    return personal_parts >= 2
+
+
 def normalize_author(author: str, source_name: str) -> str:
     author = clean_text(author, 80)
     source_name = clean_text(source_name, 80)
     if not author:
         return ""
+    author = re.sub(r"^(by|from)\s+", "", author, flags=re.I).strip()
+    author = re.split(r"\s+(?:and|&|,)\s+", author, maxsplit=1, flags=re.I)[0].strip()
     if author.lower() == source_name.lower():
         return ""
     if re.search(r"\beditorial\b|\bstaff\b|^news$", author, re.I):
         return ""
     if PUBLISHER_AUTHOR_RE.search(author):
+        return ""
+    if not looks_like_person_name(author):
         return ""
     return author
 
