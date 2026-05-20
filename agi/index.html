@@ -359,45 +359,56 @@
       box-shadow: inset 2px 0 0 var(--green);
     }
     .score-cell {
+      position: relative;
+      width: 100%;
+      max-width: 132px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 9px;
-      min-height: 46px;
+      gap: 6px;
+      min-height: 58px;
+      margin: 0 auto;
+      padding: 8px 10px;
+      border: 1px solid rgba(148, 163, 184, 0.12);
+      border-radius: 7px;
+      background: rgba(255, 255, 255, 0.56);
     }
     .score-stack {
       width: 100%;
+      max-width: 150px;
+      margin: 0 auto;
       display: grid;
-      gap: 8px;
+      gap: 7px;
     }
     .score-entry {
       display: grid;
-      grid-template-columns: minmax(72px, auto) minmax(0, 1fr);
-      align-items: baseline;
-      justify-content: center;
-      gap: 8px;
-      padding: 0 4px;
+      grid-template-columns: minmax(66px, auto) minmax(0, 1fr);
+      align-items: center;
+      gap: 7px;
+      padding: 7px 8px;
+      border: 1px solid rgba(148, 163, 184, 0.13);
+      border-radius: 7px;
+      background: rgba(255, 255, 255, 0.58);
     }
     .score-entry + .score-entry {
-      padding-top: 9px;
-      border-top: 1px solid var(--line-soft);
+      padding-top: 7px;
     }
     .score {
       display: inline-flex;
       align-items: baseline;
       justify-content: flex-end;
-      min-width: 72px;
+      min-width: 70px;
       color: var(--text);
-      font-size: 22px;
+      font-size: 24px;
       line-height: 1;
       font-weight: 880;
       font-variant-numeric: tabular-nums;
     }
     .score .percent {
-      margin-left: 1px;
+      margin-left: 2px;
       color: var(--soft);
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 820;
     }
     .score-note {
@@ -418,8 +429,8 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-width: 34px;
-      height: 18px;
+      min-width: 32px;
+      height: 17px;
       padding: 0 6px;
       border-radius: 5px;
       color: #047857;
@@ -427,6 +438,15 @@
       font-size: 10px;
       font-weight: 840;
       line-height: 1;
+    }
+    .score-cell > .best-badge {
+      position: absolute;
+      top: 5px;
+      right: 6px;
+      min-width: 0;
+      height: 16px;
+      padding: 0 5px;
+      font-size: 9px;
     }
     .token-ranking {
       margin: 0;
