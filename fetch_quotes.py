@@ -28,6 +28,7 @@ FX_TICKERS = {
     "USDHKD": "HKD=X",
     "USDKRW": "KRW=X",
     "USDJPY": "JPY=X",
+    "USDTWD": "TWD=X",
 }
 
 
