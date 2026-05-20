@@ -28,6 +28,7 @@ from urllib.parse import urljoin
 ROOT = Path(__file__).resolve().parent
 OUT = ROOT / "news.json"
 VERSIONED_OUT = ROOT / "news-a8febb0.json"
+MIRROR_DIRS = [ROOT / "agi", ROOT / "ai-global-index"]
 
 USER_AGENT = (
     "EntropyAI/1.0 (portfolio-news; https://papasop.github.io/AGI/; "
@@ -929,8 +930,13 @@ def main() -> int:
         "sections": section_payload,
         "items": items[:200],
     }
-    OUT.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    VERSIONED_OUT.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    text = json.dumps(payload, ensure_ascii=False, indent=2) + "\n"
+    OUT.write_text(text, encoding="utf-8")
+    VERSIONED_OUT.write_text(text, encoding="utf-8")
+    for mirror in MIRROR_DIRS:
+        mirror.mkdir(parents=True, exist_ok=True)
+        (mirror / OUT.name).write_text(text, encoding="utf-8")
+        (mirror / VERSIONED_OUT.name).write_text(text, encoding="utf-8")
     print(f"wrote {OUT} and {VERSIONED_OUT} with {len(payload['items'])} items from {sum(1 for s in source_status if s['status'] == 'ok')} sources")
     return 0
 
