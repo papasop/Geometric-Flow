@@ -2283,7 +2283,7 @@
         fallbackIndustry: "行业动态持续追踪 AI 芯片、云、数据中心与大模型",
         fallbackCompany: "公司新闻按成分股关键词追踪 Bloomberg、Reuters、Google 与 Yahoo",
         fallbackMarket: "并购/融资新闻按收购、入股、股权、融资、投资关键词追踪 Bloomberg、Reuters、Google 与 Yahoo",
-        fallbackFrontier: "MIT Technology Review 与 Wired 追踪 AI 前沿技术趋势",
+        fallbackFrontier: "MIT Technology Review、Wired、Stanford Engineering 与 Stanford Business 追踪 AI 前沿技术趋势",
         fallbackPapers: "Nature、Science、NeurIPS、ICML、ICLR、ACL、CVPR、AAAI、JMLR 与 arXiv 追踪 AI 论文和科研突破",
       },
       en: {
@@ -2311,7 +2311,7 @@
         fallbackIndustry: "Industry news tracking AI chips, cloud, data centers, and foundation models",
         fallbackCompany: "Company news tracked by constituent names across Bloomberg, Reuters, Google, and Yahoo",
         fallbackMarket: "M&A / financing news tracks acquisitions, stakes, equity, funding, investment, and IPO keywords across Bloomberg, Reuters, Google, and Yahoo",
-        fallbackFrontier: "MIT Technology Review and Wired track AI frontier technology trends",
+        fallbackFrontier: "MIT Technology Review, Wired, Stanford Engineering, and Stanford Business track AI frontier technology trends",
         fallbackPapers: "Nature, Science, NeurIPS, ICML, ICLR, ACL, CVPR, AAAI, JMLR, and arXiv track AI papers and research breakthroughs",
       }
     };
@@ -2714,7 +2714,7 @@
         const paperItems = sectionId === "papers" && !sections.papers?.items ? legacyTechItems.filter((item) => PAPER_SOURCE_PATTERN.test(item.source || "")) : [];
         const sectionItems = sections[sectionId]?.items || paperItems || (sectionId === "industry" ? payload?.items : []);
         const filteredItems = sectionId === "tech"
-          ? (sectionItems || []).filter((item) => /wired|mit technology review/i.test(item.source || ""))
+          ? (sectionItems || []).filter((item) => /wired|mit technology review|stanford engineering|stanford business/i.test(item.source || ""))
           : sectionId === "papers"
             ? (sectionItems || []).filter((item) => PAPER_SOURCE_PATTERN.test(item.source || ""))
             : sectionItems;
