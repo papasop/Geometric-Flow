@@ -578,6 +578,8 @@
       font-weight: 760;
       text-align: right;
     }
+    .index-chart-stats b.positive { color: #86efac; }
+    .index-chart-stats b.negative { color: #fca5a5; }
     .index-chart-tooltip {
       position: absolute;
       z-index: 4;
@@ -2014,10 +2016,6 @@
       const values = data.map((point) => point.value);
       const min = Math.min(...values);
       const max = Math.max(...values);
-      const last = data[data.length - 1];
-      const high = data.reduce((best, point) => point.value > best.value ? point : best, data[0]);
-      const low = data.reduce((best, point) => point.value < best.value ? point : best, data[0]);
-      const avg = values.reduce((sum, value) => sum + value, 0) / values.length;
       const width = 980;
       const height = 310;
       const pad = { top: 22, right: 54, bottom: 44, left: 22 };
@@ -2036,6 +2034,16 @@
       const selected = data[selectedIndex];
       const selectedX = xFor(selectedIndex);
       const selectedY = yFor(selected.value);
+      const selectedWindow = data.slice(0, selectedIndex + 1);
+      const selectedValues = selectedWindow.map((point) => point.value);
+      const selectedHigh = selectedWindow.reduce((best, point) => point.value > best.value ? point : best, selectedWindow[0]);
+      const selectedLow = selectedWindow.reduce((best, point) => point.value < best.value ? point : best, selectedWindow[0]);
+      const selectedAvg = selectedValues.reduce((sum, value) => sum + value, 0) / selectedValues.length;
+      const prev = data[Math.max(0, selectedIndex - 1)];
+      const first = data[0];
+      const deltaPrev = selectedIndex > 0 ? ((selected.value / prev.value) - 1) * 100 : 0;
+      const deltaRange = first.value > 0 ? ((selected.value / first.value) - 1) * 100 : 0;
+      const fmtDelta = (value) => `${value > 0 ? "+" : ""}${value.toFixed(2)}%`;
       svg.innerHTML = `
         <defs>
           <linearGradient id="token-index-fill" x1="0" x2="0" y1="0" y2="1">
@@ -2054,11 +2062,12 @@
       `;
       stats.innerHTML = `
         <span>${state.chartPeriod === "history" ? t("history") : t(state.chartPeriod)}</span><b>${data.length} pts</b>
-        <span>Selected ${selected.date.slice(5).replace("T", " ")}</span><b>${selected.value.toFixed(4)}</b>
-        <span>Last Price</span><b>${last.value.toFixed(4)}</b>
-        <span>High on ${high.date.slice(5)}</span><b>${high.value.toFixed(4)}</b>
-        <span>Average</span><b>${avg.toFixed(4)}</b>
-        <span>Low on ${low.date.slice(5)}</span><b>${low.value.toFixed(4)}</b>
+        <span>Point ${selected.date.slice(5).replace("T", " ")}</span><b>${selected.value.toFixed(4)}</b>
+        <span>Move vs prev</span><b class="${deltaPrev >= 0 ? "positive" : "negative"}">${fmtDelta(deltaPrev)}</b>
+        <span>Move from start</span><b class="${deltaRange >= 0 ? "positive" : "negative"}">${fmtDelta(deltaRange)}</b>
+        <span>High to point</span><b>${selectedHigh.value.toFixed(4)}</b>
+        <span>Average to point</span><b>${selectedAvg.toFixed(4)}</b>
+        <span>Low to point</span><b>${selectedLow.value.toFixed(4)}</b>
       `;
       if (tooltip) {
         tooltip.hidden = false;
