@@ -637,6 +637,31 @@
       flex: 0 0 auto;
     }
     .tab.active { color: var(--green); background: #ecfdf5; border-color: #bbf7d0; }
+    .subtabs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      margin: -4px 0 12px;
+      padding: 0 0 6px;
+    }
+    .subtabs[hidden] { display: none; }
+    .subtab {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--soft);
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 780;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .subtab.active {
+      color: #ecfeff;
+      background: rgba(34, 211, 238, 0.18);
+      border-color: rgba(34, 211, 238, 0.38);
+    }
     .search, select, button {
       height: 36px;
       border: 1px solid var(--line);
@@ -1135,6 +1160,10 @@
       <button class="tab" data-tab="基础设施" type="button">基础设施</button>
       <button class="tab" data-tab="硬件" type="button">硬件</button>
       <button class="tab" data-tab="Token 工厂 / 推理服务" type="button">Token 工厂 / 推理服务</button>
+    </section>
+    <section class="subtabs" id="token-subtabs" aria-label="Token 工厂 / 推理服务子标签" hidden>
+      <button class="subtab active" data-token-subcategory="IaaS/PaaS" type="button">IaaS/PaaS</button>
+      <button class="subtab" data-token-subcategory="MaaS" type="button">MaaS</button>
     </section>
 
     <section class="panel market-panel">
@@ -1999,10 +2028,13 @@
       "硬件",
       "Token 工厂 / 推理服务"
 ];
+    const TOKEN_FACTORY_CATEGORY = "Token 工厂 / 推理服务";
+    const TOKEN_FACTORY_SUBCATEGORIES = ["IaaS/PaaS", "MaaS"];
     const AIBOTT_BY_TICKER = new Map(AIBOTT_WATCHLIST.map(([symbol, name, theme, oneLiner, conviction]) => [symbol, { name, theme, oneLiner, conviction }]));
     function inferAibottTheme(category, thesis, ticker) {
       const text = String(ticker || "") + " " + String(category || "") + " " + String(thesis || "");
       const lower = text.toLowerCase();
+      if (String(ticker || "").toUpperCase() === "NBIS") return "Token 工厂 / 推理服务";
       if (/sofc|solid oxide|fuel cell|fuel cells|power|grid|electric|switchgear|transformer|nuclear|energy|battery|natural gas|gas turbine|燃料电池|固体氧化物|电力|能源|电网|核电|天然气/.test(lower)) return "能源";
       if (/aidc|ai data center|data center|datacenter|construction|mep|buildout|campus|cool|thermal|chiller|hvac|liquid|storage|data fabric|server|rack|ai 数据中心|数据中心|液冷|机房|存储/.test(lower)) return "基础设施";
       if (/inp|substrate|epitax|soi|wafer|photon|optic|laser|cpo|coherent|transceiver|fiber|eml|silicon photonics|hbm|packag|cowos|osat|pcb|abf|metrology|inspection|bond|test|mask|burn-in|memory|dram|nand|ssd|hdd|lithography|euv|fab tool|semi equipment|etch|deposition|cmp|process control|foundry|advanced manufacturing|network|retimer|ethernet|switch|fabric|interconnect|cable|connector|rare earth|magnet|mining|metals|asic|gpu|cuda|accelerator|npu|tpu|cpu|eda|ip|chip|semiconductor|edge ai|custom silicon|robot|sensor|hardware|陶瓷|芯片|半导体|光模块|连接器|稀土|硬件/.test(lower)) return "硬件";
@@ -2468,7 +2500,7 @@
       const langs = navigator.languages?.length ? navigator.languages : [navigator.language || ""];
       return langs.some((lang) => /^zh\b/i.test(lang)) ? "zh" : "en";
     }
-    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", selected: "NVDA", page: 1, rankingView: "chart", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, fxRates: {}, lang: browserLang() };
+    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", selected: "NVDA", page: 1, rankingView: "chart", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, fxRates: {}, lang: browserLang() };
     const $ = (id) => document.getElementById(id);
     const t = (key) => (I18N[state.lang] && I18N[state.lang][key]) || I18N.zh[key] || key;
 
@@ -2608,12 +2640,23 @@
       if (category === "ALL") return true;
       return row.category === category;
     }
+    function tokenFactorySubcategory(row) {
+      const haystack = `${row.ticker} ${row.name} ${row.category} ${row.thesis} ${(row.tags || []).join(" ")}`.toLowerCase();
+      if (row.ticker === "NBIS") return "IaaS/PaaS";
+      if (/iaas|paas|neocloud|gpu cloud|gpu lease|cloud|server|rack|hyperscaler|oci|aws|azure|ai factory|aidc|data center|datacenter|infra|infrastructure|算力|云|数据中心|机房|基础设施/.test(haystack)) return "IaaS/PaaS";
+      if (/maas|model as a service|model|llm|api|inference|agent|copilot|software|platform|大模型|模型|推理|智能体|平台|服务/.test(haystack)) return "MaaS";
+      return "MaaS";
+    }
+    function matchesTokenSubcategory(row) {
+      if (state.category !== TOKEN_FACTORY_CATEGORY) return true;
+      return tokenFactorySubcategory(row) === state.tokenSubcategory;
+    }
     function filteredRows() {
       const q = state.query.trim().toLowerCase();
       let rows = state.rows.filter((row) => {
         const matchCategory = matchesCategory(row, state.category);
         const haystack = `${row.ticker} ${row.name} ${row.category} ${row.thesis} ${row.country} ${flagFor(row)} ${(row.tags || []).join(" ")}`.toLowerCase();
-        return matchCategory && (!q || haystack.includes(q));
+        return matchCategory && matchesTokenSubcategory(row) && (!q || haystack.includes(q));
       });
       if (state.sort === "mcap") {
         rows = rows.sort((a, b) => compareMetric(a, b, "mcap"));
@@ -3371,12 +3414,20 @@
     function updateCategoryControls() {
       document.querySelectorAll(".tab").forEach((item) => item.classList.toggle("active", item.dataset.tab === state.category));
       document.querySelectorAll(".nav a[data-nav-tab]").forEach((item) => item.classList.toggle("active", item.dataset.navTab === state.category));
+      const tokenSubtabs = $("token-subtabs");
+      if (tokenSubtabs) tokenSubtabs.hidden = state.category !== TOKEN_FACTORY_CATEGORY;
+      document.querySelectorAll("[data-token-subcategory]").forEach((item) => {
+        item.classList.toggle("active", item.dataset.tokenSubcategory === state.tokenSubcategory);
+      });
       if ($("category-filter") && [...$("category-filter").options].some((option) => option.value === state.category)) {
         $("category-filter").value = state.category;
       }
     }
     function selectCategory(category) {
       state.category = category || "ALL";
+      if (state.category === TOKEN_FACTORY_CATEGORY && !TOKEN_FACTORY_SUBCATEGORIES.includes(state.tokenSubcategory)) {
+        state.tokenSubcategory = "IaaS/PaaS";
+      }
       state.page = 1;
       updateCategoryControls();
       render();
@@ -3473,6 +3524,14 @@
       });
       document.querySelectorAll(".tab").forEach((tab) => {
         tab.addEventListener("click", () => selectCategory(tab.dataset.tab));
+      });
+      document.querySelectorAll("[data-token-subcategory]").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.tokenSubcategory = button.dataset.tokenSubcategory || "IaaS/PaaS";
+          state.page = 1;
+          updateCategoryControls();
+          render();
+        });
       });
       document.querySelectorAll("[data-ranking-view]").forEach((button) => {
         button.addEventListener("click", () => setRankingView(button.dataset.rankingView || "chart"));
