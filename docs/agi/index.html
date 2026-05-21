@@ -2657,7 +2657,8 @@
       const msft = rows.find((row) => row.ticker === "MSFT");
       const changeRows = rows.filter((row) => Number.isFinite(row.changePercent));
       const avgChange = changeRows.length ? changeRows.reduce((sum, row) => sum + row.changePercent, 0) / changeRows.length : null;
-      const gainers = [...changeRows].sort((a, b) => b.changePercent - a.changePercent).slice(0, 3);
+      const highlightCount = 6;
+      const gainers = [...changeRows].sort((a, b) => b.changePercent - a.changePercent).slice(0, highlightCount);
       $("top-company-count").textContent = String(rows.length);
       $("top-total-cap").textContent = formatCap(total);
       $("highlight-cap").textContent = formatCap(total);
@@ -2668,7 +2669,7 @@
       $("highlight-change").textContent = formatPercent(avgChange);
       $("highlight-change").className = percentClass(avgChange);
       $("trending-one").textContent = rows[0]?.ticker || "—";
-      $("trending-list").textContent = rows.slice(0, 3).map((row) => `${row.name} ${formatCap(effectiveCap(row))}`).join(" · ");
+      $("trending-list").textContent = rows.slice(0, highlightCount).map((row) => `${row.name} ${formatCap(effectiveCap(row))}`).join(" · ");
       $("gainer-one").textContent = gainers[0] ? `${gainers[0].ticker} ${formatPercent(gainers[0].changePercent)}` : "—";
       $("gainer-list").textContent = gainers.length ? gainers.map((row) => `${row.ticker} ${formatPercent(row.changePercent)}`).join(" · ") : t("waitingLive");
     }
