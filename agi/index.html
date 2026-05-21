@@ -1196,7 +1196,7 @@
       </div>
       <div class="pager" id="pager"></div>
     </section>
-    <p class="footer-note">说明：这是 AI 相关美股挂牌、港股、A 股、韩股、日股公司与少量预上市公司观察名单，不是投资建议，也不是官方指数。价格、1小时/24小时/7天/30天变化、成交额与市值均优先使用在线 quote/chart 真实行情；不可用时显示为空。预上市公司使用估算美元市值参与排行，不抓取实时行情。非美元公司市值与成交额在内部按 USD/CNY、USD/HKD、USD/KRW、USD/JPY 机制折算成美元口径，但页面不展示汇率。</p>
+    <p class="footer-note">说明：这是 AI 相关美股挂牌、港股、A 股、韩股、日股、英国与台湾市场公司及少量预上市公司观察名单，不是投资建议，也不是官方指数。价格、1小时/24小时/7天/30天变化、成交额与市值均优先使用在线 quote/chart 真实行情；不可用时显示为空。预上市公司使用估算美元市值参与排行，不抓取实时行情。非美元公司市值与成交额在内部按 USD/CNY、USD/HKD、USD/KRW、USD/JPY、USD/TWD、USD/GBP 机制折算成美元口径，但页面不展示汇率。</p>
   </main>
 
   <script>
@@ -2151,6 +2151,7 @@
       ["CRWV", "CoreWeave", "AI cloud", "GPU 云、AI 训练和推理基础设施。"],
       ["BE", "Bloom Energy", "SOFC / fuel cells", "SOFC 固体氧化物燃料电池与现场发电，AI 数据中心电力供应链。"],
       ["000338.SZ", "潍柴动力", "SOFC / fuel cells", "SOFC 固体氧化物燃料电池、动力系统与分布式能源布局。"],
+      ["CWR.L", "Ceres Power", "SOFC / fuel cells", "英国 SOFC 固体氧化物燃料电池与电解槽技术公司，面向分布式能源和工业脱碳。"],
       ["IREN", "IREN", "AI data center", "低成本电力和 AI 数据中心转型。"],
       ["APLD", "Applied Digital", "AI data center", "AI 托管、数据中心和高功率机房。"],
       ["SNDK", "SanDisk", "AI storage", "闪存与数据存储，AI 数据中心存储链。"],
@@ -2363,6 +2364,18 @@
       ["2025-12-31", 31.0],
       ["2026-05-19", 31.5]
     ];
+    const USD_GBP_HISTORY = [
+      ["2022-01-03", 0.74],
+      ["2022-06-30", 0.82],
+      ["2022-12-30", 0.83],
+      ["2023-06-30", 0.79],
+      ["2023-12-29", 0.79],
+      ["2024-06-28", 0.79],
+      ["2024-12-31", 0.80],
+      ["2025-06-30", 0.73],
+      ["2025-12-31", 0.75],
+      ["2026-05-19", 0.74]
+    ];
     const TOKEN_RANKINGS = {
       day: [
         ["Qwen3.6 Plus (free)", "qwen", 790e9, null],
@@ -2441,7 +2454,7 @@
     const I18N = {
       zh: {
         pageTitle: "IsitHUB",
-        topCompanies: "公司", topMarket: "市场", topMarketValue: "纽约证券交易所/纳斯达克 🇺🇸 / A 股 🇨🇳 / 韩国 🇰🇷 / 日本 🇯🇵 / 上市前",
+        topCompanies: "公司", topMarket: "市场", topMarketValue: "纽约证券交易所/纳斯达克 🇺🇸 / A 股 🇨🇳 / 韩国 🇰🇷 / 日本 🇯🇵 / 英国 🇬🇧 / 上市前",
         totalCap: "总市值", volume24h: "24小时交易量",
         initialQuote: "USD · 实时行情可用时更新",
         navAiChips: "人工智能芯片", navCloud: "AI云", navDataCenter: "数据中心", navEnterpriseAi: "企业人工智能", navSecurity: "安全", navQuantum: "量子", navChinaAi: "中国人工智能", navLeopold: "Leopold Aschenbrenner",
@@ -2460,7 +2473,7 @@
         watch: "关注", prelist: "预上市", est: " est.",
         quoteDaily: "每日行情", quoteLive: "Yahoo 实时备用行情", quoteError: "行情接口暂不可用，真实行情为空", waitingLive: "等待真实行情",
         newsSource: "新闻来源", newsAuthor: "作者", mediaSource: "媒体", speechKeywordSource: "互联网公开新闻：大模型负责人公开言论 / OpenAI / Anthropic / DeepMind / Gemini / Meta AI / xAI / Mistral / DeepSeek / Kimi / 智谱 / 通义千问 / 豆包 / 马斯克 / 黄仁勋 / 哈萨比斯 / 梁文锋 / 物理世界模型",
-        footer: "说明：这是 AI 相关美股挂牌、港股、A 股、韩股、日股与台湾市场公司及少量预上市公司观察名单，不是投资建议，也不是官方指数。价格、1小时/24小时/7天/30天变化、成交额与市值均优先使用在线 quote/chart 真实行情；不可用时显示为空。预上市公司使用估算美元市值参与排行，不抓取实时行情。非美元公司市值与成交额在内部按 USD/CNY、USD/HKD、USD/KRW、USD/JPY、USD/TWD 机制折算成美元口径，但页面不展示汇率。",
+        footer: "说明：这是 AI 相关美股挂牌、港股、A 股、韩股、日股、英国与台湾市场公司及少量预上市公司观察名单，不是投资建议，也不是官方指数。价格、1小时/24小时/7天/30天变化、成交额与市值均优先使用在线 quote/chart 真实行情；不可用时显示为空。预上市公司使用估算美元市值参与排行，不抓取实时行情。非美元公司市值与成交额在内部按 USD/CNY、USD/HKD、USD/KRW、USD/JPY、USD/TWD、USD/GBP 机制折算成美元口径，但页面不展示汇率。",
         fallbackIndustry: "行业动态持续追踪 AI 芯片、云、数据中心与大模型",
         fallbackPerson: "言论追踪互联网上公开的名人对 AI 的真实公开发言",
         fallbackCompany: "公司新闻按成分股、并购、入股、股权与融资关键词追踪 Bloomberg 与 Reuters",
@@ -2470,7 +2483,7 @@
       },
       en: {
         pageTitle: "IsitHUB",
-        topCompanies: "Companies", topMarket: "Markets", topMarketValue: "NYSE / Nasdaq 🇺🇸 / A-shares 🇨🇳 / Korea 🇰🇷 / Japan 🇯🇵 / Pre-IPO",
+        topCompanies: "Companies", topMarket: "Markets", topMarketValue: "NYSE / Nasdaq 🇺🇸 / A-shares 🇨🇳 / Korea 🇰🇷 / Japan 🇯🇵 / UK 🇬🇧 / Pre-IPO",
         totalCap: "Market Cap", volume24h: "24h Volume",
         initialQuote: "USD · live quote when available",
         navAiChips: "AI Chips", navCloud: "AI Cloud", navDataCenter: "Data Centers", navEnterpriseAi: "Enterprise AI", navSecurity: "Security", navQuantum: "Quantum", navChinaAi: "China AI", navLeopold: "Leopold Aschenbrenner",
@@ -2489,7 +2502,7 @@
         watch: "Watch", prelist: "Pre-IPO", est: " est.",
         quoteDaily: "Daily market data", quoteLive: "Live Yahoo fallback", quoteError: "Quote feed unavailable; live fields are blank", waitingLive: "Waiting for live quotes",
         newsSource: "Source", newsAuthor: "Author", mediaSource: "Media", speechKeywordSource: "Open web news: public statements by foundation-model leaders / OpenAI / Anthropic / DeepMind / Gemini / Meta AI / xAI / Mistral / DeepSeek / Kimi / Zhipu / Qwen / Doubao / Musk / Jensen Huang / Hassabis / Liang Wenfeng / physical world model",
-        footer: "Note: This is a watchlist of AI-related US-listed, Hong Kong-listed, A-share, Korean, Japanese, Taiwan-market, and selected pre-IPO companies. It is not investment advice or an official index. Price, 1h/24h/7d/30d change, volume, and market cap use online quote/chart data when available; unavailable fields are left blank. Pre-IPO companies use estimated USD market caps for ranking and do not fetch live quotes. Non-USD market caps and volume are converted internally to USD using USD/CNY, USD/HKD, USD/KRW, USD/JPY, and USD/TWD logic; exchange rates are not displayed.",
+        footer: "Note: This is a watchlist of AI-related US-listed, Hong Kong-listed, A-share, Korean, Japanese, UK, Taiwan-market, and selected pre-IPO companies. It is not investment advice or an official index. Price, 1h/24h/7d/30d change, volume, and market cap use online quote/chart data when available; unavailable fields are left blank. Pre-IPO companies use estimated USD market caps for ranking and do not fetch live quotes. Non-USD market caps and volume are converted internally to USD using USD/CNY, USD/HKD, USD/KRW, USD/JPY, USD/TWD, and USD/GBP logic; exchange rates are not displayed.",
         fallbackIndustry: "Industry news tracking AI chips, cloud, data centers, and foundation models",
         fallbackPerson: "Statements track public AI comments by famous figures across open web news",
         fallbackCompany: "Company news tracks constituent names plus M&A, stakes, equity, funding, and investment keywords across Bloomberg and Reuters",
@@ -2564,17 +2577,28 @@
       }
       return rate;
     }
+    function usdGbpRateFor(dateLike = new Date()) {
+      const key = typeof dateLike === "string" ? dateLike : dateLike.toISOString().slice(0, 10);
+      let rate = USD_GBP_HISTORY[0][1];
+      for (const [date, value] of USD_GBP_HISTORY) {
+        if (date <= key) rate = value;
+        else break;
+      }
+      return rate;
+    }
     function fxRateFor(currency, dateLike) {
       if (currency === "CNY") return Number.isFinite(state.fxRates.USDCNY) ? state.fxRates.USDCNY : usdCnyRateFor(dateLike);
       if (currency === "HKD") return Number.isFinite(state.fxRates.USDHKD) ? state.fxRates.USDHKD : usdHkdRateFor(dateLike);
       if (currency === "KRW") return Number.isFinite(state.fxRates.USDKRW) ? state.fxRates.USDKRW : usdKrwRateFor(dateLike);
       if (currency === "JPY") return Number.isFinite(state.fxRates.USDJPY) ? state.fxRates.USDJPY : usdJpyRateFor(dateLike);
       if (currency === "TWD") return Number.isFinite(state.fxRates.USDTWD) ? state.fxRates.USDTWD : usdTwdRateFor(dateLike);
+      if (currency === "GBP" || currency === "GBp") return Number.isFinite(state.fxRates.USDGBP) ? state.fxRates.USDGBP : usdGbpRateFor(dateLike);
       return 1;
     }
     function toUsd(value, currency, dateLike) {
       if (!Number.isFinite(value)) return null;
-      if (currency === "CNY" || currency === "HKD" || currency === "KRW" || currency === "JPY" || currency === "TWD") return value / fxRateFor(currency, dateLike);
+      if (currency === "GBp") return (value / 100) / fxRateFor(currency, dateLike);
+      if (currency === "CNY" || currency === "HKD" || currency === "KRW" || currency === "JPY" || currency === "TWD" || currency === "GBP") return value / fxRateFor(currency, dateLike);
       return value;
     }
     function formatPercent(value) {
@@ -2587,7 +2611,7 @@
     }
     function formatPrice(value, row) {
       if (!Number.isFinite(value) || value <= 0) return "—";
-      const symbol = row?.currency === "CNY" ? "¥" : row?.currency === "HKD" ? "HK$" : "$";
+      const symbol = row?.currency === "CNY" ? "¥" : row?.currency === "HKD" ? "HK$" : row?.currency === "GBP" ? "£" : "$";
       if (value < 1) return `${symbol}${value.toFixed(4)}`;
       return `${symbol}${value.toFixed(2)}`;
     }
@@ -3292,10 +3316,11 @@
         const q = quotes.get(row.ticker) || {};
         const quoteCurrency = q.currency || row.currency || "USD";
         const quoteDate = updatedAt ? new Date(updatedAt) : new Date();
-        const quoteMarketCap = toUsd(q.marketCap, quoteCurrency, quoteDate);
+        const marketCapCurrency = quoteCurrency === "GBp" ? "GBP" : quoteCurrency;
+        const quoteMarketCap = toUsd(q.marketCap, marketCapCurrency, quoteDate);
         const quoteVolume = toUsd(q.volume, quoteCurrency, quoteDate);
-        const quotePrice = quoteCurrency === "KRW" || quoteCurrency === "JPY" || quoteCurrency === "TWD" ? toUsd(q.price, quoteCurrency, quoteDate) : q.price;
-        const displayCurrency = quoteCurrency === "KRW" || quoteCurrency === "JPY" || quoteCurrency === "TWD" ? "USD" : quoteCurrency;
+        const quotePrice = quoteCurrency === "KRW" || quoteCurrency === "JPY" || quoteCurrency === "TWD" || quoteCurrency === "GBp" || quoteCurrency === "GBP" ? toUsd(q.price, quoteCurrency, quoteDate) : q.price;
+        const displayCurrency = quoteCurrency === "KRW" || quoteCurrency === "JPY" || quoteCurrency === "TWD" || quoteCurrency === "GBp" || quoteCurrency === "GBP" ? "USD" : quoteCurrency;
         return {
           ...row,
           marketCap: quoteMarketCap,
@@ -3324,7 +3349,7 @@
     }
     async function fetchLiveQuotes() {
       const quoteRows = COMPANIES.filter((row) => row.status !== "prelist");
-      const symbols = [...quoteRows.map((row) => row.ticker), "CNY=X", "HKD=X", "KRW=X", "JPY=X", "TWD=X"];
+      const symbols = [...quoteRows.map((row) => row.ticker), "CNY=X", "HKD=X", "KRW=X", "JPY=X", "TWD=X", "GBP=X"];
       const chunks = [];
       for (let i = 0; i < symbols.length; i += 35) chunks.push(symbols.slice(i, i + 35));
       const quotes = new Map();
@@ -3359,11 +3384,13 @@
       const usdKrw = quotes.get("KRW=X");
       const usdJpy = quotes.get("JPY=X");
       const usdTwd = quotes.get("TWD=X");
+      const usdGbp = quotes.get("GBP=X");
       if (Number.isFinite(usdCny?.regularMarketPrice)) fx.USDCNY = usdCny.regularMarketPrice;
       if (Number.isFinite(usdHkd?.regularMarketPrice)) fx.USDHKD = usdHkd.regularMarketPrice;
       if (Number.isFinite(usdKrw?.regularMarketPrice)) fx.USDKRW = usdKrw.regularMarketPrice;
       if (Number.isFinite(usdJpy?.regularMarketPrice)) fx.USDJPY = usdJpy.regularMarketPrice;
       if (Number.isFinite(usdTwd?.regularMarketPrice)) fx.USDTWD = usdTwd.regularMarketPrice;
+      if (Number.isFinite(usdGbp?.regularMarketPrice)) fx.USDGBP = usdGbp.regularMarketPrice;
       applyQuoteData(normalized, new Date().toISOString(), t("quoteLive"), fx);
       fetchHistoricalMetrics().catch((error) => console.warn(error));
     }
