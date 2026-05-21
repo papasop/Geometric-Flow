@@ -1110,6 +1110,17 @@ def item_matches_terms(item: dict[str, str], terms: list[str]) -> bool:
     return any(term.lower() in text for term in terms)
 
 
+def canonical_news_title(title: str) -> str:
+    title = clean_text(title, 180).lower()
+    title = re.sub(
+        r"\s+-\s+(?:the\s+)?(?:new york times|financial times|south china morning post|wsj|wall street journal|wired|mit technology review)$",
+        "",
+        title,
+    )
+    title = re.sub(r"[^a-z0-9\u4e00-\u9fff]+", " ", title)
+    return re.sub(r"\s+", " ", title).strip()
+
+
 SPEECH_SIGNAL_RE = re.compile(
     r"\b(says|said|tells|told|warns|warned|predicts|predicted|argues|argued|"
     r"thinks|believes|expects|calls|called|urges|urged|"
@@ -1245,7 +1256,7 @@ def main() -> int:
                 parsed = parse_feed(source, raw)
                 kept = 0
                 for item in parsed:
-                    key = (item.get("url") or item.get("title") or "").lower()
+                    key = canonical_news_title(str(item.get("title") or "")) or (item.get("url") or "").lower()
                     if not key or key in section_seen:
                         continue
                     if section_required_keywords and not item_matches_terms(item, section_required_keywords):
