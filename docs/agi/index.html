@@ -1167,6 +1167,7 @@
     </section>
     <section class="subtabs" id="energy-subtabs" aria-label="能源子标签" hidden>
       <button class="subtab active" data-energy-subcategory="SMR" type="button">SMR</button>
+      <button class="subtab" data-energy-subcategory="SOFC" type="button">SOFC</button>
     </section>
 
     <section class="panel market-panel">
@@ -2036,7 +2037,7 @@
     const IAAS_PAAS_TICKERS = new Set(["NBIS", "LAMBDA.PRE", "LEPTON.PRE", "CLICKHOUSE.PRE"]);
     const MAAS_TICKERS = new Set(["FIREWORKS.PRE", "NOW"]);
     const ENERGY_CATEGORY = "能源";
-    const ENERGY_SUBCATEGORIES = ["SMR"];
+    const ENERGY_SUBCATEGORIES = ["SMR", "SOFC"];
     const AIBOTT_BY_TICKER = new Map(AIBOTT_WATCHLIST.map(([symbol, name, theme, oneLiner, conviction]) => [symbol, { name, theme, oneLiner, conviction }]));
     function inferAibottTheme(category, thesis, ticker) {
       const text = String(ticker || "") + " " + String(category || "") + " " + String(thesis || "");
