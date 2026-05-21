@@ -415,7 +415,9 @@ TECH_NEWS_SOURCES = [
 PAPER_NEWS_SOURCES = [
     google_news_query_source("Nature", f"site:nature.com {AI_MARKET_NEWS_QUERY}"),
     google_news_query_source("Nature Machine Intelligence", f"site:nature.com/natmachintell {AI_MARKET_NEWS_QUERY}"),
+    {"name": "Science", "url": "https://www.science.org/action/showFeed?type=etoc&feed=rss&jc=science"},
     google_news_query_source("Science", f"site:science.org {AI_MARKET_NEWS_QUERY}"),
+    {"name": "Science Robotics", "url": "https://www.science.org/action/showFeed?type=etoc&feed=rss&jc=scirobotics"},
     google_news_query_source("Science Robotics", f"site:science.org/journal/scirobotics {AI_MARKET_NEWS_QUERY}"),
     google_news_query_source("NeurIPS", f"site:neurips.cc {AI_MARKET_NEWS_QUERY}"),
     google_news_query_source("ICML", f"site:icml.cc {AI_MARKET_NEWS_QUERY}"),
@@ -678,7 +680,7 @@ def looks_like_person_name(author: str) -> bool:
     if re.search(r"[@:/\\]|\d", author):
         return False
     author = re.sub(r"^(by|from)\s+", "", author, flags=re.I).strip()
-    author = re.split(r"\s+(?:and|&|,)\s+", author, maxsplit=1, flags=re.I)[0].strip()
+    author = re.split(r"\s*(?:,|&|\band\b)\s+", author, maxsplit=1, flags=re.I)[0].strip()
     if re.fullmatch(r"[\u4e00-\u9fff]{2,4}", author):
         return True
     parts = [part for part in re.split(r"\s+", author.replace(".", ". ")) if part]
@@ -708,7 +710,7 @@ def normalize_author(author: str, source_name: str) -> str:
     if not author:
         return ""
     author = re.sub(r"^(by|from)\s+", "", author, flags=re.I).strip()
-    author = re.split(r"\s+(?:and|&|,)\s+", author, maxsplit=1, flags=re.I)[0].strip()
+    author = re.split(r"\s*(?:,|&|\band\b)\s+", author, maxsplit=1, flags=re.I)[0].strip()
     if author.lower() == source_name.lower():
         return ""
     if re.search(r"\beditorial\b|\bstaff\b|^news$", author, re.I):
@@ -898,7 +900,7 @@ def parse_feed(source: dict[str, str], data: bytes) -> list[dict[str, str]]:
     elif root_name == "feed":
         nodes = root.findall("{http://www.w3.org/2005/Atom}entry") or root.findall("entry")
     else:
-        nodes = root.findall(".//item")
+        nodes = root.findall(".//item") or root.findall(".//{http://purl.org/rss/1.0/}item")
 
     items = []
     for node in nodes[:24]:
