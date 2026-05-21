@@ -996,25 +996,10 @@
         <img class="brand-mark" src="isithub-logo.svg" alt="" />
         <span class="brand-name">IsitHUB</span>
       </button>
-      <a href="#" data-nav-tab="InP & Substrates">InP & Substrates</a>
-      <a href="#" data-nav-tab="Photonics / CPO">Photonics / CPO</a>
-      <a href="#" data-nav-tab="Networking / Retimers">Networking / Retimers</a>
-      <a href="#" data-nav-tab="Power & Grid">Power & Grid</a>
-      <a href="#" data-nav-tab="HBM / Packaging">HBM / Packaging</a>
-      <a href="#" data-nav-tab="Custom Silicon">Custom Silicon</a>
-      <a href="#" data-nav-tab="Cooling">Cooling</a>
-      <a href="#" data-nav-tab="Memory Supercycle">Memory Supercycle</a>
-      <a href="#" data-nav-tab="Rare Earths">Rare Earths</a>
-      <a href="#" data-nav-tab="Lithography & Fab Tools">Lithography & Fab Tools</a>
-      <a href="#" data-nav-tab="Connectors & Interconnect">Connectors & Interconnect</a>
-      <a href="#" data-nav-tab="Construction & MEP">Construction & MEP</a>
-      <a href="#" data-nav-tab="🏭 AIDC（AI 数据中心）">🏭 AIDC（AI 数据中心）</a>
-      <a href="#" data-nav-tab="SOFC">SOFC</a>
-      <a href="#" data-nav-tab="AI Cloud / Neoclouds">AI Cloud / Neoclouds</a>
-      <a href="#" data-nav-tab="Storage">Storage</a>
-      <a href="#" data-nav-tab="Outliers">Outliers</a>
-      <a href="#" data-nav-tab="China AI">中国人工智能</a>
-      <a href="#" data-nav-tab="Leopold Aschenbrenner">Leopold Aschenbrenner</a>
+      <a href="#" data-nav-tab="能源">能源</a>
+      <a href="#" data-nav-tab="基础设施">基础设施</a>
+      <a href="#" data-nav-tab="硬件">硬件</a>
+      <a href="#" data-nav-tab="Token 工厂 / 推理服务">Token 工厂 / 推理服务</a>
     </div>
   </nav>
   <main class="shell">
@@ -1146,25 +1131,10 @@
     <section class="tabs" aria-label="Search and category shortcuts">
       <input class="search" id="search" name="ai-market-company-search" type="search" placeholder="搜索公司、Ticker、子赛道" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" inputmode="search" />
       <button class="tab active" data-tab="ALL" type="button">全部</button>
-      <button class="tab" data-tab="Lithography & Fab Tools" type="button">Lithography & Fab Tools</button>
-      <button class="tab" data-tab="InP & Substrates" type="button">InP & Substrates</button>
-      <button class="tab" data-tab="Photonics / CPO" type="button">Photonics / CPO</button>
-      <button class="tab" data-tab="HBM / Packaging" type="button">HBM / Packaging</button>
-      <button class="tab" data-tab="Memory Supercycle" type="button">Memory Supercycle</button>
-      <button class="tab" data-tab="Networking / Retimers" type="button">Networking / Retimers</button>
-      <button class="tab" data-tab="Power & Grid" type="button">Power & Grid</button>
-      <button class="tab" data-tab="Custom Silicon" type="button">Custom Silicon</button>
-      <button class="tab" data-tab="Cooling" type="button">Cooling</button>
-      <button class="tab" data-tab="Rare Earths" type="button">Rare Earths</button>
-      <button class="tab" data-tab="Connectors & Interconnect" type="button">Connectors & Interconnect</button>
-      <button class="tab" data-tab="Construction & MEP" type="button">Construction & MEP</button>
-      <button class="tab" data-tab="🏭 AIDC（AI 数据中心）" type="button">🏭 AIDC（AI 数据中心）</button>
-      <button class="tab" data-tab="SOFC" type="button">SOFC</button>
-      <button class="tab" data-tab="AI Cloud / Neoclouds" type="button">AI Cloud / Neoclouds</button>
-      <button class="tab" data-tab="Storage" type="button">Storage</button>
-      <button class="tab" data-tab="Outliers" type="button">Outliers</button>
-      <button class="tab" data-tab="China AI" type="button">中国 AI</button>
-      <button class="tab" data-tab="Leopold Aschenbrenner" type="button">Leopold Aschenbrenner</button>
+      <button class="tab" data-tab="能源" type="button">能源</button>
+      <button class="tab" data-tab="基础设施" type="button">基础设施</button>
+      <button class="tab" data-tab="硬件" type="button">硬件</button>
+      <button class="tab" data-tab="Token 工厂 / 推理服务" type="button">Token 工厂 / 推理服务</button>
     </section>
 
     <section class="panel market-panel">
@@ -2024,45 +1994,20 @@
       ]
 ];
     const AIBOTT_THEMES = [
-      "Lithography & Fab Tools",
-      "InP & Substrates",
-      "Photonics / CPO",
-      "HBM / Packaging",
-      "Memory Supercycle",
-      "Networking / Retimers",
-      "Power & Grid",
-      "Custom Silicon",
-      "Cooling",
-      "Rare Earths",
-      "Connectors & Interconnect",
-      "Construction & MEP",
-      "🏭 AIDC（AI 数据中心）",
-      "SOFC",
-      "AI Cloud / Neoclouds",
-      "Storage",
-      "Outliers"
+      "能源",
+      "基础设施",
+      "硬件",
+      "Token 工厂 / 推理服务"
 ];
     const AIBOTT_BY_TICKER = new Map(AIBOTT_WATCHLIST.map(([symbol, name, theme, oneLiner, conviction]) => [symbol, { name, theme, oneLiner, conviction }]));
     function inferAibottTheme(category, thesis, ticker) {
       const text = String(ticker || "") + " " + String(category || "") + " " + String(thesis || "");
       const lower = text.toLowerCase();
-      if (/inp|substrate|epitax|soi|wafer/.test(lower)) return "InP & Substrates";
-      if (/photon|optic|laser|cpo|coherent|transceiver|fiber|eml|silicon photonics/.test(lower)) return "Photonics / CPO";
-      if (/hbm|packag|cowos|osat|substrate|pcb|abf|metrology|inspection|bond|test|mask|burn-in|burn in/.test(lower)) return "HBM / Packaging";
-      if (/memory|dram|nand|storage|ssd|hdd|checkpoint/.test(lower)) return "Memory Supercycle";
-      if (/lithography|euv|fab tool|semi equipment|etch|deposition|cmp|process control|foundry|advanced manufacturing/.test(lower)) return "Lithography & Fab Tools";
-      if (/network|retimer|ethernet|switch|fabric|interconnect|cable|connector/.test(lower)) return "Networking / Retimers";
-      if (/connector/.test(lower)) return "Connectors & Interconnect";
-      if (/power|grid|electric|switchgear|transformer|nuclear|energy|battery|gan|sic|pmic|analog/.test(lower)) return "Power & Grid";
-      if (/cool|thermal|chiller|hvac|liquid/.test(lower)) return "Cooling";
-      if (/construction|mep|buildout|campus/.test(lower)) return "Construction & MEP";
-      if (/rare earth|magnet|mining|metals/.test(lower)) return "Rare Earths";
-      if (/sofc|solid oxide|fuel cell|fuel cells|燃料电池|固体氧化物/.test(lower)) return "SOFC";
-      if (/aidc|ai data center|data center|datacenter|ai 数据中心|数据中心/.test(lower)) return "🏭 AIDC（AI 数据中心）";
-      if (/cloud|neocloud|server|rack|hyperscaler|oci|aws|azure|gpu lease|ai factory/.test(lower)) return "AI Cloud / Neoclouds";
-      if (/storage|data fabric/.test(lower)) return "Storage";
-      if (/asic|gpu|cuda|accelerator|npu|tpu|cpu|eda|ip|chip|semiconductor|inference|edge ai|custom silicon|foundry/.test(lower)) return "Custom Silicon";
-      return "Outliers";
+      if (/sofc|solid oxide|fuel cell|fuel cells|power|grid|electric|switchgear|transformer|nuclear|energy|battery|natural gas|gas turbine|燃料电池|固体氧化物|电力|能源|电网|核电|天然气/.test(lower)) return "能源";
+      if (/aidc|ai data center|data center|datacenter|construction|mep|buildout|campus|cool|thermal|chiller|hvac|liquid|storage|data fabric|server|rack|ai 数据中心|数据中心|液冷|机房|存储/.test(lower)) return "基础设施";
+      if (/inp|substrate|epitax|soi|wafer|photon|optic|laser|cpo|coherent|transceiver|fiber|eml|silicon photonics|hbm|packag|cowos|osat|pcb|abf|metrology|inspection|bond|test|mask|burn-in|memory|dram|nand|ssd|hdd|lithography|euv|fab tool|semi equipment|etch|deposition|cmp|process control|foundry|advanced manufacturing|network|retimer|ethernet|switch|fabric|interconnect|cable|connector|rare earth|magnet|mining|metals|asic|gpu|cuda|accelerator|npu|tpu|cpu|eda|ip|chip|semiconductor|edge ai|custom silicon|robot|sensor|hardware|陶瓷|芯片|半导体|光模块|连接器|稀土|硬件/.test(lower)) return "硬件";
+      if (/token|inference|推理|cloud|neocloud|hyperscaler|oci|aws|azure|gpu lease|ai factory|model|llm|agent|copilot|enterprise ai|software|api|平台|模型|大模型|智能体|服务/.test(lower)) return "Token 工厂 / 推理服务";
+      return "Token 工厂 / 推理服务";
     }
 
     const BASE_COMPANIES = [
@@ -2284,8 +2229,9 @@
       const meta = row[4] || {};
       const aibott = AIBOTT_BY_TICKER.get(row[0]);
       const baseTags = meta.tags || (LEOPOLD_TICKERS.has(row[0]) ? ["Leopold Aschenbrenner"] : []);
-      const aibottTheme = aibott?.theme || inferAibottTheme(row[2], row[3], row[0]);
-      const tags = [...new Set([...baseTags, aibottTheme, ...(aibott ? [aibott.conviction, "AI Bottlenecks"] : [])].filter(Boolean))];
+      const detailTheme = aibott?.theme || row[2] || "";
+      const aibottTheme = inferAibottTheme(detailTheme, `${row[2] || ""} ${row[3] || ""} ${aibott?.oneLiner || ""}`, row[0]);
+      const tags = [...new Set([...baseTags, aibottTheme, detailTheme, row[2], ...(aibott ? [aibott.conviction, "AI Bottlenecks"] : [])].filter(Boolean))];
       return {
         rank: index + 1,
         ticker: row[0],
@@ -2652,19 +2598,14 @@
       </svg>`;
     }
     function categories() {
-      const remaining = Array.from(new Set(COMPANIES.map((row) => row.category))).filter((cat) => !AIBOTT_THEMES.includes(cat)).sort();
-      return ["ALL", ...AIBOTT_THEMES, "China AI", "Leopold Aschenbrenner", ...remaining];
+      return ["ALL", ...AIBOTT_THEMES];
     }
     function categoryLabel(cat) {
       if (cat === "ALL") return t("allSubsectors");
-      if (cat === "China AI") return t("chinaAi");
-      if (cat === "Leopold Aschenbrenner") return t("leopold");
       return cat;
     }
     function matchesCategory(row, category) {
       if (category === "ALL") return true;
-      if (category === "China AI") return row.country === "China";
-      if (category === "Leopold Aschenbrenner") return row.tags?.includes("Leopold Aschenbrenner");
       return row.category === category;
     }
     function filteredRows() {
@@ -3454,7 +3395,7 @@
       setFirstText(".topline-inner > span:nth-child(3)", `${t("totalCap")}: `);
       setFirstText(".topline-inner > span:nth-child(4)", `${t("volume24h")}: `);
       if (/live quote|实时行情/.test($("updated-at")?.textContent || "")) $("updated-at").textContent = t("initialQuote");
-      setAllText(".nav a[data-nav-tab]", [...AIBOTT_THEMES, t("navChinaAi"), t("navLeopold")]);
+      setAllText(".nav a[data-nav-tab]", AIBOTT_THEMES);
       document.querySelector(".news-sections")?.setAttribute("aria-label", `${t("industry")}/${t("person")}/${t("company")}/${t("frontier")}/${t("papers")}`);
       setAllText(".news-tab", [t("industry"), t("person"), t("company"), t("frontier"), t("papers")]);
       ["industry", "person", "company", "tech", "papers"].forEach((id) => {
@@ -3479,7 +3420,7 @@
       setAllText(".token-tab", [t("day"), t("week"), t("month")]);
       setAllText(".chart-range-tab", [t("history"), t("day"), t("week"), t("month")]);
       setAllText(".token-metric span", [t("period"), "Top 10 Tokens", t("firstShare")]);
-      setAllText(".tabs .tab", [t("all"), ...AIBOTT_THEMES, t("chinaAi"), t("leopold")]);
+      setAllText(".tabs .tab", [t("all"), ...AIBOTT_THEMES]);
       $("search").placeholder = t("searchPlaceholder");
       setText(".panel-title", t("rankName"));
       setText("#table-note", t("tableNote"));
