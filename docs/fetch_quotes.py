@@ -30,6 +30,7 @@ FX_TICKERS = {
     "USDJPY": "JPY=X",
     "USDTWD": "TWD=X",
     "USDGBP": "GBP=X",
+    "USDCAD": "CAD=X",
 }
 
 
