@@ -2061,6 +2061,7 @@
       const text = String(ticker || "") + " " + String(category || "") + " " + String(thesis || "");
       const lower = text.toLowerCase();
       if (MODEL_TICKERS.has(String(ticker || "").toUpperCase())) return MODEL_CATEGORY;
+      if (String(ticker || "").toUpperCase() === "VST") return ENERGY_CATEGORY;
       if (String(ticker || "").toUpperCase() === "NBIS") return "Token 工厂 / 推理服务";
       if (/sofc|solid oxide|fuel cell|fuel cells|power|grid|electric|switchgear|transformer|nuclear|energy|battery|natural gas|gas turbine|燃料电池|固体氧化物|电力|能源|电网|核电|天然气/.test(lower)) return "能源";
       if (/aidc|ai data center|data center|datacenter|construction|mep|buildout|campus|cool|thermal|chiller|hvac|liquid|storage|data fabric|server|rack|ai 数据中心|数据中心|液冷|机房|存储/.test(lower)) return "基础设施";
@@ -2692,6 +2693,7 @@
     function energySubcategory(row) {
       const haystack = `${row.ticker} ${row.name} ${row.category} ${row.thesis} ${(row.tags || []).join(" ")}`.toLowerCase();
       if (row.ticker === "BE" || row.ticker === "000338.SZ") return "SOFC";
+      if (row.ticker === "VST") return "SMR";
       if (/sofc|solid oxide|fuel cell|fuel cells|燃料电池|固体氧化物/.test(haystack)) return "SOFC";
       if (/smr|small modular reactor|microreactor|nuclear|reactor|haleu|uranium|小型模块化|模块化反应堆|核能|核电|反应堆/.test(haystack)) return "SMR";
       return "SMR";
