@@ -368,6 +368,12 @@ DEAL_REQUIRED_KEYWORDS = [
 ]
 
 INDUSTRY_NEWS_SOURCES = [
+    {"name": "New York Times", "url": "https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml"},
+    {"name": "New York Times", "url": "https://rss.nytimes.com/services/xml/rss/nyt/Business.xml"},
+    {"name": "Financial Times", "url": "https://www.ft.com/artificial-intelligence?format=rss"},
+    {"name": "Financial Times", "url": "https://www.ft.com/technology?format=rss"},
+    {"name": "South China Morning Post", "url": "https://www.scmp.com/rss/36/feed"},
+    {"name": "South China Morning Post", "url": "https://www.scmp.com/rss/92/feed"},
     google_news_query_source("Wall Street Journal", f"site:wsj.com {AI_MARKET_NEWS_QUERY}"),
     google_news_query_source("New York Times", f"site:nytimes.com {AI_MARKET_NEWS_QUERY}"),
     google_news_query_source("Financial Times", f"site:ft.com {AI_MARKET_NEWS_QUERY}"),
@@ -681,6 +687,17 @@ def author_of(node: ET.Element) -> str:
     return ""
 
 
+def categories_of(node: ET.Element) -> str:
+    categories = []
+    for child in node:
+        if child.tag.rsplit("}", 1)[-1].lower() != "category":
+            continue
+        value = clean_text(child.text or child.attrib.get("term", "") or child.attrib.get("label", ""), 80)
+        if value:
+            categories.append(value)
+    return " ".join(categories[:8])
+
+
 PUBLISHER_AUTHOR_RE = re.compile(
     r"\b("
     r"reuters|bloomberg|associated press|ap news|cnbc|cnn|bbc|yahoo|google|marketwatch|"
@@ -926,6 +943,8 @@ def parse_feed(source: dict[str, str], data: bytes) -> list[dict[str, str]]:
     for node in nodes[:24]:
         title = clean_text(text_of(node, ["title", "{http://www.w3.org/2005/Atom}title"]), 180)
         summary = clean_text(text_of(node, ["description", "summary", "content", "{http://www.w3.org/2005/Atom}summary", "{http://purl.org/rss/1.0/modules/content/}encoded"]))
+        categories = categories_of(node)
+        match_summary = clean_text(" ".join(part for part in [summary, categories] if part))
         url = link_of(node)
         rss_source_name, rss_source_url = source_details_of(node)
         display_source = rss_source_name or source["name"]
@@ -937,7 +956,7 @@ def parse_feed(source: dict[str, str], data: bytes) -> list[dict[str, str]]:
                 "feedSource": source["name"],
                 "sourceUrl": rss_source_url,
                 "title": title,
-                "summary": summary or title,
+                "summary": match_summary or title,
                 "url": url,
                 "author": author,
                 "publishedAt": published,
@@ -1169,6 +1188,23 @@ def main() -> int:
     items: list[dict[str, object]] = []
     source_status = []
     section_payload: dict[str, dict[str, object]] = {}
+    section_filter = {
+        section_id.strip()
+        for section_id in os.environ.get("NEWS_SECTIONS_ONLY", "").split(",")
+        if section_id.strip()
+    }
+    existing_payload: dict[str, object] = {}
+    if section_filter and OUT.exists():
+        try:
+            existing_payload = json.loads(OUT.read_text(encoding="utf-8"))
+            existing_sections = existing_payload.get("sections")
+            if isinstance(existing_sections, dict):
+                section_payload.update(existing_sections)
+            existing_sources = existing_payload.get("sources")
+            if isinstance(existing_sources, list):
+                source_status.extend(existing_sources)
+        except (json.JSONDecodeError, OSError):
+            existing_payload = {}
 
     event_registry_key = os.environ.get("EVENT_REGISTRY_API_KEY", "").strip()
     if event_registry_key:
@@ -1181,9 +1217,12 @@ def main() -> int:
             items.append(item)
 
     for section in NEWS_SECTIONS:
+        if section_filter and section["id"] not in section_filter:
+            continue
         section_seen = set()
         section_items: list[dict[str, object]] = []
         section_required_keywords = section.get("requiredKeywords", [])
+        author_fetch_limit = 18 if section.get("id") == "industry" else 6
         author_fetches = 0
         for source in section["sources"]:
             source_required_keywords = source.get("requiredKeywords", [])
@@ -1202,7 +1241,7 @@ def main() -> int:
                     matched, tags = classify(item)
                     if not matched and not item_matches_terms(item, AI_MARKET_REQUIRED_KEYWORDS):
                         continue
-                    if not item.get("author") and author_fetches < 24:
+                    if not item.get("author") and author_fetches < author_fetch_limit:
                         item["author"] = extract_article_author(
                             str(item.get("url") or ""),
                             str(item.get("source") or source["name"]),
@@ -1244,7 +1283,7 @@ def main() -> int:
         }
 
     speech_section = next((section for section in NEWS_SECTIONS if section.get("id") == "person"), None)
-    if speech_section:
+    if speech_section and (not section_filter or "person" in section_filter):
         existing_speech_items = [
             item for item in section_payload.get("person", {}).get("items", [])
             if item_matches_speech(item)
@@ -1264,6 +1303,14 @@ def main() -> int:
             "items": merged_speech_items[:32],
         }
 
+    if section_filter:
+        items = [
+            item
+            for section in section_payload.values()
+            if isinstance(section, dict)
+            for item in section.get("items", [])
+            if isinstance(item, dict)
+        ]
     items.sort(key=lambda item: (bool(item.get("matchedPortfolios")), item.get("publishedAt") or ""), reverse=True)
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
