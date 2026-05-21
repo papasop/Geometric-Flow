@@ -311,6 +311,15 @@ AI_PERSON_NEWS_TERMS = [
     "Yann LeCun", "杨立昆", "杨丽坤", "Andrew Ng", "Andrej Karpathy", "Fei-Fei Li",
     "Ilya Sutskever", "Leopold Aschenbrenner", "Lisa Su", "Hock Tan",
     "Masayoshi Son", "Mira Murati", "Kai-Fu Lee", "李飞飞", "李开复",
+    "Geoffrey Hinton", "Yoshua Bengio", "Yejin Choi", "Jeff Dean", "Noam Shazeer",
+    "Mustafa Suleyman", "Aidan Gomez", "Ian Goodfellow", "Jim Keller",
+    "Tim Cook", "Bill Gates", "Jeff Bezos", "Larry Ellison", "Marc Benioff",
+    "Marc Andreessen", "Ben Horowitz", "Reid Hoffman", "Peter Thiel", "Vinod Khosla",
+    "Warren Buffett", "Charlie Munger", "Ray Dalio", "Stanley Druckenmiller",
+    "Eric Schmidt", "Henry Kissinger", "Yuval Noah Harari", "Nick Bostrom",
+    "Barack Obama", "Donald Trump", "Joe Biden", "Ursula von der Leyen",
+    "Ren Zhengfei", "任正非", "Zhang Yiming", "张一鸣", "Liang Wenfeng", "梁文锋",
+    "Robin Li", "李彦宏", "Wang Xingxing", "王兴兴", "Lei Jun", "雷军",
     "physical world model", "world model", "物理世界模型",
 ]
 AI_SPEECH_PERSON_TERMS = [
@@ -324,6 +333,16 @@ AI_PERSON_NEWS_QUERY = (
     '"physical world model" OR "world model" OR "人工智能" OR "物理世界模型") '
     '("says" OR "said" OR "warns" OR "predicts" OR "tweet" OR "post" OR "X" OR "推特" OR "发文" OR "表示")'
 )
+def ai_person_news_query(terms: list[str]) -> str:
+    return (
+        f"({quoted_or_query(terms)}) "
+        '("AI" OR "artificial intelligence" OR "OpenAI" OR "Nvidia" OR '
+        '"large language model" OR "AI chip" OR "agent" OR "robotics" OR '
+        '"physical world model" OR "world model" OR "人工智能" OR "物理世界模型") '
+        '("says" OR "said" OR "warns" OR "warned" OR "predicts" OR "predicted" OR '
+        '"thinks" OR "believes" OR "expects" OR "quote" OR "interview" OR "speech" OR '
+        '"表示" OR "称" OR "认为" OR "警告" OR "预测" OR "指出" OR "采访" OR "演讲")'
+    )
 DEAL_NEWS_TERMS_QUERY = (
     '("equity" OR "stake" OR "financing" OR "funding" OR "financial" OR '
     '"capital" OR "valuation" OR "investment" OR "raises" OR "IPO" OR '
@@ -355,7 +374,8 @@ INDUSTRY_NEWS_SOURCES = [
     google_news_query_source("South China Morning Post", f"site:scmp.com {AI_MARKET_NEWS_QUERY}"),
 ]
 PERSON_NEWS_SOURCES = [
-    google_news_query_source("AI Statements · People", AI_PERSON_NEWS_QUERY),
+    google_news_query_source(f"AI Statements · Public Figures {index + 1}", ai_person_news_query(batch))
+    for index, batch in enumerate(chunked_terms(AI_PERSON_NEWS_TERMS, 12))
 ]
 COMPANY_NEWS_SOURCES = [
     google_news_query_source(f"Bloomberg · Company Batch {index + 1}", f"site:bloomberg.com ({quoted_or_query(batch)})")
@@ -441,7 +461,7 @@ NEWS_SECTIONS = [
     {
         "id": "person",
         "title": "言论",
-        "note": "来源：关键词：马斯克 / 黄仁勋 / 哈萨比斯 / 杨立昆 / 杨丽坤 / Sam Altman / Dario Amodei / Fei-Fei Li / 物理世界模型",
+        "note": "来源：互联网公开新闻；关键词：AI 名人公开言论 / 马斯克 / 黄仁勋 / 哈萨比斯 / 杨立昆 / 李飞飞 / Hinton / Gates / Buffett / Harari / 任正非 / 张一鸣 / 梁文锋 / 物理世界模型",
         "sources": PERSON_NEWS_SOURCES,
         "derivedFromAll": True,
     },
@@ -1065,16 +1085,23 @@ def item_matches_terms(item: dict[str, str], terms: list[str]) -> bool:
 
 SPEECH_SIGNAL_RE = re.compile(
     r"\b(says|said|tells|told|warns|warned|predicts|predicted|argues|argued|"
-    r"thinks|believes|expects|calls|called|urges|urged|announces|announced|"
+    r"thinks|believes|expects|calls|called|urges|urged|"
     r"tweeted|posted|wrote|commented|remarks|remarked)\b|"
     r"表示|称|认为|警告|预测|指出|发文|写道|透露|宣布|呼吁|谈到|说道|表示：|“|”|\"",
     re.I,
 )
 WORLD_MODEL_TERMS = ["physical world model", "world model", "物理世界模型"]
+AI_SPEECH_TOPIC_RE = re.compile(
+    r"\b(ai|a\.i\.|artificial intelligence|openai|anthropic|nvidia|large language model|"
+    r"llm|agent|agents|robot|robotics|automation|compute|data center|datacenter|gpu|"
+    r"chip|chips|semiconductor|world model)\b|"
+    r"人工智能|大模型|智能体|机器人|自动化|算力|数据中心|芯片|半导体|物理世界模型",
+    re.I,
+)
 PASSIVE_SPEECH_RE = re.compile(r"\bis\s+said\s+to\b|\bare\s+said\s+to\b|\bwas\s+said\s+to\b|\bwere\s+said\s+to\b", re.I)
 REAL_SPEECH_RE = re.compile(
     r"\b(says|said|tells|told|warns|warned|predicts|predicted|argues|argued|"
-    r"thinks|believes|expects|calls|called|urges|urged|announces|announced|"
+    r"thinks|believes|expects|calls|called|urges|urged|"
     r"tweeted|posted|wrote|commented|remarks|remarked)\b\s+(?:that\s+)?[A-Za-z0-9'’“\"].{12,}|"
     r"(?:表示|称|认为|警告|预测|指出|发文|写道|透露|宣布|呼吁|谈到|说道)[:：]?\s*.{6,}",
     re.I,
@@ -1089,6 +1116,8 @@ def item_matches_speech(item: dict[str, object]) -> bool:
         str(item.get("author") or ""),
     ])
     if PASSIVE_SPEECH_RE.search(text):
+        return False
+    if not AI_SPEECH_TOPIC_RE.search(text):
         return False
     text_l = text.lower()
     has_person = any(re.search(rf"(?<![a-z0-9]){re.escape(term.lower())}(?![a-z0-9])", text_l) for term in AI_SPEECH_PERSON_TERMS)
