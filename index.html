@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>IsitHUB</title>
+  <link rel="icon" type="image/svg+xml" href="isithub-logo.svg" />
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LY00KSNQ2E"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -66,7 +67,10 @@
       overflow-x: auto;
     }
     .brand {
-      color: var(--green);
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--text);
       font-weight: 900;
       margin-right: 14px;
       white-space: nowrap;
@@ -76,7 +80,19 @@
       height: auto;
       cursor: pointer;
     }
-    .brand:hover { text-decoration: underline; }
+    .brand:hover { color: #f8fafc; }
+    .brand-mark {
+      width: 30px;
+      height: 30px;
+      border-radius: 6px;
+      display: block;
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08);
+    }
+    .brand-name {
+      font-size: 16px;
+      line-height: 1;
+      letter-spacing: 0;
+    }
     .nav a {
       color: var(--soft);
       text-decoration: none;
@@ -976,7 +992,10 @@
   </div>
   <nav class="nav" aria-label="IsitHUB navigation">
     <div class="nav-inner">
-      <button class="brand" type="button" id="brand-all">IsitHUB</button>
+      <button class="brand" type="button" id="brand-all" aria-label="IsitHUB">
+        <img class="brand-mark" src="isithub-logo.svg" alt="" />
+        <span class="brand-name">IsitHUB</span>
+      </button>
       <a href="#" data-nav-tab="InP & Substrates">InP & Substrates</a>
       <a href="#" data-nav-tab="Photonics / CPO">Photonics / CPO</a>
       <a href="#" data-nav-tab="Networking / Retimers">Networking / Retimers</a>
