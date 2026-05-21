@@ -2034,6 +2034,7 @@
     const TOKEN_FACTORY_CATEGORY = "Token 工厂 / 推理服务";
     const TOKEN_FACTORY_SUBCATEGORIES = ["IaaS/PaaS", "MaaS"];
     const IAAS_PAAS_TICKERS = new Set(["NBIS", "LAMBDA.PRE", "LEPTON.PRE", "CLICKHOUSE.PRE"]);
+    const MAAS_TICKERS = new Set(["FIREWORKS.PRE"]);
     const ENERGY_CATEGORY = "能源";
     const ENERGY_SUBCATEGORIES = ["SMR"];
     const AIBOTT_BY_TICKER = new Map(AIBOTT_WATCHLIST.map(([symbol, name, theme, oneLiner, conviction]) => [symbol, { name, theme, oneLiner, conviction }]));
@@ -2656,11 +2657,8 @@
     }
     function tokenFactorySubcategory(row) {
       if (IAAS_PAAS_TICKERS.has(row.ticker)) return "IaaS/PaaS";
-      const haystack = `${row.ticker} ${row.name} ${row.category} ${row.thesis} ${(row.tags || []).join(" ")}`.toLowerCase();
-      if (row.ticker === "FIREWORKS.PRE") return "MaaS";
-      if (row.ticker === "TOGETHER.PRE") return "MaaS";
-      if (/maas|model as a service|model|llm|api|inference|agent|copilot|software|platform|大模型|模型|推理|智能体|平台|服务/.test(haystack)) return "MaaS";
-      return "MaaS";
+      if (MAAS_TICKERS.has(row.ticker)) return "MaaS";
+      return null;
     }
     function matchesTokenSubcategory(row) {
       if (state.category !== TOKEN_FACTORY_CATEGORY) return true;
