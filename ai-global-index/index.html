@@ -2708,13 +2708,17 @@
       const normalized = raw.toLowerCase();
       if (normalized === "wall street journal" || normalized === "wsj") return "华尔街日报";
       if (normalized === "new york times" || normalized === "the new york times") return "纽约时报";
+      if (normalized === "financial times") return "金融时报";
+      if (normalized === "south china morning post") return "南华早报";
+      if (normalized === "science" || normalized === "science | aaas") return "科学";
+      if (normalized === "science robotics") return "科学机器人";
       return raw;
     }
     function isRealPersonName(value) {
       let raw = String(value || "").trim();
       if (!raw || /[@:/\\]|\d/.test(raw)) return false;
       raw = raw.replace(/^(by|from)\s+/i, "").trim();
-      raw = raw.split(/\s+(?:and|&|,)\s+/i)[0].trim();
+      raw = raw.split(/\s*(?:,|&|\band\b)\s+/i)[0].trim();
       if (/^[\u4e00-\u9fff]{2,4}$/.test(raw)) return true;
       const parts = raw.replace(/\./g, ". ").split(/\s+/).filter(Boolean);
       if (parts.length < 2 || parts.length > 4) return false;
@@ -2733,7 +2737,7 @@
       return personalParts >= 2;
     }
     function displayNewsAuthor(sourceValue, authorValue) {
-      const rawAuthor = String(authorValue || "").replace(/^(by|from)\s+/i, "").split(/\s+(?:and|&|,)\s+/i)[0].trim();
+      const rawAuthor = String(authorValue || "").replace(/^(by|from)\s+/i, "").split(/\s*(?:,|&|\band\b)\s+/i)[0].trim();
       const author = rawAuthor;
       const normalizedSource = String(sourceValue || "").toLowerCase();
       const normalizedAuthor = rawAuthor.toLowerCase();
