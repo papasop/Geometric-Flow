@@ -306,9 +306,9 @@ AI_COMPANY_NEWS_TERMS = extract_company_news_terms() or [
     "CoreWeave", "Nebius Group", "Tencent", "Alibaba", "Baidu", "寒武纪",
 ]
 AI_PERSON_NEWS_TERMS = [
-    "Sam Altman", "Elon Musk", "Jensen Huang", "Satya Nadella",
+    "Sam Altman", "Elon Musk", "马斯克", "Jensen Huang", "黄仁勋", "Satya Nadella",
     "Dario Amodei", "Demis Hassabis", "哈萨比斯", "Mark Zuckerberg", "Sundar Pichai",
-    "Yann LeCun", "Andrew Ng", "Andrej Karpathy", "Fei-Fei Li",
+    "Yann LeCun", "杨立昆", "杨丽坤", "Andrew Ng", "Andrej Karpathy", "Fei-Fei Li",
     "Ilya Sutskever", "Leopold Aschenbrenner", "Lisa Su", "Hock Tan",
     "Masayoshi Son", "Mira Murati", "Kai-Fu Lee", "李飞飞", "李开复",
     "physical world model", "world model", "物理世界模型",
@@ -437,7 +437,7 @@ NEWS_SECTIONS = [
     {
         "id": "person",
         "title": "言论",
-        "note": "Statements from named AI figures across all news sources",
+        "note": "来源：关键词：马斯克 / 黄仁勋 / 哈萨比斯 / 杨立昆 / 杨丽坤 / Sam Altman / Dario Amodei / Fei-Fei Li / 物理世界模型",
         "sources": PERSON_NEWS_SOURCES,
         "derivedFromAll": True,
     },
