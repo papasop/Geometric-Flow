@@ -1009,6 +1009,7 @@
       <a href="#" data-nav-tab="Connectors & Interconnect">Connectors & Interconnect</a>
       <a href="#" data-nav-tab="Construction & MEP">Construction & MEP</a>
       <a href="#" data-nav-tab="🏭 AIDC（AI 数据中心）">🏭 AIDC（AI 数据中心）</a>
+      <a href="#" data-nav-tab="SOFC">SOFC</a>
       <a href="#" data-nav-tab="AI Cloud / Neoclouds">AI Cloud / Neoclouds</a>
       <a href="#" data-nav-tab="Storage">Storage</a>
       <a href="#" data-nav-tab="Outliers">Outliers</a>
@@ -1158,6 +1159,7 @@
       <button class="tab" data-tab="Connectors & Interconnect" type="button">Connectors & Interconnect</button>
       <button class="tab" data-tab="Construction & MEP" type="button">Construction & MEP</button>
       <button class="tab" data-tab="🏭 AIDC（AI 数据中心）" type="button">🏭 AIDC（AI 数据中心）</button>
+      <button class="tab" data-tab="SOFC" type="button">SOFC</button>
       <button class="tab" data-tab="AI Cloud / Neoclouds" type="button">AI Cloud / Neoclouds</button>
       <button class="tab" data-tab="Storage" type="button">Storage</button>
       <button class="tab" data-tab="Outliers" type="button">Outliers</button>
@@ -2035,6 +2037,7 @@
       "Connectors & Interconnect",
       "Construction & MEP",
       "🏭 AIDC（AI 数据中心）",
+      "SOFC",
       "AI Cloud / Neoclouds",
       "Storage",
       "Outliers"
@@ -2054,6 +2057,7 @@
       if (/cool|thermal|chiller|hvac|liquid/.test(lower)) return "Cooling";
       if (/construction|mep|buildout|campus/.test(lower)) return "Construction & MEP";
       if (/rare earth|magnet|mining|metals/.test(lower)) return "Rare Earths";
+      if (/sofc|solid oxide|fuel cell|fuel cells|燃料电池|固体氧化物/.test(lower)) return "SOFC";
       if (/aidc|ai data center|data center|datacenter|ai 数据中心|数据中心/.test(lower)) return "🏭 AIDC（AI 数据中心）";
       if (/cloud|neocloud|server|rack|hyperscaler|oci|aws|azure|gpu lease|ai factory/.test(lower)) return "AI Cloud / Neoclouds";
       if (/storage|data fabric/.test(lower)) return "Storage";
@@ -2145,7 +2149,8 @@
       ["VNET", "VNET Group", "AIDC / AI data center", "中国 AIDC、数据中心与 AI 基础设施。"],
       ["002364.SZ", "中恒电气", "AIDC / AI data center power", "AIDC 电源系统、HVDC 高压直流、电力电子与数据中心供配电基础设施。"],
       ["CRWV", "CoreWeave", "AI cloud", "GPU 云、AI 训练和推理基础设施。"],
-      ["BE", "Bloom Energy", "AI power / fuel cells", "燃料电池与现场发电，AI 数据中心电力供应链。"],
+      ["BE", "Bloom Energy", "SOFC / fuel cells", "SOFC 固体氧化物燃料电池与现场发电，AI 数据中心电力供应链。"],
+      ["000338.SZ", "潍柴动力", "SOFC / fuel cells", "SOFC 固体氧化物燃料电池、动力系统与分布式能源布局。"],
       ["IREN", "IREN", "AI data center", "低成本电力和 AI 数据中心转型。"],
       ["APLD", "Applied Digital", "AI data center", "AI 托管、数据中心和高功率机房。"],
       ["SNDK", "SanDisk", "AI storage", "闪存与数据存储，AI 数据中心存储链。"],
