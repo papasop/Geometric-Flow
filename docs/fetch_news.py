@@ -1067,6 +1067,15 @@ SPEECH_SIGNAL_RE = re.compile(
     re.I,
 )
 WORLD_MODEL_TERMS = ["physical world model", "world model", "物理世界模型"]
+PASSIVE_SPEECH_RE = re.compile(r"\bis\s+said\s+to\b|\bare\s+said\s+to\b|\bwas\s+said\s+to\b|\bwere\s+said\s+to\b", re.I)
+REAL_SPEECH_RE = re.compile(
+    r"\b(says|said|tells|told|warns|warned|predicts|predicted|argues|argued|"
+    r"thinks|believes|expects|calls|called|urges|urged|announces|announced|"
+    r"tweeted|posted|wrote|commented|remarks|remarked)\b\s+(?:that\s+)?[A-Za-z0-9'’“\"].{12,}|"
+    r"(?:表示|称|认为|警告|预测|指出|发文|写道|透露|宣布|呼吁|谈到|说道)[:：]?\s*.{6,}",
+    re.I,
+)
+QUOTED_STATEMENT_RE = re.compile(r"[\"“‘][^\"”’]{8,}[\"”’]")
 
 
 def item_matches_speech(item: dict[str, object]) -> bool:
@@ -1075,10 +1084,15 @@ def item_matches_speech(item: dict[str, object]) -> bool:
         str(item.get("summary") or ""),
         str(item.get("author") or ""),
     ])
+    if PASSIVE_SPEECH_RE.search(text):
+        return False
     text_l = text.lower()
     has_person = any(re.search(rf"(?<![a-z0-9]){re.escape(term.lower())}(?![a-z0-9])", text_l) for term in AI_SPEECH_PERSON_TERMS)
     has_world_model = any(term.lower() in text_l for term in WORLD_MODEL_TERMS)
-    return bool((has_person or has_world_model) and SPEECH_SIGNAL_RE.search(text))
+    if not (has_person or has_world_model):
+        return False
+    has_real_statement = bool(REAL_SPEECH_RE.search(text) or QUOTED_STATEMENT_RE.search(text))
+    return bool(SPEECH_SIGNAL_RE.search(text) and has_real_statement)
 
 
 def build_speech_items(items: list[dict[str, object]]) -> list[dict[str, object]]:
@@ -1198,7 +1212,10 @@ def main() -> int:
 
     speech_section = next((section for section in NEWS_SECTIONS if section.get("id") == "person"), None)
     if speech_section:
-        existing_speech_items = section_payload.get("person", {}).get("items", [])
+        existing_speech_items = [
+            item for item in section_payload.get("person", {}).get("items", [])
+            if item_matches_speech(item)
+        ]
         speech_seen = set()
         merged_speech_items = []
         for item in [*existing_speech_items, *build_speech_items(items)]:
@@ -1210,7 +1227,7 @@ def main() -> int:
         merged_speech_items.sort(key=lambda item: item.get("publishedAt") or "", reverse=True)
         section_payload["person"] = {
             "title": speech_section["title"],
-            "note": speech_section["note"],
+            "note": f"{speech_section['note']}；仅保留带真实发言内容的新闻",
             "items": merged_speech_items[:32],
         }
 
