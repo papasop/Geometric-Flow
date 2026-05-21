@@ -2764,7 +2764,7 @@
         const title = state.lang === "zh" ? (item.titleZh || item.title) : (item.titleEn || item.title);
         const authorNode = author ? `<span><span class="news-meta-label">${escapeHtml(t("newsAuthor"))}</span><b>${escapeHtml(author)}</b></span>` : "";
         const sourceNode = sectionId === "person"
-          ? `<span><span class="news-meta-label">${escapeHtml(t("newsSource"))}</span><b>${escapeHtml(t("speechKeywordSource"))}</b></span><span><span class="news-meta-label">${escapeHtml(t("mediaSource"))}</span><b>${escapeHtml(source)}</b></span>`
+          ? `<span><span class="news-meta-label">${escapeHtml(t("mediaSource"))}</span><b>${escapeHtml(source)}</b></span>`
           : `<span><span class="news-meta-label">${escapeHtml(t("newsSource"))}</span><b>${escapeHtml(source)}</b></span>`;
         return `<a class="news-item" href="${escapeHtml(href)}" target="_blank" rel="noopener">
           <span class="news-title">${escapeHtml(title)}</span>
