@@ -2657,6 +2657,7 @@
       const haystack = `${row.ticker} ${row.name} ${row.category} ${row.thesis} ${(row.tags || []).join(" ")}`.toLowerCase();
       if (row.ticker === "NBIS") return "IaaS/PaaS";
       if (row.ticker === "LAMBDA.PRE") return "IaaS/PaaS";
+      if (row.ticker === "FIREWORKS.PRE") return "MaaS";
       if (row.ticker === "TOGETHER.PRE") return "MaaS";
       if (/iaas|paas|neocloud|gpu cloud|gpu lease|cloud|server|rack|hyperscaler|oci|aws|azure|ai factory|aidc|data center|datacenter|infra|infrastructure|算力|云|数据中心|机房|基础设施/.test(haystack)) return "IaaS/PaaS";
       if (/maas|model as a service|model|llm|api|inference|agent|copilot|software|platform|大模型|模型|推理|智能体|平台|服务/.test(haystack)) return "MaaS";
