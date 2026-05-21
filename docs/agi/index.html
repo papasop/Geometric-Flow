@@ -2050,6 +2050,7 @@
     const MAAS_TICKERS = new Set(["FIREWORKS.PRE", "NOW"]);
     const ENERGY_CATEGORY = "能源";
     const ENERGY_SUBCATEGORIES = ["SMR", "SOFC"];
+    const ENERGY_TICKERS = new Set(["VRT", "EOSE", "NEE", "LEU", "UUUU", "OKLO", "CEG", "VST"]);
     const MODEL_CATEGORY = "大模型";
     const MODEL_SUBCATEGORIES = ["LLM", "物理世界模型"];
     const LLM_SUBCATEGORIES = ["开源", "闭源"];
@@ -2061,8 +2062,7 @@
       const text = String(ticker || "") + " " + String(category || "") + " " + String(thesis || "");
       const lower = text.toLowerCase();
       if (MODEL_TICKERS.has(String(ticker || "").toUpperCase())) return MODEL_CATEGORY;
-      if (String(ticker || "").toUpperCase() === "VST") return ENERGY_CATEGORY;
-      if (String(ticker || "").toUpperCase() === "LEU") return ENERGY_CATEGORY;
+      if (ENERGY_TICKERS.has(String(ticker || "").toUpperCase())) return ENERGY_CATEGORY;
       if (String(ticker || "").toUpperCase() === "NBIS") return "Token 工厂 / 推理服务";
       if (/sofc|solid oxide|fuel cell|fuel cells|power|grid|electric|switchgear|transformer|nuclear|energy|battery|natural gas|gas turbine|燃料电池|固体氧化物|电力|能源|电网|核电|天然气/.test(lower)) return "能源";
       if (/aidc|ai data center|data center|datacenter|construction|mep|buildout|campus|cool|thermal|chiller|hvac|liquid|storage|data fabric|server|rack|ai 数据中心|数据中心|液冷|机房|存储/.test(lower)) return "基础设施";
@@ -2126,7 +2126,7 @@
       ["WDAY", "Workday", "Enterprise AI", "人力、财务数据和企业 AI。"],
       ["TEAM", "Atlassian", "Developer AI", "协作、DevOps 和企业知识 AI。"],
       ["ADSK", "Autodesk", "Design AI", "工程设计、数字孪生和生成式设计。"],
-      ["VRT", "Vertiv", "AI power / cooling", "AI 数据中心电力与液冷基础设施。"],
+      ["VRT", "Vertiv", "AI power / cooling", "AI 算力基础设施守门员，掌控 NVDA 级集群冷却与供电系统，服务 AI 数据中心电力和液冷需求。"],
       ["EQIX", "Equinix", "Data center REIT", "全球数据中心互联和 AI 托管。"],
       ["DLR", "Digital Realty", "Data center REIT", "AI 数据中心和云基础设施房东。"],
       ["FTNT", "Fortinet", "AI security", "安全芯片、网络安全和 AI 防护。"],
@@ -2158,6 +2158,8 @@
       ["VNET", "VNET Group", "AIDC / AI data center", "中国 AIDC、数据中心与 AI 基础设施。"],
       ["002364.SZ", "中恒电气", "AIDC / AI data center power", "AIDC 电源系统、HVDC 高压直流、电力电子与数据中心供配电基础设施。"],
       ["CRWV", "CoreWeave", "AI cloud", "GPU 云、AI 训练和推理基础设施。"],
+      ["EOSE", "Eos Energy Enterprises", "Energy storage / grid", "长时储能与锌基电池系统，平抑 AI 数据中心需求暴增导致的电网波动。"],
+      ["NEE", "NextEra Energy", "Clean energy / data center power", "美国清洁能源主力，可再生能源开发管道和公用事业电力资产，承接数据中心负荷增长。"],
       ["CEG", "Constellation Energy", "SMR / nuclear power", "美国最大核电运营商之一，微软 20 年 PPA 推动三哩岛核电站重启，为 AI 数据中心提供长期清洁基荷电力。"],
       ["OKLO", "Oklo", "SMR / nuclear power", "Sam Altman 深度参与的快堆微型核能公司，面向 Meta 等大型数据中心的模块化核电需求。"],
       ["XE", "X-energy", "SMR / nuclear power", "亚马逊支持的先进核反应堆公司，2026 年 IPO 上市，面向数据中心部署 Xe-100 小型模块化反应堆。"],
@@ -2167,6 +2169,7 @@
       ["NNE", "Nano Nuclear Energy", "SMR / microreactor", "美股微型反应堆和先进核能开发公司，受益 AI 数据中心清洁基荷电力需求。"],
       ["BWXT", "BWX Technologies", "SMR / nuclear components", "美股核反应堆组件、燃料与国防核技术供应商，SMR 供应链核心标的。"],
       ["LEU", "Centrus Energy", "SMR / HALEU fuel", "美股核燃料和 HALEU 供应链公司，服务先进反应堆和 SMR 燃料需求。"],
+      ["UUUU", "Energy Fuels", "Uranium / nuclear fuel", "美国本土铀和关键矿物供应链资产，受益 AI 时代核燃料安全与先进核能需求。"],
       ["LTBR", "Lightbridge", "SMR / nuclear fuel", "美股先进核燃料技术公司，面向下一代反应堆与 SMR 燃料效率提升。"],
       ["BE", "Bloom Energy", "SOFC / fuel cells", "SOFC 固体氧化物燃料电池与现场发电，AI 数据中心电力供应链。"],
       ["000338.SZ", "潍柴动力", "SOFC / fuel cells", "SOFC 固体氧化物燃料电池、动力系统与分布式能源布局。"],
@@ -2694,8 +2697,7 @@
     function energySubcategory(row) {
       const haystack = `${row.ticker} ${row.name} ${row.category} ${row.thesis} ${(row.tags || []).join(" ")}`.toLowerCase();
       if (row.ticker === "BE" || row.ticker === "000338.SZ") return "SOFC";
-      if (row.ticker === "VST") return "SMR";
-      if (row.ticker === "LEU") return "SMR";
+      if (ENERGY_TICKERS.has(row.ticker)) return "SMR";
       if (/sofc|solid oxide|fuel cell|fuel cells|燃料电池|固体氧化物/.test(haystack)) return "SOFC";
       if (/smr|small modular reactor|microreactor|nuclear|reactor|haleu|uranium|小型模块化|模块化反应堆|核能|核电|反应堆/.test(haystack)) return "SMR";
       return "SMR";
