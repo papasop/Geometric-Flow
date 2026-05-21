@@ -307,15 +307,21 @@ AI_COMPANY_NEWS_TERMS = extract_company_news_terms() or [
 ]
 AI_PERSON_NEWS_TERMS = [
     "Sam Altman", "Elon Musk", "Jensen Huang", "Satya Nadella",
-    "Dario Amodei", "Demis Hassabis", "Mark Zuckerberg", "Sundar Pichai",
+    "Dario Amodei", "Demis Hassabis", "哈萨比斯", "Mark Zuckerberg", "Sundar Pichai",
     "Yann LeCun", "Andrew Ng", "Andrej Karpathy", "Fei-Fei Li",
     "Ilya Sutskever", "Leopold Aschenbrenner", "Lisa Su", "Hock Tan",
     "Masayoshi Son", "Mira Murati", "Kai-Fu Lee", "李飞飞", "李开复",
+    "physical world model", "world model", "物理世界模型",
+]
+AI_SPEECH_PERSON_TERMS = [
+    term for term in AI_PERSON_NEWS_TERMS
+    if term not in {"physical world model", "world model", "物理世界模型"}
 ]
 AI_PERSON_NEWS_QUERY = (
     f"({quoted_or_query(AI_PERSON_NEWS_TERMS)}) "
     '("AI" OR "artificial intelligence" OR "OpenAI" OR "Nvidia" OR '
-    '"large language model" OR "AI chip" OR "agent" OR "robotics" OR "人工智能") '
+    '"large language model" OR "AI chip" OR "agent" OR "robotics" OR '
+    '"physical world model" OR "world model" OR "人工智能" OR "物理世界模型") '
     '("says" OR "said" OR "warns" OR "predicts" OR "tweet" OR "post" OR "X" OR "推特" OR "发文" OR "表示")'
 )
 DEAL_NEWS_TERMS_QUERY = (
@@ -347,7 +353,7 @@ INDUSTRY_NEWS_SOURCES = [
     google_news_query_source("New York Times", f"site:nytimes.com {AI_MARKET_NEWS_QUERY}"),
 ]
 PERSON_NEWS_SOURCES = [
-    google_news_query_source("Twitter / X · AI People", f"(site:x.com OR site:twitter.com) {AI_PERSON_NEWS_QUERY}"),
+    google_news_query_source("AI Statements · People", AI_PERSON_NEWS_QUERY),
 ]
 COMPANY_NEWS_SOURCES = [
     google_news_query_source(f"Bloomberg · Company Batch {index + 1}", f"site:bloomberg.com ({quoted_or_query(batch)})")
@@ -430,9 +436,10 @@ NEWS_SECTIONS = [
     },
     {
         "id": "person",
-        "title": "人物",
-        "note": "Twitter / X",
+        "title": "言论",
+        "note": "Statements from named AI figures across all news sources",
         "sources": PERSON_NEWS_SOURCES,
+        "derivedFromAll": True,
     },
     {
         "id": "company",
@@ -1052,6 +1059,47 @@ def item_matches_terms(item: dict[str, str], terms: list[str]) -> bool:
     return any(term.lower() in text for term in terms)
 
 
+SPEECH_SIGNAL_RE = re.compile(
+    r"\b(says|said|tells|told|warns|warned|predicts|predicted|argues|argued|"
+    r"thinks|believes|expects|calls|called|urges|urged|announces|announced|"
+    r"tweeted|posted|wrote|commented|remarks|remarked)\b|"
+    r"表示|称|认为|警告|预测|指出|发文|写道|透露|宣布|呼吁|谈到|说道|表示：|“|”|\"",
+    re.I,
+)
+WORLD_MODEL_TERMS = ["physical world model", "world model", "物理世界模型"]
+
+
+def item_matches_speech(item: dict[str, object]) -> bool:
+    text = " ".join([
+        str(item.get("title") or ""),
+        str(item.get("summary") or ""),
+        str(item.get("author") or ""),
+    ])
+    text_l = text.lower()
+    has_person = any(re.search(rf"(?<![a-z0-9]){re.escape(term.lower())}(?![a-z0-9])", text_l) for term in AI_SPEECH_PERSON_TERMS)
+    has_world_model = any(term.lower() in text_l for term in WORLD_MODEL_TERMS)
+    return bool((has_person or has_world_model) and SPEECH_SIGNAL_RE.search(text))
+
+
+def build_speech_items(items: list[dict[str, object]]) -> list[dict[str, object]]:
+    seen = set()
+    speech_items = []
+    for item in sorted(items, key=lambda entry: entry.get("publishedAt") or "", reverse=True):
+        if not item_matches_speech(item):
+            continue
+        key = (item.get("url") or item.get("title") or "").lower()
+        if not key or key in seen:
+            continue
+        seen.add(key)
+        speech_item = dict(item)
+        speech_item["section"] = "person"
+        speech_item["sectionTitle"] = "言论"
+        speech_items.append(speech_item)
+        if len(speech_items) >= 32:
+            break
+    return speech_items
+
+
 def apply_news_overrides(item: dict[str, object]) -> None:
     title = str(item.get("title") or "")
     for override in NEWS_OVERRIDES:
@@ -1148,16 +1196,34 @@ def main() -> int:
             "items": section_items[:32],
         }
 
+    speech_section = next((section for section in NEWS_SECTIONS if section.get("id") == "person"), None)
+    if speech_section:
+        existing_speech_items = section_payload.get("person", {}).get("items", [])
+        speech_seen = set()
+        merged_speech_items = []
+        for item in [*existing_speech_items, *build_speech_items(items)]:
+            key = (item.get("url") or item.get("title") or "").lower()
+            if not key or key in speech_seen:
+                continue
+            speech_seen.add(key)
+            merged_speech_items.append(item)
+        merged_speech_items.sort(key=lambda item: item.get("publishedAt") or "", reverse=True)
+        section_payload["person"] = {
+            "title": speech_section["title"],
+            "note": speech_section["note"],
+            "items": merged_speech_items[:32],
+        }
+
     items.sort(key=lambda item: (bool(item.get("matchedPortfolios")), item.get("publishedAt") or ""), reverse=True)
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "strategy": {
-            "primary": "Tabbed news sections: industry from WSJ/NYT, people from Twitter/X searches for notable AI figures, company from company-name searches plus M&A and financing keywords, frontier technology from Wired/MIT Technology Review/Stanford sources, papers from top AI journals, conferences, proceedings, and preprint sources",
+            "primary": "Tabbed news sections: industry from WSJ/NYT, statements derived from all sources by named AI figures and speech signals, company from company-name searches plus M&A and financing keywords, frontier technology from Wired/MIT Technology Review/Stanford sources, papers from top AI journals, conferences, proceedings, and preprint sources",
             "primaryEnabled": True,
             "supplements": [
                 "Wall Street Journal",
                 "New York Times",
-                "Twitter / X",
+                "Statements",
                 "Bloomberg",
                 "Reuters",
                 "Wired",
