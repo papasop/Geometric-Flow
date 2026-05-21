@@ -439,6 +439,8 @@ for source in MNA_NEWS_SOURCES:
 for source in EQUITY_NEWS_SOURCES:
     source["requiredKeywords"] = DEAL_REQUIRED_KEYWORDS
 TECH_NEWS_SOURCES = [
+    {"name": "WIRED", "url": "https://www.wired.com/feed/category/business/latest/rss"},
+    {"name": "MIT Technology Review", "url": "https://www.technologyreview.com/feed/"},
     google_news_query_source("MIT Technology Review", f"site:technologyreview.com {AI_MARKET_NEWS_QUERY}"),
     google_news_query_source("Wired", f"site:wired.com {AI_MARKET_NEWS_QUERY}"),
     google_news_query_source("Stanford Engineering Magazine", f"site:engineering.stanford.edu/magazine {AI_MARKET_NEWS_QUERY}"),
@@ -1234,7 +1236,7 @@ def main() -> int:
         section_seen = set()
         section_items: list[dict[str, object]] = []
         section_required_keywords = section.get("requiredKeywords", [])
-        author_fetch_limit = 18 if section.get("id") == "industry" else 6
+        author_fetch_limit = 18 if section.get("id") in {"industry", "tech"} else 6
         author_fetches = 0
         for source in section["sources"]:
             source_required_keywords = source.get("requiredKeywords", [])
