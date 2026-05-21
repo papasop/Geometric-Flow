@@ -2052,6 +2052,7 @@
     const ENERGY_CATEGORY = "能源";
     const ENERGY_SUBCATEGORIES = ["SMR", "SOFC"];
     const ENERGY_TICKERS = new Set(["VRT", "EOSE", "NEE", "LEU", "UUUU", "OKLO", "CEG", "VST"]);
+    const SMR_TICKERS = new Set(["OKLO", "UUUU", "LEU", "VST", "SMR", "CEG"]);
     const MODEL_CATEGORY = "大模型";
     const MODEL_SUBCATEGORIES = ["LLM", "物理世界模型"];
     const LLM_SUBCATEGORIES = ["全部", "开源", "闭源"];
@@ -2698,10 +2699,9 @@
     function energySubcategory(row) {
       const haystack = `${row.ticker} ${row.name} ${row.category} ${row.thesis} ${(row.tags || []).join(" ")}`.toLowerCase();
       if (row.ticker === "BE" || row.ticker === "000338.SZ") return "SOFC";
-      if (ENERGY_TICKERS.has(row.ticker)) return "SMR";
+      if (SMR_TICKERS.has(row.ticker)) return "SMR";
       if (/sofc|solid oxide|fuel cell|fuel cells|燃料电池|固体氧化物/.test(haystack)) return "SOFC";
-      if (/smr|small modular reactor|microreactor|nuclear|reactor|haleu|uranium|小型模块化|模块化反应堆|核能|核电|反应堆/.test(haystack)) return "SMR";
-      return "SMR";
+      return null;
     }
     function matchesEnergySubcategory(row) {
       if (state.category !== ENERGY_CATEGORY) return true;
