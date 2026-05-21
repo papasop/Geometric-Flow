@@ -1024,6 +1024,7 @@
       <a href="#" data-nav-tab="能源">能源</a>
       <a href="#" data-nav-tab="基础设施">基础设施</a>
       <a href="#" data-nav-tab="硬件">硬件</a>
+      <a href="#" data-nav-tab="大模型">大模型</a>
       <a href="#" data-nav-tab="Token 工厂 / 推理服务">Token 工厂 / 推理服务</a>
     </div>
   </nav>
@@ -1159,6 +1160,7 @@
       <button class="tab" data-tab="能源" type="button">能源</button>
       <button class="tab" data-tab="基础设施" type="button">基础设施</button>
       <button class="tab" data-tab="硬件" type="button">硬件</button>
+      <button class="tab" data-tab="大模型" type="button">大模型</button>
       <button class="tab" data-tab="Token 工厂 / 推理服务" type="button">Token 工厂 / 推理服务</button>
     </section>
     <section class="subtabs" id="token-subtabs" aria-label="Token 工厂 / 推理服务子标签" hidden>
@@ -1168,6 +1170,14 @@
     <section class="subtabs" id="energy-subtabs" aria-label="能源子标签" hidden>
       <button class="subtab active" data-energy-subcategory="SMR" type="button">SMR</button>
       <button class="subtab" data-energy-subcategory="SOFC" type="button">SOFC</button>
+    </section>
+    <section class="subtabs" id="model-subtabs" aria-label="大模型子标签" hidden>
+      <button class="subtab active" data-model-subcategory="LLM" type="button">LLM</button>
+      <button class="subtab" data-model-subcategory="物理世界模型" type="button">物理世界模型</button>
+    </section>
+    <section class="subtabs" id="llm-subtabs" aria-label="LLM 子标签" hidden>
+      <button class="subtab active" data-llm-subcategory="开源" type="button">开源</button>
+      <button class="subtab" data-llm-subcategory="闭源" type="button">闭源</button>
     </section>
 
     <section class="panel market-panel">
@@ -1211,6 +1221,7 @@
       "300750.SZ": "China",
       "002384.SZ": "China", "301666.SZ": "China", "688820.SS": "China", "601869.SS": "China", "688795.SS": "China", "603986.SS": "China",
       "YMTC.PRE": "China", "CXMT.PRE": "China", "BYTEDANCE.PRE": "China", "MOONSHOT.PRE": "China",
+      "DEEPSEEK.PRE": "China", "ZHIPU.PRE": "China",
       "002230.SZ": "China", "300308.SZ": "China", "300502.SZ": "China", "300394.SZ": "China", "688981.SS": "China",
       "002475.SZ": "China",
       "002415.SZ": "China", "000938.SZ": "China", "600570.SS": "China", "300033.SZ": "China", "688008.SS": "China",
@@ -2030,6 +2041,7 @@
       "能源",
       "基础设施",
       "硬件",
+      "大模型",
       "Token 工厂 / 推理服务"
 ];
     const TOKEN_FACTORY_CATEGORY = "Token 工厂 / 推理服务";
@@ -2038,10 +2050,17 @@
     const MAAS_TICKERS = new Set(["FIREWORKS.PRE", "NOW"]);
     const ENERGY_CATEGORY = "能源";
     const ENERGY_SUBCATEGORIES = ["SMR", "SOFC"];
+    const MODEL_CATEGORY = "大模型";
+    const MODEL_SUBCATEGORIES = ["LLM", "物理世界模型"];
+    const LLM_SUBCATEGORIES = ["开源", "闭源"];
+    const LLM_OPEN_TICKERS = new Set(["DEEPSEEK.PRE", "MOONSHOT.PRE", "ZHIPU.PRE"]);
+    const LLM_CLOSED_TICKERS = new Set(["OPENAI.PRE", "ANTHROPIC.PRE"]);
+    const MODEL_TICKERS = new Set([...LLM_OPEN_TICKERS, ...LLM_CLOSED_TICKERS]);
     const AIBOTT_BY_TICKER = new Map(AIBOTT_WATCHLIST.map(([symbol, name, theme, oneLiner, conviction]) => [symbol, { name, theme, oneLiner, conviction }]));
     function inferAibottTheme(category, thesis, ticker) {
       const text = String(ticker || "") + " " + String(category || "") + " " + String(thesis || "");
       const lower = text.toLowerCase();
+      if (MODEL_TICKERS.has(String(ticker || "").toUpperCase())) return MODEL_CATEGORY;
       if (String(ticker || "").toUpperCase() === "NBIS") return "Token 工厂 / 推理服务";
       if (/sofc|solid oxide|fuel cell|fuel cells|power|grid|electric|switchgear|transformer|nuclear|energy|battery|natural gas|gas turbine|燃料电池|固体氧化物|电力|能源|电网|核电|天然气/.test(lower)) return "能源";
       if (/aidc|ai data center|data center|datacenter|construction|mep|buildout|campus|cool|thermal|chiller|hvac|liquid|storage|data fabric|server|rack|ai 数据中心|数据中心|液冷|机房|存储/.test(lower)) return "基础设施";
@@ -2053,13 +2072,14 @@
     const BASE_COMPANIES = [
       ["NVDA", "NVIDIA", "AI GPU / CUDA", "AI 训练和推理算力核心，从英伟达开始。"],
       ["MSFT", "Microsoft", "Hyperscaler / Copilot", "Azure、Copilot、OpenAI 生态与企业 AI 平台。"],
-      ["OPENAI.PRE", "OpenAI", "Frontier AI pre-IPO", "预上市前沿大模型公司，ChatGPT、企业 AI 与模型基础设施。", { status: "prelist", estimatedMarketCap: 852000000000 }],
+      ["OPENAI.PRE", "OpenAI", "Closed LLM pre-IPO", "预上市闭源大模型公司，ChatGPT、企业 AI 与模型基础设施。", { status: "prelist", estimatedMarketCap: 852000000000 }],
       ["AAPL", "Apple", "On-device AI", "端侧 AI、芯片、设备生态和个人 AI 入口。"],
       ["GOOG", "Alphabet", "AI platform / TPU", "Gemini、TPU、搜索与云端 AI 平台。"],
       ["AMZN", "Amazon", "AWS / AI cloud", "AWS、Trainium、Inferentia 和 AI 云基础设施。"],
-      ["ANTHROPIC.PRE", "Anthropic", "Frontier AI pre-IPO", "预上市前沿大模型公司，Claude、企业 AI 与安全取向模型生态。", { status: "prelist", estimatedMarketCap: 900000000000 }],
+      ["ANTHROPIC.PRE", "Anthropic", "Closed LLM pre-IPO", "预上市闭源大模型公司，Claude、企业 AI 与安全取向模型生态。", { status: "prelist", estimatedMarketCap: 900000000000 }],
       ["BYTEDANCE.PRE", "字节跳动", "China AI platform pre-IPO", "预上市 AI 内容与推荐平台，TikTok、抖音、火山引擎与豆包大模型生态。", { status: "prelist", estimatedMarketCap: 550000000000 }],
-      ["MOONSHOT.PRE", "月之暗面", "China AI LLM pre-IPO", "预上市中国大模型公司，Kimi 系列、长上下文、多模态与 Agent 能力。", { status: "prelist", estimatedMarketCap: 20000000000 }],
+      ["DEEPSEEK.PRE", "DeepSeek", "Open LLM pre-IPO", "预上市中国开源大模型公司，DeepSeek 系列模型、推理优化与开放权重生态。", { status: "prelist", estimatedMarketCap: 10000000000 }],
+      ["MOONSHOT.PRE", "月之暗面", "Open LLM pre-IPO", "预上市中国开源大模型公司，Kimi 系列、长上下文、多模态与 Agent 能力。", { status: "prelist", estimatedMarketCap: 20000000000 }],
       ["META", "Meta Platforms", "Foundation models", "Llama、广告 AI、推荐系统和 AI 资本开支。"],
       ["TSLA", "Tesla", "Autonomy / robotics", "FSD、车端 AI、机器人与大规模真实世界数据闭环。"],
       ["SPACEX.PRE", "SpaceX", "Space / AI pre-IPO", "预上市航天与卫星互联网公司，Starlink、发射体系与 AI 基础设施潜在协同。", { status: "prelist", estimatedMarketCap: 1250000000000 }],
@@ -2228,7 +2248,7 @@
       ["1810.HK", "小米集团", "China edge AI HK", "手机端侧 AI、汽车智能化、IoT 与机器人生态。"],
       ["1024.HK", "快手", "China video AI HK", "短视频推荐、生成式内容、电商与广告 AI。"],
       ["0100.HK", "MiniMax", "China AI LLM HK", "多模态大模型、海螺 AI、文本、语音、图像与音乐生成。"],
-      ["2513.HK", "智谱", "China AI LLM HK", "GLM 大模型、MaaS 平台、CodeGeeX 与企业 AI 应用。"],
+      ["ZHIPU.PRE", "智谱", "Open LLM pre-IPO", "预上市中国开源大模型公司，GLM、CodeGeeX、MaaS 平台与企业 AI 应用。", { status: "prelist", estimatedMarketCap: 6700000000 }],
       ["6082.HK", "壁仞科技", "China AI GPU HK", "国产通用 GPU、AI 训练推理加速与高性能计算。"],
       ["0020.HK", "商汤科技", "China AI software HK", "计算机视觉、生成式 AI、日日新大模型与自动驾驶。"],
       ["6682.HK", "第四范式", "China enterprise AI HK", "企业决策 AI、先知平台和行业大模型应用。"],
@@ -2516,7 +2536,7 @@
       const langs = navigator.languages?.length ? navigator.languages : [navigator.language || ""];
       return langs.some((lang) => /^zh\b/i.test(lang)) ? "zh" : "en";
     }
-    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: "SMR", selected: "NVDA", page: 1, rankingView: "chart", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, fxRates: {}, lang: browserLang() };
+    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: "SMR", modelSubcategory: "LLM", llmSubcategory: "开源", selected: "NVDA", page: 1, rankingView: "chart", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, fxRates: {}, lang: browserLang() };
     const $ = (id) => document.getElementById(id);
     const t = (key) => (I18N[state.lang] && I18N[state.lang][key]) || I18N.zh[key] || key;
 
@@ -2676,12 +2696,27 @@
       if (state.category !== ENERGY_CATEGORY) return true;
       return energySubcategory(row) === state.energySubcategory;
     }
+    function modelSubcategory(row) {
+      if (MODEL_TICKERS.has(row.ticker)) return "LLM";
+      return null;
+    }
+    function llmSubcategory(row) {
+      if (LLM_OPEN_TICKERS.has(row.ticker)) return "开源";
+      if (LLM_CLOSED_TICKERS.has(row.ticker)) return "闭源";
+      return null;
+    }
+    function matchesModelSubcategory(row) {
+      if (state.category !== MODEL_CATEGORY) return true;
+      if (modelSubcategory(row) !== state.modelSubcategory) return false;
+      if (state.modelSubcategory === "LLM") return llmSubcategory(row) === state.llmSubcategory;
+      return true;
+    }
     function filteredRows() {
       const q = state.query.trim().toLowerCase();
       let rows = state.rows.filter((row) => {
         const matchCategory = matchesCategory(row, state.category);
         const haystack = `${row.ticker} ${row.name} ${row.category} ${row.thesis} ${row.country} ${flagFor(row)} ${(row.tags || []).join(" ")}`.toLowerCase();
-        return matchCategory && matchesTokenSubcategory(row) && matchesEnergySubcategory(row) && (!q || haystack.includes(q));
+        return matchCategory && matchesTokenSubcategory(row) && matchesEnergySubcategory(row) && matchesModelSubcategory(row) && (!q || haystack.includes(q));
       });
       if (state.sort === "mcap") {
         rows = rows.sort((a, b) => compareMetric(a, b, "mcap"));
@@ -3457,8 +3492,20 @@
       document.querySelectorAll("[data-energy-subcategory]").forEach((item) => {
         item.classList.toggle("active", item.dataset.energySubcategory === state.energySubcategory);
       });
+      const modelSubtabs = $("model-subtabs");
+      if (modelSubtabs) modelSubtabs.hidden = state.category !== MODEL_CATEGORY;
+      document.querySelectorAll("[data-model-subcategory]").forEach((item) => {
+        item.classList.toggle("active", item.dataset.modelSubcategory === state.modelSubcategory);
+      });
+      const llmSubtabs = $("llm-subtabs");
+      if (llmSubtabs) llmSubtabs.hidden = state.category !== MODEL_CATEGORY || state.modelSubcategory !== "LLM";
+      document.querySelectorAll("[data-llm-subcategory]").forEach((item) => {
+        item.classList.toggle("active", item.dataset.llmSubcategory === state.llmSubcategory);
+      });
       alignSubtabsToCategory(tokenSubtabs, TOKEN_FACTORY_CATEGORY);
       alignSubtabsToCategory(energySubtabs, ENERGY_CATEGORY);
+      alignSubtabsToCategory(modelSubtabs, MODEL_CATEGORY);
+      alignSubtabsToCategory(llmSubtabs, MODEL_CATEGORY);
       if ($("category-filter") && [...$("category-filter").options].some((option) => option.value === state.category)) {
         $("category-filter").value = state.category;
       }
@@ -3470,6 +3517,12 @@
       }
       if (state.category === ENERGY_CATEGORY && !ENERGY_SUBCATEGORIES.includes(state.energySubcategory)) {
         state.energySubcategory = "SMR";
+      }
+      if (state.category === MODEL_CATEGORY && !MODEL_SUBCATEGORIES.includes(state.modelSubcategory)) {
+        state.modelSubcategory = "LLM";
+      }
+      if (state.category === MODEL_CATEGORY && state.modelSubcategory === "LLM" && !LLM_SUBCATEGORIES.includes(state.llmSubcategory)) {
+        state.llmSubcategory = "开源";
       }
       state.page = 1;
       updateCategoryControls();
@@ -3579,6 +3632,22 @@
       document.querySelectorAll("[data-energy-subcategory]").forEach((button) => {
         button.addEventListener("click", () => {
           state.energySubcategory = button.dataset.energySubcategory || "SMR";
+          state.page = 1;
+          updateCategoryControls();
+          render();
+        });
+      });
+      document.querySelectorAll("[data-model-subcategory]").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.modelSubcategory = button.dataset.modelSubcategory || "LLM";
+          state.page = 1;
+          updateCategoryControls();
+          render();
+        });
+      });
+      document.querySelectorAll("[data-llm-subcategory]").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.llmSubcategory = button.dataset.llmSubcategory || "开源";
           state.page = 1;
           updateCategoryControls();
           render();
