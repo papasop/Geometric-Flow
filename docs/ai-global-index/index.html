@@ -238,7 +238,8 @@
       box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
       margin-bottom: 16px;
     }
-    .ranking-panel.chart-mode {
+    .ranking-panel.chart-mode,
+    .ranking-panel.model-mode {
       background: #05070a;
       border-color: rgba(148, 163, 184, 0.28);
       box-shadow: 0 12px 32px rgba(2, 6, 23, 0.18);
@@ -252,7 +253,8 @@
       border-bottom: 1px solid var(--line);
       background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
     }
-    .ranking-panel.chart-mode .ranking-panel-head {
+    .ranking-panel.chart-mode .ranking-panel-head,
+    .ranking-panel.model-mode .ranking-panel-head {
       border-bottom-color: rgba(148, 163, 184, 0.22);
       background: #05070a;
     }
@@ -270,14 +272,16 @@
       font-weight: 880;
       letter-spacing: 0;
     }
-    .ranking-panel.chart-mode .ranking-panel-title { color: #f8fafc; }
+    .ranking-panel.chart-mode .ranking-panel-title,
+    .ranking-panel.model-mode .ranking-panel-title { color: #f8fafc; }
     .ranking-panel-note {
       color: var(--muted);
       font-size: 12px;
       line-height: 1.35;
       font-weight: 720;
     }
-    .ranking-panel.chart-mode .ranking-panel-note { color: #94a3b8; }
+    .ranking-panel.chart-mode .ranking-panel-note,
+    .ranking-panel.model-mode .ranking-panel-note { color: #94a3b8; }
     .ranking-switch {
       display: inline-flex;
       align-items: center;
@@ -288,7 +292,8 @@
       background: #fff;
       flex: 0 0 auto;
     }
-    .ranking-panel.chart-mode .ranking-switch {
+    .ranking-panel.chart-mode .ranking-switch,
+    .ranking-panel.model-mode .ranking-switch {
       border-color: rgba(148, 163, 184, 0.32);
       background: rgba(2, 6, 23, 0.76);
     }
@@ -303,9 +308,11 @@
       font-weight: 820;
       cursor: pointer;
     }
-    .ranking-panel.chart-mode .ranking-switch button { color: #cbd5e1; }
+    .ranking-panel.chart-mode .ranking-switch button,
+    .ranking-panel.model-mode .ranking-switch button { color: #cbd5e1; }
     .ranking-switch button.active { color: var(--green); background: #ecfdf5; }
-    .ranking-panel.chart-mode .ranking-switch button.active {
+    .ranking-panel.chart-mode .ranking-switch button.active,
+    .ranking-panel.model-mode .ranking-switch button.active {
       color: #ecfeff;
       background: rgba(34, 211, 238, 0.24);
     }
@@ -401,6 +408,79 @@
     .token-provider { color: var(--muted); font-size: 12px; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .token-value { text-align: right; color: var(--text); font-weight: 850; }
     .token-change { display: block; margin-top: 2px; color: var(--muted); font-size: 12px; font-weight: 700; }
+    .model-ranking-view {
+      padding: 14px;
+      background: #05070a;
+      color: #f8fafc;
+    }
+    .model-ranking-table {
+      display: grid;
+      width: 100%;
+    }
+    .model-row {
+      display: grid;
+      grid-template-columns: 58px minmax(0, 1fr) 120px 148px;
+      align-items: center;
+      min-height: 58px;
+      padding: 0 10px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+      color: #f8fafc;
+    }
+    .model-row.model-head {
+      min-height: 34px;
+      color: rgba(226, 232, 240, 0.54);
+      font-size: 12px;
+      font-weight: 820;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+    .model-head .model-score,
+    .model-head .model-cost {
+      color: rgba(226, 232, 240, 0.54);
+      font-size: 12px;
+      font-weight: 820;
+    }
+    .model-row.model-highlight {
+      border: 2px solid #ef4444;
+      border-radius: 4px;
+      margin: 4px 0;
+      background: rgba(239, 68, 68, 0.03);
+    }
+    .model-rank {
+      color: rgba(226, 232, 240, 0.68);
+      font-size: 20px;
+      font-weight: 760;
+    }
+    .model-name {
+      display: flex;
+      align-items: center;
+      min-width: 0;
+      gap: 10px;
+      font-size: 19px;
+      font-weight: 780;
+      letter-spacing: 0;
+    }
+    .model-name span:first-child {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .model-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      flex: 0 0 auto;
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.14);
+    }
+    .model-score,
+    .model-cost {
+      justify-self: end;
+      font-size: 19px;
+      font-weight: 760;
+      color: #f8fafc;
+      font-variant-numeric: tabular-nums;
+    }
     .index-chart-view {
       padding: 14px;
       background: #05070a;
@@ -851,6 +931,20 @@
       .token-list { grid-template-columns: 1fr; }
       .token-row:nth-last-child(-n + 2) { border-bottom: 1px solid var(--line-soft); }
       .token-row:last-child { border-bottom: 0; }
+      .model-ranking-view { padding: 10px; }
+      .model-row {
+        grid-template-columns: 32px minmax(0, 1fr) 68px 88px;
+        min-height: 48px;
+        padding: 0 6px;
+      }
+      .model-row.model-head { font-size: 9px; letter-spacing: 0.08em; }
+      .model-head .model-score,
+      .model-head .model-cost { font-size: 9px; }
+      .model-rank { font-size: 15px; }
+      .model-name,
+      .model-score,
+      .model-cost { font-size: 13px; }
+      .model-dot { width: 9px; height: 9px; }
       .chart-range-tabs { left: 14px; right: 14px; top: auto; bottom: 36px; justify-content: space-between; }
       .chart-range-tab { flex: 1; width: auto; padding: 0 6px; }
       .toolbar { align-items: stretch; }
@@ -981,8 +1075,9 @@
           <div class="ranking-panel-note" id="ranking-panel-note">LLM Token Expenditure Index</div>
         </div>
         <div class="ranking-switch" role="tablist" aria-label="排行切换">
-          <button data-ranking-view="token" type="button" role="tab" aria-selected="false">Token 调用排行</button>
-          <button class="active" data-ranking-view="chart" type="button" role="tab" aria-selected="true">走势图</button>
+          <button data-ranking-view="token" type="button" role="tab" aria-selected="false">代币使用</button>
+          <button class="active" data-ranking-view="chart" type="button" role="tab" aria-selected="true">代币成本</button>
+          <button data-ranking-view="model" type="button" role="tab" aria-selected="false">大模型排行</button>
         </div>
       </div>
       <section class="ranking-view token-ranking" id="ranking-view-token" aria-label="Token 调用排行" hidden>
@@ -1021,6 +1116,10 @@
             <span>18MAY2024-18MAY2026</span>
           </div>
         </div>
+      </section>
+
+      <section class="ranking-view model-ranking-view" id="ranking-view-model" aria-label="大模型排行" hidden>
+        <div class="model-ranking-table" id="model-ranking-list"></div>
       </section>
     </section>
 
@@ -2297,7 +2396,24 @@
       ["2026-05-12", 1.95],
       ["2026-05-18", 2.1169]
     ];
+    const MODEL_RANKINGS = [
+      ["Opus 4.7 Max", "anthropic", 64.8, 11.02],
+      ["GPT-5.5 Extra High", "openai", 64.3, 4.37],
+      ["Composer 2.5", "cursor", 63.2, 0.55],
+      ["GPT-5.5 High", "openai", 62.6, 3.59],
+      ["Opus 4.7 Extra High", "anthropic", 61.6, 7.11],
+      ["Opus 4.7 High", "anthropic", 59.4, 5.01],
+      ["GPT-5.5 Medium", "openai", 59.2, 2.22],
+      ["Opus 4.7 Medium", "anthropic", 52.7, 2.93],
+      ["Composer 2", "cursor", 52.2, 0.56],
+      ["Gemini 3.5 Flash", "google", 49.8, 1.94],
+      ["GPT-5.5 Low", "openai", 48.8, 1.19],
+      ["Opus 4.7 Low", "anthropic", 48.3, 1.87],
+      ["Kimi 2.6", "moonshot", 47.6, 1.27],
+      ["Kimi 2.5", "moonshot", 31.9, 0.87]
+    ];
     let tokenExpenditureIndexData = TOKEN_EXPENDITURE_INDEX;
+    let modelRankingData = MODEL_RANKINGS;
     const I18N = {
       zh: {
         pageTitle: "IsitHUB",
@@ -2308,8 +2424,9 @@
         industry: "行业", person: "言论", company: "公司", market: "并购/融资", frontier: "前沿", papers: "论文",
         loadingIndustry: "正在加载行业…", loadingPerson: "正在加载言论…", loadingCompany: "正在加载公司…", loadingMarket: "正在加载并购/融资…", loadingFrontier: "正在加载前沿…", loadingPapers: "正在加载论文…",
         currentFilter: "按当前筛选", realVolume: "真实成交额，可用时更新", hot: "热门", topGainer: "最大升幅", waitingQuotes: "等待行情或估算涨跌",
-        tokenRanking: "Token 调用排行", tokenNote: "参考 OpenRouter Top Models，用量口径可切换",
-        chartRanking: "Token 开支走势图", chartNote: "LLM Token Expenditure Index",
+        tokenRanking: "代币使用", tokenNote: "参考 OpenRouter Top Models，用量口径可切换",
+        chartRanking: "代币成本", chartNote: "LLM Token Expenditure Index",
+        modelRanking: "大模型排行", modelNote: "Terminal-Bench / SWE-Bench / CursorBench · 每日更新", modelColumn: "模型", modelScore: "得分", modelCostTask: "平均成本 / 任务",
         day: "日", week: "周", month: "月", history: "历史", period: "周期", firstShare: "第一名占比",
         all: "全部", aiChips: "AI 芯片", aiCloud: "新云", dataCenter: "数据中心", enterpriseAi: "企业 AI", security: "安全", quantum: "量子", chinaAi: "中国 AI", leopold: "Leopold Aschenbrenner",
         searchPlaceholder: "搜索公司、Ticker、子赛道", allSubsectors: "全部子赛道",
@@ -2336,8 +2453,9 @@
         industry: "Industry", person: "Statements", company: "Companies", market: "M&A / Financing", frontier: "Frontier Tech", papers: "Research Papers",
         loadingIndustry: "Loading industry…", loadingPerson: "Loading statements…", loadingCompany: "Loading companies…", loadingMarket: "Loading M&A / financing…", loadingFrontier: "Loading frontier tech…", loadingPapers: "Loading research papers…",
         currentFilter: "Current filter", realVolume: "Real traded value when available", hot: "Trending", topGainer: "Top Gainer", waitingQuotes: "Waiting for quotes or estimated moves",
-        tokenRanking: "Token Usage Ranking", tokenNote: "Inspired by OpenRouter Top Models; period is switchable",
-        chartRanking: "Token Cost Chart", chartNote: "LLM Token Expenditure Index",
+        tokenRanking: "Token Usage", tokenNote: "Inspired by OpenRouter Top Models; period is switchable",
+        chartRanking: "Token Cost", chartNote: "LLM Token Expenditure Index",
+        modelRanking: "Model Ranking", modelNote: "Terminal-Bench / SWE-Bench / CursorBench · daily feed", modelColumn: "Model", modelScore: "Score", modelCostTask: "Avg Cost / Task",
         day: "Day", week: "Week", month: "Month", history: "History", period: "Period", firstShare: "Top share",
         all: "All", aiChips: "AI Chips", aiCloud: "AI Cloud", dataCenter: "Data Centers", enterpriseAi: "Enterprise AI", security: "Security", quantum: "Quantum", chinaAi: "China AI", leopold: "Leopold Aschenbrenner",
         searchPlaceholder: "Search company, ticker, or subsector", allSubsectors: "All subsectors",
@@ -2823,7 +2941,7 @@
       renderSummary();
     }
     function setRankingView(view) {
-      state.rankingView = ["token", "chart"].includes(view) ? view : "chart";
+      state.rankingView = ["token", "chart", "model"].includes(view) ? view : "chart";
       document.querySelectorAll("[data-ranking-view]").forEach((button) => {
         const isActive = button.dataset.rankingView === state.rankingView;
         button.classList.toggle("active", isActive);
@@ -2831,14 +2949,19 @@
       });
       const tokenPanel = $("ranking-view-token");
       const chartPanel = $("ranking-view-chart");
+      const modelPanel = $("ranking-view-model");
       if (tokenPanel) tokenPanel.hidden = state.rankingView !== "token";
       if (chartPanel) chartPanel.hidden = state.rankingView !== "chart";
-      document.querySelector(".ranking-panel")?.classList.toggle("chart-mode", state.rankingView === "chart");
-      const titleByView = { token: t("tokenRanking"), chart: t("chartRanking") };
-      const noteByView = { token: t("tokenNote"), chart: t("chartNote") };
+      if (modelPanel) modelPanel.hidden = state.rankingView !== "model";
+      const rankingPanel = document.querySelector(".ranking-panel");
+      rankingPanel?.classList.toggle("chart-mode", state.rankingView === "chart");
+      rankingPanel?.classList.toggle("model-mode", state.rankingView === "model");
+      const titleByView = { token: t("tokenRanking"), chart: t("chartRanking"), model: t("modelRanking") };
+      const noteByView = { token: t("tokenNote"), chart: t("chartNote"), model: t("modelNote") };
       setText(".ranking-panel-title", titleByView[state.rankingView]);
       setText("#ranking-panel-note", noteByView[state.rankingView]);
       if (state.rankingView === "chart") renderTokenIndexChart();
+      if (state.rankingView === "model") renderModelRanking();
     }
     function renderTokenRanking() {
       const rows = TOKEN_RANKINGS[state.tokenPeriod] || TOKEN_RANKINGS.month;
@@ -2856,6 +2979,54 @@
             <div class="token-provider">by ${provider}</div>
           </div>
           <div class="token-value">${formatTokens(tokens)}<span class="token-change ${changeClass}">${changeLabel}</span></div>
+        </div>`;
+      }).join("");
+    }
+    function modelProviderColor(provider) {
+      const colors = {
+        anthropic: "#67b7cf",
+        openai: "#818cf8",
+        cursor: "#f97316",
+        google: "#4f7cff",
+        moonshot: "#d45a96"
+      };
+      return colors[String(provider || "").toLowerCase()] || "#94a3b8";
+    }
+    function normalizeModelRankingRows(rows) {
+      return (Array.isArray(rows) ? rows : []).map((row) => {
+        if (Array.isArray(row)) {
+          return {
+            model: String(row[0] || ""),
+            provider: String(row[1] || ""),
+            score: Number(row[2]),
+            avgCostPerTask: Number(row[3])
+          };
+        }
+        return {
+          model: String(row?.model || row?.name || ""),
+          provider: String(row?.provider || ""),
+          score: Number(row?.score),
+          avgCostPerTask: Number(row?.avgCostPerTask ?? row?.cost ?? row?.avg_cost_per_task)
+        };
+      }).filter((row) => row.model && Number.isFinite(row.score) && Number.isFinite(row.avgCostPerTask));
+    }
+    function renderModelRanking() {
+      const target = $("model-ranking-list");
+      if (!target) return;
+      const rows = normalizeModelRankingRows(modelRankingData);
+      const head = `<div class="model-row model-head">
+        <div></div>
+        <div>${escapeHtml(t("modelColumn"))}</div>
+        <div class="model-score">${escapeHtml(t("modelScore"))}</div>
+        <div class="model-cost">${escapeHtml(t("modelCostTask"))}</div>
+      </div>`;
+      target.innerHTML = head + rows.map((row, index) => {
+        const highlight = /^(Composer 2\.5|Gemini 3\.5 Flash)$/i.test(row.model);
+        return `<div class="model-row${highlight ? " model-highlight" : ""}">
+          <div class="model-rank">${index + 1}</div>
+          <div class="model-name"><span>${escapeHtml(row.model)}</span><span class="model-dot" style="background:${modelProviderColor(row.provider)}"></span></div>
+          <div class="model-score">${row.score.toFixed(1)}%</div>
+          <div class="model-cost">$${row.avgCostPerTask.toFixed(2)}</div>
         </div>`;
       }).join("");
     }
@@ -3005,6 +3176,19 @@
         }
       } catch (error) {
         console.warn("Token index feed unavailable; using inline fallback", error);
+      }
+    }
+    async function fetchModelRankings() {
+      try {
+        const payload = await fetchJson("model-rankings.json");
+        const rows = Array.isArray(payload?.rankings) ? payload.rankings : payload;
+        const clean = normalizeModelRankingRows(rows);
+        if (clean.length) {
+          modelRankingData = clean;
+          if (state.rankingView === "model") renderModelRanking();
+        }
+      } catch (error) {
+        console.warn("Model ranking feed unavailable; using inline fallback", error);
       }
     }
     async function fetchJson(url) {
@@ -3232,7 +3416,7 @@
       const changeClass = $("highlight-change")?.className || "positive";
       if (changeMini) changeMini.innerHTML = `<span class="${changeClass}" id="highlight-change">${changeValue}</span> · ${t("currentFilter")}`;
       setText(".highlight-card:nth-child(2) .mini", t("realVolume"));
-      setAllText(".ranking-switch button", [t("tokenRanking"), t("chartRanking")]);
+      setAllText(".ranking-switch button", [t("tokenRanking"), t("chartRanking"), t("modelRanking")]);
       setRankingView(state.rankingView);
       setText(".token-ranking-head .panel-note", t("tokenNote"));
       setAllText(".token-tab", [t("day"), t("week"), t("month")]);
@@ -3259,6 +3443,7 @@
       state.lang = lang;
       applyLocale();
       renderTokenRanking();
+      renderModelRanking();
       render();
       fetchNewsStrip();
     }
@@ -3341,8 +3526,10 @@
     applyLocale();
     fetchNewsStrip();
     renderTokenRanking();
+    renderModelRanking();
     render();
     fetchTokenIndex();
+    fetchModelRankings();
     fetchQuotes().catch(handleQuoteError);
     detectLanguageByIp();
   </script>
