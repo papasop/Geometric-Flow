@@ -1135,8 +1135,9 @@ QUOTED_STATEMENT_RE = re.compile(r"[\"“‘][^\"”’]{8,}[\"”’]")
 
 
 def item_matches_speech(item: dict[str, object]) -> bool:
+    title = str(item.get("title") or "")
     text = " ".join([
-        str(item.get("title") or ""),
+        title,
         str(item.get("summary") or ""),
         str(item.get("author") or ""),
     ])
@@ -1148,6 +1149,11 @@ def item_matches_speech(item: dict[str, object]) -> bool:
     has_person = any(re.search(rf"(?<![a-z0-9]){re.escape(term.lower())}(?![a-z0-9])", text_l) for term in AI_SPEECH_PERSON_TERMS)
     has_world_model = any(term.lower() in text_l for term in WORLD_MODEL_TERMS)
     if not (has_person or has_world_model):
+        return False
+    title_l = title.lower()
+    title_has_person = any(re.search(rf"(?<![a-z0-9]){re.escape(term.lower())}(?![a-z0-9])", title_l) for term in AI_SPEECH_PERSON_TERMS)
+    title_has_world_model = any(term.lower() in title_l for term in WORLD_MODEL_TERMS)
+    if not (title_has_person or title_has_world_model):
         return False
     has_real_statement = bool(REAL_SPEECH_RE.search(text) or QUOTED_STATEMENT_RE.search(text))
     return bool(SPEECH_SIGNAL_RE.search(text) and has_real_statement)
