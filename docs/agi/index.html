@@ -643,7 +643,7 @@
       gap: 8px;
       overflow-x: auto;
       margin: -4px 0 12px;
-      padding: 0 0 6px;
+      padding: 0 0 6px var(--subtabs-offset, 0px);
     }
     .subtabs[hidden] { display: none; }
     .subtab {
@@ -3434,6 +3434,14 @@
       $("category-filter").innerHTML = categories().map((cat) => `<option value="${cat}">${categoryLabel(cat)}</option>`).join("");
       if ([...$("category-filter").options].some((option) => option.value === current)) $("category-filter").value = current;
     }
+    function alignSubtabsToCategory(panel, category) {
+      if (!panel || panel.hidden) return;
+      const tabs = document.querySelector(".tabs");
+      const tab = Array.from(document.querySelectorAll(".tab")).find((item) => item.dataset.tab === category);
+      if (!tabs || !tab) return;
+      const offset = tab.getBoundingClientRect().left - panel.getBoundingClientRect().left;
+      panel.style.setProperty("--subtabs-offset", `${Math.max(0, Math.round(offset))}px`);
+    }
     function updateCategoryControls() {
       document.querySelectorAll(".tab").forEach((item) => item.classList.toggle("active", item.dataset.tab === state.category));
       document.querySelectorAll(".nav a[data-nav-tab]").forEach((item) => item.classList.toggle("active", item.dataset.navTab === state.category));
@@ -3447,6 +3455,8 @@
       document.querySelectorAll("[data-energy-subcategory]").forEach((item) => {
         item.classList.toggle("active", item.dataset.energySubcategory === state.energySubcategory);
       });
+      alignSubtabsToCategory(tokenSubtabs, TOKEN_FACTORY_CATEGORY);
+      alignSubtabsToCategory(energySubtabs, ENERGY_CATEGORY);
       if ($("category-filter") && [...$("category-filter").options].some((option) => option.value === state.category)) {
         $("category-filter").value = state.category;
       }
@@ -3572,6 +3582,7 @@
           render();
         });
       });
+      window.addEventListener("resize", updateCategoryControls);
       document.querySelectorAll("[data-ranking-view]").forEach((button) => {
         button.addEventListener("click", () => setRankingView(button.dataset.rankingView || "chart"));
       });
