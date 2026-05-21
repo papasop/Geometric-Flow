@@ -1176,7 +1176,8 @@
       <button class="subtab" data-model-subcategory="物理世界模型" type="button">物理世界模型</button>
     </section>
     <section class="subtabs" id="llm-subtabs" aria-label="LLM 子标签" hidden>
-      <button class="subtab active" data-llm-subcategory="开源" type="button">开源</button>
+      <button class="subtab active" data-llm-subcategory="全部" type="button">全部</button>
+      <button class="subtab" data-llm-subcategory="开源" type="button">开源</button>
       <button class="subtab" data-llm-subcategory="闭源" type="button">闭源</button>
     </section>
 
@@ -2053,7 +2054,7 @@
     const ENERGY_TICKERS = new Set(["VRT", "EOSE", "NEE", "LEU", "UUUU", "OKLO", "CEG", "VST"]);
     const MODEL_CATEGORY = "大模型";
     const MODEL_SUBCATEGORIES = ["LLM", "物理世界模型"];
-    const LLM_SUBCATEGORIES = ["开源", "闭源"];
+    const LLM_SUBCATEGORIES = ["全部", "开源", "闭源"];
     const LLM_OPEN_TICKERS = new Set(["DEEPSEEK.PRE", "MOONSHOT.PRE", "ZHIPU.PRE"]);
     const LLM_CLOSED_TICKERS = new Set(["OPENAI.PRE", "ANTHROPIC.PRE"]);
     const MODEL_TICKERS = new Set([...LLM_OPEN_TICKERS, ...LLM_CLOSED_TICKERS]);
@@ -2545,7 +2546,7 @@
       const langs = navigator.languages?.length ? navigator.languages : [navigator.language || ""];
       return langs.some((lang) => /^zh\b/i.test(lang)) ? "zh" : "en";
     }
-    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: "SMR", modelSubcategory: "LLM", llmSubcategory: "开源", selected: "NVDA", page: 1, rankingView: "chart", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, fxRates: {}, lang: browserLang() };
+    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: "SMR", modelSubcategory: "LLM", llmSubcategory: "全部", selected: "NVDA", page: 1, rankingView: "chart", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, fxRates: {}, lang: browserLang() };
     const $ = (id) => document.getElementById(id);
     const t = (key) => (I18N[state.lang] && I18N[state.lang][key]) || I18N.zh[key] || key;
 
@@ -2718,7 +2719,7 @@
     function matchesModelSubcategory(row) {
       if (state.category !== MODEL_CATEGORY) return true;
       if (modelSubcategory(row) !== state.modelSubcategory) return false;
-      if (state.modelSubcategory === "LLM") return llmSubcategory(row) === state.llmSubcategory;
+      if (state.modelSubcategory === "LLM") return state.llmSubcategory === "全部" || llmSubcategory(row) === state.llmSubcategory;
       return true;
     }
     function filteredRows() {
@@ -3532,7 +3533,7 @@
         state.modelSubcategory = "LLM";
       }
       if (state.category === MODEL_CATEGORY && state.modelSubcategory === "LLM" && !LLM_SUBCATEGORIES.includes(state.llmSubcategory)) {
-        state.llmSubcategory = "开源";
+        state.llmSubcategory = "全部";
       }
       state.page = 1;
       updateCategoryControls();
@@ -3650,6 +3651,7 @@
       document.querySelectorAll("[data-model-subcategory]").forEach((button) => {
         button.addEventListener("click", () => {
           state.modelSubcategory = button.dataset.modelSubcategory || "LLM";
+          if (state.modelSubcategory === "LLM") state.llmSubcategory = "全部";
           state.page = 1;
           updateCategoryControls();
           render();
@@ -3657,7 +3659,7 @@
       });
       document.querySelectorAll("[data-llm-subcategory]").forEach((button) => {
         button.addEventListener("click", () => {
-          state.llmSubcategory = button.dataset.llmSubcategory || "开源";
+          state.llmSubcategory = button.dataset.llmSubcategory || "全部";
           state.page = 1;
           updateCategoryControls();
           render();
