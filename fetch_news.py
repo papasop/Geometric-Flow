@@ -307,19 +307,25 @@ AI_COMPANY_NEWS_TERMS = extract_company_news_terms() or [
 ]
 AI_PERSON_NEWS_TERMS = [
     "Sam Altman", "Elon Musk", "马斯克", "Jensen Huang", "黄仁勋", "Satya Nadella",
-    "Dario Amodei", "Demis Hassabis", "哈萨比斯", "Mark Zuckerberg", "Sundar Pichai",
+    "Greg Brockman", "Brad Lightcap", "Mira Murati", "Dario Amodei", "Daniela Amodei",
+    "Jared Kaplan", "Demis Hassabis", "哈萨比斯", "Koray Kavukcuoglu",
+    "Oriol Vinyals", "Mark Zuckerberg", "Alexandr Wang", "Sundar Pichai",
     "Yann LeCun", "杨立昆", "杨丽坤", "Andrew Ng", "Andrej Karpathy", "Fei-Fei Li",
     "Ilya Sutskever", "Leopold Aschenbrenner", "Lisa Su", "Hock Tan",
-    "Masayoshi Son", "Mira Murati", "Kai-Fu Lee", "李飞飞", "李开复",
+    "Masayoshi Son", "Kai-Fu Lee", "李飞飞", "李开复",
     "Geoffrey Hinton", "Yoshua Bengio", "Yejin Choi", "Jeff Dean", "Noam Shazeer",
-    "Mustafa Suleyman", "Aidan Gomez", "Ian Goodfellow", "Jim Keller",
+    "Mustafa Suleyman", "Aidan Gomez", "Aravind Srinivas", "Arthur Mensch",
+    "Igor Babuschkin", "Ian Goodfellow", "Jim Keller",
     "Tim Cook", "Bill Gates", "Jeff Bezos", "Larry Ellison", "Marc Benioff",
     "Marc Andreessen", "Ben Horowitz", "Reid Hoffman", "Peter Thiel", "Vinod Khosla",
     "Warren Buffett", "Charlie Munger", "Ray Dalio", "Stanley Druckenmiller",
     "Eric Schmidt", "Henry Kissinger", "Yuval Noah Harari", "Nick Bostrom",
     "Barack Obama", "Donald Trump", "Joe Biden", "Ursula von der Leyen",
     "Ren Zhengfei", "任正非", "Zhang Yiming", "张一鸣", "Liang Wenfeng", "梁文锋",
-    "Robin Li", "李彦宏", "Wang Xingxing", "王兴兴", "Lei Jun", "雷军",
+    "Yang Zhilin", "杨植麟", "Zhang Peng", "张鹏", "Tang Jie", "唐杰",
+    "Wang Xiaochuan", "王小川", "Yan Junjie", "闫俊杰", "Jiang Daxin", "姜大昕",
+    "Zhou Jingren", "周靖人", "Wang Haifeng", "王海峰", "Yao Xing", "姚星",
+    "Zhu Wenjia", "朱文佳", "Robin Li", "李彦宏", "Wang Xingxing", "王兴兴", "Lei Jun", "雷军",
     "physical world model", "world model", "物理世界模型",
 ]
 AI_SPEECH_PERSON_TERMS = [
@@ -467,7 +473,7 @@ NEWS_SECTIONS = [
     {
         "id": "person",
         "title": "言论",
-        "note": "来源：互联网公开新闻；关键词：AI 名人公开言论 / 马斯克 / 黄仁勋 / 哈萨比斯 / 杨立昆 / 李飞飞 / Hinton / Gates / Buffett / Harari / 任正非 / 张一鸣 / 梁文锋 / 物理世界模型",
+        "note": "来源：互联网公开新闻；关键词：大模型负责人公开言论 / OpenAI / Anthropic / DeepMind / Gemini / Meta AI / xAI / Mistral / DeepSeek / Kimi / 智谱 / 通义千问 / 豆包 / 马斯克 / 黄仁勋 / 哈萨比斯 / 梁文锋 / 物理世界模型",
         "sources": PERSON_NEWS_SOURCES,
         "derivedFromAll": True,
     },
@@ -1304,13 +1310,20 @@ def main() -> int:
         }
 
     if section_filter:
-        items = [
+        refreshed_items = [
             item
-            for section in section_payload.values()
-            if isinstance(section, dict)
+            for section_id, section in section_payload.items()
+            if section_id in section_filter and isinstance(section, dict)
             for item in section.get("items", [])
             if isinstance(item, dict)
         ]
+        existing_items = existing_payload.get("items") if existing_payload else []
+        retained_items = [
+            item
+            for item in existing_items
+            if isinstance(item, dict) and item.get("section") not in section_filter
+        ] if isinstance(existing_items, list) else []
+        items = [*refreshed_items, *retained_items]
     items.sort(key=lambda item: (bool(item.get("matchedPortfolios")), item.get("publishedAt") or ""), reverse=True)
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
