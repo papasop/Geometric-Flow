@@ -2056,8 +2056,8 @@
     const MODEL_CATEGORY = "大模型";
     const MODEL_SUBCATEGORIES = ["LLM", "物理世界模型"];
     const LLM_SUBCATEGORIES = ["全部", "开源", "闭源"];
-    const LLM_OPEN_TICKERS = new Set(["DEEPSEEK.PRE", "MOONSHOT.PRE", "2513.HK"]);
-    const LLM_CLOSED_TICKERS = new Set(["OPENAI.PRE", "ANTHROPIC.PRE"]);
+    const LLM_OPEN_TICKERS = new Set(["DEEPSEEK.PRE", "MOONSHOT.PRE", "2513.HK", "META"]);
+    const LLM_CLOSED_TICKERS = new Set(["OPENAI.PRE", "ANTHROPIC.PRE", "GOOG"]);
     const MODEL_TICKERS = new Set([...LLM_OPEN_TICKERS, ...LLM_CLOSED_TICKERS]);
     const AIBOTT_BY_TICKER = new Map(AIBOTT_WATCHLIST.map(([symbol, name, theme, oneLiner, conviction]) => [symbol, { name, theme, oneLiner, conviction }]));
     function inferAibottTheme(category, thesis, ticker) {
@@ -2078,13 +2078,13 @@
       ["MSFT", "Microsoft", "Hyperscaler / Copilot", "Azure、Copilot、OpenAI 生态与企业 AI 平台。"],
       ["OPENAI.PRE", "OpenAI", "Closed LLM pre-IPO", "预上市闭源大模型公司，ChatGPT、企业 AI 与模型基础设施。", { status: "prelist", estimatedMarketCap: 852000000000 }],
       ["AAPL", "Apple", "On-device AI", "端侧 AI、芯片、设备生态和个人 AI 入口。"],
-      ["GOOG", "Alphabet", "AI platform / TPU", "Gemini、TPU、搜索与云端 AI 平台。"],
+      ["GOOG", "Alphabet", "Closed LLM / TPU", "Gemini、TPU、搜索与云端 AI 平台，闭源大模型核心公司。"],
       ["AMZN", "Amazon", "AWS / AI cloud", "AWS、Trainium、Inferentia 和 AI 云基础设施。"],
       ["ANTHROPIC.PRE", "Anthropic", "Closed LLM pre-IPO", "预上市闭源大模型公司，Claude、企业 AI 与安全取向模型生态。", { status: "prelist", estimatedMarketCap: 900000000000 }],
       ["BYTEDANCE.PRE", "字节跳动", "China AI platform pre-IPO", "预上市 AI 内容与推荐平台，TikTok、抖音、火山引擎与豆包大模型生态。", { status: "prelist", estimatedMarketCap: 550000000000 }],
       ["DEEPSEEK.PRE", "DeepSeek", "Open LLM pre-IPO", "预上市中国开源大模型公司，DeepSeek 系列模型、推理优化与开放权重生态。", { status: "prelist", estimatedMarketCap: 10000000000 }],
       ["MOONSHOT.PRE", "月之暗面", "Open LLM pre-IPO", "预上市中国开源大模型公司，Kimi 系列、长上下文、多模态与 Agent 能力。", { status: "prelist", estimatedMarketCap: 20000000000 }],
-      ["META", "Meta Platforms", "Foundation models", "Llama、广告 AI、推荐系统和 AI 资本开支。"],
+      ["META", "Meta Platforms", "Open LLM / foundation models", "Llama 开源大模型、广告 AI、推荐系统和 AI 资本开支。"],
       ["TSLA", "Tesla", "Autonomy / robotics", "FSD、车端 AI、机器人与大规模真实世界数据闭环。"],
       ["SPACEX.PRE", "SpaceX", "Space / AI pre-IPO", "预上市航天与卫星互联网公司，Starlink、发射体系与 AI 基础设施潜在协同。", { status: "prelist", estimatedMarketCap: 1250000000000 }],
       ["AVGO", "Broadcom", "Custom ASIC", "定制 AI ASIC、网络芯片与数据中心互连。"],
