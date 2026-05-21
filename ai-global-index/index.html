@@ -1165,6 +1165,10 @@
       <button class="subtab active" data-token-subcategory="IaaS/PaaS" type="button">IaaS/PaaS</button>
       <button class="subtab" data-token-subcategory="MaaS" type="button">MaaS</button>
     </section>
+    <section class="subtabs" id="energy-subtabs" aria-label="能源子标签" hidden>
+      <button class="subtab active" data-energy-subcategory="SMR" type="button">SMR</button>
+      <button class="subtab" data-energy-subcategory="SOFC" type="button">SOFC</button>
+    </section>
 
     <section class="panel market-panel">
       <div class="panel-head">
@@ -2030,6 +2034,8 @@
 ];
     const TOKEN_FACTORY_CATEGORY = "Token 工厂 / 推理服务";
     const TOKEN_FACTORY_SUBCATEGORIES = ["IaaS/PaaS", "MaaS"];
+    const ENERGY_CATEGORY = "能源";
+    const ENERGY_SUBCATEGORIES = ["SMR", "SOFC"];
     const AIBOTT_BY_TICKER = new Map(AIBOTT_WATCHLIST.map(([symbol, name, theme, oneLiner, conviction]) => [symbol, { name, theme, oneLiner, conviction }]));
     function inferAibottTheme(category, thesis, ticker) {
       const text = String(ticker || "") + " " + String(category || "") + " " + String(thesis || "");
@@ -2126,6 +2132,12 @@
       ["VNET", "VNET Group", "AIDC / AI data center", "中国 AIDC、数据中心与 AI 基础设施。"],
       ["002364.SZ", "中恒电气", "AIDC / AI data center power", "AIDC 电源系统、HVDC 高压直流、电力电子与数据中心供配电基础设施。"],
       ["CRWV", "CoreWeave", "AI cloud", "GPU 云、AI 训练和推理基础设施。"],
+      ["OKLO", "Oklo", "SMR / nuclear power", "美股 SMR 小型模块化反应堆与先进核能公司，面向 AI 数据中心长期电力需求。"],
+      ["SMR", "NuScale Power", "SMR / nuclear power", "美股小型模块化反应堆公司，提供模块化核电设计与部署方案。"],
+      ["NNE", "Nano Nuclear Energy", "SMR / microreactor", "美股微型反应堆和先进核能开发公司，受益 AI 数据中心清洁基荷电力需求。"],
+      ["BWXT", "BWX Technologies", "SMR / nuclear components", "美股核反应堆组件、燃料与国防核技术供应商，SMR 供应链核心标的。"],
+      ["LEU", "Centrus Energy", "SMR / HALEU fuel", "美股核燃料和 HALEU 供应链公司，服务先进反应堆和 SMR 燃料需求。"],
+      ["LTBR", "Lightbridge", "SMR / nuclear fuel", "美股先进核燃料技术公司，面向下一代反应堆与 SMR 燃料效率提升。"],
       ["BE", "Bloom Energy", "SOFC / fuel cells", "SOFC 固体氧化物燃料电池与现场发电，AI 数据中心电力供应链。"],
       ["000338.SZ", "潍柴动力", "SOFC / fuel cells", "SOFC 固体氧化物燃料电池、动力系统与分布式能源布局。"],
       ["CWR.L", "Ceres Power", "SOFC / fuel cells", "英国 SOFC 固体氧化物燃料电池与电解槽技术公司，面向分布式能源和工业脱碳。"],
@@ -2500,7 +2512,7 @@
       const langs = navigator.languages?.length ? navigator.languages : [navigator.language || ""];
       return langs.some((lang) => /^zh\b/i.test(lang)) ? "zh" : "en";
     }
-    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", selected: "NVDA", page: 1, rankingView: "chart", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, fxRates: {}, lang: browserLang() };
+    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: "SMR", selected: "NVDA", page: 1, rankingView: "chart", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, fxRates: {}, lang: browserLang() };
     const $ = (id) => document.getElementById(id);
     const t = (key) => (I18N[state.lang] && I18N[state.lang][key]) || I18N.zh[key] || key;
 
@@ -2651,12 +2663,23 @@
       if (state.category !== TOKEN_FACTORY_CATEGORY) return true;
       return tokenFactorySubcategory(row) === state.tokenSubcategory;
     }
+    function energySubcategory(row) {
+      const haystack = `${row.ticker} ${row.name} ${row.category} ${row.thesis} ${(row.tags || []).join(" ")}`.toLowerCase();
+      if (row.ticker === "BE" || row.ticker === "000338.SZ") return "SOFC";
+      if (/sofc|solid oxide|fuel cell|fuel cells|燃料电池|固体氧化物/.test(haystack)) return "SOFC";
+      if (/smr|small modular reactor|microreactor|nuclear|reactor|haleu|uranium|小型模块化|模块化反应堆|核能|核电|反应堆/.test(haystack)) return "SMR";
+      return "SMR";
+    }
+    function matchesEnergySubcategory(row) {
+      if (state.category !== ENERGY_CATEGORY) return true;
+      return energySubcategory(row) === state.energySubcategory;
+    }
     function filteredRows() {
       const q = state.query.trim().toLowerCase();
       let rows = state.rows.filter((row) => {
         const matchCategory = matchesCategory(row, state.category);
         const haystack = `${row.ticker} ${row.name} ${row.category} ${row.thesis} ${row.country} ${flagFor(row)} ${(row.tags || []).join(" ")}`.toLowerCase();
-        return matchCategory && matchesTokenSubcategory(row) && (!q || haystack.includes(q));
+        return matchCategory && matchesTokenSubcategory(row) && matchesEnergySubcategory(row) && (!q || haystack.includes(q));
       });
       if (state.sort === "mcap") {
         rows = rows.sort((a, b) => compareMetric(a, b, "mcap"));
@@ -3419,6 +3442,11 @@
       document.querySelectorAll("[data-token-subcategory]").forEach((item) => {
         item.classList.toggle("active", item.dataset.tokenSubcategory === state.tokenSubcategory);
       });
+      const energySubtabs = $("energy-subtabs");
+      if (energySubtabs) energySubtabs.hidden = state.category !== ENERGY_CATEGORY;
+      document.querySelectorAll("[data-energy-subcategory]").forEach((item) => {
+        item.classList.toggle("active", item.dataset.energySubcategory === state.energySubcategory);
+      });
       if ($("category-filter") && [...$("category-filter").options].some((option) => option.value === state.category)) {
         $("category-filter").value = state.category;
       }
@@ -3427,6 +3455,9 @@
       state.category = category || "ALL";
       if (state.category === TOKEN_FACTORY_CATEGORY && !TOKEN_FACTORY_SUBCATEGORIES.includes(state.tokenSubcategory)) {
         state.tokenSubcategory = "IaaS/PaaS";
+      }
+      if (state.category === ENERGY_CATEGORY && !ENERGY_SUBCATEGORIES.includes(state.energySubcategory)) {
+        state.energySubcategory = "SMR";
       }
       state.page = 1;
       updateCategoryControls();
@@ -3528,6 +3559,14 @@
       document.querySelectorAll("[data-token-subcategory]").forEach((button) => {
         button.addEventListener("click", () => {
           state.tokenSubcategory = button.dataset.tokenSubcategory || "IaaS/PaaS";
+          state.page = 1;
+          updateCategoryControls();
+          render();
+        });
+      });
+      document.querySelectorAll("[data-energy-subcategory]").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.energySubcategory = button.dataset.energySubcategory || "SMR";
           state.page = 1;
           updateCategoryControls();
           render();
