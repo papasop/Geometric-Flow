@@ -351,6 +351,8 @@ DEAL_REQUIRED_KEYWORDS = [
 INDUSTRY_NEWS_SOURCES = [
     google_news_query_source("Wall Street Journal", f"site:wsj.com {AI_MARKET_NEWS_QUERY}"),
     google_news_query_source("New York Times", f"site:nytimes.com {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("Financial Times", f"site:ft.com {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("South China Morning Post", f"site:scmp.com {AI_MARKET_NEWS_QUERY}"),
 ]
 PERSON_NEWS_SOURCES = [
     google_news_query_source("AI Statements · People", AI_PERSON_NEWS_QUERY),
@@ -431,7 +433,7 @@ NEWS_SECTIONS = [
     {
         "id": "industry",
         "title": "行业",
-        "note": "Wall Street Journal / New York Times",
+        "note": "Wall Street Journal / New York Times / Financial Times / South China Morning Post",
         "sources": INDUSTRY_NEWS_SOURCES,
     },
     {
@@ -1240,6 +1242,8 @@ def main() -> int:
             "supplements": [
                 "Wall Street Journal",
                 "New York Times",
+                "Financial Times",
+                "South China Morning Post",
                 "Statements",
                 "Bloomberg",
                 "Reuters",
