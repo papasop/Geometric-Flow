@@ -3217,7 +3217,7 @@
             <div class="company-cell">
               <span>
                 <span class="company-line"><span class="company-name">${companyDisplayName(row)}</span><span class="flag">${flagFor(row)}</span><span class="ticker">${row.ticker}</span>${row.status === "prelist" ? `<span class="prelist-badge">${t("prelist")}</span>` : ""}</span>
-                <div class="subtext">${row.category}</div>
+                <div class="subtext">${categoryDisplayLabel(row.category)}</div>
               </span>
             </div>
           </td>
