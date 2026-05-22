@@ -380,10 +380,12 @@ INDUSTRY_NEWS_SOURCES = [
     {"name": "Financial Times", "url": "https://www.ft.com/technology?format=rss"},
     {"name": "South China Morning Post", "url": "https://www.scmp.com/rss/36/feed"},
     {"name": "South China Morning Post", "url": "https://www.scmp.com/rss/92/feed"},
+    {"name": "TechCrunch Startups", "url": "https://techcrunch.com/category/startups/feed/"},
     google_news_query_source("Wall Street Journal", f"site:wsj.com {AI_MARKET_NEWS_QUERY}"),
     google_news_query_source("New York Times", f"site:nytimes.com {AI_MARKET_NEWS_QUERY}"),
     google_news_query_source("Financial Times", f"site:ft.com {AI_MARKET_NEWS_QUERY}"),
     google_news_query_source("South China Morning Post", f"site:scmp.com {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("TechCrunch Startups", f"site:techcrunch.com/category/startups {AI_MARKET_NEWS_QUERY}"),
 ]
 PERSON_NEWS_SOURCES = [
     google_news_query_source(f"AI Statements · Public Figures {index + 1}", ai_person_news_query(batch))
@@ -438,7 +440,7 @@ NEWS_SECTIONS = [
     {
         "id": "industry",
         "title": "行业",
-        "note": "Wall Street Journal / New York Times / Financial Times / South China Morning Post",
+        "note": "Wall Street Journal / New York Times / Financial Times / South China Morning Post / TechCrunch Startups",
         "sources": INDUSTRY_NEWS_SOURCES,
     },
     {
@@ -1319,13 +1321,14 @@ def main() -> int:
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "strategy": {
-            "primary": "Tabbed news sections: industry from WSJ/NYT, statements derived from all sources by named AI figures and speech signals, company from company-name searches plus M&A and financing keywords, frontier technology from Wired/MIT Technology Review/Stanford sources, papers from top AI journals, conferences, proceedings, and preprint sources",
+            "primary": "Tabbed news sections: industry from WSJ/NYT/FT/SCMP/TechCrunch Startups, statements derived from all sources by named AI figures and speech signals, company from company-name searches plus M&A and financing keywords, frontier technology from Wired/MIT Technology Review/Stanford sources, papers from top AI journals, conferences, proceedings, and preprint sources",
             "primaryEnabled": True,
             "supplements": [
                 "Wall Street Journal",
                 "New York Times",
                 "Financial Times",
                 "South China Morning Post",
+                "TechCrunch Startups",
                 "Statements",
                 "Bloomberg",
                 "Reuters",
