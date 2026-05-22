@@ -203,6 +203,7 @@
     }
     .news-thumb {
       display: block;
+      position: relative;
       width: 100%;
       aspect-ratio: 16 / 9;
       overflow: hidden;
@@ -222,6 +223,55 @@
       height: 100%;
       border: 0;
       background: #000;
+    }
+    .translation-panel {
+      position: absolute;
+      left: 8px;
+      right: 8px;
+      bottom: 8px;
+      z-index: 3;
+      display: grid;
+      gap: 6px;
+      padding: 8px;
+      border: 1px solid rgba(148, 163, 184, 0.32);
+      border-radius: 8px;
+      background: rgba(3, 7, 18, 0.76);
+      color: #e5e7eb;
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.26);
+      backdrop-filter: blur(8px);
+    }
+    .translation-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .translation-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 26px;
+      padding: 5px 8px;
+      border: 1px solid rgba(148, 163, 184, 0.36);
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.82);
+      color: #e5e7eb;
+      font-size: 11px;
+      font-weight: 900;
+      line-height: 1;
+      cursor: pointer;
+      user-select: none;
+    }
+    .translation-toggle.active {
+      border-color: rgba(103, 232, 249, 0.76);
+      background: rgba(22, 78, 99, 0.9);
+      color: #ecfeff;
+    }
+    .translation-status {
+      min-height: 16px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 760;
+      line-height: 1.35;
     }
     .news-item.has-thumb {
       width: 340px;
@@ -2801,6 +2851,9 @@
         watch: "关注", prelist: "预上市", est: " est.",
         quoteDaily: "每日行情", quoteLive: "Yahoo 实时备用行情", quoteError: "行情接口暂不可用，真实行情为空", waitingLive: "等待真实行情",
         newsSource: "新闻来源", newsAuthor: "作者", mediaSource: "媒体", speechKeywordSource: "互联网公开新闻：大模型负责人公开言论 / OpenAI / Anthropic / DeepMind / Gemini / Meta AI / xAI / Mistral / DeepSeek / Kimi / 智谱 / 通义千问 / 豆包 / 马斯克 / 黄仁勋 / 哈萨比斯 / 梁文锋 / 物理世界模型",
+        subtitleTranslate: "实时字幕", voiceTranslate: "语音翻译",
+        subtitleWaiting: "等待公开字幕源；接入字幕 API 后可实时翻译。",
+        voiceWaiting: "语音翻译需要自有音频流和 ASR 后端；YouTube 嵌入视频暂不暴露音频。",
         footer: "说明：这是 AI 相关美股挂牌、港股、A 股、韩股、日股、英国、加拿大与台湾市场公司及少量预上市公司观察名单，不是投资建议，也不是官方指数。价格、1小时/24小时/7天/30天变化、成交额与市值均优先使用在线 quote/chart 真实行情；不可用时显示为空。预上市公司使用估算美元市值参与排行，不抓取实时行情。非美元公司市值与成交额在内部按 USD/CNY、USD/HKD、USD/KRW、USD/JPY、USD/TWD、USD/GBP、USD/CAD 机制折算成美元口径，但页面不展示汇率。",
         fallbackHot: "华尔街日报中文市场热点持续更新",
         fallbackIndustry: "行业动态持续追踪 AI 芯片、云、数据中心与大模型",
@@ -2833,6 +2886,9 @@
         watch: "Watch", prelist: "Pre-IPO", est: " est.",
         quoteDaily: "Daily market data", quoteLive: "Live Yahoo fallback", quoteError: "Quote feed unavailable; live fields are blank", waitingLive: "Waiting for live quotes",
         newsSource: "Source", newsAuthor: "Author", mediaSource: "Media", speechKeywordSource: "Open web news: public statements by foundation-model leaders / OpenAI / Anthropic / DeepMind / Gemini / Meta AI / xAI / Mistral / DeepSeek / Kimi / Zhipu / Qwen / Doubao / Musk / Jensen Huang / Hassabis / Liang Wenfeng / physical world model",
+        subtitleTranslate: "Live Captions", voiceTranslate: "Voice Translation",
+        subtitleWaiting: "Waiting for a public caption source; live translation can attach once captions API is connected.",
+        voiceWaiting: "Voice translation needs an owned audio stream and ASR backend; YouTube embeds do not expose audio.",
         footer: "Note: This is a watchlist of AI-related US-listed, Hong Kong-listed, A-share, Korean, Japanese, UK, Canadian, Taiwan-market, and selected pre-IPO companies. It is not investment advice or an official index. Price, 1h/24h/7d/30d change, volume, and market cap use online quote/chart data when available; unavailable fields are left blank. Pre-IPO companies use estimated USD market caps for ranking and do not fetch live quotes. Non-USD market caps and volume are converted internally to USD using USD/CNY, USD/HKD, USD/KRW, USD/JPY, USD/TWD, USD/GBP, and USD/CAD logic; exchange rates are not displayed.",
         fallbackHot: "Wall Street Journal Chinese markets hot stories keep updating",
         fallbackIndustry: "Industry news tracking AI chips, cloud, data centers, and foundation models",
@@ -3318,6 +3374,23 @@
     function youtubeEmbedUrl(videoId) {
       return `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1&rel=0`;
     }
+    function translationOverlay() {
+      return `<span class="translation-panel" data-translation-panel>
+        <span class="translation-actions">
+          <span class="translation-toggle" role="button" tabindex="0" data-translate-kind="subtitle">${escapeHtml(t("subtitleTranslate"))}</span>
+          <span class="translation-toggle" role="button" tabindex="0" data-translate-kind="voice">${escapeHtml(t("voiceTranslate"))}</span>
+        </span>
+        <span class="translation-status">${escapeHtml(t("subtitleWaiting"))}</span>
+      </span>`;
+    }
+    function setTranslationMode(control) {
+      const panel = control?.closest?.("[data-translation-panel]");
+      if (!panel) return;
+      panel.querySelectorAll(".translation-toggle").forEach((item) => item.classList.toggle("active", item === control));
+      const status = panel.querySelector(".translation-status");
+      if (!status) return;
+      status.textContent = control.dataset.translateKind === "voice" ? t("voiceWaiting") : t("subtitleWaiting");
+    }
     function restoreInlineVideos(exceptLink = null) {
       document.querySelectorAll(".news-item[data-video-id] .news-thumb iframe").forEach((iframe) => {
         const thumb = iframe.closest(".news-thumb");
@@ -3335,7 +3408,7 @@
       restoreInlineVideos(link);
       thumb.dataset.originalHtml = thumb.dataset.originalHtml || thumb.innerHTML;
       const title = link.dataset.videoTitle || "IsitHUB Video";
-      thumb.innerHTML = `<iframe src="${youtubeEmbedUrl(videoId)}" title="${escapeHtml(title)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
+      thumb.innerHTML = `<iframe src="${youtubeEmbedUrl(videoId)}" title="${escapeHtml(title)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>${translationOverlay()}`;
     }
     function balanceHotNewsItems(items, limit = 16) {
       const groups = new Map();
@@ -4120,10 +4193,24 @@
       });
       $("refresh")?.addEventListener("click", () => fetchQuotes().catch(handleQuoteError));
       document.addEventListener("click", (event) => {
+        const translationControl = event.target.closest?.("[data-translate-kind]");
+        if (translationControl) {
+          event.preventDefault();
+          event.stopPropagation();
+          setTranslationMode(translationControl);
+          return;
+        }
         const videoLink = event.target.closest?.("[data-video-id]");
         if (!videoLink) return;
         event.preventDefault();
         playVideoInline(videoLink);
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        const translationControl = event.target.closest?.("[data-translate-kind]");
+        if (!translationControl) return;
+        event.preventDefault();
+        setTranslationMode(translationControl);
       });
     }
     function handleQuoteError(error) {
