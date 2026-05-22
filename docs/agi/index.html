@@ -3318,12 +3318,22 @@
     function youtubeEmbedUrl(videoId) {
       return `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1&rel=0`;
     }
+    function restoreInlineVideos(exceptLink = null) {
+      document.querySelectorAll(".news-item[data-video-id] .news-thumb iframe").forEach((iframe) => {
+        const thumb = iframe.closest(".news-thumb");
+        const link = iframe.closest(".news-item[data-video-id]");
+        if (!thumb || !link || link === exceptLink) return;
+        thumb.innerHTML = thumb.dataset.originalHtml || "";
+      });
+    }
     function playVideoInline(link) {
       const videoId = link?.dataset?.videoId || "";
       if (!videoId) return;
       link.closest(".news-track")?.classList.add("paused");
       const thumb = link.querySelector(".news-thumb");
       if (!thumb || thumb.querySelector("iframe")) return;
+      restoreInlineVideos(link);
+      thumb.dataset.originalHtml = thumb.dataset.originalHtml || thumb.innerHTML;
       const title = link.dataset.videoTitle || "IsitHUB Video";
       thumb.innerHTML = `<iframe src="${youtubeEmbedUrl(videoId)}" title="${escapeHtml(title)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
     }
