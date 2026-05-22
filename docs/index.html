@@ -1273,7 +1273,6 @@
       <a href="#" data-nav-tab="基础设施">Infrastructure</a>
       <a href="#" data-nav-tab="硬件">Hardware</a>
       <a href="#" data-nav-tab="大模型">Foundation Models</a>
-      <a href="#" data-nav-tab="基础服务">Foundation Services</a>
       <a href="#" data-nav-tab="Token 工厂 / 推理服务">Token Factory / Inference</a>
     </div>
   </nav>
@@ -1426,16 +1425,13 @@
       <button class="tab" data-tab="基础设施" type="button">Infrastructure</button>
       <button class="tab" data-tab="硬件" type="button">Hardware</button>
       <button class="tab" data-tab="大模型" type="button">Foundation Models</button>
-      <button class="tab" data-tab="基础服务" type="button">Foundation Services</button>
       <button class="tab" data-tab="Token 工厂 / 推理服务" type="button">Token Factory / Inference</button>
     </section>
     <section class="subtabs" id="token-subtabs" aria-label="Token 工厂 / 推理服务子标签" hidden>
       <button class="subtab active notranslate" data-token-subcategory="IaaS/PaaS" type="button" translate="no" lang="en">IaaS/PaaS</button>
       <button class="subtab notranslate" data-token-subcategory="MaaS" type="button" translate="no" lang="en">MaaS</button>
+      <button class="subtab notranslate" data-token-subcategory="DBaaS" type="button" translate="no" lang="en">DBaaS</button>
       <button class="subtab notranslate" data-token-subcategory="ATaaS" type="button" translate="no" lang="en">ATaaS</button>
-    </section>
-    <section class="subtabs" id="foundation-services-subtabs" aria-label="基础服务子标签" hidden>
-      <button class="subtab active notranslate" data-foundation-services-subcategory="DBaaS" type="button" translate="no" lang="en">DBaaS</button>
     </section>
     <section class="subtabs" id="energy-subtabs" aria-label="能源子标签" hidden>
       <button class="subtab active" data-energy-subcategory="SMR" type="button">SMR</button>
@@ -2318,7 +2314,6 @@
       "基础设施",
       "硬件",
       "大模型",
-      "基础服务",
       "Token 工厂 / 推理服务"
 ];
     const CATEGORY_LABELS = {
@@ -2326,17 +2321,14 @@
       "基础设施": { zh: "基础设施", en: "Infrastructure" },
       "硬件": { zh: "硬件", en: "Hardware" },
       "大模型": { zh: "大模型", en: "Foundation Models" },
-      "基础服务": { zh: "基础服务", en: "Foundation Services" },
       "Token 工厂 / 推理服务": { zh: "Token 工厂 / 推理服务", en: "Token Factory / Inference" }
     };
     const TOKEN_FACTORY_CATEGORY = "Token 工厂 / 推理服务";
-    const TOKEN_FACTORY_SUBCATEGORIES = ["IaaS/PaaS", "MaaS", "ATaaS"];
+    const TOKEN_FACTORY_SUBCATEGORIES = ["IaaS/PaaS", "MaaS", "DBaaS", "ATaaS"];
     const IAAS_PAAS_TICKERS = new Set(["NBIS", "LAMBDA.PRE"]);
     const MAAS_TICKERS = new Set(["FIREWORKS.PRE", "NOW"]);
     const DBAAS_TICKERS = new Set(["SNOW", "MDB", "CLICKHOUSE.PRE", "DATABRICKS.PRE"]);
     const ATAAS_TICKERS = new Set(["QJTECH.PRE"]);
-    const FOUNDATION_SERVICES_CATEGORY = "基础服务";
-    const FOUNDATION_SERVICES_SUBCATEGORIES = ["DBaaS"];
     const ENERGY_CATEGORY = "能源";
     const ENERGY_SUBCATEGORIES = ["SMR", "SOFC"];
     const ENERGY_TICKERS = new Set(["VRT", "EOSE", "NEE", "LEU", "UUUU", "OKLO", "CEG", "VST"]);
@@ -2353,8 +2345,7 @@
       const lower = text.toLowerCase();
       if (MODEL_TICKERS.has(String(ticker || "").toUpperCase())) return MODEL_CATEGORY;
       if (ENERGY_TICKERS.has(String(ticker || "").toUpperCase())) return ENERGY_CATEGORY;
-      if (DBAAS_TICKERS.has(String(ticker || "").toUpperCase())) return FOUNDATION_SERVICES_CATEGORY;
-      if (IAAS_PAAS_TICKERS.has(String(ticker || "").toUpperCase()) || MAAS_TICKERS.has(String(ticker || "").toUpperCase()) || ATAAS_TICKERS.has(String(ticker || "").toUpperCase())) return "Token 工厂 / 推理服务";
+      if (IAAS_PAAS_TICKERS.has(String(ticker || "").toUpperCase()) || MAAS_TICKERS.has(String(ticker || "").toUpperCase()) || DBAAS_TICKERS.has(String(ticker || "").toUpperCase()) || ATAAS_TICKERS.has(String(ticker || "").toUpperCase())) return "Token 工厂 / 推理服务";
       if (/sofc|solid oxide|fuel cell|fuel cells|power|grid|electric|switchgear|transformer|nuclear|energy|battery|natural gas|gas turbine|燃料电池|固体氧化物|电力|能源|电网|核电|天然气/.test(lower)) return "能源";
       if (/aidc|ai data center|data center|datacenter|construction|mep|buildout|campus|cool|thermal|chiller|hvac|liquid|storage|data fabric|server|rack|ai 数据中心|数据中心|液冷|机房|存储/.test(lower)) return "基础设施";
       if (/inp|substrate|epitax|soi|wafer|photon|optic|laser|cpo|coherent|transceiver|fiber|eml|silicon photonics|hbm|packag|cowos|osat|pcb|abf|metrology|inspection|bond|test|mask|burn-in|memory|dram|nand|ssd|hdd|lithography|euv|fab tool|semi equipment|etch|deposition|cmp|process control|foundry|advanced manufacturing|network|retimer|ethernet|switch|fabric|interconnect|cable|connector|rare earth|magnet|mining|metals|asic|gpu|cuda|accelerator|npu|tpu|cpu|eda|ip|chip|semiconductor|edge ai|custom silicon|robot|sensor|hardware|陶瓷|芯片|半导体|光模块|连接器|稀土|硬件/.test(lower)) return "硬件";
@@ -2948,7 +2939,7 @@
     };
     const CHINESE_REGION_CODES = new Set(["CN", "HK", "MO", "TW"]);
     const LANGUAGE_STORAGE_KEY = "isithub-language";
-    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", foundationServicesSubcategory: "DBaaS", energySubcategory: "SMR", modelSubcategory: "LLM", llmSubcategory: "全部", selected: "NVDA", page: 1, rankingView: "chart", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
+    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: "SMR", modelSubcategory: "LLM", llmSubcategory: "全部", selected: "NVDA", page: 1, rankingView: "chart", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
     try {
       const savedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY);
       if (savedLanguage === "zh" || savedLanguage === "en") state.lang = savedLanguage;
@@ -3109,20 +3100,13 @@
     function tokenFactorySubcategory(row) {
       if (IAAS_PAAS_TICKERS.has(row.ticker)) return "IaaS/PaaS";
       if (MAAS_TICKERS.has(row.ticker)) return "MaaS";
+      if (DBAAS_TICKERS.has(row.ticker)) return "DBaaS";
       if (ATAAS_TICKERS.has(row.ticker)) return "ATaaS";
       return null;
     }
     function matchesTokenSubcategory(row) {
       if (state.category !== TOKEN_FACTORY_CATEGORY) return true;
       return tokenFactorySubcategory(row) === state.tokenSubcategory;
-    }
-    function foundationServicesSubcategory(row) {
-      if (DBAAS_TICKERS.has(row.ticker)) return "DBaaS";
-      return null;
-    }
-    function matchesFoundationServicesSubcategory(row) {
-      if (state.category !== FOUNDATION_SERVICES_CATEGORY) return true;
-      return foundationServicesSubcategory(row) === state.foundationServicesSubcategory;
     }
     function energySubcategory(row) {
       const haystack = `${row.ticker} ${row.name} ${row.category} ${row.thesis} ${(row.tags || []).join(" ")}`.toLowerCase();
@@ -3155,7 +3139,7 @@
       let rows = state.rows.filter((row) => {
         const matchCategory = matchesCategory(row, state.category);
         const haystack = `${row.ticker} ${row.name} ${row.category} ${row.thesis} ${row.country} ${flagFor(row)} ${(row.tags || []).join(" ")}`.toLowerCase();
-        return matchCategory && matchesTokenSubcategory(row) && matchesFoundationServicesSubcategory(row) && matchesEnergySubcategory(row) && matchesModelSubcategory(row) && (!q || haystack.includes(q));
+        return matchCategory && matchesTokenSubcategory(row) && matchesEnergySubcategory(row) && matchesModelSubcategory(row) && (!q || haystack.includes(q));
       });
       if (state.sort === "mcap") {
         rows = rows.sort((a, b) => compareMetric(a, b, "mcap"));
@@ -4126,11 +4110,6 @@
       document.querySelectorAll("[data-token-subcategory]").forEach((item) => {
         item.classList.toggle("active", item.dataset.tokenSubcategory === state.tokenSubcategory);
       });
-      const foundationServicesSubtabs = $("foundation-services-subtabs");
-      if (foundationServicesSubtabs) foundationServicesSubtabs.hidden = state.category !== FOUNDATION_SERVICES_CATEGORY;
-      document.querySelectorAll("[data-foundation-services-subcategory]").forEach((item) => {
-        item.classList.toggle("active", item.dataset.foundationServicesSubcategory === state.foundationServicesSubcategory);
-      });
       const energySubtabs = $("energy-subtabs");
       if (energySubtabs) energySubtabs.hidden = state.category !== ENERGY_CATEGORY;
       document.querySelectorAll("[data-energy-subcategory]").forEach((item) => {
@@ -4147,7 +4126,6 @@
         item.classList.toggle("active", item.dataset.llmSubcategory === state.llmSubcategory);
       });
       alignSubtabsToCategory(tokenSubtabs, TOKEN_FACTORY_CATEGORY);
-      alignSubtabsToCategory(foundationServicesSubtabs, FOUNDATION_SERVICES_CATEGORY);
       alignSubtabsToCategory(energySubtabs, ENERGY_CATEGORY);
       alignSubtabsToCategory(modelSubtabs, MODEL_CATEGORY);
       alignSubtabsToCategory(llmSubtabs, MODEL_CATEGORY);
@@ -4159,9 +4137,6 @@
       state.category = category || "ALL";
       if (state.category === TOKEN_FACTORY_CATEGORY && !TOKEN_FACTORY_SUBCATEGORIES.includes(state.tokenSubcategory)) {
         state.tokenSubcategory = "IaaS/PaaS";
-      }
-      if (state.category === FOUNDATION_SERVICES_CATEGORY && !FOUNDATION_SERVICES_SUBCATEGORIES.includes(state.foundationServicesSubcategory)) {
-        state.foundationServicesSubcategory = "DBaaS";
       }
       if (state.category === ENERGY_CATEGORY && !ENERGY_SUBCATEGORIES.includes(state.energySubcategory)) {
         state.energySubcategory = "SMR";
@@ -4288,14 +4263,6 @@
       document.querySelectorAll("[data-token-subcategory]").forEach((button) => {
         button.addEventListener("click", () => {
           state.tokenSubcategory = button.dataset.tokenSubcategory || "IaaS/PaaS";
-          state.page = 1;
-          updateCategoryControls();
-          render();
-        });
-      });
-      document.querySelectorAll("[data-foundation-services-subcategory]").forEach((button) => {
-        button.addEventListener("click", () => {
-          state.foundationServicesSubcategory = button.dataset.foundationServicesSubcategory || "DBaaS";
           state.page = 1;
           updateCategoryControls();
           render();
