@@ -3415,7 +3415,7 @@
     }
     function youtubeVideoId(url) {
       const text = String(url || "");
-      const match = text.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([A-Za-z0-9_-]{11})/);
+      const match = text.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube(?:-nocookie)?\.com\/embed\/)([A-Za-z0-9_-]{11})/);
       return match ? match[1] : "";
     }
     let youtubeApiPromise = null;
@@ -3440,7 +3440,7 @@
     function youtubeEmbedUrl(videoId) {
       const params = new URLSearchParams({ autoplay: "1", rel: "0", enablejsapi: "1", playsinline: "1" });
       if (location.protocol === "https:" || location.protocol === "http:") params.set("origin", location.origin);
-      return `https://www.youtube.com/embed/${encodeURIComponent(videoId)}?${params.toString()}`;
+      return `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?${params.toString()}`;
     }
     function restoreInlineVideos(exceptLink = null) {
       document.querySelectorAll(".news-item[data-video-id] .news-thumb iframe").forEach((iframe) => {
