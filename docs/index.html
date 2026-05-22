@@ -1439,6 +1439,9 @@
       <button class="subtab active" data-energy-subcategory="SMR" type="button">SMR</button>
       <button class="subtab" data-energy-subcategory="SOFC" type="button">SOFC</button>
     </section>
+    <section class="subtabs" id="infrastructure-subtabs" aria-label="基础设施子标签" hidden>
+      <button class="subtab active notranslate" data-infrastructure-subcategory="DCI" type="button" translate="no" lang="en">DCI</button>
+    </section>
     <section class="subtabs" id="model-subtabs" aria-label="大模型子标签" hidden>
       <button class="subtab active" data-model-subcategory="LLM" type="button">LLM</button>
       <button class="subtab" data-model-subcategory="物理世界模型" type="button">World Models</button>
@@ -2335,6 +2338,9 @@
     const ENERGY_SUBCATEGORIES = ["SMR", "SOFC"];
     const ENERGY_TICKERS = new Set(["VRT", "EOSE", "NEE", "LEU", "UUUU", "OKLO", "CEG", "VST"]);
     const SMR_TICKERS = new Set(["OKLO", "UUUU", "LEU", "VST", "SMR", "CEG", "XE", "KAIROS.PRE", "TERRAPOWER.PRE", "BWXT", "GEV", "HOLTEC.PRE", "601985.SS", "1816.HK", "LTBR", "ARE.TO", "ATRL.TO", "RR.L"]);
+    const INFRASTRUCTURE_CATEGORY = "基础设施";
+    const INFRASTRUCTURE_SUBCATEGORIES = ["DCI"];
+    const DCI_TICKERS = new Set(["NOK", "CIEN"]);
     const MODEL_CATEGORY = "大模型";
     const MODEL_SUBCATEGORIES = ["LLM", "物理世界模型"];
     const LLM_SUBCATEGORIES = ["全部", "开源", "闭源"];
@@ -2348,6 +2354,7 @@
       const lower = text.toLowerCase();
       if (MODEL_TICKERS.has(String(ticker || "").toUpperCase())) return MODEL_CATEGORY;
       if (ENERGY_TICKERS.has(String(ticker || "").toUpperCase())) return ENERGY_CATEGORY;
+      if (DCI_TICKERS.has(String(ticker || "").toUpperCase())) return INFRASTRUCTURE_CATEGORY;
       if (IAAS_PAAS_TICKERS.has(String(ticker || "").toUpperCase()) || MAAS_TICKERS.has(String(ticker || "").toUpperCase()) || DBAAS_TICKERS.has(String(ticker || "").toUpperCase()) || ATAAS_TICKERS.has(String(ticker || "").toUpperCase())) return "Token 工厂 / 推理服务";
       if (/sofc|solid oxide|fuel cell|fuel cells|power|grid|electric|switchgear|transformer|nuclear|energy|battery|natural gas|gas turbine|燃料电池|固体氧化物|电力|能源|电网|核电|天然气/.test(lower)) return "能源";
       if (/aidc|ai data center|data center|datacenter|construction|mep|buildout|campus|cool|thermal|chiller|hvac|liquid|storage|data fabric|server|rack|ai 数据中心|数据中心|液冷|机房|存储/.test(lower)) return "基础设施";
@@ -2951,7 +2958,7 @@
     };
     const CHINESE_REGION_CODES = new Set(["CN", "HK", "MO", "TW"]);
     const LANGUAGE_STORAGE_KEY = "isithub-language";
-    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: "SMR", modelSubcategory: "LLM", llmSubcategory: "全部", selected: "NVDA", page: 1, rankingView: "chart", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
+    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: "SMR", infrastructureSubcategory: "DCI", modelSubcategory: "LLM", llmSubcategory: "全部", selected: "NVDA", page: 1, rankingView: "chart", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
     try {
       const savedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY);
       if (savedLanguage === "zh" || savedLanguage === "en") state.lang = savedLanguage;
@@ -3131,6 +3138,14 @@
       if (state.category !== ENERGY_CATEGORY) return true;
       return energySubcategory(row) === state.energySubcategory;
     }
+    function infrastructureSubcategory(row) {
+      if (DCI_TICKERS.has(row.ticker)) return "DCI";
+      return null;
+    }
+    function matchesInfrastructureSubcategory(row) {
+      if (state.category !== INFRASTRUCTURE_CATEGORY) return true;
+      return infrastructureSubcategory(row) === state.infrastructureSubcategory;
+    }
     function modelSubcategory(row) {
       if (LLM_OPEN_TICKERS.has(row.ticker) || LLM_CLOSED_TICKERS.has(row.ticker)) return "LLM";
       if (PHYSICAL_WORLD_MODEL_TICKERS.has(row.ticker)) return "物理世界模型";
@@ -3152,7 +3167,7 @@
       let rows = state.rows.filter((row) => {
         const matchCategory = matchesCategory(row, state.category);
         const haystack = `${row.ticker} ${row.name} ${row.category} ${row.thesis} ${row.country} ${flagFor(row)} ${(row.tags || []).join(" ")}`.toLowerCase();
-        return matchCategory && matchesTokenSubcategory(row) && matchesEnergySubcategory(row) && matchesModelSubcategory(row) && (!q || haystack.includes(q));
+        return matchCategory && matchesTokenSubcategory(row) && matchesEnergySubcategory(row) && matchesInfrastructureSubcategory(row) && matchesModelSubcategory(row) && (!q || haystack.includes(q));
       });
       if (state.sort === "mcap") {
         rows = rows.sort((a, b) => compareMetric(a, b, "mcap"));
@@ -4132,6 +4147,11 @@
       document.querySelectorAll("[data-energy-subcategory]").forEach((item) => {
         item.classList.toggle("active", item.dataset.energySubcategory === state.energySubcategory);
       });
+      const infrastructureSubtabs = $("infrastructure-subtabs");
+      if (infrastructureSubtabs) infrastructureSubtabs.hidden = state.category !== INFRASTRUCTURE_CATEGORY;
+      document.querySelectorAll("[data-infrastructure-subcategory]").forEach((item) => {
+        item.classList.toggle("active", item.dataset.infrastructureSubcategory === state.infrastructureSubcategory);
+      });
       const modelSubtabs = $("model-subtabs");
       if (modelSubtabs) modelSubtabs.hidden = state.category !== MODEL_CATEGORY;
       document.querySelectorAll("[data-model-subcategory]").forEach((item) => {
@@ -4144,6 +4164,7 @@
       });
       alignSubtabsToCategory(tokenSubtabs, TOKEN_FACTORY_CATEGORY);
       alignSubtabsToCategory(energySubtabs, ENERGY_CATEGORY);
+      alignSubtabsToCategory(infrastructureSubtabs, INFRASTRUCTURE_CATEGORY);
       alignSubtabsToCategory(modelSubtabs, MODEL_CATEGORY);
       alignSubtabsToCategory(llmSubtabs, MODEL_CATEGORY);
       if ($("category-filter") && [...$("category-filter").options].some((option) => option.value === state.category)) {
@@ -4157,6 +4178,9 @@
       }
       if (state.category === ENERGY_CATEGORY && !ENERGY_SUBCATEGORIES.includes(state.energySubcategory)) {
         state.energySubcategory = "SMR";
+      }
+      if (state.category === INFRASTRUCTURE_CATEGORY && !INFRASTRUCTURE_SUBCATEGORIES.includes(state.infrastructureSubcategory)) {
+        state.infrastructureSubcategory = "DCI";
       }
       if (state.category === MODEL_CATEGORY && !MODEL_SUBCATEGORIES.includes(state.modelSubcategory)) {
         state.modelSubcategory = "LLM";
@@ -4215,6 +4239,7 @@
       setAllText(".chart-range-tab", [t("history"), t("day"), t("week"), t("month")]);
       setAllText(".token-metric span", [t("period"), "Top 10 Tokens", t("firstShare")]);
       setAllText(".tabs .tab", [t("all"), ...AIBOTT_THEMES.map(categoryDisplayLabel)]);
+      setAllText("#infrastructure-subtabs .subtab", ["DCI"]);
       setAllText("#model-subtabs .subtab", ["LLM", t("physicalWorldModel")]);
       setAllText("#llm-subtabs .subtab", [t("openSource"), t("closedSource")]);
       $("search").placeholder = t("searchPlaceholder");
@@ -4288,6 +4313,14 @@
       document.querySelectorAll("[data-energy-subcategory]").forEach((button) => {
         button.addEventListener("click", () => {
           state.energySubcategory = button.dataset.energySubcategory || "SMR";
+          state.page = 1;
+          updateCategoryControls();
+          render();
+        });
+      });
+      document.querySelectorAll("[data-infrastructure-subcategory]").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.infrastructureSubcategory = button.dataset.infrastructureSubcategory || "DCI";
           state.page = 1;
           updateCategoryControls();
           render();
