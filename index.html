@@ -1428,10 +1428,10 @@
       <button class="tab" data-tab="Token 工厂 / 推理服务" type="button">Token Factory / Inference</button>
     </section>
     <section class="subtabs" id="token-subtabs" aria-label="Token 工厂 / 推理服务子标签" hidden>
-      <button class="subtab active" data-token-subcategory="IaaS/PaaS" type="button">IaaS/PaaS</button>
-      <button class="subtab" data-token-subcategory="MaaS" type="button">MaaS</button>
-      <button class="subtab" data-token-subcategory="DBaaS" type="button">DBaaS</button>
-      <button class="subtab" data-token-subcategory="ATaaS" type="button">ATaaS</button>
+      <button class="subtab active notranslate" data-token-subcategory="IaaS/PaaS" type="button" translate="no" lang="en">IaaS/PaaS</button>
+      <button class="subtab notranslate" data-token-subcategory="MaaS" type="button" translate="no" lang="en">MaaS</button>
+      <button class="subtab notranslate" data-token-subcategory="DBaaS" type="button" translate="no" lang="en">DBaaS</button>
+      <button class="subtab notranslate" data-token-subcategory="ATaaS" type="button" translate="no" lang="en">ATaaS</button>
     </section>
     <section class="subtabs" id="energy-subtabs" aria-label="能源子标签" hidden>
       <button class="subtab active" data-energy-subcategory="SMR" type="button">SMR</button>
@@ -2325,9 +2325,9 @@
     };
     const TOKEN_FACTORY_CATEGORY = "Token 工厂 / 推理服务";
     const TOKEN_FACTORY_SUBCATEGORIES = ["IaaS/PaaS", "MaaS", "DBaaS", "ATaaS"];
-    const IAAS_PAAS_TICKERS = new Set(["LAMBDA.PRE"]);
+    const IAAS_PAAS_TICKERS = new Set(["NBIS", "LAMBDA.PRE"]);
     const MAAS_TICKERS = new Set(["FIREWORKS.PRE", "NOW"]);
-    const DBAAS_TICKERS = new Set(["NBIS", "SNOW", "MDB", "CLICKHOUSE.PRE", "DATABRICKS.PRE"]);
+    const DBAAS_TICKERS = new Set(["SNOW", "MDB", "CLICKHOUSE.PRE", "DATABRICKS.PRE"]);
     const ATAAS_TICKERS = new Set(["QJTECH.PRE"]);
     const ENERGY_CATEGORY = "能源";
     const ENERGY_SUBCATEGORIES = ["SMR", "SOFC"];
