@@ -424,6 +424,9 @@ HOT_NEWS_SOURCES = [
     {"name": "TechCrunch", "url": "https://techcrunch.com/feed/"},
     {"name": "TechCrunch Startups", "url": "https://techcrunch.com/category/startups/feed/"},
     google_news_query_source("TechCrunch Hot", f"site:techcrunch.com {AI_MARKET_NEWS_QUERY}"),
+    {"name": "WIRED", "url": "https://www.wired.com/feed/category/business/latest/rss"},
+    {"name": "WIRED AI", "url": "https://www.wired.com/feed/tag/ai/latest/rss"},
+    google_news_query_source("Wired Hot", f"site:wired.com {AI_MARKET_NEWS_QUERY}"),
 ]
 TECH_NEWS_SOURCES = [
     {"name": "WIRED", "url": "https://www.wired.com/feed/category/business/latest/rss"},
@@ -447,7 +450,7 @@ NEWS_SECTIONS = [
     {
         "id": "hot",
         "title": "🔥热点",
-        "note": "TechCrunch hot stories",
+        "note": "TechCrunch / Wired hot stories",
         "sources": HOT_NEWS_SOURCES,
     },
     {
@@ -1334,10 +1337,11 @@ def main() -> int:
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "strategy": {
-            "primary": "Tabbed news sections: hot stories from TechCrunch, industry from WSJ/NYT/FT/SCMP/TechCrunch Startups, statements derived from all sources by named AI figures and speech signals, company from company-name searches plus M&A and financing keywords, frontier technology from Wired/MIT Technology Review/Stanford sources, papers from top AI journals, conferences, proceedings, and preprint sources",
+            "primary": "Tabbed news sections: hot stories from TechCrunch and Wired, industry from WSJ/NYT/FT/SCMP/TechCrunch Startups, statements derived from all sources by named AI figures and speech signals, company from company-name searches plus M&A and financing keywords, frontier technology from Wired/MIT Technology Review/Stanford sources, papers from top AI journals, conferences, proceedings, and preprint sources",
             "primaryEnabled": True,
             "supplements": [
                 "TechCrunch",
+                "Wired",
                 "Wall Street Journal",
                 "New York Times",
                 "Financial Times",
