@@ -435,6 +435,8 @@ PAPER_NEWS_SOURCES = [
     google_news_query_source("Science", f"site:science.org {AI_MARKET_NEWS_QUERY}"),
     {"name": "Science Robotics", "url": "https://www.science.org/action/showFeed?type=etoc&feed=rss&jc=scirobotics"},
     google_news_query_source("Science Robotics", f"site:science.org/journal/scirobotics {AI_MARKET_NEWS_QUERY}"),
+    {"name": "Cell", "url": "https://www.cell.com/cell/current.rss"},
+    google_news_query_source("Cell", f"site:cell.com/cell {AI_MARKET_NEWS_QUERY}"),
 ]
 NEWS_SECTIONS = [
     {
@@ -465,7 +467,7 @@ NEWS_SECTIONS = [
     {
         "id": "papers",
         "title": "论文",
-        "note": "Science / Nature",
+        "note": "Science / Nature / Cell",
         "sources": PAPER_NEWS_SOURCES,
     },
 ]
@@ -1340,6 +1342,7 @@ def main() -> int:
                 "Nature Machine Intelligence",
                 "Science",
                 "Science Robotics",
+                "Cell",
             ],
         },
         "sources": source_status,
