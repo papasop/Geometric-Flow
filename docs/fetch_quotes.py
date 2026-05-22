@@ -130,6 +130,17 @@ def latest_value(values):
     return None
 
 
+def clean_values(values):
+    return [value for value in (finite(value) for value in values) if value is not None]
+
+
+def previous_value(values):
+    clean = clean_values(values)
+    if len(clean) < 2:
+        return None
+    return clean[-2]
+
+
 def fetch_one(ticker):
     stock = yf.Ticker(ticker)
     fast_info = {}
@@ -172,7 +183,7 @@ def fetch_one(ticker):
     close_now = latest_value(intraday_closes) or latest_value(month_closes) or price
     if close_now is not None:
         price = close_now
-    if market_cap is None and shares is not None and price is not None:
+    if shares is not None and price is not None:
         market_cap = shares * price
 
     change_1h = None
@@ -180,17 +191,21 @@ def fetch_one(ticker):
         lookback = intraday_closes[-13] if len(intraday_closes) >= 13 else intraday_closes[0]
         change_1h = percent_move(close_now, lookback)
 
-    change_percent = finite(fast_info.get("last_price_change_percent") or info.get("regularMarketChangePercent"))
-    if change_percent is None and len(month_closes) >= 2:
-        change_percent = percent_move(month_closes[-1], month_closes[-2])
+    change_percent = None
+    previous_close = previous_value(month_closes)
+    if previous_close is not None and close_now is not None:
+        change_percent = percent_move(close_now, previous_close)
+    if change_percent is None:
+        change_percent = finite(info.get("regularMarketChangePercent") or fast_info.get("last_price_change_percent"))
 
     change_7d = None
     change_30d = None
-    if month_closes:
-        last = latest_value(month_closes)
+    clean_month_closes = clean_values(month_closes)
+    if clean_month_closes:
+        last = close_now or clean_month_closes[-1]
         if last is not None:
-            change_7d = percent_move(last, month_closes[max(0, len(month_closes) - 6)])
-            change_30d = percent_move(last, month_closes[0])
+            change_7d = percent_move(last, clean_month_closes[max(0, len(clean_month_closes) - 6)])
+            change_30d = percent_move(last, clean_month_closes[0])
 
     volume_value = None
     if price is not None:

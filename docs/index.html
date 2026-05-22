@@ -3928,15 +3928,19 @@
       if (intraday.status === "fulfilled") {
         const points = validCloses(intraday.value.chart?.result?.[0]);
         metrics.change1h = changeFromLookback(points, 60 * 60);
+        if (points.length) metrics.price = points[points.length - 1].close;
       }
       if (month.status === "fulfilled") {
         const points = validCloses(month.value.chart?.result?.[0]);
         if (points.length) {
           const last = points[points.length - 1];
+          const closeNow = Number.isFinite(metrics.price) ? metrics.price : last.close;
+          const prevDayPoint = points.length >= 2 ? points[points.length - 2] : null;
           const d7Point = points[Math.max(0, points.length - 6)];
           const d30Point = points[0];
-          metrics.change7d = percentMove(last.close, d7Point.close);
-          metrics.change30d = percentMove(last.close, d30Point.close);
+          metrics.changePercent = prevDayPoint ? percentMove(closeNow, prevDayPoint.close) : null;
+          metrics.change7d = percentMove(closeNow, d7Point.close);
+          metrics.change30d = percentMove(closeNow, d30Point.close);
           metrics.sparkPoints = normalizeSpark(points.map((point) => point.close));
         }
       }
