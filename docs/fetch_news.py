@@ -421,7 +421,7 @@ for source in MNA_NEWS_SOURCES:
 for source in EQUITY_NEWS_SOURCES:
     source["requiredKeywords"] = DEAL_REQUIRED_KEYWORDS
 HOT_NEWS_SOURCES = [
-    {"name": "TechCrunch", "url": "https://techcrunch.com/feed/"},
+    {"name": "TechCrunch Latest", "url": "https://techcrunch.com/latest/"},
     {"name": "TechCrunch Startups", "url": "https://techcrunch.com/category/startups/feed/"},
     google_news_query_source("TechCrunch Hot", f"site:techcrunch.com {AI_MARKET_NEWS_QUERY}"),
     {"name": "WIRED", "url": "https://www.wired.com/feed/category/business/latest/rss"},
@@ -895,12 +895,17 @@ def parse_html_page(source: dict[str, str], data: bytes) -> list[dict[str, str]]
     page = data.decode("utf-8", errors="ignore")
     items = []
     seen = set()
+    source_url = source.get("url", "")
+    is_techcrunch_latest = "techcrunch.com/latest" in source_url
     for match in re.finditer(r'<a\b[^>]*href=["\']([^"\']+)["\'][^>]*>(.*?)</a>', page, re.I | re.S):
         href = html.unescape(match.group(1))
         body = clean_text(match.group(2), 220)
         if len(body) < 18:
             continue
-        if not re.search(r"/(article|news|press|release|story|business|technology)/|news-release", href, re.I):
+        is_article_href = re.search(r"/(article|news|press|release|story|business|technology)/|news-release", href, re.I)
+        if is_techcrunch_latest:
+            is_article_href = is_article_href or re.search(r"techcrunch\.com/20\d{2}/\d{2}/\d{2}/|/20\d{2}/\d{2}/\d{2}/", href, re.I)
+        if not is_article_href:
             continue
         url = urljoin(source["url"], href)
         key = (body.lower(), url.lower())
