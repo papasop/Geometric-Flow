@@ -446,6 +446,9 @@ VIDEO_NEWS_SOURCES = [
     {"name": "New York Times YouTube", "url": "https://www.youtube.com/@nytimes"},
     {"name": "Wall Street Journal YouTube", "url": "https://www.youtube.com/@wsj"},
 ]
+LIVE_NEWS_SOURCES = [
+    {"name": "YouTube Live", "url": "https://www.youtube.com/watch?v=DxmDPrfinXY"},
+]
 NEWS_SECTIONS = [
     {
         "id": "hot",
@@ -490,6 +493,13 @@ NEWS_SECTIONS = [
         "title": "视频",
         "note": "New York Times YouTube / Wall Street Journal YouTube",
         "sources": VIDEO_NEWS_SOURCES,
+        "allowGeneralFeed": True,
+    },
+    {
+        "id": "live",
+        "title": "直播",
+        "note": "YouTube live stream",
+        "sources": LIVE_NEWS_SOURCES,
         "allowGeneralFeed": True,
     },
 ]
@@ -915,6 +925,36 @@ def parse_html_page(source: dict[str, str], data: bytes) -> list[dict[str, str]]
     seen = set()
     source_url = source.get("url", "")
     source_name = source.get("name", "News")
+    youtube_watch_match = re.search(r"(?:youtube\.com/watch\?v=|youtu\.be/)([A-Za-z0-9_-]{11})", source_url)
+    if youtube_watch_match:
+        video_id = youtube_watch_match.group(1)
+        title = ""
+        for pattern in [
+            r'<meta[^>]+property=["\']og:title["\'][^>]+content=["\']([^"\']+)["\']',
+            r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:title["\']',
+            r'"title":"(.*?)"',
+        ]:
+            match = re.search(pattern, page, re.I | re.S)
+            if match:
+                try:
+                    title = json.loads(f'"{match.group(1)}"')
+                except (json.JSONDecodeError, TypeError, ValueError):
+                    title = html.unescape(match.group(1).replace(r"\/", "/"))
+                title = clean_text(title, 180)
+                break
+        if not title:
+            title = "YouTube Live"
+        return [{
+            "source": source_name,
+            "feedSource": source_name,
+            "sourceUrl": source_url,
+            "title": title,
+            "summary": title,
+            "url": source_url,
+            "author": "",
+            "image": f"https://i.ytimg.com/vi/{video_id}/hqdefault.jpg",
+            "publishedAt": "",
+        }]
     if "youtube.com/@" in source_url:
         for match in re.finditer(r'"contentId":"([A-Za-z0-9_-]{11})".{0,900}?"accessibilityContext":\{"label":"(.*?)"', page, re.S):
             video_id = match.group(1)
