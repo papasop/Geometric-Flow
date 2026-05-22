@@ -422,6 +422,7 @@ for source in EQUITY_NEWS_SOURCES:
     source["requiredKeywords"] = DEAL_REQUIRED_KEYWORDS
 HOT_NEWS_SOURCES = [
     {"name": "华尔街日报头条新闻", "url": "https://cn.wsj.com/zh-hans/"},
+    {"name": "Financial Times Hot", "url": "https://www.ft.com/?format=rss"},
 ]
 TECH_NEWS_SOURCES = [
     {"name": "WIRED", "url": "https://www.wired.com/feed/category/business/latest/rss"},
@@ -454,7 +455,7 @@ NEWS_SECTIONS = [
     {
         "id": "hot",
         "title": "🔥热点",
-        "note": "华尔街日报中文头条新闻",
+        "note": "华尔街日报中文头条新闻 / Financial Times Hot",
         "sources": HOT_NEWS_SOURCES,
         "allowGeneralFeed": True,
     },
@@ -1616,7 +1617,7 @@ def main() -> int:
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "strategy": {
-            "primary": "Tabbed news sections: hot headlines from Wall Street Journal Chinese, industry from WSJ/NYT/FT/SCMP/TechCrunch Startups, statements derived from all sources by named AI figures and speech signals, company from company-name searches plus M&A and financing keywords, frontier technology from Wired/MIT Technology Review/Stanford sources, papers from top AI journals, conferences, proceedings, and preprint sources",
+            "primary": "Tabbed news sections: hot headlines from Wall Street Journal Chinese and Financial Times, industry from WSJ/NYT/FT/SCMP/TechCrunch Startups, statements derived from all sources by named AI figures and speech signals, company from company-name searches plus M&A and financing keywords, frontier technology from Wired/MIT Technology Review/Stanford sources, papers from top AI journals, conferences, proceedings, and preprint sources",
             "primaryEnabled": True,
             "supplements": [
                 "TechCrunch",
