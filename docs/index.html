@@ -3319,6 +3319,7 @@
     }
     let youtubeApiPromise = null;
     const youtubePlayers = new WeakMap();
+    const youtubePollers = new WeakMap();
     function loadYouTubeIframeApi() {
       if (window.YT?.Player) return Promise.resolve(window.YT);
       if (youtubeApiPromise) return youtubeApiPromise;
@@ -3338,10 +3339,11 @@
     function youtubeEmbedUrl(videoId) {
       const params = new URLSearchParams({ autoplay: "1", rel: "0", enablejsapi: "1", playsinline: "1" });
       if (location.protocol === "https:" || location.protocol === "http:") params.set("origin", location.origin);
-      return `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?${params.toString()}`;
+      return `https://www.youtube.com/embed/${encodeURIComponent(videoId)}?${params.toString()}`;
     }
     function restoreInlineVideos(exceptLink = null) {
       document.querySelectorAll(".news-item[data-video-id] .news-thumb iframe").forEach((iframe) => {
+        stopYouTubePolling(iframe);
         const thumb = iframe.closest(".news-thumb");
         const link = iframe.closest(".news-item[data-video-id]");
         if (!thumb || !link || link === exceptLink) return;
@@ -3368,6 +3370,32 @@
       track.classList.remove("paused");
       track.classList.add("resume-after-video");
     }
+    function stopYouTubePolling(iframe) {
+      const poller = youtubePollers.get(iframe);
+      if (!poller) return;
+      clearInterval(poller);
+      youtubePollers.delete(iframe);
+    }
+    function startYouTubePolling(iframe, player, YT) {
+      stopYouTubePolling(iframe);
+      const poller = setInterval(() => {
+        if (!iframe.isConnected) {
+          stopYouTubePolling(iframe);
+          return;
+        }
+        let playerState = null;
+        try { playerState = player.getPlayerState(); } catch (error) { return; }
+        if (playerState === YT.PlayerState.PLAYING) {
+          const track = iframe.closest(".news-track");
+          track?.classList.remove("resume-after-video");
+          track?.classList.add("paused");
+        }
+        if (playerState === YT.PlayerState.ENDED || playerState === YT.PlayerState.PAUSED) {
+          resumeNewsTrackForIframe(iframe);
+        }
+      }, 600);
+      youtubePollers.set(iframe, poller);
+    }
     function bindYouTubePlayer(iframe) {
       if (!iframe || youtubePlayers.has(iframe)) return;
       loadYouTubeIframeApi().then((YT) => {
@@ -3387,6 +3415,7 @@
           },
         });
         youtubePlayers.set(iframe, player);
+        startYouTubePolling(iframe, player, YT);
       }).catch(() => {});
     }
     function handleYouTubeStateMessage(event) {
