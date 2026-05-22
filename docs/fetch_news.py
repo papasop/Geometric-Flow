@@ -349,6 +349,45 @@ def ai_person_news_query(terms: list[str]) -> str:
         '"thinks" OR "believes" OR "expects" OR "quote" OR "interview" OR "speech" OR '
         '"表示" OR "称" OR "认为" OR "警告" OR "预测" OR "指出" OR "采访" OR "演讲")'
     )
+FT_COLUMNISTS = [
+    ("Martin Wolf", "martin-wolf"),
+    ("Gillian Tett", "gillian-tett"),
+    ("Rana Foroohar", "rana-foroohar"),
+    ("Robert Shrimsley", "robert-shrimsley"),
+    ("Gideon Rachman", "gideon-rachman"),
+    ("Camilla Cavendish", "camilla-cavendish"),
+    ("Brooke Masters", "brooke-masters"),
+    ("Janan Ganesh", "janan-ganesh"),
+    ("Martin Sandbu", "martin-sandbu"),
+    ("Sarah O'Connor", "sarah-o-connor"),
+    ("Philip Stephens", "philip-stephens"),
+    ("Anjana Ahuja", "anjana-ahuja"),
+    ("Pilita Clark", "pilita-clark"),
+    ("Stephen Bush", "stephen-bush"),
+    ("John Gapper", "john-gapper"),
+    ("Chris Giles", "chris-giles"),
+    ("Miranda Green", "miranda-green"),
+    ("Jemima Kelly", "jemima-kelly"),
+    ("Leo Lewis", "leo-lewis"),
+    ("Edward Luce", "edward-luce"),
+    ("John Burn-Murdoch", "john-burn-murdoch"),
+    ("David Pilling", "david-pilling"),
+    ("John Thornhill", "john-thornhill"),
+    ("Soumaya Keynes", "soumaya-keynes"),
+    ("Alan Beattie", "alan-beattie"),
+    ("Henry Mance", "henry-mance"),
+    ("Elaine Moore", "elaine-moore"),
+    ("Oren Cass", "oren-cass"),
+    ("Mohamed El-Erian", "mohamed-el-erian"),
+    ("Ivan Krastev", "ivan-krastev"),
+    ("Adam Tooze", "adam-tooze"),
+    ("Marietje Schaake", "marietje-schaake"),
+    ("Ruchir Sharma", "ruchir-sharma"),
+    ("Anne-Marie Slaughter", "anne-marie-slaughter"),
+    ("Patti Waldmeir", "patti-waldmeir"),
+    ("Michael Strain", "michael-strain"),
+    ("Patrick Foulis", "patrick-foulis"),
+]
 DEAL_NEWS_TERMS_QUERY = (
     '("equity" OR "stake" OR "financing" OR "funding" OR "financial" OR '
     '"capital" OR "valuation" OR "investment" OR "raises" OR "IPO" OR '
@@ -388,8 +427,13 @@ INDUSTRY_NEWS_SOURCES = [
     google_news_query_source("TechCrunch Startups", f"site:techcrunch.com/category/startups {AI_MARKET_NEWS_QUERY}"),
 ]
 PERSON_NEWS_SOURCES = [
-    google_news_query_source(f"AI Statements · Public Figures {index + 1}", ai_person_news_query(batch))
-    for index, batch in enumerate(chunked_terms(AI_PERSON_NEWS_TERMS, 12))
+    {
+        "name": f"FT Columnist · {name}",
+        "url": f"https://www.ft.com/{slug}?format=rss",
+        "displaySource": "Financial Times",
+        "authorName": name,
+    }
+    for name, slug in FT_COLUMNISTS
 ]
 COMPANY_NEWS_SOURCES = [
     google_news_query_source(f"Bloomberg · Company Batch {index + 1}", f"site:bloomberg.com ({quoted_or_query(batch)})")
@@ -467,10 +511,11 @@ NEWS_SECTIONS = [
     },
     {
         "id": "person",
-        "title": "言论",
-        "note": "来源：互联网公开新闻；关键词：大模型负责人公开言论 / OpenAI / Anthropic / DeepMind / Gemini / Meta AI / xAI / Mistral / DeepSeek / Kimi / 智谱 / 通义千问 / 豆包 / 马斯克 / 黄仁勋 / 哈萨比斯 / 梁文锋 / 物理世界模型",
+        "title": "专栏",
+        "note": "Financial Times Columnists：抓取专栏作家最新文章",
         "sources": PERSON_NEWS_SOURCES,
-        "derivedFromAll": True,
+        "allowGeneralFeed": True,
+        "columnists": True,
     },
     {
         "id": "company",
@@ -1210,8 +1255,13 @@ def parse_feed(source: dict[str, str], data: bytes) -> list[dict[str, str]]:
         match_summary = clean_text(" ".join(part for part in [summary, categories] if part))
         url = link_of(node)
         rss_source_name, rss_source_url = source_details_of(node)
-        display_source = rss_source_name or source["name"]
-        author = "" if is_google_news_feed else normalize_author(author_of(node), display_source)
+        display_source = source.get("displaySource") or rss_source_name or source["name"]
+        author = ""
+        if not is_google_news_feed:
+            if source.get("authorName"):
+                author = clean_text(str(source.get("authorName")), 80)
+            else:
+                author = normalize_author(author_of(node), display_source)
         image = thumbnail_of(node)
         published = parse_date(text_of(node, ["pubDate", "published", "updated", "{http://www.w3.org/2005/Atom}published", "{http://www.w3.org/2005/Atom}updated"]))
         if title and url:
@@ -1578,7 +1628,7 @@ def main() -> int:
         }
 
     speech_section = next((section for section in NEWS_SECTIONS if section.get("id") == "person"), None)
-    if speech_section and (not section_filter or "person" in section_filter):
+    if speech_section and not speech_section.get("columnists") and (not section_filter or "person" in section_filter):
         existing_speech_items = [
             item for item in section_payload.get("person", {}).get("items", [])
             if item_matches_speech(item)
