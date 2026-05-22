@@ -173,6 +173,7 @@
     #news-track-company { animation-duration: 96s; }
     #news-track-tech { animation-duration: 108s; }
     #news-track-papers { animation-duration: 112s; }
+    #news-track-video { animation-duration: 118s; }
     .news-strip[hidden] { display: none; }
     .news-track:hover { animation-play-state: paused; }
     .news-item {
@@ -198,6 +199,26 @@
       font-size: 14px;
       font-weight: 820;
       line-height: 1.35;
+    }
+    .news-thumb {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border-radius: 5px;
+      background: #0f172a;
+      border: 1px solid var(--line-soft);
+    }
+    .news-thumb img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .news-item.has-thumb {
+      width: 340px;
+      min-height: 240px;
+      padding: 10px;
     }
     .news-meta {
       display: flex;
@@ -1232,14 +1253,15 @@
   </nav>
   <main class="shell">
     <section class="hero">
-      <div class="news-sections" aria-label="热点/行业/言论/公司/前沿/论文 新闻切换">
-        <div class="news-tabs" role="tablist" aria-label="热点/行业/言论/公司/前沿/论文">
+      <div class="news-sections" aria-label="热点/行业/言论/公司/前沿/论文/视频 新闻切换">
+        <div class="news-tabs" role="tablist" aria-label="热点/行业/言论/公司/前沿/论文/视频">
           <button class="news-tab active" type="button" role="tab" aria-selected="true" aria-controls="news-panel-hot" data-news-tab="hot">🔥热点</button>
           <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-industry" data-news-tab="industry">行业</button>
           <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-person" data-news-tab="person">言论</button>
           <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-company" data-news-tab="company">公司</button>
           <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-tech" data-news-tab="tech">前沿</button>
           <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-papers" data-news-tab="papers">论文</button>
+          <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-video" data-news-tab="video">视频</button>
         </div>
         <div class="news-strip" id="news-panel-hot" role="tabpanel" aria-label="热点">
           <div class="news-marquee">
@@ -1280,6 +1302,13 @@
           <div class="news-marquee">
             <div class="news-track" id="news-track-papers">
               <span class="news-item">正在加载论文…</span>
+            </div>
+          </div>
+        </div>
+        <div class="news-strip" id="news-panel-video" role="tabpanel" aria-label="视频" hidden>
+          <div class="news-marquee">
+            <div class="news-track" id="news-track-video">
+              <span class="news-item">正在加载视频…</span>
             </div>
           </div>
         </div>
@@ -2733,8 +2762,8 @@
         totalCap: "总市值", volume24h: "24小时交易量",
         initialQuote: "USD · 实时行情可用时更新",
         navAiChips: "人工智能芯片", navCloud: "AI云", navDataCenter: "数据中心", navEnterpriseAi: "企业人工智能", navSecurity: "安全", navQuantum: "量子", navChinaAi: "中国人工智能", navLeopold: "Leopold Aschenbrenner",
-        newsHot: "🔥热点", industry: "行业", person: "言论", company: "公司", market: "并购/融资", frontier: "前沿", papers: "论文",
-        loadingHot: "正在加载热点…", loadingIndustry: "正在加载行业…", loadingPerson: "正在加载言论…", loadingCompany: "正在加载公司…", loadingMarket: "正在加载并购/融资…", loadingFrontier: "正在加载前沿…", loadingPapers: "正在加载论文…",
+        newsHot: "🔥热点", industry: "行业", person: "言论", company: "公司", market: "并购/融资", frontier: "前沿", papers: "论文", video: "视频",
+        loadingHot: "正在加载热点…", loadingIndustry: "正在加载行业…", loadingPerson: "正在加载言论…", loadingCompany: "正在加载公司…", loadingMarket: "正在加载并购/融资…", loadingFrontier: "正在加载前沿…", loadingPapers: "正在加载论文…", loadingVideo: "正在加载视频…",
         currentFilter: "按当前筛选", realVolume: "真实成交额，可用时更新", hot: "热门", topGainer: "最大升幅", waitingQuotes: "等待行情或估算涨跌",
         tokenRanking: "代币使用", tokenNote: "参考 OpenRouter Top Models，用量口径可切换",
         chartRanking: "代币成本", chartNote: "LLM Token Expenditure Index",
@@ -2757,6 +2786,7 @@
         fallbackMarket: "并购/融资新闻按收购、入股、股权、融资、投资关键词追踪 Bloomberg 与 Reuters",
         fallbackFrontier: "MIT Technology Review、Wired、Stanford Engineering 与 Stanford Business 追踪 AI 前沿技术趋势",
         fallbackPapers: "Science 与 Nature 追踪 AI 论文和科研突破",
+        fallbackVideo: "纽约时报 YouTube 视频持续更新",
       },
       en: {
         pageTitle: "IsitHUB",
@@ -2764,8 +2794,8 @@
         totalCap: "Market Cap", volume24h: "24h Volume",
         initialQuote: "USD · live quote when available",
         navAiChips: "AI Chips", navCloud: "AI Cloud", navDataCenter: "Data Centers", navEnterpriseAi: "Enterprise AI", navSecurity: "Security", navQuantum: "Quantum", navChinaAi: "China AI", navLeopold: "Leopold Aschenbrenner",
-        newsHot: "🔥 Hot", industry: "Industry", person: "Statements", company: "Companies", market: "M&A / Financing", frontier: "Frontier Tech", papers: "Research Papers",
-        loadingHot: "Loading hot stories…", loadingIndustry: "Loading industry…", loadingPerson: "Loading statements…", loadingCompany: "Loading companies…", loadingMarket: "Loading M&A / financing…", loadingFrontier: "Loading frontier tech…", loadingPapers: "Loading research papers…",
+        newsHot: "🔥 Hot", industry: "Industry", person: "Statements", company: "Companies", market: "M&A / Financing", frontier: "Frontier Tech", papers: "Research Papers", video: "Video",
+        loadingHot: "Loading hot stories…", loadingIndustry: "Loading industry…", loadingPerson: "Loading statements…", loadingCompany: "Loading companies…", loadingMarket: "Loading M&A / financing…", loadingFrontier: "Loading frontier tech…", loadingPapers: "Loading research papers…", loadingVideo: "Loading video…",
         currentFilter: "Current filter", realVolume: "Real traded value when available", hot: "Trending", topGainer: "Top Gainer", waitingQuotes: "Waiting for quotes or estimated moves",
         tokenRanking: "Token Usage", tokenNote: "Inspired by OpenRouter Top Models; period is switchable",
         chartRanking: "Token Cost", chartNote: "LLM Token Expenditure Index",
@@ -2788,6 +2818,7 @@
         fallbackMarket: "M&A / financing news tracks acquisitions, stakes, equity, funding, investment, and IPO keywords across Bloomberg and Reuters",
         fallbackFrontier: "MIT Technology Review, Wired, Stanford Engineering, and Stanford Business track AI frontier technology trends",
         fallbackPapers: "Science and Nature track AI papers and research breakthroughs",
+        fallbackVideo: "New York Times YouTube videos keep updating",
       }
     };
     const CHINESE_REGION_CODES = new Set(["CN", "HK", "MO", "TW"]);
@@ -3164,7 +3195,7 @@
       $("gainer-one").textContent = gainers[0] ? `${gainers[0].ticker} ${formatPercent(gainers[0].changePercent)}` : "—";
       $("gainer-list").textContent = gainers.length ? gainers.map((row) => `${row.ticker} ${formatPercent(row.changePercent)}`).join(" · ") : t("waitingLive");
     }
-    const NEWS_SECTION_IDS = ["hot", "industry", "person", "company", "tech", "papers"];
+    const NEWS_SECTION_IDS = ["hot", "industry", "person", "company", "tech", "papers", "video"];
     const PAPER_SOURCE_PATTERN = /nature|science|neurips|icml|iclr|acl anthology|cvf|cvpr|aaai|jmlr|pmlr|ieee tpami|acm digital library|arxiv/i;
     function fallbackNewsItems(sectionId = "industry") {
       const fallback = {
@@ -3186,6 +3217,9 @@
         papers: [
           { title: t("fallbackPapers"), source: "IsitHUB", author: "", url: "#" },
         ],
+        video: [
+          { title: t("fallbackVideo"), source: "New York Times YouTube", author: "", url: "https://www.youtube.com/@nytimes" },
+        ],
       };
       return fallback[sectionId] || fallback.industry;
     }
@@ -3204,6 +3238,7 @@
       const normalized = raw.toLowerCase();
       if (normalized === "wall street journal" || normalized === "wsj") return "华尔街日报";
       if (normalized === "new york times" || normalized === "the new york times") return "纽约时报";
+      if (normalized === "new york times youtube") return "纽约时报 YouTube";
       if (normalized === "financial times") return "金融时报";
       if (normalized === "south china morning post") return "南华早报";
       if (normalized === "techcrunch" || normalized === "techcrunch startups" || normalized === "techcrunch hot") return "TechCrunch";
@@ -3260,11 +3295,14 @@
         const author = displayNewsAuthor(item.source || "News", item.author || "");
         const href = item.url || "#";
         const title = state.lang === "zh" ? (item.titleZh || item.title) : (item.titleEn || item.title);
+        const image = item.image || item.thumbnail || "";
+        const imageNode = image ? `<span class="news-thumb"><img src="${escapeHtml(image)}" alt="" loading="lazy"></span>` : "";
         const authorNode = author ? `<span><span class="news-meta-label">${escapeHtml(t("newsAuthor"))}</span><b>${escapeHtml(author)}</b></span>` : "";
         const sourceNode = sectionId === "person"
           ? `<span><span class="news-meta-label">${escapeHtml(t("mediaSource"))}</span><b>${escapeHtml(source)}</b></span>`
           : `<span><span class="news-meta-label">${escapeHtml(t("newsSource"))}</span><b>${escapeHtml(source)}</b></span>`;
-        return `<a class="news-item" href="${escapeHtml(href)}" target="_blank" rel="noopener">
+        return `<a class="news-item${image ? " has-thumb" : ""}" href="${escapeHtml(href)}" target="_blank" rel="noopener">
+          ${imageNode}
           <span class="news-title">${escapeHtml(title)}</span>
           <span class="news-meta">
             ${sourceNode}
@@ -3831,14 +3869,14 @@
       setFirstText(".topline-inner > span:nth-child(4)", `${t("volume24h")}: `);
       if (/live quote|实时行情/.test($("updated-at")?.textContent || "")) $("updated-at").textContent = t("initialQuote");
       setAllText(".nav a[data-nav-tab]", AIBOTT_THEMES.map(categoryDisplayLabel));
-      document.querySelector(".news-sections")?.setAttribute("aria-label", `${t("newsHot")}/${t("industry")}/${t("person")}/${t("company")}/${t("frontier")}/${t("papers")}`);
-      setAllText(".news-tab", [t("newsHot"), t("industry"), t("person"), t("company"), t("frontier"), t("papers")]);
-      ["hot", "industry", "person", "company", "tech", "papers"].forEach((id) => {
+      document.querySelector(".news-sections")?.setAttribute("aria-label", `${t("newsHot")}/${t("industry")}/${t("person")}/${t("company")}/${t("frontier")}/${t("papers")}/${t("video")}`);
+      setAllText(".news-tab", [t("newsHot"), t("industry"), t("person"), t("company"), t("frontier"), t("papers"), t("video")]);
+      NEWS_SECTION_IDS.forEach((id) => {
         const panel = $(`news-panel-${id}`);
-        const label = id === "hot" ? t("newsHot") : id === "industry" ? t("industry") : id === "person" ? t("person") : id === "company" ? t("company") : id === "papers" ? t("papers") : t("frontier");
+        const label = id === "hot" ? t("newsHot") : id === "industry" ? t("industry") : id === "person" ? t("person") : id === "company" ? t("company") : id === "papers" ? t("papers") : id === "video" ? t("video") : t("frontier");
         if (panel) panel.setAttribute("aria-label", label);
       });
-      const loading = { hot: "loadingHot", industry: "loadingIndustry", person: "loadingPerson", company: "loadingCompany", tech: "loadingFrontier", papers: "loadingPapers" };
+      const loading = { hot: "loadingHot", industry: "loadingIndustry", person: "loadingPerson", company: "loadingCompany", tech: "loadingFrontier", papers: "loadingPapers", video: "loadingVideo" };
       Object.entries(loading).forEach(([id, key]) => {
         const track = $(`news-track-${id}`);
         if (track && track.children.length === 1 && track.textContent.includes("加载")) track.innerHTML = `<span class="news-item">${t(key)}</span>`;

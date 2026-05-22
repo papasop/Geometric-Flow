@@ -447,6 +447,9 @@ PAPER_NEWS_SOURCES = [
     {"name": "Cell", "url": "https://www.cell.com/cell/current.rss"},
     google_news_query_source("Cell", f"site:cell.com/cell {AI_MARKET_NEWS_QUERY}"),
 ]
+VIDEO_NEWS_SOURCES = [
+    {"name": "New York Times YouTube", "url": "https://www.youtube.com/@nytimes"},
+]
 NEWS_SECTIONS = [
     {
         "id": "hot",
@@ -484,6 +487,13 @@ NEWS_SECTIONS = [
         "title": "论文",
         "note": "Science / Nature / Cell",
         "sources": PAPER_NEWS_SOURCES,
+    },
+    {
+        "id": "video",
+        "title": "视频",
+        "note": "New York Times YouTube",
+        "sources": VIDEO_NEWS_SOURCES,
+        "allowGeneralFeed": True,
     },
 ]
 OFFICIAL_SOURCES = [source for section in NEWS_SECTIONS for source in section["sources"]]
@@ -680,6 +690,16 @@ def author_of(node: ET.Element) -> str:
         for grandchild in child:
             if grandchild.tag.rsplit("}", 1)[-1].lower() == "name" and grandchild.text:
                 return clean_text(grandchild.text, 80)
+    return ""
+
+
+def thumbnail_of(node: ET.Element) -> str:
+    for child in node.iter():
+        if child.tag.rsplit("}", 1)[-1].lower() != "thumbnail":
+            continue
+        url = child.attrib.get("url")
+        if url:
+            return clean_text(url, 300)
     return ""
 
 
@@ -897,6 +917,36 @@ def parse_html_page(source: dict[str, str], data: bytes) -> list[dict[str, str]]
     items = []
     seen = set()
     source_url = source.get("url", "")
+    source_name = source.get("name", "News")
+    if "youtube.com/@" in source_url:
+        for match in re.finditer(r'"contentId":"([A-Za-z0-9_-]{11})".{0,900}?"accessibilityContext":\{"label":"(.*?)"', page, re.S):
+            video_id = match.group(1)
+            if video_id in seen:
+                continue
+            raw_label = match.group(2)
+            try:
+                label = json.loads(f'"{raw_label}"')
+            except (json.JSONDecodeError, TypeError, ValueError):
+                label = html.unescape(raw_label.replace(r"\/", "/"))
+            title = re.sub(r"\s+\d+\s+(?:second|seconds|minute|minutes|hour|hours)(?:,\s*\d+\s+(?:second|seconds|minute|minutes|hour|hours))*\s*$", "", label).strip()
+            title = clean_text(title, 180)
+            if not title:
+                continue
+            seen.add(video_id)
+            items.append({
+                "source": source_name,
+                "feedSource": source_name,
+                "sourceUrl": source_url,
+                "title": title,
+                "summary": title,
+                "url": f"https://www.youtube.com/watch?v={video_id}",
+                "author": "",
+                "image": f"https://i.ytimg.com/vi/{video_id}/hqdefault.jpg",
+                "publishedAt": "",
+            })
+            if len(items) >= 18:
+                break
+        return items
     is_techcrunch_latest = "techcrunch.com/latest" in source_url
     is_wired_popular = "wired.com/tag/artificial-intelligence" in source_url
     if is_wired_popular:
@@ -979,9 +1029,10 @@ def parse_feed(source: dict[str, str], data: bytes) -> list[dict[str, str]]:
         rss_source_name, rss_source_url = source_details_of(node)
         display_source = rss_source_name or source["name"]
         author = "" if is_google_news_feed else normalize_author(author_of(node), display_source)
+        image = thumbnail_of(node)
         published = parse_date(text_of(node, ["pubDate", "published", "updated", "{http://www.w3.org/2005/Atom}published", "{http://www.w3.org/2005/Atom}updated"]))
         if title and url:
-            items.append({
+            item = {
                 "source": display_source,
                 "feedSource": source["name"],
                 "sourceUrl": rss_source_url,
@@ -990,7 +1041,10 @@ def parse_feed(source: dict[str, str], data: bytes) -> list[dict[str, str]]:
                 "url": url,
                 "author": author,
                 "publishedAt": published,
-            })
+            }
+            if image:
+                item["image"] = image
+            items.append(item)
     return items
 
 
@@ -1275,7 +1329,7 @@ def main() -> int:
         author_fetch_limit = 18 if section.get("id") in {"industry", "tech"} else 6
         author_fetches = 0
         for source in section["sources"]:
-            source_required_keywords = source.get("requiredKeywords", [])
+            source_required_keywords = [] if section.get("allowGeneralFeed") else source.get("requiredKeywords", [])
             try:
                 raw = fetch_url(source["url"])
                 parsed = parse_feed(source, raw)
@@ -1289,7 +1343,7 @@ def main() -> int:
                     if source_required_keywords and not item_matches_terms(item, source_required_keywords):
                         continue
                     matched, tags = classify(item)
-                    if not matched and not item_matches_terms(item, AI_MARKET_REQUIRED_KEYWORDS):
+                    if not section.get("allowGeneralFeed") and not matched and not item_matches_terms(item, AI_MARKET_REQUIRED_KEYWORDS):
                         continue
                     if not item.get("author") and author_fetches < author_fetch_limit:
                         item["author"] = extract_article_author(
