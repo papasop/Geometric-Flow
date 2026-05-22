@@ -1,9 +1,10 @@
 {
-  "generatedAt": "2026-05-22T05:10:58.448724Z",
+  "generatedAt": "2026-05-22T05:16:54.762434Z",
   "strategy": {
-    "primary": "Tabbed news sections: industry from WSJ/NYT/FT/SCMP/TechCrunch Startups, statements derived from all sources by named AI figures and speech signals, company from company-name searches plus M&A and financing keywords, frontier technology from Wired/MIT Technology Review/Stanford sources, papers from top AI journals, conferences, proceedings, and preprint sources",
+    "primary": "Tabbed news sections: hot stories from TechCrunch, industry from WSJ/NYT/FT/SCMP/TechCrunch Startups, statements derived from all sources by named AI figures and speech signals, company from company-name searches plus M&A and financing keywords, frontier technology from Wired/MIT Technology Review/Stanford sources, papers from top AI journals, conferences, proceedings, and preprint sources",
     "primaryEnabled": true,
     "supplements": [
+      "TechCrunch",
       "Wall Street Journal",
       "New York Times",
       "Financial Times",
@@ -1042,6 +1043,30 @@
       "url": "https://news.google.com/rss/search?q=site%3Acell.com/cell%20%28%22artificial%20intelligence%22%20OR%20AI%20OR%20Nvidia%20OR%20OpenAI%20OR%20Anthropic%20OR%20%22AI%20chip%22%20OR%20semiconductor%20OR%20%22data%20center%22%20OR%20%22AI%20cloud%22%20OR%20%22large%20language%20model%22%20OR%20%22machine%20learning%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
       "count": 7
+    },
+    {
+      "section": "hot",
+      "name": "TechCrunch",
+      "url": "https://techcrunch.com/feed/",
+      "status": "error",
+      "error": "<urlopen error [Errno 8] nodename nor servname provided, or not known>",
+      "count": 0
+    },
+    {
+      "section": "hot",
+      "name": "TechCrunch Startups",
+      "url": "https://techcrunch.com/category/startups/feed/",
+      "status": "error",
+      "error": "<urlopen error [Errno 8] nodename nor servname provided, or not known>",
+      "count": 0
+    },
+    {
+      "section": "hot",
+      "name": "TechCrunch Hot",
+      "url": "https://news.google.com/rss/search?q=site%3Atechcrunch.com%20%28%22artificial%20intelligence%22%20OR%20AI%20OR%20Nvidia%20OR%20OpenAI%20OR%20Anthropic%20OR%20%22AI%20chip%22%20OR%20semiconductor%20OR%20%22data%20center%22%20OR%20%22AI%20cloud%22%20OR%20%22large%20language%20model%22%20OR%20%22machine%20learning%22%29&hl=en-US&gl=US&ceid=US:en",
+      "status": "error",
+      "error": "<urlopen error [Errno 8] nodename nor servname provided, or not known>",
+      "count": 0
     }
   ],
   "sections": {
@@ -3827,6 +3852,11 @@
           ]
         }
       ]
+    },
+    "hot": {
+      "title": "🔥热点",
+      "note": "TechCrunch hot stories",
+      "items": []
     }
   },
   "items": [
