@@ -444,6 +444,7 @@ PAPER_NEWS_SOURCES = [
 ]
 VIDEO_NEWS_SOURCES = [
     {"name": "New York Times YouTube", "url": "https://www.youtube.com/@nytimes"},
+    {"name": "Wall Street Journal YouTube", "url": "https://www.youtube.com/@wsj"},
 ]
 NEWS_SECTIONS = [
     {
@@ -487,7 +488,7 @@ NEWS_SECTIONS = [
     {
         "id": "video",
         "title": "视频",
-        "note": "New York Times YouTube",
+        "note": "New York Times YouTube / Wall Street Journal YouTube",
         "sources": VIDEO_NEWS_SOURCES,
         "allowGeneralFeed": True,
     },
