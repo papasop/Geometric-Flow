@@ -1430,6 +1430,7 @@
     <section class="subtabs" id="token-subtabs" aria-label="Token 工厂 / 推理服务子标签" hidden>
       <button class="subtab active" data-token-subcategory="IaaS/PaaS" type="button">IaaS/PaaS</button>
       <button class="subtab" data-token-subcategory="MaaS" type="button">MaaS</button>
+      <button class="subtab" data-token-subcategory="DBaaS" type="button">DBaaS</button>
       <button class="subtab" data-token-subcategory="ATaaS" type="button">ATaaS</button>
     </section>
     <section class="subtabs" id="energy-subtabs" aria-label="能源子标签" hidden>
@@ -2323,9 +2324,10 @@
       "Token 工厂 / 推理服务": { zh: "Token 工厂 / 推理服务", en: "Token Factory / Inference" }
     };
     const TOKEN_FACTORY_CATEGORY = "Token 工厂 / 推理服务";
-    const TOKEN_FACTORY_SUBCATEGORIES = ["IaaS/PaaS", "MaaS", "ATaaS"];
-    const IAAS_PAAS_TICKERS = new Set(["NBIS", "LAMBDA.PRE", "CLICKHOUSE.PRE"]);
+    const TOKEN_FACTORY_SUBCATEGORIES = ["IaaS/PaaS", "MaaS", "DBaaS", "ATaaS"];
+    const IAAS_PAAS_TICKERS = new Set(["LAMBDA.PRE"]);
     const MAAS_TICKERS = new Set(["FIREWORKS.PRE", "NOW"]);
+    const DBAAS_TICKERS = new Set(["NBIS", "SNOW", "CLICKHOUSE.PRE", "DATABRICKS.PRE"]);
     const ATAAS_TICKERS = new Set(["QJTECH.PRE"]);
     const ENERGY_CATEGORY = "能源";
     const ENERGY_SUBCATEGORIES = ["SMR", "SOFC"];
@@ -2343,7 +2345,7 @@
       const lower = text.toLowerCase();
       if (MODEL_TICKERS.has(String(ticker || "").toUpperCase())) return MODEL_CATEGORY;
       if (ENERGY_TICKERS.has(String(ticker || "").toUpperCase())) return ENERGY_CATEGORY;
-      if (String(ticker || "").toUpperCase() === "NBIS") return "Token 工厂 / 推理服务";
+      if (IAAS_PAAS_TICKERS.has(String(ticker || "").toUpperCase()) || MAAS_TICKERS.has(String(ticker || "").toUpperCase()) || DBAAS_TICKERS.has(String(ticker || "").toUpperCase()) || ATAAS_TICKERS.has(String(ticker || "").toUpperCase())) return "Token 工厂 / 推理服务";
       if (/sofc|solid oxide|fuel cell|fuel cells|power|grid|electric|switchgear|transformer|nuclear|energy|battery|natural gas|gas turbine|燃料电池|固体氧化物|电力|能源|电网|核电|天然气/.test(lower)) return "能源";
       if (/aidc|ai data center|data center|datacenter|construction|mep|buildout|campus|cool|thermal|chiller|hvac|liquid|storage|data fabric|server|rack|ai 数据中心|数据中心|液冷|机房|存储/.test(lower)) return "基础设施";
       if (/inp|substrate|epitax|soi|wafer|photon|optic|laser|cpo|coherent|transceiver|fiber|eml|silicon photonics|hbm|packag|cowos|osat|pcb|abf|metrology|inspection|bond|test|mask|burn-in|memory|dram|nand|ssd|hdd|lithography|euv|fab tool|semi equipment|etch|deposition|cmp|process control|foundry|advanced manufacturing|network|retimer|ethernet|switch|fabric|interconnect|cable|connector|rare earth|magnet|mining|metals|asic|gpu|cuda|accelerator|npu|tpu|cpu|eda|ip|chip|semiconductor|edge ai|custom silicon|robot|sensor|hardware|陶瓷|芯片|半导体|光模块|连接器|稀土|硬件/.test(lower)) return "硬件";
@@ -2430,7 +2432,8 @@
       ["TEM", "Tempus AI", "Healthcare AI", "医疗数据、精准诊疗和 AI 模型。"],
       ["NBIS", "Nebius Group", "AIDC / AI data center", "新云算力、GPU 云和 AI 数据中心基础设施。"],
       ["LAMBDA.PRE", "Lambda Labs", "AI cloud / IaaS/PaaS", "预上市 AI 云基础设施公司，提供 GPU 云、训练集群与企业级 AI 算力服务。", { status: "prelist", estimatedMarketCap: 6000000000 }],
-      ["CLICKHOUSE.PRE", "ClickHouse", "AI data cloud / IaaS/PaaS", "预上市实时分析数据库与 AI 数据云公司，服务向量检索、观测、日志分析和 AI 应用数据底座。", { status: "prelist", estimatedMarketCap: 15000000000 }],
+      ["CLICKHOUSE.PRE", "ClickHouse", "AI data cloud / DBaaS", "预上市实时分析数据库与 AI 数据云公司，服务向量检索、观测、日志分析和 AI 应用数据底座。", { status: "prelist", estimatedMarketCap: 15000000000 }],
+      ["DATABRICKS.PRE", "Databricks", "AI data platform / DBaaS", "预上市湖仓一体与数据智能平台，面向企业 AI Agent、模型训练、数据治理和分析工作负载。", { status: "prelist", estimatedMarketCap: 134000000000 }],
       ["FIREWORKS.PRE", "Fireworks AI", "AI cloud", "预上市 AI 推理云平台，服务企业模型部署、微调和低延迟推理。", { status: "prelist", estimatedMarketCap: 4000000000 }],
       ["QJTECH.PRE", "趋境科技", "ATaaS / China pre-IPO", "预上市中国 ATaaS 公司，面向 AI 训练、推理与自动化任务的工具链、平台化服务和智能计算工作流。", { status: "prelist", estimatedMarketCap: 1000000000 }],
       ["TOGETHER.PRE", "Together AI", "AI cloud", "预上市 AI 加速云平台，提供开源模型训练、推理 API 和 GPU 集群服务。", { status: "prelist", estimatedMarketCap: 7500000000 }],
@@ -3097,6 +3100,7 @@
     function tokenFactorySubcategory(row) {
       if (IAAS_PAAS_TICKERS.has(row.ticker)) return "IaaS/PaaS";
       if (MAAS_TICKERS.has(row.ticker)) return "MaaS";
+      if (DBAAS_TICKERS.has(row.ticker)) return "DBaaS";
       if (ATAAS_TICKERS.has(row.ticker)) return "ATaaS";
       return null;
     }
