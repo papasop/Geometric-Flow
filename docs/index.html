@@ -1501,7 +1501,7 @@
       "300750.SZ": "China",
       "002384.SZ": "China", "301666.SZ": "China", "688820.SS": "China", "601869.SS": "China", "688795.SS": "China", "603986.SS": "China",
       "YMTC.PRE": "China", "CXMT.PRE": "China", "BYTEDANCE.PRE": "China", "MOONSHOT.PRE": "China",
-      "DEEPSEEK.PRE": "China", "ZHIPU.PRE": "China", "QJTECH.PRE": "China",
+      "DEEPSEEK.PRE": "China", "ZHIPU.PRE": "China", "QJTECH.PRE": "China", "SILICONFLOW.PRE": "China", "INFINIGENCE.PRE": "China",
       "002230.SZ": "China", "300308.SZ": "China", "300502.SZ": "China", "300394.SZ": "China", "688981.SS": "China",
       "002475.SZ": "China",
       "002415.SZ": "China", "000938.SZ": "China", "600570.SS": "China", "300033.SZ": "China", "688008.SS": "China",
@@ -2334,8 +2334,8 @@
     };
     const TOKEN_FACTORY_CATEGORY = "Token 工厂 / 推理服务";
     const TOKEN_FACTORY_SUBCATEGORIES = ["IaaS/PaaS", "MaaS", "DBaaS", "ATaaS"];
-    const IAAS_PAAS_TICKERS = new Set(["NBIS", "LAMBDA.PRE"]);
-    const MAAS_TICKERS = new Set(["FIREWORKS.PRE", "NOW"]);
+    const IAAS_PAAS_TICKERS = new Set(["NBIS", "LAMBDA.PRE", "INFINIGENCE.PRE"]);
+    const MAAS_TICKERS = new Set(["FIREWORKS.PRE", "SILICONFLOW.PRE", "NOW"]);
     const DBAAS_TICKERS = new Set(["SNOW", "MDB", "CLICKHOUSE.PRE", "DATABRICKS.PRE"]);
     const ATAAS_TICKERS = new Set(["QJTECH.PRE"]);
     const ENERGY_CATEGORY = "能源";
@@ -2444,6 +2444,8 @@
       ["CLICKHOUSE.PRE", "ClickHouse", "AI data cloud / DBaaS", "预上市实时分析数据库与 AI 数据云公司，服务向量检索、观测、日志分析和 AI 应用数据底座。", { status: "prelist", estimatedMarketCap: 15000000000 }],
       ["DATABRICKS.PRE", "Databricks", "AI data platform / DBaaS", "预上市湖仓一体与数据智能平台，面向企业 AI Agent、模型训练、数据治理和分析工作负载。", { status: "prelist", estimatedMarketCap: 134000000000 }],
       ["FIREWORKS.PRE", "Fireworks AI", "AI cloud", "预上市 AI 推理云平台，服务企业模型部署、微调和低延迟推理。", { status: "prelist", estimatedMarketCap: 4000000000 }],
+      ["SILICONFLOW.PRE", "硅基流动", "MaaS / China pre-IPO", "预上市中国 MaaS 与模型推理服务平台，面向开发者和企业提供高性价比推理 API、模型部署与国产算力适配。", { status: "prelist", estimatedMarketCap: 200000000 }],
+      ["INFINIGENCE.PRE", "无问芯穹", "IaaS/PaaS / China pre-IPO", "预上市中国 AI 算力运营商，Infini-AI 异构云平台连接多种模型与多种芯片，提供训练、推理和算力调度基础设施。", { status: "prelist", estimatedMarketCapCny: 10000000000 }],
       ["QJTECH.PRE", "趋境科技", "ATaaS / China pre-IPO", "预上市中国 ATaaS 公司，面向 AI 训练、推理与自动化任务的工具链、平台化服务和智能计算工作流。", { status: "prelist", estimatedMarketCap: 1000000000 }],
       ["TOGETHER.PRE", "Together AI", "AI cloud", "预上市 AI 加速云平台，提供开源模型训练、推理 API 和 GPU 集群服务。", { status: "prelist", estimatedMarketCap: 7500000000 }],
       ["BASETEN.PRE", "Baseten", "AI cloud", "预上市 AI 推理基础设施平台，服务生产级模型部署、GPU 自动扩缩容与可观测性。", { status: "prelist", estimatedMarketCap: 5000000000 }],
@@ -2601,6 +2603,8 @@
     const BASE_TICKERS = new Set(BASE_COMPANIES.map((row) => row[0]));
     const COMPANY_EN_NAMES = {
       "BYTEDANCE.PRE": "ByteDance",
+      "SILICONFLOW.PRE": "SiliconFlow",
+      "INFINIGENCE.PRE": "Infinigence",
       "MOONSHOT.PRE": "Moonshot AI",
       "005930.KS": "Samsung Electronics",
       "000660.KS": "SK Hynix",
