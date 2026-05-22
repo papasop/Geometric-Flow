@@ -421,7 +421,7 @@ for source in MNA_NEWS_SOURCES:
 for source in EQUITY_NEWS_SOURCES:
     source["requiredKeywords"] = DEAL_REQUIRED_KEYWORDS
 HOT_NEWS_SOURCES = [
-    {"name": "Wall Street Journal Audio", "url": "https://www.wsj.com/audio"},
+    {"name": "华尔街日报头条新闻", "url": "https://cn.wsj.com/zh-hans/"},
 ]
 TECH_NEWS_SOURCES = [
     {"name": "WIRED", "url": "https://www.wired.com/feed/category/business/latest/rss"},
@@ -454,7 +454,7 @@ NEWS_SECTIONS = [
     {
         "id": "hot",
         "title": "🔥热点",
-        "note": "Wall Street Journal Audio",
+        "note": "华尔街日报中文头条新闻",
         "sources": HOT_NEWS_SOURCES,
         "allowGeneralFeed": True,
     },
@@ -990,6 +990,51 @@ def parse_html_page(source: dict[str, str], data: bytes) -> list[dict[str, str]]
         return items
     if "wsj.com" in source_url:
         is_wsj_audio_source = "www.wsj.com/audio" in source_url or "wsj.com/audio" in source_url
+        is_cn_wsj_hot_source = "cn.wsj.com/zh-hans" in source_url and source.get("name") == "华尔街日报头条新闻"
+        state_match = re.search(r"window\.__STATE__\s*=\s*(\{.*?\});\s*</script>", page, re.S)
+        if is_cn_wsj_hot_source and state_match:
+            try:
+                state_data = json.loads(state_match.group(1))
+            except (json.JSONDecodeError, TypeError, ValueError):
+                state_data = None
+            data_map = state_data.get("data", {}) if isinstance(state_data, dict) else {}
+            collection = data_map.get("collection_allesseh_full_MOST-POP-WSJCNS_1", {})
+            collection_items = collection.get("data", {}).get("collection", []) if isinstance(collection, dict) else []
+            for collection_item in collection_items:
+                article_id = collection_item.get("id") if isinstance(collection_item, dict) else ""
+                article_payload = data_map.get(f"article|capi_{article_id}", {}) if article_id else {}
+                article = article_payload.get("data", {}).get("data", {}) if isinstance(article_payload, dict) else {}
+                title = clean_text(str(article.get("headline") or article.get("articleHeadline") or ""), 180)
+                url = html.unescape(str(article.get("canonical_url") or article.get("url") or ""))
+                if len(title) < 8 or "cn.wsj.com/" not in url:
+                    continue
+                key = (title.lower(), url.lower())
+                if key in seen:
+                    continue
+                seen.add(key)
+                image = ""
+                image_data = article.get("image")
+                if isinstance(image_data, dict):
+                    for image_key in ["C", "B220", "AM", "A"]:
+                        candidate = image_data.get(image_key)
+                        if isinstance(candidate, dict) and candidate.get("url"):
+                            image = str(candidate.get("url"))
+                            break
+                items.append({
+                    "source": source_name,
+                    "feedSource": source_name,
+                    "sourceUrl": source_url,
+                    "title": title,
+                    "summary": clean_text(str(article.get("summary") or title), 220),
+                    "url": url,
+                    "author": normalize_author(str(article.get("byline") or ""), source_name),
+                    "image": html.unescape(image.replace(r"\u0026", "&")),
+                    "publishedAt": parse_date(str(article.get("publishedDateTimeUtc") or article.get("timestamp") or "")),
+                })
+                if len(items) >= 18:
+                    break
+            if items:
+                return items
         next_data_match = re.search(r'<script[^>]+id=["\']__NEXT_DATA__["\'][^>]*>(.*?)</script>', page, re.S)
         if next_data_match:
             try:
@@ -1571,12 +1616,12 @@ def main() -> int:
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "strategy": {
-            "primary": "Tabbed news sections: hot audio stories from Wall Street Journal Audio, industry from WSJ/NYT/FT/SCMP/TechCrunch Startups, statements derived from all sources by named AI figures and speech signals, company from company-name searches plus M&A and financing keywords, frontier technology from Wired/MIT Technology Review/Stanford sources, papers from top AI journals, conferences, proceedings, and preprint sources",
+            "primary": "Tabbed news sections: hot headlines from Wall Street Journal Chinese, industry from WSJ/NYT/FT/SCMP/TechCrunch Startups, statements derived from all sources by named AI figures and speech signals, company from company-name searches plus M&A and financing keywords, frontier technology from Wired/MIT Technology Review/Stanford sources, papers from top AI journals, conferences, proceedings, and preprint sources",
             "primaryEnabled": True,
             "supplements": [
                 "TechCrunch",
                 "Wired",
-                "Wall Street Journal Audio",
+                "Wall Street Journal Chinese Headlines",
                 "Wall Street Journal",
                 "New York Times",
                 "Financial Times",
