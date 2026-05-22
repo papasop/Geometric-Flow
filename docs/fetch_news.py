@@ -424,6 +424,7 @@ HOT_NEWS_SOURCES = [
     {"name": "TechCrunch Latest", "url": "https://techcrunch.com/latest/"},
     {"name": "TechCrunch Startups", "url": "https://techcrunch.com/category/startups/feed/"},
     google_news_query_source("TechCrunch Hot", f"site:techcrunch.com {AI_MARKET_NEWS_QUERY}"),
+    {"name": "WIRED Popular AI", "url": "https://www.wired.com/tag/artificial-intelligence/"},
     {"name": "WIRED", "url": "https://www.wired.com/feed/category/business/latest/rss"},
     {"name": "WIRED AI", "url": "https://www.wired.com/feed/tag/ai/latest/rss"},
     google_news_query_source("Wired Hot", f"site:wired.com {AI_MARKET_NEWS_QUERY}"),
@@ -897,6 +898,35 @@ def parse_html_page(source: dict[str, str], data: bytes) -> list[dict[str, str]]
     seen = set()
     source_url = source.get("url", "")
     is_techcrunch_latest = "techcrunch.com/latest" in source_url
+    is_wired_popular = "wired.com/tag/artificial-intelligence" in source_url
+    if is_wired_popular:
+        for match in re.finditer(r'"dangerousHed":"(.*?)".{0,1600}?"url":"(.*?)"', page, re.S):
+            title_raw, url_raw = match.groups()
+            try:
+                title = clean_text(json.loads(f'"{title_raw}"'), 180)
+                raw_url = json.loads(f'"{url_raw}"')
+            except (json.JSONDecodeError, TypeError, ValueError):
+                title = clean_text(title_raw.replace("\\u002F", "/"), 180)
+                raw_url = url_raw.replace("\\u002F", "/")
+            if len(title) < 18:
+                continue
+            if "popular" not in raw_url.lower() and len(items) >= 6:
+                continue
+            url = urljoin(source_url, raw_url.split("#", 1)[0])
+            key = (title.lower(), url.lower())
+            if key in seen:
+                continue
+            seen.add(key)
+            items.append({
+                "source": source["name"],
+                "title": title,
+                "summary": title,
+                "url": url,
+                "author": "",
+                "publishedAt": None,
+            })
+            if len(items) >= 18:
+                return items
     for match in re.finditer(r'<a\b[^>]*href=["\']([^"\']+)["\'][^>]*>(.*?)</a>', page, re.I | re.S):
         href = html.unescape(match.group(1))
         body = clean_text(match.group(2), 220)
