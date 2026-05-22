@@ -975,6 +975,27 @@
     .empty { padding: 32px; color: var(--muted); text-align: center; }
     @media (max-width: 760px) {
       .topline-inner { align-items: flex-start; flex-direction: column; }
+      .nav-inner {
+        gap: 6px;
+        padding: 9px 12px;
+        flex-wrap: wrap;
+        overflow-x: visible;
+      }
+      .brand {
+        flex: 0 0 100%;
+        margin: 0 0 2px;
+      }
+      .brand-mark { width: 26px; height: 26px; }
+      .brand-name { font-size: 15px; }
+      .nav a {
+        flex: 1 1 calc(50% - 6px);
+        min-width: 0;
+        padding: 7px 8px;
+        text-align: center;
+        font-size: 11px;
+        line-height: 1.15;
+        white-space: normal;
+      }
       .highlight-grid { grid-template-columns: 1fr 1fr; }
       .ranking-panel-head { align-items: flex-start; flex-direction: column; }
       .ranking-heading { align-items: flex-start; flex-direction: column; gap: 6px; }
@@ -1056,9 +1077,54 @@
       .model-dot { width: 9px; height: 9px; }
       .toolbar { align-items: stretch; }
       .search, select, button { width: 100%; }
-      .tabs { align-items: center; }
-      .tabs .search { width: 82vw; min-width: 220px; }
-      .tabs .tab { width: auto; flex: 0 0 auto; }
+      .tabs {
+        align-items: stretch;
+        flex-wrap: wrap;
+        overflow-x: visible;
+        gap: 6px;
+        padding: 6px 0 8px;
+      }
+      .tabs .search {
+        width: 100%;
+        min-width: 0;
+        flex: 0 0 100%;
+      }
+      .tabs .tab {
+        width: auto;
+        min-width: 0;
+        flex: 1 1 calc(50% - 6px);
+        min-height: 32px;
+        padding: 5px 8px;
+        justify-content: center;
+        text-align: center;
+        font-size: 11px;
+        line-height: 1.12;
+        white-space: normal;
+      }
+      .tab:not([data-tab="ALL"])::before {
+        width: 6px;
+        height: 6px;
+        margin-top: 1px;
+      }
+      .subtabs {
+        flex-wrap: wrap;
+        overflow-x: visible;
+        gap: 6px;
+        padding-left: 0 !important;
+      }
+      .subtabs .subtab {
+        flex: 0 1 auto;
+        height: 26px;
+        min-height: 26px;
+        padding: 3px 8px;
+        font-size: 10px;
+      }
+      #llm-subtabs .subtab {
+        height: 22px;
+        min-height: 22px;
+        padding: 2px 7px;
+        font-size: 9px;
+      }
       .sort-head { width: auto; font-size: 10px; }
       .market-panel th,
       .market-panel td { padding: 7px 3px; font-size: 11px; }
