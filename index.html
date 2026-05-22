@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.youtube.com; connect-src 'self' https://ipapi.co https://query1.finance.yahoo.com https://www.google-analytics.com https://analytics.google.com; frame-src https://www.googletagmanager.com https://www.youtube.com https://www.youtube-nocookie.com; upgrade-insecure-requests" />
   <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -3257,14 +3258,18 @@
         const d1 = row.changePercent;
         const d7 = row.change7d;
         const isActive = row.ticker === state.selected ? " class=\"active\"" : "";
-        return `<tr data-ticker="${row.ticker}"${isActive}>
-          <td><button class="watch" type="button" aria-label="${t("watch")} ${row.ticker}" title="${t("watch")}">☆</button></td>
+        const ticker = escapeHtml(row.ticker);
+        const name = escapeHtml(companyDisplayName(row));
+        const category = escapeHtml(categoryDisplayLabel(row.category));
+        const flag = escapeHtml(flagFor(row));
+        return `<tr data-ticker="${ticker}"${isActive}>
+          <td><button class="watch" type="button" aria-label="${escapeHtml(t("watch"))} ${ticker}" title="${escapeHtml(t("watch"))}">☆</button></td>
           <td class="rank">${start + idx + 1}</td>
           <td>
             <div class="company-cell">
               <span>
-                <span class="company-line"><span class="company-name">${companyDisplayName(row)}</span><span class="flag">${flagFor(row)}</span><span class="ticker">${row.ticker}</span>${row.status === "prelist" ? `<span class="prelist-badge">${t("prelist")}</span>` : ""}</span>
-                <div class="subtext">${categoryDisplayLabel(row.category)}</div>
+                <span class="company-line"><span class="company-name">${name}</span><span class="flag">${flag}</span><span class="ticker">${ticker}</span>${row.status === "prelist" ? `<span class="prelist-badge">${escapeHtml(t("prelist"))}</span>` : ""}</span>
+                <div class="subtext">${category}</div>
               </span>
             </div>
           </td>
@@ -3397,6 +3402,18 @@
         "'": "&#39;"
       }[char]));
     }
+    function safeUrl(value, { allowHash = false, protocols = ["https:", "http:"] } = {}) {
+      const raw = String(value || "").trim();
+      if (!raw) return allowHash ? "#" : "";
+      if (raw === "#") return allowHash ? "#" : "";
+      try {
+        const parsed = new URL(raw, location.href);
+        if (!protocols.includes(parsed.protocol)) return allowHash ? "#" : "";
+        return parsed.href;
+      } catch (error) {
+        return allowHash ? "#" : "";
+      }
+    }
     function displayNewsParty(value) {
       const raw = String(value || "News");
       if (state.lang !== "zh") return raw;
@@ -3457,9 +3474,21 @@
       return author;
     }
     function youtubeVideoId(url) {
-      const text = String(url || "");
-      const match = text.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube(?:-nocookie)?\.com\/embed\/)([A-Za-z0-9_-]{11})/);
-      return match ? match[1] : "";
+      const safe = safeUrl(url, { protocols: ["https:"] });
+      if (!safe) return "";
+      try {
+        const parsed = new URL(safe);
+        const host = parsed.hostname.replace(/^www\./, "");
+        if (host === "youtu.be") {
+          const id = parsed.pathname.split("/").filter(Boolean)[0] || "";
+          return /^[A-Za-z0-9_-]{11}$/.test(id) ? id : "";
+        }
+        if (host === "youtube.com" || host === "youtube-nocookie.com") {
+          const id = parsed.searchParams.get("v") || parsed.pathname.match(/\/embed\/([A-Za-z0-9_-]{11})/)?.[1] || "";
+          return /^[A-Za-z0-9_-]{11}$/.test(id) ? id : "";
+        }
+      } catch (error) {}
+      return "";
     }
     let youtubeApiPromise = null;
     const youtubePlayers = new WeakMap();
@@ -3509,7 +3538,7 @@
       link.classList.add("video-active");
       thumb.dataset.originalHtml = thumb.dataset.originalHtml || thumb.innerHTML;
       const title = link.dataset.videoTitle || "IsitHUB Video";
-      thumb.innerHTML = `<iframe src="${youtubeEmbedUrl(videoId)}" title="${escapeHtml(title)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
+      thumb.innerHTML = `<iframe src="${youtubeEmbedUrl(videoId)}" title="${escapeHtml(title)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"></iframe>`;
       bindYouTubePlayer(thumb.querySelector("iframe"));
     }
     function resumeNewsTrackForIframe(iframe) {
@@ -3567,7 +3596,9 @@
       }).catch(() => {});
     }
     function handleYouTubeStateMessage(event) {
-      if (!String(event.origin || "").includes("youtube")) return;
+      let originHost = "";
+      try { originHost = new URL(event.origin || "").hostname.replace(/^www\./, ""); } catch (error) {}
+      if (originHost !== "youtube.com" && originHost !== "youtube-nocookie.com") return;
       let data = event.data;
       if (typeof data === "string") {
         try { data = JSON.parse(data); } catch (error) { return; }
@@ -3619,9 +3650,9 @@
       const nodes = [...news, ...news].map((item) => {
         const source = displayNewsParty(item.source || "News");
         const author = displayNewsAuthor(item.source || "News", item.author || "");
-        const href = item.url || "#";
+        const href = safeUrl(item.url || "#", { allowHash: true });
         const title = state.lang === "zh" ? (item.titleZh || item.title) : (item.titleEn || item.title);
-        const image = item.image || item.thumbnail || "";
+        const image = safeUrl(item.image || item.thumbnail || "", { protocols: ["https:", "http:"] });
         const isLiveVideo = sectionId === "video" && /live/i.test(String(item.source || ""));
         const videoId = sectionId === "video" ? youtubeVideoId(href) : "";
         const embedAttrs = videoId ? ` data-video-id="${escapeHtml(videoId)}" data-video-title="${escapeHtml(title)}"` : "";
@@ -3721,10 +3752,10 @@
         return `<div class="token-row">
           <div class="token-rank">${index + 1}</div>
           <div>
-            <div class="token-name">${name}</div>
-            <div class="token-provider">by ${provider}</div>
+            <div class="token-name">${escapeHtml(name)}</div>
+            <div class="token-provider">by ${escapeHtml(provider)}</div>
           </div>
-          <div class="token-value">${formatTokens(tokens)}<span class="token-change ${changeClass}">${changeLabel}</span></div>
+          <div class="token-value">${formatTokens(tokens)}<span class="token-change ${changeClass}">${escapeHtml(changeLabel)}</span></div>
         </div>`;
       }).join("");
     }
