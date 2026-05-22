@@ -448,6 +448,7 @@ VIDEO_NEWS_SOURCES = [
 ]
 LIVE_NEWS_SOURCES = [
     {"name": "YouTube Live", "url": "https://www.youtube.com/watch?v=DxmDPrfinXY"},
+    {"name": "YouTube Live", "url": "https://www.youtube.com/watch?v=f39oHo6vFLg"},
 ]
 NEWS_SECTIONS = [
     {
