@@ -421,7 +421,7 @@ for source in MNA_NEWS_SOURCES:
 for source in EQUITY_NEWS_SOURCES:
     source["requiredKeywords"] = DEAL_REQUIRED_KEYWORDS
 HOT_NEWS_SOURCES = [
-    {"name": "Wall Street Journal", "url": "https://www.wsj.com/"},
+    {"name": "Wall Street Journal Audio", "url": "https://www.wsj.com/audio"},
 ]
 TECH_NEWS_SOURCES = [
     {"name": "WIRED", "url": "https://www.wired.com/feed/category/business/latest/rss"},
@@ -454,7 +454,7 @@ NEWS_SECTIONS = [
     {
         "id": "hot",
         "title": "🔥热点",
-        "note": "Wall Street Journal",
+        "note": "Wall Street Journal Audio",
         "sources": HOT_NEWS_SOURCES,
         "allowGeneralFeed": True,
     },
@@ -989,6 +989,7 @@ def parse_html_page(source: dict[str, str], data: bytes) -> list[dict[str, str]]
                 break
         return items
     if "wsj.com" in source_url:
+        is_wsj_audio_source = "www.wsj.com/audio" in source_url or "wsj.com/audio" in source_url
         next_data_match = re.search(r'<script[^>]+id=["\']__NEXT_DATA__["\'][^>]*>(.*?)</script>', page, re.S)
         if next_data_match:
             try:
@@ -1003,6 +1004,12 @@ def parse_html_page(source: dict[str, str], data: bytes) -> list[dict[str, str]]
                     if isinstance(title_raw, str) and isinstance(url_raw, str) and "wsj.com/" in url_raw:
                         title = clean_text(title_raw, 180)
                         url = html.unescape(url_raw.replace(r"\u0026", "&"))
+                        if is_wsj_audio_source and "/podcasts/" not in url.lower():
+                            for value in node.values():
+                                if len(items) >= 18:
+                                    return
+                                collect_wsj_articles(value)
+                            return
                         key = (title.lower(), url.lower())
                         if len(title) >= 8 and key not in seen:
                             seen.add(key)
@@ -1564,11 +1571,12 @@ def main() -> int:
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "strategy": {
-            "primary": "Tabbed news sections: hot stories from Wall Street Journal, industry from WSJ/NYT/FT/SCMP/TechCrunch Startups, statements derived from all sources by named AI figures and speech signals, company from company-name searches plus M&A and financing keywords, frontier technology from Wired/MIT Technology Review/Stanford sources, papers from top AI journals, conferences, proceedings, and preprint sources",
+            "primary": "Tabbed news sections: hot audio stories from Wall Street Journal Audio, industry from WSJ/NYT/FT/SCMP/TechCrunch Startups, statements derived from all sources by named AI figures and speech signals, company from company-name searches plus M&A and financing keywords, frontier technology from Wired/MIT Technology Review/Stanford sources, papers from top AI journals, conferences, proceedings, and preprint sources",
             "primaryEnabled": True,
             "supplements": [
                 "TechCrunch",
                 "Wired",
+                "Wall Street Journal Audio",
                 "Wall Street Journal",
                 "New York Times",
                 "Financial Times",

@@ -2804,7 +2804,7 @@
         quoteDaily: "每日行情", quoteLive: "Yahoo 实时备用行情", quoteError: "行情接口暂不可用，真实行情为空", waitingLive: "等待真实行情",
         newsSource: "新闻来源", newsAuthor: "作者", mediaSource: "媒体", speechKeywordSource: "互联网公开新闻：大模型负责人公开言论 / OpenAI / Anthropic / DeepMind / Gemini / Meta AI / xAI / Mistral / DeepSeek / Kimi / 智谱 / 通义千问 / 豆包 / 马斯克 / 黄仁勋 / 哈萨比斯 / 梁文锋 / 物理世界模型",
         footer: "说明：这是 AI 相关美股挂牌、港股、A 股、韩股、日股、英国、加拿大与台湾市场公司及少量预上市公司观察名单，不是投资建议，也不是官方指数。价格、1小时/24小时/7天/30天变化、成交额与市值均优先使用在线 quote/chart 真实行情；不可用时显示为空。预上市公司使用估算美元市值参与排行，不抓取实时行情。非美元公司市值与成交额在内部按 USD/CNY、USD/HKD、USD/KRW、USD/JPY、USD/TWD、USD/GBP、USD/CAD 机制折算成美元口径，但页面不展示汇率。",
-        fallbackHot: "华尔街日报热点持续更新",
+        fallbackHot: "华尔街日报音频热点持续更新",
         fallbackIndustry: "行业动态持续追踪 AI 芯片、云、数据中心与大模型",
         fallbackPerson: "言论追踪互联网上公开的名人对 AI 的真实公开发言",
         fallbackCompany: "公司新闻按成分股、并购、入股、股权与融资关键词追踪 Bloomberg 与 Reuters",
@@ -2836,7 +2836,7 @@
         quoteDaily: "Daily market data", quoteLive: "Live Yahoo fallback", quoteError: "Quote feed unavailable; live fields are blank", waitingLive: "Waiting for live quotes",
         newsSource: "Source", newsAuthor: "Author", mediaSource: "Media", speechKeywordSource: "Open web news: public statements by foundation-model leaders / OpenAI / Anthropic / DeepMind / Gemini / Meta AI / xAI / Mistral / DeepSeek / Kimi / Zhipu / Qwen / Doubao / Musk / Jensen Huang / Hassabis / Liang Wenfeng / physical world model",
         footer: "Note: This is a watchlist of AI-related US-listed, Hong Kong-listed, A-share, Korean, Japanese, UK, Canadian, Taiwan-market, and selected pre-IPO companies. It is not investment advice or an official index. Price, 1h/24h/7d/30d change, volume, and market cap use online quote/chart data when available; unavailable fields are left blank. Pre-IPO companies use estimated USD market caps for ranking and do not fetch live quotes. Non-USD market caps and volume are converted internally to USD using USD/CNY, USD/HKD, USD/KRW, USD/JPY, USD/TWD, USD/GBP, and USD/CAD logic; exchange rates are not displayed.",
-        fallbackHot: "Wall Street Journal hot stories keep updating",
+        fallbackHot: "Wall Street Journal Audio stories keep updating",
         fallbackIndustry: "Industry news tracking AI chips, cloud, data centers, and foundation models",
         fallbackPerson: "Statements track public AI comments by famous figures across open web news",
         fallbackCompany: "Company news tracks constituent names plus M&A, stakes, equity, funding, and investment keywords across Bloomberg and Reuters",
@@ -3225,7 +3225,7 @@
     function fallbackNewsItems(sectionId = "industry") {
       const fallback = {
         hot: [
-          { title: t("fallbackHot"), source: "Wall Street Journal", author: "", url: "https://www.wsj.com/" },
+          { title: t("fallbackHot"), source: "Wall Street Journal Audio", author: "", url: "https://www.wsj.com/audio" },
         ],
         industry: [
           { title: t("fallbackIndustry"), source: "IsitHUB", author: "", url: "#" },
@@ -3261,6 +3261,7 @@
       const raw = String(value || "News");
       if (state.lang !== "zh") return raw;
       const normalized = raw.toLowerCase();
+      if (normalized === "wall street journal audio") return "华尔街日报音频";
       if (normalized === "wall street journal" || normalized === "wall street journal chinese markets" || normalized === "wsj") return "华尔街日报";
       if (normalized === "new york times" || normalized === "the new york times") return "纽约时报";
       if (normalized === "new york times youtube") return "纽约时报 YouTube";

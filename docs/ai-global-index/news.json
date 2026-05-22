@@ -1,11 +1,12 @@
 {
-  "generatedAt": "2026-05-22T09:39:16.358258Z",
+  "generatedAt": "2026-05-22T10:02:41.054076Z",
   "strategy": {
-    "primary": "Tabbed news sections: hot stories from Wall Street Journal, industry from WSJ/NYT/FT/SCMP/TechCrunch Startups, statements derived from all sources by named AI figures and speech signals, company from company-name searches plus M&A and financing keywords, frontier technology from Wired/MIT Technology Review/Stanford sources, papers from top AI journals, conferences, proceedings, and preprint sources",
+    "primary": "Tabbed news sections: hot audio stories from Wall Street Journal Audio, industry from WSJ/NYT/FT/SCMP/TechCrunch Startups, statements derived from all sources by named AI figures and speech signals, company from company-name searches plus M&A and financing keywords, frontier technology from Wired/MIT Technology Review/Stanford sources, papers from top AI journals, conferences, proceedings, and preprint sources",
     "primaryEnabled": true,
     "supplements": [
       "TechCrunch",
       "Wired",
+      "Wall Street Journal Audio",
       "Wall Street Journal",
       "New York Times",
       "Financial Times",
@@ -28,10 +29,10 @@
   "sources": [
     {
       "section": "hot",
-      "name": "Wall Street Journal",
-      "url": "https://www.wsj.com/",
+      "name": "Wall Street Journal Audio",
+      "url": "https://www.wsj.com/audio",
       "status": "ok",
-      "count": 6
+      "count": 3
     },
     {
       "section": "industry",
@@ -94,7 +95,7 @@
       "name": "New York Times",
       "url": "https://news.google.com/rss/search?q=site%3Anytimes.com%20%28%22artificial%20intelligence%22%20OR%20AI%20OR%20Nvidia%20OR%20OpenAI%20OR%20Anthropic%20OR%20%22AI%20chip%22%20OR%20semiconductor%20OR%20%22data%20center%22%20OR%20%22AI%20cloud%22%20OR%20%22large%20language%20model%22%20OR%20%22machine%20learning%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 10
+      "count": 9
     },
     {
       "section": "industry",
@@ -129,7 +130,7 @@
       "name": "AI Statements · Public Figures 2",
       "url": "https://news.google.com/rss/search?q=%28%22Demis%20Hassabis%22%20OR%20%22%E5%93%88%E8%90%A8%E6%AF%94%E6%96%AF%22%20OR%20%22Koray%20Kavukcuoglu%22%20OR%20%22Oriol%20Vinyals%22%20OR%20%22Mark%20Zuckerberg%22%20OR%20%22Alexandr%20Wang%22%20OR%20%22Sundar%20Pichai%22%20OR%20%22Yann%20LeCun%22%20OR%20%22%E6%9D%A8%E7%AB%8B%E6%98%86%22%20OR%20%22%E6%9D%A8%E4%B8%BD%E5%9D%A4%22%20OR%20%22Andrew%20Ng%22%20OR%20%22Andrej%20Karpathy%22%29%20%28%22AI%22%20OR%20%22artificial%20intelligence%22%20OR%20%22OpenAI%22%20OR%20%22Nvidia%22%20OR%20%22large%20language%20model%22%20OR%20%22AI%20chip%22%20OR%20%22agent%22%20OR%20%22robotics%22%20OR%20%22physical%20world%20model%22%20OR%20%22world%20model%22%20OR%20%22%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%22%20OR%20%22%E7%89%A9%E7%90%86%E4%B8%96%E7%95%8C%E6%A8%A1%E5%9E%8B%22%29%20%28%22says%22%20OR%20%22said%22%20OR%20%22warns%22%20OR%20%22warned%22%20OR%20%22predicts%22%20OR%20%22predicted%22%20OR%20%22thinks%22%20OR%20%22believes%22%20OR%20%22expects%22%20OR%20%22quote%22%20OR%20%22interview%22%20OR%20%22speech%22%20OR%20%22%E8%A1%A8%E7%A4%BA%22%20OR%20%22%E7%A7%B0%22%20OR%20%22%E8%AE%A4%E4%B8%BA%22%20OR%20%22%E8%AD%A6%E5%91%8A%22%20OR%20%22%E9%A2%84%E6%B5%8B%22%20OR%20%22%E6%8C%87%E5%87%BA%22%20OR%20%22%E9%87%87%E8%AE%BF%22%20OR%20%22%E6%BC%94%E8%AE%B2%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 20
+      "count": 19
     },
     {
       "section": "person",
@@ -157,14 +158,14 @@
       "name": "AI Statements · Public Figures 6",
       "url": "https://news.google.com/rss/search?q=%28%22Henry%20Kissinger%22%20OR%20%22Yuval%20Noah%20Harari%22%20OR%20%22Nick%20Bostrom%22%20OR%20%22Barack%20Obama%22%20OR%20%22Donald%20Trump%22%20OR%20%22Joe%20Biden%22%20OR%20%22Ursula%20von%20der%20Leyen%22%20OR%20%22Ren%20Zhengfei%22%20OR%20%22%E4%BB%BB%E6%AD%A3%E9%9D%9E%22%20OR%20%22Zhang%20Yiming%22%20OR%20%22%E5%BC%A0%E4%B8%80%E9%B8%A3%22%20OR%20%22Liang%20Wenfeng%22%29%20%28%22AI%22%20OR%20%22artificial%20intelligence%22%20OR%20%22OpenAI%22%20OR%20%22Nvidia%22%20OR%20%22large%20language%20model%22%20OR%20%22AI%20chip%22%20OR%20%22agent%22%20OR%20%22robotics%22%20OR%20%22physical%20world%20model%22%20OR%20%22world%20model%22%20OR%20%22%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%22%20OR%20%22%E7%89%A9%E7%90%86%E4%B8%96%E7%95%8C%E6%A8%A1%E5%9E%8B%22%29%20%28%22says%22%20OR%20%22said%22%20OR%20%22warns%22%20OR%20%22warned%22%20OR%20%22predicts%22%20OR%20%22predicted%22%20OR%20%22thinks%22%20OR%20%22believes%22%20OR%20%22expects%22%20OR%20%22quote%22%20OR%20%22interview%22%20OR%20%22speech%22%20OR%20%22%E8%A1%A8%E7%A4%BA%22%20OR%20%22%E7%A7%B0%22%20OR%20%22%E8%AE%A4%E4%B8%BA%22%20OR%20%22%E8%AD%A6%E5%91%8A%22%20OR%20%22%E9%A2%84%E6%B5%8B%22%20OR%20%22%E6%8C%87%E5%87%BA%22%20OR%20%22%E9%87%87%E8%AE%BF%22%20OR%20%22%E6%BC%94%E8%AE%B2%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 3
+      "count": 4
     },
     {
       "section": "person",
       "name": "AI Statements · Public Figures 7",
       "url": "https://news.google.com/rss/search?q=%28%22%E6%A2%81%E6%96%87%E9%94%8B%22%20OR%20%22Yang%20Zhilin%22%20OR%20%22%E6%9D%A8%E6%A4%8D%E9%BA%9F%22%20OR%20%22Zhang%20Peng%22%20OR%20%22%E5%BC%A0%E9%B9%8F%22%20OR%20%22Tang%20Jie%22%20OR%20%22%E5%94%90%E6%9D%B0%22%20OR%20%22Wang%20Xiaochuan%22%20OR%20%22%E7%8E%8B%E5%B0%8F%E5%B7%9D%22%20OR%20%22Yan%20Junjie%22%20OR%20%22%E9%97%AB%E4%BF%8A%E6%9D%B0%22%20OR%20%22Jiang%20Daxin%22%29%20%28%22AI%22%20OR%20%22artificial%20intelligence%22%20OR%20%22OpenAI%22%20OR%20%22Nvidia%22%20OR%20%22large%20language%20model%22%20OR%20%22AI%20chip%22%20OR%20%22agent%22%20OR%20%22robotics%22%20OR%20%22physical%20world%20model%22%20OR%20%22world%20model%22%20OR%20%22%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%22%20OR%20%22%E7%89%A9%E7%90%86%E4%B8%96%E7%95%8C%E6%A8%A1%E5%9E%8B%22%29%20%28%22says%22%20OR%20%22said%22%20OR%20%22warns%22%20OR%20%22warned%22%20OR%20%22predicts%22%20OR%20%22predicted%22%20OR%20%22thinks%22%20OR%20%22believes%22%20OR%20%22expects%22%20OR%20%22quote%22%20OR%20%22interview%22%20OR%20%22speech%22%20OR%20%22%E8%A1%A8%E7%A4%BA%22%20OR%20%22%E7%A7%B0%22%20OR%20%22%E8%AE%A4%E4%B8%BA%22%20OR%20%22%E8%AD%A6%E5%91%8A%22%20OR%20%22%E9%A2%84%E6%B5%8B%22%20OR%20%22%E6%8C%87%E5%87%BA%22%20OR%20%22%E9%87%87%E8%AE%BF%22%20OR%20%22%E6%BC%94%E8%AE%B2%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 12
+      "count": 14
     },
     {
       "section": "person",
@@ -185,7 +186,7 @@
       "name": "Bloomberg · Company Batch 1",
       "url": "https://news.google.com/rss/search?q=site%3Abloomberg.com%20%28%22ACM%20Research%22%20OR%20%22Adobe%22%20OR%20%22Advanced%20Micro%20Devices%22%20OR%20%22Aecon%20Group%22%20OR%20%22Aehr%20Test%20Systems%22%20OR%20%22Alphabet%22%20OR%20%22Amazon%22%20OR%20%22AMD%22%20OR%20%22American%20Superconductor%22%20OR%20%22Amkor%20Technology%22%20OR%20%22Amphenol%22%20OR%20%22Analog%20Devices%22%20OR%20%22Anthropic%22%20OR%20%22anthropic%22%20OR%20%22ANTHROPIC.PRE%22%20OR%20%22Apple%22%20OR%20%22Applied%20Digital%22%20OR%20%22Applied%20Materials%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 13
+      "count": 12
     },
     {
       "section": "company",
@@ -227,7 +228,7 @@
       "name": "Bloomberg · Company Batch 7",
       "url": "https://news.google.com/rss/search?q=site%3Abloomberg.com%20%28%22Hut%208%22%20OR%20%22Hut%208%20Corp%22%20OR%20%22HydroGraph%20Clean%20Power%22%20OR%20%22Ibiden%20Co.%22%20OR%20%22IBM%22%20OR%20%22Iluka%20Resources%22%20OR%20%22industry%22%20OR%20%22Infosys%22%20OR%20%22Intel%22%20OR%20%22Intuit%22%20OR%20%22Intuitive%20Surgical%22%20OR%20%22IonQ%22%20OR%20%22IPG%20Photonics%22%20OR%20%22IQE%20plc%22%20OR%20%22IREN%22%20OR%20%22Iris%20Energy%22%20OR%20%22Johnson%20Controls%22%20OR%20%22Kairos%20Power%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 8
+      "count": 7
     },
     {
       "section": "company",
@@ -255,7 +256,7 @@
       "name": "Bloomberg · Company Batch 11",
       "url": "https://news.google.com/rss/search?q=site%3Abloomberg.com%20%28%22Oklo%22%20OR%20%22Okta%22%20OR%20%22ON%20Semiconductor%22%20OR%20%22Onto%20Innovation%22%20OR%20%22OpenAI%22%20OR%20%22openai%22%20OR%20%22Oracle%22%20OR%20%22Palantir%22%20OR%20%22Palo%20Alto%20Networks%22%20OR%20%22Photronics%22%20OR%20%22POET%20Technologies%22%20OR%20%22Powell%20Industries%22%20OR%20%22Power%20Solutions%20International%22%20OR%20%22ProPetro%22%20OR%20%22Pure%20Storage%22%20OR%20%22Qualcomm%22%20OR%20%22Quanta%20Services%22%20OR%20%22Quantum%20Computing%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 4
+      "count": 6
     },
     {
       "section": "company",
@@ -276,7 +277,7 @@
       "name": "Bloomberg · Company Batch 14",
       "url": "https://news.google.com/rss/search?q=site%3Abloomberg.com%20%28%22Taiwan%20Semiconductor%22%20OR%20%22Talen%20Energy%22%20OR%20%22TE%20Connectivity%22%20OR%20%22Tempus%20AI%22%20OR%20%22tencent%22%20OR%20%22Teradyne%22%20OR%20%22TeraWulf%22%20OR%20%22TerraPower%22%20OR%20%22Tesla%22%20OR%20%22Texas%20Instruments%22%20OR%20%22The%20Metals%20Company%22%20OR%20%22The%20Trade%20Desk%22%20OR%20%22Together%20AI%22%20OR%20%22Tokyo%20Seimitsu%20%28Accretech%29%22%20OR%20%22TOWA%20Corporation%22%20OR%20%22Tower%20Semiconductor%22%20OR%20%22Trane%20Technologies%22%20OR%20%22Trio-Tech%20International%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 8
+      "count": 9
     },
     {
       "section": "company",
@@ -290,7 +291,7 @@
       "name": "Bloomberg · Company Batch 16",
       "url": "https://news.google.com/rss/search?q=site%3Abloomberg.com%20%28%22xAI%22%20OR%20%22xiaomi%22%20OR%20%22z.ai%22%20OR%20%22Zscaler%22%20OR%20%22%E4%B8%87%E5%9B%BD%E6%95%B0%E6%8D%AE%22%20OR%20%22%E4%B8%89%E6%98%9F%E7%94%B5%E5%AD%90%22%20OR%20%22%E4%B8%89%E7%8E%AF%E9%9B%86%E5%9B%A2%22%20OR%20%22%E4%B8%9C%E5%B1%B1%E7%B2%BE%E5%AF%86%22%20OR%20%22%E4%B8%AD%E5%9B%BD%E6%A0%B8%E7%94%B5%22%20OR%20%22%E4%B8%AD%E5%9B%BD%E8%BD%AF%E4%BB%B6%E5%9B%BD%E9%99%85%22%20OR%20%22%E4%B8%AD%E5%B9%BF%E6%A0%B8%E7%94%B5%E5%8A%9B%22%20OR%20%22%E4%B8%AD%E5%BE%AE%E5%85%AC%E5%8F%B8%22%20OR%20%22%E4%B8%AD%E6%81%92%E7%94%B5%E6%B0%94%22%20OR%20%22%E4%B8%AD%E7%A7%91%E5%88%9B%E8%BE%BE%22%20OR%20%22%E4%B8%AD%E7%A7%91%E6%9B%99%E5%85%89%22%20OR%20%22%E4%B8%AD%E8%8A%AF%E5%9B%BD%E9%99%85%22%20OR%20%22%E4%B8%AD%E9%99%85%E6%97%AD%E5%88%9B%22%20OR%20%22%E4%BA%91%E4%BB%8E%E7%A7%91%E6%8A%80%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 6
+      "count": 7
     },
     {
       "section": "company",
@@ -360,7 +361,7 @@
       "name": "Reuters · Company Batch 6",
       "url": "https://news.google.com/rss/search?q=site%3Areuters.com%20%28%22EQT%22%20OR%20%22Equinix%22%20OR%20%22Fabrinet%22%20OR%20%22Fireworks%20AI%22%20OR%20%22Fluence%20Energy%22%20OR%20%22FormFactor%22%20OR%20%22Fortinet%22%20OR%20%22GE%20Vernova%22%20OR%20%22Generac%22%20OR%20%22GlobalFoundries%22%20OR%20%22google%22%20OR%20%22h1%22%20OR%20%22HD%20Hyundai%22%20OR%20%22Hewlett%20Packard%20Enterprise%22%20OR%20%22HK%22%20OR%20%22Holtec%20International%22%20OR%20%22Hubbell%22%20OR%20%22HubSpot%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 4
+      "count": 5
     },
     {
       "section": "company",
@@ -395,7 +396,7 @@
       "name": "Reuters · Company Batch 11",
       "url": "https://news.google.com/rss/search?q=site%3Areuters.com%20%28%22Oklo%22%20OR%20%22Okta%22%20OR%20%22ON%20Semiconductor%22%20OR%20%22Onto%20Innovation%22%20OR%20%22OpenAI%22%20OR%20%22openai%22%20OR%20%22Oracle%22%20OR%20%22Palantir%22%20OR%20%22Palo%20Alto%20Networks%22%20OR%20%22Photronics%22%20OR%20%22POET%20Technologies%22%20OR%20%22Powell%20Industries%22%20OR%20%22Power%20Solutions%20International%22%20OR%20%22ProPetro%22%20OR%20%22Pure%20Storage%22%20OR%20%22Qualcomm%22%20OR%20%22Quanta%20Services%22%20OR%20%22Quantum%20Computing%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 13
+      "count": 12
     },
     {
       "section": "company",
@@ -416,7 +417,7 @@
       "name": "Reuters · Company Batch 14",
       "url": "https://news.google.com/rss/search?q=site%3Areuters.com%20%28%22Taiwan%20Semiconductor%22%20OR%20%22Talen%20Energy%22%20OR%20%22TE%20Connectivity%22%20OR%20%22Tempus%20AI%22%20OR%20%22tencent%22%20OR%20%22Teradyne%22%20OR%20%22TeraWulf%22%20OR%20%22TerraPower%22%20OR%20%22Tesla%22%20OR%20%22Texas%20Instruments%22%20OR%20%22The%20Metals%20Company%22%20OR%20%22The%20Trade%20Desk%22%20OR%20%22Together%20AI%22%20OR%20%22Tokyo%20Seimitsu%20%28Accretech%29%22%20OR%20%22TOWA%20Corporation%22%20OR%20%22Tower%20Semiconductor%22%20OR%20%22Trane%20Technologies%22%20OR%20%22Trio-Tech%20International%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 17
+      "count": 16
     },
     {
       "section": "company",
@@ -451,14 +452,14 @@
       "name": "Reuters · Company Batch 19",
       "url": "https://news.google.com/rss/search?q=site%3Areuters.com%20%28%22%E6%B5%B7%E5%85%89%E4%BF%A1%E6%81%AF%22%20OR%20%22%E6%B5%B7%E5%BA%B7%E5%A8%81%E8%A7%86%22%20OR%20%22%E6%BD%8D%E6%9F%B4%E5%8A%A8%E5%8A%9B%22%20OR%20%22%E6%BE%9C%E8%B5%B7%E7%A7%91%E6%8A%80%22%20OR%20%22%E7%89%A9%E7%90%86%E4%B8%96%E7%95%8C%E6%A8%A1%E5%9E%8B%22%20OR%20%22%E7%91%9E%E5%A3%B0%E7%A7%91%E6%8A%80%22%20OR%20%22%E7%91%9E%E8%8A%AF%E5%BE%AE%22%20OR%20%22%E7%99%BE%E5%BA%A6%E9%9B%86%E5%9B%A2%22%20OR%20%22%E7%9B%9B%E5%90%88%E6%99%B6%E5%BE%AE%22%20OR%20%22%E7%9F%B3%E5%A4%B4%E7%A7%91%E6%8A%80%22%20OR%20%22%E7%A6%BE%E8%B5%9B%E7%A7%91%E6%8A%80%22%20OR%20%22%E7%A7%91%E5%A4%A7%E8%AE%AF%E9%A3%9E%22%20OR%20%22%E7%A7%91%E5%A8%81%E5%B0%94%22%20OR%20%22%E7%AB%8B%E8%AE%AF%E7%B2%BE%E5%AF%86%22%20OR%20%22%E7%AC%AC%E5%9B%9B%E8%8C%83%E5%BC%8F%22%20OR%20%22%E7%B4%AB%E5%85%89%E8%82%A1%E4%BB%BD%22%20OR%20%22%E8%81%94%E6%83%B3%E9%9B%86%E5%9B%A2%22%20OR%20%22%E8%83%9C%E5%AE%8F%E7%A7%91%E6%8A%80%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 2
+      "count": 1
     },
     {
       "section": "company",
       "name": "Reuters · Company Batch 20",
       "url": "https://news.google.com/rss/search?q=site%3Areuters.com%20%28%22%E8%85%BE%E8%AE%AF%E6%8E%A7%E8%82%A1%22%20OR%20%22%E8%88%9C%E5%AE%87%E5%85%89%E5%AD%A6%E7%A7%91%E6%8A%80%22%20OR%20%22%E8%8A%AF%E5%8E%9F%E8%82%A1%E4%BB%BD%22%20OR%20%22%E8%99%B9%E8%BD%AF%E7%A7%91%E6%8A%80%22%20OR%20%22%E8%B6%8B%E5%A2%83%E7%A7%91%E6%8A%80%22%20OR%20%22%E9%80%9F%E8%85%BE%E8%81%9A%E5%88%9B%22%20OR%20%22%E9%87%91%E5%B1%B1%E5%8A%9E%E5%85%AC%22%20OR%20%22%E9%87%91%E5%B1%B1%E8%BD%AF%E4%BB%B6%22%20OR%20%22%E9%87%91%E8%9D%B6%E5%9B%BD%E9%99%85%22%20OR%20%22%E9%95%BF%E5%B7%9D%E7%A7%91%E6%8A%80%22%20OR%20%22%E9%95%BF%E6%B1%9F%E5%AD%98%E5%82%A8%22%20OR%20%22%E9%95%BF%E9%91%AB%E5%AD%98%E5%82%A8%22%20OR%20%22%E9%95%BF%E9%A3%9E%E5%85%89%E7%BA%A4%22%20OR%20%22%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%22%20OR%20%22%E9%9F%A6%E5%B0%94%E8%82%A1%E4%BB%BD%22%20OR%20%22%E9%B8%BF%E8%85%BE%E7%B2%BE%E5%AF%86%22%20OR%20%22%E9%BB%91%E8%8A%9D%E9%BA%BB%E6%99%BA%E8%83%BD%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 3
+      "count": 2
     },
     {
       "section": "company",
@@ -549,7 +550,7 @@
       "name": "Bloomberg · M&A Batch 13",
       "url": "https://news.google.com/rss/search?q=site%3Abloomberg.com%20%28%22ShunSin%20Technology%20Holdings%22%20OR%20%22Sivers%20Semiconductors%22%20OR%20%22SK%20hynix%20%28Seoul%29%22%20OR%20%22SK%20%E6%B5%B7%E5%8A%9B%E5%A3%AB%22%20OR%20%22Snowflake%22%20OR%20%22SOFC%22%20OR%20%22Soitec%22%20OR%20%22Solaris%20Energy%20Infrastructure%22%20OR%20%22sort-rank%22%20OR%20%22SoundHound%20AI%22%20OR%20%22SpaceX%20AI%22%20OR%20%22stepfun%22%20OR%20%22SUMCO%22%20OR%20%22Sumitomo%20Electric%20%28Tokyo%29%22%20OR%20%22Sumitomo%20Electric%20Industries%22%20OR%20%22Super%20Micro%20Computer%22%20OR%20%22Symbotic%22%20OR%20%22Synopsys%22%29%20%28%22acquires%22%20OR%20%22acquisition%22%20OR%20%22merger%22%20OR%20%22M%26A%22%20OR%20%22buys%20stake%22%20OR%20%22takes%20stake%22%20OR%20%22takes%20a%20stake%22%20OR%20%22invests%20in%22%20OR%20%22investment%20in%22%20OR%20%22stake%20in%22%20OR%20%22to%20buy%22%20OR%20%22buyout%22%20OR%20%22takeover%22%20OR%20%22%E6%94%B6%E8%B4%AD%22%20OR%20%22%E5%B9%B6%E8%B4%AD%22%20OR%20%22%E5%85%A5%E8%82%A1%22%20OR%20%22%E6%8C%81%E8%82%A1%22%20OR%20%22%E8%82%A1%E6%9D%83%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 1
+      "count": 0
     },
     {
       "section": "company",
@@ -752,7 +753,7 @@
       "name": "Reuters · Equity Financing",
       "url": "https://news.google.com/rss/search?q=site%3Areuters.com%20%28%22artificial%20intelligence%22%20OR%20AI%20OR%20Nvidia%20OR%20OpenAI%20OR%20Anthropic%20OR%20%22AI%20chip%22%20OR%20semiconductor%20OR%20%22data%20center%22%20OR%20%22AI%20cloud%22%20OR%20%22large%20language%20model%22%20OR%20%22machine%20learning%22%29%20%28%22equity%22%20OR%20%22stake%22%20OR%20%22financing%22%20OR%20%22funding%22%20OR%20%22financial%22%20OR%20%22capital%22%20OR%20%22valuation%22%20OR%20%22investment%22%20OR%20%22raises%22%20OR%20%22IPO%22%20OR%20%22private%20placement%22%20OR%20%22venture%20capital%22%20OR%20%22debt%20financing%22%20OR%20%22%E8%82%A1%E6%9D%83%22%20OR%20%22%E8%9E%8D%E8%B5%84%22%20OR%20%22%E9%87%91%E8%9E%8D%22%20OR%20%22%E8%B5%84%E6%9C%AC%22%20OR%20%22%E4%BC%B0%E5%80%BC%22%20OR%20%22%E6%8A%95%E8%B5%84%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 2
+      "count": 1
     },
     {
       "section": "company",
@@ -850,14 +851,14 @@
       "name": "Bloomberg · Equity Batch 14",
       "url": "https://news.google.com/rss/search?q=site%3Abloomberg.com%20%28%22Taiwan%20Semiconductor%22%20OR%20%22Talen%20Energy%22%20OR%20%22TE%20Connectivity%22%20OR%20%22Tempus%20AI%22%20OR%20%22tencent%22%20OR%20%22Teradyne%22%20OR%20%22TeraWulf%22%20OR%20%22TerraPower%22%20OR%20%22Tesla%22%20OR%20%22Texas%20Instruments%22%20OR%20%22The%20Metals%20Company%22%20OR%20%22The%20Trade%20Desk%22%20OR%20%22Together%20AI%22%20OR%20%22Tokyo%20Seimitsu%20%28Accretech%29%22%20OR%20%22TOWA%20Corporation%22%20OR%20%22Tower%20Semiconductor%22%20OR%20%22Trane%20Technologies%22%20OR%20%22Trio-Tech%20International%22%29%20%28%22equity%22%20OR%20%22stake%22%20OR%20%22financing%22%20OR%20%22funding%22%20OR%20%22financial%22%20OR%20%22capital%22%20OR%20%22valuation%22%20OR%20%22investment%22%20OR%20%22raises%22%20OR%20%22IPO%22%20OR%20%22private%20placement%22%20OR%20%22venture%20capital%22%20OR%20%22debt%20financing%22%20OR%20%22%E8%82%A1%E6%9D%83%22%20OR%20%22%E8%9E%8D%E8%B5%84%22%20OR%20%22%E9%87%91%E8%9E%8D%22%20OR%20%22%E8%B5%84%E6%9C%AC%22%20OR%20%22%E4%BC%B0%E5%80%BC%22%20OR%20%22%E6%8A%95%E8%B5%84%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 1
+      "count": 0
     },
     {
       "section": "company",
       "name": "Bloomberg · Equity Batch 15",
       "url": "https://news.google.com/rss/search?q=site%3Abloomberg.com%20%28%22TSMC%22%20OR%20%22Twilio%22%20OR%20%22Uber%22%20OR%20%22UiPath%22%20OR%20%22Ultra%20Clean%20Holdings%22%20OR%20%22Unimicron%20Technology%22%20OR%20%22UUUU%22%20OR%20%22Veeco%20Instruments%22%20OR%20%22Veeva%20Systems%22%20OR%20%22Vertiv%22%20OR%20%22Vicor%22%20OR%20%22Vistra%22%20OR%20%22VNET%20Group%22%20OR%20%22Western%20Digital%22%20OR%20%22WhiteFiber%22%20OR%20%22WIN%20Semiconductors%22%20OR%20%22Workday%22%20OR%20%22X-energy%22%29%20%28%22equity%22%20OR%20%22stake%22%20OR%20%22financing%22%20OR%20%22funding%22%20OR%20%22financial%22%20OR%20%22capital%22%20OR%20%22valuation%22%20OR%20%22investment%22%20OR%20%22raises%22%20OR%20%22IPO%22%20OR%20%22private%20placement%22%20OR%20%22venture%20capital%22%20OR%20%22debt%20financing%22%20OR%20%22%E8%82%A1%E6%9D%83%22%20OR%20%22%E8%9E%8D%E8%B5%84%22%20OR%20%22%E9%87%91%E8%9E%8D%22%20OR%20%22%E8%B5%84%E6%9C%AC%22%20OR%20%22%E4%BC%B0%E5%80%BC%22%20OR%20%22%E6%8A%95%E8%B5%84%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 1
+      "count": 0
     },
     {
       "section": "company",
@@ -1060,7 +1061,7 @@
       "name": "Wired",
       "url": "https://news.google.com/rss/search?q=site%3Awired.com%20%28%22artificial%20intelligence%22%20OR%20AI%20OR%20Nvidia%20OR%20OpenAI%20OR%20Anthropic%20OR%20%22AI%20chip%22%20OR%20semiconductor%20OR%20%22data%20center%22%20OR%20%22AI%20cloud%22%20OR%20%22large%20language%20model%22%20OR%20%22machine%20learning%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 6
+      "count": 5
     },
     {
       "section": "tech",
@@ -1130,7 +1131,7 @@
       "name": "Cell",
       "url": "https://news.google.com/rss/search?q=site%3Acell.com/cell%20%28%22artificial%20intelligence%22%20OR%20AI%20OR%20Nvidia%20OR%20OpenAI%20OR%20Anthropic%20OR%20%22AI%20chip%22%20OR%20semiconductor%20OR%20%22data%20center%22%20OR%20%22AI%20cloud%22%20OR%20%22large%20language%20model%22%20OR%20%22machine%20learning%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 9
+      "count": 8
     },
     {
       "section": "video",
@@ -1164,12 +1165,12 @@
   "sections": {
     "hot": {
       "title": "🔥热点",
-      "note": "Wall Street Journal",
+      "note": "Wall Street Journal Audio",
       "items": [
         {
-          "source": "Wall Street Journal",
-          "feedSource": "Wall Street Journal",
-          "sourceUrl": "https://www.wsj.com/",
+          "source": "Wall Street Journal Audio",
+          "feedSource": "Wall Street Journal Audio",
+          "sourceUrl": "https://www.wsj.com/audio",
           "title": "Inside SpaceX’s Blockbuster IPO Filing",
           "summary": "Space X’s IPO filing is shedding new light on its finances and operations. Elon Musk’s rocket giant is losing billions of dollars as it funds a massive AI infrastructure buildout. WSJ reporter Becky Peterson breaks down",
           "url": "https://www.wsj.com/podcasts/tech-news-briefing/inside-spacexs-blockbuster-ipo-filing/8CD8BE0D-62FE-4868-97BE-AD276F5D000B?mod=error_page_podcasts_pos1",
@@ -1183,9 +1184,9 @@
           "tags": []
         },
         {
-          "source": "Wall Street Journal",
-          "feedSource": "Wall Street Journal",
-          "sourceUrl": "https://www.wsj.com/",
+          "source": "Wall Street Journal Audio",
+          "feedSource": "Wall Street Journal Audio",
+          "sourceUrl": "https://www.wsj.com/audio",
           "title": "Senate Republicans Break With President Trump Over $1.8 Billion Fund",
           "summary": "P.M. Edition for May 21. The Senate’s at an impasse after a majority of Senate Republicans collide with President Trump over plans for an “anti-weaponization fund.” WSJ national political reporter Ken Thomas discusses wh",
           "url": "https://www.wsj.com/podcasts/whats-news/senate-republicans-break-with-president-trump-over-18-billion-fund/8A174ED8-15CF-4246-A6DC-1BF14EAF125E?mod=error_page_podcasts_pos2",
@@ -1199,9 +1200,9 @@
           "tags": []
         },
         {
-          "source": "Wall Street Journal",
-          "feedSource": "Wall Street Journal",
-          "sourceUrl": "https://www.wsj.com/",
+          "source": "Wall Street Journal Audio",
+          "feedSource": "Wall Street Journal Audio",
+          "sourceUrl": "https://www.wsj.com/audio",
           "title": "Barney Frank’s Legacy of Financial Reform",
           "summary": "Barney Frank, the former Democratic congressman, died this week at the age of 86. Frank was best known as the architect of the Dodd-Frank law that reshaped the U.S. financial system in the wake of the 2008 crisis. WSJ’s",
           "url": "https://www.wsj.com/podcasts/the-journal/barney-franks-legacy-of-financial-reform/FC8A293B-1613-4D83-A89C-841544247686?mod=error_page_podcasts_pos3",
@@ -1209,54 +1210,6 @@
           "image": "https://images.wsj.net/im-50289036?size=1&width=287",
           "publishedAt": "2026-05-21T20:29:00Z",
           "titleEn": "Barney Frank’s Legacy of Financial Reform",
-          "section": "hot",
-          "sectionTitle": "🔥热点",
-          "matchedPortfolios": [],
-          "tags": []
-        },
-        {
-          "source": "Wall Street Journal",
-          "feedSource": "Wall Street Journal",
-          "sourceUrl": "https://www.wsj.com/",
-          "title": "Banksy’s Market Passes Its First Big Test Since His Identity Reveal",
-          "summary": "Banksy’s Market Passes Its First Big Test Since His Identity Reveal",
-          "url": "https://www.wsj.com/arts-culture/fine-art/banksys-market-passes-its-first-big-test-since-his-identity-reveal-3bbd9dc9?mod=error_page_trendingnow_article_pos2",
-          "author": "",
-          "image": "https://images.wsj.net/im-84156797?size=1.17&width=539&height=303",
-          "publishedAt": "2026-05-21T02:14:00Z",
-          "titleEn": "Banksy’s Market Passes Its First Big Test Since His Identity Reveal",
-          "section": "hot",
-          "sectionTitle": "🔥热点",
-          "matchedPortfolios": [],
-          "tags": []
-        },
-        {
-          "source": "Wall Street Journal",
-          "feedSource": "Wall Street Journal",
-          "sourceUrl": "https://www.wsj.com/",
-          "title": "Inside Israel’s High-Tech Campaign to Kill or Capture Every Oct. 7 Attacker",
-          "summary": "Inside Israel’s High-Tech Campaign to Kill or Capture Every Oct. 7 Attacker",
-          "url": "https://www.wsj.com/world/middle-east/israel-gaza-ceasefire-attacks-55c889b7?mod=error_page_trendingnow_article_pos1",
-          "author": "",
-          "image": "https://images.wsj.net/im-00802164?size=1.5&width=539&height=303",
-          "publishedAt": "2026-05-21T01:00:00Z",
-          "titleEn": "Inside Israel’s High-Tech Campaign to Kill or Capture Every Oct. 7 Attacker",
-          "section": "hot",
-          "sectionTitle": "🔥热点",
-          "matchedPortfolios": [],
-          "tags": []
-        },
-        {
-          "source": "Wall Street Journal",
-          "feedSource": "Wall Street Journal",
-          "sourceUrl": "https://www.wsj.com/",
-          "title": "E-Hiking Is Here. You Can Tell by My 1,000-Watt Hips.",
-          "summary": "E-Hiking Is Here. You Can Tell by My 1,000-Watt Hips.",
-          "url": "https://www.wsj.com/tech/personal-tech/robot-legs-hypershell-x-ultra-tested-e8a254e2?mod=error_page_trendingnow_article_pos3",
-          "author": "",
-          "image": "https://images.wsj.net/im-90901874?size=1.5&width=539&height=303",
-          "publishedAt": "2026-05-21T01:00:00Z",
-          "titleEn": "E-Hiking Is Here. You Can Tell by My 1,000-Watt Hips.",
           "section": "hot",
           "sectionTitle": "🔥热点",
           "matchedPortfolios": [],
@@ -2041,6 +1994,26 @@
       "items": [
         {
           "source": "Bloomberg.com",
+          "feedSource": "Bloomberg · Company Batch 5",
+          "sourceUrl": "https://www.bloomberg.com",
+          "title": "DeepSeek Founder Declares AGI Goal as $10 Billion Round Advances - Bloomberg.com",
+          "summary": "DeepSeek Founder Declares AGI Goal as $10 Billion Round Advances Bloomberg.com",
+          "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNUkRPRk9ac1lMSkZWZTh1YW9tUjVNWHVyOUZFUXNfTWJsRUxFN29tdVVDc3JPTGQwcmZlSUZiMmN5RFFhN0xKbTM3MmdsSzV5RVZtQmhMRVBRNDRVazFMZEdTSnRNaG12YkI5cTRub2dlRXpqT1NxRVJDaXItUGw4M2pkaHc0ell5cDU5QUpWMlZvajJ6ZzRtNkY1V3k4c0VXQUJDbEwxTEVIcW4yVS1QU0UtQU8?oc=5",
+          "author": "",
+          "publishedAt": "2026-05-22T09:38:09Z",
+          "titleEn": "DeepSeek Founder Declares AGI Goal as $10 Billion Round Advances - Bloomberg.com",
+          "section": "company",
+          "sectionTitle": "公司",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "DeepSeek",
+            "deepseek"
+          ]
+        },
+        {
+          "source": "Bloomberg.com",
           "feedSource": "Bloomberg · Company Batch 15",
           "sourceUrl": "https://www.bloomberg.com",
           "title": "Investors Look Beyond TSMC as AI Boom Spreads to New Winners - Bloomberg.com",
@@ -2075,46 +2048,6 @@
           ],
           "tags": [
             "BE"
-          ]
-        },
-        {
-          "source": "Reuters",
-          "feedSource": "Reuters · Equity Financing",
-          "sourceUrl": "https://www.reuters.com",
-          "title": "French quantum firm Alice & Bob wins new investment from Nvidia venture arm - Reuters",
-          "summary": "French quantum firm Alice & Bob wins new investment from Nvidia venture arm Reuters",
-          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOLUh1NjhpR0tpejRMUzNBbjVpby1Jb080aEtCcENUTzNXOU5BVHdKUVFXc2xBcTFIazg1ZzBpa2RvNnNjREU1NDdUTW03UW9sUXBKZEw3dTFFUUt3VjVLWTNYX09zbW5IUkd0d1ZWU2YyblNmMFI2ZnR1bXBGcGlyNHRnb1I2M1VJVzU3aktHZzFza1hqbVdzQnViaERNaXNQSHBkOVljVUk5VE9JYzNQUWpmajBZUQ?oc=5",
-          "author": "",
-          "publishedAt": "2026-05-22T05:04:00Z",
-          "titleEn": "French quantum firm Alice & Bob wins new investment from Nvidia venture arm - Reuters",
-          "section": "company",
-          "sectionTitle": "公司",
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "tags": [
-            "NVIDIA",
-            "Nvidia"
-          ]
-        },
-        {
-          "source": "Bloomberg.com",
-          "feedSource": "Bloomberg · Company Batch 5",
-          "sourceUrl": "https://www.bloomberg.com",
-          "title": "DeepSeek Founder Declares AGI Goal as $10 Billion Round Advances - Bloomberg.com",
-          "summary": "DeepSeek Founder Declares AGI Goal as $10 Billion Round Advances Bloomberg.com",
-          "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNUkRPRk9ac1lMSkZWZTh1YW9tUjVNWHVyOUZFUXNfTWJsRUxFN29tdVVDc3JPTGQwcmZlSUZiMmN5RFFhN0xKbTM3MmdsSzV5RVZtQmhMRVBRNDRVazFMZEdTSnRNaG12YkI5cTRub2dlRXpqT1NxRVJDaXItUGw4M2pkaHc0ell5cDU5QUpWMlZvajJ6ZzRtNkY1V3k4c0VXQUJDbEwxTEVIcW4yVS1QU0UtQU8?oc=5",
-          "author": "",
-          "publishedAt": "2026-05-22T02:58:00Z",
-          "titleEn": "DeepSeek Founder Declares AGI Goal as $10 Billion Round Advances - Bloomberg.com",
-          "section": "company",
-          "sectionTitle": "公司",
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "tags": [
-            "DeepSeek",
-            "deepseek"
           ]
         },
         {
@@ -2178,7 +2111,7 @@
         },
         {
           "source": "Bloomberg.com",
-          "feedSource": "Bloomberg · Company Batch 1",
+          "feedSource": "Bloomberg · Company Batch 14",
           "sourceUrl": "https://www.bloomberg.com",
           "title": "Waymo Suspends Service in Atlanta as Robotaxis Stumped by Floods - Bloomberg.com",
           "summary": "Waymo Suspends Service in Atlanta as Robotaxis Stumped by Floods Bloomberg.com",
@@ -2290,20 +2223,19 @@
           "source": "Bloomberg.com",
           "feedSource": "Bloomberg · Company Batch 7",
           "sourceUrl": "https://www.bloomberg.com",
-          "title": "White House Backs IBM’s $2 Billion Quantum Computing Foundry - Bloomberg.com",
-          "summary": "White House Backs IBM’s $2 Billion Quantum Computing Foundry Bloomberg.com",
+          "title": "IBM Shares Soar on US Funding for $2 Billion Quantum Push - Bloomberg.com",
+          "summary": "IBM Shares Soar on US Funding for $2 Billion Quantum Push Bloomberg.com",
           "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPN0VxREF0WGlyWHp6MkJ5bl92LWd6Sy1PZDJQUXM5SlRlVFBoQzRWeWZTS2xFRjhQQlVGUDJVRUc4WlAwa3E3ZGVRS1dmZW9oVnE0MHZTYUxrcUFRT1FjSVdDd2ZIazFyZ3lMRHExQmJmOUFKNU1ZV3hVWmZrTlh5YTJJSGc1SnlweHM2eTZ3aEltUklVMWJ4NjVwLVp6QktkYVVZUmM4U0d0TUIta2F0VA?oc=5",
           "author": "",
           "publishedAt": "2026-05-21T20:47:55Z",
-          "titleEn": "White House Backs IBM’s $2 Billion Quantum Computing Foundry - Bloomberg.com",
+          "titleEn": "IBM Shares Soar on US Funding for $2 Billion Quantum Push - Bloomberg.com",
           "section": "company",
           "sectionTitle": "公司",
           "matchedPortfolios": [
             "ai-market"
           ],
           "tags": [
-            "IBM",
-            "Quantum Computing"
+            "IBM"
           ]
         },
         {
@@ -2562,26 +2494,6 @@
           ]
         },
         {
-          "source": "Reuters",
-          "feedSource": "Reuters · Company Batch 11",
-          "sourceUrl": "https://www.reuters.com",
-          "title": "Nvidia's big beat falls flat - Reuters",
-          "summary": "Nvidia's big beat falls flat Reuters",
-          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQZFdKTVhXZVF1Q2czVkR5aXVKN0VqYWNOemYzMjVQMkFpcVRoc2NzU0I4RjhHUWdvVHptNGR4aVZOay1UY2xOQlhwenpPVjRPSXN2UlBrd09ITE9wVkdsd2U0cmVXYlh2cmg1OGNSaEtCMG82dThaaDQ1RUpLR2VndVVIMUt5UF9tVzN2bTQ2UHY1cW1JZi00?oc=5",
-          "author": "",
-          "publishedAt": "2026-05-21T13:30:41Z",
-          "titleEn": "Nvidia's big beat falls flat - Reuters",
-          "section": "company",
-          "sectionTitle": "公司",
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "tags": [
-            "NVIDIA",
-            "Nvidia"
-          ]
-        },
-        {
           "source": "Bloomberg.com",
           "feedSource": "Bloomberg · Company Batch 7",
           "sourceUrl": "https://www.bloomberg.com",
@@ -2658,6 +2570,46 @@
           ],
           "tags": [
             "TSMC"
+          ]
+        },
+        {
+          "source": "Bloomberg.com",
+          "feedSource": "Bloomberg · Company Batch 11",
+          "sourceUrl": "https://www.bloomberg.com",
+          "title": "Anthropic’s New Consulting Venture Makes Its First Acquisition - Bloomberg.com",
+          "summary": "Anthropic’s New Consulting Venture Makes Its First Acquisition Bloomberg.com",
+          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQZWtWRkhsemJEc2xFdTZvZWpIYTAwZlVrbzd5blZTcGg2bFZUM0MwT0NvSVowY0MxdUZLaXlrVm1ZTUhneWw1Y19JOVBhVVR0RFpqbWhUQ0F2Rldlb0RYYm5VNXZ5NGYzbzA1MjI4VWRlMWNjbmVORmx6V2Y1Tmxvd05qSGJlVV81c3liX0RRUW9yWllvX0tOb2dsVGhQRkxWLTdhbFlud2pBQjU1NDBzNldDbw?oc=5",
+          "author": "",
+          "publishedAt": "2026-05-21T12:00:00Z",
+          "titleEn": "Anthropic’s New Consulting Venture Makes Its First Acquisition - Bloomberg.com",
+          "section": "company",
+          "sectionTitle": "公司",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "Anthropic",
+            "anthropic"
+          ]
+        },
+        {
+          "source": "Reuters",
+          "feedSource": "Reuters · Equity Financing",
+          "sourceUrl": "https://www.reuters.com",
+          "title": "Morning Bid: Shrug for Nvidia but IPOs excite - Reuters",
+          "summary": "Morning Bid: Shrug for Nvidia but IPOs excite Reuters",
+          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNWEFBbHBUZFdMaFBmQnVyc0FKOEtGa0RPLXE1U3U2eDZBNjFSOTNBOExfemdsckNaODctWjQ5SEg1SnhEMW1ySUxZQU9USzd0Z0pNWVIzTUYyYXZVVWpZSjV1Y01MdjJkR1R0Nk83Y09IbVNIQzhPRlZwSGlGZ1dFMEtxU2oxVzZIbjZSS2RfVmxxa25RN1Zr?oc=5",
+          "author": "",
+          "publishedAt": "2026-05-21T11:49:53Z",
+          "titleEn": "Morning Bid: Shrug for Nvidia but IPOs excite - Reuters",
+          "section": "company",
+          "sectionTitle": "公司",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "NVIDIA",
+            "Nvidia"
           ]
         }
       ]
@@ -3207,27 +3159,6 @@
           ]
         },
         {
-          "source": "WIRED",
-          "feedSource": "Wired",
-          "sourceUrl": "https://www.wired.com",
-          "title": "Google DeepMind Workers Vote to Unionize Over Military AI Deals - WIRED",
-          "summary": "Google DeepMind Workers Vote to Unionize Over Military AI Deals WIRED",
-          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxOZzhicEZ0eW90QXRzRU1zVkdUUjlWSkpCUzJQTy1TQXZiQktSR1dDYlZFRUZBM2xpOFVlS0lSbi1FUTlRTGlhLTZQVTMwTF8zbUlJaGpZczcxd2VscnVMeUZfWmN4UVpUOWJTSEVoRUtyN2hXRk0zdjRoSE8zSEVUY0hTSmtOQXhlX0VIQ3dramoxYWZ2N2xF?oc=5",
-          "author": "Joel Khalili",
-          "publishedAt": "2026-05-05T07:00:00Z",
-          "titleEn": "Google DeepMind Workers Vote to Unionize Over Military AI Deals - WIRED",
-          "section": "tech",
-          "sectionTitle": "前沿",
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "tags": [
-            "Google",
-            "WIRED",
-            "google"
-          ]
-        },
-        {
           "source": "MIT Technology Review",
           "feedSource": "MIT Technology Review",
           "sourceUrl": "https://www.technologyreview.com",
@@ -3343,6 +3274,25 @@
           "tags": [
             "MIT Technology Review"
           ]
+        },
+        {
+          "source": "MIT Technology Review",
+          "feedSource": "MIT Technology Review",
+          "sourceUrl": "https://www.technologyreview.com",
+          "title": "What is machine learning? - MIT Technology Review",
+          "summary": "What is machine learning? MIT Technology Review",
+          "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOWGpLZVFrbUQ0MzEyMjU1LV9kbTYwS1pITnUtYU1XelpuQjdDSWd0MVNQdUxabUdJdUNtMDNldks1NTJKOE4zODFWRXhIQTIwUXBSWUZEYmtNb0toRi1EZy1FZjhYejJIeVFRc083RDRGNWhNT2RmNXd5SGg5UlRrS0ljOUFuRHowZ1NKX3g5QU1BRVZlRTU0a3FzY2N1RVZvcDZ5UGZITk9Ld9IBrwFBVV95cUxPRU5kMlBfcnhjdm5jMEtUcWpmczFncmhGT0JwMkxWNE5nR3FhdUYtLXMyZWs2ZUhLRjIwX09PQkJzS29tYUsxSzhMRGpjY2dvNEl2bUY4RTZTUTZ3UHRhYW1ySkIzX1NPV1dpSHJhR0p4THY5dHk1SmNLTV9xdUFSbkdfOWViQnFvdWpTZXFWNEI1SlJlUGY4WHhnYzEtSEFEQnFHSEU1OGlpN0FkeWFB?oc=5",
+          "author": "Karen Hao",
+          "publishedAt": "2018-11-17T08:00:00Z",
+          "titleEn": "What is machine learning? - MIT Technology Review",
+          "section": "tech",
+          "sectionTitle": "前沿",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "MIT Technology Review"
+          ]
         }
       ]
     },
@@ -3364,25 +3314,6 @@
           "sectionTitle": "论文",
           "matchedPortfolios": [],
           "tags": []
-        },
-        {
-          "source": "Cell Press",
-          "feedSource": "Cell",
-          "sourceUrl": "https://www.cell.com",
-          "title": "Advancing smart energy management with generative artificial intelligence - Cell Press",
-          "summary": "Advancing smart energy management with generative artificial intelligence Cell Press",
-          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPRXRoQnpTQklMMVMwU3hLRHVSMWl3OVNQLWZNbDl5eHdwVWlHcWZHTGN5RG5wUWpHQ3Jsd2lfNmRPd1E5TEJHU2cwekdfbFVGclZ3RVhVb25GQUJuNkU3QXN2ZUV6S1lRVURVdUh0UG1wTFNvcWY0OHZRSkpFRHpuU2txek8tNERn?oc=5",
-          "author": "",
-          "publishedAt": "2026-05-20T15:40:01Z",
-          "titleEn": "Advancing smart energy management with generative artificial intelligence - Cell Press",
-          "section": "papers",
-          "sectionTitle": "论文",
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "tags": [
-            "artificial intelligence"
-          ]
         },
         {
           "source": "Nature",
@@ -3934,6 +3865,25 @@
           "sectionTitle": "论文",
           "matchedPortfolios": [],
           "tags": []
+        },
+        {
+          "source": "Cell 189, 10 (2026)",
+          "feedSource": "Cell",
+          "sourceUrl": "",
+          "title": "Thermodynamic prediction of RNA cellular activity from sequence via conformational ensembles",
+          "summary": "The RNA sequence of HIV-1 TAR was systematically altered to change its propensity to adopt a functional secondary structure in the ensemble, measured using 1H CEST NMR. These minor sequence changes shifted the active-state propensity by ∼500-fold, quantitatively predicting changes in protein binding and cellular transa",
+          "url": "https://www.cell.com/cell/fulltext/S0092-8674(26)00228-X?rss=yes",
+          "author": "Ainan Geng",
+          "publishedAt": null,
+          "titleEn": "Thermodynamic prediction of RNA cellular activity from sequence via conformational ensembles",
+          "section": "papers",
+          "sectionTitle": "论文",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "change"
+          ]
         }
       ]
     },
@@ -4521,13 +4471,13 @@
           "source": "YouTube Live",
           "feedSource": "YouTube Live",
           "sourceUrl": "https://www.youtube.com/watch?v=DxmDPrfinXY",
-          "title": "12K",
-          "summary": "12K",
+          "title": "Bloomberg Originals Live | News, Documentaries & More",
+          "summary": "Bloomberg Originals Live | News, Documentaries & More",
           "url": "https://www.youtube.com/watch?v=DxmDPrfinXY",
           "author": "",
           "image": "https://i.ytimg.com/vi/DxmDPrfinXY/hqdefault.jpg",
           "publishedAt": "",
-          "titleEn": "12K",
+          "titleEn": "Bloomberg Originals Live | News, Documentaries & More",
           "section": "video",
           "sectionTitle": "视频",
           "matchedPortfolios": [],
@@ -4537,13 +4487,13 @@
           "source": "YouTube Live",
           "feedSource": "YouTube Live",
           "sourceUrl": "https://www.youtube.com/watch?v=f39oHo6vFLg",
-          "title": "22K",
-          "summary": "22K",
+          "title": "Bloomberg Live: Business, Finance, Earnings & Investment News | Watch 7AM - 6PM ET Weekdays",
+          "summary": "Bloomberg Live: Business, Finance, Earnings & Investment News | Watch 7AM - 6PM ET Weekdays",
           "url": "https://www.youtube.com/watch?v=f39oHo6vFLg",
           "author": "",
           "image": "https://i.ytimg.com/vi/f39oHo6vFLg/hqdefault.jpg",
           "publishedAt": "",
-          "titleEn": "22K",
+          "titleEn": "Bloomberg Live: Business, Finance, Earnings & Investment News | Watch 7AM - 6PM ET Weekdays",
           "section": "video",
           "sectionTitle": "视频",
           "matchedPortfolios": [],
@@ -4553,6 +4503,26 @@
     }
   },
   "items": [
+    {
+      "source": "Bloomberg.com",
+      "feedSource": "Bloomberg · Company Batch 5",
+      "sourceUrl": "https://www.bloomberg.com",
+      "title": "DeepSeek Founder Declares AGI Goal as $10 Billion Round Advances - Bloomberg.com",
+      "summary": "DeepSeek Founder Declares AGI Goal as $10 Billion Round Advances Bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNUkRPRk9ac1lMSkZWZTh1YW9tUjVNWHVyOUZFUXNfTWJsRUxFN29tdVVDc3JPTGQwcmZlSUZiMmN5RFFhN0xKbTM3MmdsSzV5RVZtQmhMRVBRNDRVazFMZEdTSnRNaG12YkI5cTRub2dlRXpqT1NxRVJDaXItUGw4M2pkaHc0ell5cDU5QUpWMlZvajJ6ZzRtNkY1V3k4c0VXQUJDbEwxTEVIcW4yVS1QU0UtQU8?oc=5",
+      "author": "",
+      "publishedAt": "2026-05-22T09:38:09Z",
+      "titleEn": "DeepSeek Founder Declares AGI Goal as $10 Billion Round Advances - Bloomberg.com",
+      "section": "company",
+      "sectionTitle": "公司",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "DeepSeek",
+        "deepseek"
+      ]
+    },
     {
       "source": "Business Insider",
       "feedSource": "AI Statements · Public Figures 1",
@@ -4710,6 +4680,26 @@
       ]
     },
     {
+      "source": "Broadband Breakfast",
+      "feedSource": "AI Statements · Public Figures 1",
+      "sourceUrl": "https://broadbandbreakfast.com",
+      "title": "OpenAI Avoided a Costly Court Loss to Elon Musk, but Neither Side is Unscathed - Broadband Breakfast",
+      "summary": "OpenAI Avoided a Costly Court Loss to Elon Musk, but Neither Side is Unscathed Broadband Breakfast",
+      "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPOFVkQV9Ia0pXUzZIek0yQk9oSVZCN2ZFOUlzZ3VzNTh2NzYxR3p0OTE5d2U4b2hXVEkwNWhsV01BVVVDRENQSVU0WlhFT25vb094cTRCVXNxaEJ4dEpDSmJYQUNTQjBWWm9mYUdibnBSdURoMVdfZlpjNmRsbFBXOHJkdnNrcndPUTZ4NHQtdlJVemZvQlFmQnUyS3FUeFVnV3FSTHp0V0gzT052TkE?oc=5",
+      "author": "Abby Larkin",
+      "publishedAt": "2026-05-22T06:44:08Z",
+      "titleEn": "OpenAI Avoided a Costly Court Loss to Elon Musk, but Neither Side is Unscathed - Broadband Breakfast",
+      "section": "person",
+      "sectionTitle": "言论",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "OpenAI",
+        "openai"
+      ]
+    },
+    {
       "source": "Bloomberg.com",
       "feedSource": "Bloomberg · Company Batch 15",
       "sourceUrl": "https://www.bloomberg.com",
@@ -4768,26 +4758,6 @@
       ]
     },
     {
-      "source": "Reuters",
-      "feedSource": "Reuters · Equity Financing",
-      "sourceUrl": "https://www.reuters.com",
-      "title": "French quantum firm Alice & Bob wins new investment from Nvidia venture arm - Reuters",
-      "summary": "French quantum firm Alice & Bob wins new investment from Nvidia venture arm Reuters",
-      "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOLUh1NjhpR0tpejRMUzNBbjVpby1Jb080aEtCcENUTzNXOU5BVHdKUVFXc2xBcTFIazg1ZzBpa2RvNnNjREU1NDdUTW03UW9sUXBKZEw3dTFFUUt3VjVLWTNYX09zbW5IUkd0d1ZWU2YyblNmMFI2ZnR1bXBGcGlyNHRnb1I2M1VJVzU3aktHZzFza1hqbVdzQnViaERNaXNQSHBkOVljVUk5VE9JYzNQUWpmajBZUQ?oc=5",
-      "author": "",
-      "publishedAt": "2026-05-22T05:04:00Z",
-      "titleEn": "French quantum firm Alice & Bob wins new investment from Nvidia venture arm - Reuters",
-      "section": "company",
-      "sectionTitle": "公司",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "NVIDIA",
-        "Nvidia"
-      ]
-    },
-    {
       "source": "South China Morning Post",
       "feedSource": "South China Morning Post",
       "sourceUrl": "",
@@ -4823,26 +4793,6 @@
       ],
       "tags": [
         "AMD"
-      ]
-    },
-    {
-      "source": "Bloomberg.com",
-      "feedSource": "Bloomberg · Company Batch 5",
-      "sourceUrl": "https://www.bloomberg.com",
-      "title": "DeepSeek Founder Declares AGI Goal as $10 Billion Round Advances - Bloomberg.com",
-      "summary": "DeepSeek Founder Declares AGI Goal as $10 Billion Round Advances Bloomberg.com",
-      "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNUkRPRk9ac1lMSkZWZTh1YW9tUjVNWHVyOUZFUXNfTWJsRUxFN29tdVVDc3JPTGQwcmZlSUZiMmN5RFFhN0xKbTM3MmdsSzV5RVZtQmhMRVBRNDRVazFMZEdTSnRNaG12YkI5cTRub2dlRXpqT1NxRVJDaXItUGw4M2pkaHc0ell5cDU5QUpWMlZvajJ6ZzRtNkY1V3k4c0VXQUJDbEwxTEVIcW4yVS1QU0UtQU8?oc=5",
-      "author": "",
-      "publishedAt": "2026-05-22T02:58:00Z",
-      "titleEn": "DeepSeek Founder Declares AGI Goal as $10 Billion Round Advances - Bloomberg.com",
-      "section": "company",
-      "sectionTitle": "公司",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "DeepSeek",
-        "deepseek"
       ]
     },
     {
@@ -5006,26 +4956,6 @@
       ]
     },
     {
-      "source": "Broadband Breakfast",
-      "feedSource": "AI Statements · Public Figures 1",
-      "sourceUrl": "https://broadbandbreakfast.com",
-      "title": "OpenAI Avoided a Costly Court Loss to Elon Musk, but Neither Side is Unscathed - Broadband Breakfast",
-      "summary": "OpenAI Avoided a Costly Court Loss to Elon Musk, but Neither Side is Unscathed Broadband Breakfast",
-      "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPOFVkQV9Ia0pXUzZIek0yQk9oSVZCN2ZFOUlzZ3VzNTh2NzYxR3p0OTE5d2U4b2hXVEkwNWhsV01BVVVDRENQSVU0WlhFT25vb094cTRCVXNxaEJ4dEpDSmJYQUNTQjBWWm9mYUdibnBSdURoMVdfZlpjNmRsbFBXOHJkdnNrcndPUTZ4NHQtdlJVemZvQlFmQnUyS3FUeFVnV3FSTHp0V0gzT052TkE?oc=5",
-      "author": "Abby Larkin",
-      "publishedAt": "2026-05-21T23:58:54Z",
-      "titleEn": "OpenAI Avoided a Costly Court Loss to Elon Musk, but Neither Side is Unscathed - Broadband Breakfast",
-      "section": "person",
-      "sectionTitle": "言论",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "OpenAI",
-        "openai"
-      ]
-    },
-    {
       "source": "Reuters",
       "feedSource": "Reuters · Company Batch 8",
       "sourceUrl": "https://www.reuters.com",
@@ -5126,20 +5056,19 @@
       "source": "Bloomberg.com",
       "feedSource": "Bloomberg · Company Batch 7",
       "sourceUrl": "https://www.bloomberg.com",
-      "title": "White House Backs IBM’s $2 Billion Quantum Computing Foundry - Bloomberg.com",
-      "summary": "White House Backs IBM’s $2 Billion Quantum Computing Foundry Bloomberg.com",
+      "title": "IBM Shares Soar on US Funding for $2 Billion Quantum Push - Bloomberg.com",
+      "summary": "IBM Shares Soar on US Funding for $2 Billion Quantum Push Bloomberg.com",
       "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPN0VxREF0WGlyWHp6MkJ5bl92LWd6Sy1PZDJQUXM5SlRlVFBoQzRWeWZTS2xFRjhQQlVGUDJVRUc4WlAwa3E3ZGVRS1dmZW9oVnE0MHZTYUxrcUFRT1FjSVdDd2ZIazFyZ3lMRHExQmJmOUFKNU1ZV3hVWmZrTlh5YTJJSGc1SnlweHM2eTZ3aEltUklVMWJ4NjVwLVp6QktkYVVZUmM4U0d0TUIta2F0VA?oc=5",
       "author": "",
       "publishedAt": "2026-05-21T20:47:55Z",
-      "titleEn": "White House Backs IBM’s $2 Billion Quantum Computing Foundry - Bloomberg.com",
+      "titleEn": "IBM Shares Soar on US Funding for $2 Billion Quantum Push - Bloomberg.com",
       "section": "company",
       "sectionTitle": "公司",
       "matchedPortfolios": [
         "ai-market"
       ],
       "tags": [
-        "IBM",
-        "Quantum Computing"
+        "IBM"
       ]
     },
     {
@@ -5745,26 +5674,6 @@
       ]
     },
     {
-      "source": "Reuters",
-      "feedSource": "Reuters · Company Batch 11",
-      "sourceUrl": "https://www.reuters.com",
-      "title": "Nvidia's big beat falls flat - Reuters",
-      "summary": "Nvidia's big beat falls flat Reuters",
-      "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQZFdKTVhXZVF1Q2czVkR5aXVKN0VqYWNOemYzMjVQMkFpcVRoc2NzU0I4RjhHUWdvVHptNGR4aVZOay1UY2xOQlhwenpPVjRPSXN2UlBrd09ITE9wVkdsd2U0cmVXYlh2cmg1OGNSaEtCMG82dThaaDQ1RUpLR2VndVVIMUt5UF9tVzN2bTQ2UHY1cW1JZi00?oc=5",
-      "author": "",
-      "publishedAt": "2026-05-21T13:30:41Z",
-      "titleEn": "Nvidia's big beat falls flat - Reuters",
-      "section": "company",
-      "sectionTitle": "公司",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "NVIDIA",
-        "Nvidia"
-      ]
-    },
-    {
       "source": "Bloomberg.com",
       "feedSource": "Bloomberg · Company Batch 7",
       "sourceUrl": "https://www.bloomberg.com",
@@ -5908,7 +5817,7 @@
     },
     {
       "source": "Bloomberg.com",
-      "feedSource": "Bloomberg · Company Batch 7",
+      "feedSource": "Bloomberg · Company Batch 11",
       "sourceUrl": "https://www.bloomberg.com",
       "title": "Anthropic’s New Consulting Venture Makes Its First Acquisition - Bloomberg.com",
       "summary": "Anthropic’s New Consulting Venture Makes Its First Acquisition Bloomberg.com",
@@ -6860,26 +6769,6 @@
     },
     {
       "source": "Reuters",
-      "feedSource": "AI Statements · Public Figures 2",
-      "sourceUrl": "https://www.reuters.com",
-      "title": "Google's Demis Hassabis goes on the offensive - Reuters",
-      "summary": "Google's Demis Hassabis goes on the offensive Reuters",
-      "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxONU1OekhYbjBXM1V0blNlZkNmZWxLS2xXTGF6ZUZlV190aEx3Rk5wbnpvN3B6ZUQtR0xqLUNmdnBKU2dDR0hfbDRQU29GdUhWMC15R3BRdEdwbUw4ZEhIdHotcTlHZF8xUGswcEhQOUpnbmVxUGRTNnhuV2ptdHJsY01jR0JpcUZtLUk3WEdQT29BSElWVElNSjBGX0xXLTFaMGx5azZ6NnZQbE90?oc=5",
-      "author": "",
-      "publishedAt": "2026-05-20T21:00:00Z",
-      "titleEn": "Google's Demis Hassabis goes on the offensive - Reuters",
-      "section": "person",
-      "sectionTitle": "言论",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "Google",
-        "google"
-      ]
-    },
-    {
-      "source": "Reuters",
       "feedSource": "Reuters · Company Batch 11",
       "sourceUrl": "https://www.reuters.com",
       "title": "Google's Demis Hassabis goes on the offensive - Reuters",
@@ -6916,26 +6805,6 @@
       "tags": [
         "Anthropic",
         "anthropic"
-      ]
-    },
-    {
-      "source": "The New York Times",
-      "feedSource": "New York Times",
-      "sourceUrl": "https://www.nytimes.com",
-      "title": "Nvidia’s Profit Hits $58.3 Billion as A.I. Boom Gathers More Steam - The New York Times",
-      "summary": "Nvidia’s Profit Hits $58.3 Billion as A.I. Boom Gathers More Steam The New York Times",
-      "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE5xYW55bVF5aGlIRmI1T0tQa2ZIZXM5d05NQTYyV2RaanpYeURsOUc4cTNxOGdCQ3lXRWl4TWVubG5BMGJMVHBYUVVyREFxNkNaWDl0TDZIOEtIZW90WXh5TTVzVC1TVkFSeklwV2pvR1BqUQ?oc=5",
-      "author": "",
-      "publishedAt": "2026-05-20T20:53:10Z",
-      "titleEn": "Nvidia’s Profit Hits $58.3 Billion as A.I. Boom Gathers More Steam - The New York Times",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "NVIDIA",
-        "Nvidia"
       ]
     },
     {
@@ -7060,7 +6929,7 @@
     },
     {
       "source": "Bloomberg.com",
-      "feedSource": "Bloomberg · Company Batch 7",
+      "feedSource": "Bloomberg · Company Batch 16",
       "sourceUrl": "https://www.bloomberg.com",
       "title": "Surf Air, SpaceX, xAI Staffers Line Up SPAC for Space Assets - Bloomberg.com",
       "summary": "Surf Air, SpaceX, xAI Staffers Line Up SPAC for Space Assets Bloomberg.com",
@@ -7275,25 +7144,6 @@
       ],
       "tags": [
         "Amazon"
-      ]
-    },
-    {
-      "source": "Cell Press",
-      "feedSource": "Cell",
-      "sourceUrl": "https://www.cell.com",
-      "title": "Advancing smart energy management with generative artificial intelligence - Cell Press",
-      "summary": "Advancing smart energy management with generative artificial intelligence Cell Press",
-      "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPRXRoQnpTQklMMVMwU3hLRHVSMWl3OVNQLWZNbDl5eHdwVWlHcWZHTGN5RG5wUWpHQ3Jsd2lfNmRPd1E5TEJHU2cwekdfbFVGclZ3RVhVb25GQUJuNkU3QXN2ZUV6S1lRVURVdUh0UG1wTFNvcWY0OHZRSkpFRHpuU2txek8tNERn?oc=5",
-      "author": "",
-      "publishedAt": "2026-05-20T15:40:01Z",
-      "titleEn": "Advancing smart energy management with generative artificial intelligence - Cell Press",
-      "section": "papers",
-      "sectionTitle": "论文",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "artificial intelligence"
       ]
     },
     {
@@ -7798,7 +7648,7 @@
     },
     {
       "source": "Bloomberg.com",
-      "feedSource": "Bloomberg · Company Batch 9",
+      "feedSource": "Bloomberg · Company Batch 11",
       "sourceUrl": "https://www.bloomberg.com",
       "title": "OpenAI Commits $234 Million for New AI Lab in Singapore - Bloomberg.com",
       "summary": "OpenAI Commits $234 Million for New AI Lab in Singapore Bloomberg.com",
@@ -7995,7 +7845,7 @@
     },
     {
       "source": "Bloomberg.com",
-      "feedSource": "Bloomberg · Equity Batch 14",
+      "feedSource": "Bloomberg · Company Batch 14",
       "sourceUrl": "https://www.bloomberg.com",
       "title": "SpaceX Is Planning to Buy Startup Cursor 30 Days After IPO - Bloomberg.com",
       "summary": "SpaceX Is Planning to Buy Startup Cursor 30 Days After IPO Bloomberg.com",
@@ -8546,6 +8396,109 @@
         "Google",
         "WIRED",
         "google"
+      ]
+    },
+    {
+      "source": "WIRED",
+      "feedSource": "Wired",
+      "sourceUrl": "https://www.wired.com",
+      "title": "Gemini Spark Is Google’s Response to OpenClaw’s 24/7 AI Agent - WIRED",
+      "summary": "Gemini Spark Is Google’s Response to OpenClaw’s 24/7 AI Agent WIRED",
+      "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE5Idk1OMkVVTURpaDhrTldpN19lUXhCanBTUFV2bjZFT3Jsd1hZUXJKUTYwazBaUl9KaU1PVDdtQW0tQjRMeDdHMWU2N1pKbDdPeW9WQU1ZQTJPb2wwMDJ3cnpZbThPZlZKZjRfRXNTU0Uwc1BXczNrMWpKaXM?oc=5",
+      "author": "Reece Rogers",
+      "publishedAt": "2026-05-19T17:45:00Z",
+      "titleEn": "Gemini Spark Is Google’s Response to OpenClaw’s 24/7 AI Agent - WIRED",
+      "section": "tech",
+      "sectionTitle": "前沿",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Google",
+        "WIRED",
+        "google"
+      ]
+    },
+    {
+      "source": "Fortune",
+      "feedSource": "AI Statements · Public Figures 2",
+      "sourceUrl": "https://fortune.com",
+      "title": "Andrej Karpathy, OpenAI founding member and inventor of ‘vibe coding,’ defects to Anthropic - Fortune",
+      "summary": "Andrej Karpathy, OpenAI founding member and inventor of ‘vibe coding,’ defects to Anthropic Fortune",
+      "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPZHJDMVNVeURQWmd1S3RuSjR0LUYzanlRa0FYMEFkTG9pdlJtelcwTTRvN01pWnZDam5jVG5fSkROSHZ6RFQ2SkhaYkMtNXUyX0RpWlFKUG8wYURUbVFuR2J2RGlMLXRUSmpmenhmZGpzY0tYQTVoV1VWbl9iMGU5NmU5ZnhuSE5sZ1ZvcmYzakQtREV6VXRSR3JOcw?oc=5",
+      "author": "",
+      "publishedAt": "2026-05-19T17:39:00Z",
+      "titleEn": "Andrej Karpathy, OpenAI founding member and inventor of ‘vibe coding,’ defects to Anthropic - Fortune",
+      "section": "person",
+      "sectionTitle": "言论",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Anthropic",
+        "OpenAI",
+        "anthropic"
+      ]
+    },
+    {
+      "source": "Reuters",
+      "feedSource": "Reuters · Company Batch 1",
+      "sourceUrl": "https://www.reuters.com",
+      "title": "Google courts coders and consumers at I/O, touts cheaper AI model for enterprises - Reuters",
+      "summary": "Google courts coders and consumers at I/O, touts cheaper AI model for enterprises Reuters",
+      "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxPN19sbjlMV3dlaF9JelRyeDdycTA4U1FsZTVucnhhLTVZUUZtZzYzczBXeHd3N1BvTzNXS3NQVFFGUTVDem5tMzBqNU1MblZGaDc2TC1UWTA3SXdzYmY1bDAzY2VZTWtybkl1SVlnVlVMdzNkSElUZFJWM3M5WFppNmhCMTliMXNZekh4UzdVMlBjTkI0YWtxRU43WjRSZw?oc=5",
+      "author": "",
+      "publishedAt": "2026-05-19T16:46:00Z",
+      "titleEn": "Google courts coders and consumers at I/O, touts cheaper AI model for enterprises - Reuters",
+      "section": "company",
+      "sectionTitle": "公司",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Google",
+        "google"
+      ]
+    },
+    {
+      "source": "CNBC",
+      "feedSource": "AI Statements · Public Figures 2",
+      "sourceUrl": "https://www.cnbc.com",
+      "title": "Anthropic hires OpenAI co-founder Andrej Karpathy, former Tesla AI leader - CNBC",
+      "summary": "Anthropic hires OpenAI co-founder Andrej Karpathy, former Tesla AI leader CNBC",
+      "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNX3BaX2VoOXUxLXdIWm4tNWVHTmdob2NKeFpXeUR4dV9WNlZSc0pYeFZ4RlpyZHpOSnlheTV0WlVzRjUtYWVsU3VJNzdrdnUzdEI2NGhwT1gwaEZsRXpxQ1gyRVNvQ0JNUDlvNjdudHoxcmdIa0w4U1VkeHZrUWNMbUNteUZqV0xJZVZfeHNWdVhoOGxmSmI5aDU5VUxaOERFUTdibW1SS0RJd9IBrwFBVV95cUxOaUFIT1FQWlBnMXBYRHZZR1puZ0xGVUFUMzJWbU85dGdueDIzZU5rSGd5ZkRtbnNSRUVfZXM4ak9NcVZLclA5U2UwVFRQQUNNVnhwOEpYUmhsYl81NWpIX0QtdlRNVzdjQloxckRmNFhPNG1EMFhwUk9BeTF6c0t1VkhydFNIZVFrX2hrWjBtbmxWeFdpdklqX1JBUjc0b1laQkg1WDNfQzJLVzN5TjBv?oc=5",
+      "author": "",
+      "publishedAt": "2026-05-19T16:31:08Z",
+      "titleEn": "Anthropic hires OpenAI co-founder Andrej Karpathy, former Tesla AI leader - CNBC",
+      "section": "person",
+      "sectionTitle": "言论",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Anthropic",
+        "OpenAI",
+        "Tesla"
+      ]
+    },
+    {
+      "source": "Venturebeat",
+      "feedSource": "AI Statements · Public Figures 2",
+      "sourceUrl": "https://venturebeat.com",
+      "title": "Influential AI researcher Andrej Karpathy announces he's joining Anthropic - Venturebeat",
+      "summary": "Influential AI researcher Andrej Karpathy announces he's joining Anthropic Venturebeat",
+      "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxONHpQYy1hbGl1MzFHNW5JbnlhOHVqR185WEV5R0NYVTdnR3ZTNUF6MGJXRkp1QVhrNWp2anlZM0NjTEs1MVlqZy1WT3djdlUxa3VmdXhRS21DQzVkUW95TXpOUnFpNlU4Z0pSajBlei1XYl9OY014bjhGcHJOazZkM0JlMzZILWVBckE?oc=5",
+      "author": "",
+      "publishedAt": "2026-05-19T16:20:43Z",
+      "titleEn": "Influential AI researcher Andrej Karpathy announces he's joining Anthropic - Venturebeat",
+      "section": "person",
+      "sectionTitle": "言论",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Anthropic",
+        "anthropic"
       ]
     }
   ]
