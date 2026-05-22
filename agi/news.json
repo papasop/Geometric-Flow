@@ -1,10 +1,11 @@
 {
-  "generatedAt": "2026-05-22T05:16:54.762434Z",
+  "generatedAt": "2026-05-22T05:20:06.764800Z",
   "strategy": {
-    "primary": "Tabbed news sections: hot stories from TechCrunch, industry from WSJ/NYT/FT/SCMP/TechCrunch Startups, statements derived from all sources by named AI figures and speech signals, company from company-name searches plus M&A and financing keywords, frontier technology from Wired/MIT Technology Review/Stanford sources, papers from top AI journals, conferences, proceedings, and preprint sources",
+    "primary": "Tabbed news sections: hot stories from TechCrunch and Wired, industry from WSJ/NYT/FT/SCMP/TechCrunch Startups, statements derived from all sources by named AI figures and speech signals, company from company-name searches plus M&A and financing keywords, frontier technology from Wired/MIT Technology Review/Stanford sources, papers from top AI journals, conferences, proceedings, and preprint sources",
     "primaryEnabled": true,
     "supplements": [
       "TechCrunch",
+      "Wired",
       "Wall Street Journal",
       "New York Times",
       "Financial Times",
@@ -1064,6 +1065,30 @@
       "section": "hot",
       "name": "TechCrunch Hot",
       "url": "https://news.google.com/rss/search?q=site%3Atechcrunch.com%20%28%22artificial%20intelligence%22%20OR%20AI%20OR%20Nvidia%20OR%20OpenAI%20OR%20Anthropic%20OR%20%22AI%20chip%22%20OR%20semiconductor%20OR%20%22data%20center%22%20OR%20%22AI%20cloud%22%20OR%20%22large%20language%20model%22%20OR%20%22machine%20learning%22%29&hl=en-US&gl=US&ceid=US:en",
+      "status": "error",
+      "error": "<urlopen error [Errno 8] nodename nor servname provided, or not known>",
+      "count": 0
+    },
+    {
+      "section": "hot",
+      "name": "WIRED",
+      "url": "https://www.wired.com/feed/category/business/latest/rss",
+      "status": "error",
+      "error": "<urlopen error [Errno 8] nodename nor servname provided, or not known>",
+      "count": 0
+    },
+    {
+      "section": "hot",
+      "name": "WIRED AI",
+      "url": "https://www.wired.com/feed/tag/ai/latest/rss",
+      "status": "error",
+      "error": "<urlopen error [Errno 8] nodename nor servname provided, or not known>",
+      "count": 0
+    },
+    {
+      "section": "hot",
+      "name": "Wired Hot",
+      "url": "https://news.google.com/rss/search?q=site%3Awired.com%20%28%22artificial%20intelligence%22%20OR%20AI%20OR%20Nvidia%20OR%20OpenAI%20OR%20Anthropic%20OR%20%22AI%20chip%22%20OR%20semiconductor%20OR%20%22data%20center%22%20OR%20%22AI%20cloud%22%20OR%20%22large%20language%20model%22%20OR%20%22machine%20learning%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "error",
       "error": "<urlopen error [Errno 8] nodename nor servname provided, or not known>",
       "count": 0
@@ -3855,7 +3880,7 @@
     },
     "hot": {
       "title": "🔥热点",
-      "note": "TechCrunch hot stories",
+      "note": "TechCrunch / Wired hot stories",
       "items": []
     }
   },
