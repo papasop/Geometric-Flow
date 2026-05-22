@@ -421,7 +421,7 @@ for source in MNA_NEWS_SOURCES:
 for source in EQUITY_NEWS_SOURCES:
     source["requiredKeywords"] = DEAL_REQUIRED_KEYWORDS
 HOT_NEWS_SOURCES = [
-    {"name": "Wall Street Journal Chinese Markets", "url": "https://cn.wsj.com/zh-hans/news/markets?mod=nav_top_section"},
+    {"name": "Wall Street Journal", "url": "https://www.wsj.com/"},
 ]
 TECH_NEWS_SOURCES = [
     {"name": "WIRED", "url": "https://www.wired.com/feed/category/business/latest/rss"},
@@ -454,7 +454,7 @@ NEWS_SECTIONS = [
     {
         "id": "hot",
         "title": "🔥热点",
-        "note": "Wall Street Journal Chinese Markets",
+        "note": "Wall Street Journal",
         "sources": HOT_NEWS_SOURCES,
         "allowGeneralFeed": True,
     },
@@ -622,6 +622,8 @@ def parse_date(value: str | None) -> str | None:
 
 def fetch_url(url: str) -> bytes:
     headers = {"User-Agent": USER_AGENT, "Accept": "application/rss+xml, application/atom+xml, application/xml, text/xml, */*"}
+    if "www.wsj.com" in url:
+        headers = {"User-Agent": "curl/8.7.1", "Accept": "*/*"}
     if "cn.wsj.com" in url:
         headers = {"User-Agent": "EntropyAI/1.0", "Accept": "text/html,*/*", "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8"}
     req = urllib.request.Request(url, headers=headers)
@@ -629,7 +631,7 @@ def fetch_url(url: str) -> bytes:
         with urllib.request.urlopen(req, timeout=8) as response:
             return response.read()
     except urllib.error.HTTPError as exc:
-        if exc.code in {401, 403, 404} and "cn.wsj.com" in url:
+        if exc.code in {401, 403, 404} and "wsj.com" in url:
             return exc.read()
         raise
 
@@ -986,7 +988,7 @@ def parse_html_page(source: dict[str, str], data: bytes) -> list[dict[str, str]]
             if len(items) >= 18:
                 break
         return items
-    if "cn.wsj.com" in source_url:
+    if "wsj.com" in source_url:
         next_data_match = re.search(r'<script[^>]+id=["\']__NEXT_DATA__["\'][^>]*>(.*?)</script>', page, re.S)
         if next_data_match:
             try:
@@ -998,7 +1000,7 @@ def parse_html_page(source: dict[str, str], data: bytes) -> list[dict[str, str]]
                 if isinstance(node, dict):
                     title_raw = node.get("headline") or node.get("articleHeadline")
                     url_raw = node.get("url") or node.get("articleUrl") or node.get("canonical_url")
-                    if isinstance(title_raw, str) and isinstance(url_raw, str) and "cn.wsj.com/articles/" in url_raw:
+                    if isinstance(title_raw, str) and isinstance(url_raw, str) and "wsj.com/" in url_raw:
                         title = clean_text(title_raw, 180)
                         url = html.unescape(url_raw.replace(r"\u0026", "&"))
                         key = (title.lower(), url.lower())
@@ -1039,7 +1041,7 @@ def parse_html_page(source: dict[str, str], data: bytes) -> list[dict[str, str]]
                 collect_wsj_articles(next_data)
             if items:
                 return items[:18]
-        for match in re.finditer(r'"byline":"(.*?)","canonical_url":"(https://cn\.wsj\.com/articles/[^"]+)".{0,2500}?"headline":"(.*?)"', page, re.S):
+        for match in re.finditer(r'"byline":"(.*?)","canonical_url":"(https://(?:cn\.)?wsj\.com/articles/[^"]+)".{0,2500}?"headline":"(.*?)"', page, re.S):
             author_raw, url_raw, title_raw = match.groups()
             try:
                 title = clean_text(json.loads(f'"{title_raw}"'), 180)
@@ -1462,7 +1464,7 @@ def main() -> int:
         section_seen = set()
         section_items: list[dict[str, object]] = []
         section_required_keywords = section.get("requiredKeywords", [])
-        author_fetch_limit = 18 if section.get("id") in {"industry", "tech"} else 6
+        author_fetch_limit = 0 if section.get("id") == "hot" else 18 if section.get("id") in {"industry", "tech"} else 6
         author_fetches = 0
         for source in section["sources"]:
             source_required_keywords = [] if section.get("allowGeneralFeed") else source.get("requiredKeywords", [])
@@ -1562,7 +1564,7 @@ def main() -> int:
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "strategy": {
-            "primary": "Tabbed news sections: hot stories from Wall Street Journal Chinese Markets, industry from WSJ/NYT/FT/SCMP/TechCrunch Startups, statements derived from all sources by named AI figures and speech signals, company from company-name searches plus M&A and financing keywords, frontier technology from Wired/MIT Technology Review/Stanford sources, papers from top AI journals, conferences, proceedings, and preprint sources",
+            "primary": "Tabbed news sections: hot stories from Wall Street Journal, industry from WSJ/NYT/FT/SCMP/TechCrunch Startups, statements derived from all sources by named AI figures and speech signals, company from company-name searches plus M&A and financing keywords, frontier technology from Wired/MIT Technology Review/Stanford sources, papers from top AI journals, conferences, proceedings, and preprint sources",
             "primaryEnabled": True,
             "supplements": [
                 "TechCrunch",
