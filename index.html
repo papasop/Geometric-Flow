@@ -224,21 +224,14 @@
       height: 100%;
       border: 0;
       background: #000;
+      pointer-events: auto;
     }
     .news-item.has-thumb {
       width: 340px;
       min-height: 240px;
       padding: 10px;
     }
-    .news-item.video-active {
-      width: min(640px, calc(100vw - 40px));
-      min-height: 330px;
-      position: relative;
-      z-index: 5;
-    }
-    .news-item.video-active .news-thumb {
-      overflow: visible;
-    }
+    .news-item.video-active { z-index: 5; }
     .news-live-badge {
       position: absolute;
       left: 10px;
@@ -3473,10 +3466,10 @@
       track?.classList.remove("resume-after-video");
       track?.classList.add("paused");
       track?.classList.add("has-active-video");
-      link.classList.add("video-active");
       const thumb = link.querySelector(".news-thumb");
       if (!thumb || thumb.querySelector("iframe")) return;
       restoreInlineVideos(link);
+      link.classList.add("video-active");
       thumb.dataset.originalHtml = thumb.dataset.originalHtml || thumb.innerHTML;
       const title = link.dataset.videoTitle || "IsitHUB Video";
       thumb.innerHTML = `<iframe src="${youtubeEmbedUrl(videoId)}" title="${escapeHtml(title)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
