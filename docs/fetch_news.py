@@ -434,6 +434,13 @@ PERSON_NEWS_SOURCES = [
         "authorName": name,
     }
     for name, slug in FT_COLUMNISTS
+] + [
+    {
+        "name": "WSJ Columnists",
+        "url": "https://feeds.a.dj.com/rss/RSSOpinion.xml",
+        "displaySource": "Wall Street Journal",
+        "skipAuthorFetch": True,
+    }
 ]
 COMPANY_NEWS_SOURCES = [
     google_news_query_source(f"Bloomberg · Company Batch {index + 1}", f"site:bloomberg.com ({quoted_or_query(batch)})")
@@ -512,7 +519,7 @@ NEWS_SECTIONS = [
     {
         "id": "person",
         "title": "专栏",
-        "note": "Financial Times Columnists：抓取专栏作家最新文章",
+        "note": "Financial Times / Wall Street Journal Columnists：抓取专栏作家最新文章",
         "sources": PERSON_NEWS_SOURCES,
         "allowGeneralFeed": True,
         "columnists": True,
@@ -1252,6 +1259,7 @@ def parse_feed(source: dict[str, str], data: bytes) -> list[dict[str, str]]:
         title = clean_text(text_of(node, ["title", "{http://www.w3.org/2005/Atom}title"]), 180)
         summary = clean_text(text_of(node, ["description", "summary", "content", "{http://www.w3.org/2005/Atom}summary", "{http://purl.org/rss/1.0/modules/content/}encoded"]))
         categories = categories_of(node)
+        article_type = clean_text(text_of(node, ["{http://dowjones.net/rss/}articletype", "articletype"]), 120)
         match_summary = clean_text(" ".join(part for part in [summary, categories] if part))
         url = link_of(node)
         rss_source_name, rss_source_url = source_details_of(node)
@@ -1262,6 +1270,8 @@ def parse_feed(source: dict[str, str], data: bytes) -> list[dict[str, str]]:
                 author = clean_text(str(source.get("authorName")), 80)
             else:
                 author = normalize_author(author_of(node), display_source)
+        if display_source == "Wall Street Journal" and article_type.lower() == "free expression" and not author:
+            author = "Gerard Baker"
         image = thumbnail_of(node)
         published = parse_date(text_of(node, ["pubDate", "published", "updated", "{http://www.w3.org/2005/Atom}published", "{http://www.w3.org/2005/Atom}updated"]))
         if title and url:
@@ -1275,6 +1285,8 @@ def parse_feed(source: dict[str, str], data: bytes) -> list[dict[str, str]]:
                 "author": author,
                 "publishedAt": published,
             }
+            if source.get("skipAuthorFetch"):
+                item["skipAuthorFetch"] = True
             if image:
                 item["image"] = image
             items.append(item)
@@ -1428,6 +1440,23 @@ def canonical_news_title(title: str) -> str:
     )
     title = re.sub(r"[^a-z0-9\u4e00-\u9fff]+", " ", title)
     return re.sub(r"\s+", " ", title).strip()
+
+
+def balance_items_by_source(news_items: list[dict[str, object]], limit: int) -> list[dict[str, object]]:
+    buckets: dict[str, list[dict[str, object]]] = {}
+    for item in news_items:
+        source = str(item.get("source") or "News")
+        buckets.setdefault(source, []).append(item)
+    balanced: list[dict[str, object]] = []
+    index = 0
+    while len(balanced) < limit and any(index < len(bucket) for bucket in buckets.values()):
+        for bucket in buckets.values():
+            if len(balanced) >= limit:
+                break
+            if index < len(bucket):
+                balanced.append(bucket[index])
+        index += 1
+    return balanced
 
 
 SPEECH_SIGNAL_RE = re.compile(
@@ -1586,7 +1615,7 @@ def main() -> int:
                     matched, tags = classify(item)
                     if not section.get("allowGeneralFeed") and not matched and not item_matches_terms(item, AI_MARKET_REQUIRED_KEYWORDS):
                         continue
-                    if not item.get("author") and author_fetches < author_fetch_limit:
+                    if not item.get("author") and not item.get("skipAuthorFetch") and author_fetches < author_fetch_limit:
                         item["author"] = extract_article_author(
                             str(item.get("url") or ""),
                             str(item.get("source") or source["name"]),
@@ -1621,10 +1650,15 @@ def main() -> int:
                     "count": 0,
                 })
         section_items.sort(key=lambda item: item.get("publishedAt") or "", reverse=True)
+        section_limit = 40 if section["id"] == "video" else 32
+        if section.get("columnists"):
+            section_items = balance_items_by_source(section_items, section_limit)
+        else:
+            section_items = section_items[:section_limit]
         section_payload[section["id"]] = {
             "title": section["title"],
             "note": section["note"],
-            "items": section_items[:40] if section["id"] == "video" else section_items[:32],
+            "items": section_items,
         }
 
     speech_section = next((section for section in NEWS_SECTIONS if section.get("id") == "person"), None)
