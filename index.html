@@ -978,13 +978,68 @@
       .highlight-grid { grid-template-columns: 1fr 1fr; }
       .ranking-panel-head { align-items: flex-start; flex-direction: column; }
       .ranking-heading { align-items: flex-start; flex-direction: column; gap: 6px; }
-      .ranking-switch { width: 100%; }
-      .ranking-switch button { flex: 1; }
+      .ranking-panel-title { font-size: 17px; }
+      .ranking-panel-note { font-size: 11px; }
+      .ranking-switch {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        width: 100%;
+      }
+      .ranking-switch button {
+        width: 100%;
+        min-width: 0;
+        height: 36px;
+        padding: 0 6px;
+        font-size: 11px;
+        line-height: 1.15;
+        white-space: normal;
+      }
       .token-ranking-head { align-items: flex-start; flex-direction: column; }
+      .token-tabs { width: 100%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .token-tab { width: 100%; }
       .token-summary { grid-template-columns: 1fr; }
       .token-list { grid-template-columns: 1fr; }
       .token-row:nth-last-child(-n + 2) { border-bottom: 1px solid var(--line-soft); }
       .token-row:last-child { border-bottom: 0; }
+      .index-chart-view { padding: 10px; }
+      .index-chart-shell {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+      }
+      .index-chart-overlay {
+        order: 1;
+        position: static;
+        width: auto;
+        margin: 10px 10px 0;
+        font-size: 11px;
+      }
+      .index-chart-title { align-items: flex-start; line-height: 1.25; }
+      .index-chart-stats { gap: 2px 10px; }
+      .chart-range-tabs {
+        order: 2;
+        position: static;
+        margin: 8px 10px 0;
+        width: auto;
+        justify-content: space-between;
+      }
+      .chart-range-tab {
+        flex: 1;
+        width: auto;
+        padding: 0 6px;
+        font-size: 11px;
+      }
+      .index-chart-svg {
+        order: 3;
+        height: 260px;
+        min-height: 260px;
+      }
+      .index-chart-footer {
+        order: 4;
+        position: static;
+        padding: 0 10px 10px;
+        font-size: 10px;
+      }
       .model-ranking-view { padding: 10px; }
       .model-row {
         grid-template-columns: 32px minmax(0, 1fr) 68px 88px;
@@ -999,8 +1054,6 @@
       .model-score,
       .model-cost { font-size: 13px; }
       .model-dot { width: 9px; height: 9px; }
-      .chart-range-tabs { left: 14px; right: 14px; top: auto; bottom: 36px; justify-content: space-between; }
-      .chart-range-tab { flex: 1; width: auto; padding: 0 6px; }
       .toolbar { align-items: stretch; }
       .search, select, button { width: 100%; }
       .tabs { align-items: center; }
