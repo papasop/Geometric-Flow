@@ -442,13 +442,14 @@ PAPER_NEWS_SOURCES = [
     {"name": "Cell", "url": "https://www.cell.com/cell/current.rss"},
     google_news_query_source("Cell", f"site:cell.com/cell {AI_MARKET_NEWS_QUERY}"),
 ]
-VIDEO_NEWS_SOURCES = [
-    {"name": "New York Times YouTube", "url": "https://www.youtube.com/@nytimes"},
-    {"name": "Wall Street Journal YouTube", "url": "https://www.youtube.com/@wsj"},
-]
 LIVE_NEWS_SOURCES = [
     {"name": "YouTube Live", "url": "https://www.youtube.com/watch?v=DxmDPrfinXY"},
     {"name": "YouTube Live", "url": "https://www.youtube.com/watch?v=f39oHo6vFLg"},
+]
+VIDEO_NEWS_SOURCES = [
+    {"name": "New York Times YouTube", "url": "https://www.youtube.com/@nytimes"},
+    {"name": "Wall Street Journal YouTube", "url": "https://www.youtube.com/@wsj"},
+    *LIVE_NEWS_SOURCES,
 ]
 NEWS_SECTIONS = [
     {
@@ -492,15 +493,8 @@ NEWS_SECTIONS = [
     {
         "id": "video",
         "title": "视频",
-        "note": "New York Times YouTube / Wall Street Journal YouTube",
+        "note": "New York Times YouTube / Wall Street Journal YouTube / YouTube Live",
         "sources": VIDEO_NEWS_SOURCES,
-        "allowGeneralFeed": True,
-    },
-    {
-        "id": "live",
-        "title": "直播",
-        "note": "YouTube live stream",
-        "sources": LIVE_NEWS_SOURCES,
         "allowGeneralFeed": True,
     },
 ]
@@ -1335,15 +1329,23 @@ def main() -> int:
     existing_payload: dict[str, object] = {}
     if section_filter and OUT.exists():
         try:
+            known_section_ids = {section["id"] for section in NEWS_SECTIONS}
             existing_payload = json.loads(OUT.read_text(encoding="utf-8"))
             existing_sections = existing_payload.get("sections")
             if isinstance(existing_sections, dict):
-                section_payload.update(existing_sections)
+                section_payload.update({
+                    key: value for key, value in existing_sections.items()
+                    if key in known_section_ids
+                })
             existing_sources = existing_payload.get("sources")
             if isinstance(existing_sources, list):
                 source_status.extend(
                     source for source in existing_sources
-                    if not (isinstance(source, dict) and source.get("section") in section_filter)
+                    if (
+                        isinstance(source, dict)
+                        and source.get("section") in known_section_ids
+                        and source.get("section") not in section_filter
+                    )
                 )
         except (json.JSONDecodeError, OSError):
             existing_payload = {}
@@ -1421,7 +1423,7 @@ def main() -> int:
         section_payload[section["id"]] = {
             "title": section["title"],
             "note": section["note"],
-            "items": section_items[:32],
+            "items": section_items[:40] if section["id"] == "video" else section_items[:32],
         }
 
     speech_section = next((section for section in NEWS_SECTIONS if section.get("id") == "person"), None)
