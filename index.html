@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -1034,11 +1034,11 @@
         <img class="brand-mark" src="isithub-logo.svg" alt="" />
         <span class="brand-name">IsitHUB</span>
       </button>
-      <a href="#" data-nav-tab="能源">能源</a>
-      <a href="#" data-nav-tab="基础设施">基础设施</a>
-      <a href="#" data-nav-tab="硬件">硬件</a>
-      <a href="#" data-nav-tab="大模型">大模型</a>
-      <a href="#" data-nav-tab="Token 工厂 / 推理服务">Token 工厂 / 推理服务</a>
+      <a href="#" data-nav-tab="能源">Energy</a>
+      <a href="#" data-nav-tab="基础设施">Infrastructure</a>
+      <a href="#" data-nav-tab="硬件">Hardware</a>
+      <a href="#" data-nav-tab="大模型">Foundation Models</a>
+      <a href="#" data-nav-tab="Token 工厂 / 推理服务">Token Factory / Inference</a>
     </div>
   </nav>
   <main class="shell">
@@ -1169,12 +1169,12 @@
 
     <section class="tabs" aria-label="Search and category shortcuts">
       <input class="search" id="search" name="ai-market-company-search" type="search" placeholder="搜索公司、Ticker、子赛道" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" inputmode="search" />
-      <button class="tab active" data-tab="ALL" type="button">全部</button>
-      <button class="tab" data-tab="能源" type="button">能源</button>
-      <button class="tab" data-tab="基础设施" type="button">基础设施</button>
-      <button class="tab" data-tab="硬件" type="button">硬件</button>
-      <button class="tab" data-tab="大模型" type="button">大模型</button>
-      <button class="tab" data-tab="Token 工厂 / 推理服务" type="button">Token 工厂 / 推理服务</button>
+      <button class="tab active" data-tab="ALL" type="button">All</button>
+      <button class="tab" data-tab="能源" type="button">Energy</button>
+      <button class="tab" data-tab="基础设施" type="button">Infrastructure</button>
+      <button class="tab" data-tab="硬件" type="button">Hardware</button>
+      <button class="tab" data-tab="大模型" type="button">Foundation Models</button>
+      <button class="tab" data-tab="Token 工厂 / 推理服务" type="button">Token Factory / Inference</button>
     </section>
     <section class="subtabs" id="token-subtabs" aria-label="Token 工厂 / 推理服务子标签" hidden>
       <button class="subtab active" data-token-subcategory="IaaS/PaaS" type="button">IaaS/PaaS</button>
@@ -1186,11 +1186,11 @@
     </section>
     <section class="subtabs" id="model-subtabs" aria-label="大模型子标签" hidden>
       <button class="subtab active" data-model-subcategory="LLM" type="button">LLM</button>
-      <button class="subtab" data-model-subcategory="物理世界模型" type="button">物理世界模型</button>
+      <button class="subtab" data-model-subcategory="物理世界模型" type="button">World Models</button>
     </section>
     <section class="subtabs" id="llm-subtabs" aria-label="LLM 子标签" hidden>
-      <button class="subtab" data-llm-subcategory="开源" type="button">开源</button>
-      <button class="subtab" data-llm-subcategory="闭源" type="button">闭源</button>
+      <button class="subtab" data-llm-subcategory="开源" type="button">Open</button>
+      <button class="subtab" data-llm-subcategory="闭源" type="button">Closed</button>
     </section>
 
     <section class="panel market-panel">
@@ -2058,6 +2058,13 @@
       "大模型",
       "Token 工厂 / 推理服务"
 ];
+    const CATEGORY_LABELS = {
+      "能源": { zh: "能源", en: "Energy" },
+      "基础设施": { zh: "基础设施", en: "Infrastructure" },
+      "硬件": { zh: "硬件", en: "Hardware" },
+      "大模型": { zh: "大模型", en: "Foundation Models" },
+      "Token 工厂 / 推理服务": { zh: "Token 工厂 / 推理服务", en: "Token Factory / Inference" }
+    };
     const TOKEN_FACTORY_CATEGORY = "Token 工厂 / 推理服务";
     const TOKEN_FACTORY_SUBCATEGORIES = ["IaaS/PaaS", "MaaS"];
     const IAAS_PAAS_TICKERS = new Set(["NBIS", "LAMBDA.PRE", "CLICKHOUSE.PRE"]);
@@ -2065,7 +2072,7 @@
     const ENERGY_CATEGORY = "能源";
     const ENERGY_SUBCATEGORIES = ["SMR", "SOFC"];
     const ENERGY_TICKERS = new Set(["VRT", "EOSE", "NEE", "LEU", "UUUU", "OKLO", "CEG", "VST"]);
-    const SMR_TICKERS = new Set(["OKLO", "UUUU", "LEU", "VST", "SMR", "CEG", "XE", "KAIROS.PRE", "TERRAPOWER.PRE", "BWXT", "GEV", "HOLTEC.PRE", "601985.SS", "LTBR", "ARE.TO", "ATRL.TO", "RR.L"]);
+    const SMR_TICKERS = new Set(["OKLO", "UUUU", "LEU", "VST", "SMR", "CEG", "XE", "KAIROS.PRE", "TERRAPOWER.PRE", "BWXT", "GEV", "HOLTEC.PRE", "601985.SS", "1816.HK", "LTBR", "ARE.TO", "ATRL.TO", "RR.L"]);
     const MODEL_CATEGORY = "大模型";
     const MODEL_SUBCATEGORIES = ["LLM", "物理世界模型"];
     const LLM_SUBCATEGORIES = ["全部", "开源", "闭源"];
@@ -2182,6 +2189,7 @@
       ["TERRAPOWER.PRE", "TerraPower", "SMR / nuclear power", "预上市先进核能公司，由 Bill Gates 创立，开发 Natrium 钠冷快堆，面向数据中心长期基荷电力。", { status: "prelist", estimatedMarketCap: 400000000 }],
       ["HOLTEC.PRE", "Holtec International", "SMR / nuclear power", "预上市核能技术公司，开发 Holtec SMR-300 压水堆方案，目标 2030 年左右部署。", { status: "prelist", estimatedMarketCap: 1000000000 }],
       ["601985.SS", "中国核电", "SMR / ACP100 Linglong One", "中国核电运营商，参与玲龙一号 ACP100 小型模块化反应堆商业化示范。"],
+      ["1816.HK", "中广核电力", "SMR / nuclear power", "中国核电运营商，运营大亚湾、岭澳、阳江等核电资产，参与核能清洁基荷电力与小型模块化反应堆产业链。"],
       ["SMR", "NuScale Power", "SMR / nuclear power", "美股小型模块化反应堆公司，提供模块化核电设计与部署方案。"],
       ["NNE", "Nano Nuclear Energy", "SMR / microreactor", "美股微型反应堆和先进核能开发公司，受益 AI 数据中心清洁基荷电力需求。"],
       ["BWXT", "BWX Technologies", "SMR / nuclear components", "美股核反应堆组件、军用核动力与代工能力，SMR 供应链核心标的。"],
@@ -2527,6 +2535,7 @@
         modelRanking: "大模型排行", modelNote: "Terminal-Bench / SWE-Bench / CursorBench · 每日更新", modelColumn: "模型", modelScore: "得分", modelCostTask: "平均成本 / 任务",
         day: "日", week: "周", month: "月", history: "历史", period: "周期", firstShare: "第一名占比",
         all: "全部", aiChips: "AI 芯片", aiCloud: "新云", dataCenter: "数据中心", enterpriseAi: "企业 AI", security: "安全", quantum: "量子", chinaAi: "中国 AI", leopold: "Leopold Aschenbrenner",
+        physicalWorldModel: "物理世界模型", openSource: "开源", closedSource: "闭源",
         searchPlaceholder: "搜索公司、Ticker、子赛道", allSubsectors: "全部子赛道",
         rankName: "排名 / 公司", tableNote: "市值（美元）· 上市 + IPO 前合并排名",
         thCompany: "公司", thPrice: "价格", th1h: "1小时", th24h: "24小时", th7d: "7天", thVolume: "24小时交易量", thMcap: "总市值", thSpark: "最近30天",
@@ -2556,6 +2565,7 @@
         modelRanking: "Model Ranking", modelNote: "Terminal-Bench / SWE-Bench / CursorBench · daily feed", modelColumn: "Model", modelScore: "Score", modelCostTask: "Avg Cost / Task",
         day: "Day", week: "Week", month: "Month", history: "History", period: "Period", firstShare: "Top share",
         all: "All", aiChips: "AI Chips", aiCloud: "AI Cloud", dataCenter: "Data Centers", enterpriseAi: "Enterprise AI", security: "Security", quantum: "Quantum", chinaAi: "China AI", leopold: "Leopold Aschenbrenner",
+        physicalWorldModel: "World Models", openSource: "Open", closedSource: "Closed",
         searchPlaceholder: "Search company, ticker, or subsector", allSubsectors: "All subsectors",
         rankName: "Rank / Name", tableNote: "Market Cap USD · Listed + Pre-IPO unified ranking",
         thCompany: "Company", thPrice: "Price", th1h: "1h", th24h: "24h", th7d: "7d", thVolume: "24h Volume", thMcap: "Market Cap", thSpark: "Last 30 days",
@@ -2573,11 +2583,7 @@
       }
     };
     const CHINESE_REGION_CODES = new Set(["CN", "HK", "MO", "TW"]);
-    function browserLang() {
-      const langs = navigator.languages?.length ? navigator.languages : [navigator.language || ""];
-      return langs.some((lang) => /^zh\b/i.test(lang)) ? "zh" : "en";
-    }
-    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: "SMR", modelSubcategory: "LLM", llmSubcategory: "全部", selected: "NVDA", page: 1, rankingView: "chart", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, fxRates: {}, lang: browserLang() };
+    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: "SMR", modelSubcategory: "LLM", llmSubcategory: "全部", selected: "NVDA", page: 1, rankingView: "chart", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, fxRates: {}, lang: "en" };
     const $ = (id) => document.getElementById(id);
     const t = (key) => (I18N[state.lang] && I18N[state.lang][key]) || I18N.zh[key] || key;
 
@@ -2720,9 +2726,12 @@
     function categories() {
       return ["ALL", ...AIBOTT_THEMES];
     }
+    function categoryDisplayLabel(cat) {
+      return CATEGORY_LABELS[cat]?.[state.lang] || cat;
+    }
     function categoryLabel(cat) {
       if (cat === "ALL") return t("allSubsectors");
-      return cat;
+      return categoryDisplayLabel(cat);
     }
     function matchesCategory(row, category) {
       if (category === "ALL") return true;
@@ -3596,7 +3605,7 @@
       setFirstText(".topline-inner > span:nth-child(3)", `${t("totalCap")}: `);
       setFirstText(".topline-inner > span:nth-child(4)", `${t("volume24h")}: `);
       if (/live quote|实时行情/.test($("updated-at")?.textContent || "")) $("updated-at").textContent = t("initialQuote");
-      setAllText(".nav a[data-nav-tab]", AIBOTT_THEMES);
+      setAllText(".nav a[data-nav-tab]", AIBOTT_THEMES.map(categoryDisplayLabel));
       document.querySelector(".news-sections")?.setAttribute("aria-label", `${t("industry")}/${t("person")}/${t("company")}/${t("frontier")}/${t("papers")}`);
       setAllText(".news-tab", [t("industry"), t("person"), t("company"), t("frontier"), t("papers")]);
       ["industry", "person", "company", "tech", "papers"].forEach((id) => {
@@ -3621,7 +3630,9 @@
       setAllText(".token-tab", [t("day"), t("week"), t("month")]);
       setAllText(".chart-range-tab", [t("history"), t("day"), t("week"), t("month")]);
       setAllText(".token-metric span", [t("period"), "Top 10 Tokens", t("firstShare")]);
-      setAllText(".tabs .tab", [t("all"), ...AIBOTT_THEMES]);
+      setAllText(".tabs .tab", [t("all"), ...AIBOTT_THEMES.map(categoryDisplayLabel)]);
+      setAllText("#model-subtabs .subtab", ["LLM", t("physicalWorldModel")]);
+      setAllText("#llm-subtabs .subtab", [t("openSource"), t("closedSource")]);
       $("search").placeholder = t("searchPlaceholder");
       setText(".panel-title", t("rankName"));
       setText("#table-note", t("tableNote"));
@@ -3656,7 +3667,7 @@
         const code = String(payload.country_code || "").toUpperCase();
         if (code) setLanguage(CHINESE_REGION_CODES.has(code) ? "zh" : "en");
       } catch (error) {
-        setLanguage(browserLang());
+        setLanguage("en");
       } finally {
         window.clearTimeout(timeout);
       }
