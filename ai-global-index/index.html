@@ -1367,6 +1367,7 @@
     <section class="subtabs" id="token-subtabs" aria-label="Token 工厂 / 推理服务子标签" hidden>
       <button class="subtab active" data-token-subcategory="IaaS/PaaS" type="button">IaaS/PaaS</button>
       <button class="subtab" data-token-subcategory="MaaS" type="button">MaaS</button>
+      <button class="subtab" data-token-subcategory="ATaaS" type="button">ATaaS</button>
     </section>
     <section class="subtabs" id="energy-subtabs" aria-label="能源子标签" hidden>
       <button class="subtab active" data-energy-subcategory="SMR" type="button">SMR</button>
@@ -1427,7 +1428,7 @@
       "300750.SZ": "China",
       "002384.SZ": "China", "301666.SZ": "China", "688820.SS": "China", "601869.SS": "China", "688795.SS": "China", "603986.SS": "China",
       "YMTC.PRE": "China", "CXMT.PRE": "China", "BYTEDANCE.PRE": "China", "MOONSHOT.PRE": "China",
-      "DEEPSEEK.PRE": "China", "ZHIPU.PRE": "China",
+      "DEEPSEEK.PRE": "China", "ZHIPU.PRE": "China", "QJTECH.PRE": "China",
       "002230.SZ": "China", "300308.SZ": "China", "300502.SZ": "China", "300394.SZ": "China", "688981.SS": "China",
       "002475.SZ": "China",
       "002415.SZ": "China", "000938.SZ": "China", "600570.SS": "China", "300033.SZ": "China", "688008.SS": "China",
@@ -2259,9 +2260,10 @@
       "Token 工厂 / 推理服务": { zh: "Token 工厂 / 推理服务", en: "Token Factory / Inference" }
     };
     const TOKEN_FACTORY_CATEGORY = "Token 工厂 / 推理服务";
-    const TOKEN_FACTORY_SUBCATEGORIES = ["IaaS/PaaS", "MaaS"];
+    const TOKEN_FACTORY_SUBCATEGORIES = ["IaaS/PaaS", "MaaS", "ATaaS"];
     const IAAS_PAAS_TICKERS = new Set(["NBIS", "LAMBDA.PRE", "CLICKHOUSE.PRE"]);
     const MAAS_TICKERS = new Set(["FIREWORKS.PRE", "NOW"]);
+    const ATAAS_TICKERS = new Set(["QJTECH.PRE"]);
     const ENERGY_CATEGORY = "能源";
     const ENERGY_SUBCATEGORIES = ["SMR", "SOFC"];
     const ENERGY_TICKERS = new Set(["VRT", "EOSE", "NEE", "LEU", "UUUU", "OKLO", "CEG", "VST"]);
@@ -2367,6 +2369,7 @@
       ["LAMBDA.PRE", "Lambda Labs", "AI cloud / IaaS/PaaS", "预上市 AI 云基础设施公司，提供 GPU 云、训练集群与企业级 AI 算力服务。", { status: "prelist", estimatedMarketCap: 6000000000 }],
       ["CLICKHOUSE.PRE", "ClickHouse", "AI data cloud / IaaS/PaaS", "预上市实时分析数据库与 AI 数据云公司，服务向量检索、观测、日志分析和 AI 应用数据底座。", { status: "prelist", estimatedMarketCap: 15000000000 }],
       ["FIREWORKS.PRE", "Fireworks AI", "AI cloud", "预上市 AI 推理云平台，服务企业模型部署、微调和低延迟推理。", { status: "prelist", estimatedMarketCap: 4000000000 }],
+      ["QJTECH.PRE", "趋境科技", "ATaaS / China pre-IPO", "预上市中国 ATaaS 公司，面向 AI 训练、推理与自动化任务的工具链、平台化服务和智能计算工作流。", { status: "prelist", estimatedMarketCap: 1000000000 }],
       ["TOGETHER.PRE", "Together AI", "AI cloud", "预上市 AI 加速云平台，提供开源模型训练、推理 API 和 GPU 集群服务。", { status: "prelist", estimatedMarketCap: 7500000000 }],
       ["BASETEN.PRE", "Baseten", "AI cloud", "预上市 AI 推理基础设施平台，服务生产级模型部署、GPU 自动扩缩容与可观测性。", { status: "prelist", estimatedMarketCap: 5000000000 }],
       ["LEPTON.PRE", "Lepton AI", "AI cloud", "预上市 AI 应用与推理云平台，面向开发者的模型部署、API 与弹性算力。", { status: "prelist", estimatedMarketCap: 120000000 }],
@@ -2939,6 +2942,7 @@
     function tokenFactorySubcategory(row) {
       if (IAAS_PAAS_TICKERS.has(row.ticker)) return "IaaS/PaaS";
       if (MAAS_TICKERS.has(row.ticker)) return "MaaS";
+      if (ATAAS_TICKERS.has(row.ticker)) return "ATaaS";
       return null;
     }
     function matchesTokenSubcategory(row) {
