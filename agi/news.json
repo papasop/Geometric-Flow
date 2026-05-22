@@ -1,13 +1,14 @@
 {
-  "generatedAt": "2026-05-21T13:55:38.050009Z",
+  "generatedAt": "2026-05-22T05:05:02.374997Z",
   "strategy": {
-    "primary": "Tabbed news sections: industry from WSJ/NYT, statements derived from all sources by named AI figures and speech signals, company from company-name searches plus M&A and financing keywords, frontier technology from Wired/MIT Technology Review/Stanford sources, papers from top AI journals, conferences, proceedings, and preprint sources",
+    "primary": "Tabbed news sections: industry from WSJ/NYT/FT/SCMP/TechCrunch Startups, statements derived from all sources by named AI figures and speech signals, company from company-name searches plus M&A and financing keywords, frontier technology from Wired/MIT Technology Review/Stanford sources, papers from top AI journals, conferences, proceedings, and preprint sources",
     "primaryEnabled": true,
     "supplements": [
       "Wall Street Journal",
       "New York Times",
       "Financial Times",
       "South China Morning Post",
+      "TechCrunch Startups",
       "Statements",
       "Bloomberg",
       "Reuters",
@@ -22,76 +23,6 @@
     ]
   },
   "sources": [
-    {
-      "section": "industry",
-      "name": "New York Times",
-      "url": "https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml",
-      "status": "ok",
-      "count": 18
-    },
-    {
-      "section": "industry",
-      "name": "New York Times",
-      "url": "https://rss.nytimes.com/services/xml/rss/nyt/Business.xml",
-      "status": "ok",
-      "count": 3
-    },
-    {
-      "section": "industry",
-      "name": "Financial Times",
-      "url": "https://www.ft.com/artificial-intelligence?format=rss",
-      "status": "ok",
-      "count": 11
-    },
-    {
-      "section": "industry",
-      "name": "Financial Times",
-      "url": "https://www.ft.com/technology?format=rss",
-      "status": "ok",
-      "count": 1
-    },
-    {
-      "section": "industry",
-      "name": "South China Morning Post",
-      "url": "https://www.scmp.com/rss/36/feed",
-      "status": "ok",
-      "count": 17
-    },
-    {
-      "section": "industry",
-      "name": "South China Morning Post",
-      "url": "https://www.scmp.com/rss/92/feed",
-      "status": "ok",
-      "count": 5
-    },
-    {
-      "section": "industry",
-      "name": "Wall Street Journal",
-      "url": "https://news.google.com/rss/search?q=site%3Awsj.com%20%28%22artificial%20intelligence%22%20OR%20AI%20OR%20Nvidia%20OR%20OpenAI%20OR%20Anthropic%20OR%20%22AI%20chip%22%20OR%20semiconductor%20OR%20%22data%20center%22%20OR%20%22AI%20cloud%22%20OR%20%22large%20language%20model%22%20OR%20%22machine%20learning%22%29&hl=en-US&gl=US&ceid=US:en",
-      "status": "ok",
-      "count": 18
-    },
-    {
-      "section": "industry",
-      "name": "New York Times",
-      "url": "https://news.google.com/rss/search?q=site%3Anytimes.com%20%28%22artificial%20intelligence%22%20OR%20AI%20OR%20Nvidia%20OR%20OpenAI%20OR%20Anthropic%20OR%20%22AI%20chip%22%20OR%20semiconductor%20OR%20%22data%20center%22%20OR%20%22AI%20cloud%22%20OR%20%22large%20language%20model%22%20OR%20%22machine%20learning%22%29&hl=en-US&gl=US&ceid=US:en",
-      "status": "ok",
-      "count": 9
-    },
-    {
-      "section": "industry",
-      "name": "Financial Times",
-      "url": "https://news.google.com/rss/search?q=site%3Aft.com%20%28%22artificial%20intelligence%22%20OR%20AI%20OR%20Nvidia%20OR%20OpenAI%20OR%20Anthropic%20OR%20%22AI%20chip%22%20OR%20semiconductor%20OR%20%22data%20center%22%20OR%20%22AI%20cloud%22%20OR%20%22large%20language%20model%22%20OR%20%22machine%20learning%22%29&hl=en-US&gl=US&ceid=US:en",
-      "status": "ok",
-      "count": 5
-    },
-    {
-      "section": "industry",
-      "name": "South China Morning Post",
-      "url": "https://news.google.com/rss/search?q=site%3Ascmp.com%20%28%22artificial%20intelligence%22%20OR%20AI%20OR%20Nvidia%20OR%20OpenAI%20OR%20Anthropic%20OR%20%22AI%20chip%22%20OR%20semiconductor%20OR%20%22data%20center%22%20OR%20%22AI%20cloud%22%20OR%20%22large%20language%20model%22%20OR%20%22machine%20learning%22%29&hl=en-US&gl=US&ceid=US:en",
-      "status": "ok",
-      "count": 2
-    },
     {
       "section": "person",
       "name": "AI Statements · Public Figures 1",
@@ -1131,13 +1062,553 @@
       "url": "https://news.google.com/rss/search?q=site%3Areuters.com%20%28%22%E9%80%9F%E8%85%BE%E8%81%9A%E5%88%9B%22%20OR%20%22%E9%87%91%E5%B1%B1%E5%8A%9E%E5%85%AC%22%20OR%20%22%E9%87%91%E5%B1%B1%E8%BD%AF%E4%BB%B6%22%20OR%20%22%E9%87%91%E8%9D%B6%E5%9B%BD%E9%99%85%22%20OR%20%22%E9%95%BF%E5%B7%9D%E7%A7%91%E6%8A%80%22%20OR%20%22%E9%95%BF%E6%B1%9F%E5%AD%98%E5%82%A8%22%20OR%20%22%E9%95%BF%E9%91%AB%E5%AD%98%E5%82%A8%22%20OR%20%22%E9%95%BF%E9%A3%9E%E5%85%89%E7%BA%A4%22%20OR%20%22%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%22%20OR%20%22%E9%9F%A6%E5%B0%94%E8%82%A1%E4%BB%BD%22%20OR%20%22%E9%B8%BF%E8%85%BE%E7%B2%BE%E5%AF%86%22%20OR%20%22%E9%BB%91%E8%8A%9D%E9%BA%BB%E6%99%BA%E8%83%BD%22%29%20%28%22equity%22%20OR%20%22stake%22%20OR%20%22financing%22%20OR%20%22funding%22%20OR%20%22financial%22%20OR%20%22capital%22%20OR%20%22valuation%22%20OR%20%22investment%22%20OR%20%22raises%22%20OR%20%22IPO%22%20OR%20%22private%20placement%22%20OR%20%22venture%20capital%22%20OR%20%22debt%20financing%22%20OR%20%22%E8%82%A1%E6%9D%83%22%20OR%20%22%E8%9E%8D%E8%B5%84%22%20OR%20%22%E9%87%91%E8%9E%8D%22%20OR%20%22%E8%B5%84%E6%9C%AC%22%20OR%20%22%E4%BC%B0%E5%80%BC%22%20OR%20%22%E6%8A%95%E8%B5%84%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
       "count": 0
+    },
+    {
+      "section": "industry",
+      "name": "New York Times",
+      "url": "https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml",
+      "status": "ok",
+      "count": 16
+    },
+    {
+      "section": "industry",
+      "name": "New York Times",
+      "url": "https://rss.nytimes.com/services/xml/rss/nyt/Business.xml",
+      "status": "ok",
+      "count": 3
+    },
+    {
+      "section": "industry",
+      "name": "Financial Times",
+      "url": "https://www.ft.com/artificial-intelligence?format=rss",
+      "status": "ok",
+      "count": 10
+    },
+    {
+      "section": "industry",
+      "name": "Financial Times",
+      "url": "https://www.ft.com/technology?format=rss",
+      "status": "ok",
+      "count": 2
+    },
+    {
+      "section": "industry",
+      "name": "South China Morning Post",
+      "url": "https://www.scmp.com/rss/36/feed",
+      "status": "ok",
+      "count": 16
+    },
+    {
+      "section": "industry",
+      "name": "South China Morning Post",
+      "url": "https://www.scmp.com/rss/92/feed",
+      "status": "ok",
+      "count": 5
+    },
+    {
+      "section": "industry",
+      "name": "TechCrunch Startups",
+      "url": "https://techcrunch.com/category/startups/feed/",
+      "status": "ok",
+      "count": 3
+    },
+    {
+      "section": "industry",
+      "name": "Wall Street Journal",
+      "url": "https://news.google.com/rss/search?q=site%3Awsj.com%20%28%22artificial%20intelligence%22%20OR%20AI%20OR%20Nvidia%20OR%20OpenAI%20OR%20Anthropic%20OR%20%22AI%20chip%22%20OR%20semiconductor%20OR%20%22data%20center%22%20OR%20%22AI%20cloud%22%20OR%20%22large%20language%20model%22%20OR%20%22machine%20learning%22%29&hl=en-US&gl=US&ceid=US:en",
+      "status": "ok",
+      "count": 17
+    },
+    {
+      "section": "industry",
+      "name": "New York Times",
+      "url": "https://news.google.com/rss/search?q=site%3Anytimes.com%20%28%22artificial%20intelligence%22%20OR%20AI%20OR%20Nvidia%20OR%20OpenAI%20OR%20Anthropic%20OR%20%22AI%20chip%22%20OR%20semiconductor%20OR%20%22data%20center%22%20OR%20%22AI%20cloud%22%20OR%20%22large%20language%20model%22%20OR%20%22machine%20learning%22%29&hl=en-US&gl=US&ceid=US:en",
+      "status": "ok",
+      "count": 9
+    },
+    {
+      "section": "industry",
+      "name": "Financial Times",
+      "url": "https://news.google.com/rss/search?q=site%3Aft.com%20%28%22artificial%20intelligence%22%20OR%20AI%20OR%20Nvidia%20OR%20OpenAI%20OR%20Anthropic%20OR%20%22AI%20chip%22%20OR%20semiconductor%20OR%20%22data%20center%22%20OR%20%22AI%20cloud%22%20OR%20%22large%20language%20model%22%20OR%20%22machine%20learning%22%29&hl=en-US&gl=US&ceid=US:en",
+      "status": "ok",
+      "count": 5
+    },
+    {
+      "section": "industry",
+      "name": "South China Morning Post",
+      "url": "https://news.google.com/rss/search?q=site%3Ascmp.com%20%28%22artificial%20intelligence%22%20OR%20AI%20OR%20Nvidia%20OR%20OpenAI%20OR%20Anthropic%20OR%20%22AI%20chip%22%20OR%20semiconductor%20OR%20%22data%20center%22%20OR%20%22AI%20cloud%22%20OR%20%22large%20language%20model%22%20OR%20%22machine%20learning%22%29&hl=en-US&gl=US&ceid=US:en",
+      "status": "ok",
+      "count": 2
+    },
+    {
+      "section": "industry",
+      "name": "TechCrunch Startups",
+      "url": "https://news.google.com/rss/search?q=site%3Atechcrunch.com/category/startups%20%28%22artificial%20intelligence%22%20OR%20AI%20OR%20Nvidia%20OR%20OpenAI%20OR%20Anthropic%20OR%20%22AI%20chip%22%20OR%20semiconductor%20OR%20%22data%20center%22%20OR%20%22AI%20cloud%22%20OR%20%22large%20language%20model%22%20OR%20%22machine%20learning%22%29&hl=en-US&gl=US&ceid=US:en",
+      "status": "ok",
+      "count": 24
     }
   ],
   "sections": {
     "industry": {
       "title": "行业",
-      "note": "Wall Street Journal / New York Times / Financial Times / South China Morning Post",
+      "note": "Wall Street Journal / New York Times / Financial Times / South China Morning Post / TechCrunch Startups",
       "items": [
+        {
+          "source": "South China Morning Post",
+          "feedSource": "South China Morning Post",
+          "sourceUrl": "",
+          "title": "China’s SMIC clears final hurdle for US$6 billion takeover of SMNC",
+          "summary": "Semiconductor Manufacturing International Corporation (SMIC), China’s largest wafer foundry, has cleared the final regulatory hurdle for a share-based acquisition of the remaining 49 per cent stake in its Beijing-based foundry unit, paving the way for what could become the largest merger and restructuring deal on Shang",
+          "url": "https://www.scmp.com/tech/article/3354471/chinas-smic-clears-final-hurdle-us6-billion-takeover-smnc?utm_source=rss_feed",
+          "author": "Howard Liu",
+          "publishedAt": "2026-05-22T05:01:15Z",
+          "titleEn": "China’s SMIC clears final hurdle for US$6 billion takeover of SMNC",
+          "section": "industry",
+          "sectionTitle": "行业",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "South China Morning Post"
+          ]
+        },
+        {
+          "source": "South China Morning Post",
+          "feedSource": "South China Morning Post",
+          "sourceUrl": "",
+          "title": "China is losing the LLM race but it can still win in AI, ex-Tencent AI lead says",
+          "summary": "For years, Liu Wei was synonymous with Chinese tech giant Tencent Holdings’ artificial intelligence efforts. A distinguished scientist at the Shenzhen-based company, Liu was also head of its Hunyuan team, the firm’s foundational model development unit for the generative AI era. But in late 2024, Liu’s departure from Te",
+          "url": "https://www.scmp.com/tech/big-tech/article/3354394/china-losing-llm-race-it-can-still-win-ai-ex-tencent-ai-lead-says?utm_source=rss_feed",
+          "author": "Vincent Chow",
+          "publishedAt": "2026-05-22T01:00:14Z",
+          "titleEn": "China is losing the LLM race but it can still win in AI, ex-Tencent AI lead says",
+          "section": "industry",
+          "sectionTitle": "行业",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "South China Morning Post",
+            "artificial intelligence",
+            "tencent"
+          ]
+        },
+        {
+          "source": "South China Morning Post",
+          "feedSource": "South China Morning Post",
+          "sourceUrl": "",
+          "title": "AI boom fuels US$11.6b data centre investment in Asia-Pacific as Hong Kong eyes niche role",
+          "summary": "The artificial intelligence boom is partially spurring investment in Asia-Pacific’s data centre properties with a record US$11.6 billion worth of capital poured into the segment in 2025, according to CBRE. In Hong Kong, while AI-related demand is unlikely to be met because of technical limitations, leasing of data cent",
+          "url": "https://www.scmp.com/business/article/3354407/ai-boom-fuels-us116b-data-centre-investment-asia-pacific-hong-kong-eyes-niche-role?utm_source=rss_feed",
+          "author": "Cheryl Arcibal",
+          "publishedAt": "2026-05-21T23:00:10Z",
+          "titleEn": "AI boom fuels US$11.6b data centre investment in Asia-Pacific as Hong Kong eyes niche role",
+          "section": "industry",
+          "sectionTitle": "行业",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "BE",
+            "South China Morning Post",
+            "artificial intelligence"
+          ]
+        },
+        {
+          "source": "New York Times",
+          "feedSource": "New York Times",
+          "sourceUrl": "",
+          "title": "Meta Settles a School District’s Social Media Addiction Lawsuit",
+          "summary": "Snap, TikTok and YouTube had already settled with the Kentucky district, allowing the companies to avert the first in a series of federal trials. Meta Platforms Inc Snap Inc TikTok (ByteDance) YouTube.com Kentucky Social Media Liability for Products Suits and Litigation (Civil)",
+          "url": "https://www.nytimes.com/2026/05/21/technology/meta-settlement-social-media-addiction-lawsuit.html",
+          "author": "Cecilia Kang",
+          "publishedAt": "2026-05-21T20:21:01Z",
+          "titleEn": "Meta Settles a School District’s Social Media Addiction Lawsuit",
+          "section": "industry",
+          "sectionTitle": "行业",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "Meta",
+            "Meta Platforms",
+            "New York Times"
+          ]
+        },
+        {
+          "source": "South China Morning Post",
+          "feedSource": "South China Morning Post",
+          "sourceUrl": "",
+          "title": "Trump scraps signing AI executive order to keep ‘lead’ over China in industry",
+          "summary": "US President Donald Trump said on Thursday that he had postponed the signing of a planned executive order on regulating artificial intelligence (AI), out of concern that it might undermine America’s leading position over China in the field. “We’re leading China, we’re leading everybody, and I don’t want to do anything",
+          "url": "https://www.scmp.com/news/us/economy-trade-business/article/3354431/trump-scraps-signing-ai-executive-order-keep-lead-over-china-industry?utm_source=rss_feed",
+          "author": "Yuanyue Dang",
+          "publishedAt": "2026-05-21T19:47:03Z",
+          "titleEn": "Trump scraps signing AI executive order to keep ‘lead’ over China in industry",
+          "section": "industry",
+          "sectionTitle": "行业",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "South China Morning Post",
+            "artificial intelligence"
+          ]
+        },
+        {
+          "source": "New York Times",
+          "feedSource": "New York Times",
+          "sourceUrl": "",
+          "title": "Goldman Hits the Jackpot After Banks’ ‘Dogfight’ to Lead SpaceX’s I.P.O.",
+          "summary": "Across Wall Street, bankers have been clamoring to lead what is expected to be the biggest-ever initial public offering. Space Exploration Technologies Corp Goldman Sachs Group Inc Morgan Stanley Musk, Elon OpenAI Labs Banking and Financial Institutions Initial Public Offerings Bank of America Corporation",
+          "url": "https://www.nytimes.com/2026/05/21/business/spacex-ipo-banks-goldman-sachs.html",
+          "author": "Rob Copeland",
+          "publishedAt": "2026-05-21T19:21:58Z",
+          "titleEn": "Goldman Hits the Jackpot After Banks’ ‘Dogfight’ to Lead SpaceX’s I.P.O.",
+          "section": "industry",
+          "sectionTitle": "行业",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "BE",
+            "New York Times",
+            "OpenAI",
+            "openai"
+          ]
+        },
+        {
+          "source": "New York Times",
+          "feedSource": "New York Times",
+          "sourceUrl": "",
+          "title": "Samsung Averts a Walkout With Big Bonuses, but Discord Over A.I. Profits Brews",
+          "summary": "Samsung Electronics, a global memory chip supplier, has been a major beneficiary of the A.I boom. It has also become the center of a debate over how to divide its spoils. Computer Chips Labor and Jobs Organized Labor Strikes Wages and Salaries Bonuses Samsung Electronics Co Samsung Group",
+          "url": "https://www.nytimes.com/2026/05/21/business/samsung-strike-ai-chips.html",
+          "author": "Max Kim",
+          "publishedAt": "2026-05-21T18:06:59Z",
+          "titleEn": "Samsung Averts a Walkout With Big Bonuses, but Discord Over A.I. Profits Brews",
+          "section": "industry",
+          "sectionTitle": "行业",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "New York Times"
+          ]
+        },
+        {
+          "source": "Financial Times",
+          "feedSource": "Financial Times",
+          "sourceUrl": "",
+          "title": "TfL voices concern over robotaxis as ministers invite bids",
+          "summary": "Officials say more work is needed to show self-driving vehicles will bring ‘net benefit on safety’",
+          "url": "https://www.ft.com/content/e84a958f-0a3b-4c8d-8876-673eff4e7445",
+          "author": "",
+          "publishedAt": "2026-05-21T18:01:05Z",
+          "titleEn": "TfL voices concern over robotaxis as ministers invite bids",
+          "section": "industry",
+          "sectionTitle": "行业",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "Financial Times"
+          ]
+        },
+        {
+          "source": "New York Times",
+          "feedSource": "New York Times",
+          "sourceUrl": "",
+          "title": "Trump Cancels Signing of Executive Order Granting Oversight of A.I. Models",
+          "summary": "The president said he postponed the executive order, which would give the government power to evaluate A.I. models before their release, over concerns about “aspects of it.” United States Politics and Government Artificial Intelligence Innovation Regulation and Deregulation of Industry Executive Orders and Memorandums",
+          "url": "https://www.nytimes.com/2026/05/21/technology/trump-ai-executive-order.html",
+          "author": "Tripp Mickle",
+          "publishedAt": "2026-05-21T17:47:33Z",
+          "titleEn": "Trump Cancels Signing of Executive Order Granting Oversight of A.I. Models",
+          "section": "industry",
+          "sectionTitle": "行业",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "New York Times",
+            "artificial intelligence"
+          ]
+        },
+        {
+          "source": "Financial Times",
+          "feedSource": "Financial Times",
+          "sourceUrl": "https://www.ft.com",
+          "title": "‘Fast entry’ SpaceX, OpenAI and Anthropic IPOs to ignite Wall Street trading frenzy - Financial Times",
+          "summary": "‘Fast entry’ SpaceX, OpenAI and Anthropic IPOs to ignite Wall Street trading frenzy Financial Times",
+          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNNmhPeGFZZm81b2RhZFFWMDdJNXVhM3I2ZlFNM1NCYVZ4VjFnZ1ZRaFdrdFZaWmh2bGJJRXBKLWM0d2xPRVFvWGs3eUxDTGVnZS1BT0ZPajFXR25FOWJPMTVGZHBFb0lSbXBSeHJYdmM4MWFKMTVuZHVXLWJRUDZmQ084a0I?oc=5",
+          "author": "",
+          "publishedAt": "2026-05-21T17:41:43Z",
+          "titleEn": "‘Fast entry’ SpaceX, OpenAI and Anthropic IPOs to ignite Wall Street trading frenzy - Financial Times",
+          "section": "industry",
+          "sectionTitle": "行业",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "Anthropic",
+            "Financial Times",
+            "OpenAI",
+            "anthropic"
+          ]
+        },
+        {
+          "source": "Financial Times",
+          "feedSource": "Financial Times",
+          "sourceUrl": "",
+          "title": "Nvidia fails to dazzle investors despite lifting dividends",
+          "summary": "Shares in world’s most valuable company slip despite announcing better than expected revenue and forecasts",
+          "url": "https://www.ft.com/content/a7aa26d1-1bad-407f-8bff-4ae491cb8ce0",
+          "author": "",
+          "publishedAt": "2026-05-21T16:33:35Z",
+          "titleEn": "Nvidia fails to dazzle investors despite lifting dividends",
+          "section": "industry",
+          "sectionTitle": "行业",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "Financial Times",
+            "NVIDIA",
+            "Nvidia"
+          ]
+        },
+        {
+          "source": "The New York Times",
+          "feedSource": "New York Times",
+          "sourceUrl": "https://www.nytimes.com",
+          "title": "Fan A.I. Videos Help Spencer Pratt Break Through in L.A. Mayor’s Race - The New York Times",
+          "summary": "Fan A.I. Videos Help Spencer Pratt Break Through in L.A. Mayor’s Race The New York Times",
+          "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE9naUJpeE8tcW84SWdiVDIySXNldUxjZWUxMmViZ2ptaUxnWFM0QWRuRVhYajZ4Z052NHVMbVlMR1FRalpUbDluX1ZpN2p2Z0hsU2NINnVmRTZjbWNtU0RrMXV0a1dvMXVid2VDaDRmeVhfWElo?oc=5",
+          "author": "",
+          "publishedAt": "2026-05-21T16:29:54Z",
+          "titleEn": "Fan A.I. Videos Help Spencer Pratt Break Through in L.A. Mayor’s Race - The New York Times",
+          "section": "industry",
+          "sectionTitle": "行业",
+          "matchedPortfolios": [],
+          "tags": []
+        },
+        {
+          "source": "New York Times",
+          "feedSource": "New York Times",
+          "sourceUrl": "",
+          "title": "Gov. Gavin Newsom to Sign Executive Order Aimed at A.I. Job Loss",
+          "summary": "Gov. Gavin Newsom issued an executive order to explore an overhaul of labor policies to deal with potential mass job displacement from artificial intelligence. Artificial Intelligence Executive Orders and Memorandums Governors (US) Regulation and Deregulation of Industry Labor and Jobs Vocational Training Computers and",
+          "url": "https://www.nytimes.com/2026/05/21/technology/newsom-ai-executive-order-california.html",
+          "author": "Cecilia Kang",
+          "publishedAt": "2026-05-21T15:26:59Z",
+          "titleEn": "Gov. Gavin Newsom to Sign Executive Order Aimed at A.I. Job Loss",
+          "section": "industry",
+          "sectionTitle": "行业",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "New York Times",
+            "artificial intelligence"
+          ]
+        },
+        {
+          "source": "WSJ",
+          "feedSource": "Wall Street Journal",
+          "sourceUrl": "https://www.wsj.com",
+          "title": "Even at $5 Trillion, Nvidia Is Underappreciated - WSJ",
+          "summary": "Even at $5 Trillion, Nvidia Is Underappreciated WSJ",
+          "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxQY2lqUXdyRi1vODkxVVotcGlzaV9MQ0V0UExCTWxndk1uYTFudUptWkV0TGd0WG0yMVBtcDJqWkFvVVAwcUxPeEVtNDF6M2hOeEg5QUZaN0tHZDIzMlZxU2xvS3RoMmVyalpDZkFFOTRpRjlMRnBqcXhDUGZmNDE2cDZ4cm1BM3d4TlgwYnYyQUszY2c?oc=5",
+          "author": "",
+          "publishedAt": "2026-05-21T15:24:00Z",
+          "titleEn": "Even at $5 Trillion, Nvidia Is Underappreciated - WSJ",
+          "section": "industry",
+          "sectionTitle": "行业",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "NVIDIA",
+            "Nvidia"
+          ]
+        },
+        {
+          "source": "New York Times",
+          "feedSource": "New York Times",
+          "sourceUrl": "",
+          "title": "Nvidia’s Profit Hits $58.3 Billion as A.I. Boom Gathers More Steam",
+          "summary": "The chip maker said its profit in its most recent quarter jumped 211 percent from a year earlier thanks to extreme demand from other big technology companies. NVIDIA Corporation Computer Chips Huang, Jen-Hsun Artificial Intelligence Company Reports Data Centers Computers and the Internet International Trade and World M",
+          "url": "https://www.nytimes.com/2026/05/20/business/nvidia-earnings.html",
+          "author": "Tripp Mickle",
+          "publishedAt": "2026-05-21T14:30:44Z",
+          "titleEn": "Nvidia’s Profit Hits $58.3 Billion as A.I. Boom Gathers More Steam",
+          "section": "industry",
+          "sectionTitle": "行业",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "NVIDIA",
+            "New York Times",
+            "Nvidia",
+            "artificial intelligence"
+          ]
+        },
+        {
+          "source": "South China Morning Post",
+          "feedSource": "South China Morning Post",
+          "sourceUrl": "",
+          "title": "Inside YMTC’s IPO plans: how is China’s 3D NAND champion chasing capital markets?",
+          "summary": "China’s push for semiconductor self-reliance is hitting the capital markets. The parent company of Yangtze Memory Technologies Co (YMTC), the nation’s leading 3D NAND flash memory manufacturer, officially started the tutoring process for an initial public offering (IPO) on Tuesday, according to a filing with the China",
+          "url": "https://www.scmp.com/tech/tech-trends/article/3354374/inside-ymtcs-ipo-plans-how-chinas-3d-nand-champion-chasing-capital-markets?utm_source=rss_feed",
+          "author": "Howard Liu",
+          "publishedAt": "2026-05-21T14:30:05Z",
+          "titleEn": "Inside YMTC’s IPO plans: how is China’s 3D NAND champion chasing capital markets?",
+          "section": "industry",
+          "sectionTitle": "行业",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "South China Morning Post"
+          ]
+        },
+        {
+          "source": "WSJ",
+          "feedSource": "Wall Street Journal",
+          "sourceUrl": "https://www.wsj.com",
+          "title": "Exclusive | Workday’s Returning CEO Has a Plan to Survive the AI Era - WSJ",
+          "summary": "Exclusive | Workday’s Returning CEO Has a Plan to Survive the AI Era WSJ",
+          "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQd25tUVU3NFNFZmhNWi1oZktLMkJ1OG50ZjNLTGUtSG5XNzgyNTQ1MEt5M1J1XzRjeUhocHBDeXBIeTFKZ3B6WV9rUFAtLVg2RnBuU29NTzVHS1k1NnA5TnBnb2U0MWd1M21mQzVPWkFpRTlmejJ6NjFfZU5JaDA3ZkZpWHlHNl91UTE3TjlFRkNEd1c1UXhF?oc=5",
+          "author": "",
+          "publishedAt": "2026-05-21T12:30:00Z",
+          "titleEn": "Exclusive | Workday’s Returning CEO Has a Plan to Survive the AI Era - WSJ",
+          "section": "industry",
+          "sectionTitle": "行业",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "Workday"
+          ]
+        },
+        {
+          "source": "New York Times",
+          "feedSource": "New York Times",
+          "sourceUrl": "",
+          "title": "Trump Approved a Nvidia Chip for Sale in China. Beijing Doesn’t Want It.",
+          "summary": "The U.S. tech giant’s powerful H200 chip seemed poised to boost Beijing’s A.I. ambitions, but not a single one has been purchased in China. NVIDIA Corporation China Artificial Intelligence Computer Chips International Relations Regulation and Deregulation of Industry United States Trump, Donald J",
+          "url": "https://www.nytimes.com/2026/05/21/business/china-nvidia-chip-trump-ai.html",
+          "author": "Meaghan Tobin",
+          "publishedAt": "2026-05-21T12:21:51Z",
+          "titleEn": "Trump Approved a Nvidia Chip for Sale in China. Beijing Doesn’t Want It.",
+          "section": "industry",
+          "sectionTitle": "行业",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "NVIDIA",
+            "New York Times",
+            "Nvidia",
+            "artificial intelligence"
+          ]
+        },
+        {
+          "source": "New York Times",
+          "feedSource": "New York Times",
+          "sourceUrl": "",
+          "title": "SpaceX, OpenAI and Anthropic Race to Go Public",
+          "summary": "SpaceX, OpenAI, and Anthropic, giants of the artificial intelligence sector, are rushing to test investor appetite in the stock markets. internal-storyline-no Initial Public Offerings Musk, Elon Space Exploration Technologies Corp OpenAI Labs Anthropic AI LLC Artificial Intelligence X.ai Inc",
+          "url": "https://www.nytimes.com/2026/05/21/business/dealbook/spacex-openai-anthropic-ipo.html",
+          "author": "Andrew Ross Sorkin",
+          "publishedAt": "2026-05-21T12:15:54Z",
+          "titleEn": "SpaceX, OpenAI and Anthropic Race to Go Public",
+          "section": "industry",
+          "sectionTitle": "行业",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "Anthropic",
+            "New York Times",
+            "OpenAI",
+            "anthropic"
+          ]
+        },
+        {
+          "source": "South China Morning Post",
+          "feedSource": "South China Morning Post",
+          "sourceUrl": "",
+          "title": "Commercial humanoid robots in China may soon do laundry, make beds, care for elderly",
+          "summary": "China’s robotics pioneers are rapidly expanding beyond the usual factory surroundings and into more challenging terrains: the unstructured, dynamic and complex world of domestic household chores. GigaAI unveiled the country’s first general-purpose household humanoid robot model on Wednesday, the SeeLight S1, in collabo",
+          "url": "https://www.scmp.com/tech/article/3354371/commercial-humanoid-robots-china-may-soon-do-laundry-make-beds-care-elders?utm_source=rss_feed",
+          "author": "Coco Feng",
+          "publishedAt": "2026-05-21T09:22:27Z",
+          "titleEn": "Commercial humanoid robots in China may soon do laundry, make beds, care for elderly",
+          "section": "industry",
+          "sectionTitle": "行业",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "South China Morning Post"
+          ]
+        },
+        {
+          "source": "The New York Times",
+          "feedSource": "New York Times",
+          "sourceUrl": "https://www.nytimes.com",
+          "title": "Thousands of N.Y.C. Jobs Could Be Lost to A.I. Boom, Report Says - The New York Times",
+          "summary": "Thousands of N.Y.C. Jobs Could Be Lost to A.I. Boom, Report Says The New York Times",
+          "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE1aX2NuNTFrckhjWEl0WmtWSGJuVjZ3bDQ0QnYyZDZhMHp6TXFpSkczTzBySEluM2J3ak0xSUQwVEdWT3RiQ0FQa3l6MW1NVG1LVV9uTXRfbzRTQUx4ZWhscEx2T255Tk9idE83WGtFbEotZw?oc=5",
+          "author": "",
+          "publishedAt": "2026-05-21T09:05:40Z",
+          "titleEn": "Thousands of N.Y.C. Jobs Could Be Lost to A.I. Boom, Report Says - The New York Times",
+          "section": "industry",
+          "sectionTitle": "行业",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "BE"
+          ]
+        },
+        {
+          "source": "The New York Times",
+          "feedSource": "New York Times",
+          "sourceUrl": "https://www.nytimes.com",
+          "title": "Opinion | A Defense of a Liberal Arts Education in the Age of A.I. - The New York Times",
+          "summary": "Opinion | A Defense of a Liberal Arts Education in the Age of A.I. The New York Times",
+          "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE5SSHZjTW9tUFJuTG5SWU0yUUtZQUxGODhIclRRVVlCQTFBWGVEVWtCQ0NGWG1BbzlyemJKRTNieHdoNkJZV1g0dW10X09HaUFnbk9lXzRXb00zNzRTZ3BlaG5BT1RjcFNPN2lTeXJjZF81MjE5M1ZseE53dWpWdw?oc=5",
+          "author": "",
+          "publishedAt": "2026-05-21T09:04:47Z",
+          "titleEn": "Opinion | A Defense of a Liberal Arts Education in the Age of A.I. - The New York Times",
+          "section": "industry",
+          "sectionTitle": "行业",
+          "matchedPortfolios": [],
+          "tags": []
+        },
+        {
+          "source": "WSJ",
+          "feedSource": "Wall Street Journal",
+          "sourceUrl": "https://www.wsj.com",
+          "title": "AMD to Invest More Than $10 Billion in Taiwan’s Chip Industry - WSJ",
+          "summary": "AMD to Invest More Than $10 Billion in Taiwan’s Chip Industry WSJ",
+          "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNZXo1T1pyS3RwSWtEMV9tZnNpU2dPOXpQMDk5WW8xLTFPM1ZUWkNPT0dUSGg1YkZXVjJjcnJrbnNNWk5IVldlcjV0cjdHMW5ldUFuNkxnMVpLUTRUWU5fdi01Yk5kdFEtdmxTOFhTVUJBRG5HOVdadUVjMVM5NXRaLWl2b0JiVUE3Wnp4UTk5M1g4VHI2VU1CYg?oc=5",
+          "author": "",
+          "publishedAt": "2026-05-21T08:39:00Z",
+          "titleEn": "AMD to Invest More Than $10 Billion in Taiwan’s Chip Industry - WSJ",
+          "section": "industry",
+          "sectionTitle": "行业",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "AMD"
+          ]
+        },
         {
           "source": "South China Morning Post",
           "feedSource": "South China Morning Post",
@@ -1156,8 +1627,7 @@
           "tags": [
             "South China Morning Post",
             "artificial intelligence"
-          ],
-          "titleZh": "阿里巴巴预示着人工智能从投资到商业化的下一阶段增长"
+          ]
         },
         {
           "source": "South China Morning Post",
@@ -1177,8 +1647,7 @@
           "tags": [
             "South China Morning Post",
             "artificial intelligence"
-          ],
-          "titleZh": "中国AI智能眼镜起飞，聚焦用户需求"
+          ]
         },
         {
           "source": "Financial Times",
@@ -1198,8 +1667,7 @@
           "tags": [
             "Financial Times",
             "artificial intelligence"
-          ],
-          "titleZh": "三星达成最后一刻协议以避免人工智能财富罢工"
+          ]
         },
         {
           "source": "South China Morning Post",
@@ -1221,53 +1689,7 @@
             "NVIDIA",
             "Nvidia",
             "South China Morning Post"
-          ],
-          "titleZh": "尽管黄仁勋到访，英伟达 H200 在中国的销售前景仍不确定"
-        },
-        {
-          "source": "Financial Times",
-          "feedSource": "Financial Times",
-          "sourceUrl": "",
-          "title": "Nvidia fails to dazzle investors despite lifting dividends",
-          "summary": "Shares in world’s most valuable company dip after announcing better than expected revenue and forecasts",
-          "url": "https://www.ft.com/content/a7aa26d1-1bad-407f-8bff-4ae491cb8ce0",
-          "author": "",
-          "publishedAt": "2026-05-21T00:43:11Z",
-          "titleEn": "Nvidia fails to dazzle investors despite lifting dividends",
-          "section": "industry",
-          "sectionTitle": "行业",
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "tags": [
-            "Financial Times",
-            "NVIDIA",
-            "Nvidia"
-          ],
-          "titleZh": "尽管提高了股息，英伟达未能让投资者眼花缭乱"
-        },
-        {
-          "source": "New York Times",
-          "feedSource": "New York Times",
-          "sourceUrl": "",
-          "title": "Musk’s SpaceX Reveals Its Finances for the First Time as It Readies for IPO",
-          "summary": "Mr. Musk’s rocket and satellite maker disclosed its financial performance as it prepares to go public in what is set to be one of the largest offerings to date. Space Exploration Technologies Corp Musk, Elon X.ai Inc Initial Public Offerings Private Spaceflight Artificial Intelligence Space and Astronomy Social Media",
-          "url": "https://www.nytimes.com/2026/05/20/technology/elon-musk-spacex-ipo.html",
-          "author": "Ryan Mac",
-          "publishedAt": "2026-05-21T00:23:43Z",
-          "titleEn": "Musk’s SpaceX Reveals Its Finances for the First Time as It Readies for IPO",
-          "section": "industry",
-          "sectionTitle": "行业",
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "tags": [
-            "BE",
-            "New York Times",
-            "SpaceX",
-            "artificial intelligence"
-          ],
-          "titleZh": "马斯克旗下 SpaceX 首次披露财务状况，准备 IPO"
+          ]
         },
         {
           "source": "Financial Times",
@@ -1289,15 +1711,14 @@
             "Financial Times",
             "OpenAI",
             "anthropic"
-          ],
-          "titleZh": "Anthropic有望实现第一个盈利季度"
+          ]
         },
         {
           "source": "New York Times",
           "feedSource": "New York Times",
           "sourceUrl": "",
           "title": "Soundtrack to 8,000 Job Cuts: A Meta Worker’s Layoff-Themed A.I. Songs",
-          "summary": "On a dark day of layoffs at Meta, one employee responded by creating an internal radio station that plays songs about job cuts — generated by artificial intelligence, of course. Layoffs and Job Reductions Social Media Labor and Jobs Artificial Intelligence Meta Platforms Inc Zuckerberg, Mark E",
+          "summary": "On a dark day of layoffs at Meta, one employee responded by creating an internal radio station that plays songs about job cuts — generated by artificial intelligence, of course. Meta Platforms Inc Layoffs and Job Reductions Social Media Artificial Intelligence Zuckerberg, Mark E Music",
           "url": "https://www.nytimes.com/2026/05/20/technology/meta-layoffs-ai-song.html",
           "author": "Mike Isaac",
           "publishedAt": "2026-05-20T22:57:52Z",
@@ -1312,31 +1733,7 @@
             "Meta Platforms",
             "New York Times",
             "artificial intelligence"
-          ],
-          "titleZh": "8,000 次裁员的配乐：元工人的裁员主题人工智能歌曲"
-        },
-        {
-          "source": "New York Times",
-          "feedSource": "New York Times",
-          "sourceUrl": "",
-          "title": "Nvidia’s Profit Hits $58.3 Billion as A.I. Boom Gathers More Steam",
-          "summary": "The chip maker said its profit in its most recent quarter jumped 211 percent from a year earlier thanks to extreme demand from other big technology companies. Computers and the Internet Computer Chips Artificial Intelligence Company Reports Data Centers NVIDIA Corporation China",
-          "url": "https://www.nytimes.com/2026/05/20/business/nvidia-earnings.html",
-          "author": "Tripp Mickle",
-          "publishedAt": "2026-05-20T22:54:31Z",
-          "titleEn": "Nvidia’s Profit Hits $58.3 Billion as A.I. Boom Gathers More Steam",
-          "section": "industry",
-          "sectionTitle": "行业",
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "tags": [
-            "NVIDIA",
-            "New York Times",
-            "Nvidia",
-            "artificial intelligence"
-          ],
-          "titleZh": "随着人工智能的发展，Nvidia 的利润达到 583 亿美元繁荣聚集更多蒸汽"
+          ]
         },
         {
           "source": "The New York Times",
@@ -1346,13 +1743,12 @@
           "summary": "Was a Story That Just Won a Literary Prize A.I.-Generated? The New York Times",
           "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE1fYTZVQlJvU0F0TkIxcy1NenNsdldwQTNfcnRjaG43QXU1MFVZeE1XTnRfWkNRRkRiaU92alBZUVl2aXVyZDNuVzlBYUttMW5JU19pSE03b3EyTmp1eTQzb0F0Um0yRmhUYzZtR0QxUm0xZlBBWUMwOXVLQQ?oc=5",
           "author": "",
-          "publishedAt": "2026-05-20T22:44:02Z",
+          "publishedAt": "2026-05-20T22:44:03Z",
           "titleEn": "Was a Story That Just Won a Literary Prize A.I.-Generated? - The New York Times",
           "section": "industry",
           "sectionTitle": "行业",
           "matchedPortfolios": [],
-          "tags": [],
-          "titleZh": "刚刚获得文学奖的故事是人工智能生成的吗？ - 纽约时报"
+          "tags": []
         },
         {
           "source": "New York Times",
@@ -1374,8 +1770,7 @@
             "Meta Platforms",
             "New York Times",
             "artificial intelligence"
-          ],
-          "titleZh": "Meta 解雇 8,000 名员工，因为 A.I.伤亡人数增加"
+          ]
         },
         {
           "source": "WSJ",
@@ -1394,436 +1789,7 @@
           ],
           "tags": [
             "Cloudflare"
-          ],
-          "titleZh": "意见 |我如何选择用 AI 取代哪些 Cloudflare 员工 - 华尔街日报"
-        },
-        {
-          "source": "Financial Times",
-          "feedSource": "Financial Times",
-          "sourceUrl": "https://www.ft.com",
-          "title": "FirstFT: Nvidia reports better than expected revenue and forecasts in Q1 earnings - Financial Times",
-          "summary": "FirstFT: Nvidia reports better than expected revenue and forecasts in Q1 earnings Financial Times",
-          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPajBFaWVVenpocUhvblpqQ0lzVzVENWlHaWt0dVQ1V0tJcE5IUDNaa3l5LTlld0wwbnFrenJST0Jva0NNZDd4Z3hPR0tieXVOU0hFdVh3eU9JRm4yNjlSYUhOeWVQQUZyQ2xBdGYwWTF2NkNCYnB4Z1hsMFRNN1lGMkZIVk8?oc=5",
-          "author": "",
-          "publishedAt": "2026-05-20T21:20:45Z",
-          "titleEn": "FirstFT: Nvidia reports better than expected revenue and forecasts in Q1 earnings - Financial Times",
-          "section": "industry",
-          "sectionTitle": "行业",
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "tags": [
-            "Financial Times",
-            "NVIDIA",
-            "Nvidia"
-          ],
-          "titleZh": "FirstFT：英伟达公布的第一季度营收和盈利预期均好于预期 - 英国《金融时报》"
-        },
-        {
-          "source": "WSJ",
-          "feedSource": "Wall Street Journal",
-          "sourceUrl": "https://www.wsj.com",
-          "title": "Exclusive | Mind-Blowing Growth Is About to Propel Anthropic Into Its First Profitable Quarter - WSJ",
-          "summary": "Exclusive | Mind-Blowing Growth Is About to Propel Anthropic Into Its First Profitable Quarter WSJ",
-          "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxQR2NoS2RrWHg1NUpwVkRrd3hyTzFHRGNSdWYtWElOS3JXV2czY19mYTltdkl5NW91OG5zZ3dndFVKZVoxMzc1dzVleEZyeVJDcTVwMlF2OXFiV0ZMcVU2NFFoTXVlUURwaW50ZmZybUNHYnM3bTVqci11cjM5U3Z5ejJ0ckgyUEU0ZmVVYXdoemx3c3Q0blEzSE44b1Qzc0ktZmVJQXRFUVc3YzVBSFBrUkJiOWFTdjAxTWtR?oc=5",
-          "author": "",
-          "publishedAt": "2026-05-20T20:54:00Z",
-          "titleEn": "Exclusive | Mind-Blowing Growth Is About to Propel Anthropic Into Its First Profitable Quarter - WSJ",
-          "section": "industry",
-          "sectionTitle": "行业",
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "tags": [
-            "Anthropic",
-            "anthropic"
-          ],
-          "titleZh": "独家|令人兴奋的增长即将推动 Anthropic 进入第一个盈利季度 - 华尔街日报"
-        },
-        {
-          "source": "The New York Times",
-          "feedSource": "New York Times",
-          "sourceUrl": "https://www.nytimes.com",
-          "title": "Opinion | Why Are Kids Using A.I. at School? - The New York Times",
-          "summary": "Opinion | Why Are Kids Using A.I. at School? The New York Times",
-          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE05ZFVoSDFycTIzOE5pTkFmT3d5NURxdWJCYjV4M3ZuelNtM0kzS1lLSXoxTXNVWndnUHJ3bUVSTk9VTnVIbFQ0U2pkSHZEZDRBX2JRMHFyem5Xazhmb1c2S2x0UFlwZ1A3WGQwcGc0UUc0bFRvaGc?oc=5",
-          "author": "",
-          "publishedAt": "2026-05-20T19:00:04Z",
-          "titleEn": "Opinion | Why Are Kids Using A.I. at School? - The New York Times",
-          "section": "industry",
-          "sectionTitle": "行业",
-          "matchedPortfolios": [],
-          "tags": [],
-          "titleZh": "意见 |为什么孩子们使用人工智能在学校？ - 纽约时报"
-        },
-        {
-          "source": "New York Times",
-          "feedSource": "New York Times",
-          "sourceUrl": "",
-          "title": "OpenAI Prepares to File for an I.P.O. in Coming Weeks",
-          "summary": "OpenAI would be one of the most highly anticipated potential initial public offerings, in what is set to be a major year of I.P.O.s for Silicon Valley. Artificial Intelligence Initial Public Offerings Computers and the Internet OpenAI Labs Morgan Stanley Goldman Sachs Group Inc internal-open-access-from-nl",
-          "url": "https://www.nytimes.com/2026/05/20/technology/openai-ipo.html",
-          "author": "Mike Isaac",
-          "publishedAt": "2026-05-20T18:41:52Z",
-          "titleEn": "OpenAI Prepares to File for an I.P.O. in Coming Weeks",
-          "section": "industry",
-          "sectionTitle": "行业",
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "tags": [
-            "BE",
-            "New York Times",
-            "OpenAI",
-            "artificial intelligence"
-          ],
-          "titleZh": "OpenAI 准备申请 IPO未来几周内"
-        },
-        {
-          "source": "Financial Times",
-          "feedSource": "Financial Times",
-          "sourceUrl": "",
-          "title": "Zuckerberg promises no more ‘company-wide’ lay-offs at Meta after slashing jobs",
-          "summary": "Chief executive seeks to reassure disillusioned employees after culling 8,000 roles",
-          "url": "https://www.ft.com/content/ef46bd8f-51ee-4c06-b5ab-1de23114f81a",
-          "author": "",
-          "publishedAt": "2026-05-20T17:47:25Z",
-          "titleEn": "Zuckerberg promises no more ‘company-wide’ lay-offs at Meta after slashing jobs",
-          "section": "industry",
-          "sectionTitle": "行业",
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "tags": [
-            "Financial Times",
-            "Meta"
-          ],
-          "titleZh": "扎克伯格承诺 Meta 裁员后不再进行“全公司”裁员"
-        },
-        {
-          "source": "WSJ",
-          "feedSource": "Wall Street Journal",
-          "sourceUrl": "https://www.wsj.com",
-          "title": "Exclusive | OpenAI Is Preparing to File for an IPO Very Soon - WSJ",
-          "summary": "Exclusive | OpenAI Is Preparing to File for an IPO Very Soon WSJ",
-          "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBRenYyMXEyVGhlMnlXNi1pb2xaVlRURFNaYW5NUGdERVB4WVdQa2dfYWVoNjdJYXcwUVRjQ0FpTzZBdnVMUHZQRktvYUROdWdEYVRGbm1TNDJraGVXYkpiQ3ZrZ21oM25wVkpZ?oc=5",
-          "author": "",
-          "publishedAt": "2026-05-20T17:43:00Z",
-          "titleEn": "Exclusive | OpenAI Is Preparing to File for an IPO Very Soon - WSJ",
-          "section": "industry",
-          "sectionTitle": "行业",
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "tags": [
-            "OpenAI",
-            "openai"
-          ],
-          "titleZh": "独家| OpenAI 即将申请 IPO - 华尔街日报"
-        },
-        {
-          "source": "Financial Times",
-          "feedSource": "Financial Times",
-          "sourceUrl": "",
-          "title": "OpenAI readies IPO filing to list as soon as September",
-          "summary": "AI lab is preparing for $1tn listing with bankers Goldman Sachs and Morgan Stanley and lawyers at Cooley",
-          "url": "https://www.ft.com/content/028a169f-cd1c-438b-b50d-df4af6297318",
-          "author": "",
-          "publishedAt": "2026-05-20T17:21:02Z",
-          "titleEn": "OpenAI readies IPO filing to list as soon as September",
-          "section": "industry",
-          "sectionTitle": "行业",
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "tags": [
-            "Financial Times",
-            "OpenAI",
-            "openai"
-          ],
-          "titleZh": "OpenAI 准备 IPO 申请，最快将于 9 月上市"
-        },
-        {
-          "source": "WSJ",
-          "feedSource": "Wall Street Journal",
-          "sourceUrl": "https://www.wsj.com",
-          "title": "Google Pushes AI-Generated Ads Further Into Search Results - WSJ",
-          "summary": "Google Pushes AI-Generated Ads Further Into Search Results WSJ",
-          "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxPTUJQT3hGeDIzcDMwMVBFNXlteVcyVmlSQlRZanpZN3JGTWpDRlZuVzlyRS1RSmRodXlyUHI4c3E4MnFHTzNDRWp0YUY4SHg4S080Ym5Xd1dkLUNsb0lpSTc0b01IZ0VhVkprelFxS3dTa2dzQl90bHVySHRSUVdiRVcyWl9qc09XTnh5cHd2dkZaVkE0ODh4MV9FaklVQQ?oc=5",
-          "author": "",
-          "publishedAt": "2026-05-20T16:00:00Z",
-          "titleEn": "Google Pushes AI-Generated Ads Further Into Search Results - WSJ",
-          "section": "industry",
-          "sectionTitle": "行业",
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "tags": [
-            "Google",
-            "google"
-          ],
-          "titleZh": "谷歌将人工智能生成的广告进一步推入搜索结果 - 华尔街日报"
-        },
-        {
-          "source": "The New York Times",
-          "feedSource": "New York Times",
-          "sourceUrl": "https://www.nytimes.com",
-          "title": "In Musk vs. OpenAI, the Real Winner Was the Suit - The New York Times",
-          "summary": "In Musk vs. OpenAI, the Real Winner Was the Suit The New York Times",
-          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQUEFUbkp4UjYyRFhWSlVRTTl0d1R4TTFKTjFyOFd2MTZXSll0dGhhN282VEtJZ3hyYzRudDZzdS1JaUFEb2VUNXV4S2RUdzZ1UUJzUVQzeE5PTjh4VC14aVowaTRKdGpKMFpuUHljVFNOWWl5OTc1MlVCNFg4bnYxeGxVRzhaenNnTXB6R3Nn?oc=5",
-          "author": "",
-          "publishedAt": "2026-05-20T15:46:00Z",
-          "titleEn": "In Musk vs. OpenAI, the Real Winner Was the Suit - The New York Times",
-          "section": "industry",
-          "sectionTitle": "行业",
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "tags": [
-            "OpenAI",
-            "openai"
-          ],
-          "titleZh": "马斯克 vs. OpenAI，真正的赢家是诉讼 - 纽约时报中文网"
-        },
-        {
-          "source": "New York Times",
-          "feedSource": "New York Times",
-          "sourceUrl": "",
-          "title": "The Growing Anxiety Over AI, Jobs and the Future",
-          "summary": "Layoffs linked to artificial intelligence are rattling workers and college graduates, stoking concerns worldwide that are showing up in polls. internal-storyline-no Artificial Intelligence Meta Platforms Inc Standard Chartered Bank PLC Winters, William T Layoffs and Job Reductions Polls and Public Opinion Google Inc",
-          "url": "https://www.nytimes.com/2026/05/20/business/dealbook/ai-jobs-layoffs-meta.html",
-          "author": "Andrew Ross Sorkin",
-          "publishedAt": "2026-05-20T11:51:42Z",
-          "titleEn": "The Growing Anxiety Over AI, Jobs and the Future",
-          "section": "industry",
-          "sectionTitle": "行业",
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "tags": [
-            "Google",
-            "Meta",
-            "Meta Platforms",
-            "New York Times"
-          ],
-          "titleZh": "对人工智能、就业和未来日益增长的焦虑"
-        },
-        {
-          "source": "WSJ",
-          "feedSource": "Wall Street Journal",
-          "sourceUrl": "https://www.wsj.com",
-          "title": "Exclusive | Bristol-Myers Squibb Brings Anthropic’s Claude to 30,000 of Its Staff - WSJ",
-          "summary": "Exclusive | Bristol-Myers Squibb Brings Anthropic’s Claude to 30,000 of Its Staff WSJ",
-          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQR3JmZVJUWEZ0ZjZyVjZoWXpJeXRCTHlZRFI0aUFXT3htTFg1WHZ0cVVNcFNpbGtzWGlqRkRoRS04aVBENFJNN1RxVklOTDNqenFqX2ZqN2pEd0U4V21yb0I5T01TaHBYYzh0WUpxNTZfZTUtVTZoakZVX3NmaFJtYUFxUEZEWTgzdXI1VlBNang0dFltWXpUMGhXWFE0QzZ5VmtxYVVUcFhQNzA1TXc?oc=5",
-          "author": "",
-          "publishedAt": "2026-05-20T10:45:00Z",
-          "titleEn": "Exclusive | Bristol-Myers Squibb Brings Anthropic’s Claude to 30,000 of Its Staff - WSJ",
-          "section": "industry",
-          "sectionTitle": "行业",
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "tags": [
-            "Anthropic",
-            "anthropic"
-          ],
-          "titleZh": "独家|百时美施贵宝将 Anthropic 的 Claude 引入其 30,000 名员工 - 华尔街日报"
-        },
-        {
-          "source": "South China Morning Post",
-          "feedSource": "South China Morning Post",
-          "sourceUrl": "",
-          "title": "China’s private equity activity picks up as investors focus on tech and AI opportunities",
-          "summary": "Private equity activity is picking up in China, with limited partners growing more selective about opportunities in technology, including chips, manufacturing, artificial intelligence and robotics, according to industry players. “In the last 12 to 18 months … we are seeing a lot more [private equity fundraising activit",
-          "url": "https://www.scmp.com/business/banking-finance/article/3354255/chinas-private-equity-activity-picks-investors-focus-tech-and-ai-opportunities?utm_source=rss_feed",
-          "author": "Julie Zhang",
-          "publishedAt": "2026-05-20T10:12:37Z",
-          "titleEn": "China’s private equity activity picks up as investors focus on tech and AI opportunities",
-          "section": "industry",
-          "sectionTitle": "行业",
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "tags": [
-            "South China Morning Post",
-            "artificial intelligence"
-          ],
-          "titleZh": "随着投资者关注科技和人工智能机会，中国私募股权活动有所回升"
-        },
-        {
-          "source": "South China Morning Post",
-          "feedSource": "South China Morning Post",
-          "sourceUrl": "",
-          "title": "Alibaba unveils new Qwen model, custom chips in bid to become China’s ‘AI factory’",
-          "summary": "Alibaba Group Holding unveiled a sweeping suite of new artificial intelligence products spanning models, cloud infrastructure and chips on Wednesday, positioning itself to become China’s “AI factory” as autonomous agents gain prominence. Speaking at the Alibaba Cloud Summit in Hangzhou, Liu Weiguang, senior vice-presid",
-          "url": "https://www.scmp.com/tech/big-tech/article/3354212/alibaba-unveils-new-qwen-model-custom-chips-bid-become-chinas-ai-factory?utm_source=rss_feed",
-          "author": "Xinmei Shen",
-          "publishedAt": "2026-05-20T08:28:04Z",
-          "titleEn": "Alibaba unveils new Qwen model, custom chips in bid to become China’s ‘AI factory’",
-          "section": "industry",
-          "sectionTitle": "行业",
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "tags": [
-            "South China Morning Post",
-            "artificial intelligence",
-            "qwen"
-          ],
-          "titleZh": "阿里巴巴推出Qwen新机型、定制芯片 力争成为中国“人工智能工厂”"
-        },
-        {
-          "source": "Financial Times",
-          "feedSource": "Financial Times",
-          "sourceUrl": "",
-          "title": "China banned Nvidia’s gaming chip during Jensen Huang’s visit",
-          "summary": "Beijing aims to support domestic players including Huawei and Cambricon as they catch up to US rivals",
-          "url": "https://www.ft.com/content/a30c3dd5-9383-4606-a649-fdf19c41c308",
-          "author": "",
-          "publishedAt": "2026-05-20T08:08:34Z",
-          "titleEn": "China banned Nvidia’s gaming chip during Jensen Huang’s visit",
-          "section": "industry",
-          "sectionTitle": "行业",
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "tags": [
-            "Financial Times",
-            "NVIDIA",
-            "Nvidia"
-          ],
-          "titleZh": "中国在黄仁勋访问期间禁止英伟达的游戏芯片"
-        },
-        {
-          "source": "South China Morning Post",
-          "feedSource": "South China Morning Post",
-          "sourceUrl": "",
-          "title": "HSBC’s CEO says AI will both create and destroy financial industry jobs",
-          "summary": "The head of HSBC, Hong Kong’s biggest lender, said artificial intelligence will both destroy and create certain jobs in the financial industry, but emphasised the bank will focus on retraining its workforce to adapt to the new and evolving environment in the sector. “We all know generative AI will destroy certain jobs",
-          "url": "https://www.scmp.com/business/banking-finance/article/3354204/hsbcs-ceo-says-ai-will-both-create-and-destroy-financial-industry-jobs?utm_source=rss_feed",
-          "author": "Enoch Yiu",
-          "publishedAt": "2026-05-20T06:57:45Z",
-          "titleEn": "HSBC’s CEO says AI will both create and destroy financial industry jobs",
-          "section": "industry",
-          "sectionTitle": "行业",
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "tags": [
-            "South China Morning Post",
-            "artificial intelligence"
-          ],
-          "titleZh": "汇丰银行首席执行官表示人工智能将创造和摧毁金融业就业机会"
-        },
-        {
-          "source": "South China Morning Post",
-          "feedSource": "South China Morning Post",
-          "sourceUrl": "",
-          "title": "OpenAI, which bars access to services in China, seeks Mandarin-speaking staff",
-          "summary": "US artificial intelligence giant OpenAI has begun recruiting staff to “cover clients and communities that are Mandarin-speaking” even though the company has long excluded China – the largest Sinophone market – from its service coverage amid a global race for AI dominance. The company’s recruitment website said it was l",
-          "url": "https://www.scmp.com/tech/article/3354191/openai-which-bars-access-services-china-seeks-mandarin-speaking-staff?utm_source=rss_feed",
-          "author": "Ben Jiang",
-          "publishedAt": "2026-05-20T05:58:59Z",
-          "titleEn": "OpenAI, which bars access to services in China, seeks Mandarin-speaking staff",
-          "section": "industry",
-          "sectionTitle": "行业",
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "tags": [
-            "OpenAI",
-            "South China Morning Post",
-            "artificial intelligence",
-            "openai"
-          ],
-          "titleZh": "OpenAI 禁止在中国使用服务，寻求会说普通话的员工"
-        },
-        {
-          "source": "Financial Times",
-          "feedSource": "Financial Times",
-          "sourceUrl": "",
-          "title": "Is Nvidia too big to fail?",
-          "summary": "‘You’re clearly at the centre of everything’",
-          "url": "https://www.ft.com/content/29adbaf8-f21a-4bd5-aed9-1c2d6a8216cc",
-          "author": "",
-          "publishedAt": "2026-05-20T05:00:20Z",
-          "titleEn": "Is Nvidia too big to fail?",
-          "section": "industry",
-          "sectionTitle": "行业",
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "tags": [
-            "Financial Times",
-            "NVIDIA",
-            "Nvidia"
-          ],
-          "titleZh": "英伟达是否太大而不能倒？"
-        },
-        {
-          "source": "Financial Times",
-          "feedSource": "Financial Times",
-          "sourceUrl": "",
-          "title": "AI Exchange",
-          "summary": "In this monthly series, running alongside our existing Tech Exchange dialogues, FT journalists talk to the scientists, developers and business leaders exploring ever more applications for artificial intelligence, in every aspect of our lives",
-          "url": "https://www.ft.com/ai-exchange",
-          "author": "",
-          "publishedAt": "2026-05-20T04:06:14Z",
-          "titleEn": "AI Exchange",
-          "section": "industry",
-          "sectionTitle": "行业",
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "tags": [
-            "Financial Times",
-            "artificial intelligence"
-          ],
-          "titleZh": "人工智能交易所"
-        },
-        {
-          "source": "Financial Times",
-          "feedSource": "Financial Times",
-          "sourceUrl": "https://www.ft.com",
-          "title": "Nvidia’s Jensen Huang bankrolls AI boom with $90bn deal spree - Financial Times",
-          "summary": "Nvidia’s Jensen Huang bankrolls AI boom with $90bn deal spree Financial Times",
-          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxQSGdsRFdhckdacDNuTXZqbVplWm1QNURXaEJ5VVVKamdUTkNlb0NyUVh1Um1PTnZGSU1sa0x4bFpoZkxVMEZFMGxXbjBJMEVrZld1RVE0eW5TQTQyUGY5Y3RJM0wtM2dwMFJwU0NNX1J4a0JNYXlCb184ajdHUU4xRjNJSVQ?oc=5",
-          "author": "",
-          "publishedAt": "2026-05-20T04:06:06Z",
-          "titleEn": "Nvidia’s Jensen Huang bankrolls AI boom with $90bn deal spree - Financial Times",
-          "section": "industry",
-          "sectionTitle": "行业",
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "tags": [
-            "Financial Times",
-            "NVIDIA",
-            "Nvidia"
-          ],
-          "titleZh": "英伟达 (Nvidia) 黄仁勋 (Jensen Huang) 以 900 亿美元的交易狂潮为人工智能热潮提供资金 - 英国《金融时报》"
-        },
-        {
-          "source": "Financial Times",
-          "feedSource": "Financial Times",
-          "sourceUrl": "",
-          "title": "Nvidia’s Huang bankrolls AI boom with $90bn deal spree",
-          "summary": "Chipmaker’s spending rivals Big Tech’s biggest venture operations, tying customers and start-ups to its technology",
-          "url": "https://www.ft.com/content/c6b362b8-ab6b-4723-af48-28082bdfcac2",
-          "author": "",
-          "publishedAt": "2026-05-20T04:00:12Z",
-          "titleEn": "Nvidia’s Huang bankrolls AI boom with $90bn deal spree",
-          "section": "industry",
-          "sectionTitle": "行业",
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "tags": [
-            "Financial Times",
-            "NVIDIA",
-            "Nvidia"
-          ],
-          "titleZh": "Nvidia 黄仁勋以 900 亿美元的交易狂潮为人工智能热潮提供资金"
+          ]
         }
       ]
     },
@@ -3782,6 +3748,375 @@
   },
   "items": [
     {
+      "source": "South China Morning Post",
+      "feedSource": "South China Morning Post",
+      "sourceUrl": "",
+      "title": "China’s SMIC clears final hurdle for US$6 billion takeover of SMNC",
+      "summary": "Semiconductor Manufacturing International Corporation (SMIC), China’s largest wafer foundry, has cleared the final regulatory hurdle for a share-based acquisition of the remaining 49 per cent stake in its Beijing-based foundry unit, paving the way for what could become the largest merger and restructuring deal on Shang",
+      "url": "https://www.scmp.com/tech/article/3354471/chinas-smic-clears-final-hurdle-us6-billion-takeover-smnc?utm_source=rss_feed",
+      "author": "Howard Liu",
+      "publishedAt": "2026-05-22T05:01:15Z",
+      "titleEn": "China’s SMIC clears final hurdle for US$6 billion takeover of SMNC",
+      "section": "industry",
+      "sectionTitle": "行业",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "South China Morning Post"
+      ]
+    },
+    {
+      "source": "South China Morning Post",
+      "feedSource": "South China Morning Post",
+      "sourceUrl": "",
+      "title": "China is losing the LLM race but it can still win in AI, ex-Tencent AI lead says",
+      "summary": "For years, Liu Wei was synonymous with Chinese tech giant Tencent Holdings’ artificial intelligence efforts. A distinguished scientist at the Shenzhen-based company, Liu was also head of its Hunyuan team, the firm’s foundational model development unit for the generative AI era. But in late 2024, Liu’s departure from Te",
+      "url": "https://www.scmp.com/tech/big-tech/article/3354394/china-losing-llm-race-it-can-still-win-ai-ex-tencent-ai-lead-says?utm_source=rss_feed",
+      "author": "Vincent Chow",
+      "publishedAt": "2026-05-22T01:00:14Z",
+      "titleEn": "China is losing the LLM race but it can still win in AI, ex-Tencent AI lead says",
+      "section": "industry",
+      "sectionTitle": "行业",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "South China Morning Post",
+        "artificial intelligence",
+        "tencent"
+      ]
+    },
+    {
+      "source": "South China Morning Post",
+      "feedSource": "South China Morning Post",
+      "sourceUrl": "",
+      "title": "AI boom fuels US$11.6b data centre investment in Asia-Pacific as Hong Kong eyes niche role",
+      "summary": "The artificial intelligence boom is partially spurring investment in Asia-Pacific’s data centre properties with a record US$11.6 billion worth of capital poured into the segment in 2025, according to CBRE. In Hong Kong, while AI-related demand is unlikely to be met because of technical limitations, leasing of data cent",
+      "url": "https://www.scmp.com/business/article/3354407/ai-boom-fuels-us116b-data-centre-investment-asia-pacific-hong-kong-eyes-niche-role?utm_source=rss_feed",
+      "author": "Cheryl Arcibal",
+      "publishedAt": "2026-05-21T23:00:10Z",
+      "titleEn": "AI boom fuels US$11.6b data centre investment in Asia-Pacific as Hong Kong eyes niche role",
+      "section": "industry",
+      "sectionTitle": "行业",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "BE",
+        "South China Morning Post",
+        "artificial intelligence"
+      ]
+    },
+    {
+      "source": "New York Times",
+      "feedSource": "New York Times",
+      "sourceUrl": "",
+      "title": "Meta Settles a School District’s Social Media Addiction Lawsuit",
+      "summary": "Snap, TikTok and YouTube had already settled with the Kentucky district, allowing the companies to avert the first in a series of federal trials. Meta Platforms Inc Snap Inc TikTok (ByteDance) YouTube.com Kentucky Social Media Liability for Products Suits and Litigation (Civil)",
+      "url": "https://www.nytimes.com/2026/05/21/technology/meta-settlement-social-media-addiction-lawsuit.html",
+      "author": "Cecilia Kang",
+      "publishedAt": "2026-05-21T20:21:01Z",
+      "titleEn": "Meta Settles a School District’s Social Media Addiction Lawsuit",
+      "section": "industry",
+      "sectionTitle": "行业",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Meta",
+        "Meta Platforms",
+        "New York Times"
+      ]
+    },
+    {
+      "source": "South China Morning Post",
+      "feedSource": "South China Morning Post",
+      "sourceUrl": "",
+      "title": "Trump scraps signing AI executive order to keep ‘lead’ over China in industry",
+      "summary": "US President Donald Trump said on Thursday that he had postponed the signing of a planned executive order on regulating artificial intelligence (AI), out of concern that it might undermine America’s leading position over China in the field. “We’re leading China, we’re leading everybody, and I don’t want to do anything",
+      "url": "https://www.scmp.com/news/us/economy-trade-business/article/3354431/trump-scraps-signing-ai-executive-order-keep-lead-over-china-industry?utm_source=rss_feed",
+      "author": "Yuanyue Dang",
+      "publishedAt": "2026-05-21T19:47:03Z",
+      "titleEn": "Trump scraps signing AI executive order to keep ‘lead’ over China in industry",
+      "section": "industry",
+      "sectionTitle": "行业",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "South China Morning Post",
+        "artificial intelligence"
+      ]
+    },
+    {
+      "source": "New York Times",
+      "feedSource": "New York Times",
+      "sourceUrl": "",
+      "title": "Goldman Hits the Jackpot After Banks’ ‘Dogfight’ to Lead SpaceX’s I.P.O.",
+      "summary": "Across Wall Street, bankers have been clamoring to lead what is expected to be the biggest-ever initial public offering. Space Exploration Technologies Corp Goldman Sachs Group Inc Morgan Stanley Musk, Elon OpenAI Labs Banking and Financial Institutions Initial Public Offerings Bank of America Corporation",
+      "url": "https://www.nytimes.com/2026/05/21/business/spacex-ipo-banks-goldman-sachs.html",
+      "author": "Rob Copeland",
+      "publishedAt": "2026-05-21T19:21:58Z",
+      "titleEn": "Goldman Hits the Jackpot After Banks’ ‘Dogfight’ to Lead SpaceX’s I.P.O.",
+      "section": "industry",
+      "sectionTitle": "行业",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "BE",
+        "New York Times",
+        "OpenAI",
+        "openai"
+      ]
+    },
+    {
+      "source": "New York Times",
+      "feedSource": "New York Times",
+      "sourceUrl": "",
+      "title": "Samsung Averts a Walkout With Big Bonuses, but Discord Over A.I. Profits Brews",
+      "summary": "Samsung Electronics, a global memory chip supplier, has been a major beneficiary of the A.I boom. It has also become the center of a debate over how to divide its spoils. Computer Chips Labor and Jobs Organized Labor Strikes Wages and Salaries Bonuses Samsung Electronics Co Samsung Group",
+      "url": "https://www.nytimes.com/2026/05/21/business/samsung-strike-ai-chips.html",
+      "author": "Max Kim",
+      "publishedAt": "2026-05-21T18:06:59Z",
+      "titleEn": "Samsung Averts a Walkout With Big Bonuses, but Discord Over A.I. Profits Brews",
+      "section": "industry",
+      "sectionTitle": "行业",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "New York Times"
+      ]
+    },
+    {
+      "source": "Financial Times",
+      "feedSource": "Financial Times",
+      "sourceUrl": "",
+      "title": "TfL voices concern over robotaxis as ministers invite bids",
+      "summary": "Officials say more work is needed to show self-driving vehicles will bring ‘net benefit on safety’",
+      "url": "https://www.ft.com/content/e84a958f-0a3b-4c8d-8876-673eff4e7445",
+      "author": "",
+      "publishedAt": "2026-05-21T18:01:05Z",
+      "titleEn": "TfL voices concern over robotaxis as ministers invite bids",
+      "section": "industry",
+      "sectionTitle": "行业",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Financial Times"
+      ]
+    },
+    {
+      "source": "New York Times",
+      "feedSource": "New York Times",
+      "sourceUrl": "",
+      "title": "Trump Cancels Signing of Executive Order Granting Oversight of A.I. Models",
+      "summary": "The president said he postponed the executive order, which would give the government power to evaluate A.I. models before their release, over concerns about “aspects of it.” United States Politics and Government Artificial Intelligence Innovation Regulation and Deregulation of Industry Executive Orders and Memorandums",
+      "url": "https://www.nytimes.com/2026/05/21/technology/trump-ai-executive-order.html",
+      "author": "Tripp Mickle",
+      "publishedAt": "2026-05-21T17:47:33Z",
+      "titleEn": "Trump Cancels Signing of Executive Order Granting Oversight of A.I. Models",
+      "section": "industry",
+      "sectionTitle": "行业",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "New York Times",
+        "artificial intelligence"
+      ]
+    },
+    {
+      "source": "Financial Times",
+      "feedSource": "Financial Times",
+      "sourceUrl": "https://www.ft.com",
+      "title": "‘Fast entry’ SpaceX, OpenAI and Anthropic IPOs to ignite Wall Street trading frenzy - Financial Times",
+      "summary": "‘Fast entry’ SpaceX, OpenAI and Anthropic IPOs to ignite Wall Street trading frenzy Financial Times",
+      "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNNmhPeGFZZm81b2RhZFFWMDdJNXVhM3I2ZlFNM1NCYVZ4VjFnZ1ZRaFdrdFZaWmh2bGJJRXBKLWM0d2xPRVFvWGs3eUxDTGVnZS1BT0ZPajFXR25FOWJPMTVGZHBFb0lSbXBSeHJYdmM4MWFKMTVuZHVXLWJRUDZmQ084a0I?oc=5",
+      "author": "",
+      "publishedAt": "2026-05-21T17:41:43Z",
+      "titleEn": "‘Fast entry’ SpaceX, OpenAI and Anthropic IPOs to ignite Wall Street trading frenzy - Financial Times",
+      "section": "industry",
+      "sectionTitle": "行业",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Anthropic",
+        "Financial Times",
+        "OpenAI",
+        "anthropic"
+      ]
+    },
+    {
+      "source": "Financial Times",
+      "feedSource": "Financial Times",
+      "sourceUrl": "",
+      "title": "Nvidia fails to dazzle investors despite lifting dividends",
+      "summary": "Shares in world’s most valuable company slip despite announcing better than expected revenue and forecasts",
+      "url": "https://www.ft.com/content/a7aa26d1-1bad-407f-8bff-4ae491cb8ce0",
+      "author": "",
+      "publishedAt": "2026-05-21T16:33:35Z",
+      "titleEn": "Nvidia fails to dazzle investors despite lifting dividends",
+      "section": "industry",
+      "sectionTitle": "行业",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Financial Times",
+        "NVIDIA",
+        "Nvidia"
+      ]
+    },
+    {
+      "source": "New York Times",
+      "feedSource": "New York Times",
+      "sourceUrl": "",
+      "title": "Gov. Gavin Newsom to Sign Executive Order Aimed at A.I. Job Loss",
+      "summary": "Gov. Gavin Newsom issued an executive order to explore an overhaul of labor policies to deal with potential mass job displacement from artificial intelligence. Artificial Intelligence Executive Orders and Memorandums Governors (US) Regulation and Deregulation of Industry Labor and Jobs Vocational Training Computers and",
+      "url": "https://www.nytimes.com/2026/05/21/technology/newsom-ai-executive-order-california.html",
+      "author": "Cecilia Kang",
+      "publishedAt": "2026-05-21T15:26:59Z",
+      "titleEn": "Gov. Gavin Newsom to Sign Executive Order Aimed at A.I. Job Loss",
+      "section": "industry",
+      "sectionTitle": "行业",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "New York Times",
+        "artificial intelligence"
+      ]
+    },
+    {
+      "source": "WSJ",
+      "feedSource": "Wall Street Journal",
+      "sourceUrl": "https://www.wsj.com",
+      "title": "Even at $5 Trillion, Nvidia Is Underappreciated - WSJ",
+      "summary": "Even at $5 Trillion, Nvidia Is Underappreciated WSJ",
+      "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxQY2lqUXdyRi1vODkxVVotcGlzaV9MQ0V0UExCTWxndk1uYTFudUptWkV0TGd0WG0yMVBtcDJqWkFvVVAwcUxPeEVtNDF6M2hOeEg5QUZaN0tHZDIzMlZxU2xvS3RoMmVyalpDZkFFOTRpRjlMRnBqcXhDUGZmNDE2cDZ4cm1BM3d4TlgwYnYyQUszY2c?oc=5",
+      "author": "",
+      "publishedAt": "2026-05-21T15:24:00Z",
+      "titleEn": "Even at $5 Trillion, Nvidia Is Underappreciated - WSJ",
+      "section": "industry",
+      "sectionTitle": "行业",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "NVIDIA",
+        "Nvidia"
+      ]
+    },
+    {
+      "source": "New York Times",
+      "feedSource": "New York Times",
+      "sourceUrl": "",
+      "title": "Nvidia’s Profit Hits $58.3 Billion as A.I. Boom Gathers More Steam",
+      "summary": "The chip maker said its profit in its most recent quarter jumped 211 percent from a year earlier thanks to extreme demand from other big technology companies. NVIDIA Corporation Computer Chips Huang, Jen-Hsun Artificial Intelligence Company Reports Data Centers Computers and the Internet International Trade and World M",
+      "url": "https://www.nytimes.com/2026/05/20/business/nvidia-earnings.html",
+      "author": "Tripp Mickle",
+      "publishedAt": "2026-05-21T14:30:44Z",
+      "titleEn": "Nvidia’s Profit Hits $58.3 Billion as A.I. Boom Gathers More Steam",
+      "section": "industry",
+      "sectionTitle": "行业",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "NVIDIA",
+        "New York Times",
+        "Nvidia",
+        "artificial intelligence"
+      ]
+    },
+    {
+      "source": "South China Morning Post",
+      "feedSource": "South China Morning Post",
+      "sourceUrl": "",
+      "title": "Inside YMTC’s IPO plans: how is China’s 3D NAND champion chasing capital markets?",
+      "summary": "China’s push for semiconductor self-reliance is hitting the capital markets. The parent company of Yangtze Memory Technologies Co (YMTC), the nation’s leading 3D NAND flash memory manufacturer, officially started the tutoring process for an initial public offering (IPO) on Tuesday, according to a filing with the China",
+      "url": "https://www.scmp.com/tech/tech-trends/article/3354374/inside-ymtcs-ipo-plans-how-chinas-3d-nand-champion-chasing-capital-markets?utm_source=rss_feed",
+      "author": "Howard Liu",
+      "publishedAt": "2026-05-21T14:30:05Z",
+      "titleEn": "Inside YMTC’s IPO plans: how is China’s 3D NAND champion chasing capital markets?",
+      "section": "industry",
+      "sectionTitle": "行业",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "South China Morning Post"
+      ]
+    },
+    {
+      "source": "WSJ",
+      "feedSource": "Wall Street Journal",
+      "sourceUrl": "https://www.wsj.com",
+      "title": "Exclusive | Workday’s Returning CEO Has a Plan to Survive the AI Era - WSJ",
+      "summary": "Exclusive | Workday’s Returning CEO Has a Plan to Survive the AI Era WSJ",
+      "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQd25tUVU3NFNFZmhNWi1oZktLMkJ1OG50ZjNLTGUtSG5XNzgyNTQ1MEt5M1J1XzRjeUhocHBDeXBIeTFKZ3B6WV9rUFAtLVg2RnBuU29NTzVHS1k1NnA5TnBnb2U0MWd1M21mQzVPWkFpRTlmejJ6NjFfZU5JaDA3ZkZpWHlHNl91UTE3TjlFRkNEd1c1UXhF?oc=5",
+      "author": "",
+      "publishedAt": "2026-05-21T12:30:00Z",
+      "titleEn": "Exclusive | Workday’s Returning CEO Has a Plan to Survive the AI Era - WSJ",
+      "section": "industry",
+      "sectionTitle": "行业",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Workday"
+      ]
+    },
+    {
+      "source": "New York Times",
+      "feedSource": "New York Times",
+      "sourceUrl": "",
+      "title": "Trump Approved a Nvidia Chip for Sale in China. Beijing Doesn’t Want It.",
+      "summary": "The U.S. tech giant’s powerful H200 chip seemed poised to boost Beijing’s A.I. ambitions, but not a single one has been purchased in China. NVIDIA Corporation China Artificial Intelligence Computer Chips International Relations Regulation and Deregulation of Industry United States Trump, Donald J",
+      "url": "https://www.nytimes.com/2026/05/21/business/china-nvidia-chip-trump-ai.html",
+      "author": "Meaghan Tobin",
+      "publishedAt": "2026-05-21T12:21:51Z",
+      "titleEn": "Trump Approved a Nvidia Chip for Sale in China. Beijing Doesn’t Want It.",
+      "section": "industry",
+      "sectionTitle": "行业",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "NVIDIA",
+        "New York Times",
+        "Nvidia",
+        "artificial intelligence"
+      ]
+    },
+    {
+      "source": "New York Times",
+      "feedSource": "New York Times",
+      "sourceUrl": "",
+      "title": "SpaceX, OpenAI and Anthropic Race to Go Public",
+      "summary": "SpaceX, OpenAI, and Anthropic, giants of the artificial intelligence sector, are rushing to test investor appetite in the stock markets. internal-storyline-no Initial Public Offerings Musk, Elon Space Exploration Technologies Corp OpenAI Labs Anthropic AI LLC Artificial Intelligence X.ai Inc",
+      "url": "https://www.nytimes.com/2026/05/21/business/dealbook/spacex-openai-anthropic-ipo.html",
+      "author": "Andrew Ross Sorkin",
+      "publishedAt": "2026-05-21T12:15:54Z",
+      "titleEn": "SpaceX, OpenAI and Anthropic Race to Go Public",
+      "section": "industry",
+      "sectionTitle": "行业",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Anthropic",
+        "New York Times",
+        "OpenAI",
+        "anthropic"
+      ]
+    },
+    {
       "source": "Reuters",
       "feedSource": "Reuters · Equity Financing",
       "sourceUrl": "https://www.reuters.com",
@@ -3946,6 +4281,25 @@
       "titleZh": "SpaceX 首次公开募股需要对人工智能、火星和马斯克愿景的信心飞跃 - Bloomberg.com"
     },
     {
+      "source": "South China Morning Post",
+      "feedSource": "South China Morning Post",
+      "sourceUrl": "",
+      "title": "Commercial humanoid robots in China may soon do laundry, make beds, care for elderly",
+      "summary": "China’s robotics pioneers are rapidly expanding beyond the usual factory surroundings and into more challenging terrains: the unstructured, dynamic and complex world of domestic household chores. GigaAI unveiled the country’s first general-purpose household humanoid robot model on Wednesday, the SeeLight S1, in collabo",
+      "url": "https://www.scmp.com/tech/article/3354371/commercial-humanoid-robots-china-may-soon-do-laundry-make-beds-care-elders?utm_source=rss_feed",
+      "author": "Coco Feng",
+      "publishedAt": "2026-05-21T09:22:27Z",
+      "titleEn": "Commercial humanoid robots in China may soon do laundry, make beds, care for elderly",
+      "section": "industry",
+      "sectionTitle": "行业",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "South China Morning Post"
+      ]
+    },
+    {
       "source": "Bloomberg.com",
       "feedSource": "Bloomberg · Company Batch 8",
       "sourceUrl": "https://www.bloomberg.com",
@@ -3964,6 +4318,44 @@
         "Microsoft"
       ],
       "titleZh": "微软股价下滑、人工智能困境成为市场最大拖累 - Bloomberg.com"
+    },
+    {
+      "source": "The New York Times",
+      "feedSource": "New York Times",
+      "sourceUrl": "https://www.nytimes.com",
+      "title": "Thousands of N.Y.C. Jobs Could Be Lost to A.I. Boom, Report Says - The New York Times",
+      "summary": "Thousands of N.Y.C. Jobs Could Be Lost to A.I. Boom, Report Says The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE1aX2NuNTFrckhjWEl0WmtWSGJuVjZ3bDQ0QnYyZDZhMHp6TXFpSkczTzBySEluM2J3ak0xSUQwVEdWT3RiQ0FQa3l6MW1NVG1LVV9uTXRfbzRTQUx4ZWhscEx2T255Tk9idE83WGtFbEotZw?oc=5",
+      "author": "",
+      "publishedAt": "2026-05-21T09:05:40Z",
+      "titleEn": "Thousands of N.Y.C. Jobs Could Be Lost to A.I. Boom, Report Says - The New York Times",
+      "section": "industry",
+      "sectionTitle": "行业",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "BE"
+      ]
+    },
+    {
+      "source": "WSJ",
+      "feedSource": "Wall Street Journal",
+      "sourceUrl": "https://www.wsj.com",
+      "title": "AMD to Invest More Than $10 Billion in Taiwan’s Chip Industry - WSJ",
+      "summary": "AMD to Invest More Than $10 Billion in Taiwan’s Chip Industry WSJ",
+      "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNZXo1T1pyS3RwSWtEMV9tZnNpU2dPOXpQMDk5WW8xLTFPM1ZUWkNPT0dUSGg1YkZXVjJjcnJrbnNNWk5IVldlcjV0cjdHMW5ldUFuNkxnMVpLUTRUWU5fdi01Yk5kdFEtdmxTOFhTVUJBRG5HOVdadUVjMVM5NXRaLWl2b0JiVUE3Wnp4UTk5M1g4VHI2VU1CYg?oc=5",
+      "author": "",
+      "publishedAt": "2026-05-21T08:39:00Z",
+      "titleEn": "AMD to Invest More Than $10 Billion in Taiwan’s Chip Industry - WSJ",
+      "section": "industry",
+      "sectionTitle": "行业",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "AMD"
+      ]
     },
     {
       "source": "Benzinga",
@@ -4147,8 +4539,7 @@
       "tags": [
         "South China Morning Post",
         "artificial intelligence"
-      ],
-      "titleZh": "阿里巴巴预示着人工智能从投资到商业化的下一阶段增长"
+      ]
     },
     {
       "source": "BBC",
@@ -4351,8 +4742,7 @@
       "tags": [
         "South China Morning Post",
         "artificial intelligence"
-      ],
-      "titleZh": "中国AI智能眼镜起飞，聚焦用户需求"
+      ]
     },
     {
       "source": "Financial Times",
@@ -4372,8 +4762,7 @@
       "tags": [
         "Financial Times",
         "artificial intelligence"
-      ],
-      "titleZh": "三星达成最后一刻协议以避免人工智能财富罢工"
+      ]
     },
     {
       "source": "Bloomberg.com",
@@ -4499,8 +4888,7 @@
         "NVIDIA",
         "Nvidia",
         "South China Morning Post"
-      ],
-      "titleZh": "尽管黄仁勋到访，英伟达 H200 在中国的销售前景仍不确定"
+      ]
     },
     {
       "source": "Reuters",
@@ -4586,28 +4974,6 @@
       "titleZh": "SpaceX 在 IPO 文件中将 Grok 的“辣”模式列为风险"
     },
     {
-      "source": "Financial Times",
-      "feedSource": "Financial Times",
-      "sourceUrl": "",
-      "title": "Nvidia fails to dazzle investors despite lifting dividends",
-      "summary": "Shares in world’s most valuable company dip after announcing better than expected revenue and forecasts",
-      "url": "https://www.ft.com/content/a7aa26d1-1bad-407f-8bff-4ae491cb8ce0",
-      "author": "",
-      "publishedAt": "2026-05-21T00:43:11Z",
-      "titleEn": "Nvidia fails to dazzle investors despite lifting dividends",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "Financial Times",
-        "NVIDIA",
-        "Nvidia"
-      ],
-      "titleZh": "尽管提高了股息，英伟达未能让投资者眼花缭乱"
-    },
-    {
       "source": "Bloomberg.com",
       "feedSource": "Bloomberg · Company Batch 12",
       "sourceUrl": "https://www.bloomberg.com",
@@ -4649,29 +5015,6 @@
       "titleZh": "黄仁勋表示他为 Nvidia 找到了一个“全新”的 200B 美元市场 - TechCrunch"
     },
     {
-      "source": "New York Times",
-      "feedSource": "New York Times",
-      "sourceUrl": "",
-      "title": "Musk’s SpaceX Reveals Its Finances for the First Time as It Readies for IPO",
-      "summary": "Mr. Musk’s rocket and satellite maker disclosed its financial performance as it prepares to go public in what is set to be one of the largest offerings to date. Space Exploration Technologies Corp Musk, Elon X.ai Inc Initial Public Offerings Private Spaceflight Artificial Intelligence Space and Astronomy Social Media",
-      "url": "https://www.nytimes.com/2026/05/20/technology/elon-musk-spacex-ipo.html",
-      "author": "Ryan Mac",
-      "publishedAt": "2026-05-21T00:23:43Z",
-      "titleEn": "Musk’s SpaceX Reveals Its Finances for the First Time as It Readies for IPO",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "BE",
-        "New York Times",
-        "SpaceX",
-        "artificial intelligence"
-      ],
-      "titleZh": "马斯克旗下 SpaceX 首次披露财务状况，准备 IPO"
-    },
-    {
       "source": "Financial Times",
       "feedSource": "Financial Times",
       "sourceUrl": "",
@@ -4691,8 +5034,7 @@
         "Financial Times",
         "OpenAI",
         "anthropic"
-      ],
-      "titleZh": "Anthropic有望实现第一个盈利季度"
+      ]
     },
     {
       "source": "Bloomberg.com",
@@ -4928,7 +5270,7 @@
       "feedSource": "New York Times",
       "sourceUrl": "",
       "title": "Soundtrack to 8,000 Job Cuts: A Meta Worker’s Layoff-Themed A.I. Songs",
-      "summary": "On a dark day of layoffs at Meta, one employee responded by creating an internal radio station that plays songs about job cuts — generated by artificial intelligence, of course. Layoffs and Job Reductions Social Media Labor and Jobs Artificial Intelligence Meta Platforms Inc Zuckerberg, Mark E",
+      "summary": "On a dark day of layoffs at Meta, one employee responded by creating an internal radio station that plays songs about job cuts — generated by artificial intelligence, of course. Meta Platforms Inc Layoffs and Job Reductions Social Media Artificial Intelligence Zuckerberg, Mark E Music",
       "url": "https://www.nytimes.com/2026/05/20/technology/meta-layoffs-ai-song.html",
       "author": "Mike Isaac",
       "publishedAt": "2026-05-20T22:57:52Z",
@@ -4943,8 +5285,7 @@
         "Meta Platforms",
         "New York Times",
         "artificial intelligence"
-      ],
-      "titleZh": "8,000 次裁员的配乐：元工人的裁员主题人工智能歌曲"
+      ]
     },
     {
       "source": "Bloomberg.com",
@@ -4965,29 +5306,6 @@
         "SpaceX"
       ],
       "titleZh": "马斯克盟友格雷西亚斯有望通过 SpaceX IPO 赚取数十亿美元 - Bloomberg.com"
-    },
-    {
-      "source": "New York Times",
-      "feedSource": "New York Times",
-      "sourceUrl": "",
-      "title": "Nvidia’s Profit Hits $58.3 Billion as A.I. Boom Gathers More Steam",
-      "summary": "The chip maker said its profit in its most recent quarter jumped 211 percent from a year earlier thanks to extreme demand from other big technology companies. Computers and the Internet Computer Chips Artificial Intelligence Company Reports Data Centers NVIDIA Corporation China",
-      "url": "https://www.nytimes.com/2026/05/20/business/nvidia-earnings.html",
-      "author": "Tripp Mickle",
-      "publishedAt": "2026-05-20T22:54:31Z",
-      "titleEn": "Nvidia’s Profit Hits $58.3 Billion as A.I. Boom Gathers More Steam",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "NVIDIA",
-        "New York Times",
-        "Nvidia",
-        "artificial intelligence"
-      ],
-      "titleZh": "随着人工智能的发展，Nvidia 的利润达到 583 亿美元繁荣聚集更多蒸汽"
     },
     {
       "source": "Al Jazeera",
@@ -5192,8 +5510,7 @@
         "Meta Platforms",
         "New York Times",
         "artificial intelligence"
-      ],
-      "titleZh": "Meta 解雇 8,000 名员工，因为 A.I.伤亡人数增加"
+      ]
     },
     {
       "source": "Axios",
@@ -5255,8 +5572,7 @@
       ],
       "tags": [
         "Cloudflare"
-      ],
-      "titleZh": "意见 |我如何选择用 AI 取代哪些 Cloudflare 员工 - 华尔街日报"
+      ]
     },
     {
       "source": "NPR",
@@ -5277,28 +5593,6 @@
         "SpaceX"
       ],
       "titleZh": "埃隆·马斯克 (Elon Musk) 的 SpaceX IPO 计划揭示了火箭和人工智能方面的巨额支出 - NPR"
-    },
-    {
-      "source": "Financial Times",
-      "feedSource": "Financial Times",
-      "sourceUrl": "https://www.ft.com",
-      "title": "FirstFT: Nvidia reports better than expected revenue and forecasts in Q1 earnings - Financial Times",
-      "summary": "FirstFT: Nvidia reports better than expected revenue and forecasts in Q1 earnings Financial Times",
-      "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPajBFaWVVenpocUhvblpqQ0lzVzVENWlHaWt0dVQ1V0tJcE5IUDNaa3l5LTlld0wwbnFrenJST0Jva0NNZDd4Z3hPR0tieXVOU0hFdVh3eU9JRm4yNjlSYUhOeWVQQUZyQ2xBdGYwWTF2NkNCYnB4Z1hsMFRNN1lGMkZIVk8?oc=5",
-      "author": "",
-      "publishedAt": "2026-05-20T21:20:45Z",
-      "titleEn": "FirstFT: Nvidia reports better than expected revenue and forecasts in Q1 earnings - Financial Times",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "Financial Times",
-        "NVIDIA",
-        "Nvidia"
-      ],
-      "titleZh": "FirstFT：英伟达公布的第一季度营收和盈利预期均好于预期 - 英国《金融时报》"
     },
     {
       "source": "The New York Times",
@@ -5342,27 +5636,6 @@
       "titleZh": "谷歌的杰米斯·哈萨比斯 (Demis Hassabis) 继续进攻 - 路透中文网"
     },
     {
-      "source": "WSJ",
-      "feedSource": "Wall Street Journal",
-      "sourceUrl": "https://www.wsj.com",
-      "title": "Exclusive | Mind-Blowing Growth Is About to Propel Anthropic Into Its First Profitable Quarter - WSJ",
-      "summary": "Exclusive | Mind-Blowing Growth Is About to Propel Anthropic Into Its First Profitable Quarter WSJ",
-      "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxQR2NoS2RrWHg1NUpwVkRrd3hyTzFHRGNSdWYtWElOS3JXV2czY19mYTltdkl5NW91OG5zZ3dndFVKZVoxMzc1dzVleEZyeVJDcTVwMlF2OXFiV0ZMcVU2NFFoTXVlUURwaW50ZmZybUNHYnM3bTVqci11cjM5U3Z5ejJ0ckgyUEU0ZmVVYXdoemx3c3Q0blEzSE44b1Qzc0ktZmVJQXRFUVc3YzVBSFBrUkJiOWFTdjAxTWtR?oc=5",
-      "author": "",
-      "publishedAt": "2026-05-20T20:54:00Z",
-      "titleEn": "Exclusive | Mind-Blowing Growth Is About to Propel Anthropic Into Its First Profitable Quarter - WSJ",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "Anthropic",
-        "anthropic"
-      ],
-      "titleZh": "独家|令人兴奋的增长即将推动 Anthropic 进入第一个盈利季度 - 华尔街日报"
-    },
-    {
       "source": "Business Insider",
       "feedSource": "AI Statements · Public Figures 2",
       "sourceUrl": "https://www.businessinsider.com",
@@ -5402,29 +5675,6 @@
         "Meta"
       ],
       "titleZh": "Meta 解雇 8,000 名员工后，马克·扎克伯格称人工智能为“最重要的技术” - Just Jared"
-    },
-    {
-      "source": "New York Times",
-      "feedSource": "New York Times",
-      "sourceUrl": "",
-      "title": "OpenAI Prepares to File for an I.P.O. in Coming Weeks",
-      "summary": "OpenAI would be one of the most highly anticipated potential initial public offerings, in what is set to be a major year of I.P.O.s for Silicon Valley. Artificial Intelligence Initial Public Offerings Computers and the Internet OpenAI Labs Morgan Stanley Goldman Sachs Group Inc internal-open-access-from-nl",
-      "url": "https://www.nytimes.com/2026/05/20/technology/openai-ipo.html",
-      "author": "Mike Isaac",
-      "publishedAt": "2026-05-20T18:41:52Z",
-      "titleEn": "OpenAI Prepares to File for an I.P.O. in Coming Weeks",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "BE",
-        "New York Times",
-        "OpenAI",
-        "artificial intelligence"
-      ],
-      "titleZh": "OpenAI 准备申请 IPO未来几周内"
     },
     {
       "source": "linkedin.com",
@@ -5488,48 +5738,6 @@
       "titleZh": "我给了我的 OpenClaw 特工一个实体"
     },
     {
-      "source": "Financial Times",
-      "feedSource": "Financial Times",
-      "sourceUrl": "",
-      "title": "Zuckerberg promises no more ‘company-wide’ lay-offs at Meta after slashing jobs",
-      "summary": "Chief executive seeks to reassure disillusioned employees after culling 8,000 roles",
-      "url": "https://www.ft.com/content/ef46bd8f-51ee-4c06-b5ab-1de23114f81a",
-      "author": "",
-      "publishedAt": "2026-05-20T17:47:25Z",
-      "titleEn": "Zuckerberg promises no more ‘company-wide’ lay-offs at Meta after slashing jobs",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "Financial Times",
-        "Meta"
-      ],
-      "titleZh": "扎克伯格承诺 Meta 裁员后不再进行“全公司”裁员"
-    },
-    {
-      "source": "WSJ",
-      "feedSource": "Wall Street Journal",
-      "sourceUrl": "https://www.wsj.com",
-      "title": "Exclusive | OpenAI Is Preparing to File for an IPO Very Soon - WSJ",
-      "summary": "Exclusive | OpenAI Is Preparing to File for an IPO Very Soon WSJ",
-      "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBRenYyMXEyVGhlMnlXNi1pb2xaVlRURFNaYW5NUGdERVB4WVdQa2dfYWVoNjdJYXcwUVRjQ0FpTzZBdnVMUHZQRktvYUROdWdEYVRGbm1TNDJraGVXYkpiQ3ZrZ21oM25wVkpZ?oc=5",
-      "author": "",
-      "publishedAt": "2026-05-20T17:43:00Z",
-      "titleEn": "Exclusive | OpenAI Is Preparing to File for an IPO Very Soon - WSJ",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "OpenAI",
-        "openai"
-      ],
-      "titleZh": "独家| OpenAI 即将申请 IPO - 华尔街日报"
-    },
-    {
       "source": "cheddar.com",
       "feedSource": "AI Statements · Public Figures 2",
       "sourceUrl": "https://www.cheddar.com",
@@ -5550,28 +5758,6 @@
         "anthropic"
       ],
       "titleZh": "OpenAI 联合创始人 Andrej Karpathy 加入 Anthropic - cheddar.com"
-    },
-    {
-      "source": "Financial Times",
-      "feedSource": "Financial Times",
-      "sourceUrl": "",
-      "title": "OpenAI readies IPO filing to list as soon as September",
-      "summary": "AI lab is preparing for $1tn listing with bankers Goldman Sachs and Morgan Stanley and lawyers at Cooley",
-      "url": "https://www.ft.com/content/028a169f-cd1c-438b-b50d-df4af6297318",
-      "author": "",
-      "publishedAt": "2026-05-20T17:21:02Z",
-      "titleEn": "OpenAI readies IPO filing to list as soon as September",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "Financial Times",
-        "OpenAI",
-        "openai"
-      ],
-      "titleZh": "OpenAI 准备 IPO 申请，最快将于 9 月上市"
     },
     {
       "source": "observer.com",
@@ -5595,48 +5781,6 @@
       "titleZh": "Dario Amodei 聘请 OpenAI 联合创始人 Andrej Karpathy 赢得重大人才奖 -observer.com"
     },
     {
-      "source": "WSJ",
-      "feedSource": "Wall Street Journal",
-      "sourceUrl": "https://www.wsj.com",
-      "title": "Google Pushes AI-Generated Ads Further Into Search Results - WSJ",
-      "summary": "Google Pushes AI-Generated Ads Further Into Search Results WSJ",
-      "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxPTUJQT3hGeDIzcDMwMVBFNXlteVcyVmlSQlRZanpZN3JGTWpDRlZuVzlyRS1RSmRodXlyUHI4c3E4MnFHTzNDRWp0YUY4SHg4S080Ym5Xd1dkLUNsb0lpSTc0b01IZ0VhVkprelFxS3dTa2dzQl90bHVySHRSUVdiRVcyWl9qc09XTnh5cHd2dkZaVkE0ODh4MV9FaklVQQ?oc=5",
-      "author": "",
-      "publishedAt": "2026-05-20T16:00:00Z",
-      "titleEn": "Google Pushes AI-Generated Ads Further Into Search Results - WSJ",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "Google",
-        "google"
-      ],
-      "titleZh": "谷歌将人工智能生成的广告进一步推入搜索结果 - 华尔街日报"
-    },
-    {
-      "source": "The New York Times",
-      "feedSource": "New York Times",
-      "sourceUrl": "https://www.nytimes.com",
-      "title": "In Musk vs. OpenAI, the Real Winner Was the Suit - The New York Times",
-      "summary": "In Musk vs. OpenAI, the Real Winner Was the Suit The New York Times",
-      "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQUEFUbkp4UjYyRFhWSlVRTTl0d1R4TTFKTjFyOFd2MTZXSll0dGhhN282VEtJZ3hyYzRudDZzdS1JaUFEb2VUNXV4S2RUdzZ1UUJzUVQzeE5PTjh4VC14aVowaTRKdGpKMFpuUHljVFNOWWl5OTc1MlVCNFg4bnYxeGxVRzhaenNnTXB6R3Nn?oc=5",
-      "author": "",
-      "publishedAt": "2026-05-20T15:46:00Z",
-      "titleEn": "In Musk vs. OpenAI, the Real Winner Was the Suit - The New York Times",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "OpenAI",
-        "openai"
-      ],
-      "titleZh": "马斯克 vs. OpenAI，真正的赢家是诉讼 - 纽约时报中文网"
-    },
-    {
       "source": "MIT Technology Review",
       "feedSource": "MIT Technology Review",
       "sourceUrl": "",
@@ -5655,29 +5799,6 @@
         "MIT Technology Review"
       ],
       "titleZh": "绿色钢铁初创公司 Boston Metal 正在加倍投资关键金属"
-    },
-    {
-      "source": "New York Times",
-      "feedSource": "New York Times",
-      "sourceUrl": "",
-      "title": "The Growing Anxiety Over AI, Jobs and the Future",
-      "summary": "Layoffs linked to artificial intelligence are rattling workers and college graduates, stoking concerns worldwide that are showing up in polls. internal-storyline-no Artificial Intelligence Meta Platforms Inc Standard Chartered Bank PLC Winters, William T Layoffs and Job Reductions Polls and Public Opinion Google Inc",
-      "url": "https://www.nytimes.com/2026/05/20/business/dealbook/ai-jobs-layoffs-meta.html",
-      "author": "Andrew Ross Sorkin",
-      "publishedAt": "2026-05-20T11:51:42Z",
-      "titleEn": "The Growing Anxiety Over AI, Jobs and the Future",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "Google",
-        "Meta",
-        "Meta Platforms",
-        "New York Times"
-      ],
-      "titleZh": "对人工智能、就业和未来日益增长的焦虑"
     },
     {
       "source": "Axios",
@@ -5702,48 +5823,6 @@
       "titleZh": "OpenAI 联合创始人 Andrej Karpathy 加入 Anthropic - Axios"
     },
     {
-      "source": "WSJ",
-      "feedSource": "Wall Street Journal",
-      "sourceUrl": "https://www.wsj.com",
-      "title": "Exclusive | Bristol-Myers Squibb Brings Anthropic’s Claude to 30,000 of Its Staff - WSJ",
-      "summary": "Exclusive | Bristol-Myers Squibb Brings Anthropic’s Claude to 30,000 of Its Staff WSJ",
-      "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQR3JmZVJUWEZ0ZjZyVjZoWXpJeXRCTHlZRFI0aUFXT3htTFg1WHZ0cVVNcFNpbGtzWGlqRkRoRS04aVBENFJNN1RxVklOTDNqenFqX2ZqN2pEd0U4V21yb0I5T01TaHBYYzh0WUpxNTZfZTUtVTZoakZVX3NmaFJtYUFxUEZEWTgzdXI1VlBNang0dFltWXpUMGhXWFE0QzZ5VmtxYVVUcFhQNzA1TXc?oc=5",
-      "author": "",
-      "publishedAt": "2026-05-20T10:45:00Z",
-      "titleEn": "Exclusive | Bristol-Myers Squibb Brings Anthropic’s Claude to 30,000 of Its Staff - WSJ",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "Anthropic",
-        "anthropic"
-      ],
-      "titleZh": "独家|百时美施贵宝将 Anthropic 的 Claude 引入其 30,000 名员工 - 华尔街日报"
-    },
-    {
-      "source": "South China Morning Post",
-      "feedSource": "South China Morning Post",
-      "sourceUrl": "",
-      "title": "China’s private equity activity picks up as investors focus on tech and AI opportunities",
-      "summary": "Private equity activity is picking up in China, with limited partners growing more selective about opportunities in technology, including chips, manufacturing, artificial intelligence and robotics, according to industry players. “In the last 12 to 18 months … we are seeing a lot more [private equity fundraising activit",
-      "url": "https://www.scmp.com/business/banking-finance/article/3354255/chinas-private-equity-activity-picks-investors-focus-tech-and-ai-opportunities?utm_source=rss_feed",
-      "author": "Julie Zhang",
-      "publishedAt": "2026-05-20T10:12:37Z",
-      "titleEn": "China’s private equity activity picks up as investors focus on tech and AI opportunities",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "South China Morning Post",
-        "artificial intelligence"
-      ],
-      "titleZh": "随着投资者关注科技和人工智能机会，中国私募股权活动有所回升"
-    },
-    {
       "source": "Tom's Hardware",
       "feedSource": "AI Statements · Public Figures 3",
       "sourceUrl": "https://www.tomshardware.com",
@@ -5762,354 +5841,6 @@
         "AMD"
       ],
       "titleZh": "苏姿丰在中国访问期间会见中国副总理 — AMD 首席执行官承诺在特习峰会后加大投资 - Tom's Hardware"
-    },
-    {
-      "source": "South China Morning Post",
-      "feedSource": "South China Morning Post",
-      "sourceUrl": "",
-      "title": "Alibaba unveils new Qwen model, custom chips in bid to become China’s ‘AI factory’",
-      "summary": "Alibaba Group Holding unveiled a sweeping suite of new artificial intelligence products spanning models, cloud infrastructure and chips on Wednesday, positioning itself to become China’s “AI factory” as autonomous agents gain prominence. Speaking at the Alibaba Cloud Summit in Hangzhou, Liu Weiguang, senior vice-presid",
-      "url": "https://www.scmp.com/tech/big-tech/article/3354212/alibaba-unveils-new-qwen-model-custom-chips-bid-become-chinas-ai-factory?utm_source=rss_feed",
-      "author": "Xinmei Shen",
-      "publishedAt": "2026-05-20T08:28:04Z",
-      "titleEn": "Alibaba unveils new Qwen model, custom chips in bid to become China’s ‘AI factory’",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "South China Morning Post",
-        "artificial intelligence",
-        "qwen"
-      ],
-      "titleZh": "阿里巴巴推出Qwen新机型、定制芯片 力争成为中国“人工智能工厂”"
-    },
-    {
-      "source": "Financial Times",
-      "feedSource": "Financial Times",
-      "sourceUrl": "",
-      "title": "China banned Nvidia’s gaming chip during Jensen Huang’s visit",
-      "summary": "Beijing aims to support domestic players including Huawei and Cambricon as they catch up to US rivals",
-      "url": "https://www.ft.com/content/a30c3dd5-9383-4606-a649-fdf19c41c308",
-      "author": "",
-      "publishedAt": "2026-05-20T08:08:34Z",
-      "titleEn": "China banned Nvidia’s gaming chip during Jensen Huang’s visit",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "Financial Times",
-        "NVIDIA",
-        "Nvidia"
-      ],
-      "titleZh": "中国在黄仁勋访问期间禁止英伟达的游戏芯片"
-    },
-    {
-      "source": "South China Morning Post",
-      "feedSource": "South China Morning Post",
-      "sourceUrl": "",
-      "title": "HSBC’s CEO says AI will both create and destroy financial industry jobs",
-      "summary": "The head of HSBC, Hong Kong’s biggest lender, said artificial intelligence will both destroy and create certain jobs in the financial industry, but emphasised the bank will focus on retraining its workforce to adapt to the new and evolving environment in the sector. “We all know generative AI will destroy certain jobs",
-      "url": "https://www.scmp.com/business/banking-finance/article/3354204/hsbcs-ceo-says-ai-will-both-create-and-destroy-financial-industry-jobs?utm_source=rss_feed",
-      "author": "Enoch Yiu",
-      "publishedAt": "2026-05-20T06:57:45Z",
-      "titleEn": "HSBC’s CEO says AI will both create and destroy financial industry jobs",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "South China Morning Post",
-        "artificial intelligence"
-      ],
-      "titleZh": "汇丰银行首席执行官表示人工智能将创造和摧毁金融业就业机会"
-    },
-    {
-      "source": "South China Morning Post",
-      "feedSource": "South China Morning Post",
-      "sourceUrl": "",
-      "title": "OpenAI, which bars access to services in China, seeks Mandarin-speaking staff",
-      "summary": "US artificial intelligence giant OpenAI has begun recruiting staff to “cover clients and communities that are Mandarin-speaking” even though the company has long excluded China – the largest Sinophone market – from its service coverage amid a global race for AI dominance. The company’s recruitment website said it was l",
-      "url": "https://www.scmp.com/tech/article/3354191/openai-which-bars-access-services-china-seeks-mandarin-speaking-staff?utm_source=rss_feed",
-      "author": "Ben Jiang",
-      "publishedAt": "2026-05-20T05:58:59Z",
-      "titleEn": "OpenAI, which bars access to services in China, seeks Mandarin-speaking staff",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "OpenAI",
-        "South China Morning Post",
-        "artificial intelligence",
-        "openai"
-      ],
-      "titleZh": "OpenAI 禁止在中国使用服务，寻求会说普通话的员工"
-    },
-    {
-      "source": "Financial Times",
-      "feedSource": "Financial Times",
-      "sourceUrl": "",
-      "title": "Is Nvidia too big to fail?",
-      "summary": "‘You’re clearly at the centre of everything’",
-      "url": "https://www.ft.com/content/29adbaf8-f21a-4bd5-aed9-1c2d6a8216cc",
-      "author": "",
-      "publishedAt": "2026-05-20T05:00:20Z",
-      "titleEn": "Is Nvidia too big to fail?",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "Financial Times",
-        "NVIDIA",
-        "Nvidia"
-      ],
-      "titleZh": "英伟达是否太大而不能倒？"
-    },
-    {
-      "source": "Financial Times",
-      "feedSource": "Financial Times",
-      "sourceUrl": "",
-      "title": "AI Exchange",
-      "summary": "In this monthly series, running alongside our existing Tech Exchange dialogues, FT journalists talk to the scientists, developers and business leaders exploring ever more applications for artificial intelligence, in every aspect of our lives",
-      "url": "https://www.ft.com/ai-exchange",
-      "author": "",
-      "publishedAt": "2026-05-20T04:06:14Z",
-      "titleEn": "AI Exchange",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "Financial Times",
-        "artificial intelligence"
-      ],
-      "titleZh": "人工智能交易所"
-    },
-    {
-      "source": "Financial Times",
-      "feedSource": "Financial Times",
-      "sourceUrl": "https://www.ft.com",
-      "title": "Nvidia’s Jensen Huang bankrolls AI boom with $90bn deal spree - Financial Times",
-      "summary": "Nvidia’s Jensen Huang bankrolls AI boom with $90bn deal spree Financial Times",
-      "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxQSGdsRFdhckdacDNuTXZqbVplWm1QNURXaEJ5VVVKamdUTkNlb0NyUVh1Um1PTnZGSU1sa0x4bFpoZkxVMEZFMGxXbjBJMEVrZld1RVE0eW5TQTQyUGY5Y3RJM0wtM2dwMFJwU0NNX1J4a0JNYXlCb184ajdHUU4xRjNJSVQ?oc=5",
-      "author": "",
-      "publishedAt": "2026-05-20T04:06:06Z",
-      "titleEn": "Nvidia’s Jensen Huang bankrolls AI boom with $90bn deal spree - Financial Times",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "Financial Times",
-        "NVIDIA",
-        "Nvidia"
-      ],
-      "titleZh": "英伟达 (Nvidia) 黄仁勋 (Jensen Huang) 以 900 亿美元的交易狂潮为人工智能热潮提供资金 - 英国《金融时报》"
-    },
-    {
-      "source": "Financial Times",
-      "feedSource": "Financial Times",
-      "sourceUrl": "",
-      "title": "Nvidia’s Huang bankrolls AI boom with $90bn deal spree",
-      "summary": "Chipmaker’s spending rivals Big Tech’s biggest venture operations, tying customers and start-ups to its technology",
-      "url": "https://www.ft.com/content/c6b362b8-ab6b-4723-af48-28082bdfcac2",
-      "author": "",
-      "publishedAt": "2026-05-20T04:00:12Z",
-      "titleEn": "Nvidia’s Huang bankrolls AI boom with $90bn deal spree",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "Financial Times",
-        "NVIDIA",
-        "Nvidia"
-      ],
-      "titleZh": "Nvidia 黄仁勋以 900 亿美元的交易狂潮为人工智能热潮提供资金"
-    },
-    {
-      "source": "South China Morning Post",
-      "feedSource": "South China Morning Post",
-      "sourceUrl": "",
-      "title": "How tiny capacitors became the latest AI-driven investor darling",
-      "summary": "Demand for multilayer ceramic capacitors (MLCCs), tiny electronic components found in everything from smartphones to electric vehicles, is surging as the artificial intelligence boom triggers new production. MLCCs, which act as electrical buffers in circuit boards, are increasingly deployed in massive volumes in high-p",
-      "url": "https://www.scmp.com/tech/article/3354168/how-tiny-capacitors-became-latest-ai-driven-investor-darling?utm_source=rss_feed",
-      "author": "Iris Deng",
-      "publishedAt": "2026-05-20T03:22:03Z",
-      "titleEn": "How tiny capacitors became the latest AI-driven investor darling",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "South China Morning Post",
-        "artificial intelligence"
-      ],
-      "titleZh": "微型电容器如何成为人工智能驱动的最新投资者宠儿"
-    },
-    {
-      "source": "New York Times",
-      "feedSource": "New York Times",
-      "sourceUrl": "",
-      "title": "China Wants A.I. to Flourish, but Not at the Expense of Jobs",
-      "summary": "A series of precedent-setting rulings signals that Chinese courts are being enlisted to shield workers from displacement by artificial intelligence. China Artificial Intelligence Regulation and Deregulation of Industry Layoffs and Job Reductions Decisions and Verdicts Labor and Jobs Politics and Government Hangzhou (Ch",
-      "url": "https://www.nytimes.com/2026/05/19/business/china-ai-unemployment.html",
-      "author": "Catie Edmondson",
-      "publishedAt": "2026-05-19T23:28:04Z",
-      "titleEn": "China Wants A.I. to Flourish, but Not at the Expense of Jobs",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "New York Times",
-        "artificial intelligence"
-      ],
-      "titleZh": "中国需要人工智能繁荣，但不以牺牲就业为代价"
-    },
-    {
-      "source": "New York Times",
-      "feedSource": "New York Times",
-      "sourceUrl": "",
-      "title": "Elon Musk Loses $150 Billion Suit Against OpenAI and Sam Altman",
-      "summary": "A nine-member jury found that Mr. Musk had waited too long to sue. The setback for the tech mogul frees OpenAI to continue in the artificial intelligence race. Artificial Intelligence Decisions and Verdicts Suits and Litigation (Civil) OpenAI Labs Altman, Samuel H Brockman, Greg Gonzalez Rogers, Yvonne (1965- ) Musk, E",
-      "url": "https://www.nytimes.com/2026/05/18/technology/elon-musk-lawsuit-openai-sam-altman.html",
-      "author": "Cade Metz",
-      "publishedAt": "2026-05-19T22:26:41Z",
-      "titleEn": "Elon Musk Loses $150 Billion Suit Against OpenAI and Sam Altman",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "New York Times",
-        "OpenAI",
-        "artificial intelligence",
-        "openai"
-      ],
-      "titleZh": "埃隆·马斯克 (Elon Musk) 在针对 OpenAI 和 Sam Altman 的诉讼中败诉 1500 亿美元"
-    },
-    {
-      "source": "WSJ",
-      "feedSource": "Wall Street Journal",
-      "sourceUrl": "https://www.wsj.com",
-      "title": "Google Unveils New Gemini AI Agent for Personal Tasks - WSJ",
-      "summary": "Google Unveils New Gemini AI Agent for Personal Tasks WSJ",
-      "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxPQ1lkckxWd25jTF9XcUZTakJadTNxZVFnNGxlOXFwY0VPVmNldzFZY3p5SFZLa1hKbnRzdmtMTlpDWmhPY1c2REdsZEpUXy10T0dFTVdwMFRTalV4X0trcjZ1cGhpcEI5M1d0a3JzbzFmTS12LVRnNWJ6ZmRsVGwyVEdhWDY0OGhxbk8xdTZsS1BuMHAt?oc=5",
-      "author": "",
-      "publishedAt": "2026-05-19T21:30:00Z",
-      "titleEn": "Google Unveils New Gemini AI Agent for Personal Tasks - WSJ",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "Google",
-        "google"
-      ],
-      "titleZh": "谷歌推出用于个人任务的新 Gemini AI 代理 - 华尔街日报"
-    },
-    {
-      "source": "WSJ",
-      "feedSource": "Wall Street Journal",
-      "sourceUrl": "https://www.wsj.com",
-      "title": "Andrej Karpathy, Tesla Alum and OpenAI Co-Founder, Joins Anthropic - WSJ",
-      "summary": "Andrej Karpathy, Tesla Alum and OpenAI Co-Founder, Joins Anthropic WSJ",
-      "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNbVd6ak5QblllM2NCbS1FVVozWnU2SUJCdDBCcUFjYjVWaS1SQnNuNnM0QVI4Z014RUJONnZCT0dBMWIzSTFieU5WZUN0Q2FQZHRueU9DQXBaenQydnFVWUxyV1l6QndWRjhQUkpaWTdJYkxsSm9FY2Y4MEZPY2VMSVoxdWJnWUFPY1hKcEVmQXhEREVKNDdFazhNVGFNbDN4WTQw?oc=5",
-      "author": "",
-      "publishedAt": "2026-05-19T21:30:00Z",
-      "titleEn": "Andrej Karpathy, Tesla Alum and OpenAI Co-Founder, Joins Anthropic - WSJ",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "Anthropic",
-        "OpenAI",
-        "Tesla"
-      ],
-      "titleZh": "Tesla 校友兼 OpenAI 联合创始人 Andrej Karpathy 加入 Anthropic - 华尔街日报"
-    },
-    {
-      "source": "WSJ",
-      "feedSource": "Wall Street Journal",
-      "sourceUrl": "https://www.wsj.com",
-      "title": "Big Tech Is Cutting Back on Buybacks. Nvidia Could Be the Exception. | Markets A.M. for May 19 - WSJ",
-      "summary": "Big Tech Is Cutting Back on Buybacks. Nvidia Could Be the Exception. | Markets A.M. for May 19 WSJ",
-      "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPR3YwaUpQM0w0c3d6a1pnZTV1ZjNVMW5jTGt3QkxqaFJGdDlsaWFsUjdyeXN3RVpBbE5aaFB2MFU4TEN4dktWaU1vaEhxMGladURLMGNsZGdNTGp2LS0xYlo4alNLQTcxcFV0NW01TTRiWDdDYTRQMnRVMWlrZkcyd2dTR2RFdGpRRXdZMUl3NWp0T0sweWZSSTBLSkZFV2lMVEJleGZyWmNGcEdLVno4?oc=5",
-      "author": "",
-      "publishedAt": "2026-05-19T20:58:00Z",
-      "titleEn": "Big Tech Is Cutting Back on Buybacks. Nvidia Could Be the Exception. | Markets A.M. for May 19 - WSJ",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "BE",
-        "NVIDIA",
-        "Nvidia"
-      ],
-      "titleZh": "大型科技公司正在削减回购规模。英伟达可能是个例外。 |市场上午5 月 19 日 - 华尔街日报"
-    },
-    {
-      "source": "Financial Times",
-      "feedSource": "Financial Times",
-      "sourceUrl": "",
-      "title": "Google to release smart glasses and add AI ‘agents’ to search engine",
-      "summary": "CEO Sundar Pichai says features powered by new Gemini model will close gap with Anthropic and OpenAI",
-      "url": "https://www.ft.com/content/c47ab51e-2521-4ccb-9de5-a2b03791981a",
-      "author": "",
-      "publishedAt": "2026-05-19T20:47:04Z",
-      "titleEn": "Google to release smart glasses and add AI ‘agents’ to search engine",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "Anthropic",
-        "Financial Times",
-        "Google",
-        "OpenAI"
-      ],
-      "titleZh": "谷歌将发布智能眼镜并将人工智能“代理”添加到搜索引擎"
-    },
-    {
-      "source": "WSJ",
-      "feedSource": "Wall Street Journal",
-      "sourceUrl": "https://www.wsj.com",
-      "title": "Analog Devices to Buy Empower Semiconductor for $1.5 Billion - WSJ",
-      "summary": "Analog Devices to Buy Empower Semiconductor for $1.5 Billion WSJ",
-      "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPVFVoZFhxa3VFX2ljOXFWSUZZSE9NSXE3a1RGMmtXZWdUQl8xenNndldOeDlIM1ZQZ0VNUzRlM0diQ3otY3ZZTHpGWjYzZElKRWdWYVNIUEFhVEVYaVE4U0Q1WkZfWW9JdmlENFc2d1pEYlJDd1pkUzczQU9uaG9tZDVlTDctRk9aZ3gwRFVvLVJjQnBsUk1ldXJleGh2cklFRm45bVl3?oc=5",
-      "author": "",
-      "publishedAt": "2026-05-19T20:37:00Z",
-      "titleEn": "Analog Devices to Buy Empower Semiconductor for $1.5 Billion - WSJ",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "Analog Devices"
-      ],
-      "titleZh": "Analog Devices 将以 15 亿美元收购 Empower Semiconductor - 华尔街日报"
     },
     {
       "source": "MIT Technology Review",
@@ -6177,52 +5908,6 @@
       "titleZh": "Andrej Karpathy 在人工智能研究军备竞赛中加入 Anthropic - PYMNTS.com"
     },
     {
-      "source": "New York Times",
-      "feedSource": "New York Times",
-      "sourceUrl": "",
-      "title": "How Google Is Starting to Win the A.I. Race",
-      "summary": "Despite its early stumbles, Google’s Gemini has leapfrogged ChatGPT in relevance and usefulness. Soon, it will be ubiquitous. Google Inc Artificial Intelligence ChatGPT Online Advertising Anthropic AI LLC OpenAI Labs",
-      "url": "https://www.nytimes.com/2026/05/19/technology/personaltech/google-gemini-ai.html",
-      "author": "Brian X. Chen",
-      "publishedAt": "2026-05-19T19:41:47Z",
-      "titleEn": "How Google Is Starting to Win the A.I. Race",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "Anthropic",
-        "BE",
-        "Google",
-        "New York Times"
-      ],
-      "titleZh": "谷歌如何开始赢得人工智能领域的胜利种族"
-    },
-    {
-      "source": "Financial Times",
-      "feedSource": "Financial Times",
-      "sourceUrl": "",
-      "title": "Wall Street prepares for boom in tech IPOs after Cerebras’ success",
-      "summary": "Chip designer’s $6.4bn raise signals demand ahead of huge listings expected from SpaceX, OpenAI and Anthropic",
-      "url": "https://www.ft.com/content/b839fea1-8563-4a34-b8f0-1c735f23467f",
-      "author": "",
-      "publishedAt": "2026-05-19T19:07:47Z",
-      "titleEn": "Wall Street prepares for boom in tech IPOs after Cerebras’ success",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "Anthropic",
-        "Financial Times",
-        "OpenAI",
-        "SpaceX"
-      ],
-      "titleZh": "Cerebras 成功后，华尔街正在为科技 IPO 的繁荣做好准备"
-    },
-    {
       "source": "WIRED",
       "feedSource": "WIRED",
       "sourceUrl": "",
@@ -6242,51 +5927,6 @@
         "WIRED"
       ],
       "titleZh": "Meta 员工在裁员前争先恐后地用完福利"
-    },
-    {
-      "source": "New York Times",
-      "feedSource": "New York Times",
-      "sourceUrl": "",
-      "title": "Powered by A.I., Google Changes Its Search Box for the First Time in 25 Years",
-      "summary": "Using a new Gemini A.I. model, the tech giant is overhauling its search box dimensions to answer longer queries, adding a video-generation tool and simplifying online shopping. Google Inc Search Engines Artificial Intelligence E-Commerce Shopping and Retail Photography OpenAI Labs",
-      "url": "https://www.nytimes.com/2026/05/19/business/google-seach-bar-ai-gemini.html",
-      "author": "Tripp Mickle",
-      "publishedAt": "2026-05-19T18:34:36Z",
-      "titleEn": "Powered by A.I., Google Changes Its Search Box for the First Time in 25 Years",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "Google",
-        "New York Times",
-        "OpenAI",
-        "artificial intelligence"
-      ],
-      "titleZh": "在人工智能的支持下，谷歌 25 年来首次改变搜索框"
-    },
-    {
-      "source": "Financial Times",
-      "feedSource": "Financial Times",
-      "sourceUrl": "https://www.ft.com",
-      "title": "Google debuts AI model as it comes under pressure from coding rivals - Financial Times",
-      "summary": "Google debuts AI model as it comes under pressure from coding rivals Financial Times",
-      "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1kcUhtbEhpLXhQcXVDdGxrSEVlMTZPajJiTzQ1bnhFMVladmpWbk14RzlucTJtSHl1VHU5b0JzalIyakR4Z3JwbUpiY3phejg0WUZNbTY0NjlMRVpSb3NNOExNanNiSkxsNnhudm5vNTk?oc=5",
-      "author": "",
-      "publishedAt": "2026-05-19T17:45:04Z",
-      "titleEn": "Google debuts AI model as it comes under pressure from coding rivals - Financial Times",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "Financial Times",
-        "Google",
-        "google"
-      ],
-      "titleZh": "谷歌推出人工智能模型，应对来自编码竞争对手的压力 - 金融时报"
     },
     {
       "source": "Mashable SEA",
@@ -6442,25 +6082,49 @@
       "titleZh": "有影响力的人工智能研究员 Andrej Karpathy 宣布加入 Anthropic - VentureBeat"
     },
     {
-      "source": "WSJ",
-      "feedSource": "Wall Street Journal",
-      "sourceUrl": "https://www.wsj.com",
-      "title": "OpenAI’s Legal Victory Comes With A Cost - WSJ",
-      "summary": "OpenAI’s Legal Victory Comes With A Cost WSJ",
-      "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxPT1UzUGNrc3N2d3dINmc4amlyLTgxRTJ0dmN6dFNmS05xbGdYYnE1TllsVWhIRnRVRzRqb3FMUGZCMmdiQzZKLTFXZVVRMnRkY25BMWFTTGhEUmc1bUV1U2VPNzNmUVdOcUZoeXRRX3dyVjh0YWpKbjA3NUU0R0NXSFdB?oc=5",
+      "source": "The New York Times",
+      "feedSource": "New York Times",
+      "sourceUrl": "https://www.nytimes.com",
+      "title": "Fan A.I. Videos Help Spencer Pratt Break Through in L.A. Mayor’s Race - The New York Times",
+      "summary": "Fan A.I. Videos Help Spencer Pratt Break Through in L.A. Mayor’s Race The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE9naUJpeE8tcW84SWdiVDIySXNldUxjZWUxMmViZ2ptaUxnWFM0QWRuRVhYajZ4Z052NHVMbVlMR1FRalpUbDluX1ZpN2p2Z0hsU2NINnVmRTZjbWNtU0RrMXV0a1dvMXVid2VDaDRmeVhfWElo?oc=5",
       "author": "",
-      "publishedAt": "2026-05-19T16:00:00Z",
-      "titleEn": "OpenAI’s Legal Victory Comes With A Cost - WSJ",
+      "publishedAt": "2026-05-21T16:29:54Z",
+      "titleEn": "Fan A.I. Videos Help Spencer Pratt Break Through in L.A. Mayor’s Race - The New York Times",
       "section": "industry",
       "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "OpenAI",
-        "openai"
-      ],
-      "titleZh": "OpenAI 的法律胜利是有代价的 - 华尔街日报"
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
+      "source": "The New York Times",
+      "feedSource": "New York Times",
+      "sourceUrl": "https://www.nytimes.com",
+      "title": "Opinion | A Defense of a Liberal Arts Education in the Age of A.I. - The New York Times",
+      "summary": "Opinion | A Defense of a Liberal Arts Education in the Age of A.I. The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE5SSHZjTW9tUFJuTG5SWU0yUUtZQUxGODhIclRRVVlCQTFBWGVEVWtCQ0NGWG1BbzlyemJKRTNieHdoNkJZV1g0dW10X09HaUFnbk9lXzRXb00zNzRTZ3BlaG5BT1RjcFNPN2lTeXJjZF81MjE5M1ZseE53dWpWdw?oc=5",
+      "author": "",
+      "publishedAt": "2026-05-21T09:04:47Z",
+      "titleEn": "Opinion | A Defense of a Liberal Arts Education in the Age of A.I. - The New York Times",
+      "section": "industry",
+      "sectionTitle": "行业",
+      "matchedPortfolios": [],
+      "tags": []
+    },
+    {
+      "source": "The New York Times",
+      "feedSource": "New York Times",
+      "sourceUrl": "https://www.nytimes.com",
+      "title": "Was a Story That Just Won a Literary Prize A.I.-Generated? - The New York Times",
+      "summary": "Was a Story That Just Won a Literary Prize A.I.-Generated? The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE1fYTZVQlJvU0F0TkIxcy1NenNsdldwQTNfcnRjaG43QXU1MFVZeE1XTnRfWkNRRkRiaU92alBZUVl2aXVyZDNuVzlBYUttMW5JU19pSE03b3EyTmp1eTQzb0F0Um0yRmhUYzZtR0QxUm0xZlBBWUMwOXVLQQ?oc=5",
+      "author": "",
+      "publishedAt": "2026-05-20T22:44:03Z",
+      "titleEn": "Was a Story That Just Won a Literary Prize A.I.-Generated? - The New York Times",
+      "section": "industry",
+      "sectionTitle": "行业",
+      "matchedPortfolios": [],
+      "tags": []
     }
   ]
 }
