@@ -3317,7 +3317,9 @@
       return match ? match[1] : "";
     }
     function youtubeEmbedUrl(videoId) {
-      return `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1&rel=0`;
+      const params = new URLSearchParams({ autoplay: "1", rel: "0", enablejsapi: "1", playsinline: "1" });
+      if (location.protocol === "https:" || location.protocol === "http:") params.set("origin", location.origin);
+      return `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?${params.toString()}`;
     }
     function restoreInlineVideos(exceptLink = null) {
       document.querySelectorAll(".news-item[data-video-id] .news-thumb iframe").forEach((iframe) => {
@@ -3337,6 +3339,22 @@
       thumb.dataset.originalHtml = thumb.dataset.originalHtml || thumb.innerHTML;
       const title = link.dataset.videoTitle || "IsitHUB Video";
       thumb.innerHTML = `<iframe src="${youtubeEmbedUrl(videoId)}" title="${escapeHtml(title)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
+    }
+    function resumeNewsTrackForIframe(iframe) {
+      iframe?.closest?.(".news-track.paused")?.classList.remove("paused");
+    }
+    function handleYouTubeStateMessage(event) {
+      if (!String(event.origin || "").includes("youtube")) return;
+      let data = event.data;
+      if (typeof data === "string") {
+        try { data = JSON.parse(data); } catch (error) { return; }
+      }
+      if (!data || data.event !== "onStateChange") return;
+      if (data.info !== 0 && data.info !== 2) return;
+      const frames = document.querySelectorAll(".news-item[data-video-id] .news-thumb iframe");
+      frames.forEach((iframe) => {
+        if (iframe.contentWindow === event.source) resumeNewsTrackForIframe(iframe);
+      });
     }
     function balanceHotNewsItems(items, limit = 16) {
       const groups = new Map();
@@ -4126,6 +4144,7 @@
         event.preventDefault();
         playVideoInline(videoLink);
       });
+      window.addEventListener("message", handleYouTubeStateMessage);
     }
     function handleQuoteError(error) {
       console.warn(error);
