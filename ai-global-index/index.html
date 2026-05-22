@@ -2587,6 +2587,92 @@
       ["688728.SS", "格科微", "China sensor chip", "图像传感器与边缘视觉硬件。"]
     ];
     const BASE_TICKERS = new Set(BASE_COMPANIES.map((row) => row[0]));
+    const COMPANY_EN_NAMES = {
+      "BYTEDANCE.PRE": "ByteDance",
+      "MOONSHOT.PRE": "Moonshot AI",
+      "005930.KS": "Samsung Electronics",
+      "000660.KS": "SK Hynix",
+      "QJTECH.PRE": "QJTech",
+      "002364.SZ": "Zhongheng Electric",
+      "601985.SS": "China National Nuclear Power",
+      "1816.HK": "CGN Power",
+      "000338.SZ": "Weichai Power",
+      "300408.SZ": "Chaozhou Three-Circle",
+      "0179.HK": "Johnson Electric",
+      "688551.SS": "Kewell Technology",
+      "688733.SS": "Estone Materials",
+      "002823.SZ": "Kaizhong Precision",
+      "688256.SS": "Cambricon",
+      "688041.SS": "Hygon Information",
+      "688111.SS": "Kingsoft Office",
+      "603019.SS": "Sugon",
+      "000977.SZ": "Inspur Information",
+      "300750.SZ": "CATL",
+      "002384.SZ": "DSBJ",
+      "301666.SZ": "DapuStor",
+      "688820.SS": "SJ Semiconductor",
+      "601869.SS": "YOFC",
+      "688795.SS": "Moore Threads",
+      "603986.SS": "GigaDevice",
+      "YMTC.PRE": "YMTC",
+      "CXMT.PRE": "CXMT",
+      "002230.SZ": "iFlytek",
+      "300308.SZ": "Zhongji Innolight",
+      "300502.SZ": "Eoptolink",
+      "300394.SZ": "TFC Communication",
+      "688981.SS": "SMIC",
+      "002475.SZ": "Luxshare Precision",
+      "002415.SZ": "Hikvision",
+      "000938.SZ": "Unisplendour",
+      "600570.SS": "Hundsun Technologies",
+      "300033.SZ": "Hithink RoyalFlush",
+      "688008.SS": "Montage Technology",
+      "688521.SS": "VeriSilicon",
+      "0700.HK": "Tencent",
+      "9988.HK": "Alibaba",
+      "9888.HK": "Baidu",
+      "1810.HK": "Xiaomi",
+      "1024.HK": "Kuaishou",
+      "2513.HK": "Zhipu AI",
+      "6082.HK": "Biren Technology",
+      "0020.HK": "SenseTime",
+      "6682.HK": "Fourth Paradigm",
+      "9660.HK": "Horizon Robotics",
+      "2533.HK": "Black Sesame",
+      "9880.HK": "UBTECH Robotics",
+      "1651.HK": "Tsugami China",
+      "2026.HK": "Pony AI",
+      "0800.HK": "WeRide",
+      "2525.HK": "Hesai Technology",
+      "2498.HK": "RoboSense",
+      "0992.HK": "Lenovo",
+      "0981.HK": "SMIC",
+      "1347.HK": "Hua Hong Semiconductor",
+      "6088.HK": "FIT Hon Teng",
+      "2018.HK": "AAC Technologies",
+      "2382.HK": "Sunny Optical",
+      "9698.HK": "GDS Holdings",
+      "3888.HK": "Kingsoft",
+      "0354.HK": "Chinasoft International",
+      "0268.HK": "Kingdee",
+      "2158.HK": "Yidu Tech",
+      "2013.HK": "Weimob",
+      "0909.HK": "Ming Yuan Cloud",
+      "688327.SS": "CloudWalk",
+      "688088.SS": "ArcSoft",
+      "603501.SS": "Will Semiconductor",
+      "002236.SZ": "Dahua Technology",
+      "300496.SZ": "ThunderSoft",
+      "002371.SZ": "NAURA Technology",
+      "688120.SS": "Hwatsing Technology",
+      "300476.SZ": "Victory Giant Technology",
+      "002463.SZ": "WUS Printed Circuit",
+      "300604.SZ": "Changchuan Technology",
+      "688012.SS": "AMEC",
+      "603893.SS": "Rockchip",
+      "688169.SS": "Roborock",
+      "688728.SS": "GalaxyCore"
+    };
     const AIBOTT_ROWS = AIBOTT_WATCHLIST
       .filter(([symbol]) => !BASE_TICKERS.has(symbol))
       .map(([symbol, name, theme, oneLiner, conviction]) => [symbol, name, theme, oneLiner, { tags: [theme, conviction, "AI Bottlenecks"] }]);
@@ -2601,6 +2687,8 @@
         rank: index + 1,
         ticker: row[0],
         name: row[1],
+        nameZh: row[1],
+        nameEn: COMPANY_EN_NAMES[row[0]] || row[1],
         category: aibottTheme,
         thesis: aibott?.oneLiner || row[3],
         tags,
@@ -2783,7 +2871,7 @@
     const I18N = {
       zh: {
         pageTitle: "IsitHUB",
-        topCompanies: "公司", topMarket: "市场", topMarketValue: "纽约证券交易所/纳斯达克 🇺🇸 / A 股 🇨🇳 / 韩国 🇰🇷 / 日本 🇯🇵 / 英国 🇬🇧 / 加拿大 🇨🇦 / 上市前",
+        topCompanies: "公司数量", topMarket: "市场", topMarketValue: "纽约证券交易所/纳斯达克 🇺🇸 / A 股 🇨🇳 / 韩国 🇰🇷 / 日本 🇯🇵 / 英国 🇬🇧 / 加拿大 🇨🇦 / 上市前",
         totalCap: "总市值", volume24h: "24小时交易量",
         initialQuote: "USD · 实时行情可用时更新",
         navAiChips: "人工智能芯片", navCloud: "AI云", navDataCenter: "数据中心", navEnterpriseAi: "企业人工智能", navSecurity: "安全", navQuantum: "量子", navChinaAi: "中国人工智能", navLeopold: "Leopold Aschenbrenner",
@@ -2815,7 +2903,7 @@
       },
       en: {
         pageTitle: "IsitHUB",
-        topCompanies: "Companies", topMarket: "Markets", topMarketValue: "NYSE / Nasdaq 🇺🇸 / A-shares 🇨🇳 / Korea 🇰🇷 / Japan 🇯🇵 / UK 🇬🇧 / Canada 🇨🇦 / Pre-IPO",
+        topCompanies: "Company count", topMarket: "Markets", topMarketValue: "NYSE / Nasdaq 🇺🇸 / A-shares 🇨🇳 / Korea 🇰🇷 / Japan 🇯🇵 / UK 🇬🇧 / Canada 🇨🇦 / Pre-IPO",
         totalCap: "Market Cap", volume24h: "24h Volume",
         initialQuote: "USD · live quote when available",
         navAiChips: "AI Chips", navCloud: "AI Cloud", navDataCenter: "Data Centers", navEnterpriseAi: "Enterprise AI", navSecurity: "Security", navQuantum: "Quantum", navChinaAi: "China AI", navLeopold: "Leopold Aschenbrenner",
@@ -2848,7 +2936,7 @@
     };
     const CHINESE_REGION_CODES = new Set(["CN", "HK", "MO", "TW"]);
     const LANGUAGE_STORAGE_KEY = "isithub-language";
-    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: "SMR", modelSubcategory: "LLM", llmSubcategory: "全部", selected: "NVDA", page: 1, rankingView: "chart", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, fxRates: {}, lang: "en" };
+    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: "SMR", modelSubcategory: "LLM", llmSubcategory: "全部", selected: "NVDA", page: 1, rankingView: "chart", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
     try {
       const savedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY);
       if (savedLanguage === "zh" || savedLanguage === "en") state.lang = savedLanguage;
@@ -3105,6 +3193,10 @@
       const cap = effectiveCap(row);
       return formatCap(cap);
     }
+    function companyDisplayName(row) {
+      if (!row) return "";
+      return state.lang === "zh" ? (row.nameZh || row.name) : (row.nameEn || row.name);
+    }
     function renderTable() {
       const rows = filteredRows();
       const pageCount = Math.max(1, Math.ceil(rows.length / ROWS_PER_PAGE));
@@ -3124,7 +3216,7 @@
           <td>
             <div class="company-cell">
               <span>
-                <span class="company-line"><span class="company-name">${row.name}</span><span class="flag">${flagFor(row)}</span><span class="ticker">${row.ticker}</span>${row.status === "prelist" ? `<span class="prelist-badge">${t("prelist")}</span>` : ""}</span>
+                <span class="company-line"><span class="company-name">${companyDisplayName(row)}</span><span class="flag">${flagFor(row)}</span><span class="ticker">${row.ticker}</span>${row.status === "prelist" ? `<span class="prelist-badge">${t("prelist")}</span>` : ""}</span>
                 <div class="subtext">${row.category}</div>
               </span>
             </div>
@@ -3216,7 +3308,7 @@
       $("highlight-change").textContent = formatPercent(avgChange);
       $("highlight-change").className = percentClass(avgChange);
       $("trending-one").textContent = rows[0]?.ticker || "—";
-      $("trending-list").textContent = rows.slice(0, highlightCount).map((row) => `${row.name} ${formatCap(effectiveCap(row))}`).join(" · ");
+      $("trending-list").textContent = rows.slice(0, highlightCount).map((row) => `${companyDisplayName(row)} ${formatCap(effectiveCap(row))}`).join(" · ");
       $("gainer-one").textContent = gainers[0] ? `${gainers[0].ticker} ${formatPercent(gainers[0].changePercent)}` : "—";
       $("gainer-list").textContent = gainers.length ? gainers.map((row) => `${row.ticker} ${formatPercent(row.changePercent)}`).join(" · ") : t("waitingLive");
     }
@@ -3857,8 +3949,25 @@
         render();
       }
     }
-    function applyQuoteData(quotes, updatedAt, sourceLabel = "quotes.json", fxRates = {}) {
+    function updateQuoteStatusLabel() {
+      const el = $("updated-at");
+      if (!el) return;
+      if (state.quoteSourceKey === "quoteError") {
+        el.textContent = t("quoteError");
+        return;
+      }
+      if (!state.quoteUpdatedAt) {
+        el.textContent = t("initialQuote");
+        return;
+      }
+      const locale = state.lang === "zh" ? "zh-CN" : "en-US";
+      const labelDate = new Date(state.quoteUpdatedAt).toLocaleString(locale);
+      el.textContent = `${t(state.quoteSourceKey || "quoteDaily")} · ${labelDate}`;
+    }
+    function applyQuoteData(quotes, updatedAt, sourceKey = "quoteDaily", fxRates = {}) {
       state.fxRates = { ...state.fxRates, ...fxRates };
+      state.quoteUpdatedAt = updatedAt || new Date().toISOString();
+      state.quoteSourceKey = sourceKey;
       state.rows = COMPANIES.map((row) => {
         if (row.status === "prelist") return { ...row };
         const q = quotes.get(row.ticker) || {};
@@ -3883,8 +3992,7 @@
           sparkPoints: Array.isArray(q.sparkPoints) ? q.sparkPoints : null
         };
       });
-      const labelDate = updatedAt ? new Date(updatedAt).toLocaleString() : new Date().toLocaleString();
-      $("updated-at").textContent = `${sourceLabel} · ${labelDate}`;
+      updateQuoteStatusLabel();
       render();
     }
     async function fetchCachedQuotes() {
@@ -3893,7 +4001,7 @@
       const payload = await response.json();
       const quotes = new Map(Object.entries(payload.quotes || {}));
       if (!quotes.size) throw new Error("quotes.json empty");
-      applyQuoteData(quotes, payload.meta?.updatedAt, t("quoteDaily"), payload.meta?.fx || {});
+      applyQuoteData(quotes, payload.meta?.updatedAt, "quoteDaily", payload.meta?.fx || {});
     }
     async function fetchLiveQuotes() {
       const quoteRows = COMPANIES.filter((row) => row.status !== "prelist");
@@ -3941,7 +4049,7 @@
       if (Number.isFinite(usdTwd?.regularMarketPrice)) fx.USDTWD = usdTwd.regularMarketPrice;
       if (Number.isFinite(usdGbp?.regularMarketPrice)) fx.USDGBP = usdGbp.regularMarketPrice;
       if (Number.isFinite(usdCad?.regularMarketPrice)) fx.USDCAD = usdCad.regularMarketPrice;
-      applyQuoteData(normalized, new Date().toISOString(), t("quoteLive"), fx);
+      applyQuoteData(normalized, new Date().toISOString(), "quoteLive", fx);
       fetchHistoricalMetrics().catch((error) => console.warn(error));
     }
     async function fetchQuotes() {
@@ -4048,7 +4156,7 @@
       if (market) market.innerHTML = `${t("topMarket")}: <b>${t("topMarketValue")}</b>`;
       setFirstText(".topline-inner > span:nth-child(3)", `${t("totalCap")}: `);
       setFirstText(".topline-inner > span:nth-child(4)", `${t("volume24h")}: `);
-      if (/live quote|实时行情/.test($("updated-at")?.textContent || "")) $("updated-at").textContent = t("initialQuote");
+      updateQuoteStatusLabel();
       setAllText(".nav a[data-nav-tab]", AIBOTT_THEMES.map(categoryDisplayLabel));
       document.querySelector(".news-sections")?.setAttribute("aria-label", `${t("newsHot")}/${t("industry")}/${t("person")}/${t("company")}/${t("frontier")}/${t("papers")}/${t("video")}`);
       setAllText(".news-tab", [t("newsHot"), t("industry"), t("person"), t("company"), t("frontier"), t("papers"), t("video")]);
@@ -4224,7 +4332,8 @@
     }
     function handleQuoteError(error) {
       console.warn(error);
-      $("updated-at").textContent = t("quoteError");
+      state.quoteSourceKey = "quoteError";
+      updateQuoteStatusLabel();
       render();
     }
     initControls();
