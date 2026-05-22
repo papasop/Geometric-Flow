@@ -177,6 +177,7 @@
     .news-strip[hidden] { display: none; }
     .news-track:hover,
     .news-track.paused { animation-play-state: paused; }
+    .news-track.resume-after-video:hover { animation-play-state: running; }
     .news-item {
       display: flex;
       flex-direction: column;
@@ -3316,6 +3317,24 @@
       const match = text.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([A-Za-z0-9_-]{11})/);
       return match ? match[1] : "";
     }
+    let youtubeApiPromise = null;
+    const youtubePlayers = new WeakMap();
+    function loadYouTubeIframeApi() {
+      if (window.YT?.Player) return Promise.resolve(window.YT);
+      if (youtubeApiPromise) return youtubeApiPromise;
+      youtubeApiPromise = new Promise((resolve) => {
+        const priorReady = window.onYouTubeIframeAPIReady;
+        window.onYouTubeIframeAPIReady = () => {
+          if (typeof priorReady === "function") priorReady();
+          resolve(window.YT);
+        };
+        const script = document.createElement("script");
+        script.src = "https://www.youtube.com/iframe_api";
+        script.async = true;
+        document.head.appendChild(script);
+      });
+      return youtubeApiPromise;
+    }
     function youtubeEmbedUrl(videoId) {
       const params = new URLSearchParams({ autoplay: "1", rel: "0", enablejsapi: "1", playsinline: "1" });
       if (location.protocol === "https:" || location.protocol === "http:") params.set("origin", location.origin);
@@ -3332,16 +3351,43 @@
     function playVideoInline(link) {
       const videoId = link?.dataset?.videoId || "";
       if (!videoId) return;
-      link.closest(".news-track")?.classList.add("paused");
+      const track = link.closest(".news-track");
+      track?.classList.remove("resume-after-video");
+      track?.classList.add("paused");
       const thumb = link.querySelector(".news-thumb");
       if (!thumb || thumb.querySelector("iframe")) return;
       restoreInlineVideos(link);
       thumb.dataset.originalHtml = thumb.dataset.originalHtml || thumb.innerHTML;
       const title = link.dataset.videoTitle || "IsitHUB Video";
       thumb.innerHTML = `<iframe src="${youtubeEmbedUrl(videoId)}" title="${escapeHtml(title)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
+      bindYouTubePlayer(thumb.querySelector("iframe"));
     }
     function resumeNewsTrackForIframe(iframe) {
-      iframe?.closest?.(".news-track.paused")?.classList.remove("paused");
+      const track = iframe?.closest?.(".news-track");
+      if (!track) return;
+      track.classList.remove("paused");
+      track.classList.add("resume-after-video");
+    }
+    function bindYouTubePlayer(iframe) {
+      if (!iframe || youtubePlayers.has(iframe)) return;
+      loadYouTubeIframeApi().then((YT) => {
+        if (!iframe.isConnected || youtubePlayers.has(iframe)) return;
+        const player = new YT.Player(iframe, {
+          events: {
+            onStateChange: (event) => {
+              if (event.data === YT.PlayerState.PLAYING) {
+                const track = iframe.closest(".news-track");
+                track?.classList.remove("resume-after-video");
+                track?.classList.add("paused");
+              }
+              if (event.data === YT.PlayerState.ENDED || event.data === YT.PlayerState.PAUSED) {
+                resumeNewsTrackForIframe(iframe);
+              }
+            },
+          },
+        });
+        youtubePlayers.set(iframe, player);
+      }).catch(() => {});
     }
     function handleYouTubeStateMessage(event) {
       if (!String(event.origin || "").includes("youtube")) return;
