@@ -3285,10 +3285,28 @@
       }
       return author;
     }
+    function balanceHotNewsItems(items, limit = 16) {
+      const groups = new Map();
+      (items || []).filter((item) => item?.title).forEach((item) => {
+        const source = item.source || "News";
+        if (!groups.has(source)) groups.set(source, []);
+        groups.get(source).push(item);
+      });
+      const buckets = [...groups.values()];
+      const balanced = [];
+      let index = 0;
+      while (balanced.length < limit && buckets.some((bucket) => index < bucket.length)) {
+        buckets.forEach((bucket) => {
+          if (balanced.length < limit && bucket[index]) balanced.push(bucket[index]);
+        });
+        index += 1;
+      }
+      return balanced;
+    }
     function renderNewsStrip(sectionId, items) {
       const track = $(`news-track-${sectionId}`);
       if (!track) return;
-      const clean = (items || []).filter((item) => item?.title).slice(0, 16);
+      const clean = sectionId === "hot" ? balanceHotNewsItems(items, 16) : (items || []).filter((item) => item?.title).slice(0, 16);
       const news = clean.length ? clean : fallbackNewsItems(sectionId);
       const nodes = [...news, ...news].map((item) => {
         const source = displayNewsParty(item.source || "News");

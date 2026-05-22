@@ -422,12 +422,7 @@ for source in EQUITY_NEWS_SOURCES:
     source["requiredKeywords"] = DEAL_REQUIRED_KEYWORDS
 HOT_NEWS_SOURCES = [
     {"name": "TechCrunch Latest", "url": "https://techcrunch.com/latest/"},
-    {"name": "TechCrunch Startups", "url": "https://techcrunch.com/category/startups/feed/"},
-    google_news_query_source("TechCrunch Hot", f"site:techcrunch.com {AI_MARKET_NEWS_QUERY}"),
     {"name": "WIRED Popular AI", "url": "https://www.wired.com/tag/artificial-intelligence/"},
-    {"name": "WIRED", "url": "https://www.wired.com/feed/category/business/latest/rss"},
-    {"name": "WIRED AI", "url": "https://www.wired.com/feed/tag/ai/latest/rss"},
-    google_news_query_source("Wired Hot", f"site:wired.com {AI_MARKET_NEWS_QUERY}"),
 ]
 TECH_NEWS_SOURCES = [
     {"name": "WIRED", "url": "https://www.wired.com/feed/category/business/latest/rss"},
@@ -454,8 +449,9 @@ NEWS_SECTIONS = [
     {
         "id": "hot",
         "title": "🔥热点",
-        "note": "TechCrunch / Wired hot stories",
+        "note": "TechCrunch Latest / Wired Popular AI",
         "sources": HOT_NEWS_SOURCES,
+        "allowGeneralFeed": True,
     },
     {
         "id": "industry",
