@@ -425,54 +425,62 @@
     .token-value { text-align: right; color: var(--text); font-weight: 850; }
     .token-change { display: block; margin-top: 2px; color: var(--muted); font-size: 12px; font-weight: 700; }
     .model-ranking-view {
-      padding: 14px;
+      padding: 12px;
       background: #05070a;
       color: #f8fafc;
     }
     .model-ranking-table {
       display: grid;
       width: 100%;
+      overflow: hidden;
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      border-radius: 8px;
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.72) 0%, rgba(2, 6, 23, 0.42) 100%);
     }
     .model-row {
       display: grid;
-      grid-template-columns: 58px minmax(0, 1fr) 120px 148px;
+      grid-template-columns: 42px minmax(0, 1fr) 88px 118px;
       align-items: center;
-      min-height: 58px;
-      padding: 0 10px;
-      border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+      min-height: 43px;
+      padding: 0 12px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.12);
       color: #f8fafc;
     }
+    .model-row:last-child { border-bottom: 0; }
     .model-row.model-head {
-      min-height: 34px;
-      color: rgba(226, 232, 240, 0.54);
-      font-size: 12px;
+      min-height: 31px;
+      color: rgba(226, 232, 240, 0.48);
+      font-size: 10px;
       font-weight: 820;
       text-transform: uppercase;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.11em;
+      background: rgba(15, 23, 42, 0.5);
     }
     .model-head .model-score,
     .model-head .model-cost {
-      color: rgba(226, 232, 240, 0.54);
-      font-size: 12px;
+      color: rgba(226, 232, 240, 0.48);
+      font-size: 10px;
       font-weight: 820;
     }
     .model-row.model-highlight {
-      border: 2px solid #ef4444;
-      border-radius: 4px;
-      margin: 4px 0;
-      background: rgba(239, 68, 68, 0.03);
+      position: relative;
+      border: 1px solid rgba(248, 113, 113, 0.75);
+      border-radius: 6px;
+      margin: 5px 8px;
+      background: rgba(239, 68, 68, 0.08);
+      box-shadow: inset 3px 0 0 rgba(248, 113, 113, 0.9);
     }
     .model-rank {
-      color: rgba(226, 232, 240, 0.68);
-      font-size: 20px;
+      color: rgba(226, 232, 240, 0.55);
+      font-size: 14px;
       font-weight: 760;
     }
     .model-name {
       display: flex;
       align-items: center;
       min-width: 0;
-      gap: 10px;
-      font-size: 19px;
+      gap: 8px;
+      font-size: 14px;
       font-weight: 780;
       letter-spacing: 0;
     }
@@ -483,8 +491,8 @@
       white-space: nowrap;
     }
     .model-dot {
-      width: 12px;
-      height: 12px;
+      width: 9px;
+      height: 9px;
       border-radius: 999px;
       flex: 0 0 auto;
       box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.14);
@@ -492,7 +500,7 @@
     .model-score,
     .model-cost {
       justify-self: end;
-      font-size: 19px;
+      font-size: 14px;
       font-weight: 760;
       color: #f8fafc;
       font-variant-numeric: tabular-nums;
@@ -1094,19 +1102,26 @@
         font-size: 10px;
       }
       .model-ranking-view { padding: 10px; }
+      .model-ranking-table { border-radius: 7px; }
       .model-row {
-        grid-template-columns: 32px minmax(0, 1fr) 68px 88px;
-        min-height: 48px;
-        padding: 0 6px;
+        grid-template-columns: 26px minmax(0, 1fr) 58px 76px;
+        min-height: 38px;
+        padding: 0 8px;
       }
-      .model-row.model-head { font-size: 9px; letter-spacing: 0.08em; }
+      .model-row.model-head { font-size: 8px; letter-spacing: 0.06em; }
       .model-head .model-score,
-      .model-head .model-cost { font-size: 9px; }
-      .model-rank { font-size: 15px; }
+      .model-head .model-cost { font-size: 8px; }
+      .model-row.model-highlight {
+        margin: 4px 5px;
+        border-radius: 5px;
+        box-shadow: inset 2px 0 0 rgba(248, 113, 113, 0.9);
+      }
+      .model-rank { font-size: 11px; }
       .model-name,
       .model-score,
-      .model-cost { font-size: 13px; }
-      .model-dot { width: 9px; height: 9px; }
+      .model-cost { font-size: 11px; }
+      .model-name { gap: 5px; }
+      .model-dot { width: 7px; height: 7px; }
       .toolbar { align-items: stretch; }
       .search, select, button { width: 100%; }
       .tabs {
