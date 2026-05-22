@@ -421,8 +421,7 @@ for source in MNA_NEWS_SOURCES:
 for source in EQUITY_NEWS_SOURCES:
     source["requiredKeywords"] = DEAL_REQUIRED_KEYWORDS
 HOT_NEWS_SOURCES = [
-    {"name": "TechCrunch Latest", "url": "https://techcrunch.com/latest/"},
-    {"name": "WIRED Popular AI", "url": "https://www.wired.com/tag/artificial-intelligence/"},
+    {"name": "Wall Street Journal Chinese Markets", "url": "https://cn.wsj.com/zh-hans/news/markets?mod=nav_top_section"},
 ]
 TECH_NEWS_SOURCES = [
     {"name": "WIRED", "url": "https://www.wired.com/feed/category/business/latest/rss"},
@@ -455,7 +454,7 @@ NEWS_SECTIONS = [
     {
         "id": "hot",
         "title": "🔥热点",
-        "note": "TechCrunch Latest / Wired Popular AI",
+        "note": "Wall Street Journal Chinese Markets",
         "sources": HOT_NEWS_SOURCES,
         "allowGeneralFeed": True,
     },
@@ -622,9 +621,17 @@ def parse_date(value: str | None) -> str | None:
 
 
 def fetch_url(url: str) -> bytes:
-    req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT, "Accept": "application/rss+xml, application/atom+xml, application/xml, text/xml, */*"})
-    with urllib.request.urlopen(req, timeout=8) as response:
-        return response.read()
+    headers = {"User-Agent": USER_AGENT, "Accept": "application/rss+xml, application/atom+xml, application/xml, text/xml, */*"}
+    if "cn.wsj.com" in url:
+        headers = {"User-Agent": "EntropyAI/1.0", "Accept": "text/html,*/*", "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8"}
+    req = urllib.request.Request(url, headers=headers)
+    try:
+        with urllib.request.urlopen(req, timeout=8) as response:
+            return response.read()
+    except urllib.error.HTTPError as exc:
+        if exc.code in {401, 403, 404} and "cn.wsj.com" in url:
+            return exc.read()
+        raise
 
 
 def post_json(url: str, payload: dict[str, object]) -> dict[str, object]:
@@ -979,6 +986,95 @@ def parse_html_page(source: dict[str, str], data: bytes) -> list[dict[str, str]]
             if len(items) >= 18:
                 break
         return items
+    if "cn.wsj.com" in source_url:
+        next_data_match = re.search(r'<script[^>]+id=["\']__NEXT_DATA__["\'][^>]*>(.*?)</script>', page, re.S)
+        if next_data_match:
+            try:
+                next_data = json.loads(html.unescape(next_data_match.group(1)))
+            except (json.JSONDecodeError, TypeError, ValueError):
+                next_data = None
+
+            def collect_wsj_articles(node: object) -> None:
+                if isinstance(node, dict):
+                    title_raw = node.get("headline") or node.get("articleHeadline")
+                    url_raw = node.get("url") or node.get("articleUrl") or node.get("canonical_url")
+                    if isinstance(title_raw, str) and isinstance(url_raw, str) and "cn.wsj.com/articles/" in url_raw:
+                        title = clean_text(title_raw, 180)
+                        url = html.unescape(url_raw.replace(r"\u0026", "&"))
+                        key = (title.lower(), url.lower())
+                        if len(title) >= 8 and key not in seen:
+                            seen.add(key)
+                            author_value = node.get("byline") or node.get("author") or ""
+                            authors = node.get("authors")
+                            byline_data = node.get("bylineData")
+                            if not author_value and isinstance(authors, list):
+                                author_value = " / ".join(str(author.get("name") or "") for author in authors if isinstance(author, dict) and author.get("name"))
+                            if not author_value and isinstance(byline_data, list):
+                                author_value = " / ".join(str(author.get("text") or "") for author in byline_data if isinstance(author, dict) and author.get("text"))
+                            author = normalize_author(str(author_value), source_name)
+                            image = str(node.get("imageUrl") or node.get("image") or "")
+                            published = parse_date(str(node.get("publishedDateTimeUtc") or node.get("timestamp") or ""))
+                            items.append({
+                                "source": source_name,
+                                "feedSource": source_name,
+                                "sourceUrl": source_url,
+                                "title": title,
+                                "summary": clean_text(str(node.get("summary") or title), 220),
+                                "url": url,
+                                "author": author,
+                                "image": html.unescape(image.replace(r"\u0026", "&")),
+                                "publishedAt": published,
+                            })
+                    for value in node.values():
+                        if len(items) >= 18:
+                            return
+                        collect_wsj_articles(value)
+                elif isinstance(node, list):
+                    for value in node:
+                        if len(items) >= 18:
+                            return
+                        collect_wsj_articles(value)
+
+            if next_data is not None:
+                collect_wsj_articles(next_data)
+            if items:
+                return items[:18]
+        for match in re.finditer(r'"byline":"(.*?)","canonical_url":"(https://cn\.wsj\.com/articles/[^"]+)".{0,2500}?"headline":"(.*?)"', page, re.S):
+            author_raw, url_raw, title_raw = match.groups()
+            try:
+                title = clean_text(json.loads(f'"{title_raw}"'), 180)
+                url = json.loads(f'"{url_raw}"')
+                author = normalize_author(json.loads(f'"{author_raw}"'), source_name)
+            except (json.JSONDecodeError, TypeError, ValueError):
+                title = clean_text(html.unescape(title_raw), 180)
+                url = html.unescape(url_raw)
+                author = normalize_author(html.unescape(author_raw), source_name)
+            if len(title) < 8:
+                continue
+            key = (title.lower(), url.lower())
+            if key in seen:
+                continue
+            seen.add(key)
+            image = ""
+            nearby = page[max(0, match.start() - 300):min(len(page), match.end() + 2500)]
+            image_match = re.search(r'"arthurV2Image":\{[^}]*"location":"([^"]+)"', nearby)
+            if image_match:
+                image = html.unescape(image_match.group(1).replace(r"\/", "/"))
+            items.append({
+                "source": source_name,
+                "feedSource": source_name,
+                "sourceUrl": source_url,
+                "title": title,
+                "summary": title,
+                "url": url,
+                "author": author,
+                "image": image,
+                "publishedAt": None,
+            })
+            if len(items) >= 18:
+                return items
+        if items:
+            return items
     is_techcrunch_latest = "techcrunch.com/latest" in source_url
     is_wired_popular = "wired.com/tag/artificial-intelligence" in source_url
     if is_wired_popular:
@@ -1466,7 +1562,7 @@ def main() -> int:
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "strategy": {
-            "primary": "Tabbed news sections: hot stories from TechCrunch and Wired, industry from WSJ/NYT/FT/SCMP/TechCrunch Startups, statements derived from all sources by named AI figures and speech signals, company from company-name searches plus M&A and financing keywords, frontier technology from Wired/MIT Technology Review/Stanford sources, papers from top AI journals, conferences, proceedings, and preprint sources",
+            "primary": "Tabbed news sections: hot stories from Wall Street Journal Chinese Markets, industry from WSJ/NYT/FT/SCMP/TechCrunch Startups, statements derived from all sources by named AI figures and speech signals, company from company-name searches plus M&A and financing keywords, frontier technology from Wired/MIT Technology Review/Stanford sources, papers from top AI journals, conferences, proceedings, and preprint sources",
             "primaryEnabled": True,
             "supplements": [
                 "TechCrunch",
