@@ -175,7 +175,8 @@
     #news-track-papers { animation-duration: 112s; }
     #news-track-video { animation-duration: 118s; }
     .news-strip[hidden] { display: none; }
-    .news-track:hover { animation-play-state: paused; }
+    .news-track:hover,
+    .news-track.paused { animation-play-state: paused; }
     .news-item {
       display: flex;
       flex-direction: column;
@@ -3320,6 +3321,7 @@
     function playVideoInline(link) {
       const videoId = link?.dataset?.videoId || "";
       if (!videoId) return;
+      link.closest(".news-track")?.classList.add("paused");
       const thumb = link.querySelector(".news-thumb");
       if (!thumb || thumb.querySelector("iframe")) return;
       const title = link.dataset.videoTitle || "IsitHUB Video";
