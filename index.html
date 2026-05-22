@@ -1042,6 +1042,58 @@
       color: #020617;
       background: #67e8f9;
     }
+    .video-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      background: rgba(2, 6, 23, 0.78);
+      backdrop-filter: blur(8px);
+    }
+    .video-modal[hidden] { display: none; }
+    .video-modal-inner {
+      width: min(1080px, 96vw);
+      border: 1px solid rgba(148, 163, 184, 0.32);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #020617;
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.55);
+    }
+    .video-modal-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.22);
+      color: #e5e7eb;
+      font-size: 13px;
+      font-weight: 820;
+    }
+    .video-modal-close {
+      width: 34px;
+      height: 34px;
+      border: 1px solid rgba(148, 163, 184, 0.32);
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.82);
+      color: #e5e7eb;
+      cursor: pointer;
+      font-size: 20px;
+      line-height: 1;
+    }
+    .video-modal-frame {
+      aspect-ratio: 16 / 9;
+      width: 100%;
+      background: #000;
+    }
+    .video-modal-frame iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
     @media (max-width: 760px) {
       .topline-inner { align-items: flex-start; flex-direction: column; }
       .nav-inner {
@@ -1463,6 +1515,16 @@
   <div class="language-float" role="group" aria-label="Language switcher">
     <button type="button" data-language="en" aria-pressed="true">EN</button>
     <button type="button" data-language="zh" aria-pressed="false">中文</button>
+  </div>
+
+  <div class="video-modal" id="video-modal" hidden>
+    <div class="video-modal-inner" role="dialog" aria-modal="true" aria-labelledby="video-modal-title">
+      <div class="video-modal-bar">
+        <span id="video-modal-title">IsitHUB Video</span>
+        <button class="video-modal-close" id="video-modal-close" type="button" aria-label="Close video">×</button>
+      </div>
+      <div class="video-modal-frame" id="video-modal-frame"></div>
+    </div>
   </div>
 
   <script>
@@ -3300,6 +3362,32 @@
       }
       return author;
     }
+    function youtubeVideoId(url) {
+      const text = String(url || "");
+      const match = text.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([A-Za-z0-9_-]{11})/);
+      return match ? match[1] : "";
+    }
+    function youtubeEmbedUrl(videoId) {
+      return `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1&rel=0`;
+    }
+    function openVideoModal(videoId, title) {
+      if (!videoId) return;
+      const modal = $("video-modal");
+      const frame = $("video-modal-frame");
+      const titleNode = $("video-modal-title");
+      if (!modal || !frame) return;
+      if (titleNode) titleNode.textContent = title || "IsitHUB Video";
+      frame.innerHTML = `<iframe src="${youtubeEmbedUrl(videoId)}" title="${escapeHtml(title || "IsitHUB Video")}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
+      modal.hidden = false;
+      document.body.style.overflow = "hidden";
+    }
+    function closeVideoModal() {
+      const modal = $("video-modal");
+      const frame = $("video-modal-frame");
+      if (frame) frame.innerHTML = "";
+      if (modal) modal.hidden = true;
+      document.body.style.overflow = "";
+    }
     function balanceHotNewsItems(items, limit = 16) {
       const groups = new Map();
       (items || []).filter((item) => item?.title).forEach((item) => {
@@ -3340,12 +3428,15 @@
         const href = item.url || "#";
         const title = state.lang === "zh" ? (item.titleZh || item.title) : (item.titleEn || item.title);
         const image = item.image || item.thumbnail || "";
+        const videoId = (sectionId === "video" || sectionId === "live") ? youtubeVideoId(href) : "";
+        const embedAttrs = videoId ? ` data-video-id="${escapeHtml(videoId)}" data-video-title="${escapeHtml(title)}"` : "";
+        const targetAttrs = videoId ? "" : ` target="_blank" rel="noopener"`;
         const imageNode = image ? `<span class="news-thumb"><img src="${escapeHtml(image)}" alt="" loading="lazy"></span>` : "";
         const authorNode = author ? `<span><span class="news-meta-label">${escapeHtml(t("newsAuthor"))}</span><b>${escapeHtml(author)}</b></span>` : "";
         const sourceNode = sectionId === "person"
           ? `<span><span class="news-meta-label">${escapeHtml(t("mediaSource"))}</span><b>${escapeHtml(source)}</b></span>`
           : `<span><span class="news-meta-label">${escapeHtml(t("newsSource"))}</span><b>${escapeHtml(source)}</b></span>`;
-        return `<a class="news-item${image ? " has-thumb" : ""}" href="${escapeHtml(href)}" target="_blank" rel="noopener">
+        return `<a class="news-item${image ? " has-thumb" : ""}" href="${escapeHtml(href)}"${targetAttrs}${embedAttrs}>
           ${imageNode}
           <span class="news-title">${escapeHtml(title)}</span>
           <span class="news-meta">
@@ -4077,6 +4168,19 @@
         });
       });
       $("refresh")?.addEventListener("click", () => fetchQuotes().catch(handleQuoteError));
+      document.addEventListener("click", (event) => {
+        const videoLink = event.target.closest?.("[data-video-id]");
+        if (!videoLink) return;
+        event.preventDefault();
+        openVideoModal(videoLink.dataset.videoId, videoLink.dataset.videoTitle);
+      });
+      $("video-modal-close")?.addEventListener("click", closeVideoModal);
+      $("video-modal")?.addEventListener("click", (event) => {
+        if (event.target === $("video-modal")) closeVideoModal();
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") closeVideoModal();
+      });
     }
     function handleQuoteError(error) {
       console.warn(error);
