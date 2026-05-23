@@ -185,6 +185,8 @@ def fetch_one(ticker):
         price = close_now
     if shares is not None and price is not None:
         market_cap = shares * price
+        if currency == "GBp":
+            market_cap = market_cap / 100
 
     change_1h = None
     if len(intraday_closes) >= 2 and close_now is not None:
