@@ -2343,7 +2343,7 @@
     const LLM_SUBCATEGORIES = ["全部", "开源", "闭源"];
     const LLM_OPEN_TICKERS = new Set(["DEEPSEEK.PRE", "MOONSHOT.PRE", "2513.HK", "META", "MISTRAL.PRE", "HUGGINGFACE.PRE"]);
     const LLM_CLOSED_TICKERS = new Set(["OPENAI.PRE", "ANTHROPIC.PRE", "GOOG", "XAI.PRE", "COHERE.PRE"]);
-    const PHYSICAL_WORLD_MODEL_TICKERS = new Set(["JEPA.PRE", "WORLDLABS.PRE", "ARYALABS.PRE", "WAYVE.PRE", "PHYSICALINTELLIGENCE.PRE", "FIGURE.PRE", "1X.PRE", "SKILD.PRE"]);
+    const PHYSICAL_WORLD_MODEL_TICKERS = new Set(["JEPA.PRE", "WORLDLABS.PRE", "ARYALABS.PRE", "WAYVE.PRE", "PHYSICALINTELLIGENCE.PRE", "FIGURE.PRE", "1X.PRE", "SKILD.PRE", "VPG"]);
     const MODEL_TICKERS = new Set([...LLM_OPEN_TICKERS, ...LLM_CLOSED_TICKERS, ...PHYSICAL_WORLD_MODEL_TICKERS]);
     const AIBOTT_BY_TICKER = new Map(AIBOTT_WATCHLIST.map(([symbol, name, theme, oneLiner, conviction]) => [symbol, { name, theme, oneLiner, conviction }]));
     function inferAibottTheme(category, thesis, ticker) {
@@ -2471,7 +2471,7 @@
       ["YMM", "Full Truck Alliance", "Serenity holding", "Serenity Capital Management 公开 13F 持仓，数字货运、物流撮合与平台数据。"],
       ["ATAT", "Atour Lifestyle", "Serenity holding", "Serenity Capital Management 公开 13F 持仓，酒店品牌、会员体系与生活方式消费平台。"],
       ["SIVEF", "SVRS SMCDCTR ORD", "Serenity / Henderson holding / OTC", "PINK:SIVEF，按用户指定列入 Serenity 与 Henderson 标签观察名单。"],
-      ["VPG", "Vishay Precision Group", "Henderson holding", "Vishay 精密集团，NYSE:VPG，按用户指定列入 Henderson 标签观察名单。"],
+      ["VPG", "Vishay Precision Group", "Henderson holding / physical world model", "Vishay 精密集团，NYSE:VPG，按用户指定列入 Henderson 标签观察名单，并加入物理世界模型子标签。"],
       ["SPAB", "SPAB", "Henderson holding", "按用户指定列入 Henderson 标签观察名单。"],
       ["MBLY", "Mobileye", "ADAS / autonomous vision", "自动驾驶视觉芯片、ADAS 方案和车端感知计算。"],
       ["AUR", "Aurora Innovation", "Autonomous trucking", "L4 自动驾驶卡车、自动驾驶软件栈和物流场景商业化。"],
