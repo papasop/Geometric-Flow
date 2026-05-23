@@ -2898,6 +2898,7 @@
     ];
     let tokenExpenditureIndexData = TOKEN_EXPENDITURE_INDEX;
     let modelRankingData = MODEL_RANKINGS;
+    let modelRankingMeta = { updatedAt: "", source: "CursorBench 3.1", sourceUrl: "https://cursor.com/cursorbench" };
     const I18N = {
       zh: {
         pageTitle: "IsitHUB",
@@ -2910,7 +2911,7 @@
         currentFilter: "按当前筛选", realVolume: "真实成交额，可用时更新", hot: "热门", topGainer: "最大升幅", waitingQuotes: "等待行情或估算涨跌",
         tokenRanking: "代币使用", tokenNote: "参考 OpenRouter Top Models，用量口径可切换",
         chartRanking: "代币成本", chartNote: "LLM Token Expenditure Index",
-        modelRanking: "大模型排行", modelNote: "CursorBench · 每日外部更新", modelColumn: "模型", modelScore: "得分", modelCostTask: "平均成本 / 任务",
+        modelRanking: "大模型排行", modelNote: "CursorBench · 每日外部更新", modelColumn: "模型", modelScore: "得分", modelCostTask: "平均成本 / 任务", dataSource: "数据来源", updatedDate: "更新日期",
         day: "日", week: "周", month: "月", history: "历史", period: "周期", firstShare: "第一名占比",
         all: "全部", aiChips: "AI 芯片", aiCloud: "新云", dataCenter: "数据中心", enterpriseAi: "企业 AI", security: "安全", quantum: "量子", chinaAi: "中国 AI", leopold: "Leopold Aschenbrenner",
         physicalWorldModel: "物理世界模型", openSource: "开源", closedSource: "闭源",
@@ -2942,7 +2943,7 @@
         currentFilter: "Current filter", realVolume: "Real traded value when available", hot: "Trending", topGainer: "Top Gainer", waitingQuotes: "Waiting for quotes or estimated moves",
         tokenRanking: "Token Usage", tokenNote: "Inspired by OpenRouter Top Models; period is switchable",
         chartRanking: "Token Cost", chartNote: "LLM Token Expenditure Index",
-        modelRanking: "Model Ranking", modelNote: "CursorBench · daily external feed", modelColumn: "Model", modelScore: "Score", modelCostTask: "Avg Cost / Task",
+        modelRanking: "Model Ranking", modelNote: "CursorBench · daily external feed", modelColumn: "Model", modelScore: "Score", modelCostTask: "Avg Cost / Task", dataSource: "Source", updatedDate: "Updated",
         day: "Day", week: "Week", month: "Month", history: "History", period: "Period", firstShare: "Top share",
         all: "All", aiChips: "AI Chips", aiCloud: "AI Cloud", dataCenter: "Data Centers", enterpriseAi: "Enterprise AI", security: "Security", quantum: "Quantum", chinaAi: "China AI", leopold: "Leopold Aschenbrenner",
         physicalWorldModel: "World Models", openSource: "Open", closedSource: "Closed",
@@ -3737,7 +3738,7 @@
       const titleByView = { token: t("tokenRanking"), chart: t("chartRanking"), model: t("modelRanking") };
       const noteByView = { token: t("tokenNote"), chart: t("chartNote"), model: t("modelNote") };
       setText(".ranking-panel-title", titleByView[state.rankingView]);
-      setText("#ranking-panel-note", noteByView[state.rankingView]);
+      setText("#ranking-panel-note", state.rankingView === "model" ? modelRankingNoteText() : noteByView[state.rankingView]);
       if (state.rankingView === "chart") renderTokenIndexChart();
       if (state.rankingView === "model") renderModelRanking();
     }
@@ -3787,6 +3788,22 @@
           avgCostPerTask: Number(row?.avgCostPerTask ?? row?.cost ?? row?.avg_cost_per_task)
         };
       }).filter((row) => row.model && Number.isFinite(row.score) && Number.isFinite(row.avgCostPerTask));
+    }
+    function formatFeedUpdatedAt(value) {
+      if (!value) return "";
+      const date = new Date(value);
+      if (!Number.isFinite(date.getTime())) return String(value).slice(0, 10);
+      const datePart = state.lang === "zh"
+        ? `${date.getUTCFullYear()}/${date.getUTCMonth() + 1}/${date.getUTCDate()}`
+        : date.toLocaleDateString("en-US", { timeZone: "UTC", year: "numeric", month: "short", day: "numeric" });
+      const timePart = `${String(date.getUTCHours()).padStart(2, "0")}:${String(date.getUTCMinutes()).padStart(2, "0")} UTC`;
+      return `${datePart} ${timePart}`;
+    }
+    function modelRankingNoteText() {
+      const source = modelRankingMeta?.source || "CursorBench 3.1";
+      const updated = formatFeedUpdatedAt(modelRankingMeta?.updatedAt);
+      if (!updated) return `${t("dataSource")}: ${source}`;
+      return `${t("dataSource")}: ${source} · ${t("updatedDate")}: ${updated}`;
     }
     function renderModelRanking() {
       const target = $("model-ranking-list");
@@ -3966,6 +3983,14 @@
         const clean = normalizeModelRankingRows(rows);
         if (clean.length) {
           modelRankingData = clean;
+          if (payload?.meta && typeof payload.meta === "object") {
+            modelRankingMeta = {
+              updatedAt: String(payload.meta.updatedAt || ""),
+              source: String(payload.meta.source || "CursorBench 3.1"),
+              sourceUrl: String(payload.meta.sourceUrl || "")
+            };
+          }
+          if (state.rankingView === "model") setText("#ranking-panel-note", modelRankingNoteText());
           if (state.rankingView === "model") renderModelRanking();
         }
       } catch (error) {
