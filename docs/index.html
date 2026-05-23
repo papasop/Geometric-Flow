@@ -1278,6 +1278,7 @@
       <a href="#" data-nav-tab="大模型">Foundation Models</a>
       <a href="#" data-nav-tab="Token 工厂 / 推理服务">Token Factory / Inference</a>
       <a href="#" data-nav-tab="英伟达">NVIDIA</a>
+      <a href="#" data-nav-tab="Leopold Aschenbrenner">Leopold Aschenbrenner</a>
     </div>
   </nav>
   <main class="shell">
@@ -1431,6 +1432,7 @@
       <button class="tab" data-tab="大模型" type="button">Foundation Models</button>
       <button class="tab" data-tab="Token 工厂 / 推理服务" type="button">Token Factory / Inference</button>
       <button class="tab" data-tab="英伟达" type="button">NVIDIA</button>
+      <button class="tab" data-tab="Leopold Aschenbrenner" type="button">Leopold Aschenbrenner</button>
     </section>
     <section class="subtabs" id="token-subtabs" aria-label="Token 工厂 / 推理服务子标签" hidden>
       <button class="subtab active notranslate" data-token-subcategory="IaaS/PaaS" type="button" translate="no" lang="en">IaaS/PaaS</button>
@@ -1530,11 +1532,8 @@
       return "USA";
     }
 
-    const LEOPOLD_TICKERS = new Set([
-      "APLD", "BE", "BTDR", "BW", "CIFR", "CLSK", "COHR", "CORZ", "CRWV", "EQT",
-      "HUT", "INFY", "INTC", "IREN", "KEEL", "KRC", "LBRT", "LITE", "PSIX", "PUMP",
-      "RIOT", "SEI", "SNDK", "TSEM", "WYFI"
-    ]);
+    const LEOPOLD_CATEGORY = "Leopold Aschenbrenner";
+    const LEOPOLD_TICKERS = new Set(["BE", "SNDK", "CRWV", "IREN", "CORZ", "CLSK", "RIOT", "APLD", "INTC"]);
 
     const AIBOTT_WATCHLIST = [
       [
@@ -2328,7 +2327,8 @@
       "硬件",
       "大模型",
       "Token 工厂 / 推理服务",
-      "英伟达"
+      "英伟达",
+      "Leopold Aschenbrenner"
 ];
     const CATEGORY_LABELS = {
       "能源": { zh: "能源", en: "Energy" },
@@ -2336,7 +2336,8 @@
       "硬件": { zh: "硬件", en: "Hardware" },
       "大模型": { zh: "大模型", en: "Foundation Models" },
       "Token 工厂 / 推理服务": { zh: "Token 工厂 / 推理服务", en: "Token Factory / Inference" },
-      "英伟达": { zh: "英伟达", en: "NVIDIA" }
+      "英伟达": { zh: "英伟达", en: "NVIDIA" },
+      "Leopold Aschenbrenner": { zh: "Leopold Aschenbrenner", en: "Leopold Aschenbrenner" }
     };
     const NVIDIA_CATEGORY = "英伟达";
     const NVIDIA_TICKERS = new Set(["NVDA", "OPENAI.PRE", "XAI.PRE", "ANTHROPIC.PRE", "INTC", "CRWV", "SNPS", "COHR", "NOK", "NBIS", "GENB", "LITE", "MRVL", "GLW", "IREN"]);
@@ -2549,7 +2550,7 @@
       ["RR.L", "Rolls-Royce Holdings", "SMR / UK nuclear power", "英国航空发动机与核能工程集团，推进 Rolls-Royce SMR 小型模块化反应堆方案，面向英国与欧洲数据中心清洁基荷电力。"],
       ["CCJ", "Cameco", "Uranium / nuclear fuel", "全球铀矿与核燃料龙头，受益 AI 数据中心核电与清洁基荷电力需求。"],
       ["MIR", "Mirion Technologies", "Nuclear measurement", "核测量、辐射监测与核能安全设备，服务核电和先进反应堆供应链。"],
-      ["BE", "Bloom Energy", "SOFC / system leader", "关键词：SOFC 系统龙头、Bloom Energy Server、数据中心现场发电、分布式电力、船舶应用。全球商业化最成熟的固体氧化物燃料电池公司。"],
+      ["BE", "Bloom Energy", "SOFC / Leopold flagship long", "Leopold Aschenbrenner 旗舰多头，约 650 万股、约 8.79 亿美元；论点是 SOFC 燃料电池给数据中心做 on-site 电源，绕开电网瓶颈。"],
       ["000338.SZ", "潍柴动力", "SOFC / China system integration", "关键词：Ceres 中国第一大股东、系统集成、燃料电池产业园、净发电效率 60%+、重卡/分布式能源/数据中心备用电源。"],
       ["CWR.L", "Ceres Power", "SOFC / licensing IP", "关键词：SOFC 授权技术源头、SteelCell 金属支撑型 SOFC、核心专利、轻资产授权、潍柴/博世/康明斯合作。"],
       ["336260.KS", "Doosan Fuel Cell", "SOFC / Korea utility fuel cells", "关键词：韩国氢能电池龙头、PAFC 转 SOFC、Ceres 技术授权、公用事业级发电、大规模 SOFC 产线。"],
@@ -2559,18 +2560,18 @@
       ["688551.SS", "科威尔", "SOFC / testing power equipment", "关键词：燃料电池测试设备、SOFC 测试电源、电力电子测试系统、氢能与新能源检测装备、固体氧化物燃料电池产业链。"],
       ["688733.SS", "壹石通", "SOFC / advanced ceramic materials", "关键词：陶瓷电解质材料、勃姆石、高纯氧化铝、氧化锆、阳极/阴极材料、SOC 系统示范。"],
       ["002823.SZ", "凯中精密", "SOFC / stack structures", "关键词：SOFC 电堆结构件、金属连接板、热交换器、精密模具、金属加工、热管理系统组件。"],
-      ["IREN", "IREN", "AI data center", "低成本电力和 AI 数据中心转型。"],
-      ["APLD", "Applied Digital", "AI data center", "AI 托管、数据中心和高功率机房。"],
-      ["SNDK", "SanDisk", "AI storage", "闪存与数据存储，AI 数据中心存储链。"],
+      ["IREN", "IREN", "AI data center / Leopold long", "Leopold 持仓观察标的，BTC 矿工转 AI 算力，低成本电力和 AI 数据中心转型。"],
+      ["APLD", "Applied Digital", "AI data center / Leopold long", "Leopold 持仓观察标的，AI 托管、数据中心和高功率机房，矿场/电力资产向 AI 算力转型。"],
+      ["SNDK", "SanDisk", "AI storage / Leopold memory long", "Leopold 内存层多头，100 万股以上加 call；闪存与数据存储，AI 数据中心存储链。"],
       ["EQT", "EQT", "AI power / natural gas", "天然气与能源基础设施，服务 AI 数据中心电力需求。"],
       ["CIFR", "Cipher Mining", "AI data center / bitcoin miner", "矿场电力资产向 HPC 与 AI 数据中心转型。"],
-      ["RIOT", "Riot Platforms", "AI data center / bitcoin miner", "比特币矿场、电力与高功率数据中心潜在转型。"],
+      ["RIOT", "Riot Platforms", "AI data center / Leopold long", "Leopold 加仓观察标的，比特币矿场、电力与高功率数据中心潜在转型。"],
       ["WULF", "TeraWulf", "AI power / data center", "低碳能源和 AI 数据中心。"],
       ["HUT", "Hut 8", "AI infrastructure", "矿场电力资产向 AI 算力基础设施转型。"],
-      ["CORZ", "Core Scientific", "AI data center", "CoreWeave 长约托管与 AI 数据中心。"],
+      ["CORZ", "Core Scientific", "AI data center / Leopold 13D", "Leopold 13D 行动派股权，Q1 减仓；CoreWeave 长约托管与 AI 数据中心。"],
       ["SEI", "Solaris Energy Infrastructure", "AI power / data center", "分布式电力与能源基础设施，面向高密度算力负载。"],
       ["BTDR", "Bitdeer Technologies", "AI data center / bitcoin miner", "矿场、算力与数据中心资产，潜在 AI/HPC 转型。"],
-      ["CLSK", "CleanSpark", "AI data center / bitcoin miner", "低成本电力与矿场基础设施，潜在 AI 数据中心容量。"],
+      ["CLSK", "CleanSpark", "AI data center / Leopold long", "Leopold 加仓观察标的，低成本电力与矿场基础设施，潜在 AI 数据中心容量。"],
       ["IRM", "Iron Mountain", "Data center REIT", "数据中心 REIT、企业数据存储和 AI 托管扩张。"],
       ["KRC", "Kilroy Realty", "AI data center real estate", "湾区与西海岸地产资产，数据中心与科技地产观察。"],
       ["STRL", "Sterling Infrastructure", "Data center construction", "数据中心土建、基础设施施工和电力基础设施建设链。"],
@@ -2605,7 +2606,7 @@
       ["MPWR", "Monolithic Power Systems", "Power chips", "AI 服务器电源管理芯片。"],
       ["MCHP", "Microchip Technology", "Embedded AI", "MCU、FPGA、嵌入式和边缘 AI。"],
       ["NXPI", "NXP Semiconductors", "Edge AI / auto", "汽车、工业和边缘 AI 芯片。"],
-      ["INTC", "Intel", "AI chips / foundry", "CPU、Gaudi、代工和 PC AI。"],
+      ["INTC", "Intel", "AI chips / Leopold holding", "Leopold 持仓观察标的，CPU、Gaudi、代工和 PC AI。"],
       ["GFS", "GlobalFoundries", "Foundry", "特色工艺和边缘 AI 芯片制造。"],
       ["TSEM", "Tower Semiconductor", "Specialty foundry", "模拟、射频和特色工艺代工。"],
       ["ACMR", "ACM Research", "Semi equipment", "清洗设备，半导体制造链。"],
@@ -3221,6 +3222,8 @@
     }
     function matchesCategory(row, category) {
       if (category === "ALL") return true;
+      if (category === LEOPOLD_CATEGORY) return LEOPOLD_TICKERS.has(row.ticker);
+      if (category === NVIDIA_CATEGORY) return NVIDIA_TICKERS.has(row.ticker);
       return row.category === category;
     }
     function tokenFactorySubcategory(row) {
