@@ -3257,6 +3257,7 @@
     function companySubtext(row) {
       if (tokenFactorySubcategory(row) === "DBaaS") return "Data as a Service（数据即服务）";
       if (tokenFactorySubcategory(row) === "MaaS") return "Model as a Service（模型即服务）";
+      if (tokenFactorySubcategory(row) === "ATaaS") return "Approaching AI Token as a Service";
       return categoryDisplayLabel(row.category);
     }
     function renderTable() {
