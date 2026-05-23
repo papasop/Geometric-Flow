@@ -1476,7 +1476,7 @@
               <th data-table-sort="d7"><button class="sort-head" type="button" tabindex="-1"><span>7天</span><span class="sort-arrow"></span></button></th>
               <th data-table-sort="volume"><button class="sort-head" type="button" tabindex="-1"><span>24小时交易量</span><span class="sort-arrow"></span></button></th>
               <th data-table-sort="mcap"><button class="sort-head" type="button" tabindex="-1"><span>总市值</span><span class="sort-arrow"></span></button></th>
-              <th>最近30天</th>
+              <th data-table-sort="spark"><button class="sort-head" type="button" tabindex="-1"><span>最近30天</span><span class="sort-arrow"></span></button></th>
             </tr>
           </thead>
           <tbody id="rank-body"></tbody>
@@ -3192,7 +3192,7 @@
         rows = rows.sort((a, b) => compareMetric(a, b, "mcap"));
       } else if (state.sort === "change") {
         rows = rows.sort((a, b) => compareMetric(a, b, "change"));
-      } else if (["price", "h1", "d7", "volume"].includes(state.sort)) {
+      } else if (["price", "h1", "d7", "volume", "spark"].includes(state.sort)) {
         rows = rows.sort((a, b) => compareMetric(a, b, state.sort));
       } else {
         rows = rows.sort((a, b) => a.rank - b.rank);
@@ -3220,6 +3220,7 @@
       if (sort === "h1") return row.change1h;
       if (sort === "change") return row.changePercent;
       if (sort === "d7") return row.change7d;
+      if (sort === "spark") return row.change30d;
       if (sort === "volume") return effectiveVolume(row);
       if (sort === "mcap") return effectiveCap(row);
       return null;
@@ -4361,8 +4362,8 @@
       $("search").placeholder = t("searchPlaceholder");
       setText(".panel-title", t("rankName"));
       setText("#table-note", t("tableNote"));
-      setAllText(".market-panel thead th:nth-child(-n+3), .market-panel thead th:nth-child(10)", ["", "#", t("thCompany"), t("thSpark")]);
-      const sortLabels = { price: "thPrice", h1: "th1h", change: "th24h", d7: "th7d", volume: "thVolume", mcap: "thMcap" };
+      setAllText(".market-panel thead th:nth-child(-n+3)", ["", "#", t("thCompany")]);
+      const sortLabels = { price: "thPrice", h1: "th1h", change: "th24h", d7: "th7d", volume: "thVolume", mcap: "thMcap", spark: "thSpark" };
       Object.entries(sortLabels).forEach(([sort, key]) => {
         const label = document.querySelector(`[data-table-sort="${sort}"] span:first-child`);
         if (label) label.textContent = t(key);
