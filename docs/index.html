@@ -1236,6 +1236,7 @@
       <a href="#" data-nav-tab="大模型">Foundation Models</a>
       <a href="#" data-nav-tab="Token 工厂 / 推理服务">Token Factory / Inference</a>
       <a href="#" data-nav-tab="英伟达">NVIDIA</a>
+      <a href="#" data-nav-tab="Serenity">Serenity</a>
       <a href="#" data-nav-tab="Leopold Aschenbrenner">Leopold Aschenbrenner</a>
     </div>
   </nav>
@@ -1398,6 +1399,7 @@
       <button class="tab" data-tab="大模型" type="button">Foundation Models</button>
       <button class="tab" data-tab="Token 工厂 / 推理服务" type="button">Token Factory / Inference</button>
       <button class="tab" data-tab="英伟达" type="button">NVIDIA</button>
+      <button class="tab" data-tab="Serenity" type="button">Serenity</button>
       <button class="tab" data-tab="Leopold Aschenbrenner" type="button">Leopold Aschenbrenner</button>
     </section>
     <section class="subtabs" id="token-subtabs" aria-label="Token 工厂 / 推理服务子标签" hidden>
@@ -1495,6 +1497,8 @@
 
     const LEOPOLD_CATEGORY = "Leopold Aschenbrenner";
     const LEOPOLD_TICKERS = new Set(["BE", "SNDK", "CRWV", "IREN", "CORZ", "CLSK", "RIOT", "APLD", "INTC"]);
+    const SERENITY_CATEGORY = "Serenity";
+    const SERENITY_TICKERS = new Set(["ZTO", "TAL", "HTHT", "EDU", "PDD", "MNSO", "YMM", "ATAT"]);
 
     const AIBOTT_WATCHLIST = [
       [
@@ -2289,6 +2293,7 @@
       "大模型",
       "Token 工厂 / 推理服务",
       "英伟达",
+      "Serenity",
       "Leopold Aschenbrenner"
 ];
     const CATEGORY_LABELS = {
@@ -2298,6 +2303,7 @@
       "大模型": { zh: "大模型", en: "Foundation Models" },
       "Token 工厂 / 推理服务": { zh: "Token 工厂 / 推理服务", en: "Token Factory / Inference" },
       "英伟达": { zh: "英伟达", en: "NVIDIA" },
+      "Serenity": { zh: "Serenity", en: "Serenity" },
       "Leopold Aschenbrenner": { zh: "Leopold Aschenbrenner", en: "Leopold Aschenbrenner" }
     };
     const NVIDIA_CATEGORY = "英伟达";
@@ -2442,6 +2448,14 @@
       ["RXRX", "Recursion Pharmaceuticals", "AI drug discovery", "AI 制药、自动化实验平台和生物数据模型。"],
       ["SDGR", "Schrodinger", "AI drug discovery", "计算化学、分子模拟和 AI 药物发现软件。"],
       ["GENB", "Generate Biomedicines", "AI biology / NVIDIA holding", "生成式生物学与蛋白质设计平台，属于英伟达公开持仓观察名单中的 AI 生物技术标的。"],
+      ["ZTO", "ZTO Express", "Serenity holding", "Serenity Capital Management 公开 13F 持仓，跨境与中国物流网络平台。"],
+      ["TAL", "TAL Education", "Serenity holding", "Serenity Capital Management 公开 13F 持仓，教育科技与学习服务平台。"],
+      ["HTHT", "H World Group", "Serenity holding", "Serenity Capital Management 公开 13F 持仓，酒店管理、会员系统与消费服务平台。"],
+      ["EDU", "New Oriental Education", "Serenity holding", "Serenity Capital Management 公开 13F 持仓，教育服务、内容与培训平台。"],
+      ["PDD", "PDD Holdings", "Serenity holding", "Serenity Capital Management 公开 13F 持仓，电商平台、供应链和 Temu 全球业务。"],
+      ["MNSO", "MINISO Group", "Serenity holding", "Serenity Capital Management 公开 13F 持仓，全球零售、IP 消费和供应链平台。"],
+      ["YMM", "Full Truck Alliance", "Serenity holding", "Serenity Capital Management 公开 13F 持仓，数字货运、物流撮合与平台数据。"],
+      ["ATAT", "Atour Lifestyle", "Serenity holding", "Serenity Capital Management 公开 13F 持仓，酒店品牌、会员体系与生活方式消费平台。"],
       ["MBLY", "Mobileye", "ADAS / autonomous vision", "自动驾驶视觉芯片、ADAS 方案和车端感知计算。"],
       ["AUR", "Aurora Innovation", "Autonomous trucking", "L4 自动驾驶卡车、自动驾驶软件栈和物流场景商业化。"],
       ["HSAI", "Hesai Group", "LiDAR ADR", "美股 ADR 激光雷达公司，ADAS、Robotaxi、机器人感知与自动驾驶传感器。"],
@@ -2754,7 +2768,10 @@
     const COMPANIES = [...BASE_COMPANIES, ...AIBOTT_ROWS].map((row, index) => {
       const meta = row[4] || {};
       const aibott = AIBOTT_BY_TICKER.get(row[0]);
-      const baseTags = meta.tags || (LEOPOLD_TICKERS.has(row[0]) ? ["Leopold Aschenbrenner"] : []);
+      const baseTags = meta.tags || [
+        ...(LEOPOLD_TICKERS.has(row[0]) ? ["Leopold Aschenbrenner"] : []),
+        ...(SERENITY_TICKERS.has(row[0]) ? ["Serenity"] : []),
+      ];
       const detailTheme = aibott?.theme || row[2] || "";
       const aibottTheme = inferAibottTheme(detailTheme, `${row[2] || ""} ${row[3] || ""} ${aibott?.oneLiner || ""}`, row[0]);
       const tags = [...new Set([...baseTags, aibottTheme, detailTheme, row[2], ...(aibott ? [aibott.conviction, "AI Bottlenecks"] : [])].filter(Boolean))];
@@ -3186,6 +3203,7 @@
     function matchesCategory(row, category) {
       if (category === "ALL") return true;
       if (category === LEOPOLD_CATEGORY) return LEOPOLD_TICKERS.has(row.ticker);
+      if (category === SERENITY_CATEGORY) return SERENITY_TICKERS.has(row.ticker);
       if (category === NVIDIA_CATEGORY) return NVIDIA_TICKERS.has(row.ticker);
       return row.category === category;
     }
