@@ -157,6 +157,7 @@ def fetch_one(ticker):
     price = finite(fast_info.get("last_price") or info.get("regularMarketPrice") or info.get("currentPrice"))
     currency = fast_info.get("currency") or info.get("currency") or "USD"
     market_cap = finite(fast_info.get("market_cap") or info.get("marketCap"))
+    market_cap_currency = currency
     shares = finite(fast_info.get("shares") or info.get("sharesOutstanding"))
     volume_shares = finite(
         fast_info.get("last_volume")
@@ -187,6 +188,9 @@ def fetch_one(ticker):
         market_cap = shares * price
         if currency == "GBp":
             market_cap = market_cap / 100
+            market_cap_currency = "GBP"
+    elif currency == "GBp" and market_cap is not None:
+        market_cap_currency = "GBP"
 
     change_1h = None
     if len(intraday_closes) >= 2 and close_now is not None:
@@ -224,6 +228,7 @@ def fetch_one(ticker):
         "price": price,
         "currency": currency,
         "marketCap": market_cap,
+        "marketCapCurrency": market_cap_currency,
         "volume": volume_value,
         "changePercent": change_percent,
         "change1h": change_1h,
