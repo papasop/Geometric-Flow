@@ -493,6 +493,13 @@ PAPER_NEWS_SOURCES = [
     {"name": "Cell", "url": "https://www.cell.com/cell/current.rss"},
     google_news_query_source("Cell", f"site:cell.com/cell {AI_MARKET_NEWS_QUERY}"),
 ]
+DEVOPS_NEWS_SOURCES = [
+    {
+        "name": "DevOps Most Read",
+        "url": "https://devops.com/most-read/",
+        "displaySource": "DevOps.com",
+    },
+]
 LIVE_NEWS_SOURCES = [
     {"name": "YouTube Live", "url": "https://www.youtube.com/watch?v=DxmDPrfinXY"},
     {"name": "YouTube Live", "url": "https://www.youtube.com/watch?v=f39oHo6vFLg"},
@@ -541,6 +548,13 @@ NEWS_SECTIONS = [
         "title": "论文",
         "note": "Science / Nature / Cell",
         "sources": PAPER_NEWS_SOURCES,
+    },
+    {
+        "id": "devops",
+        "title": "DevOps",
+        "note": "DevOps.com Most Read：过去 7 天阅读量最高的新闻和文章",
+        "sources": DEVOPS_NEWS_SOURCES,
+        "allowGeneralFeed": True,
     },
     {
         "id": "video",
@@ -1198,6 +1212,63 @@ def parse_html_page(source: dict[str, str], data: bytes) -> list[dict[str, str]]
             })
             if len(items) >= 18:
                 return items
+        if items:
+            return items
+    if "devops.com/most-read" in source_url:
+        content_items = re.findall(
+            r'<div class="[^"]*pt-cv-content-item[^"]*"[^>]*>(.*?)(?=<div class="[^"]*pt-cv-content-item|<div class="text-center pt-cv-pagination-wrapper")',
+            page,
+            flags=re.I | re.S,
+        )
+        for block in content_items:
+            title_match = re.search(
+                r'<h4 class="pt-cv-title">\s*<a[^>]+href=["\']([^"\']+)["\'][^>]*>(.*?)</a>\s*</h4>',
+                block,
+                flags=re.I | re.S,
+            )
+            if not title_match:
+                continue
+            url = html.unescape(title_match.group(1))
+            title = clean_text(title_match.group(2), 180)
+            if len(title) < 8 or "devops.com/" not in url:
+                continue
+            key = (title.lower(), url.lower())
+            if key in seen:
+                continue
+            seen.add(key)
+            image = ""
+            image_match = re.search(r'<img[^>]+src=["\']([^"\']+)["\']', block, flags=re.I | re.S)
+            if image_match:
+                image = html.unescape(image_match.group(1))
+            author = ""
+            author_match = re.search(
+                r'<span class="author">.*?<span>(.*?)</span>.*?</span>',
+                block,
+                flags=re.I | re.S,
+            )
+            if author_match:
+                author = normalize_author(clean_text(author_match.group(1), 80), source_name)
+            published = ""
+            published_match = re.search(r'<time[^>]+datetime=["\']([^"\']+)["\']', block, flags=re.I | re.S)
+            if published_match:
+                published = parse_date(published_match.group(1))
+            summary = ""
+            summary_match = re.search(r'<div class="pt-cv-content">(.*?)</div>', block, flags=re.I | re.S)
+            if summary_match:
+                summary = clean_text(summary_match.group(1), 220)
+            items.append({
+                "source": source.get("displaySource") or "DevOps.com",
+                "feedSource": source_name,
+                "sourceUrl": source_url,
+                "title": title,
+                "summary": summary or title,
+                "url": url,
+                "author": author,
+                "image": image,
+                "publishedAt": published,
+            })
+            if len(items) >= 18:
+                break
         if items:
             return items
     is_techcrunch_latest = "techcrunch.com/latest" in source_url
