@@ -3254,6 +3254,10 @@
       if (!row) return "";
       return state.lang === "zh" ? (row.nameZh || row.name) : (row.nameEn || row.name);
     }
+    function companySubtext(row) {
+      if (tokenFactorySubcategory(row) === "DBaaS") return "Data as a Service（数据即服务）";
+      return categoryDisplayLabel(row.category);
+    }
     function renderTable() {
       const rows = filteredRows();
       const pageCount = Math.max(1, Math.ceil(rows.length / ROWS_PER_PAGE));
@@ -3269,7 +3273,7 @@
         const isActive = row.ticker === state.selected ? " class=\"active\"" : "";
         const ticker = escapeHtml(row.ticker);
         const name = escapeHtml(companyDisplayName(row));
-        const category = escapeHtml(categoryDisplayLabel(row.category));
+        const category = escapeHtml(companySubtext(row));
         const flag = escapeHtml(flagFor(row));
         return `<tr data-ticker="${ticker}"${isActive}>
           <td><button class="watch" type="button" aria-label="${escapeHtml(t("watch"))} ${ticker}" title="${escapeHtml(t("watch"))}">☆</button></td>
