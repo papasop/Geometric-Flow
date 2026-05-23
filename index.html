@@ -1424,6 +1424,7 @@
     </section>
     <section class="subtabs" id="infrastructure-subtabs" aria-label="基础设施子标签" hidden>
       <button class="subtab active notranslate" data-infrastructure-subcategory="DCI" type="button" translate="no" lang="en">DCI</button>
+      <button class="subtab notranslate" data-infrastructure-subcategory="AIDC" type="button" translate="no" lang="en">AIDC</button>
     </section>
     <section class="subtabs" id="hardware-subtabs" aria-label="硬件子标签" hidden>
       <button class="subtab active notranslate" data-hardware-subcategory="CNC" type="button" translate="no" lang="en">CNC</button>
@@ -2333,8 +2334,9 @@
     const ENERGY_TICKERS = new Set(["VRT", "EOSE", "NEE", "LEU", "UUUU", "OKLO", "CEG", "VST", "BLDP", "PLUG", "FCEL"]);
     const SMR_TICKERS = new Set(["OKLO", "UUUU", "LEU", "VST", "SMR", "CEG", "XE", "KAIROS.PRE", "TERRAPOWER.PRE", "BWXT", "GEV", "HOLTEC.PRE", "601985.SS", "1816.HK", "LTBR", "ARE.TO", "ATRL.TO", "RR.L"]);
     const INFRASTRUCTURE_CATEGORY = "基础设施";
-    const INFRASTRUCTURE_SUBCATEGORIES = ["DCI"];
+    const INFRASTRUCTURE_SUBCATEGORIES = ["DCI", "AIDC"];
     const DCI_TICKERS = new Set(["NOK", "CIEN", "MRVL", "CSCO"]);
+    const AIDC_TICKERS = new Set(["VRT"]);
     const HARDWARE_CATEGORY = "硬件";
     const HARDWARE_SUBCATEGORIES = ["CNC"];
     const CNC_TICKERS = new Set(["1651.HK"]);
@@ -3227,6 +3229,7 @@
       if (category === SERENITY_CATEGORY) return SERENITY_TICKERS.has(row.ticker);
       if (category === HENDERSON_CATEGORY) return HENDERSON_TICKERS.has(row.ticker);
       if (category === NVIDIA_CATEGORY) return NVIDIA_TICKERS.has(row.ticker);
+      if (category === INFRASTRUCTURE_CATEGORY) return row.category === category || DCI_TICKERS.has(row.ticker) || AIDC_TICKERS.has(row.ticker);
       return row.category === category;
     }
     function tokenFactorySubcategory(row) {
@@ -3253,6 +3256,7 @@
     }
     function infrastructureSubcategory(row) {
       if (DCI_TICKERS.has(row.ticker)) return "DCI";
+      if (AIDC_TICKERS.has(row.ticker)) return "AIDC";
       return null;
     }
     function matchesInfrastructureSubcategory(row) {
@@ -4460,7 +4464,7 @@
       setAllText(".chart-range-tab", [t("history"), t("day"), t("week"), t("month")]);
       setAllText(".token-metric span", [t("period"), "Top 10 Tokens", t("firstShare")]);
       setAllText(".tabs .tab", [t("all"), ...AIBOTT_THEMES.map(categoryDisplayLabel)]);
-      setAllText("#infrastructure-subtabs .subtab", ["DCI"]);
+      setAllText("#infrastructure-subtabs .subtab", ["DCI", "AIDC"]);
       setAllText("#hardware-subtabs .subtab", ["CNC"]);
       setAllText("#model-subtabs .subtab", ["LLM", t("physicalWorldModel")]);
       setAllText("#llm-subtabs .subtab", [t("openSource"), t("closedSource")]);
