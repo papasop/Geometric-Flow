@@ -3068,6 +3068,11 @@
       if (currency === "CNY" || currency === "HKD" || currency === "KRW" || currency === "JPY" || currency === "TWD" || currency === "GBP" || currency === "CAD") return value / fxRateFor(currency, dateLike);
       return value;
     }
+    function normalizeQuoteMarketCap(value, currency) {
+      if (!Number.isFinite(value)) return null;
+      if (currency === "GBp" && value > 1e12) return value / 100;
+      return value;
+    }
     function formatPercent(value) {
       if (!Number.isFinite(value)) return "—";
       const sign = value > 0 ? "+" : "";
@@ -4122,7 +4127,7 @@
         const quoteCurrency = q.currency || row.currency || "USD";
         const quoteDate = updatedAt ? new Date(updatedAt) : new Date();
         const marketCapCurrency = quoteCurrency === "GBp" ? "GBP" : quoteCurrency;
-        const quoteMarketCap = toUsd(q.marketCap, marketCapCurrency, quoteDate);
+        const quoteMarketCap = toUsd(normalizeQuoteMarketCap(q.marketCap, quoteCurrency), marketCapCurrency, quoteDate);
         const quoteVolume = toUsd(q.volume, quoteCurrency, quoteDate);
         const quotePrice = quoteCurrency === "KRW" || quoteCurrency === "JPY" || quoteCurrency === "TWD" || quoteCurrency === "GBp" || quoteCurrency === "GBP" || quoteCurrency === "CAD" ? toUsd(q.price, quoteCurrency, quoteDate) : q.price;
         const displayCurrency = quoteCurrency === "KRW" || quoteCurrency === "JPY" || quoteCurrency === "TWD" || quoteCurrency === "GBp" || quoteCurrency === "GBP" || quoteCurrency === "CAD" ? "USD" : quoteCurrency;
