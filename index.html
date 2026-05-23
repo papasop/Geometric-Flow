@@ -1498,10 +1498,12 @@
       TSEM: "Israel", QCOM: "USA", NXPI: "Netherlands", GFS: "USA", INFY: "India", BTDR: "Singapore",
       "005930.KS": "South Korea", "000660.KS": "South Korea",
       "688256.SS": "China", "688041.SS": "China", "688111.SS": "China", "603019.SS": "China", "000977.SZ": "China",
+      BABA: "China", BIDU: "China", TCEHY: "China", HSAI: "China", PONY: "China", WRD: "China",
       "300750.SZ": "China",
       "002384.SZ": "China", "301666.SZ": "China", "688820.SS": "China", "601869.SS": "China", "688795.SS": "China", "603986.SS": "China",
       "YMTC.PRE": "China", "CXMT.PRE": "China", "BYTEDANCE.PRE": "China", "MOONSHOT.PRE": "China",
       "DEEPSEEK.PRE": "China", "ZHIPU.PRE": "China", "QJTECH.PRE": "China", "SILICONFLOW.PRE": "China", "INFINIGENCE.PRE": "China", "JEPA.PRE": "USA", "WORLDLABS.PRE": "USA", "ARYALABS.PRE": "USA", "WAYVE.PRE": "United Kingdom", "PHYSICALINTELLIGENCE.PRE": "USA",
+      "MISTRAL.PRE": "France", "COHERE.PRE": "Canada", "1X.PRE": "Norway",
       "002230.SZ": "China", "300308.SZ": "China", "300502.SZ": "China", "300394.SZ": "China", "688981.SS": "China",
       "002475.SZ": "China",
       "002415.SZ": "China", "000938.SZ": "China", "600570.SS": "China", "300033.SZ": "China", "688008.SS": "China",
@@ -2351,9 +2353,9 @@
     const MODEL_CATEGORY = "大模型";
     const MODEL_SUBCATEGORIES = ["LLM", "物理世界模型"];
     const LLM_SUBCATEGORIES = ["全部", "开源", "闭源"];
-    const LLM_OPEN_TICKERS = new Set(["DEEPSEEK.PRE", "MOONSHOT.PRE", "2513.HK", "META"]);
-    const LLM_CLOSED_TICKERS = new Set(["OPENAI.PRE", "ANTHROPIC.PRE", "GOOG", "SPACEX.PRE"]);
-    const PHYSICAL_WORLD_MODEL_TICKERS = new Set(["JEPA.PRE", "WORLDLABS.PRE", "ARYALABS.PRE", "WAYVE.PRE", "PHYSICALINTELLIGENCE.PRE"]);
+    const LLM_OPEN_TICKERS = new Set(["DEEPSEEK.PRE", "MOONSHOT.PRE", "2513.HK", "META", "MISTRAL.PRE", "HUGGINGFACE.PRE"]);
+    const LLM_CLOSED_TICKERS = new Set(["OPENAI.PRE", "ANTHROPIC.PRE", "GOOG", "XAI.PRE", "COHERE.PRE"]);
+    const PHYSICAL_WORLD_MODEL_TICKERS = new Set(["JEPA.PRE", "WORLDLABS.PRE", "ARYALABS.PRE", "WAYVE.PRE", "PHYSICALINTELLIGENCE.PRE", "FIGURE.PRE", "1X.PRE", "SKILD.PRE"]);
     const MODEL_TICKERS = new Set([...LLM_OPEN_TICKERS, ...LLM_CLOSED_TICKERS, ...PHYSICAL_WORLD_MODEL_TICKERS]);
     const AIBOTT_BY_TICKER = new Map(AIBOTT_WATCHLIST.map(([symbol, name, theme, oneLiner, conviction]) => [symbol, { name, theme, oneLiner, conviction }]));
     function inferAibottTheme(category, thesis, ticker) {
@@ -2384,12 +2386,26 @@
       ["MOONSHOT.PRE", "月之暗面", "Open LLM pre-IPO", "预上市中国开源大模型公司，Kimi 系列、长上下文、多模态与 Agent 能力。", { status: "prelist", estimatedMarketCap: 20000000000 }],
       ["META", "Meta Platforms", "Open LLM / foundation models", "Llama 开源大模型、广告 AI、推荐系统和 AI 资本开支。"],
       ["TSLA", "Tesla", "Autonomy / robotics", "FSD、车端 AI、机器人与大规模真实世界数据闭环。"],
-      ["SPACEX.PRE", "SpaceX AI", "Closed LLM pre-IPO", "预上市闭源 AI 与航天基础设施公司，Grok / xAI 生态、Starlink、发射体系与 AI 数据中心网络潜在协同。", { status: "prelist", estimatedMarketCap: 1250000000000 }],
+      ["XAI.PRE", "xAI", "Closed LLM pre-IPO", "预上市闭源大模型公司，Grok、Colossus 算力集群、社交数据与 AI 产品生态。", { status: "prelist", estimatedMarketCap: 200000000000 }],
+      ["SPACEX.PRE", "SpaceX", "Space / AI infrastructure pre-IPO", "预上市航天与通信基础设施公司，Starlink、发射体系、卫星网络与 AI 数据中心网络潜在协同。", { status: "prelist", estimatedMarketCap: 350000000000 }],
       ["JEPA.PRE", "AMI Labs", "Physical world model pre-IPO", "预上市物理世界模型公司，聚焦世界模型、表征学习、预测式 AI 与空间智能方向。", { status: "prelist" }],
       ["WORLDLABS.PRE", "World Labs", "Physical world model pre-IPO", "预上市物理世界模型公司，聚焦空间智能、3D 世界生成、场景理解和可交互世界模型。", { status: "prelist" }],
       ["ARYALABS.PRE", "ARYA Labs", "Physical world model pre-IPO", "预上市物理世界模型公司，聚焦 AI 世界模型、空间理解、仿真与可交互环境生成。", { status: "prelist" }],
       ["WAYVE.PRE", "Wayve", "Physical world model pre-IPO", "预上市物理世界模型公司，聚焦自动驾驶基础模型、端到端驾驶智能与具身场景理解。", { status: "prelist" }],
       ["PHYSICALINTELLIGENCE.PRE", "Physical Intelligence", "Physical world model pre-IPO", "预上市物理智能公司，聚焦通用机器人基础模型、现实世界动作控制与具身智能。", { status: "prelist" }],
+      ["FIGURE.PRE", "Figure AI", "Humanoid robotics pre-IPO", "预上市人形机器人公司，聚焦通用机器人、具身智能和真实世界动作模型。", { status: "prelist", estimatedMarketCap: 2600000000 }],
+      ["1X.PRE", "1X Technologies", "Humanoid robotics pre-IPO", "预上市人形机器人公司，聚焦家庭与服务场景机器人、远程操作数据和具身智能。", { status: "prelist", estimatedMarketCap: 2000000000 }],
+      ["SKILD.PRE", "Skild AI", "Physical AI pre-IPO", "预上市机器人基础模型公司，聚焦通用机器人智能、控制模型和跨形态具身 AI。", { status: "prelist", estimatedMarketCap: 1500000000 }],
+      ["CEREBRAS.PRE", "Cerebras", "AI wafer-scale accelerator pre-IPO", "预上市 AI 芯片公司，晶圆级加速器、推理云和大模型训练基础设施。", { status: "prelist", estimatedMarketCap: 8000000000 }],
+      ["GROQ.PRE", "Groq", "AI inference chip pre-IPO", "预上市 AI 推理芯片与 LPU 云服务公司，聚焦低延迟大模型推理。", { status: "prelist", estimatedMarketCap: 3000000000 }],
+      ["SAMBANOVA.PRE", "SambaNova", "AI systems pre-IPO", "预上市 AI 系统公司，提供企业级模型训练、推理和定制 AI 平台。", { status: "prelist", estimatedMarketCap: 5000000000 }],
+      ["MISTRAL.PRE", "Mistral AI", "Open LLM pre-IPO", "预上市欧洲开源大模型公司，聚焦高性能开放模型、企业 API 与主权 AI。", { status: "prelist", estimatedMarketCap: 6000000000 }],
+      ["COHERE.PRE", "Cohere", "Closed LLM pre-IPO", "预上市企业大模型公司，聚焦企业搜索、RAG、私有部署与安全模型服务。", { status: "prelist", estimatedMarketCap: 5000000000 }],
+      ["ANYS.PRE", "Anysphere / Cursor", "AI coding pre-IPO", "预上市 AI 编程公司，Cursor IDE、代码 Agent 与开发者工作流自动化。", { status: "prelist", estimatedMarketCap: 2500000000 }],
+      ["PERPLEXITY.PRE", "Perplexity", "AI search pre-IPO", "预上市 AI 搜索公司，答案引擎、实时检索和个人知识入口。", { status: "prelist", estimatedMarketCap: 3000000000 }],
+      ["GLEAN.PRE", "Glean", "Enterprise search AI pre-IPO", "预上市企业搜索与知识 AI 公司，连接企业 SaaS 数据、RAG 和员工 AI 助手。", { status: "prelist", estimatedMarketCap: 2200000000 }],
+      ["HUGGINGFACE.PRE", "Hugging Face", "Open AI platform pre-IPO", "预上市开源 AI 平台公司，模型社区、数据集、推理服务和企业开源 AI 工具链。", { status: "prelist", estimatedMarketCap: 4500000000 }],
+      ["REPLIT.PRE", "Replit", "AI coding pre-IPO", "预上市 AI 编程与云开发平台，Agent 编码、在线 IDE 和开发者部署工作流。", { status: "prelist", estimatedMarketCap: 2000000000 }],
       ["AVGO", "Broadcom", "Custom ASIC", "定制 AI ASIC、网络芯片与数据中心互连。"],
       ["TSM", "Taiwan Semiconductor", "Foundry", "先进制程与 CoWoS，是 AI 芯片制造核心。"],
       ["ORCL", "Oracle", "AI cloud", "OCI、数据库与 AI 云算力。"],
@@ -2427,6 +2443,9 @@
       ["NET", "Cloudflare", "Edge AI / network", "边缘网络、Workers AI 和安全。"],
       ["DDOG", "Datadog", "AI observability", "AI 应用监控、日志和云可观测性。"],
       ["SNOW", "Snowflake", "AI data cloud", "数据云、Cortex AI 与企业数据底座。"],
+      ["BABA", "Alibaba ADR", "China AI cloud ADR", "阿里巴巴美股 ADR，通义千问、阿里云、AI 电商与企业模型服务。"],
+      ["BIDU", "Baidu ADR", "China AI platform ADR", "百度美股 ADR，文心大模型、搜索 AI、智能云与自动驾驶。"],
+      ["TCEHY", "Tencent ADR", "China AI platform ADR", "腾讯 OTC ADR，混元大模型、微信生态、云服务、游戏与广告 AI。"],
       ["MRVL", "Marvell Technology", "AI ASIC / optical", "定制 ASIC、光互连和数据中心芯片。"],
       ["WDAY", "Workday", "Enterprise AI", "人力、财务数据和企业 AI。"],
       ["TEAM", "Atlassian", "Developer AI", "协作、DevOps 和企业知识 AI。"],
@@ -2453,6 +2472,26 @@
       ["SOUN", "SoundHound AI", "Voice AI", "语音 AI、车载和餐饮场景。"],
       ["BBAI", "BigBear.ai", "Decision intelligence", "政府、国防和供应链决策智能。"],
       ["TEM", "Tempus AI", "Healthcare AI", "医疗数据、精准诊疗和 AI 模型。"],
+      ["RXRX", "Recursion Pharmaceuticals", "AI drug discovery", "AI 制药、自动化实验平台和生物数据模型。"],
+      ["SDGR", "Schrodinger", "AI drug discovery", "计算化学、分子模拟和 AI 药物发现软件。"],
+      ["MBLY", "Mobileye", "ADAS / autonomous vision", "自动驾驶视觉芯片、ADAS 方案和车端感知计算。"],
+      ["AUR", "Aurora Innovation", "Autonomous trucking", "L4 自动驾驶卡车、自动驾驶软件栈和物流场景商业化。"],
+      ["HSAI", "Hesai Group", "LiDAR ADR", "美股 ADR 激光雷达公司，ADAS、Robotaxi、机器人感知与自动驾驶传感器。"],
+      ["PONY", "Pony AI", "Autonomous driving ADR", "美股自动驾驶 ADR，Robotaxi、自动驾驶卡车和商业化运营。"],
+      ["WRD", "WeRide", "Autonomous driving ADR", "美股自动驾驶 ADR，Robotaxi、Robobus、无人环卫与自动驾驶方案。"],
+      ["LAZR", "Luminar Technologies", "LiDAR", "车载激光雷达、自动驾驶感知和汽车安全硬件。"],
+      ["OUST", "Ouster", "LiDAR", "数字激光雷达、工业、机器人和智能交通感知硬件。"],
+      ["INVZ", "Innoviz Technologies", "LiDAR", "车规激光雷达、ADAS 和自动驾驶感知方案。"],
+      ["AMBA", "Ambarella", "AI vision SoC", "边缘 AI 视觉 SoC、自动驾驶和摄像头感知芯片。"],
+      ["CGNX", "Cognex", "Machine vision", "机器视觉、工业检测和机器人自动化感知。"],
+      ["ROK", "Rockwell Automation", "Industrial automation", "工业自动化、工厂软件和 AI 制造控制系统。"],
+      ["EMR", "Emerson Electric", "Industrial automation", "工业自动化、过程控制、传感和 AI 工业软件。"],
+      ["TRMB", "Trimble", "Physical AI / positioning", "定位、测绘、农业、施工和物理世界数据平台。"],
+      ["AVAV", "AeroVironment", "Defense robotics / drones", "无人机、巡飞弹、国防机器人和自主系统。"],
+      ["KTOS", "Kratos Defense", "Defense AI / drones", "无人机、国防 AI、靶机和自主防务系统。"],
+      ["RCAT", "Red Cat", "Defense drones", "小型无人机、国防机器人和战术自主系统。"],
+      ["SERV", "Serve Robotics", "Delivery robotics", "配送机器人、自动驾驶小车和城市机器人运营。"],
+      ["MARA", "MARA Holdings", "AI data center / bitcoin miner", "矿场电力资产、比特币挖矿和 AI/HPC 数据中心转型潜力。"],
       ["NBIS", "Nebius Group", "AIDC / AI data center", "新云算力、GPU 云和 AI 数据中心基础设施。"],
       ["LAMBDA.PRE", "Lambda Labs", "AI cloud / IaaS/PaaS", "预上市 AI 云基础设施公司，提供 GPU 云、训练集群与企业级 AI 算力服务。", { status: "prelist", estimatedMarketCap: 6000000000 }],
       ["CLICKHOUSE.PRE", "ClickHouse", "AI data cloud / DBaaS", "预上市实时分析数据库与 AI 数据云公司，服务向量检索、观测、日志分析和 AI 应用数据底座。", { status: "prelist", estimatedMarketCap: 15000000000 }],
@@ -2467,6 +2506,22 @@
       ["VNET", "VNET Group", "AIDC / AI data center", "中国 AIDC、数据中心与 AI 基础设施。"],
       ["002364.SZ", "中恒电气", "AIDC / AI data center power", "AIDC 电源系统、HVDC 高压直流、电力电子与数据中心供配电基础设施。"],
       ["CRWV", "CoreWeave", "AI cloud", "GPU 云、AI 训练和推理基础设施。"],
+      ["DOCN", "DigitalOcean", "GPU cloud / Paperspace", "开发者云平台，收购 Paperspace 后切入 GPU 云、模型训练和推理工作负载。"],
+      ["RDDT", "Reddit", "AI data licensing", "社区语料、搜索数据与大模型训练数据授权，是 AI 数据受益方。"],
+      ["GTLB", "GitLab", "AI coding / DevSecOps", "AI 编程、DevSecOps、代码协作和软件交付自动化。"],
+      ["ACN", "Accenture", "AI consulting", "全球 AI 咨询与实施龙头，企业 AI 转型、系统集成和托管服务。"],
+      ["EPAM", "EPAM Systems", "AI services", "软件工程、AI 服务交付、数据工程和数字化转型。"],
+      ["INOD", "Innodata", "AI data services", "AI 数据标注、模型评测、数据工程和企业生成式 AI 服务。"],
+      ["U", "Unity Software", "AI creative tools", "实时 3D、游戏开发、广告模型和生成式内容工具。"],
+      ["RBLX", "Roblox", "AI creation platform", "UGC 游戏平台、生成式创作工具、虚拟世界和 AI 内容生产。"],
+      ["PEGA", "Pegasystems", "Enterprise AI automation", "企业流程自动化、决策 AI 和客户交互平台。"],
+      ["VERI", "Veritone", "AI media platform", "媒体、广告和招聘场景的 AI 操作系统与语音视频数据。"],
+      ["TTAN", "ServiceTitan", "Vertical SaaS AI", "现场服务 SaaS、调度、商业数据和垂直行业 AI。"],
+      ["PCOR", "Procore Technologies", "Construction AI software", "建筑项目管理、施工数据和 AI 工程软件。"],
+      ["ASAN", "Asana", "Work management AI", "协作、项目管理和企业工作流 AI。"],
+      ["MNDY", "Monday.com", "Work OS AI", "企业工作管理、自动化和 AI 工作流平台。"],
+      ["KVYO", "Klaviyo", "Commerce AI", "电商营销自动化、客户数据和 AI 推荐。"],
+      ["DUOL", "Duolingo", "Education AI", "AI 教育、语言学习、个性化推荐和生成式教学。"],
       ["EOSE", "Eos Energy Enterprises", "Energy storage / grid", "长时储能与锌基电池系统，平抑 AI 数据中心需求暴增导致的电网波动。"],
       ["NEE", "NextEra Energy", "Clean energy / data center power", "美国清洁能源主力，可再生能源开发管道和公用事业电力资产，承接数据中心负荷增长。"],
       ["CEG", "Constellation Energy", "SMR / nuclear power", "美国最大核电运营商之一，微软 20 年 PPA 推动三哩岛核电站重启，为 AI 数据中心提供长期清洁基荷电力。"],
@@ -2486,6 +2541,8 @@
       ["ARE.TO", "Aecon Group", "SMR / nuclear construction", "加拿大工程与基础设施承包商，参与核电与 SMR 项目建设供应链，受益北美小型模块化反应堆落地。"],
       ["ATRL.TO", "AtkinsRéalis Group", "SMR / nuclear engineering", "加拿大工程、设计与核能服务集团，参与核电站寿命延长、CANDU 技术服务和 SMR 工程咨询，是北美核能工程供应链标的。"],
       ["RR.L", "Rolls-Royce Holdings", "SMR / UK nuclear power", "英国航空发动机与核能工程集团，推进 Rolls-Royce SMR 小型模块化反应堆方案，面向英国与欧洲数据中心清洁基荷电力。"],
+      ["CCJ", "Cameco", "Uranium / nuclear fuel", "全球铀矿与核燃料龙头，受益 AI 数据中心核电与清洁基荷电力需求。"],
+      ["MIR", "Mirion Technologies", "Nuclear measurement", "核测量、辐射监测与核能安全设备，服务核电和先进反应堆供应链。"],
       ["BE", "Bloom Energy", "SOFC / system leader", "关键词：SOFC 系统龙头、Bloom Energy Server、数据中心现场发电、分布式电力、船舶应用。全球商业化最成熟的固体氧化物燃料电池公司。"],
       ["000338.SZ", "潍柴动力", "SOFC / China system integration", "关键词：Ceres 中国第一大股东、系统集成、燃料电池产业园、净发电效率 60%+、重卡/分布式能源/数据中心备用电源。"],
       ["CWR.L", "Ceres Power", "SOFC / licensing IP", "关键词：SOFC 授权技术源头、SteelCell 金属支撑型 SOFC、核心专利、轻资产授权、潍柴/博世/康明斯合作。"],
@@ -2508,7 +2565,13 @@
       ["SEI", "Solaris Energy Infrastructure", "AI power / data center", "分布式电力与能源基础设施，面向高密度算力负载。"],
       ["BTDR", "Bitdeer Technologies", "AI data center / bitcoin miner", "矿场、算力与数据中心资产，潜在 AI/HPC 转型。"],
       ["CLSK", "CleanSpark", "AI data center / bitcoin miner", "低成本电力与矿场基础设施，潜在 AI 数据中心容量。"],
+      ["IRM", "Iron Mountain", "Data center REIT", "数据中心 REIT、企业数据存储和 AI 托管扩张。"],
       ["KRC", "Kilroy Realty", "AI data center real estate", "湾区与西海岸地产资产，数据中心与科技地产观察。"],
+      ["STRL", "Sterling Infrastructure", "Data center construction", "数据中心土建、基础设施施工和电力基础设施建设链。"],
+      ["AAON", "AAON", "Data center cooling / HVAC", "商用 HVAC、数据中心冷却、空气处理和高密度算力热管理。"],
+      ["MYRG", "MYR Group", "Electrical infrastructure", "输配电、电力工程和数据中心供电基础设施施工。"],
+      ["IESC", "IES Holdings", "Electrical / data center services", "电气承包、数据中心机电工程和工业基础设施服务。"],
+      ["LMB", "Limbach Holdings", "Mechanical systems / data centers", "机电工程、暖通系统和数据中心设施服务。"],
       ["INFY", "Infosys", "AI services", "企业 AI 服务、软件外包与数字化转型。"],
       ["KEEL", "Keel Infrastructure", "AI power / data center", "数字与能源基础设施，面向 HPC 和 AI 工作负载。"],
       ["LBRT", "Liberty Energy", "AI power / energy services", "能源服务与分布式电力链条。"],
@@ -2525,6 +2588,14 @@
       ["ACLS", "Axcelis Technologies", "Semi equipment", "离子注入设备，功率半导体和先进芯片。"],
       ["TER", "Teradyne", "Semi test / robotics", "芯片测试和协作机器人。"],
       ["ON", "ON Semiconductor", "Power / sensors", "功率器件、传感和边缘 AI 硬件。"],
+      ["WOLF", "Wolfspeed", "SiC power semiconductor", "碳化硅功率半导体，汽车、电力和 AI 数据中心电源链。"],
+      ["SITM", "SiTime", "Data center timing", "MEMS timing 芯片，数据中心、网络设备和 AI 集群时钟同步。"],
+      ["RMBS", "Rambus", "Memory interface IP", "HBM、内存接口 IP 和安全芯片，AI 内存子系统核心 IP。"],
+      ["LSCC", "Lattice Semiconductor", "Low-power FPGA / edge AI", "低功耗 FPGA、边缘 AI、工业和通信控制芯片。"],
+      ["CEVA", "CEVA", "AI DSP IP", "AI DSP、无线连接与传感 IP，服务端侧 AI 芯片设计。"],
+      ["ALGM", "Allegro MicroSystems", "Auto sensors / power", "汽车传感、电机控制和功率芯片，服务智能汽车和机器人硬件。"],
+      ["SWKS", "Skyworks Solutions", "RF / edge connectivity", "射频前端、边缘连接和 AI 终端无线链。"],
+      ["QRVO", "Qorvo", "RF / sensors", "射频、传感和连接芯片，服务手机、汽车和边缘 AI。"],
       ["MPWR", "Monolithic Power Systems", "Power chips", "AI 服务器电源管理芯片。"],
       ["MCHP", "Microchip Technology", "Embedded AI", "MCU、FPGA、嵌入式和边缘 AI。"],
       ["NXPI", "NXP Semiconductors", "Edge AI / auto", "汽车、工业和边缘 AI 芯片。"],
@@ -2533,6 +2604,8 @@
       ["TSEM", "Tower Semiconductor", "Specialty foundry", "模拟、射频和特色工艺代工。"],
       ["ACMR", "ACM Research", "Semi equipment", "清洗设备，半导体制造链。"],
       ["UCTT", "Ultra Clean Holdings", "Semi subsystems", "半导体设备子系统和供应链。"],
+      ["ICHR", "Ichor Holdings", "Semi equipment subsystems", "半导体设备流体输送和子系统，服务刻蚀、沉积和先进制程。"],
+      ["AZTA", "Azenta", "Life science automation / semi storage", "自动化样本管理、冷链和半导体存储搬运，宽口径自动化链条。"],
       ["COHU", "Cohu", "Semi test", "芯片测试与检测设备。"],
       ["VECO", "Veeco Instruments", "Semi equipment", "沉积、离子束和先进封装设备。"],
       ["FORM", "FormFactor", "Probe cards", "晶圆探针卡和半导体测试。"],
@@ -2541,6 +2614,10 @@
       ["SYM", "Symbotic", "Warehouse robotics", "仓储机器人和 AI 自动化。"],
       ["ISRG", "Intuitive Surgical", "Robotic surgery", "手术机器人和医疗自动化。"],
       ["NICE", "NICE", "Customer AI", "客服 AI、语音分析和 CX 自动化。"],
+      ["S", "SentinelOne", "AI cybersecurity", "AI 终端安全、云安全和自主威胁检测。"],
+      ["TENB", "Tenable", "Cyber exposure AI", "漏洞暴露管理、攻击面安全和 AI 风险评估。"],
+      ["AKAM", "Akamai Technologies", "Edge cloud / security", "边缘云、CDN、安全和分布式 AI 应用交付。"],
+      ["FFIV", "F5", "Application delivery / security", "应用交付、负载均衡、安全和 AI 数据中心流量管理。"],
       ["688256.SS", "寒武纪", "China AI chip", "国产 AI 芯片与云端推理训练加速。"],
       ["688041.SS", "海光信息", "China AI chip", "CPU/DCU 算力芯片与国产 AI 服务器生态。"],
       ["688111.SS", "金山办公", "China enterprise AI", "WPS AI、办公文档与企业生产力 AI。"],
@@ -3097,6 +3174,14 @@
       if (row.country === "South Korea") return "🇰🇷";
       if (row.country === "Japan") return "🇯🇵";
       if (row.country === "Canada") return "🇨🇦";
+      if (row.country === "United Kingdom") return "🇬🇧";
+      if (row.country === "France") return "🇫🇷";
+      if (row.country === "Netherlands") return "🇳🇱";
+      if (row.country === "Germany") return "🇩🇪";
+      if (row.country === "India") return "🇮🇳";
+      if (row.country === "Israel") return "🇮🇱";
+      if (row.country === "Singapore") return "🇸🇬";
+      if (row.country === "Norway") return "🇳🇴";
       return "🇺🇸";
     }
     function formatChange(value) {
