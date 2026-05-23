@@ -1237,6 +1237,7 @@
       <a href="#" data-nav-tab="Token 工厂 / 推理服务">Token Factory / Inference</a>
       <a href="#" data-nav-tab="英伟达">NVIDIA</a>
       <a href="#" data-nav-tab="Serenity">Serenity</a>
+      <a href="#" data-nav-tab="Henderson">Henderson</a>
       <a href="#" data-nav-tab="Leopold Aschenbrenner">Leopold Aschenbrenner</a>
     </div>
   </nav>
@@ -1400,6 +1401,7 @@
       <button class="tab" data-tab="Token 工厂 / 推理服务" type="button">Token Factory / Inference</button>
       <button class="tab" data-tab="英伟达" type="button">NVIDIA</button>
       <button class="tab" data-tab="Serenity" type="button">Serenity</button>
+      <button class="tab" data-tab="Henderson" type="button">Henderson</button>
       <button class="tab" data-tab="Leopold Aschenbrenner" type="button">Leopold Aschenbrenner</button>
     </section>
     <section class="subtabs" id="token-subtabs" aria-label="Token 工厂 / 推理服务子标签" hidden>
@@ -1499,6 +1501,8 @@
     const LEOPOLD_TICKERS = new Set(["BE", "SNDK", "CRWV", "IREN", "CORZ", "CLSK", "RIOT", "APLD", "INTC"]);
     const SERENITY_CATEGORY = "Serenity";
     const SERENITY_TICKERS = new Set(["ZTO", "TAL", "HTHT", "EDU", "PDD", "MNSO", "YMM", "ATAT", "SIVEF"]);
+    const HENDERSON_CATEGORY = "Henderson";
+    const HENDERSON_TICKERS = new Set(["VPG", "SPAB", "SIVEF"]);
 
     const AIBOTT_WATCHLIST = [
       [
@@ -2294,6 +2298,7 @@
       "Token 工厂 / 推理服务",
       "英伟达",
       "Serenity",
+      "Henderson",
       "Leopold Aschenbrenner"
 ];
     const CATEGORY_LABELS = {
@@ -2304,6 +2309,7 @@
       "Token 工厂 / 推理服务": { zh: "Token 工厂 / 推理服务", en: "Token Factory / Inference" },
       "英伟达": { zh: "英伟达", en: "NVIDIA" },
       "Serenity": { zh: "Serenity", en: "Serenity" },
+      "Henderson": { zh: "Henderson", en: "Henderson" },
       "Leopold Aschenbrenner": { zh: "Leopold Aschenbrenner", en: "Leopold Aschenbrenner" }
     };
     const NVIDIA_CATEGORY = "英伟达";
@@ -2456,7 +2462,9 @@
       ["MNSO", "MINISO Group", "Serenity holding", "Serenity Capital Management 公开 13F 持仓，全球零售、IP 消费和供应链平台。"],
       ["YMM", "Full Truck Alliance", "Serenity holding", "Serenity Capital Management 公开 13F 持仓，数字货运、物流撮合与平台数据。"],
       ["ATAT", "Atour Lifestyle", "Serenity holding", "Serenity Capital Management 公开 13F 持仓，酒店品牌、会员体系与生活方式消费平台。"],
-      ["SIVEF", "SVRS SMCDCTR ORD", "Serenity holding / OTC", "PINK:SIVEF，按用户指定列入 Serenity 标签观察名单。"],
+      ["SIVEF", "SVRS SMCDCTR ORD", "Serenity / Henderson holding / OTC", "PINK:SIVEF，按用户指定列入 Serenity 与 Henderson 标签观察名单。"],
+      ["VPG", "Vishay Precision Group", "Henderson holding", "Vishay 精密集团，NYSE:VPG，按用户指定列入 Henderson 标签观察名单。"],
+      ["SPAB", "SPAB", "Henderson holding", "按用户指定列入 Henderson 标签观察名单。"],
       ["MBLY", "Mobileye", "ADAS / autonomous vision", "自动驾驶视觉芯片、ADAS 方案和车端感知计算。"],
       ["AUR", "Aurora Innovation", "Autonomous trucking", "L4 自动驾驶卡车、自动驾驶软件栈和物流场景商业化。"],
       ["HSAI", "Hesai Group", "LiDAR ADR", "美股 ADR 激光雷达公司，ADAS、Robotaxi、机器人感知与自动驾驶传感器。"],
@@ -2772,6 +2780,7 @@
       const baseTags = meta.tags || [
         ...(LEOPOLD_TICKERS.has(row[0]) ? ["Leopold Aschenbrenner"] : []),
         ...(SERENITY_TICKERS.has(row[0]) ? ["Serenity"] : []),
+        ...(HENDERSON_TICKERS.has(row[0]) ? ["Henderson"] : []),
       ];
       const detailTheme = aibott?.theme || row[2] || "";
       const aibottTheme = inferAibottTheme(detailTheme, `${row[2] || ""} ${row[3] || ""} ${aibott?.oneLiner || ""}`, row[0]);
@@ -3205,6 +3214,7 @@
       if (category === "ALL") return true;
       if (category === LEOPOLD_CATEGORY) return LEOPOLD_TICKERS.has(row.ticker);
       if (category === SERENITY_CATEGORY) return SERENITY_TICKERS.has(row.ticker);
+      if (category === HENDERSON_CATEGORY) return HENDERSON_TICKERS.has(row.ticker);
       if (category === NVIDIA_CATEGORY) return NVIDIA_TICKERS.has(row.ticker);
       return row.category === category;
     }
