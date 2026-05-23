@@ -5,13 +5,20 @@ from __future__ import annotations
 
 import json
 import re
+import urllib.request
 from datetime import datetime, timezone
+from html import unescape
 from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parent
 INDEX_HTML = ROOT / "index.html"
 OUTFILE = ROOT / "model-rankings.json"
+CURSORBENCH_URL = "https://cursor.com/cursorbench"
+USER_AGENT = (
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+    "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0 Safari/537.36"
+)
 MIRRORS = [
     ROOT / "agi" / "model-rankings.json",
     ROOT / "ai-global-index" / "model-rankings.json",
@@ -50,6 +57,59 @@ def normalize_rows(rows: Any) -> list[dict[str, Any]]:
     return normalized
 
 
+def infer_provider(model: str) -> str:
+    text = model.lower()
+    if "opus" in text or "claude" in text:
+        return "anthropic"
+    if "gpt" in text or text.startswith(("o3", "o4")):
+        return "openai"
+    if "composer" in text:
+        return "cursor"
+    if "gemini" in text:
+        return "google"
+    if "kimi" in text:
+        return "moonshot"
+    return ""
+
+
+def parse_cursorbench_html(html: str) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    pattern = re.compile(
+        r'aria-label="([^"]+?):\s*([0-9]+(?:\.[0-9]+)?)%,\s*'
+        r'\$([0-9]+(?:\.[0-9]+)?)\s+avg cost per task"',
+        re.IGNORECASE,
+    )
+    for match in pattern.finditer(html):
+        model = unescape(match.group(1)).strip()
+        key = model.lower()
+        if key in seen:
+            continue
+        seen.add(key)
+        rows.append(
+            {
+                "model": model,
+                "provider": infer_provider(model),
+                "score": float(match.group(2)),
+                "avgCostPerTask": float(match.group(3)),
+            }
+        )
+    rankings = normalize_rows(rows)
+    rankings.sort(key=lambda row: (-row["score"], row["avgCostPerTask"], row["model"]))
+    return rankings
+
+
+def fetch_cursorbench_rankings() -> list[dict[str, Any]]:
+    request = urllib.request.Request(CURSORBENCH_URL, headers={"User-Agent": USER_AGENT})
+    try:
+        with urllib.request.urlopen(request, timeout=30) as response:
+            html = response.read().decode("utf-8", errors="replace")
+    except OSError as exc:
+        print(f"CursorBench fetch failed: {exc}")
+        return []
+    return parse_cursorbench_html(html)
+
+
 def read_inline_rankings() -> list[dict[str, Any]]:
     html = INDEX_HTML.read_text(encoding="utf-8")
     match = re.search(r"const\s+MODEL_RANKINGS\s*=\s*(\[[\s\S]*?\]);", html)
@@ -69,11 +129,12 @@ def read_existing_rankings() -> list[dict[str, Any]]:
     return normalize_rows(rows)
 
 
-def write_feed(rankings: list[dict[str, Any]]) -> None:
+def write_feed(rankings: list[dict[str, Any]], source: str, source_url: str = "") -> None:
     payload = {
         "meta": {
             "updatedAt": datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z"),
-            "source": "IsitHUB model ranking feed",
+            "source": source,
+            "sourceUrl": source_url,
             "count": len(rankings),
         },
         "rankings": rankings,
@@ -86,11 +147,17 @@ def write_feed(rankings: list[dict[str, Any]]) -> None:
 
 
 def main() -> None:
-    rankings = read_inline_rankings() or read_existing_rankings()
+    rankings = fetch_cursorbench_rankings()
+    source = "CursorBench 3.1"
+    source_url = CURSORBENCH_URL
+    if not rankings:
+        rankings = read_existing_rankings() or read_inline_rankings()
+        source = "IsitHUB model ranking fallback"
+        source_url = ""
     if not rankings:
         raise SystemExit("No model rankings available")
-    write_feed(rankings)
-    print(f"Wrote {len(rankings)} model rankings to {OUTFILE}")
+    write_feed(rankings, source, source_url)
+    print(f"Wrote {len(rankings)} model rankings to {OUTFILE} from {source}")
 
 
 if __name__ == "__main__":
