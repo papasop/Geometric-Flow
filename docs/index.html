@@ -1425,6 +1425,7 @@
     <section class="subtabs" id="infrastructure-subtabs" aria-label="基础设施子标签" hidden>
       <button class="subtab active notranslate" data-infrastructure-subcategory="DCI" type="button" translate="no" lang="en">DCI</button>
       <button class="subtab notranslate" data-infrastructure-subcategory="AIDC" type="button" translate="no" lang="en">AIDC</button>
+      <button class="subtab notranslate" data-infrastructure-subcategory="HPC" type="button" translate="no" lang="en">HPC</button>
     </section>
     <section class="subtabs" id="hardware-subtabs" aria-label="硬件子标签" hidden>
       <button class="subtab active notranslate" data-hardware-subcategory="CNC" type="button" translate="no" lang="en">CNC</button>
@@ -2334,9 +2335,10 @@
     const ENERGY_TICKERS = new Set(["VRT", "EOSE", "NEE", "LEU", "UUUU", "OKLO", "CEG", "VST", "BLDP", "PLUG", "FCEL"]);
     const SMR_TICKERS = new Set(["OKLO", "UUUU", "LEU", "VST", "SMR", "CEG", "XE", "KAIROS.PRE", "TERRAPOWER.PRE", "BWXT", "GEV", "HOLTEC.PRE", "601985.SS", "1816.HK", "LTBR", "ARE.TO", "ATRL.TO", "RR.L"]);
     const INFRASTRUCTURE_CATEGORY = "基础设施";
-    const INFRASTRUCTURE_SUBCATEGORIES = ["DCI", "AIDC"];
+    const INFRASTRUCTURE_SUBCATEGORIES = ["DCI", "AIDC", "HPC"];
     const DCI_TICKERS = new Set(["NOK", "CIEN", "MRVL", "CSCO", "HLIT"]);
     const AIDC_TICKERS = new Set(["VRT"]);
+    const HPC_TICKERS = new Set(["NTAP", "PENG"]);
     const HARDWARE_CATEGORY = "硬件";
     const HARDWARE_SUBCATEGORIES = ["CNC"];
     const CNC_TICKERS = new Set(["1651.HK"]);
@@ -2495,6 +2497,7 @@
       ["MARA", "MARA Holdings", "AI data center / bitcoin miner", "矿场电力资产、比特币挖矿和 AI/HPC 数据中心转型潜力。"],
       ["NBIS", "Nebius Group", "AIDC / AI data center", "新云算力、GPU 云和 AI 数据中心基础设施。"],
       ["HLIT", "Harmonic", "DCI / video and broadband infrastructure", "Harmonic，NASDAQ:HLIT，视频传输、宽带接入与网络基础设施公司，按用户指定列入基础设施 DCI 子标签。"],
+      ["PENG", "Penguin Solutions", "HPC / AI infrastructure", "Penguin Solutions，NASDAQ:PENG，HPC、AI 集群、企业级计算和数据中心系统集成，按用户指定列入基础设施 HPC 子标签。"],
       ["LAMBDA.PRE", "Lambda Labs", "AI cloud / IaaS/PaaS", "预上市 AI 云基础设施公司，提供 GPU 云、训练集群与企业级 AI 算力服务。", { status: "prelist", estimatedMarketCap: 6000000000 }],
       ["CLICKHOUSE.PRE", "ClickHouse", "AI data cloud / DBaaS", "预上市实时分析数据库与 AI 数据云公司，服务向量检索、观测、日志分析和 AI 应用数据底座。", { status: "prelist", estimatedMarketCap: 15000000000 }],
       ["DATABRICKS.PRE", "Databricks", "AI data platform / DBaaS", "预上市湖仓一体与数据智能平台，面向企业 AI Agent、模型训练、数据治理和分析工作负载。", { status: "prelist", estimatedMarketCap: 134000000000 }],
@@ -3230,7 +3233,7 @@
       if (category === SERENITY_CATEGORY) return SERENITY_TICKERS.has(row.ticker);
       if (category === HENDERSON_CATEGORY) return HENDERSON_TICKERS.has(row.ticker);
       if (category === NVIDIA_CATEGORY) return NVIDIA_TICKERS.has(row.ticker);
-      if (category === INFRASTRUCTURE_CATEGORY) return row.category === category || DCI_TICKERS.has(row.ticker) || AIDC_TICKERS.has(row.ticker);
+      if (category === INFRASTRUCTURE_CATEGORY) return row.category === category || DCI_TICKERS.has(row.ticker) || AIDC_TICKERS.has(row.ticker) || HPC_TICKERS.has(row.ticker);
       return row.category === category;
     }
     function tokenFactorySubcategory(row) {
@@ -3258,6 +3261,7 @@
     function infrastructureSubcategory(row) {
       if (DCI_TICKERS.has(row.ticker)) return "DCI";
       if (AIDC_TICKERS.has(row.ticker)) return "AIDC";
+      if (HPC_TICKERS.has(row.ticker)) return "HPC";
       return null;
     }
     function matchesInfrastructureSubcategory(row) {
@@ -4465,7 +4469,7 @@
       setAllText(".chart-range-tab", [t("history"), t("day"), t("week"), t("month")]);
       setAllText(".token-metric span", [t("period"), "Top 10 Tokens", t("firstShare")]);
       setAllText(".tabs .tab", [t("all"), ...AIBOTT_THEMES.map(categoryDisplayLabel)]);
-      setAllText("#infrastructure-subtabs .subtab", ["DCI", "AIDC"]);
+      setAllText("#infrastructure-subtabs .subtab", ["DCI", "AIDC", "HPC"]);
       setAllText("#hardware-subtabs .subtab", ["CNC"]);
       setAllText("#model-subtabs .subtab", ["LLM", t("physicalWorldModel")]);
       setAllText("#llm-subtabs .subtab", [t("openSource"), t("closedSource")]);
