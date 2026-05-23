@@ -2330,7 +2330,7 @@
     const ATAAS_TICKERS = new Set(["QJTECH.PRE"]);
     const ENERGY_CATEGORY = "能源";
     const ENERGY_SUBCATEGORIES = ["SMR", "SOFC"];
-    const ENERGY_TICKERS = new Set(["VRT", "EOSE", "NEE", "LEU", "UUUU", "OKLO", "CEG", "VST", "BLDP", "PLUG"]);
+    const ENERGY_TICKERS = new Set(["VRT", "EOSE", "NEE", "LEU", "UUUU", "OKLO", "CEG", "VST", "BLDP", "PLUG", "FCEL"]);
     const SMR_TICKERS = new Set(["OKLO", "UUUU", "LEU", "VST", "SMR", "CEG", "XE", "KAIROS.PRE", "TERRAPOWER.PRE", "BWXT", "GEV", "HOLTEC.PRE", "601985.SS", "1816.HK", "LTBR", "ARE.TO", "ATRL.TO", "RR.L"]);
     const INFRASTRUCTURE_CATEGORY = "基础设施";
     const INFRASTRUCTURE_SUBCATEGORIES = ["DCI"];
@@ -2545,6 +2545,7 @@
       ["BE", "Bloom Energy", "SOFC / Leopold flagship long", "Leopold Aschenbrenner 旗舰多头，约 650 万股、约 8.79 亿美元；论点是 SOFC 燃料电池给数据中心做 on-site 电源，绕开电网瓶颈。"],
       ["BLDP", "Ballard Power Systems", "SOFC / fuel cell power", "巴拉德动力系统，NASDAQ:BLDP，燃料电池动力系统公司，按用户指定列入能源 SOFC 子标签。"],
       ["PLUG", "Plug Power", "SOFC / hydrogen fuel cell power", "普拉格能源，NASDAQ:PLUG，氢燃料电池与电解槽公司，按用户指定列入能源 SOFC 子标签。"],
+      ["FCEL", "FuelCell Energy", "SOFC / fuel cell power", "FuelCell Energy，NASDAQ:FCEL，燃料电池发电与分布式能源公司，按用户指定列入能源 SOFC 子标签。"],
       ["000338.SZ", "潍柴动力", "SOFC / China system integration", "关键词：Ceres 中国第一大股东、系统集成、燃料电池产业园、净发电效率 60%+、重卡/分布式能源/数据中心备用电源。"],
       ["CWR.L", "Ceres Power", "SOFC / licensing IP", "关键词：SOFC 授权技术源头、SteelCell 金属支撑型 SOFC、核心专利、轻资产授权、潍柴/博世/康明斯合作。"],
       ["336260.KS", "Doosan Fuel Cell", "SOFC / Korea utility fuel cells", "关键词：韩国氢能电池龙头、PAFC 转 SOFC、Ceres 技术授权、公用事业级发电、大规模 SOFC 产线。"],
@@ -3241,7 +3242,7 @@
     }
     function energySubcategory(row) {
       const haystack = `${row.ticker} ${row.name} ${row.category} ${row.thesis} ${(row.tags || []).join(" ")}`.toLowerCase();
-      if (row.ticker === "BE" || row.ticker === "BLDP" || row.ticker === "PLUG" || row.ticker === "000338.SZ") return "SOFC";
+      if (row.ticker === "BE" || row.ticker === "BLDP" || row.ticker === "PLUG" || row.ticker === "FCEL" || row.ticker === "000338.SZ") return "SOFC";
       if (SMR_TICKERS.has(row.ticker)) return "SMR";
       if (/sofc|solid oxide|fuel cell|fuel cells|燃料电池|固体氧化物/.test(haystack)) return "SOFC";
       return null;
