@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.youtube.com; connect-src 'self' https://ipapi.co https://query1.finance.yahoo.com https://www.google-analytics.com https://analytics.google.com; frame-src https://www.googletagmanager.com https://www.youtube.com https://www.youtube-nocookie.com; upgrade-insecure-requests" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.youtube.com; connect-src 'self' https://ipapi.co https://query1.finance.yahoo.com https://www.google-analytics.com https://analytics.google.com; frame-src https://www.googletagmanager.com https://www.youtube.com https://www.youtube-nocookie.com; upgrade-insecure-requests" />
   <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -3081,7 +3081,7 @@
     }
     function yahooLink(ticker) {
       if (ticker.endsWith(".PRE")) return "#";
-      return `https://finance.yahoo.com/quote/${encodeURIComponent(ticker)}`;
+      return safeUrl(`https://finance.yahoo.com/quote/${encodeURIComponent(ticker)}`, { protocols: ["https:"] });
     }
     function flagFor(row) {
       if (row.country === "China") return "🇨🇳";
@@ -3298,7 +3298,8 @@
             render();
             return;
           }
-          window.open(yahooLink(state.selected), "_blank", "noopener");
+          const quoteUrl = yahooLink(state.selected);
+          if (quoteUrl && quoteUrl !== "#") window.open(quoteUrl, "_blank", "noopener");
           render();
         });
       });
@@ -3920,7 +3921,10 @@
         tooltip.hidden = false;
         tooltip.style.left = `${(selectedX / width) * 100}%`;
         tooltip.style.top = `${(selectedY / height) * 100}%`;
-        tooltip.innerHTML = `${selected.date.replace("T", " ")}<b>${selected.value.toFixed(4)}</b>`;
+        tooltip.replaceChildren(document.createTextNode(selected.date.replace("T", " ")));
+        const valueNode = document.createElement("b");
+        valueNode.textContent = selected.value.toFixed(4);
+        tooltip.appendChild(valueNode);
       }
       svg.onpointermove = (event) => {
         const rect = svg.getBoundingClientRect();
@@ -4169,8 +4173,14 @@
     function renderCategoryFilter() {
       if (!$("category-filter")) return;
       const current = $("category-filter")?.value || state.category;
-      $("category-filter").innerHTML = categories().map((cat) => `<option value="${cat}">${categoryLabel(cat)}</option>`).join("");
-      if ([...$("category-filter").options].some((option) => option.value === current)) $("category-filter").value = current;
+      const filter = $("category-filter");
+      filter.replaceChildren(...categories().map((cat) => {
+        const option = document.createElement("option");
+        option.value = cat;
+        option.textContent = categoryLabel(cat);
+        return option;
+      }));
+      if ([...filter.options].some((option) => option.value === current)) filter.value = current;
     }
     function alignSubtabsToCategory(panel, category) {
       if (!panel || panel.hidden) return;
