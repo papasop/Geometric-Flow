@@ -1038,38 +1038,6 @@
     }
     .empty { color: var(--muted); }
     .empty { padding: 32px; color: var(--muted); text-align: center; }
-    .language-float {
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      z-index: 30;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 4px;
-      border: 1px solid rgba(148, 163, 184, 0.42);
-      border-radius: 999px;
-      background: rgba(2, 6, 23, 0.82);
-      box-shadow: 0 18px 44px rgba(0, 0, 0, 0.34);
-      backdrop-filter: blur(10px);
-    }
-    .language-float button {
-      width: auto;
-      height: 30px;
-      min-width: 42px;
-      padding: 0 11px;
-      border: 0;
-      border-radius: 999px;
-      background: transparent;
-      color: #cbd5e1;
-      font-size: 12px;
-      font-weight: 840;
-      line-height: 1;
-    }
-    .language-float button.active {
-      color: #020617;
-      background: #67e8f9;
-    }
     @media (max-width: 760px) {
       .topline-inner { align-items: flex-start; flex-direction: column; }
       .nav-inner {
@@ -1237,17 +1205,6 @@
       .spark { height: 26px; }
       .news-tabs { width: 100%; }
       .news-tab { width: auto; flex: 1 0 auto; }
-      .language-float {
-        right: 12px;
-        bottom: 12px;
-      }
-      .language-float button {
-        width: auto;
-        height: 28px;
-        min-width: 38px;
-        padding: 0 9px;
-        font-size: 11px;
-      }
       h1 { font-size: 26px; }
     }
   </style>
@@ -1490,11 +1447,6 @@
     </section>
     <p class="footer-note">说明：这是 AI 相关美股挂牌、港股、A 股、韩股、日股、英国、加拿大与台湾市场公司及少量预上市公司观察名单，不是投资建议，也不是官方指数。价格、1小时/24小时/7天/30天变化、成交额与市值均优先使用在线 quote/chart 真实行情；不可用时显示为空。预上市公司使用估算美元市值参与排行，不抓取实时行情。非美元公司市值与成交额在内部按 USD/CNY、USD/HKD、USD/KRW、USD/JPY、USD/TWD、USD/GBP、USD/CAD 机制折算成美元口径，但页面不展示汇率。</p>
   </main>
-
-  <div class="language-float" role="group" aria-label="Language switcher">
-    <button type="button" data-language="en" aria-pressed="true">EN</button>
-    <button type="button" data-language="zh" aria-pressed="false">中文</button>
-  </div>
 
   <script>
     const COUNTRY_OVERRIDES = {
@@ -4418,13 +4370,6 @@
       if ($("search")) $("search").value = "";
       selectCategory("ALL");
     }
-    function updateLanguageSwitch() {
-      document.querySelectorAll("[data-language]").forEach((button) => {
-        const active = button.dataset.language === state.lang;
-        button.classList.toggle("active", active);
-        button.setAttribute("aria-pressed", active ? "true" : "false");
-      });
-    }
     function applyLocale() {
       document.documentElement.lang = state.lang === "zh" ? "zh-CN" : "en";
       document.title = t("pageTitle");
@@ -4477,7 +4422,6 @@
       if ($("category-filter")) renderCategoryFilter();
       updateCategoryControls();
       updateSortControls();
-      updateLanguageSwitch();
     }
     function setLanguage(lang, options = {}) {
       if (lang !== "zh" && lang !== "en") return;
@@ -4593,9 +4537,6 @@
       });
       document.querySelectorAll(".news-tab").forEach((button) => {
         button.addEventListener("click", () => setNewsTab(button.dataset.newsTab || "industry"));
-      });
-      document.querySelectorAll("[data-language]").forEach((button) => {
-        button.addEventListener("click", () => setLanguage(button.dataset.language || "en", { persist: true }));
       });
       [["sort-mcap", "mcap"], ["sort-rank", "rank"], ["sort-change", "change"]].forEach(([id, sort]) => {
         $(id)?.addEventListener("click", () => {
