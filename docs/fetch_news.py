@@ -550,6 +550,24 @@ NEWS_SECTIONS = [
         "allowGeneralFeed": True,
     },
 ]
+PINNED_SECTION_ITEMS = {
+    "papers": [
+        {
+            "source": "arXiv",
+            "feedSource": "arXiv",
+            "sourceUrl": "https://arxiv.org/",
+            "title": "How Do AI Agents Spend Your Money? Analyzing and Predicting Token Consumption in Agentic Coding Tasks",
+            "summary": "Systematic study of token consumption patterns in agentic coding tasks, including token cost prediction and model-level token-efficiency comparisons.",
+            "url": "https://arxiv.org/abs/2604.22750",
+            "author": "Longhui Bai, Zhemin Huang, Xingyao Wang, Jiao Sun, Rada Mihalcea, Erik Brynjolfsson, Alex Pentland, Jiaxin Pei",
+            "publishedAt": "2026-04-29T17:20:11Z",
+            "section": "papers",
+            "sectionTitle": "论文",
+            "matchedPortfolios": ["ai-market"],
+            "tags": ["arXiv", "AI agents", "token consumption", "agentic coding"],
+        },
+    ],
+}
 OFFICIAL_SOURCES = [source for section in NEWS_SECTIONS for source in section["sources"]]
 SOURCES = OFFICIAL_SOURCES
 
@@ -1650,6 +1668,16 @@ def main() -> int:
                     "count": 0,
                 })
         section_items.sort(key=lambda item: item.get("publishedAt") or "", reverse=True)
+        pinned_items = PINNED_SECTION_ITEMS.get(section["id"], [])
+        for pinned in pinned_items:
+            key = canonical_news_title(str(pinned.get("title") or "")) or str(pinned.get("url") or "").lower()
+            if not key or key in section_seen:
+                continue
+            pinned_item = dict(pinned)
+            enrich_title_fields(pinned_item)
+            section_items.insert(0, pinned_item)
+            items.append(pinned_item)
+            section_seen.add(key)
         section_limit = 40 if section["id"] == "video" else 32
         if section.get("columnists"):
             section_items = balance_items_by_source(section_items, section_limit)
