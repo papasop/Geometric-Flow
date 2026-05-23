@@ -1277,6 +1277,7 @@
       <a href="#" data-nav-tab="硬件">Hardware</a>
       <a href="#" data-nav-tab="大模型">Foundation Models</a>
       <a href="#" data-nav-tab="Token 工厂 / 推理服务">Token Factory / Inference</a>
+      <a href="#" data-nav-tab="英伟达">NVIDIA</a>
     </div>
   </nav>
   <main class="shell">
@@ -1429,6 +1430,7 @@
       <button class="tab" data-tab="硬件" type="button">Hardware</button>
       <button class="tab" data-tab="大模型" type="button">Foundation Models</button>
       <button class="tab" data-tab="Token 工厂 / 推理服务" type="button">Token Factory / Inference</button>
+      <button class="tab" data-tab="英伟达" type="button">NVIDIA</button>
     </section>
     <section class="subtabs" id="token-subtabs" aria-label="Token 工厂 / 推理服务子标签" hidden>
       <button class="subtab active notranslate" data-token-subcategory="IaaS/PaaS" type="button" translate="no" lang="en">IaaS/PaaS</button>
@@ -2325,15 +2327,19 @@
       "基础设施",
       "硬件",
       "大模型",
-      "Token 工厂 / 推理服务"
+      "Token 工厂 / 推理服务",
+      "英伟达"
 ];
     const CATEGORY_LABELS = {
       "能源": { zh: "能源", en: "Energy" },
       "基础设施": { zh: "基础设施", en: "Infrastructure" },
       "硬件": { zh: "硬件", en: "Hardware" },
       "大模型": { zh: "大模型", en: "Foundation Models" },
-      "Token 工厂 / 推理服务": { zh: "Token 工厂 / 推理服务", en: "Token Factory / Inference" }
+      "Token 工厂 / 推理服务": { zh: "Token 工厂 / 推理服务", en: "Token Factory / Inference" },
+      "英伟达": { zh: "英伟达", en: "NVIDIA" }
     };
+    const NVIDIA_CATEGORY = "英伟达";
+    const NVIDIA_TICKERS = new Set(["NVDA", "OPENAI.PRE", "XAI.PRE", "ANTHROPIC.PRE", "INTC", "CRWV", "SNPS", "COHR", "NOK", "NBIS", "GENB", "LITE", "MRVL", "GLW", "IREN"]);
     const TOKEN_FACTORY_CATEGORY = "Token 工厂 / 推理服务";
     const TOKEN_FACTORY_SUBCATEGORIES = ["IaaS/PaaS", "MaaS", "DBaaS", "ATaaS"];
     const IAAS_PAAS_TICKERS = new Set(["NBIS", "LAMBDA.PRE", "INFINIGENCE.PRE"]);
@@ -2361,6 +2367,7 @@
     function inferAibottTheme(category, thesis, ticker) {
       const text = String(ticker || "") + " " + String(category || "") + " " + String(thesis || "");
       const lower = text.toLowerCase();
+      if (NVIDIA_TICKERS.has(String(ticker || "").toUpperCase())) return NVIDIA_CATEGORY;
       if (MODEL_TICKERS.has(String(ticker || "").toUpperCase())) return MODEL_CATEGORY;
       if (ENERGY_TICKERS.has(String(ticker || "").toUpperCase())) return ENERGY_CATEGORY;
       if (DCI_TICKERS.has(String(ticker || "").toUpperCase())) return INFRASTRUCTURE_CATEGORY;
@@ -2472,6 +2479,7 @@
       ["TEM", "Tempus AI", "Healthcare AI", "医疗数据、精准诊疗和 AI 模型。"],
       ["RXRX", "Recursion Pharmaceuticals", "AI drug discovery", "AI 制药、自动化实验平台和生物数据模型。"],
       ["SDGR", "Schrodinger", "AI drug discovery", "计算化学、分子模拟和 AI 药物发现软件。"],
+      ["GENB", "Generate Biomedicines", "AI biology / NVIDIA holding", "生成式生物学与蛋白质设计平台，属于英伟达公开持仓观察名单中的 AI 生物技术标的。"],
       ["MBLY", "Mobileye", "ADAS / autonomous vision", "自动驾驶视觉芯片、ADAS 方案和车端感知计算。"],
       ["AUR", "Aurora Innovation", "Autonomous trucking", "L4 自动驾驶卡车、自动驾驶软件栈和物流场景商业化。"],
       ["HSAI", "Hesai Group", "LiDAR ADR", "美股 ADR 激光雷达公司，ADAS、Robotaxi、机器人感知与自动驾驶传感器。"],
