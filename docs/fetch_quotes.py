@@ -265,20 +265,39 @@ def fetch_fx_rates():
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--limit", type=int, default=None, help="Fetch only the first N listed tickers for smoke tests.")
+    parser.add_argument("--tickers", nargs="*", default=None, help="Fetch only these ticker symbols.")
+    parser.add_argument("--missing-only", action="store_true", help="Fetch only listed tickers missing from the existing output.")
+    parser.add_argument("--merge", action="store_true", help="Merge fetched quotes into the existing output instead of replacing it.")
     args = parser.parse_args()
 
     html = INDEX_HTML.read_text(encoding="utf-8")
     tickers = extract_listed_tickers(html)
+    existing_payload = {}
+    if OUTFILE.exists():
+        try:
+            existing_payload = json.loads(OUTFILE.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            existing_payload = {}
+    existing_quotes = existing_payload.get("quotes") if isinstance(existing_payload.get("quotes"), dict) else {}
+    existing_meta = existing_payload.get("meta") if isinstance(existing_payload.get("meta"), dict) else {}
+    if args.tickers:
+        requested = [ticker.strip().upper() for ticker in args.tickers if ticker.strip()]
+        tickers = [ticker for ticker in requested if looks_like_ticker(ticker)]
+    if args.missing_only:
+        tickers = [ticker for ticker in tickers if ticker not in existing_quotes]
     if args.limit:
         tickers = tickers[: args.limit]
-    quotes = {}
-    errors = {}
+    quotes = dict(existing_quotes) if args.merge or args.missing_only or args.tickers else {}
+    errors = dict(existing_meta.get("errors") or {}) if args.merge or args.missing_only or args.tickers else {}
     fx_rates = fetch_fx_rates()
+    if (args.merge or args.missing_only or args.tickers) and not fx_rates:
+        fx_rates = existing_meta.get("fx") or {}
 
     for index, ticker in enumerate(tickers, start=1):
         print(f"[{index}/{len(tickers)}] {ticker}")
         try:
             quotes[ticker] = fetch_one(ticker)
+            errors.pop(ticker, None)
         except Exception as exc:
             errors[ticker] = str(exc)
 
