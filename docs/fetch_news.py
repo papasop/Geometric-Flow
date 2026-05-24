@@ -322,7 +322,10 @@ AI_PERSON_NEWS_TERMS = [
     "Eric Schmidt", "Henry Kissinger", "Yuval Noah Harari", "Nick Bostrom",
     "Barack Obama", "Donald Trump", "Joe Biden", "Ursula von der Leyen",
     "Ren Zhengfei", "任正非", "Zhang Yiming", "张一鸣", "Liang Wenfeng", "梁文锋",
-    "Yang Zhilin", "杨植麟", "Zhang Peng", "张鹏", "Tang Jie", "唐杰",
+    "Yang Zhilin", "杨植麟", "Kimi founder", "Kimi 创始人", "Moonshot AI founder", "月之暗面创始人",
+    "Michael Truell", "Aman Sanger", "Sualeh Asif", "Arvid Lunnemark",
+    "Cursor founder", "Cursor CEO", "Cursor 创始人", "Anysphere", "Anysphere founder", "Anysphere 创始人",
+    "Zhang Peng", "张鹏", "Tang Jie", "唐杰",
     "Wang Xiaochuan", "王小川", "Yan Junjie", "闫俊杰", "Jiang Daxin", "姜大昕",
     "Zhou Jingren", "周靖人", "Wang Haifeng", "王海峰", "Yao Xing", "姚星",
     "Zhu Wenjia", "朱文佳", "Robin Li", "李彦宏", "Wang Xingxing", "王兴兴", "Lei Jun", "雷军",
@@ -388,6 +391,13 @@ FT_COLUMNISTS = [
     ("Michael Strain", "michael-strain"),
     ("Patrick Foulis", "patrick-foulis"),
 ]
+FOCUSED_PERSON_STATEMENT_TERMS = [
+    "Yang Zhilin", "杨植麟", "Kimi founder", "Kimi 创始人",
+    "Moonshot AI founder", "月之暗面创始人",
+    "Michael Truell", "Aman Sanger", "Sualeh Asif", "Arvid Lunnemark",
+    "Cursor founder", "Cursor CEO", "Cursor 创始人",
+    "Anysphere", "Anysphere founder", "Anysphere 创始人",
+]
 DEAL_NEWS_TERMS_QUERY = (
     '("equity" OR "stake" OR "financing" OR "funding" OR "financial" OR '
     '"capital" OR "valuation" OR "investment" OR "raises" OR "IPO" OR '
@@ -427,20 +437,25 @@ INDUSTRY_NEWS_SOURCES = [
     google_news_query_source("TechCrunch Startups", f"site:techcrunch.com/category/startups {AI_MARKET_NEWS_QUERY}"),
 ]
 PERSON_NEWS_SOURCES = [
-    {
-        "name": f"FT Columnist · {name}",
-        "url": f"https://www.ft.com/{slug}?format=rss",
-        "displaySource": "Financial Times",
-        "authorName": name,
-    }
-    for name, slug in FT_COLUMNISTS
-] + [
-    {
-        "name": "WSJ Columnists",
-        "url": "https://feeds.a.dj.com/rss/RSSOpinion.xml",
-        "displaySource": "Wall Street Journal",
-        "skipAuthorFetch": True,
-    }
+    google_news_query_source(
+        "Kimi / Yang Zhilin Statements",
+        ai_person_news_query([
+            "Yang Zhilin", "杨植麟", "Kimi founder", "Kimi 创始人",
+            "Moonshot AI founder", "月之暗面创始人",
+        ]),
+    ),
+    google_news_query_source(
+        "Cursor / Anysphere Founder Statements",
+        ai_person_news_query([
+            "Michael Truell", "Aman Sanger", "Sualeh Asif", "Arvid Lunnemark",
+            "Cursor founder", "Cursor CEO", "Cursor 创始人",
+            "Anysphere", "Anysphere founder", "Anysphere 创始人",
+        ]),
+    ),
+    google_news_query_source(
+        "AI Leader Public Statements",
+        ai_person_news_query(AI_PERSON_NEWS_TERMS),
+    ),
 ]
 COMPANY_NEWS_SOURCES = [
     google_news_query_source(f"Bloomberg · Company Batch {index + 1}", f"site:bloomberg.com ({quoted_or_query(batch)})")
@@ -525,11 +540,10 @@ NEWS_SECTIONS = [
     },
     {
         "id": "person",
-        "title": "专栏",
-        "note": "Financial Times / Wall Street Journal Columnists：抓取专栏作家最新文章",
+        "title": "言论",
+        "note": "公开新闻：抓取 Kimi Founder Yang Zhilin、Cursor 创始人与 AI 负责人公开言论",
         "sources": PERSON_NEWS_SOURCES,
         "allowGeneralFeed": True,
-        "columnists": True,
     },
     {
         "id": "company",
