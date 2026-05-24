@@ -3281,6 +3281,7 @@
       if (category === SERENITY_CATEGORY) return SERENITY_TICKERS.has(row.ticker);
       if (category === HENDERSON_CATEGORY) return HENDERSON_TICKERS.has(row.ticker);
       if (category === NVIDIA_CATEGORY) return NVIDIA_TICKERS.has(row.ticker);
+      if (category === TOKEN_FACTORY_CATEGORY) return row.category === category || tokenFactorySubcategory(row) !== null;
       if (category === INFRASTRUCTURE_CATEGORY) return row.category === category || DCI_TICKERS.has(row.ticker) || AIDC_TICKERS.has(row.ticker) || HPC_TICKERS.has(row.ticker);
       return row.category === category;
     }
