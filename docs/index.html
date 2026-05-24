@@ -702,8 +702,8 @@
     .tab:nth-of-type(3n + 1)::before { background: #34d399; }
     .tab:nth-of-type(3n + 2)::before { background: #c084fc; }
     .tabs .search {
-      width: min(340px, 30vw);
-      min-width: 260px;
+      width: min(170px, 15vw);
+      min-width: 130px;
       height: 42px;
       border-radius: 12px;
       flex: 0 0 auto;
@@ -1164,9 +1164,9 @@
         padding: 6px 0 8px;
       }
       .tabs .search {
-        width: 100%;
+        width: calc(50% - 3px);
         min-width: 0;
-        flex: 0 0 100%;
+        flex: 0 0 calc(50% - 3px);
       }
       .tabs .tab {
         width: auto;
