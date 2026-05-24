@@ -3845,7 +3845,8 @@
       const isVideoSection = sectionId === "video" || sectionId === "newvideo";
       const clean = sectionId === "hot" ? balanceHotNewsItems(items, 16) : sectionId === "person" ? mixedColumnistItems(items, 16) : sectionId === "video" ? mixedRandomNewsItems(items, 16) : (items || []).filter((item) => item?.title).slice(0, 16);
       const news = clean.length ? clean : fallbackNewsItems(sectionId);
-      const nodes = [...news, ...news].map((item) => {
+      const renderItems = sectionId === "newvideo" ? news : [...news, ...news];
+      const nodes = renderItems.map((item) => {
         const source = displayNewsParty(item.source || "News");
         const author = displayNewsAuthor(item.source || "News", item.author || "");
         const href = safeUrl(item.url || "#", { allowHash: true });
