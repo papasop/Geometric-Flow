@@ -1245,7 +1245,6 @@
       <a href="#" data-nav-tab="Serenity">Serenity</a>
       <a href="#" data-nav-tab="Henderson">Henderson</a>
       <a href="#" data-nav-tab="Leopold Aschenbrenner">Leopold Aschenbrenner</a>
-      <a href="#" data-nav-tab="B2i Digital">B2i Digital</a>
     </div>
   </nav>
   <main class="shell">
@@ -1411,7 +1410,6 @@
       <button class="tab" data-tab="Serenity" type="button">Serenity</button>
       <button class="tab" data-tab="Leopold Aschenbrenner" type="button">Leopold Aschenbrenner</button>
       <button class="tab" data-tab="Henderson" type="button">Henderson</button>
-      <button class="tab" data-tab="B2i Digital" type="button">B2i Digital</button>
     </section>
     <section class="subtabs" id="token-subtabs" aria-label="Token 工厂 / 推理服务子标签" hidden>
       <button class="subtab active notranslate" data-token-subcategory="IaaS/PaaS" type="button" translate="no" lang="en">IaaS/PaaS</button>
@@ -2314,8 +2312,7 @@
       "Token 工厂 / 推理服务",
       "Serenity",
       "Leopold Aschenbrenner",
-      "Henderson",
-      "B2i Digital"
+      "Henderson"
 ];
     const CATEGORY_LABELS = {
       "能源": { zh: "能源", en: "Energy" },
@@ -2326,8 +2323,7 @@
       "英伟达": { zh: "英伟达", en: "NVIDIA" },
       "Serenity": { zh: "Serenity", en: "Serenity" },
       "Henderson": { zh: "Henderson", en: "Henderson" },
-      "Leopold Aschenbrenner": { zh: "Leopold Aschenbrenner", en: "Leopold Aschenbrenner" },
-      "B2i Digital": { zh: "B2i Digital", en: "B2i Digital" }
+      "Leopold Aschenbrenner": { zh: "Leopold Aschenbrenner", en: "Leopold Aschenbrenner" }
     };
     const NVIDIA_CATEGORY = "英伟达";
     const NVIDIA_TICKERS = new Set(["NVDA", "OPENAI.PRE", "XAI.PRE", "ANTHROPIC.PRE", "INTC", "CRWV", "SNPS", "COHR", "NOK", "NBIS", "GENB", "LITE", "MRVL", "GLW", "IREN"]);
@@ -2361,7 +2357,6 @@
     function inferAibottTheme(category, thesis, ticker) {
       const text = String(ticker || "") + " " + String(category || "") + " " + String(thesis || "");
       const lower = text.toLowerCase();
-      if (B2I_TICKERS.has(String(ticker || "").toUpperCase())) return B2I_CATEGORY;
       if (NVIDIA_TICKERS.has(String(ticker || "").toUpperCase())) return NVIDIA_CATEGORY;
       if (MODEL_TICKERS.has(String(ticker || "").toUpperCase())) return MODEL_CATEGORY;
       if (ENERGY_TICKERS.has(String(ticker || "").toUpperCase())) return ENERGY_CATEGORY;
@@ -2829,7 +2824,6 @@
         ...(LEOPOLD_TICKERS.has(row[0]) ? ["Leopold Aschenbrenner"] : []),
         ...(SERENITY_TICKERS.has(row[0]) ? ["Serenity"] : []),
         ...(HENDERSON_TICKERS.has(row[0]) ? ["Henderson"] : []),
-        ...(B2I_TICKERS.has(row[0]) ? ["B2i Digital"] : []),
       ];
       const detailTheme = aibott?.theme || row[2] || "";
       const aibottTheme = inferAibottTheme(detailTheme, `${row[2] || ""} ${row[3] || ""} ${aibott?.oneLiner || ""}`, row[0]);
@@ -3286,7 +3280,6 @@
       if (category === LEOPOLD_CATEGORY) return LEOPOLD_TICKERS.has(row.ticker);
       if (category === SERENITY_CATEGORY) return SERENITY_TICKERS.has(row.ticker);
       if (category === HENDERSON_CATEGORY) return HENDERSON_TICKERS.has(row.ticker);
-      if (category === B2I_CATEGORY) return B2I_TICKERS.has(row.ticker);
       if (category === NVIDIA_CATEGORY) return NVIDIA_TICKERS.has(row.ticker);
       if (category === INFRASTRUCTURE_CATEGORY) return row.category === category || DCI_TICKERS.has(row.ticker) || AIDC_TICKERS.has(row.ticker) || HPC_TICKERS.has(row.ticker);
       return row.category === category;
