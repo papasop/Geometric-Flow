@@ -1250,8 +1250,8 @@
   </nav>
   <main class="shell">
     <section class="hero">
-      <div class="news-sections" aria-label="热点/行业/专栏/公司/前沿/论文/DevOps/视频 新闻切换">
-        <div class="news-tabs" role="tablist" aria-label="热点/行业/专栏/公司/前沿/论文/DevOps/视频">
+      <div class="news-sections" aria-label="热点/行业/专栏/公司/前沿/论文/DevOps/视频/New 新闻切换">
+        <div class="news-tabs" role="tablist" aria-label="热点/行业/专栏/公司/前沿/论文/DevOps/视频/New">
           <button class="news-tab active" type="button" role="tab" aria-selected="true" aria-controls="news-panel-hot" data-news-tab="hot">🔥热点</button>
           <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-industry" data-news-tab="industry">行业</button>
           <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-person" data-news-tab="person">专栏</button>
@@ -1260,6 +1260,7 @@
           <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-papers" data-news-tab="papers">论文</button>
           <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-devops" data-news-tab="devops">DevOps</button>
           <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-video" data-news-tab="video">视频</button>
+          <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-newvideo" data-news-tab="newvideo">New</button>
         </div>
         <div class="news-strip" id="news-panel-hot" role="tabpanel" aria-label="热点">
           <div class="news-marquee">
@@ -1314,6 +1315,13 @@
           <div class="news-marquee">
             <div class="news-track" id="news-track-video">
               <span class="news-item">正在加载视频…</span>
+            </div>
+          </div>
+        </div>
+        <div class="news-strip" id="news-panel-newvideo" role="tabpanel" aria-label="New 视频" hidden>
+          <div class="news-marquee">
+            <div class="news-track" id="news-track-newvideo">
+              <span class="news-item">正在加载 New 视频…</span>
             </div>
           </div>
         </div>
@@ -3042,8 +3050,8 @@
         totalCap: "总市值", volume24h: "24小时交易量",
         initialQuote: "USD · 实时行情可用时更新",
         navAiChips: "人工智能芯片", navCloud: "AI云", navDataCenter: "数据中心", navEnterpriseAi: "企业人工智能", navSecurity: "安全", navQuantum: "量子", navChinaAi: "中国人工智能", navLeopold: "Leopold Aschenbrenner",
-        newsHot: "🔥热点", industry: "行业", person: "专栏", company: "公司", market: "并购/融资", frontier: "前沿", papers: "论文", devops: "DevOps", video: "视频",
-        loadingHot: "正在加载热点…", loadingIndustry: "正在加载行业…", loadingPerson: "正在加载专栏…", loadingCompany: "正在加载公司…", loadingMarket: "正在加载并购/融资…", loadingFrontier: "正在加载前沿…", loadingPapers: "正在加载论文…", loadingDevops: "正在加载 DevOps…", loadingVideo: "正在加载视频…",
+        newsHot: "🔥热点", industry: "行业", person: "专栏", company: "公司", market: "并购/融资", frontier: "前沿", papers: "论文", devops: "DevOps", video: "视频", newVideo: "New",
+        loadingHot: "正在加载热点…", loadingIndustry: "正在加载行业…", loadingPerson: "正在加载专栏…", loadingCompany: "正在加载公司…", loadingMarket: "正在加载并购/融资…", loadingFrontier: "正在加载前沿…", loadingPapers: "正在加载论文…", loadingDevops: "正在加载 DevOps…", loadingVideo: "正在加载视频…", loadingNewVideo: "正在加载 New 视频…",
         currentFilter: "按当前筛选", realVolume: "真实成交额，可用时更新", hot: "热门", topGainer: "最大升幅", waitingQuotes: "等待行情或估算涨跌",
         tokenRanking: "代币使用", tokenNote: "参考 OpenRouter Top Models，用量口径可切换",
         chartRanking: "代币成本", chartNote: "LLM Token Expenditure Index",
@@ -3068,6 +3076,7 @@
         fallbackPapers: "Science 与 Nature 追踪 AI 论文和科研突破",
         fallbackDevops: "DevOps.com Most Read 追踪过去 7 天阅读量最高的 DevOps 新闻和文章",
         fallbackVideo: "纽约时报、华尔街日报与 YouTube 直播视频持续更新",
+        fallbackNewVideo: "新视频",
       },
       en: {
         pageTitle: "IsitHUB",
@@ -3075,8 +3084,8 @@
         totalCap: "Market Cap", volume24h: "24h Volume",
         initialQuote: "USD · live quote when available",
         navAiChips: "AI Chips", navCloud: "AI Cloud", navDataCenter: "Data Centers", navEnterpriseAi: "Enterprise AI", navSecurity: "Security", navQuantum: "Quantum", navChinaAi: "China AI", navLeopold: "Leopold Aschenbrenner",
-        newsHot: "🔥 Hot", industry: "Industry", person: "Columnists", company: "Companies", market: "M&A / Financing", frontier: "Frontier Tech", papers: "Research Papers", devops: "DevOps", video: "Video",
-        loadingHot: "Loading hot stories…", loadingIndustry: "Loading industry…", loadingPerson: "Loading columnists…", loadingCompany: "Loading companies…", loadingMarket: "Loading M&A / financing…", loadingFrontier: "Loading frontier tech…", loadingPapers: "Loading research papers…", loadingDevops: "Loading DevOps…", loadingVideo: "Loading video…",
+        newsHot: "🔥 Hot", industry: "Industry", person: "Columnists", company: "Companies", market: "M&A / Financing", frontier: "Frontier Tech", papers: "Research Papers", devops: "DevOps", video: "Video", newVideo: "New",
+        loadingHot: "Loading hot stories…", loadingIndustry: "Loading industry…", loadingPerson: "Loading columnists…", loadingCompany: "Loading companies…", loadingMarket: "Loading M&A / financing…", loadingFrontier: "Loading frontier tech…", loadingPapers: "Loading research papers…", loadingDevops: "Loading DevOps…", loadingVideo: "Loading video…", loadingNewVideo: "Loading new video…",
         currentFilter: "Current filter", realVolume: "Real traded value when available", hot: "Trending", topGainer: "Top Gainer", waitingQuotes: "Waiting for quotes or estimated moves",
         tokenRanking: "Token Usage", tokenNote: "Inspired by OpenRouter Top Models; period is switchable",
         chartRanking: "Token Cost", chartNote: "LLM Token Expenditure Index",
@@ -3101,6 +3110,7 @@
         fallbackPapers: "Science and Nature track AI papers and research breakthroughs",
         fallbackDevops: "DevOps.com Most Read tracks the highest-read DevOps news and articles from the last 7 days",
         fallbackVideo: "New York Times, Wall Street Journal, and YouTube live videos keep updating",
+        fallbackNewVideo: "New video",
       }
     };
     const CHINESE_REGION_CODES = new Set(["CN", "HK", "MO", "TW"]);
@@ -3544,7 +3554,7 @@
       $("gainer-one").textContent = gainers[0] ? `${gainers[0].ticker} ${formatPercent(gainers[0].changePercent)}` : "—";
       $("gainer-list").textContent = gainers.length ? gainers.map((row) => `${row.ticker} ${formatPercent(row.changePercent)}`).join(" · ") : t("waitingLive");
     }
-    const NEWS_SECTION_IDS = ["hot", "industry", "person", "company", "tech", "papers", "devops", "video"];
+    const NEWS_SECTION_IDS = ["hot", "industry", "person", "company", "tech", "papers", "devops", "video", "newvideo"];
     const PAPER_SOURCE_PATTERN = /nature|science|neurips|icml|iclr|acl anthology|cvf|cvpr|aaai|jmlr|pmlr|ieee tpami|acm digital library|arxiv/i;
     function fallbackNewsItems(sectionId = "industry") {
       const fallback = {
@@ -3572,6 +3582,9 @@
         ],
         video: [
           { title: t("fallbackVideo"), source: "YouTube", author: "", url: "https://www.youtube.com/@nytimes" },
+        ],
+        newvideo: [
+          { title: t("fallbackNewVideo"), source: "YouTube New", author: "", url: "https://www.youtube.com/watch?v=FR4i2DcequI", image: "https://i.ytimg.com/vi/FR4i2DcequI/hqdefault.jpg" },
         ],
       };
       return fallback[sectionId] || fallback.industry;
@@ -3829,6 +3842,7 @@
     function renderNewsStrip(sectionId, items) {
       const track = $(`news-track-${sectionId}`);
       if (!track) return;
+      const isVideoSection = sectionId === "video" || sectionId === "newvideo";
       const clean = sectionId === "hot" ? balanceHotNewsItems(items, 16) : sectionId === "person" ? mixedColumnistItems(items, 16) : sectionId === "video" ? mixedRandomNewsItems(items, 16) : (items || []).filter((item) => item?.title).slice(0, 16);
       const news = clean.length ? clean : fallbackNewsItems(sectionId);
       const nodes = [...news, ...news].map((item) => {
@@ -3837,8 +3851,8 @@
         const href = safeUrl(item.url || "#", { allowHash: true });
         const title = state.lang === "zh" ? (item.titleZh || item.title) : (item.titleEn || item.title);
         const image = safeUrl(item.image || item.thumbnail || "", { protocols: ["https:", "http:"] });
-        const isLiveVideo = sectionId === "video" && /live/i.test(String(item.source || ""));
-        const videoId = sectionId === "video" ? youtubeVideoId(href) : "";
+        const isLiveVideo = isVideoSection && /live/i.test(String(item.source || ""));
+        const videoId = isVideoSection ? youtubeVideoId(href) : "";
         const embedAttrs = videoId ? ` data-video-id="${escapeHtml(videoId)}" data-video-title="${escapeHtml(title)}"` : "";
         const targetAttrs = videoId ? "" : ` target="_blank" rel="noopener"`;
         const liveBadge = isLiveVideo ? `<span class="news-live-badge">${escapeHtml(state.lang === "zh" ? "直播" : "LIVE")}</span>` : "";
@@ -4504,14 +4518,14 @@
       setFirstText(".topline-inner > span:nth-child(4)", `${t("volume24h")}: `);
       updateQuoteStatusLabel();
       setAllText(".nav a[data-nav-tab]", AIBOTT_THEMES.map(categoryDisplayLabel));
-      document.querySelector(".news-sections")?.setAttribute("aria-label", `${t("newsHot")}/${t("industry")}/${t("person")}/${t("company")}/${t("frontier")}/${t("papers")}/${t("devops")}/${t("video")}`);
-      setAllText(".news-tab", [t("newsHot"), t("industry"), t("person"), t("company"), t("frontier"), t("papers"), t("devops"), t("video")]);
+      document.querySelector(".news-sections")?.setAttribute("aria-label", `${t("newsHot")}/${t("industry")}/${t("person")}/${t("company")}/${t("frontier")}/${t("papers")}/${t("devops")}/${t("video")}/${t("newVideo")}`);
+      setAllText(".news-tab", [t("newsHot"), t("industry"), t("person"), t("company"), t("frontier"), t("papers"), t("devops"), t("video"), t("newVideo")]);
       NEWS_SECTION_IDS.forEach((id) => {
         const panel = $(`news-panel-${id}`);
-        const label = id === "hot" ? t("newsHot") : id === "industry" ? t("industry") : id === "person" ? t("person") : id === "company" ? t("company") : id === "papers" ? t("papers") : id === "devops" ? t("devops") : id === "video" ? t("video") : t("frontier");
+        const label = id === "hot" ? t("newsHot") : id === "industry" ? t("industry") : id === "person" ? t("person") : id === "company" ? t("company") : id === "papers" ? t("papers") : id === "devops" ? t("devops") : id === "video" ? t("video") : id === "newvideo" ? t("newVideo") : t("frontier");
         if (panel) panel.setAttribute("aria-label", label);
       });
-      const loading = { hot: "loadingHot", industry: "loadingIndustry", person: "loadingPerson", company: "loadingCompany", tech: "loadingFrontier", papers: "loadingPapers", devops: "loadingDevops", video: "loadingVideo" };
+      const loading = { hot: "loadingHot", industry: "loadingIndustry", person: "loadingPerson", company: "loadingCompany", tech: "loadingFrontier", papers: "loadingPapers", devops: "loadingDevops", video: "loadingVideo", newvideo: "loadingNewVideo" };
       Object.entries(loading).forEach(([id, key]) => {
         const track = $(`news-track-${id}`);
         if (track && track.children.length === 1 && track.textContent.includes("加载")) track.innerHTML = `<span class="news-item">${t(key)}</span>`;
