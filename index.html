@@ -2349,7 +2349,7 @@
     const PHYSICAL_WORLD_MODEL_TICKERS = new Set(["JEPA.PRE", "WORLDLABS.PRE", "ARYALABS.PRE", "WAYVE.PRE", "PHYSICALINTELLIGENCE.PRE", "FIGURE.PRE", "1X.PRE", "SKILD.PRE", "VPG"]);
     const MODEL_TICKERS = new Set([...LLM_OPEN_TICKERS, ...LLM_CLOSED_TICKERS, ...PHYSICAL_WORLD_MODEL_TICKERS]);
     const DATA_LABELING_CATEGORY = "RLHF";
-    const DATA_LABELING_TICKERS = new Set(["TOLOKA.PRE", "SCALEAI.PRE", "MERCOR.PRE"]);
+    const DATA_LABELING_TICKERS = new Set(["TOLOKA.PRE", "SCALEAI.PRE", "MERCOR.PRE", "INOD"]);
     const AIBOTT_BY_TICKER = new Map(AIBOTT_WATCHLIST.map(([symbol, name, theme, oneLiner, conviction]) => [symbol, { name, theme, oneLiner, conviction }]));
     function inferAibottTheme(category, thesis, ticker) {
       const text = String(ticker || "") + " " + String(category || "") + " " + String(thesis || "");
@@ -2543,7 +2543,7 @@
       ["GTLB", "GitLab", "AI coding / DevSecOps", "AI 编程、DevSecOps、代码协作和软件交付自动化。"],
       ["ACN", "Accenture", "AI consulting", "全球 AI 咨询与实施龙头，企业 AI 转型、系统集成和托管服务。"],
       ["EPAM", "EPAM Systems", "AI services", "软件工程、AI 服务交付、数据工程和数字化转型。"],
-      ["INOD", "Innodata", "AI data services", "AI 数据标注、模型评测、数据工程和企业生成式 AI 服务。"],
+      ["INOD", "Innodata", "RLHF / AI data services", "NASDAQ:INOD，AI 数据标注、RLHF、人类反馈、模型评测、数据工程和企业生成式 AI 服务。"],
       ["U", "Unity Software", "AI creative tools", "实时 3D、游戏开发、广告模型和生成式内容工具。"],
       ["RBLX", "Roblox", "AI creation platform", "UGC 游戏平台、生成式创作工具、虚拟世界和 AI 内容生产。"],
       ["PEGA", "Pegasystems", "Enterprise AI automation", "企业流程自动化、决策 AI 和客户交互平台。"],
