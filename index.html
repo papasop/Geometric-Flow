@@ -3551,10 +3551,6 @@
     function fallbackNewsItems(sectionId = "industry") {
       const fallback = {
         hot: [
-          { title: t("fallbackHot"), source: "YouTube New", author: "", url: "https://www.youtube.com/watch?v=FR4i2DcequI", image: "https://i.ytimg.com/vi/FR4i2DcequI/hqdefault.jpg" },
-          { title: t("fallbackHot"), source: "YouTube New", author: "", url: "https://www.youtube.com/watch?v=91fmhAnECVc", image: "https://i.ytimg.com/vi/91fmhAnECVc/hqdefault.jpg" },
-          { title: t("fallbackHot"), source: "YouTube New", author: "", url: "https://www.youtube.com/watch?v=33hNvOdGUhQ", image: "https://i.ytimg.com/vi/33hNvOdGUhQ/hqdefault.jpg" },
-          { title: t("fallbackHot"), source: "YouTube New", author: "", url: "https://www.youtube.com/watch?v=SzqEzVou-sk", image: "https://i.ytimg.com/vi/SzqEzVou-sk/hqdefault.jpg" },
           { title: t("fallbackHot"), source: "YouTube New", author: "", url: "https://www.youtube.com/watch?v=b5EP6YHMaEg", image: "https://i.ytimg.com/vi/b5EP6YHMaEg/hqdefault.jpg" },
         ],
         industry: [
@@ -3880,6 +3876,10 @@
     function renderNewsSections(payload) {
       const sections = payload?.sections || {};
       NEWS_SECTION_IDS.forEach((sectionId) => {
+        if (sectionId === "hot") {
+          renderNewsStrip(sectionId, fallbackNewsItems("hot"));
+          return;
+        }
         const legacyTechItems = sections.tech?.items || [];
         const paperItems = sectionId === "papers" && !sections.papers?.items ? legacyTechItems.filter((item) => PAPER_SOURCE_PATTERN.test(item.source || "")) : [];
         const companyItems = sectionId === "company"
