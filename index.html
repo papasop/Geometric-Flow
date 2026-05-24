@@ -1245,6 +1245,7 @@
       <a href="#" data-nav-tab="Serenity">Serenity</a>
       <a href="#" data-nav-tab="Henderson">Henderson</a>
       <a href="#" data-nav-tab="Leopold Aschenbrenner">Leopold Aschenbrenner</a>
+      <a href="#" data-nav-tab="B2i Digital">B2i Digital</a>
     </div>
   </nav>
   <main class="shell">
@@ -1411,6 +1412,7 @@
       <button class="tab" data-tab="Serenity" type="button">Serenity</button>
       <button class="tab" data-tab="Leopold Aschenbrenner" type="button">Leopold Aschenbrenner</button>
       <button class="tab" data-tab="Henderson" type="button">Henderson</button>
+      <button class="tab" data-tab="B2i Digital" type="button">B2i Digital</button>
     </section>
     <section class="subtabs" id="token-subtabs" aria-label="Token 工厂 / 推理服务子标签" hidden>
       <button class="subtab active notranslate" data-token-subcategory="IaaS/PaaS" type="button" translate="no" lang="en">IaaS/PaaS</button>
@@ -1515,6 +1517,8 @@
     const SERENITY_TICKERS = new Set(["ZTO", "TAL", "HTHT", "EDU", "PDD", "MNSO", "YMM", "ATAT", "SIVEF"]);
     const HENDERSON_CATEGORY = "Henderson";
     const HENDERSON_TICKERS = new Set(["VPG", "SPAB", "SIVEF"]);
+    const B2I_CATEGORY = "B2i Digital";
+    const B2I_TICKERS = new Set(["UNCY", "KGEI", "AERG", "EXOZ", "PRPO", "UAMY", "TOPS", "GNVR", "PHIO", "JUNS", "MYSZ", "SPCB", "RIME", "BNBX", "GRST", "HMR", "XTNT", "OSTX", "SVRN", "VYCO", "MUSQ"]);
 
     const AIBOTT_WATCHLIST = [
       [
@@ -2311,7 +2315,8 @@
       "Token 工厂 / 推理服务",
       "Serenity",
       "Leopold Aschenbrenner",
-      "Henderson"
+      "Henderson",
+      "B2i Digital"
 ];
     const CATEGORY_LABELS = {
       "能源": { zh: "能源", en: "Energy" },
@@ -2322,7 +2327,8 @@
       "英伟达": { zh: "英伟达", en: "NVIDIA" },
       "Serenity": { zh: "Serenity", en: "Serenity" },
       "Henderson": { zh: "Henderson", en: "Henderson" },
-      "Leopold Aschenbrenner": { zh: "Leopold Aschenbrenner", en: "Leopold Aschenbrenner" }
+      "Leopold Aschenbrenner": { zh: "Leopold Aschenbrenner", en: "Leopold Aschenbrenner" },
+      "B2i Digital": { zh: "B2i Digital", en: "B2i Digital" }
     };
     const NVIDIA_CATEGORY = "英伟达";
     const NVIDIA_TICKERS = new Set(["NVDA", "OPENAI.PRE", "XAI.PRE", "ANTHROPIC.PRE", "INTC", "CRWV", "SNPS", "COHR", "NOK", "NBIS", "GENB", "LITE", "MRVL", "GLW", "IREN"]);
@@ -2356,6 +2362,7 @@
     function inferAibottTheme(category, thesis, ticker) {
       const text = String(ticker || "") + " " + String(category || "") + " " + String(thesis || "");
       const lower = text.toLowerCase();
+      if (B2I_TICKERS.has(String(ticker || "").toUpperCase())) return B2I_CATEGORY;
       if (NVIDIA_TICKERS.has(String(ticker || "").toUpperCase())) return NVIDIA_CATEGORY;
       if (MODEL_TICKERS.has(String(ticker || "").toUpperCase())) return MODEL_CATEGORY;
       if (ENERGY_TICKERS.has(String(ticker || "").toUpperCase())) return ENERGY_CATEGORY;
@@ -2402,6 +2409,27 @@
       ["GLEAN.PRE", "Glean", "Enterprise search AI pre-IPO", "预上市企业搜索与知识 AI 公司，连接企业 SaaS 数据、RAG 和员工 AI 助手。", { status: "prelist", estimatedMarketCap: 2200000000 }],
       ["HUGGINGFACE.PRE", "Hugging Face", "Open AI platform pre-IPO", "预上市开源 AI 平台公司，模型社区、数据集、推理服务和企业开源 AI 工具链。", { status: "prelist", estimatedMarketCap: 4500000000 }],
       ["REPLIT.PRE", "Replit", "AI coding pre-IPO", "预上市 AI 编程与云开发平台，Agent 编码、在线 IDE 和开发者部署工作流。", { status: "prelist", estimatedMarketCap: 2000000000 }],
+      ["UNCY", "Unicycive Therapeutics", "B2i Digital featured company", "B2i Digital Featured Companies 组合；肾病治疗与生物制药公司。", { tags: ["B2i Digital", "Featured Company"] }],
+      ["KGEI", "Kolibri Global Energy", "B2i Digital featured company", "B2i Digital Featured Companies 组合；北美能源与油气开发公司。", { tags: ["B2i Digital", "Featured Company"] }],
+      ["AERG", "Applied Energetics", "B2i Digital featured company", "B2i Digital Featured Companies 组合；定向能与先进光电系统公司。", { tags: ["B2i Digital", "Featured Company"] }],
+      ["EXOZ", "eXoZymes", "B2i Digital featured company", "B2i Digital Featured Companies 组合；合成生物学与酶工程平台公司。", { tags: ["B2i Digital", "Featured Company"] }],
+      ["PRPO", "Precipio", "B2i Digital featured company", "B2i Digital Featured Companies 组合；癌症诊断与实验室检测公司。", { tags: ["B2i Digital", "Featured Company"] }],
+      ["UAMY", "United States Antimony", "B2i Digital featured company", "B2i Digital Featured Companies 组合；锑与关键矿物供应链公司。", { tags: ["B2i Digital", "Featured Company"] }],
+      ["TOPS", "Top Ships", "B2i Digital featured company", "B2i Digital Featured Companies 组合；国际航运与油轮运营公司。", { tags: ["B2i Digital", "Featured Company"] }],
+      ["GNVR", "Genvor", "B2i Digital featured company", "B2i Digital Featured Companies 组合；农业生物技术与肽平台公司。", { tags: ["B2i Digital", "Featured Company"] }],
+      ["PHIO", "Phio Pharmaceuticals", "B2i Digital featured company", "B2i Digital Featured Companies 组合；免疫肿瘤与 RNAi 疗法公司。", { tags: ["B2i Digital", "Featured Company"] }],
+      ["JUNS", "Jupiter Neurosciences", "B2i Digital featured company", "B2i Digital Featured Companies 组合；神经炎症与神经退行性疾病治疗公司。", { tags: ["B2i Digital", "Featured Company"] }],
+      ["MYSZ", "MySize", "B2i Digital featured company", "B2i Digital Featured Companies 组合；AI 尺码推荐、零售科技与电商工具公司。", { tags: ["B2i Digital", "Featured Company"] }],
+      ["SPCB", "SuperCom", "B2i Digital featured company", "B2i Digital Featured Companies 组合；电子监控、身份识别与安全解决方案公司。", { tags: ["B2i Digital", "Featured Company"] }],
+      ["RIME", "Algorhythm Holdings", "B2i Digital featured company", "B2i Digital Featured Companies 组合；消费电子、音频与数字资产相关控股平台。", { tags: ["B2i Digital", "Featured Company"] }],
+      ["BNBX", "BNB Plus", "B2i Digital featured company", "B2i Digital Featured Companies 组合；数字资产与 BNB 生态相关上市公司。", { tags: ["B2i Digital", "Featured Company"] }],
+      ["GRST", "Ethema Health", "B2i Digital featured company", "B2i Digital Featured Companies 组合；行为健康与成瘾治疗服务公司。", { tags: ["B2i Digital", "Featured Company"] }],
+      ["HMR", "Heidmar", "B2i Digital featured company", "B2i Digital Featured Companies 组合；航运商业管理与船舶平台公司。", { tags: ["B2i Digital", "Featured Company"] }],
+      ["XTNT", "Xtant Medical", "B2i Digital featured company", "B2i Digital Featured Companies 组合；骨科与脊柱外科医疗技术公司。", { tags: ["B2i Digital", "Featured Company"] }],
+      ["OSTX", "OS Therapies", "B2i Digital featured company", "B2i Digital Featured Companies 组合；骨肉瘤与癌症免疫疗法公司。", { tags: ["B2i Digital", "Featured Company"] }],
+      ["SVRN", "OceanPal", "B2i Digital featured company", "B2i Digital Featured Companies 组合；干散货航运公司。", { tags: ["B2i Digital", "Featured Company"] }],
+      ["VYCO", "Vycor Medical", "B2i Digital featured company", "B2i Digital Featured Companies 组合；神经外科设备与视觉康复技术公司。", { tags: ["B2i Digital", "Featured Company"] }],
+      ["MUSQ", "MUSQ Global Music Industry ETF", "B2i Digital featured company", "B2i Digital Featured Companies 组合；音乐产业主题 ETF。", { tags: ["B2i Digital", "Featured Company", "ETF"] }],
       ["AVGO", "Broadcom", "Custom ASIC", "定制 AI ASIC、网络芯片与数据中心互连。"],
       ["TSM", "Taiwan Semiconductor", "Foundry", "先进制程与 CoWoS，是 AI 芯片制造核心。"],
       ["ORCL", "Oracle", "AI cloud", "OCI、数据库与 AI 云算力。"],
@@ -2801,6 +2829,7 @@
         ...(LEOPOLD_TICKERS.has(row[0]) ? ["Leopold Aschenbrenner"] : []),
         ...(SERENITY_TICKERS.has(row[0]) ? ["Serenity"] : []),
         ...(HENDERSON_TICKERS.has(row[0]) ? ["Henderson"] : []),
+        ...(B2I_TICKERS.has(row[0]) ? ["B2i Digital"] : []),
       ];
       const detailTheme = aibott?.theme || row[2] || "";
       const aibottTheme = inferAibottTheme(detailTheme, `${row[2] || ""} ${row[3] || ""} ${aibott?.oneLiner || ""}`, row[0]);
@@ -3257,6 +3286,7 @@
       if (category === LEOPOLD_CATEGORY) return LEOPOLD_TICKERS.has(row.ticker);
       if (category === SERENITY_CATEGORY) return SERENITY_TICKERS.has(row.ticker);
       if (category === HENDERSON_CATEGORY) return HENDERSON_TICKERS.has(row.ticker);
+      if (category === B2I_CATEGORY) return B2I_TICKERS.has(row.ticker);
       if (category === NVIDIA_CATEGORY) return NVIDIA_TICKERS.has(row.ticker);
       if (category === INFRASTRUCTURE_CATEGORY) return row.category === category || DCI_TICKERS.has(row.ticker) || AIDC_TICKERS.has(row.ticker) || HPC_TICKERS.has(row.ticker);
       return row.category === category;
