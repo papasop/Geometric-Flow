@@ -486,10 +486,11 @@ for source in MNA_NEWS_SOURCES:
     source["requiredKeywords"] = MNA_REQUIRED_KEYWORDS
 for source in EQUITY_NEWS_SOURCES:
     source["requiredKeywords"] = DEAL_REQUIRED_KEYWORDS
-HOT_NEWS_SOURCES = [
-    {"name": "华尔街日报头条新闻", "url": "https://cn.wsj.com/zh-hans/"},
-    {"name": "Financial Times Hot", "url": "https://www.ft.com/?format=rss"},
+NEW_VIDEO_SOURCES = [
+    {"name": "YouTube New", "url": "https://www.youtube.com/watch?v=FR4i2DcequI"},
+    {"name": "YouTube New", "url": "https://www.youtube.com/watch?v=91fmhAnECVc"},
 ]
+HOT_NEWS_SOURCES = NEW_VIDEO_SOURCES
 TECH_NEWS_SOURCES = [
     {"name": "WIRED", "url": "https://www.wired.com/feed/category/business/latest/rss"},
     {"name": "MIT Technology Review", "url": "https://www.technologyreview.com/feed/"},
@@ -528,7 +529,7 @@ NEWS_SECTIONS = [
     {
         "id": "hot",
         "title": "🔥热点",
-        "note": "华尔街日报中文头条新闻 / Financial Times Hot",
+        "note": "New video highlights",
         "sources": HOT_NEWS_SOURCES,
         "allowGeneralFeed": True,
     },
