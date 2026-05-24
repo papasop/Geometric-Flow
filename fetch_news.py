@@ -331,8 +331,15 @@ AI_PERSON_NEWS_TERMS = [
     "Zhu Wenjia", "朱文佳", "Robin Li", "李彦宏", "Wang Xingxing", "王兴兴", "Lei Jun", "雷军",
     "physical world model", "world model", "物理世界模型",
 ]
+FOCUSED_PERSON_STATEMENT_TERMS = [
+    "Yang Zhilin", "杨植麟", "Kimi founder", "Kimi 创始人",
+    "Moonshot AI founder", "月之暗面创始人",
+    "Michael Truell", "Aman Sanger", "Sualeh Asif", "Arvid Lunnemark",
+    "Cursor founder", "Cursor CEO", "Cursor 创始人",
+    "Anysphere", "Anysphere founder", "Anysphere 创始人",
+]
 AI_SPEECH_PERSON_TERMS = [
-    term for term in AI_PERSON_NEWS_TERMS
+    term for term in FOCUSED_PERSON_STATEMENT_TERMS
     if term not in {"physical world model", "world model", "物理世界模型"}
 ]
 AI_PERSON_NEWS_QUERY = (
@@ -391,13 +398,6 @@ FT_COLUMNISTS = [
     ("Michael Strain", "michael-strain"),
     ("Patrick Foulis", "patrick-foulis"),
 ]
-FOCUSED_PERSON_STATEMENT_TERMS = [
-    "Yang Zhilin", "杨植麟", "Kimi founder", "Kimi 创始人",
-    "Moonshot AI founder", "月之暗面创始人",
-    "Michael Truell", "Aman Sanger", "Sualeh Asif", "Arvid Lunnemark",
-    "Cursor founder", "Cursor CEO", "Cursor 创始人",
-    "Anysphere", "Anysphere founder", "Anysphere 创始人",
-]
 DEAL_NEWS_TERMS_QUERY = (
     '("equity" OR "stake" OR "financing" OR "funding" OR "financial" OR '
     '"capital" OR "valuation" OR "investment" OR "raises" OR "IPO" OR '
@@ -451,10 +451,6 @@ PERSON_NEWS_SOURCES = [
             "Cursor founder", "Cursor CEO", "Cursor 创始人",
             "Anysphere", "Anysphere founder", "Anysphere 创始人",
         ]),
-    ),
-    google_news_query_source(
-        "AI Leader Public Statements",
-        ai_person_news_query(AI_PERSON_NEWS_TERMS),
     ),
 ]
 COMPANY_NEWS_SOURCES = [
@@ -544,7 +540,7 @@ NEWS_SECTIONS = [
     {
         "id": "person",
         "title": "言论",
-        "note": "公开新闻：抓取 Kimi Founder Yang Zhilin、Cursor 创始人与 AI 负责人公开言论",
+        "note": "公开新闻：只抓取 Kimi Founder Yang Zhilin 与 Cursor / Anysphere 创始人公开言论",
         "sources": PERSON_NEWS_SOURCES,
         "allowGeneralFeed": True,
     },
