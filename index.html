@@ -1419,8 +1419,9 @@
       <button class="subtab notranslate" data-token-subcategory="ATaaS" type="button" translate="no" lang="en">ATaaS</button>
     </section>
     <section class="subtabs" id="energy-subtabs" aria-label="能源子标签" hidden>
-      <button class="subtab active" data-energy-subcategory="SMR" type="button">SMR</button>
-      <button class="subtab" data-energy-subcategory="SOFC" type="button">SOFC</button>
+      <button class="subtab active" data-energy-subcategory="ALL" type="button">All</button>
+      <button class="subtab notranslate" data-energy-subcategory="SMR" type="button" translate="no" lang="en">SMR</button>
+      <button class="subtab notranslate" data-energy-subcategory="SOFC" type="button" translate="no" lang="en">SOFC</button>
     </section>
     <section class="subtabs" id="infrastructure-subtabs" aria-label="基础设施子标签" hidden>
       <button class="subtab active notranslate" data-infrastructure-subcategory="DCI" type="button" translate="no" lang="en">DCI</button>
@@ -2332,7 +2333,7 @@
     const DBAAS_TICKERS = new Set(["SNOW", "MDB", "CLICKHOUSE.PRE", "DATABRICKS.PRE"]);
     const ATAAS_TICKERS = new Set(["QJTECH.PRE"]);
     const ENERGY_CATEGORY = "能源";
-    const ENERGY_SUBCATEGORIES = ["SMR", "SOFC"];
+    const ENERGY_SUBCATEGORIES = ["ALL", "SMR", "SOFC"];
     const ENERGY_TICKERS = new Set(["VRT", "EOSE", "NEE", "LEU", "UUUU", "OKLO", "CEG", "VST", "BLDP", "PLUG", "FCEL", "FLNC"]);
     const SMR_TICKERS = new Set(["OKLO", "UUUU", "LEU", "VST", "SMR", "CEG", "XE", "KAIROS.PRE", "TERRAPOWER.PRE", "BWXT", "GEV", "HOLTEC.PRE", "601985.SS", "1816.HK", "LTBR", "ARE.TO", "ATRL.TO", "RR.L"]);
     const INFRASTRUCTURE_CATEGORY = "基础设施";
@@ -3074,7 +3075,7 @@
     };
     const CHINESE_REGION_CODES = new Set(["CN", "HK", "MO", "TW"]);
     const LANGUAGE_STORAGE_KEY = "isithub-language";
-    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: "SMR", infrastructureSubcategory: "DCI", hardwareSubcategory: "CNC", modelSubcategory: "LLM", llmSubcategory: "全部", selected: "NVDA", page: 1, rankingView: "model", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
+    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: "ALL", infrastructureSubcategory: "DCI", hardwareSubcategory: "CNC", modelSubcategory: "LLM", llmSubcategory: "全部", selected: "NVDA", page: 1, rankingView: "model", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
     try {
       const savedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY);
       if (savedLanguage === "zh" || savedLanguage === "en") state.lang = savedLanguage;
@@ -3280,6 +3281,7 @@
     }
     function matchesEnergySubcategory(row) {
       if (state.category !== ENERGY_CATEGORY) return true;
+      if (state.energySubcategory === "ALL") return true;
       return energySubcategory(row) === state.energySubcategory;
     }
     function infrastructureSubcategory(row) {
@@ -4437,8 +4439,8 @@
       if (state.category === TOKEN_FACTORY_CATEGORY && !TOKEN_FACTORY_SUBCATEGORIES.includes(state.tokenSubcategory)) {
         state.tokenSubcategory = "IaaS/PaaS";
       }
-      if (state.category === ENERGY_CATEGORY && !ENERGY_SUBCATEGORIES.includes(state.energySubcategory)) {
-        state.energySubcategory = "SMR";
+      if (state.category === ENERGY_CATEGORY) {
+        state.energySubcategory = "ALL";
       }
       if (state.category === INFRASTRUCTURE_CATEGORY && !INFRASTRUCTURE_SUBCATEGORIES.includes(state.infrastructureSubcategory)) {
         state.infrastructureSubcategory = "DCI";
@@ -4496,6 +4498,7 @@
       setAllText(".chart-range-tab", [t("history"), t("day"), t("week"), t("month")]);
       setAllText(".token-metric span", [t("period"), "Top 10 Tokens", t("firstShare")]);
       setAllText(".tabs .tab", [t("all"), ...AIBOTT_THEMES.map(categoryDisplayLabel)]);
+      setAllText("#energy-subtabs .subtab", [t("all"), "SMR", "SOFC"]);
       setAllText("#infrastructure-subtabs .subtab", ["DCI", "AIDC", "HPC"]);
       setAllText("#hardware-subtabs .subtab", ["CNC", "CPO"]);
       setAllText("#model-subtabs .subtab", ["LLM", t("physicalWorldModel")]);
@@ -4569,7 +4572,7 @@
       });
       document.querySelectorAll("[data-energy-subcategory]").forEach((button) => {
         button.addEventListener("click", () => {
-          state.energySubcategory = button.dataset.energySubcategory || "SMR";
+          state.energySubcategory = button.dataset.energySubcategory || "ALL";
           state.page = 1;
           updateCategoryControls();
           render();
