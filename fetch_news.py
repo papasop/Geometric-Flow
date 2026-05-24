@@ -322,7 +322,10 @@ AI_PERSON_NEWS_TERMS = [
     "Eric Schmidt", "Henry Kissinger", "Yuval Noah Harari", "Nick Bostrom",
     "Barack Obama", "Donald Trump", "Joe Biden", "Ursula von der Leyen",
     "Ren Zhengfei", "任正非", "Zhang Yiming", "张一鸣", "Liang Wenfeng", "梁文锋",
-    "Yang Zhilin", "杨植麟", "Zhang Peng", "张鹏", "Tang Jie", "唐杰",
+    "Yang Zhilin", "杨植麟", "Kimi founder", "Kimi 创始人", "Moonshot AI founder", "月之暗面创始人",
+    "Michael Truell", "Aman Sanger", "Sualeh Asif", "Arvid Lunnemark",
+    "Cursor founder", "Cursor CEO", "Cursor 创始人", "Anysphere", "Anysphere founder", "Anysphere 创始人",
+    "Zhang Peng", "张鹏", "Tang Jie", "唐杰",
     "Wang Xiaochuan", "王小川", "Yan Junjie", "闫俊杰", "Jiang Daxin", "姜大昕",
     "Zhou Jingren", "周靖人", "Wang Haifeng", "王海峰", "Yao Xing", "姚星",
     "Zhu Wenjia", "朱文佳", "Robin Li", "李彦宏", "Wang Xingxing", "王兴兴", "Lei Jun", "雷军",
@@ -349,6 +352,52 @@ def ai_person_news_query(terms: list[str]) -> str:
         '"thinks" OR "believes" OR "expects" OR "quote" OR "interview" OR "speech" OR '
         '"表示" OR "称" OR "认为" OR "警告" OR "预测" OR "指出" OR "采访" OR "演讲")'
     )
+FT_COLUMNISTS = [
+    ("Martin Wolf", "martin-wolf"),
+    ("Gillian Tett", "gillian-tett"),
+    ("Rana Foroohar", "rana-foroohar"),
+    ("Robert Shrimsley", "robert-shrimsley"),
+    ("Gideon Rachman", "gideon-rachman"),
+    ("Camilla Cavendish", "camilla-cavendish"),
+    ("Brooke Masters", "brooke-masters"),
+    ("Janan Ganesh", "janan-ganesh"),
+    ("Martin Sandbu", "martin-sandbu"),
+    ("Sarah O'Connor", "sarah-o-connor"),
+    ("Philip Stephens", "philip-stephens"),
+    ("Anjana Ahuja", "anjana-ahuja"),
+    ("Pilita Clark", "pilita-clark"),
+    ("Stephen Bush", "stephen-bush"),
+    ("John Gapper", "john-gapper"),
+    ("Chris Giles", "chris-giles"),
+    ("Miranda Green", "miranda-green"),
+    ("Jemima Kelly", "jemima-kelly"),
+    ("Leo Lewis", "leo-lewis"),
+    ("Edward Luce", "edward-luce"),
+    ("John Burn-Murdoch", "john-burn-murdoch"),
+    ("David Pilling", "david-pilling"),
+    ("John Thornhill", "john-thornhill"),
+    ("Soumaya Keynes", "soumaya-keynes"),
+    ("Alan Beattie", "alan-beattie"),
+    ("Henry Mance", "henry-mance"),
+    ("Elaine Moore", "elaine-moore"),
+    ("Oren Cass", "oren-cass"),
+    ("Mohamed El-Erian", "mohamed-el-erian"),
+    ("Ivan Krastev", "ivan-krastev"),
+    ("Adam Tooze", "adam-tooze"),
+    ("Marietje Schaake", "marietje-schaake"),
+    ("Ruchir Sharma", "ruchir-sharma"),
+    ("Anne-Marie Slaughter", "anne-marie-slaughter"),
+    ("Patti Waldmeir", "patti-waldmeir"),
+    ("Michael Strain", "michael-strain"),
+    ("Patrick Foulis", "patrick-foulis"),
+]
+FOCUSED_PERSON_STATEMENT_TERMS = [
+    "Yang Zhilin", "杨植麟", "Kimi founder", "Kimi 创始人",
+    "Moonshot AI founder", "月之暗面创始人",
+    "Michael Truell", "Aman Sanger", "Sualeh Asif", "Arvid Lunnemark",
+    "Cursor founder", "Cursor CEO", "Cursor 创始人",
+    "Anysphere", "Anysphere founder", "Anysphere 创始人",
+]
 DEAL_NEWS_TERMS_QUERY = (
     '("equity" OR "stake" OR "financing" OR "funding" OR "financial" OR '
     '"capital" OR "valuation" OR "investment" OR "raises" OR "IPO" OR '
@@ -380,26 +429,39 @@ INDUSTRY_NEWS_SOURCES = [
     {"name": "Financial Times", "url": "https://www.ft.com/technology?format=rss"},
     {"name": "South China Morning Post", "url": "https://www.scmp.com/rss/36/feed"},
     {"name": "South China Morning Post", "url": "https://www.scmp.com/rss/92/feed"},
+    {"name": "TechCrunch Startups", "url": "https://techcrunch.com/category/startups/feed/"},
     google_news_query_source("Wall Street Journal", f"site:wsj.com {AI_MARKET_NEWS_QUERY}"),
     google_news_query_source("New York Times", f"site:nytimes.com {AI_MARKET_NEWS_QUERY}"),
     google_news_query_source("Financial Times", f"site:ft.com {AI_MARKET_NEWS_QUERY}"),
     google_news_query_source("South China Morning Post", f"site:scmp.com {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("TechCrunch Startups", f"site:techcrunch.com/category/startups {AI_MARKET_NEWS_QUERY}"),
 ]
 PERSON_NEWS_SOURCES = [
-    google_news_query_source(f"AI Statements · Public Figures {index + 1}", ai_person_news_query(batch))
-    for index, batch in enumerate(chunked_terms(AI_PERSON_NEWS_TERMS, 12))
+    google_news_query_source(
+        "Kimi / Yang Zhilin Statements",
+        ai_person_news_query([
+            "Yang Zhilin", "杨植麟", "Kimi founder", "Kimi 创始人",
+            "Moonshot AI founder", "月之暗面创始人",
+        ]),
+    ),
+    google_news_query_source(
+        "Cursor / Anysphere Founder Statements",
+        ai_person_news_query([
+            "Michael Truell", "Aman Sanger", "Sualeh Asif", "Arvid Lunnemark",
+            "Cursor founder", "Cursor CEO", "Cursor 创始人",
+            "Anysphere", "Anysphere founder", "Anysphere 创始人",
+        ]),
+    ),
+    google_news_query_source(
+        "AI Leader Public Statements",
+        ai_person_news_query(AI_PERSON_NEWS_TERMS),
+    ),
 ]
 COMPANY_NEWS_SOURCES = [
     google_news_query_source(f"Bloomberg · Company Batch {index + 1}", f"site:bloomberg.com ({quoted_or_query(batch)})")
     for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
 ] + [
     google_news_query_source(f"Reuters · Company Batch {index + 1}", f"site:reuters.com ({quoted_or_query(batch)})")
-    for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
-] + [
-    google_news_query_source(f"Google · Company Batch {index + 1}", f"({quoted_or_query(batch)}) {AI_MARKET_NEWS_QUERY}")
-    for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
-] + [
-    google_news_query_source(f"Yahoo · Company Batch {index + 1}", f"(site:yahoo.com OR site:finance.yahoo.com) ({quoted_or_query(batch)}) {AI_MARKET_NEWS_QUERY}")
     for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
 ]
 MNA_NEWS_SOURCES = [
@@ -408,29 +470,15 @@ MNA_NEWS_SOURCES = [
 ] + [
     google_news_query_source(f"Reuters · M&A Batch {index + 1}", f"site:reuters.com ({quoted_or_query(batch)}) {MNA_NEWS_TERMS_QUERY}")
     for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
-] + [
-    google_news_query_source(f"Google · M&A Batch {index + 1}", f"({quoted_or_query(batch)}) {MNA_NEWS_TERMS_QUERY}")
-    for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
-] + [
-    google_news_query_source(f"Yahoo · M&A Batch {index + 1}", f"(site:yahoo.com OR site:finance.yahoo.com) ({quoted_or_query(batch)}) {MNA_NEWS_TERMS_QUERY}")
-    for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
 ]
 EQUITY_NEWS_SOURCES = [
     google_news_query_source("Bloomberg · Equity Financing", f"site:bloomberg.com {AI_MARKET_NEWS_QUERY} {DEAL_NEWS_TERMS_QUERY}"),
     google_news_query_source("Reuters · Equity Financing", f"site:reuters.com {AI_MARKET_NEWS_QUERY} {DEAL_NEWS_TERMS_QUERY}"),
-    google_news_query_source("Google · Equity Financing", f"{AI_MARKET_NEWS_QUERY} {DEAL_NEWS_TERMS_QUERY}"),
-    google_news_query_source("Yahoo · Equity Financing", f"(site:yahoo.com OR site:finance.yahoo.com) {AI_MARKET_NEWS_QUERY} {DEAL_NEWS_TERMS_QUERY}"),
 ] + [
     google_news_query_source(f"Bloomberg · Equity Batch {index + 1}", f"site:bloomberg.com ({quoted_or_query(batch)}) {DEAL_NEWS_TERMS_QUERY}")
     for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
 ] + [
     google_news_query_source(f"Reuters · Equity Batch {index + 1}", f"site:reuters.com ({quoted_or_query(batch)}) {DEAL_NEWS_TERMS_QUERY}")
-    for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
-] + [
-    google_news_query_source(f"Google · Equity Batch {index + 1}", f"({quoted_or_query(batch)}) {DEAL_NEWS_TERMS_QUERY}")
-    for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
-] + [
-    google_news_query_source(f"Yahoo · Equity Batch {index + 1}", f"(site:yahoo.com OR site:finance.yahoo.com) ({quoted_or_query(batch)}) {DEAL_NEWS_TERMS_QUERY}")
     for index, batch in enumerate(chunked_terms(AI_COMPANY_NEWS_TERMS))
 ]
 MARKET_NEWS_SOURCES = MNA_NEWS_SOURCES + EQUITY_NEWS_SOURCES
@@ -438,6 +486,10 @@ for source in MNA_NEWS_SOURCES:
     source["requiredKeywords"] = MNA_REQUIRED_KEYWORDS
 for source in EQUITY_NEWS_SOURCES:
     source["requiredKeywords"] = DEAL_REQUIRED_KEYWORDS
+HOT_NEWS_SOURCES = [
+    {"name": "华尔街日报头条新闻", "url": "https://cn.wsj.com/zh-hans/"},
+    {"name": "Financial Times Hot", "url": "https://www.ft.com/?format=rss"},
+]
 TECH_NEWS_SOURCES = [
     {"name": "WIRED", "url": "https://www.wired.com/feed/category/business/latest/rss"},
     {"name": "MIT Technology Review", "url": "https://www.technologyreview.com/feed/"},
@@ -453,25 +505,50 @@ PAPER_NEWS_SOURCES = [
     google_news_query_source("Science", f"site:science.org {AI_MARKET_NEWS_QUERY}"),
     {"name": "Science Robotics", "url": "https://www.science.org/action/showFeed?type=etoc&feed=rss&jc=scirobotics"},
     google_news_query_source("Science Robotics", f"site:science.org/journal/scirobotics {AI_MARKET_NEWS_QUERY}"),
+    {"name": "Cell", "url": "https://www.cell.com/cell/current.rss"},
+    google_news_query_source("Cell", f"site:cell.com/cell {AI_MARKET_NEWS_QUERY}"),
+]
+DEVOPS_NEWS_SOURCES = [
+    {
+        "name": "DevOps Most Read",
+        "url": "https://devops.com/most-read/",
+        "displaySource": "DevOps.com",
+    },
+]
+LIVE_NEWS_SOURCES = [
+    {"name": "YouTube Live", "url": "https://www.youtube.com/watch?v=DxmDPrfinXY"},
+    {"name": "YouTube Live", "url": "https://www.youtube.com/watch?v=f39oHo6vFLg"},
+]
+VIDEO_NEWS_SOURCES = [
+    {"name": "New York Times YouTube", "url": "https://www.youtube.com/@nytimes"},
+    {"name": "Wall Street Journal YouTube", "url": "https://www.youtube.com/@wsj"},
+    *LIVE_NEWS_SOURCES,
 ]
 NEWS_SECTIONS = [
     {
+        "id": "hot",
+        "title": "🔥热点",
+        "note": "华尔街日报中文头条新闻 / Financial Times Hot",
+        "sources": HOT_NEWS_SOURCES,
+        "allowGeneralFeed": True,
+    },
+    {
         "id": "industry",
         "title": "行业",
-        "note": "Wall Street Journal / New York Times / Financial Times / South China Morning Post",
+        "note": "Wall Street Journal / New York Times / Financial Times / South China Morning Post / TechCrunch Startups",
         "sources": INDUSTRY_NEWS_SOURCES,
     },
     {
         "id": "person",
         "title": "言论",
-        "note": "来源：互联网公开新闻；关键词：大模型负责人公开言论 / OpenAI / Anthropic / DeepMind / Gemini / Meta AI / xAI / Mistral / DeepSeek / Kimi / 智谱 / 通义千问 / 豆包 / 马斯克 / 黄仁勋 / 哈萨比斯 / 梁文锋 / 物理世界模型",
+        "note": "公开新闻：抓取 Kimi Founder Yang Zhilin、Cursor 创始人与 AI 负责人公开言论",
         "sources": PERSON_NEWS_SOURCES,
-        "derivedFromAll": True,
+        "allowGeneralFeed": True,
     },
     {
         "id": "company",
         "title": "公司",
-        "note": "Bloomberg / Reuters / Google / Yahoo + M&A / financing keywords",
+        "note": "Bloomberg / Reuters + M&A / financing keywords",
         "sources": COMPANY_NEWS_SOURCES + MARKET_NEWS_SOURCES,
     },
     {
@@ -483,10 +560,42 @@ NEWS_SECTIONS = [
     {
         "id": "papers",
         "title": "论文",
-        "note": "Science / Nature",
+        "note": "Science / Nature / Cell",
         "sources": PAPER_NEWS_SOURCES,
     },
+    {
+        "id": "devops",
+        "title": "DevOps",
+        "note": "DevOps.com Most Read：过去 7 天阅读量最高的新闻和文章",
+        "sources": DEVOPS_NEWS_SOURCES,
+        "allowGeneralFeed": True,
+    },
+    {
+        "id": "video",
+        "title": "视频",
+        "note": "New York Times YouTube / Wall Street Journal YouTube / YouTube Live",
+        "sources": VIDEO_NEWS_SOURCES,
+        "allowGeneralFeed": True,
+    },
 ]
+PINNED_SECTION_ITEMS = {
+    "papers": [
+        {
+            "source": "arXiv",
+            "feedSource": "arXiv",
+            "sourceUrl": "https://arxiv.org/",
+            "title": "How Do AI Agents Spend Your Money? Analyzing and Predicting Token Consumption in Agentic Coding Tasks",
+            "summary": "Systematic study of token consumption patterns in agentic coding tasks, including token cost prediction and model-level token-efficiency comparisons.",
+            "url": "https://arxiv.org/abs/2604.22750",
+            "author": "Longhui Bai, Zhemin Huang, Xingyao Wang, Jiao Sun, Rada Mihalcea, Erik Brynjolfsson, Alex Pentland, Jiaxin Pei",
+            "publishedAt": "2026-04-29T17:20:11Z",
+            "section": "papers",
+            "sectionTitle": "论文",
+            "matchedPortfolios": ["ai-market"],
+            "tags": ["arXiv", "AI agents", "token consumption", "agentic coding"],
+        },
+    ],
+}
 OFFICIAL_SOURCES = [source for section in NEWS_SECTIONS for source in section["sources"]]
 SOURCES = OFFICIAL_SOURCES
 
@@ -611,9 +720,19 @@ def parse_date(value: str | None) -> str | None:
 
 
 def fetch_url(url: str) -> bytes:
-    req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT, "Accept": "application/rss+xml, application/atom+xml, application/xml, text/xml, */*"})
-    with urllib.request.urlopen(req, timeout=8) as response:
-        return response.read()
+    headers = {"User-Agent": USER_AGENT, "Accept": "application/rss+xml, application/atom+xml, application/xml, text/xml, */*"}
+    if "www.wsj.com" in url:
+        headers = {"User-Agent": "curl/8.7.1", "Accept": "*/*"}
+    if "cn.wsj.com" in url:
+        headers = {"User-Agent": "EntropyAI/1.0", "Accept": "text/html,*/*", "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8"}
+    req = urllib.request.Request(url, headers=headers)
+    try:
+        with urllib.request.urlopen(req, timeout=8) as response:
+            return response.read()
+    except urllib.error.HTTPError as exc:
+        if exc.code in {401, 403, 404} and "wsj.com" in url:
+            return exc.read()
+        raise
 
 
 def post_json(url: str, payload: dict[str, object]) -> dict[str, object]:
@@ -681,6 +800,16 @@ def author_of(node: ET.Element) -> str:
         for grandchild in child:
             if grandchild.tag.rsplit("}", 1)[-1].lower() == "name" and grandchild.text:
                 return clean_text(grandchild.text, 80)
+    return ""
+
+
+def thumbnail_of(node: ET.Element) -> str:
+    for child in node.iter():
+        if child.tag.rsplit("}", 1)[-1].lower() != "thumbnail":
+            continue
+        url = child.attrib.get("url")
+        if url:
+            return clean_text(url, 300)
     return ""
 
 
@@ -897,12 +1026,304 @@ def parse_html_page(source: dict[str, str], data: bytes) -> list[dict[str, str]]
     page = data.decode("utf-8", errors="ignore")
     items = []
     seen = set()
+    source_url = source.get("url", "")
+    source_name = source.get("name", "News")
+    youtube_watch_match = re.search(r"(?:youtube\.com/watch\?v=|youtu\.be/)([A-Za-z0-9_-]{11})", source_url)
+    if youtube_watch_match:
+        video_id = youtube_watch_match.group(1)
+        title = ""
+        for pattern in [
+            r'<meta[^>]+property=["\']og:title["\'][^>]+content=["\']([^"\']+)["\']',
+            r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:title["\']',
+            r'"title":"(.*?)"',
+        ]:
+            match = re.search(pattern, page, re.I | re.S)
+            if match:
+                try:
+                    title = json.loads(f'"{match.group(1)}"')
+                except (json.JSONDecodeError, TypeError, ValueError):
+                    title = html.unescape(match.group(1).replace(r"\/", "/"))
+                title = clean_text(title, 180)
+                break
+        if not title:
+            title = "YouTube Live"
+        return [{
+            "source": source_name,
+            "feedSource": source_name,
+            "sourceUrl": source_url,
+            "title": title,
+            "summary": title,
+            "url": source_url,
+            "author": "",
+            "image": f"https://i.ytimg.com/vi/{video_id}/hqdefault.jpg",
+            "publishedAt": "",
+        }]
+    if "youtube.com/@" in source_url:
+        for match in re.finditer(r'"contentId":"([A-Za-z0-9_-]{11})".{0,900}?"accessibilityContext":\{"label":"(.*?)"', page, re.S):
+            video_id = match.group(1)
+            if video_id in seen:
+                continue
+            raw_label = match.group(2)
+            try:
+                label = json.loads(f'"{raw_label}"')
+            except (json.JSONDecodeError, TypeError, ValueError):
+                label = html.unescape(raw_label.replace(r"\/", "/"))
+            title = re.sub(r"\s+\d+\s+(?:second|seconds|minute|minutes|hour|hours)(?:,\s*\d+\s+(?:second|seconds|minute|minutes|hour|hours))*\s*$", "", label).strip()
+            title = clean_text(title, 180)
+            if not title:
+                continue
+            seen.add(video_id)
+            items.append({
+                "source": source_name,
+                "feedSource": source_name,
+                "sourceUrl": source_url,
+                "title": title,
+                "summary": title,
+                "url": f"https://www.youtube.com/watch?v={video_id}",
+                "author": "",
+                "image": f"https://i.ytimg.com/vi/{video_id}/hqdefault.jpg",
+                "publishedAt": "",
+            })
+            if len(items) >= 18:
+                break
+        return items
+    if "wsj.com" in source_url:
+        is_wsj_audio_source = "www.wsj.com/audio" in source_url or "wsj.com/audio" in source_url
+        is_cn_wsj_hot_source = "cn.wsj.com/zh-hans" in source_url and source.get("name") == "华尔街日报头条新闻"
+        state_match = re.search(r"window\.__STATE__\s*=\s*(\{.*?\});\s*</script>", page, re.S)
+        if is_cn_wsj_hot_source and state_match:
+            try:
+                state_data = json.loads(state_match.group(1))
+            except (json.JSONDecodeError, TypeError, ValueError):
+                state_data = None
+            data_map = state_data.get("data", {}) if isinstance(state_data, dict) else {}
+            collection = data_map.get("collection_allesseh_full_MOST-POP-WSJCNS_1", {})
+            collection_items = collection.get("data", {}).get("collection", []) if isinstance(collection, dict) else []
+            for collection_item in collection_items:
+                article_id = collection_item.get("id") if isinstance(collection_item, dict) else ""
+                article_payload = data_map.get(f"article|capi_{article_id}", {}) if article_id else {}
+                article = article_payload.get("data", {}).get("data", {}) if isinstance(article_payload, dict) else {}
+                title = clean_text(str(article.get("headline") or article.get("articleHeadline") or ""), 180)
+                url = html.unescape(str(article.get("canonical_url") or article.get("url") or ""))
+                if len(title) < 8 or "cn.wsj.com/" not in url:
+                    continue
+                key = (title.lower(), url.lower())
+                if key in seen:
+                    continue
+                seen.add(key)
+                image = ""
+                image_data = article.get("image")
+                if isinstance(image_data, dict):
+                    for image_key in ["C", "B220", "AM", "A"]:
+                        candidate = image_data.get(image_key)
+                        if isinstance(candidate, dict) and candidate.get("url"):
+                            image = str(candidate.get("url"))
+                            break
+                items.append({
+                    "source": source_name,
+                    "feedSource": source_name,
+                    "sourceUrl": source_url,
+                    "title": title,
+                    "summary": clean_text(str(article.get("summary") or title), 220),
+                    "url": url,
+                    "author": normalize_author(str(article.get("byline") or ""), source_name),
+                    "image": html.unescape(image.replace(r"\u0026", "&")),
+                    "publishedAt": parse_date(str(article.get("publishedDateTimeUtc") or article.get("timestamp") or "")),
+                })
+                if len(items) >= 18:
+                    break
+            if items:
+                return items
+        next_data_match = re.search(r'<script[^>]+id=["\']__NEXT_DATA__["\'][^>]*>(.*?)</script>', page, re.S)
+        if next_data_match:
+            try:
+                next_data = json.loads(html.unescape(next_data_match.group(1)))
+            except (json.JSONDecodeError, TypeError, ValueError):
+                next_data = None
+
+            def collect_wsj_articles(node: object) -> None:
+                if isinstance(node, dict):
+                    title_raw = node.get("headline") or node.get("articleHeadline")
+                    url_raw = node.get("url") or node.get("articleUrl") or node.get("canonical_url")
+                    if isinstance(title_raw, str) and isinstance(url_raw, str) and "wsj.com/" in url_raw:
+                        title = clean_text(title_raw, 180)
+                        url = html.unescape(url_raw.replace(r"\u0026", "&"))
+                        if is_wsj_audio_source and "/podcasts/" not in url.lower():
+                            for value in node.values():
+                                if len(items) >= 18:
+                                    return
+                                collect_wsj_articles(value)
+                            return
+                        key = (title.lower(), url.lower())
+                        if len(title) >= 8 and key not in seen:
+                            seen.add(key)
+                            author_value = node.get("byline") or node.get("author") or ""
+                            authors = node.get("authors")
+                            byline_data = node.get("bylineData")
+                            if not author_value and isinstance(authors, list):
+                                author_value = " / ".join(str(author.get("name") or "") for author in authors if isinstance(author, dict) and author.get("name"))
+                            if not author_value and isinstance(byline_data, list):
+                                author_value = " / ".join(str(author.get("text") or "") for author in byline_data if isinstance(author, dict) and author.get("text"))
+                            author = normalize_author(str(author_value), source_name)
+                            image = str(node.get("imageUrl") or node.get("image") or "")
+                            published = parse_date(str(node.get("publishedDateTimeUtc") or node.get("timestamp") or ""))
+                            items.append({
+                                "source": source_name,
+                                "feedSource": source_name,
+                                "sourceUrl": source_url,
+                                "title": title,
+                                "summary": clean_text(str(node.get("summary") or title), 220),
+                                "url": url,
+                                "author": author,
+                                "image": html.unescape(image.replace(r"\u0026", "&")),
+                                "publishedAt": published,
+                            })
+                    for value in node.values():
+                        if len(items) >= 18:
+                            return
+                        collect_wsj_articles(value)
+                elif isinstance(node, list):
+                    for value in node:
+                        if len(items) >= 18:
+                            return
+                        collect_wsj_articles(value)
+
+            if next_data is not None:
+                collect_wsj_articles(next_data)
+            if items:
+                return items[:18]
+        for match in re.finditer(r'"byline":"(.*?)","canonical_url":"(https://(?:cn\.)?wsj\.com/articles/[^"]+)".{0,2500}?"headline":"(.*?)"', page, re.S):
+            author_raw, url_raw, title_raw = match.groups()
+            try:
+                title = clean_text(json.loads(f'"{title_raw}"'), 180)
+                url = json.loads(f'"{url_raw}"')
+                author = normalize_author(json.loads(f'"{author_raw}"'), source_name)
+            except (json.JSONDecodeError, TypeError, ValueError):
+                title = clean_text(html.unescape(title_raw), 180)
+                url = html.unescape(url_raw)
+                author = normalize_author(html.unescape(author_raw), source_name)
+            if len(title) < 8:
+                continue
+            key = (title.lower(), url.lower())
+            if key in seen:
+                continue
+            seen.add(key)
+            image = ""
+            nearby = page[max(0, match.start() - 300):min(len(page), match.end() + 2500)]
+            image_match = re.search(r'"arthurV2Image":\{[^}]*"location":"([^"]+)"', nearby)
+            if image_match:
+                image = html.unescape(image_match.group(1).replace(r"\/", "/"))
+            items.append({
+                "source": source_name,
+                "feedSource": source_name,
+                "sourceUrl": source_url,
+                "title": title,
+                "summary": title,
+                "url": url,
+                "author": author,
+                "image": image,
+                "publishedAt": None,
+            })
+            if len(items) >= 18:
+                return items
+        if items:
+            return items
+    if "devops.com/most-read" in source_url:
+        content_items = re.findall(
+            r'<div class="[^"]*pt-cv-content-item[^"]*"[^>]*>(.*?)(?=<div class="[^"]*pt-cv-content-item|<div class="text-center pt-cv-pagination-wrapper")',
+            page,
+            flags=re.I | re.S,
+        )
+        for block in content_items:
+            title_match = re.search(
+                r'<h4 class="pt-cv-title">\s*<a[^>]+href=["\']([^"\']+)["\'][^>]*>(.*?)</a>\s*</h4>',
+                block,
+                flags=re.I | re.S,
+            )
+            if not title_match:
+                continue
+            url = html.unescape(title_match.group(1))
+            title = clean_text(title_match.group(2), 180)
+            if len(title) < 8 or "devops.com/" not in url:
+                continue
+            key = (title.lower(), url.lower())
+            if key in seen:
+                continue
+            seen.add(key)
+            image = ""
+            image_match = re.search(r'<img[^>]+src=["\']([^"\']+)["\']', block, flags=re.I | re.S)
+            if image_match:
+                image = html.unescape(image_match.group(1))
+            author = ""
+            author_match = re.search(
+                r'<span class="author">.*?<span>(.*?)</span>.*?</span>',
+                block,
+                flags=re.I | re.S,
+            )
+            if author_match:
+                author = normalize_author(clean_text(author_match.group(1), 80), source_name)
+            published = ""
+            published_match = re.search(r'<time[^>]+datetime=["\']([^"\']+)["\']', block, flags=re.I | re.S)
+            if published_match:
+                published = parse_date(published_match.group(1))
+            summary = ""
+            summary_match = re.search(r'<div class="pt-cv-content">(.*?)</div>', block, flags=re.I | re.S)
+            if summary_match:
+                summary = clean_text(summary_match.group(1), 220)
+            items.append({
+                "source": source.get("displaySource") or "DevOps.com",
+                "feedSource": source_name,
+                "sourceUrl": source_url,
+                "title": title,
+                "summary": summary or title,
+                "url": url,
+                "author": author,
+                "image": image,
+                "publishedAt": published,
+            })
+            if len(items) >= 18:
+                break
+        if items:
+            return items
+    is_techcrunch_latest = "techcrunch.com/latest" in source_url
+    is_wired_popular = "wired.com/tag/artificial-intelligence" in source_url
+    if is_wired_popular:
+        for match in re.finditer(r'"dangerousHed":"(.*?)".{0,1600}?"url":"(.*?)"', page, re.S):
+            title_raw, url_raw = match.groups()
+            try:
+                title = clean_text(json.loads(f'"{title_raw}"'), 180)
+                raw_url = json.loads(f'"{url_raw}"')
+            except (json.JSONDecodeError, TypeError, ValueError):
+                title = clean_text(title_raw.replace("\\u002F", "/"), 180)
+                raw_url = url_raw.replace("\\u002F", "/")
+            if len(title) < 18:
+                continue
+            if "popular" not in raw_url.lower() and len(items) >= 6:
+                continue
+            url = urljoin(source_url, raw_url.split("#", 1)[0])
+            key = (title.lower(), url.lower())
+            if key in seen:
+                continue
+            seen.add(key)
+            items.append({
+                "source": source["name"],
+                "title": title,
+                "summary": title,
+                "url": url,
+                "author": "",
+                "publishedAt": None,
+            })
+            if len(items) >= 18:
+                return items
     for match in re.finditer(r'<a\b[^>]*href=["\']([^"\']+)["\'][^>]*>(.*?)</a>', page, re.I | re.S):
         href = html.unescape(match.group(1))
         body = clean_text(match.group(2), 220)
         if len(body) < 18:
             continue
-        if not re.search(r"/(article|news|press|release|story|business|technology)/|news-release", href, re.I):
+        is_article_href = re.search(r"/(article|news|press|release|story|business|technology)/|news-release", href, re.I)
+        if is_techcrunch_latest:
+            is_article_href = is_article_href or re.search(r"techcrunch\.com/20\d{2}/\d{2}/\d{2}/|/20\d{2}/\d{2}/\d{2}/", href, re.I)
+        if not is_article_href:
             continue
         url = urljoin(source["url"], href)
         key = (body.lower(), url.lower())
@@ -941,14 +1362,23 @@ def parse_feed(source: dict[str, str], data: bytes) -> list[dict[str, str]]:
         title = clean_text(text_of(node, ["title", "{http://www.w3.org/2005/Atom}title"]), 180)
         summary = clean_text(text_of(node, ["description", "summary", "content", "{http://www.w3.org/2005/Atom}summary", "{http://purl.org/rss/1.0/modules/content/}encoded"]))
         categories = categories_of(node)
+        article_type = clean_text(text_of(node, ["{http://dowjones.net/rss/}articletype", "articletype"]), 120)
         match_summary = clean_text(" ".join(part for part in [summary, categories] if part))
         url = link_of(node)
         rss_source_name, rss_source_url = source_details_of(node)
-        display_source = rss_source_name or source["name"]
-        author = "" if is_google_news_feed else normalize_author(author_of(node), display_source)
+        display_source = source.get("displaySource") or rss_source_name or source["name"]
+        author = ""
+        if not is_google_news_feed:
+            if source.get("authorName"):
+                author = clean_text(str(source.get("authorName")), 80)
+            else:
+                author = normalize_author(author_of(node), display_source)
+        if display_source == "Wall Street Journal" and article_type.lower() == "free expression" and not author:
+            author = "Gerard Baker"
+        image = thumbnail_of(node)
         published = parse_date(text_of(node, ["pubDate", "published", "updated", "{http://www.w3.org/2005/Atom}published", "{http://www.w3.org/2005/Atom}updated"]))
         if title and url:
-            items.append({
+            item = {
                 "source": display_source,
                 "feedSource": source["name"],
                 "sourceUrl": rss_source_url,
@@ -957,7 +1387,12 @@ def parse_feed(source: dict[str, str], data: bytes) -> list[dict[str, str]]:
                 "url": url,
                 "author": author,
                 "publishedAt": published,
-            })
+            }
+            if source.get("skipAuthorFetch"):
+                item["skipAuthorFetch"] = True
+            if image:
+                item["image"] = image
+            items.append(item)
     return items
 
 
@@ -1110,6 +1545,23 @@ def canonical_news_title(title: str) -> str:
     return re.sub(r"\s+", " ", title).strip()
 
 
+def balance_items_by_source(news_items: list[dict[str, object]], limit: int) -> list[dict[str, object]]:
+    buckets: dict[str, list[dict[str, object]]] = {}
+    for item in news_items:
+        source = str(item.get("source") or "News")
+        buckets.setdefault(source, []).append(item)
+    balanced: list[dict[str, object]] = []
+    index = 0
+    while len(balanced) < limit and any(index < len(bucket) for bucket in buckets.values()):
+        for bucket in buckets.values():
+            if len(balanced) >= limit:
+                break
+            if index < len(bucket):
+                balanced.append(bucket[index])
+        index += 1
+    return balanced
+
+
 SPEECH_SIGNAL_RE = re.compile(
     r"\b(says|said|tells|told|warns|warned|predicts|predicted|argues|argued|"
     r"thinks|believes|expects|calls|called|urges|urged|"
@@ -1210,13 +1662,24 @@ def main() -> int:
     existing_payload: dict[str, object] = {}
     if section_filter and OUT.exists():
         try:
+            known_section_ids = {section["id"] for section in NEWS_SECTIONS}
             existing_payload = json.loads(OUT.read_text(encoding="utf-8"))
             existing_sections = existing_payload.get("sections")
             if isinstance(existing_sections, dict):
-                section_payload.update(existing_sections)
+                section_payload.update({
+                    key: value for key, value in existing_sections.items()
+                    if key in known_section_ids
+                })
             existing_sources = existing_payload.get("sources")
             if isinstance(existing_sources, list):
-                source_status.extend(existing_sources)
+                source_status.extend(
+                    source for source in existing_sources
+                    if (
+                        isinstance(source, dict)
+                        and source.get("section") in known_section_ids
+                        and source.get("section") not in section_filter
+                    )
+                )
         except (json.JSONDecodeError, OSError):
             existing_payload = {}
 
@@ -1236,10 +1699,10 @@ def main() -> int:
         section_seen = set()
         section_items: list[dict[str, object]] = []
         section_required_keywords = section.get("requiredKeywords", [])
-        author_fetch_limit = 18 if section.get("id") in {"industry", "tech"} else 6
+        author_fetch_limit = 0 if section.get("id") == "hot" else 18 if section.get("id") in {"industry", "tech"} else 6
         author_fetches = 0
         for source in section["sources"]:
-            source_required_keywords = source.get("requiredKeywords", [])
+            source_required_keywords = [] if section.get("allowGeneralFeed") else source.get("requiredKeywords", [])
             try:
                 raw = fetch_url(source["url"])
                 parsed = parse_feed(source, raw)
@@ -1253,9 +1716,9 @@ def main() -> int:
                     if source_required_keywords and not item_matches_terms(item, source_required_keywords):
                         continue
                     matched, tags = classify(item)
-                    if not matched and not item_matches_terms(item, AI_MARKET_REQUIRED_KEYWORDS):
+                    if not section.get("allowGeneralFeed") and not matched and not item_matches_terms(item, AI_MARKET_REQUIRED_KEYWORDS):
                         continue
-                    if not item.get("author") and author_fetches < author_fetch_limit:
+                    if not item.get("author") and not item.get("skipAuthorFetch") and author_fetches < author_fetch_limit:
                         item["author"] = extract_article_author(
                             str(item.get("url") or ""),
                             str(item.get("source") or source["name"]),
@@ -1290,14 +1753,29 @@ def main() -> int:
                     "count": 0,
                 })
         section_items.sort(key=lambda item: item.get("publishedAt") or "", reverse=True)
+        pinned_items = PINNED_SECTION_ITEMS.get(section["id"], [])
+        for pinned in pinned_items:
+            key = canonical_news_title(str(pinned.get("title") or "")) or str(pinned.get("url") or "").lower()
+            if not key or key in section_seen:
+                continue
+            pinned_item = dict(pinned)
+            enrich_title_fields(pinned_item)
+            section_items.insert(0, pinned_item)
+            items.append(pinned_item)
+            section_seen.add(key)
+        section_limit = 40 if section["id"] == "video" else 32
+        if section.get("columnists"):
+            section_items = balance_items_by_source(section_items, section_limit)
+        else:
+            section_items = section_items[:section_limit]
         section_payload[section["id"]] = {
             "title": section["title"],
             "note": section["note"],
-            "items": section_items[:32],
+            "items": section_items,
         }
 
     speech_section = next((section for section in NEWS_SECTIONS if section.get("id") == "person"), None)
-    if speech_section and (not section_filter or "person" in section_filter):
+    if speech_section and not speech_section.get("columnists") and (not section_filter or "person" in section_filter):
         existing_speech_items = [
             item for item in section_payload.get("person", {}).get("items", [])
             if item_matches_speech(item)
@@ -1336,13 +1814,17 @@ def main() -> int:
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "strategy": {
-            "primary": "Tabbed news sections: industry from WSJ/NYT, statements derived from all sources by named AI figures and speech signals, company from company-name searches plus M&A and financing keywords, frontier technology from Wired/MIT Technology Review/Stanford sources, papers from top AI journals, conferences, proceedings, and preprint sources",
+            "primary": "Tabbed news sections: hot headlines from Wall Street Journal Chinese and Financial Times, industry from WSJ/NYT/FT/SCMP/TechCrunch Startups, statements derived from all sources by named AI figures and speech signals, company from company-name searches plus M&A and financing keywords, frontier technology from Wired/MIT Technology Review/Stanford sources, papers from top AI journals, conferences, proceedings, and preprint sources",
             "primaryEnabled": True,
             "supplements": [
+                "TechCrunch",
+                "Wired",
+                "Wall Street Journal Chinese Headlines",
                 "Wall Street Journal",
                 "New York Times",
                 "Financial Times",
                 "South China Morning Post",
+                "TechCrunch Startups",
                 "Statements",
                 "Bloomberg",
                 "Reuters",
@@ -1354,6 +1836,7 @@ def main() -> int:
                 "Nature Machine Intelligence",
                 "Science",
                 "Science Robotics",
+                "Cell",
             ],
         },
         "sources": source_status,

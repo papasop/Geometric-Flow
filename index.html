@@ -1250,11 +1250,11 @@
   </nav>
   <main class="shell">
     <section class="hero">
-      <div class="news-sections" aria-label="热点/行业/专栏/公司/前沿/论文/DevOps/视频/New 新闻切换">
-        <div class="news-tabs" role="tablist" aria-label="热点/行业/专栏/公司/前沿/论文/DevOps/视频/New">
+      <div class="news-sections" aria-label="热点/行业/言论/公司/前沿/论文/DevOps/视频/New 新闻切换">
+        <div class="news-tabs" role="tablist" aria-label="热点/行业/言论/公司/前沿/论文/DevOps/视频/New">
           <button class="news-tab active" type="button" role="tab" aria-selected="true" aria-controls="news-panel-hot" data-news-tab="hot">🔥热点</button>
           <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-industry" data-news-tab="industry">行业</button>
-          <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-person" data-news-tab="person">专栏</button>
+          <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-person" data-news-tab="person">言论</button>
           <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-company" data-news-tab="company">公司</button>
           <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-tech" data-news-tab="tech">前沿</button>
           <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-papers" data-news-tab="papers">论文</button>
@@ -1283,10 +1283,10 @@
             </div>
           </div>
         </div>
-        <div class="news-strip" id="news-panel-person" role="tabpanel" aria-label="专栏" hidden>
+        <div class="news-strip" id="news-panel-person" role="tabpanel" aria-label="言论" hidden>
           <div class="news-marquee">
             <div class="news-track" id="news-track-person">
-              <span class="news-item">正在加载专栏…</span>
+              <span class="news-item">正在加载言论…</span>
             </div>
           </div>
         </div>
@@ -3050,8 +3050,8 @@
         totalCap: "总市值", volume24h: "24小时交易量",
         initialQuote: "USD · 实时行情可用时更新",
         navAiChips: "人工智能芯片", navCloud: "AI云", navDataCenter: "数据中心", navEnterpriseAi: "企业人工智能", navSecurity: "安全", navQuantum: "量子", navChinaAi: "中国人工智能", navLeopold: "Leopold Aschenbrenner",
-        newsHot: "🔥热点", industry: "行业", person: "专栏", company: "公司", market: "并购/融资", frontier: "前沿", papers: "论文", devops: "DevOps", video: "视频", newVideo: "New",
-        loadingHot: "正在加载热点…", loadingIndustry: "正在加载行业…", loadingPerson: "正在加载专栏…", loadingCompany: "正在加载公司…", loadingMarket: "正在加载并购/融资…", loadingFrontier: "正在加载前沿…", loadingPapers: "正在加载论文…", loadingDevops: "正在加载 DevOps…", loadingVideo: "正在加载视频…", loadingNewVideo: "正在加载 New 视频…",
+        newsHot: "🔥热点", industry: "行业", person: "言论", company: "公司", market: "并购/融资", frontier: "前沿", papers: "论文", devops: "DevOps", video: "视频", newVideo: "New",
+        loadingHot: "正在加载热点…", loadingIndustry: "正在加载行业…", loadingPerson: "正在加载言论…", loadingCompany: "正在加载公司…", loadingMarket: "正在加载并购/融资…", loadingFrontier: "正在加载前沿…", loadingPapers: "正在加载论文…", loadingDevops: "正在加载 DevOps…", loadingVideo: "正在加载视频…", loadingNewVideo: "正在加载 New 视频…",
         currentFilter: "按当前筛选", realVolume: "真实成交额，可用时更新", hot: "热门", topGainer: "最大升幅", waitingQuotes: "等待行情或估算涨跌",
         tokenRanking: "代币使用", tokenNote: "参考 OpenRouter Top Models，用量口径可切换",
         chartRanking: "代币成本", chartNote: "LLM Token Expenditure Index",
@@ -3065,11 +3065,11 @@
         companies: "companies", companiesZh: "家", page: "第", perPage: "每页", noResults: "没有匹配结果",
         watch: "关注", prelist: "预上市", est: " est.",
         quoteDaily: "每日行情", quoteLive: "Yahoo 实时备用行情", quoteError: "行情接口暂不可用，真实行情为空", waitingLive: "等待真实行情",
-        newsSource: "新闻来源", newsAuthor: "作者", mediaSource: "媒体", speechKeywordSource: "互联网公开新闻：大模型负责人公开言论 / OpenAI / Anthropic / DeepMind / Gemini / Meta AI / xAI / Mistral / DeepSeek / Kimi / 智谱 / 通义千问 / 豆包 / 马斯克 / 黄仁勋 / 哈萨比斯 / 梁文锋 / 物理世界模型",
+        newsSource: "新闻来源", newsAuthor: "作者", mediaSource: "媒体", speechKeywordSource: "互联网公开新闻：Kimi Founder Yang Zhilin / 杨植麟 / Cursor 创始人 / Anysphere / Michael Truell / Aman Sanger / Sualeh Asif / 大模型负责人公开言论",
         footer: "说明：这是 AI 相关美股挂牌、港股、A 股、韩股、日股、英国、加拿大、瑞典与台湾市场公司及少量预上市公司观察名单，不是投资建议，也不是官方指数。价格、1小时/24小时/7天/30天变化、成交额与市值均优先使用在线 quote/chart 真实行情；不可用时显示为空。预上市公司使用估算美元市值参与排行，不抓取实时行情。非美元公司市值与成交额在内部按 USD/CNY、USD/HKD、USD/KRW、USD/JPY、USD/TWD、USD/GBP、USD/CAD、USD/SEK 机制折算成美元口径，但页面不展示汇率。",
         fallbackHot: "华尔街日报与金融时报热点持续更新",
         fallbackIndustry: "行业动态持续追踪 AI 芯片、云、数据中心与大模型",
-        fallbackPerson: "金融时报与华尔街日报专栏作家最新文章持续更新",
+        fallbackPerson: "正在抓取杨植麟、Cursor 创始人与 AI 负责人公开言论",
         fallbackCompany: "公司新闻按成分股、并购、入股、股权与融资关键词追踪 Bloomberg 与 Reuters",
         fallbackMarket: "并购/融资新闻按收购、入股、股权、融资、投资关键词追踪 Bloomberg 与 Reuters",
         fallbackFrontier: "MIT Technology Review、Wired、Stanford Engineering 与 Stanford Business 追踪 AI 前沿技术趋势",
@@ -3084,8 +3084,8 @@
         totalCap: "Market Cap", volume24h: "24h Volume",
         initialQuote: "USD · live quote when available",
         navAiChips: "AI Chips", navCloud: "AI Cloud", navDataCenter: "Data Centers", navEnterpriseAi: "Enterprise AI", navSecurity: "Security", navQuantum: "Quantum", navChinaAi: "China AI", navLeopold: "Leopold Aschenbrenner",
-        newsHot: "🔥 Hot", industry: "Industry", person: "Columnists", company: "Companies", market: "M&A / Financing", frontier: "Frontier Tech", papers: "Research Papers", devops: "DevOps", video: "Video", newVideo: "New",
-        loadingHot: "Loading hot stories…", loadingIndustry: "Loading industry…", loadingPerson: "Loading columnists…", loadingCompany: "Loading companies…", loadingMarket: "Loading M&A / financing…", loadingFrontier: "Loading frontier tech…", loadingPapers: "Loading research papers…", loadingDevops: "Loading DevOps…", loadingVideo: "Loading video…", loadingNewVideo: "Loading new video…",
+        newsHot: "🔥 Hot", industry: "Industry", person: "Statements", company: "Companies", market: "M&A / Financing", frontier: "Frontier Tech", papers: "Research Papers", devops: "DevOps", video: "Video", newVideo: "New",
+        loadingHot: "Loading hot stories…", loadingIndustry: "Loading industry…", loadingPerson: "Loading statements…", loadingCompany: "Loading companies…", loadingMarket: "Loading M&A / financing…", loadingFrontier: "Loading frontier tech…", loadingPapers: "Loading research papers…", loadingDevops: "Loading DevOps…", loadingVideo: "Loading video…", loadingNewVideo: "Loading new video…",
         currentFilter: "Current filter", realVolume: "Real traded value when available", hot: "Trending", topGainer: "Top Gainer", waitingQuotes: "Waiting for quotes or estimated moves",
         tokenRanking: "Token Usage", tokenNote: "Inspired by OpenRouter Top Models; period is switchable",
         chartRanking: "Token Cost", chartNote: "LLM Token Expenditure Index",
@@ -3099,11 +3099,11 @@
         companies: "companies", companiesZh: "companies", page: "Page", perPage: "Per page", noResults: "No matching results",
         watch: "Watch", prelist: "Pre-IPO", est: " est.",
         quoteDaily: "Daily market data", quoteLive: "Live Yahoo fallback", quoteError: "Quote feed unavailable; live fields are blank", waitingLive: "Waiting for live quotes",
-        newsSource: "Source", newsAuthor: "Author", mediaSource: "Media", speechKeywordSource: "Open web news: public statements by foundation-model leaders / OpenAI / Anthropic / DeepMind / Gemini / Meta AI / xAI / Mistral / DeepSeek / Kimi / Zhipu / Qwen / Doubao / Musk / Jensen Huang / Hassabis / Liang Wenfeng / physical world model",
+        newsSource: "Source", newsAuthor: "Author", mediaSource: "Media", speechKeywordSource: "Open web news: Kimi founder Yang Zhilin / Cursor founders / Anysphere / Michael Truell / Aman Sanger / Sualeh Asif / public statements by AI leaders",
         footer: "Note: This is a watchlist of AI-related US-listed, Hong Kong-listed, A-share, Korean, Japanese, UK, Canadian, Swedish, Taiwan-market, and selected pre-IPO companies. It is not investment advice or an official index. Price, 1h/24h/7d/30d change, volume, and market cap use online quote/chart data when available; unavailable fields are left blank. Pre-IPO companies use estimated USD market caps for ranking and do not fetch live quotes. Non-USD market caps and volume are converted internally to USD using USD/CNY, USD/HKD, USD/KRW, USD/JPY, USD/TWD, USD/GBP, USD/CAD, and USD/SEK logic; exchange rates are not displayed.",
         fallbackHot: "Wall Street Journal and Financial Times hot stories keep updating",
         fallbackIndustry: "Industry news tracking AI chips, cloud, data centers, and foundation models",
-        fallbackPerson: "Financial Times and Wall Street Journal columnist articles keep updating",
+        fallbackPerson: "Tracking public statements from Yang Zhilin, Cursor founders, and AI leaders",
         fallbackCompany: "Company news tracks constituent names plus M&A, stakes, equity, funding, and investment keywords across Bloomberg and Reuters",
         fallbackMarket: "M&A / financing news tracks acquisitions, stakes, equity, funding, investment, and IPO keywords across Bloomberg and Reuters",
         fallbackFrontier: "MIT Technology Review, Wired, Stanford Engineering, and Stanford Business track AI frontier technology trends",
@@ -3566,7 +3566,7 @@
           { title: t("fallbackIndustry"), source: "IsitHUB", author: "", url: "#" },
         ],
         person: [
-          { title: t("fallbackPerson"), source: "Financial Times / Wall Street Journal", author: "", url: "https://www.ft.com/columnists?syn-25a6b1a6=1" },
+          { title: t("fallbackPerson"), source: "Google News / Public Web", author: "", url: "https://news.google.com/search?q=Yang%20Zhilin%20Cursor%20founder%20AI%20said" },
         ],
         company: [
           { title: t("fallbackCompany"), source: "IsitHUB", author: "", url: "#" },
