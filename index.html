@@ -2332,7 +2332,7 @@
     const ATAAS_TICKERS = new Set(["QJTECH.PRE"]);
     const ENERGY_CATEGORY = "能源";
     const ENERGY_SUBCATEGORIES = ["SMR", "SOFC"];
-    const ENERGY_TICKERS = new Set(["VRT", "EOSE", "NEE", "LEU", "UUUU", "OKLO", "CEG", "VST", "BLDP", "PLUG", "FCEL"]);
+    const ENERGY_TICKERS = new Set(["VRT", "EOSE", "NEE", "LEU", "UUUU", "OKLO", "CEG", "VST", "BLDP", "PLUG", "FCEL", "FLNC"]);
     const SMR_TICKERS = new Set(["OKLO", "UUUU", "LEU", "VST", "SMR", "CEG", "XE", "KAIROS.PRE", "TERRAPOWER.PRE", "BWXT", "GEV", "HOLTEC.PRE", "601985.SS", "1816.HK", "LTBR", "ARE.TO", "ATRL.TO", "RR.L"]);
     const INFRASTRUCTURE_CATEGORY = "基础设施";
     const INFRASTRUCTURE_SUBCATEGORIES = ["DCI", "AIDC", "HPC"];
@@ -3249,7 +3249,7 @@
     }
     function energySubcategory(row) {
       const haystack = `${row.ticker} ${row.name} ${row.category} ${row.thesis} ${(row.tags || []).join(" ")}`.toLowerCase();
-      if (row.ticker === "BE" || row.ticker === "BLDP" || row.ticker === "PLUG" || row.ticker === "FCEL" || row.ticker === "000338.SZ") return "SOFC";
+      if (row.ticker === "BE" || row.ticker === "BLDP" || row.ticker === "PLUG" || row.ticker === "FCEL" || row.ticker === "FLNC" || row.ticker === "000338.SZ") return "SOFC";
       if (SMR_TICKERS.has(row.ticker)) return "SMR";
       if (/sofc|solid oxide|fuel cell|fuel cells|燃料电池|固体氧化物/.test(haystack)) return "SOFC";
       return null;
