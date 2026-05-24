@@ -3723,7 +3723,7 @@
       link.classList.add("video-active");
       thumb.dataset.originalHtml = thumb.dataset.originalHtml || thumb.innerHTML;
       const title = link.dataset.videoTitle || "IsitHUB Video";
-      thumb.innerHTML = `<iframe src="${youtubeEmbedUrl(videoId)}" title="${escapeHtml(title)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="no-referrer"></iframe>`;
+      thumb.innerHTML = `<iframe src="${youtubeEmbedUrl(videoId)}" title="${escapeHtml(title)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
       bindYouTubePlayer(thumb.querySelector("iframe"));
     }
     function resumeNewsTrackForIframe(iframe) {
