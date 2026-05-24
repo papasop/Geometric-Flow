@@ -2309,7 +2309,7 @@
       "基础设施",
       "硬件",
       "大模型",
-      "数据标注",
+      "RLHF",
       "Token 工厂 / 推理服务",
       "Serenity",
       "Leopold Aschenbrenner",
@@ -2320,7 +2320,7 @@
       "基础设施": { zh: "基础设施", en: "Infrastructure" },
       "硬件": { zh: "硬件", en: "Hardware" },
       "大模型": { zh: "大模型", en: "Foundation Models" },
-      "数据标注": { zh: "数据标注", en: "Data Labeling" },
+      "RLHF": { zh: "RLHF", en: "RLHF" },
       "Token 工厂 / 推理服务": { zh: "Token 工厂 / 推理服务", en: "Token Factory / Inference" },
       "英伟达": { zh: "英伟达", en: "NVIDIA" },
       "Serenity": { zh: "Serenity", en: "Serenity" },
@@ -2355,7 +2355,7 @@
     const LLM_CLOSED_TICKERS = new Set(["OPENAI.PRE", "ANTHROPIC.PRE", "GOOG", "XAI.PRE", "COHERE.PRE"]);
     const PHYSICAL_WORLD_MODEL_TICKERS = new Set(["JEPA.PRE", "WORLDLABS.PRE", "ARYALABS.PRE", "WAYVE.PRE", "PHYSICALINTELLIGENCE.PRE", "FIGURE.PRE", "1X.PRE", "SKILD.PRE", "VPG"]);
     const MODEL_TICKERS = new Set([...LLM_OPEN_TICKERS, ...LLM_CLOSED_TICKERS, ...PHYSICAL_WORLD_MODEL_TICKERS]);
-    const DATA_LABELING_CATEGORY = "数据标注";
+    const DATA_LABELING_CATEGORY = "RLHF";
     const DATA_LABELING_TICKERS = new Set(["TOLOKA.PRE", "SCALEAI.PRE", "MERCOR.PRE"]);
     const AIBOTT_BY_TICKER = new Map(AIBOTT_WATCHLIST.map(([symbol, name, theme, oneLiner, conviction]) => [symbol, { name, theme, oneLiner, conviction }]));
     function inferAibottTheme(category, thesis, ticker) {
@@ -2399,9 +2399,9 @@
       ["FIGURE.PRE", "Figure AI", "Humanoid robotics pre-IPO", "预上市人形机器人公司，聚焦通用机器人、具身智能和真实世界动作模型。", { status: "prelist", estimatedMarketCap: 2600000000 }],
       ["1X.PRE", "1X Technologies", "Humanoid robotics pre-IPO", "预上市人形机器人公司，聚焦家庭与服务场景机器人、远程操作数据和具身智能。", { status: "prelist", estimatedMarketCap: 2000000000 }],
       ["SKILD.PRE", "Skild AI", "Physical AI pre-IPO", "预上市机器人基础模型公司，聚焦通用机器人智能、控制模型和跨形态具身 AI。", { status: "prelist", estimatedMarketCap: 1500000000 }],
-      ["TOLOKA.PRE", "Toloka", "AI data labeling pre-IPO", "预上市 AI 数据标注与人类反馈平台，服务训练数据、模型评测、RLHF 和企业级 AI 数据管线。", { status: "prelist" }],
-      ["SCALEAI.PRE", "Scale AI", "AI data labeling pre-IPO", "预上市 AI 数据标注与数据基础设施公司，服务自动驾驶、国防、企业大模型训练数据和模型评测。", { status: "prelist" }],
-      ["MERCOR.PRE", "Mercor AI", "AI data labeling pre-IPO", "预上市 AI 人才与专家数据平台，连接高技能专家参与模型训练、评测、标注和垂直领域数据生产。", { status: "prelist" }],
+      ["TOLOKA.PRE", "Toloka AI", "RLHF / AI data labeling pre-IPO", "预上市 RLHF 与 AI 数据标注平台；暂无官方最新估值，独立融资约 7200 万美元，服务训练数据、模型评测、人类反馈与企业级 AI 数据管线。", { status: "prelist" }],
+      ["SCALEAI.PRE", "Scale AI", "RLHF / AI data labeling pre-IPO", "预上市 RLHF 与 AI 数据基础设施龙头；估值约 290 亿美元，总融资额约 159 亿美元，Meta Platforms 与硅谷顶级 VC 阵营参与，Meta 斥资超 140 亿美元收购 49% 无投票权股份。", { status: "prelist", estimatedMarketCap: 29000000000 }],
+      ["MERCOR.PRE", "Mercor AI", "RLHF / expert data pre-IPO", "预上市 RLHF、专家数据与模型评测平台；估值约 100 亿美元，总融资额约 4.92 亿美元，Felicis、Benchmark、彼得·蒂尔等参与，由 00 后创立，半年内估值暴涨 5 倍。", { status: "prelist", estimatedMarketCap: 10000000000 }],
       ["CEREBRAS.PRE", "Cerebras", "AI wafer-scale accelerator pre-IPO", "预上市 AI 芯片公司，晶圆级加速器、推理云和大模型训练基础设施。", { status: "prelist", estimatedMarketCap: 8000000000 }],
       ["GROQ.PRE", "Groq", "AI inference chip pre-IPO", "预上市 AI 推理芯片与 LPU 云服务公司，聚焦低延迟大模型推理。", { status: "prelist", estimatedMarketCap: 3000000000 }],
       ["SAMBANOVA.PRE", "SambaNova", "AI systems pre-IPO", "预上市 AI 系统公司，提供企业级模型训练、推理和定制 AI 平台。", { status: "prelist", estimatedMarketCap: 5000000000 }],
