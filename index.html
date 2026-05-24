@@ -3543,6 +3543,7 @@
         hot: [
           { title: t("fallbackHot"), source: "YouTube New", author: "", url: "https://www.youtube.com/watch?v=FR4i2DcequI", image: "https://i.ytimg.com/vi/FR4i2DcequI/hqdefault.jpg" },
           { title: t("fallbackHot"), source: "YouTube New", author: "", url: "https://www.youtube.com/watch?v=91fmhAnECVc", image: "https://i.ytimg.com/vi/91fmhAnECVc/hqdefault.jpg" },
+          { title: t("fallbackHot"), source: "YouTube New", author: "", url: "https://www.youtube.com/watch?v=33hNvOdGUhQ", image: "https://i.ytimg.com/vi/33hNvOdGUhQ/hqdefault.jpg" },
         ],
         industry: [
           { title: t("fallbackIndustry"), source: "IsitHUB", author: "", url: "#" },
@@ -3824,7 +3825,7 @@
       const isVideoSection = sectionId === "hot" || sectionId === "video";
       const clean = sectionId === "hot" ? (items || []).filter((item) => item?.title).slice(0, 16) : sectionId === "person" ? mixedColumnistItems(items, 16) : sectionId === "video" ? mixedRandomNewsItems(items, 16) : (items || []).filter((item) => item?.title).slice(0, 16);
       const news = clean.length ? clean : fallbackNewsItems(sectionId);
-      const renderItems = [...news, ...news];
+      const renderItems = sectionId === "hot" ? news : [...news, ...news];
       const nodes = renderItems.map((item) => {
         const source = displayNewsParty(item.source || "News");
         const author = displayNewsAuthor(item.source || "News", item.author || "");
