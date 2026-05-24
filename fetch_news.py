@@ -490,6 +490,7 @@ NEW_VIDEO_SOURCES = [
     {"name": "YouTube New", "url": "https://www.youtube.com/watch?v=FR4i2DcequI"},
     {"name": "YouTube New", "url": "https://www.youtube.com/watch?v=91fmhAnECVc"},
     {"name": "YouTube New", "url": "https://www.youtube.com/watch?v=33hNvOdGUhQ"},
+    {"name": "YouTube New", "url": "https://www.youtube.com/watch?v=SzqEzVou-sk"},
 ]
 HOT_NEWS_SOURCES = NEW_VIDEO_SOURCES
 TECH_NEWS_SOURCES = [
