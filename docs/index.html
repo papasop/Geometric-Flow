@@ -1483,7 +1483,7 @@
       "002384.SZ": "China", "301666.SZ": "China", "688820.SS": "China", "601869.SS": "China", "688795.SS": "China", "603986.SS": "China",
       "YMTC.PRE": "China", "CXMT.PRE": "China", "BYTEDANCE.PRE": "China", "MOONSHOT.PRE": "China",
       "DEEPSEEK.PRE": "China", "ZHIPU.PRE": "China", "QJTECH.PRE": "China", "SILICONFLOW.PRE": "China", "INFINIGENCE.PRE": "China", "JEPA.PRE": "USA", "WORLDLABS.PRE": "USA", "ARYALABS.PRE": "USA", "WAYVE.PRE": "United Kingdom", "PHYSICALINTELLIGENCE.PRE": "USA",
-      "MISTRAL.PRE": "France", "COHERE.PRE": "Canada", "1X.PRE": "Norway",
+      "MISTRAL.PRE": "France", "COHERE.PRE": "Canada", "1X.PRE": "Norway", "TOLOKA.PRE": "Netherlands", "SCALEAI.PRE": "USA", "MERCOR.PRE": "USA",
       "002230.SZ": "China", "300308.SZ": "China", "300502.SZ": "China", "300394.SZ": "China", "688981.SS": "China",
       "002475.SZ": "China",
       "002415.SZ": "China", "000938.SZ": "China", "600570.SS": "China", "300033.SZ": "China", "688008.SS": "China",
@@ -2309,6 +2309,7 @@
       "基础设施",
       "硬件",
       "大模型",
+      "数据标注",
       "Token 工厂 / 推理服务",
       "Serenity",
       "Leopold Aschenbrenner",
@@ -2319,6 +2320,7 @@
       "基础设施": { zh: "基础设施", en: "Infrastructure" },
       "硬件": { zh: "硬件", en: "Hardware" },
       "大模型": { zh: "大模型", en: "Foundation Models" },
+      "数据标注": { zh: "数据标注", en: "Data Labeling" },
       "Token 工厂 / 推理服务": { zh: "Token 工厂 / 推理服务", en: "Token Factory / Inference" },
       "英伟达": { zh: "英伟达", en: "NVIDIA" },
       "Serenity": { zh: "Serenity", en: "Serenity" },
@@ -2353,12 +2355,15 @@
     const LLM_CLOSED_TICKERS = new Set(["OPENAI.PRE", "ANTHROPIC.PRE", "GOOG", "XAI.PRE", "COHERE.PRE"]);
     const PHYSICAL_WORLD_MODEL_TICKERS = new Set(["JEPA.PRE", "WORLDLABS.PRE", "ARYALABS.PRE", "WAYVE.PRE", "PHYSICALINTELLIGENCE.PRE", "FIGURE.PRE", "1X.PRE", "SKILD.PRE", "VPG"]);
     const MODEL_TICKERS = new Set([...LLM_OPEN_TICKERS, ...LLM_CLOSED_TICKERS, ...PHYSICAL_WORLD_MODEL_TICKERS]);
+    const DATA_LABELING_CATEGORY = "数据标注";
+    const DATA_LABELING_TICKERS = new Set(["TOLOKA.PRE", "SCALEAI.PRE", "MERCOR.PRE"]);
     const AIBOTT_BY_TICKER = new Map(AIBOTT_WATCHLIST.map(([symbol, name, theme, oneLiner, conviction]) => [symbol, { name, theme, oneLiner, conviction }]));
     function inferAibottTheme(category, thesis, ticker) {
       const text = String(ticker || "") + " " + String(category || "") + " " + String(thesis || "");
       const lower = text.toLowerCase();
       if (NVIDIA_TICKERS.has(String(ticker || "").toUpperCase())) return NVIDIA_CATEGORY;
       if (MODEL_TICKERS.has(String(ticker || "").toUpperCase())) return MODEL_CATEGORY;
+      if (DATA_LABELING_TICKERS.has(String(ticker || "").toUpperCase())) return DATA_LABELING_CATEGORY;
       if (ENERGY_TICKERS.has(String(ticker || "").toUpperCase())) return ENERGY_CATEGORY;
       if (DCI_TICKERS.has(String(ticker || "").toUpperCase())) return INFRASTRUCTURE_CATEGORY;
       if (CNC_TICKERS.has(String(ticker || "").toUpperCase())) return HARDWARE_CATEGORY;
@@ -2366,6 +2371,7 @@
       if (/sofc|solid oxide|fuel cell|fuel cells|power|grid|electric|switchgear|transformer|nuclear|energy|battery|natural gas|gas turbine|燃料电池|固体氧化物|电力|能源|电网|核电|天然气/.test(lower)) return "能源";
       if (/aidc|ai data center|data center|datacenter|construction|mep|buildout|campus|cool|thermal|chiller|hvac|liquid|storage|data fabric|server|rack|ai 数据中心|数据中心|液冷|机房|存储/.test(lower)) return "基础设施";
       if (/inp|substrate|epitax|soi|wafer|photon|optic|laser|cpo|coherent|transceiver|fiber|eml|silicon photonics|hbm|packag|cowos|osat|pcb|abf|metrology|inspection|bond|test|mask|burn-in|memory|dram|nand|ssd|hdd|lithography|euv|fab tool|semi equipment|etch|deposition|cmp|process control|foundry|advanced manufacturing|network|retimer|ethernet|switch|fabric|interconnect|cable|connector|rare earth|magnet|mining|metals|asic|gpu|cuda|accelerator|npu|tpu|cpu|eda|ip|chip|semiconductor|edge ai|custom silicon|robot|sensor|hardware|陶瓷|芯片|半导体|光模块|连接器|稀土|硬件/.test(lower)) return "硬件";
+      if (/data label|data annotation|training data|human data|rlhf|model eval|数据标注|训练数据|人工反馈|模型评测/.test(lower)) return DATA_LABELING_CATEGORY;
       if (/token|inference|推理|cloud|neocloud|hyperscaler|oci|aws|azure|gpu lease|ai factory|model|llm|agent|copilot|enterprise ai|software|api|平台|模型|大模型|智能体|服务/.test(lower)) return "Token 工厂 / 推理服务";
       return "Token 工厂 / 推理服务";
     }
@@ -2393,6 +2399,9 @@
       ["FIGURE.PRE", "Figure AI", "Humanoid robotics pre-IPO", "预上市人形机器人公司，聚焦通用机器人、具身智能和真实世界动作模型。", { status: "prelist", estimatedMarketCap: 2600000000 }],
       ["1X.PRE", "1X Technologies", "Humanoid robotics pre-IPO", "预上市人形机器人公司，聚焦家庭与服务场景机器人、远程操作数据和具身智能。", { status: "prelist", estimatedMarketCap: 2000000000 }],
       ["SKILD.PRE", "Skild AI", "Physical AI pre-IPO", "预上市机器人基础模型公司，聚焦通用机器人智能、控制模型和跨形态具身 AI。", { status: "prelist", estimatedMarketCap: 1500000000 }],
+      ["TOLOKA.PRE", "Toloka", "AI data labeling pre-IPO", "预上市 AI 数据标注与人类反馈平台，服务训练数据、模型评测、RLHF 和企业级 AI 数据管线。", { status: "prelist" }],
+      ["SCALEAI.PRE", "Scale AI", "AI data labeling pre-IPO", "预上市 AI 数据标注与数据基础设施公司，服务自动驾驶、国防、企业大模型训练数据和模型评测。", { status: "prelist" }],
+      ["MERCOR.PRE", "Mercor AI", "AI data labeling pre-IPO", "预上市 AI 人才与专家数据平台，连接高技能专家参与模型训练、评测、标注和垂直领域数据生产。", { status: "prelist" }],
       ["CEREBRAS.PRE", "Cerebras", "AI wafer-scale accelerator pre-IPO", "预上市 AI 芯片公司，晶圆级加速器、推理云和大模型训练基础设施。", { status: "prelist", estimatedMarketCap: 8000000000 }],
       ["GROQ.PRE", "Groq", "AI inference chip pre-IPO", "预上市 AI 推理芯片与 LPU 云服务公司，聚焦低延迟大模型推理。", { status: "prelist", estimatedMarketCap: 3000000000 }],
       ["SAMBANOVA.PRE", "SambaNova", "AI systems pre-IPO", "预上市 AI 系统公司，提供企业级模型训练、推理和定制 AI 平台。", { status: "prelist", estimatedMarketCap: 5000000000 }],
