@@ -3820,12 +3820,24 @@
     function mixedColumnistItems(items, limit = 16) {
       return balanceHotNewsItems(items, limit);
     }
+    function uniqueNewsItems(items) {
+      const seen = new Set();
+      return (items || []).filter((item) => {
+        if (!item?.title) return false;
+        const url = safeUrl(item.url || "#", { allowHash: true });
+        const videoId = youtubeVideoId(url);
+        const key = (videoId || url || item.title || "").toLowerCase();
+        if (!key || seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+    }
     function renderNewsStrip(sectionId, items) {
       const track = $(`news-track-${sectionId}`);
       if (!track) return;
       const isVideoSection = sectionId === "hot" || sectionId === "video";
-      const clean = sectionId === "hot" ? (items || []).filter((item) => item?.title).slice(0, 16) : sectionId === "person" ? mixedColumnistItems(items, 16) : sectionId === "video" ? mixedRandomNewsItems(items, 16) : (items || []).filter((item) => item?.title).slice(0, 16);
-      const news = clean.length ? clean : fallbackNewsItems(sectionId);
+      const clean = sectionId === "hot" ? uniqueNewsItems(items).slice(0, 16) : sectionId === "person" ? mixedColumnistItems(items, 16) : sectionId === "video" ? mixedRandomNewsItems(items, 16) : (items || []).filter((item) => item?.title).slice(0, 16);
+      const news = clean.length ? clean : uniqueNewsItems(fallbackNewsItems(sectionId));
       const renderItems = sectionId === "hot" ? news : [...news, ...news];
       const nodes = renderItems.map((item) => {
         const source = displayNewsParty(item.source || "News");
