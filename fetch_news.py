@@ -337,6 +337,7 @@ FOCUSED_PERSON_STATEMENT_TERMS = [
     "Michael Truell", "Aman Sanger", "Sualeh Asif", "Arvid Lunnemark",
     "Cursor founder", "Cursor CEO", "Cursor 创始人",
     "Anysphere", "Anysphere founder", "Anysphere 创始人",
+    "Lin Qiao", "Fireworks AI founder", "Fireworks AI CEO", "Fireworks AI 创始人",
 ]
 AI_SPEECH_PERSON_TERMS = [
     term for term in FOCUSED_PERSON_STATEMENT_TERMS
@@ -452,6 +453,12 @@ PERSON_NEWS_SOURCES = [
             "Anysphere", "Anysphere founder", "Anysphere 创始人",
         ]),
     ),
+    google_news_query_source(
+        "Fireworks AI Founder Statements",
+        ai_person_news_query([
+            "Lin Qiao", "Fireworks AI founder", "Fireworks AI CEO", "Fireworks AI 创始人",
+        ]),
+    ),
 ]
 COMPANY_NEWS_SOURCES = [
     google_news_query_source(f"Bloomberg · Company Batch {index + 1}", f"site:bloomberg.com ({quoted_or_query(batch)})")
@@ -540,7 +547,7 @@ NEWS_SECTIONS = [
     {
         "id": "person",
         "title": "言论",
-        "note": "公开新闻：只抓取 Kimi Founder Yang Zhilin 与 Cursor / Anysphere 创始人公开言论",
+        "note": "公开新闻：只抓取 Kimi Founder Yang Zhilin、Cursor / Anysphere 与 Fireworks AI 创始人公开言论",
         "sources": PERSON_NEWS_SOURCES,
         "allowGeneralFeed": True,
     },
