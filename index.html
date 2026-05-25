@@ -174,7 +174,6 @@
     #news-track-company { animation-duration: 96s; }
     #news-track-tech { animation-duration: 108s; }
     #news-track-papers { animation-duration: 112s; }
-    #news-track-devops { animation-duration: 114s; }
     #news-track-video { animation-duration: 118s; }
     .news-strip[hidden] { display: none; }
     .news-track:hover,
@@ -1247,25 +1246,16 @@
   </nav>
   <main class="shell">
     <section class="hero">
-      <div class="news-sections" aria-label="热点/行业/言论/公司/前沿/论文/DevOps/视频 新闻切换">
-        <div class="news-tabs" role="tablist" aria-label="热点/行业/言论/公司/前沿/论文/DevOps/视频">
-          <button class="news-tab active" type="button" role="tab" aria-selected="true" aria-controls="news-panel-hot" data-news-tab="hot">🔥热点</button>
-          <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-industry" data-news-tab="industry">行业</button>
+      <div class="news-sections" aria-label="行业/言论/公司/前沿/论文/视频 新闻切换">
+        <div class="news-tabs" role="tablist" aria-label="行业/言论/公司/前沿/论文/视频">
+          <button class="news-tab active" type="button" role="tab" aria-selected="true" aria-controls="news-panel-industry" data-news-tab="industry">行业</button>
           <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-person" data-news-tab="person">言论</button>
           <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-company" data-news-tab="company">公司</button>
           <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-tech" data-news-tab="tech">前沿</button>
           <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-papers" data-news-tab="papers">论文</button>
-          <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-devops" data-news-tab="devops">DevOps</button>
           <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-video" data-news-tab="video">视频</button>
         </div>
-        <div class="news-strip" id="news-panel-hot" role="tabpanel" aria-label="热点">
-          <div class="news-marquee">
-            <div class="news-track" id="news-track-hot">
-              <span class="news-item">正在加载热点…</span>
-            </div>
-          </div>
-        </div>
-        <div class="news-strip" id="news-panel-industry" role="tabpanel" aria-label="行业" hidden>
+        <div class="news-strip" id="news-panel-industry" role="tabpanel" aria-label="行业">
           <div class="news-marquee">
             <div class="news-track" id="news-track-industry">
               <span class="news-item">正在加载行业…</span>
@@ -1297,13 +1287,6 @@
           <div class="news-marquee">
             <div class="news-track" id="news-track-papers">
               <span class="news-item">正在加载论文…</span>
-            </div>
-          </div>
-        </div>
-        <div class="news-strip" id="news-panel-devops" role="tabpanel" aria-label="DevOps" hidden>
-          <div class="news-marquee">
-            <div class="news-track" id="news-track-devops">
-              <span class="news-item">正在加载 DevOps…</span>
             </div>
           </div>
         </div>
@@ -3556,7 +3539,7 @@
       $("gainer-one").textContent = gainers[0] ? `${gainers[0].ticker} ${formatPercent(gainers[0].changePercent)}` : "—";
       $("gainer-list").textContent = gainers.length ? gainers.map((row) => `${row.ticker} ${formatPercent(row.changePercent)}`).join(" · ") : t("waitingLive");
     }
-    const NEWS_SECTION_IDS = ["hot", "industry", "person", "company", "tech", "papers", "devops", "video"];
+    const NEWS_SECTION_IDS = ["industry", "person", "company", "tech", "papers", "video"];
     const PAPER_SOURCE_PATTERN = /nature|science|neurips|icml|iclr|acl anthology|cvf|cvpr|aaai|jmlr|pmlr|ieee tpami|acm digital library|arxiv/i;
     function fallbackNewsItems(sectionId = "industry") {
       const fallback = {
@@ -4543,14 +4526,14 @@
       setFirstText(".topline-inner > span:nth-child(4)", `${t("volume24h")}: `);
       updateQuoteStatusLabel();
       setAllText(".nav a[data-nav-tab]", AIBOTT_THEMES.map(categoryDisplayLabel));
-      document.querySelector(".news-sections")?.setAttribute("aria-label", `${t("newsHot")}/${t("industry")}/${t("person")}/${t("company")}/${t("frontier")}/${t("papers")}/${t("devops")}/${t("video")}`);
-      setAllText(".news-tab", [t("newsHot"), t("industry"), t("person"), t("company"), t("frontier"), t("papers"), t("devops"), t("video")]);
+      document.querySelector(".news-sections")?.setAttribute("aria-label", `${t("industry")}/${t("person")}/${t("company")}/${t("frontier")}/${t("papers")}/${t("video")}`);
+      setAllText(".news-tab", [t("industry"), t("person"), t("company"), t("frontier"), t("papers"), t("video")]);
       NEWS_SECTION_IDS.forEach((id) => {
         const panel = $(`news-panel-${id}`);
-        const label = id === "hot" ? t("newsHot") : id === "industry" ? t("industry") : id === "person" ? t("person") : id === "company" ? t("company") : id === "papers" ? t("papers") : id === "devops" ? t("devops") : id === "video" ? t("video") : t("frontier");
+        const label = id === "industry" ? t("industry") : id === "person" ? t("person") : id === "company" ? t("company") : id === "papers" ? t("papers") : id === "video" ? t("video") : t("frontier");
         if (panel) panel.setAttribute("aria-label", label);
       });
-      const loading = { hot: "loadingHot", industry: "loadingIndustry", person: "loadingPerson", company: "loadingCompany", tech: "loadingFrontier", papers: "loadingPapers", devops: "loadingDevops", video: "loadingVideo" };
+      const loading = { industry: "loadingIndustry", person: "loadingPerson", company: "loadingCompany", tech: "loadingFrontier", papers: "loadingPapers", video: "loadingVideo" };
       Object.entries(loading).forEach(([id, key]) => {
         const track = $(`news-track-${id}`);
         if (track && track.children.length === 1 && track.textContent.includes("加载")) track.innerHTML = `<span class="news-item">${t(key)}</span>`;
