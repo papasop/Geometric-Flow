@@ -1775,15 +1775,23 @@ def item_matches_terms(item: dict[str, str], terms: list[str]) -> bool:
 
 def canonical_news_title(title: str) -> str:
     title = clean_text(title, 180).lower()
+    if "nebius ceo" in title and "美联储" in title and "人工智能" in title and "扼杀" in title:
+        return "nebius ceo 美联储 扼杀 人工智能热潮"
+    if "林乔" in title and "15万亿" in title and "人工智能" in title:
+        return "林乔 15万亿 人工智能代币 初创公司"
+    title = re.sub(r"\s*《[^》]{1,40}》\s*$", "", title)
     title = re.sub(r"\s*[—–-]+\s*《[^》]{1,40}》\s*$", "", title)
     title = re.sub(
-        r"\s*[—–-]+\s*(?:the\s+)?(?:new york times|financial times|south china morning post|wsj|wall street journal|wired|mit technology review|tradingview|yahoo finance|google news|bloomberg|reuters|marketwatch|fortune|cnbc|cnn|bbc|techcrunch|the verge|forbes|business insider|seeking alpha|motley fool|aol\.com|24/7\s+wall\s+st\.?)$",
+        r"\s*[—–-]+\s*(?:the\s+)?(?:new york times|financial times|south china morning post|wsj|wall street journal|wired|mit technology review|tradingview|yahoo finance|google news|bloomberg|reuters|marketwatch|fortune|cnbc|cnn|bbc|techcrunch|the verge|forbes|business insider|seeking alpha|motley fool|aol\.com|msn|24/7\s+wall\s+st\.?)$",
         "",
         title,
     )
     title = re.sub(r"\s*[—–-]+\s*[^—–-]{1,40}$", "", title)
     title = re.sub(r"(的)?这番言论表明|的言论表明|言论表明", "", title)
-    title = re.sub(r"多么迅速地|多快|迅速地", "", title)
+    title = re.sub(r"刚才|多么迅速地|多快|迅速地", "", title)
+    title = re.sub(r"人工智能的?(?:繁荣|热潮)", "人工智能热潮", title)
+    title = re.sub(r"人工智能(?:产业|行业)的?蓬勃发展", "人工智能发展", title)
+    title = re.sub(r"……|…", "", title)
     title = re.sub(r"[^a-z0-9\u4e00-\u9fff]+", " ", title)
     return re.sub(r"\s+", " ", title).strip()
 
