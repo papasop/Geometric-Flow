@@ -1435,6 +1435,10 @@
       <button class="subtab" data-llm-subcategory="开源" type="button">Open</button>
       <button class="subtab" data-llm-subcategory="闭源" type="button">Closed</button>
     </section>
+    <section class="subtabs" id="world-model-subtabs" aria-label="物理世界模型子标签" hidden>
+      <button class="subtab" data-world-model-subcategory="文本" type="button">Text</button>
+      <button class="subtab" data-world-model-subcategory="机器人" type="button">Robotics</button>
+    </section>
 
     <section class="panel market-panel">
       <div class="panel-head">
@@ -1478,7 +1482,7 @@
       "300750.SZ": "China",
       "002384.SZ": "China", "301666.SZ": "China", "688820.SS": "China", "601869.SS": "China", "688795.SS": "China", "603986.SS": "China",
       "YMTC.PRE": "China", "CXMT.PRE": "China", "BYTEDANCE.PRE": "China", "MOONSHOT.PRE": "China",
-      "DEEPSEEK.PRE": "China", "ZHIPU.PRE": "China", "QJTECH.PRE": "China", "SILICONFLOW.PRE": "China", "INFINIGENCE.PRE": "China", "JEPA.PRE": "USA", "WORLDLABS.PRE": "USA", "ARYALABS.PRE": "USA", "WAYVE.PRE": "United Kingdom", "PHYSICALINTELLIGENCE.PRE": "USA",
+      "DEEPSEEK.PRE": "China", "ZHIPU.PRE": "China", "QJTECH.PRE": "China", "SILICONFLOW.PRE": "China", "INFINIGENCE.PRE": "China", "JEPA.PRE": "USA", "WORLDLABS.PRE": "USA", "ARYALABS.PRE": "USA", "WAYVE.PRE": "United Kingdom", "PHYSICALINTELLIGENCE.PRE": "USA", "JINLIYONGCI.PRE": "China", "LANGAO.PRE": "China",
       "MISTRAL.PRE": "France", "COHERE.PRE": "Canada", "1X.PRE": "Norway", "TOLOKA.PRE": "Netherlands", "SCALEAI.PRE": "USA", "MERCOR.PRE": "USA", "TURING.PRE": "USA",
       "002230.SZ": "China", "300308.SZ": "China", "300502.SZ": "China", "300394.SZ": "China", "688981.SS": "China",
       "002475.SZ": "China",
@@ -2346,7 +2350,10 @@
     const LLM_SUBCATEGORIES = ["全部", "开源", "闭源"];
     const LLM_OPEN_TICKERS = new Set(["DEEPSEEK.PRE", "MOONSHOT.PRE", "2513.HK", "META", "MISTRAL.PRE", "HUGGINGFACE.PRE"]);
     const LLM_CLOSED_TICKERS = new Set(["OPENAI.PRE", "ANTHROPIC.PRE", "GOOG", "XAI.PRE", "COHERE.PRE"]);
-    const PHYSICAL_WORLD_MODEL_TICKERS = new Set(["JEPA.PRE", "WORLDLABS.PRE", "ARYALABS.PRE", "WAYVE.PRE", "PHYSICALINTELLIGENCE.PRE", "FIGURE.PRE", "1X.PRE", "SKILD.PRE", "VPG"]);
+    const WORLD_MODEL_SUBCATEGORIES = ["全部", "文本", "机器人"];
+    const WORLD_MODEL_TEXT_TICKERS = new Set(["JEPA.PRE", "WORLDLABS.PRE", "ARYALABS.PRE"]);
+    const WORLD_MODEL_ROBOTICS_TICKERS = new Set(["WAYVE.PRE", "PHYSICALINTELLIGENCE.PRE", "FIGURE.PRE", "1X.PRE", "SKILD.PRE", "VPG", "JINLIYONGCI.PRE", "LANGAO.PRE"]);
+    const PHYSICAL_WORLD_MODEL_TICKERS = new Set([...WORLD_MODEL_TEXT_TICKERS, ...WORLD_MODEL_ROBOTICS_TICKERS]);
     const MODEL_TICKERS = new Set([...LLM_OPEN_TICKERS, ...LLM_CLOSED_TICKERS, ...PHYSICAL_WORLD_MODEL_TICKERS]);
     const DATA_LABELING_CATEGORY = "RLHF";
     const DATA_LABELING_TICKERS = new Set(["TOLOKA.PRE", "SCALEAI.PRE", "MERCOR.PRE", "TURING.PRE", "INOD"]);
@@ -2389,6 +2396,8 @@
       ["ARYALABS.PRE", "ARYA Labs", "Physical world model pre-IPO", "预上市物理世界模型公司，聚焦 AI 世界模型、空间理解、仿真与可交互环境生成。", { status: "prelist" }],
       ["WAYVE.PRE", "Wayve", "Physical world model pre-IPO", "预上市物理世界模型公司，聚焦自动驾驶基础模型、端到端驾驶智能与具身场景理解。", { status: "prelist" }],
       ["PHYSICALINTELLIGENCE.PRE", "Physical Intelligence", "Physical world model pre-IPO", "预上市物理智能公司，聚焦通用机器人基础模型、现实世界动作控制与具身智能。", { status: "prelist" }],
+      ["JINLIYONGCI.PRE", "金力永磁", "Robotics world model pre-IPO", "预上市机器人世界模型观察项，聚焦稀土永磁、机器人执行器、具身智能硬件供应链与物理世界模型相关产业映射。", { status: "prelist" }],
+      ["LANGAO.PRE", "朗高科技", "Robotics world model pre-IPO", "预上市机器人世界模型观察项，聚焦机器人、具身智能、自动化系统与物理世界数据闭环。", { status: "prelist" }],
       ["FIGURE.PRE", "Figure AI", "Humanoid robotics pre-IPO", "预上市人形机器人公司，聚焦通用机器人、具身智能和真实世界动作模型。", { status: "prelist", estimatedMarketCap: 2600000000 }],
       ["1X.PRE", "1X Technologies", "Humanoid robotics pre-IPO", "预上市人形机器人公司，聚焦家庭与服务场景机器人、远程操作数据和具身智能。", { status: "prelist", estimatedMarketCap: 2000000000 }],
       ["SKILD.PRE", "Skild AI", "Physical AI pre-IPO", "预上市机器人基础模型公司，聚焦通用机器人智能、控制模型和跨形态具身 AI。", { status: "prelist", estimatedMarketCap: 1500000000 }],
@@ -3046,7 +3055,7 @@
         modelRanking: "大模型排行", modelNote: "CursorBench · 每日外部更新", modelColumn: "模型", modelScore: "得分", modelCostTask: "平均成本 / 任务", dataSource: "数据来源", updatedDate: "更新日期", dailyExternal: "每日外部更新", dailyLocal: "每日本地更新", inlineSnapshot: "内置快照",
         day: "日", week: "周", month: "月", history: "历史", period: "周期", firstShare: "第一名占比",
         all: "全部", aiChips: "AI 芯片", aiCloud: "新云", dataCenter: "数据中心", enterpriseAi: "企业 AI", security: "安全", quantum: "量子", chinaAi: "中国 AI", leopold: "Leopold Aschenbrenner",
-        physicalWorldModel: "物理世界模型", openSource: "开源", closedSource: "闭源",
+        physicalWorldModel: "物理世界模型", worldModelText: "文本", worldModelRobotics: "机器人", openSource: "开源", closedSource: "闭源",
         searchPlaceholder: "搜索公司、Ticker、子赛道", allSubsectors: "全部子赛道",
         rankName: "排名 / 公司", tableNote: "市值（美元）· 上市 + IPO 前合并排名",
         thCompany: "公司", thPrice: "价格", th1h: "1小时", th24h: "24小时", th7d: "7天", thVolume: "24小时交易量", thMcap: "总市值", thSpark: "最近30天",
@@ -3079,7 +3088,7 @@
         modelRanking: "Model Ranking", modelNote: "CursorBench · daily external feed", modelColumn: "Model", modelScore: "Score", modelCostTask: "Avg Cost / Task", dataSource: "Source", updatedDate: "Updated", dailyExternal: "Daily external update", dailyLocal: "Daily local update", inlineSnapshot: "Inline snapshot",
         day: "Day", week: "Week", month: "Month", history: "History", period: "Period", firstShare: "Top share",
         all: "All", aiChips: "AI Chips", aiCloud: "AI Cloud", dataCenter: "Data Centers", enterpriseAi: "Enterprise AI", security: "Security", quantum: "Quantum", chinaAi: "China AI", leopold: "Leopold Aschenbrenner",
-        physicalWorldModel: "World Models", openSource: "Open", closedSource: "Closed",
+        physicalWorldModel: "World Models", worldModelText: "Text", worldModelRobotics: "Robotics", openSource: "Open", closedSource: "Closed",
         searchPlaceholder: "Search company, ticker, or subsector", allSubsectors: "All subsectors",
         rankName: "Rank / Name", tableNote: "Market Cap USD · Listed + Pre-IPO unified ranking",
         thCompany: "Company", thPrice: "Price", th1h: "1h", th24h: "24h", th7d: "7d", thVolume: "24h Volume", thMcap: "Market Cap", thSpark: "Last 30 days",
@@ -3101,7 +3110,7 @@
     };
     const CHINESE_REGION_CODES = new Set(["CN", "HK", "MO", "TW"]);
     const LANGUAGE_STORAGE_KEY = "isithub-language";
-    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: "ALL", infrastructureSubcategory: "DCI", hardwareSubcategory: "CNC", modelSubcategory: "LLM", llmSubcategory: "全部", selected: "NVDA", page: 1, rankingView: "model", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
+    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: "ALL", infrastructureSubcategory: "DCI", hardwareSubcategory: "CNC", modelSubcategory: "LLM", llmSubcategory: "全部", worldModelSubcategory: "全部", selected: "NVDA", page: 1, rankingView: "model", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
     try {
       const savedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY);
       if (savedLanguage === "zh" || savedLanguage === "en") state.lang = savedLanguage;
@@ -3341,10 +3350,16 @@
       if (LLM_CLOSED_TICKERS.has(row.ticker)) return "闭源";
       return null;
     }
+    function worldModelSubcategory(row) {
+      if (WORLD_MODEL_TEXT_TICKERS.has(row.ticker)) return "文本";
+      if (WORLD_MODEL_ROBOTICS_TICKERS.has(row.ticker)) return "机器人";
+      return null;
+    }
     function matchesModelSubcategory(row) {
       if (state.category !== MODEL_CATEGORY) return true;
       if (modelSubcategory(row) !== state.modelSubcategory) return false;
       if (state.modelSubcategory === "LLM") return state.llmSubcategory === "全部" || llmSubcategory(row) === state.llmSubcategory;
+      if (state.modelSubcategory === "物理世界模型") return state.worldModelSubcategory === "全部" || worldModelSubcategory(row) === state.worldModelSubcategory;
       return true;
     }
     function filteredRows() {
@@ -4469,12 +4484,18 @@
       document.querySelectorAll("[data-llm-subcategory]").forEach((item) => {
         item.classList.toggle("active", item.dataset.llmSubcategory === state.llmSubcategory);
       });
+      const worldModelSubtabs = $("world-model-subtabs");
+      if (worldModelSubtabs) worldModelSubtabs.hidden = state.category !== MODEL_CATEGORY || state.modelSubcategory !== "物理世界模型";
+      document.querySelectorAll("[data-world-model-subcategory]").forEach((item) => {
+        item.classList.toggle("active", item.dataset.worldModelSubcategory === state.worldModelSubcategory);
+      });
       alignSubtabsToCategory(tokenSubtabs, TOKEN_FACTORY_CATEGORY);
       alignSubtabsToCategory(energySubtabs, ENERGY_CATEGORY);
       alignSubtabsToCategory(infrastructureSubtabs, INFRASTRUCTURE_CATEGORY);
       alignSubtabsToCategory(hardwareSubtabs, HARDWARE_CATEGORY);
       alignSubtabsToCategory(modelSubtabs, MODEL_CATEGORY);
       alignSubtabsToCategory(llmSubtabs, MODEL_CATEGORY);
+      alignSubtabsToCategory(worldModelSubtabs, MODEL_CATEGORY);
       if ($("category-filter") && [...$("category-filter").options].some((option) => option.value === state.category)) {
         $("category-filter").value = state.category;
       }
@@ -4498,6 +4519,9 @@
       }
       if (state.category === MODEL_CATEGORY && state.modelSubcategory === "LLM" && !LLM_SUBCATEGORIES.includes(state.llmSubcategory)) {
         state.llmSubcategory = "全部";
+      }
+      if (state.category === MODEL_CATEGORY && state.modelSubcategory === "物理世界模型" && !WORLD_MODEL_SUBCATEGORIES.includes(state.worldModelSubcategory)) {
+        state.worldModelSubcategory = "全部";
       }
       state.page = 1;
       updateCategoryControls();
@@ -4548,6 +4572,7 @@
       setAllText("#hardware-subtabs .subtab", ["CNC", "CPO"]);
       setAllText("#model-subtabs .subtab", ["LLM", t("physicalWorldModel")]);
       setAllText("#llm-subtabs .subtab", [t("openSource"), t("closedSource")]);
+      setAllText("#world-model-subtabs .subtab", [t("worldModelText"), t("worldModelRobotics")]);
       $("search").placeholder = t("searchPlaceholder");
       setText(".panel-title", t("rankName"));
       setText("#table-note", t("tableNote"));
@@ -4643,6 +4668,7 @@
         button.addEventListener("click", () => {
           state.modelSubcategory = button.dataset.modelSubcategory || "LLM";
           if (state.modelSubcategory === "LLM") state.llmSubcategory = "全部";
+          if (state.modelSubcategory === "物理世界模型") state.worldModelSubcategory = "全部";
           state.page = 1;
           updateCategoryControls();
           render();
@@ -4651,6 +4677,14 @@
       document.querySelectorAll("[data-llm-subcategory]").forEach((button) => {
         button.addEventListener("click", () => {
           state.llmSubcategory = button.dataset.llmSubcategory || "全部";
+          state.page = 1;
+          updateCategoryControls();
+          render();
+        });
+      });
+      document.querySelectorAll("[data-world-model-subcategory]").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.worldModelSubcategory = button.dataset.worldModelSubcategory || "全部";
           state.page = 1;
           updateCategoryControls();
           render();
