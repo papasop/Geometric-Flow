@@ -574,6 +574,82 @@
       color: #f8fafc;
       font-variant-numeric: tabular-nums;
     }
+    .potential-view-switch {
+      position: absolute;
+      left: 14px;
+      top: 14px;
+      z-index: 4;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px;
+      border: 1px solid rgba(148, 163, 184, 0.32);
+      border-radius: 7px;
+      background: rgba(2, 6, 23, 0.74);
+      backdrop-filter: blur(6px);
+    }
+    .potential-view-tab {
+      height: 28px;
+      padding: 0 10px;
+      border: 0;
+      border-radius: 5px;
+      color: #cbd5e1;
+      background: transparent;
+      font-size: 12px;
+      font-weight: 820;
+      cursor: pointer;
+    }
+    .potential-view-tab.active {
+      color: #ecfeff;
+      background: rgba(34, 211, 238, 0.24);
+    }
+    .potential-ranking-panel {
+      position: relative;
+      padding: 12px;
+      padding-top: 58px;
+      background: #05070a;
+      color: #f8fafc;
+    }
+    .potential-ranking-panel[hidden] { display: none; }
+    .potential-ranking-table {
+      display: grid;
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      border-radius: 8px;
+      overflow: hidden;
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.72) 0%, rgba(2, 6, 23, 0.42) 100%);
+    }
+    .potential-row {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr) 116px 102px 106px 110px;
+      align-items: center;
+      gap: 10px;
+      min-height: 46px;
+      padding: 0 12px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+      color: #f8fafc;
+    }
+    .potential-row:last-child { border-bottom: 0; }
+    .potential-row.potential-head {
+      min-height: 32px;
+      color: rgba(226, 232, 240, 0.48);
+      font-size: 10px;
+      font-weight: 820;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: rgba(15, 23, 42, 0.5);
+    }
+    .potential-rank { color: #94a3b8; font-weight: 840; }
+    .potential-company { min-width: 0; }
+    .potential-name { font-size: 13px; font-weight: 850; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .potential-meta { margin-top: 2px; color: #94a3b8; font-size: 11px; font-weight: 720; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .potential-cell { text-align: right; font-size: 12px; font-weight: 820; color: #e2e8f0; font-variant-numeric: tabular-nums; }
+    .potential-cell.primary { color: #67e8f9; font-size: 13px; }
+    .potential-empty {
+      padding: 32px 12px;
+      color: #94a3b8;
+      text-align: center;
+      font-weight: 760;
+    }
     .index-chart-view {
       padding: 14px;
       background: #05070a;
@@ -607,6 +683,7 @@
       line-height: 1.35;
       backdrop-filter: blur(6px);
     }
+    #potential-chart-panel .index-chart-overlay { top: 58px; }
     .index-chart-title {
       display: flex;
       align-items: center;
@@ -1106,13 +1183,26 @@
       .token-row:nth-last-child(-n + 2) { border-bottom: 1px solid var(--line-soft); }
       .token-row:last-child { border-bottom: 0; }
       .index-chart-view { padding: 10px; }
+      .potential-view-switch {
+        order: 1;
+        position: static;
+        margin: 10px 10px 0;
+        width: auto;
+        justify-content: space-between;
+      }
+      .potential-view-tab {
+        flex: 1;
+        width: auto;
+        padding: 0 6px;
+        font-size: 11px;
+      }
       .index-chart-shell {
         display: flex;
         flex-direction: column;
         min-height: 0;
       }
       .index-chart-overlay {
-        order: 1;
+        order: 2;
         position: static;
         width: auto;
         margin: 10px 10px 0;
@@ -1121,7 +1211,7 @@
       .index-chart-title { align-items: flex-start; line-height: 1.25; }
       .index-chart-stats { gap: 2px 10px; }
       .chart-range-tabs {
-        order: 2;
+        order: 3;
         position: static;
         margin: 8px 10px 0;
         width: auto;
@@ -1134,16 +1224,30 @@
         font-size: 11px;
       }
       .index-chart-svg {
-        order: 3;
+        order: 4;
         height: 260px;
         min-height: 260px;
       }
       .index-chart-footer {
-        order: 4;
+        order: 5;
         position: static;
         padding: 0 10px 10px;
         font-size: 10px;
       }
+      .potential-ranking-panel { padding: 10px; }
+      .potential-row {
+        grid-template-columns: 26px minmax(0, 1fr) 74px 58px;
+        gap: 7px;
+        min-height: 42px;
+        padding: 0 8px;
+      }
+      .potential-row > :nth-child(5),
+      .potential-row > :nth-child(6) { display: none; }
+      .potential-row.potential-head { font-size: 8px; letter-spacing: 0.04em; }
+      .potential-name { font-size: 12px; }
+      .potential-meta { font-size: 10px; }
+      .potential-cell { font-size: 11px; }
+      .potential-cell.primary { font-size: 12px; }
       .model-ranking-view { padding: 10px; }
       .model-ranking-table { border-radius: 7px; }
       .model-row {
@@ -1391,7 +1495,11 @@
       </section>
 
       <section class="ranking-view index-chart-view" id="ranking-view-potential" aria-label="NBIS/NVIDIA 市值潜力比" hidden>
-        <div class="index-chart-shell">
+        <div class="index-chart-shell" id="potential-chart-panel">
+          <div class="potential-view-switch" role="tablist" aria-label="Potential view">
+            <button class="potential-view-tab active" data-potential-view="chart" type="button" role="tab" aria-selected="true">图表</button>
+            <button class="potential-view-tab" data-potential-view="ranking" type="button" role="tab" aria-selected="false">排行</button>
+          </div>
           <div class="chart-range-tabs" role="tablist" aria-label="Potential chart range">
             <button class="chart-range-tab potential-range-tab active" data-potential-period="history" type="button">历史</button>
             <button class="chart-range-tab potential-range-tab" data-potential-period="day" type="button">日</button>
@@ -1408,6 +1516,13 @@
             <span>NBIS Market Cap / NVDA Market Cap</span>
             <span>Yahoo Finance chart · USD market cap ratio</span>
           </div>
+        </div>
+        <div class="potential-ranking-panel" id="potential-ranking-panel" hidden>
+          <div class="potential-view-switch" role="tablist" aria-label="Potential view">
+            <button class="potential-view-tab" data-potential-view="chart" type="button" role="tab" aria-selected="false">图表</button>
+            <button class="potential-view-tab active" data-potential-view="ranking" type="button" role="tab" aria-selected="true">排行</button>
+          </div>
+          <div class="potential-ranking-table" id="potential-ranking-list"></div>
         </div>
       </section>
     </section>
@@ -3068,7 +3183,7 @@
         currentFilter: "按当前筛选", realVolume: "真实成交额，可用时更新", hot: "热门", topGainer: "最大升幅", waitingQuotes: "等待行情或估算涨跌",
         tokenRanking: "代币使用", tokenNote: "参考 OpenRouter Top Models，用量口径可切换",
         chartRanking: "代币成本", chartNote: "LLM Token Expenditure Index",
-        modelRanking: "大模型排行", modelNote: "CursorBench · 每日外部更新", potentialRanking: "潜力", potentialNote: "NBIS 市值 / NVIDIA 市值 · Yahoo 历史行情回推", modelColumn: "模型", modelScore: "得分", modelCostTask: "平均成本 / 任务", dataSource: "数据来源", updatedDate: "更新日期", dailyExternal: "每日外部更新", dailyLocal: "每日本地更新", inlineSnapshot: "内置快照",
+        modelRanking: "大模型排行", modelNote: "CursorBench · 每日外部更新", potentialRanking: "潜力", potentialNote: "图表: NBIS / NVIDIA · 排行: 当前市值 × 历史涨幅比例 / NVIDIA", potentialChart: "图表", potentialRank: "排行", potentialScore: "潜力得分", potentialVsNvda: "对英伟达", potentialGain: "历史倍数", potentialMcap: "市值", potentialBasis: "当前市值 × 历史涨幅比例", modelColumn: "模型", modelScore: "得分", modelCostTask: "平均成本 / 任务", dataSource: "数据来源", updatedDate: "更新日期", dailyExternal: "每日外部更新", dailyLocal: "每日本地更新", inlineSnapshot: "内置快照",
         day: "日", week: "周", month: "月", history: "历史", period: "周期", firstShare: "第一名占比",
         all: "全部", aiChips: "AI 芯片", aiCloud: "新云", dataCenter: "数据中心", enterpriseAi: "企业 AI", security: "安全", quantum: "量子", chinaAi: "中国 AI", leopold: "Leopold Aschenbrenner",
         physicalWorldModel: "物理世界模型", worldModelText: "文本", worldModelRobotics: "机器人", openSource: "开源", closedSource: "闭源",
@@ -3101,7 +3216,7 @@
         currentFilter: "Current filter", realVolume: "Real traded value when available", hot: "Trending", topGainer: "Top Gainer", waitingQuotes: "Waiting for quotes or estimated moves",
         tokenRanking: "Token Usage", tokenNote: "Inspired by OpenRouter Top Models; period is switchable",
         chartRanking: "Token Cost", chartNote: "LLM Token Expenditure Index",
-        modelRanking: "Model Ranking", modelNote: "CursorBench · daily external feed", potentialRanking: "Potential", potentialNote: "NBIS market cap / NVIDIA market cap · Yahoo historical chart proxy", modelColumn: "Model", modelScore: "Score", modelCostTask: "Avg Cost / Task", dataSource: "Source", updatedDate: "Updated", dailyExternal: "Daily external update", dailyLocal: "Daily local update", inlineSnapshot: "Inline snapshot",
+        modelRanking: "Model Ranking", modelNote: "CursorBench · daily external feed", potentialRanking: "Potential", potentialNote: "Chart: NBIS / NVIDIA · Ranking: market cap × historical gain / NVIDIA", potentialChart: "Chart", potentialRank: "Ranking", potentialScore: "Potential score", potentialVsNvda: "vs NVIDIA", potentialGain: "Hist multiple", potentialMcap: "Market cap", potentialBasis: "Market cap × historical gain", modelColumn: "Model", modelScore: "Score", modelCostTask: "Avg Cost / Task", dataSource: "Source", updatedDate: "Updated", dailyExternal: "Daily external update", dailyLocal: "Daily local update", inlineSnapshot: "Inline snapshot",
         day: "Day", week: "Week", month: "Month", history: "History", period: "Period", firstShare: "Top share",
         all: "All", aiChips: "AI Chips", aiCloud: "AI Cloud", dataCenter: "Data Centers", enterpriseAi: "Enterprise AI", security: "Security", quantum: "Quantum", chinaAi: "China AI", leopold: "Leopold Aschenbrenner",
         physicalWorldModel: "World Models", worldModelText: "Text", worldModelRobotics: "Robotics", openSource: "Open", closedSource: "Closed",
@@ -3126,7 +3241,7 @@
     };
     const CHINESE_REGION_CODES = new Set(["CN", "HK", "MO", "TW"]);
     const LANGUAGE_STORAGE_KEY = "isithub-language";
-    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: "ALL", infrastructureSubcategory: "DCI", hardwareSubcategory: "CNC", modelSubcategory: "LLM", llmSubcategory: "全部", worldModelSubcategory: "全部", selected: "NVDA", page: 1, rankingView: "model", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, potentialPeriod: "history", potentialPinnedIndex: null, fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
+    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: "ALL", infrastructureSubcategory: "DCI", hardwareSubcategory: "CNC", modelSubcategory: "LLM", llmSubcategory: "全部", worldModelSubcategory: "全部", selected: "NVDA", page: 1, rankingView: "model", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, potentialView: "chart", potentialPeriod: "history", potentialPinnedIndex: null, fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
     const potentialSeriesCache = new Map();
     try {
       const savedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY);
@@ -3998,7 +4113,7 @@
       setText("#ranking-panel-note", noteByView[state.rankingView]);
       if (state.rankingView === "chart") renderTokenIndexChart();
       if (state.rankingView === "model") renderModelRanking();
-      if (state.rankingView === "potential") renderPotentialChart();
+      if (state.rankingView === "potential") renderPotentialView();
     }
     function renderTokenRanking() {
       const rows = TOKEN_RANKINGS[state.tokenPeriod] || TOKEN_RANKINGS.month;
@@ -4168,6 +4283,90 @@
       }).filter((point) => Number.isFinite(point.value) && point.value > 0);
       potentialSeriesCache.set(cacheKey, series);
       return series;
+    }
+    function potentialHistoryPoints(row) {
+      const points = row?.historyClosePoints || row?.closePoints || [];
+      return points.map(normalizeClosePoint).filter(Boolean);
+    }
+    function potentialGainRatio(row) {
+      const points = potentialHistoryPoints(row);
+      if (points.length < 2) return null;
+      const first = points[0]?.close;
+      const latest = points.at(-1)?.close;
+      if (!Number.isFinite(first) || !Number.isFinite(latest) || first <= 0 || latest <= 0) return null;
+      return latest / first;
+    }
+    function potentialRankingRows() {
+      const nvda = rowByTicker("NVDA");
+      const nvdaCap = Number(nvda?.marketCap);
+      const nvdaGain = potentialGainRatio(nvda) || 1;
+      const nvdaScore = Number.isFinite(nvdaCap) && nvdaCap > 0 ? nvdaCap * nvdaGain : null;
+      return state.rows
+        .map((row) => {
+          const cap = effectiveCap(row);
+          if (!Number.isFinite(cap) || cap <= 0) return null;
+          const gain = potentialGainRatio(row);
+          const score = cap * (gain || 1);
+          return {
+            row,
+            cap,
+            gain,
+            score,
+            vsNvda: Number.isFinite(nvdaScore) && nvdaScore > 0 ? (score / nvdaScore) * 100 : null
+          };
+        })
+        .filter(Boolean)
+        .sort((a, b) => b.score - a.score);
+    }
+    function renderPotentialRanking() {
+      const target = $("potential-ranking-list");
+      if (!target) return;
+      const rows = potentialRankingRows().slice(0, 100);
+      if (!rows.length) {
+        target.innerHTML = `<div class="potential-empty">${escapeHtml(state.lang === "zh" ? "等待市值与历史行情" : "Waiting for market cap and history")}</div>`;
+        return;
+      }
+      const head = `<div class="potential-row potential-head">
+        <div></div>
+        <div>${escapeHtml(t("thCompany"))}</div>
+        <div class="potential-cell">${escapeHtml(t("potentialScore"))}</div>
+        <div class="potential-cell">${escapeHtml(t("potentialVsNvda"))}</div>
+        <div class="potential-cell">${escapeHtml(t("potentialGain"))}</div>
+        <div class="potential-cell">${escapeHtml(t("potentialMcap"))}</div>
+      </div>`;
+      target.innerHTML = head + rows.map((entry, index) => {
+        const row = entry.row;
+        const gainLabel = Number.isFinite(entry.gain) ? `${entry.gain.toFixed(2)}x` : "1.00x";
+        const vsLabel = Number.isFinite(entry.vsNvda) ? `${entry.vsNvda.toFixed(entry.vsNvda >= 10 ? 1 : 2)}%` : "—";
+        return `<div class="potential-row">
+          <div class="potential-rank">${index + 1}</div>
+          <div class="potential-company">
+            <div class="potential-name">${escapeHtml(companyDisplayName(row))}</div>
+            <div class="potential-meta">${escapeHtml(row.ticker)} · ${escapeHtml(companySubtext(row))}</div>
+          </div>
+          <div class="potential-cell primary">${formatCap(entry.score)}</div>
+          <div class="potential-cell">${vsLabel}</div>
+          <div class="potential-cell">${gainLabel}</div>
+          <div class="potential-cell">${formatCap(entry.cap)}</div>
+        </div>`;
+      }).join("");
+    }
+    function setPotentialView(view) {
+      state.potentialView = view === "ranking" ? "ranking" : "chart";
+      document.querySelectorAll("[data-potential-view]").forEach((button) => {
+        const active = button.dataset.potentialView === state.potentialView;
+        button.classList.toggle("active", active);
+        button.setAttribute("aria-selected", active ? "true" : "false");
+      });
+      const chartPanel = $("potential-chart-panel");
+      const rankingPanel = $("potential-ranking-panel");
+      if (chartPanel) chartPanel.hidden = state.potentialView !== "chart";
+      if (rankingPanel) rankingPanel.hidden = state.potentialView !== "ranking";
+      if (state.potentialView === "chart") renderPotentialChart();
+      else renderPotentialRanking();
+    }
+    function renderPotentialView() {
+      setPotentialView(state.potentialView);
     }
     function renderRatioChart(data, options) {
       const svg = $(options.svgId);
@@ -4593,7 +4792,7 @@
       render();
       if (state.rankingView === "potential") {
         setText("#ranking-panel-note", potentialNoteText());
-        renderPotentialChart();
+        renderPotentialView();
       }
     }
     async function fetchCachedQuotes() {
@@ -4811,6 +5010,7 @@
       setAllText(".token-tab", [t("day"), t("week"), t("month")]);
       setAllText(".chart-range-tab:not(.potential-range-tab)", [t("history"), t("day"), t("week"), t("month")]);
       setAllText(".potential-range-tab", [t("history"), t("day"), t("week"), t("month")]);
+      setAllText(".potential-view-tab", [t("potentialChart"), t("potentialRank"), t("potentialChart"), t("potentialRank")]);
       setAllText(".token-metric span", [t("period"), "Top 10 Tokens", t("firstShare")]);
       setAllText(".tabs .tab", [t("all"), ...AIBOTT_THEMES.map(categoryDisplayLabel)]);
       setAllText("#energy-subtabs .subtab", [t("all"), "SMR", "SOFC"]);
@@ -4960,6 +5160,9 @@
           state.potentialPinnedIndex = null;
           renderPotentialChart();
         });
+      });
+      document.querySelectorAll("[data-potential-view]").forEach((button) => {
+        button.addEventListener("click", () => setPotentialView(button.dataset.potentialView || "chart"));
       });
       document.querySelectorAll(".news-tab").forEach((button) => {
         button.addEventListener("click", () => setNewsTab(button.dataset.newsTab || "industry"));
