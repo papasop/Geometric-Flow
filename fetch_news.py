@@ -1745,6 +1745,45 @@ def image_from_tavily_result(result: dict[str, object]) -> str:
     return ""
 
 
+def author_from_tavily_result(result: dict[str, object], source_name: str) -> str:
+    author_fields = [
+        "author",
+        "authors",
+        "byline",
+        "byline_name",
+        "bylineName",
+        "creator",
+    ]
+    for field in author_fields:
+        value = result.get(field)
+        if not value:
+            continue
+        if isinstance(value, list):
+            value = " / ".join(
+                clean_text(str(item.get("name") if isinstance(item, dict) else item), 80)
+                for item in value
+                if item
+            )
+        author = normalize_author(str(value), source_name)
+        if author:
+            return author
+
+    raw_text = " ".join(
+        clean_text(str(result.get(field) or ""), 500)
+        for field in ("content", "raw_content")
+    )
+    for pattern in (
+        r"\bBy\s+([A-Z][A-Za-z.'’\-]+(?:\s+[A-Z][A-Za-z.'’\-]+){1,3})\b",
+        r"\b作者[:：]\s*([\u4e00-\u9fff]{2,4})\b",
+    ):
+        match = re.search(pattern, raw_text)
+        if match:
+            author = normalize_author(match.group(1), source_name)
+            if author:
+                return author
+    return ""
+
+
 def parse_tavily_result(result: dict[str, object], section: dict[str, object], query: str) -> dict[str, object] | None:
     title = clean_text(str(result.get("title") or ""), 180)
     url = str(result.get("url") or "").strip()
@@ -1753,6 +1792,7 @@ def parse_tavily_result(result: dict[str, object], section: dict[str, object], q
     summary = clean_text(str(result.get("content") or result.get("raw_content") or ""), 320)
     source_name = source_name_from_url(url)
     published = parse_date(str(result.get("published_date") or result.get("publishedAt") or result.get("date") or ""))
+    author = author_from_tavily_result(result, source_name)
     item: dict[str, object] = {
         "source": source_name,
         "feedSource": "Tavily Search",
@@ -1761,7 +1801,7 @@ def parse_tavily_result(result: dict[str, object], section: dict[str, object], q
         "title": title,
         "summary": summary or title,
         "url": url,
-        "author": "",
+        "author": author,
         "publishedAt": published,
         "section": str(section["id"]),
         "sectionTitle": str(section["title"]),
@@ -2117,6 +2157,13 @@ def main() -> int:
                 key = canonical_news_title(str(item.get("title") or "")) or str(item.get("url") or "").lower()
                 if not key or key in section_seen:
                     continue
+                if not item.get("author") and not item.get("skipAuthorFetch") and author_fetches < author_fetch_limit:
+                    item["author"] = extract_article_author(
+                        str(item.get("url") or ""),
+                        str(item.get("source") or ""),
+                        str(item.get("sourceUrl") or ""),
+                    )
+                    author_fetches += 1
                 section_seen.add(key)
                 section_items.append(item)
                 items.append(item)
