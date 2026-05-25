@@ -323,6 +323,14 @@ AI_PERSON_NEWS_TERMS = [
     "Geoffrey Hinton", "Yoshua Bengio", "Yejin Choi", "Jeff Dean", "Noam Shazeer",
     "Mustafa Suleyman", "Aidan Gomez", "Aravind Srinivas", "Arthur Mensch",
     "Igor Babuschkin", "Ian Goodfellow", "Jim Keller",
+    "Clem Delangue", "Clément Delangue", "Thomas Wolf", "Julien Chaumond",
+    "Clémentine Fourrier", "Nathan Lambert", "Stella Biderman", "Emad Mostaque",
+    "Joelle Pineau", "Soumith Chintala", "Tri Dao", "Percy Liang",
+    "Ion Stoica", "Matei Zaharia", "Ali Ghodsi", "Reynold Xin",
+    "Guillaume Lample", "Timothée Lacroix", "Timothee Lacroix", "Georgi Gerganov",
+    "Hugging Face founder", "Hugging Face CEO", "Mistral AI founder",
+    "Mistral AI CEO", "DeepSeek founder", "Meta Llama", "Llama open source",
+    "PyTorch creator", "EleutherAI", "Stability AI founder", "Ollama founder",
     "Tim Cook", "Bill Gates", "Jeff Bezos", "Larry Ellison", "Marc Benioff",
     "Marc Andreessen", "Ben Horowitz", "Reid Hoffman", "Peter Thiel", "Vinod Khosla",
     "Warren Buffett", "Charlie Munger", "Ray Dalio", "Stanley Druckenmiller",
@@ -347,6 +355,15 @@ FOCUSED_PERSON_STATEMENT_TERMS = [
     "Lin Qiao", "Fireworks AI founder", "Fireworks AI CEO", "Fireworks AI 创始人",
     "Arkady Volozh", "Nebius founder", "Nebius CEO", "Nebius Group founder",
     "NBIS founder", "NBIS CEO", "Nebius 创始人",
+    "Clem Delangue", "Clément Delangue", "Thomas Wolf", "Julien Chaumond",
+    "Clémentine Fourrier", "Nathan Lambert", "Stella Biderman", "Emad Mostaque",
+    "Joelle Pineau", "Soumith Chintala", "Tri Dao", "Percy Liang",
+    "Ion Stoica", "Matei Zaharia", "Ali Ghodsi", "Reynold Xin",
+    "Arthur Mensch", "Guillaume Lample", "Timothée Lacroix", "Timothee Lacroix",
+    "Georgi Gerganov", "Hugging Face founder", "Hugging Face CEO",
+    "Mistral AI founder", "Mistral AI CEO", "DeepSeek founder",
+    "Meta Llama", "Llama open source", "PyTorch creator", "EleutherAI",
+    "Stability AI founder", "Ollama founder",
 ]
 AI_SPEECH_PERSON_TERMS = [
     term for term in FOCUSED_PERSON_STATEMENT_TERMS
@@ -473,6 +490,19 @@ PERSON_NEWS_SOURCES = [
         ai_person_news_query([
             "Arkady Volozh", "Nebius founder", "Nebius CEO", "Nebius Group founder",
             "NBIS founder", "NBIS CEO", "Nebius 创始人",
+        ]),
+    ),
+    google_news_query_source(
+        "Open-source AI Leaders Statements",
+        ai_person_news_query([
+            "Clem Delangue", "Clément Delangue", "Thomas Wolf", "Julien Chaumond",
+            "Clémentine Fourrier", "Nathan Lambert", "Stella Biderman",
+            "Arthur Mensch", "Guillaume Lample", "Timothée Lacroix", "Timothee Lacroix",
+            "Liang Wenfeng", "梁文锋", "Joelle Pineau", "Soumith Chintala",
+            "Emad Mostaque", "Tri Dao", "Percy Liang", "Ion Stoica", "Matei Zaharia",
+            "Ali Ghodsi", "Reynold Xin", "Georgi Gerganov",
+            "Hugging Face founder", "Mistral AI founder", "DeepSeek founder",
+            "Meta Llama", "PyTorch creator", "EleutherAI", "Ollama founder",
         ]),
     ),
 ]
@@ -608,7 +638,7 @@ TAVILY_SECTION_QUERIES = {
         'artificial intelligence chips data centers frontier models site:wsj.com OR site:ft.com OR site:nytimes.com OR site:scmp.com',
     ],
     "person": [
-        '"Yang Zhilin" OR "Cursor founder" OR "Fireworks AI founder" OR "Arkady Volozh" AI said OR says OR interview',
+        '"Yang Zhilin" OR "Cursor founder" OR "Fireworks AI founder" OR "Arkady Volozh" OR "Clem Delangue" OR "Thomas Wolf" OR "Arthur Mensch" OR "Liang Wenfeng" OR "Meta Llama" OR "Hugging Face founder" OR "Mistral AI founder" open source AI said OR says OR interview',
     ],
     "company": [
         'Nvidia OpenAI Anthropic Microsoft Google Meta AI acquisition funding investment Reuters Bloomberg',
