@@ -4323,6 +4323,7 @@
       const nvdaScore = Number.isFinite(nvdaCap) && nvdaCap > 0 ? nvdaCap : null;
       return state.rows
         .map((row) => {
+          if (row.status === "prelist") return null;
           const cap = effectiveCap(row);
           if (!Number.isFinite(cap) || cap <= 0) return null;
           const multiple = row.ticker === "NVDA" ? 1 : potentialRatioMultipleVsNvda(row, nvda);
