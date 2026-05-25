@@ -196,7 +196,7 @@ def fetch_one(ticker):
     history = None
     if ticker in {"NBIS", "NVDA"}:
         try:
-            history = stock.history(period="1y", interval="1wk", auto_adjust=False, prepost=False)
+            history = stock.history(period="1y", interval="1d", auto_adjust=False, prepost=False)
         except Exception:
             history = None
 
