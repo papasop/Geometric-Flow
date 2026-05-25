@@ -4304,13 +4304,15 @@
       const rowCaps = impliedHistoricalMarketCaps(row);
       const nvdaCaps = impliedHistoricalMarketCaps(nvda);
       if (rowCaps.length < 2 || nvdaCaps.length < 2) return null;
-      const nvdaByDate = new Map(nvdaCaps.map((point) => [point.date, point.cap]));
-      const ratios = rowCaps
-        .map((point) => {
-          const nvdaCap = nvdaByDate.get(point.date);
-          return Number.isFinite(nvdaCap) && nvdaCap > 0 ? point.cap / nvdaCap : null;
-        })
-        .filter((ratio) => Number.isFinite(ratio) && ratio > 0);
+      let nvdaIndex = 0;
+      const ratios = [];
+      for (const point of rowCaps) {
+        while (nvdaIndex + 1 < nvdaCaps.length && nvdaCaps[nvdaIndex + 1].date <= point.date) {
+          nvdaIndex += 1;
+        }
+        const nvdaCap = nvdaCaps[nvdaIndex]?.cap;
+        if (Number.isFinite(nvdaCap) && nvdaCap > 0) ratios.push(point.cap / nvdaCap);
+      }
       if (ratios.length < 2) return null;
       const currentRatio = ratios.at(-1);
       const minRatio = Math.min(...ratios);
@@ -4327,7 +4329,8 @@
           const cap = effectiveCap(row);
           if (!Number.isFinite(cap) || cap <= 0) return null;
           const multiple = row.ticker === "NVDA" ? 1 : potentialRatioMultipleVsNvda(row, nvda);
-          const gain = multiple || 1;
+          if (!Number.isFinite(multiple) || multiple <= 0) return null;
+          const gain = multiple;
           const score = cap * gain;
           return {
             row,

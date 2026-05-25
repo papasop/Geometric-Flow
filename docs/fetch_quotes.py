@@ -193,12 +193,13 @@ def fetch_one(ticker):
         month = stock.history(period="1mo", interval="1d", auto_adjust=False, prepost=False)
     except Exception:
         month = None
-    history = None
-    if ticker in {"NBIS", "NVDA"}:
-        try:
+    try:
+        if ticker in {"NBIS", "NVDA"}:
             history = stock.history(period="max", interval="1d", auto_adjust=False, prepost=False)
-        except Exception:
-            history = None
+        else:
+            history = stock.history(period="5y", interval="1wk", auto_adjust=False, prepost=False)
+    except Exception:
+        history = None
 
     intraday_closes = series_values(intraday, "Close")
     month_closes = series_values(month, "Close")
