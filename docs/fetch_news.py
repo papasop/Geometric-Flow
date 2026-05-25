@@ -575,7 +575,7 @@ VIDEO_NEWS_SOURCES = [
     *NEW_VIDEO_SOURCES,
     {"name": "New York Times YouTube", "url": "https://www.youtube.com/@nytimes"},
     {"name": "Wall Street Journal YouTube", "url": "https://www.youtube.com/@wsj"},
-    {"name": "Bloomberg YouTube", "url": "https://www.youtube.com/@markets"},
+    {"name": "Bloomberg YouTube", "url": "https://www.youtube.com/@markets/videos"},
     {"name": "Bloomberg Technology YouTube", "url": "https://www.youtube.com/@BloombergTechnology"},
     *LIVE_NEWS_SOURCES,
 ]
@@ -756,7 +756,7 @@ PINNED_SECTION_ITEMS = {
         {
             "source": "Bloomberg YouTube",
             "feedSource": "Bloomberg YouTube",
-            "sourceUrl": "https://www.youtube.com/@markets",
+            "sourceUrl": "https://www.youtube.com/@markets/videos",
             "title": "Bloomberg Business News Live",
             "summary": "Bloomberg live business news stream.",
             "url": "https://www.youtube.com/watch?v=iEpJwprxDdk",
@@ -771,7 +771,7 @@ PINNED_SECTION_ITEMS = {
         {
             "source": "Bloomberg YouTube",
             "feedSource": "Bloomberg YouTube",
-            "sourceUrl": "https://www.youtube.com/@markets",
+            "sourceUrl": "https://www.youtube.com/@markets/videos",
             "title": "Stock Market News and Analysis",
             "summary": "Bloomberg market news and analysis video.",
             "url": "https://www.youtube.com/watch?v=b7nXuniuVvI",
