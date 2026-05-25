@@ -4086,6 +4086,8 @@
       return { range: "1y", interval: "1wk" };
     }
     async function fetchPotentialCloses(ticker, period) {
+      const local = localPotentialCloses(ticker, period);
+      if (local.length) return local;
       const config = potentialFetchConfig(period);
       const encoded = encodeURIComponent(ticker);
       const payload = await fetchJson(`https://query1.finance.yahoo.com/v8/finance/chart/${encoded}?range=${config.range}&interval=${config.interval}`);
@@ -4093,6 +4095,23 @@
         date: new Date(point.ts * 1000).toISOString().slice(0, period === "day" ? 13 : 10),
         close: point.close
       }));
+    }
+    function normalizeClosePoint(point) {
+      const close = Number(point?.close);
+      if (!Number.isFinite(close) || close <= 0) return null;
+      const rawDate = String(point?.date || "");
+      const date = rawDate.includes("T") ? rawDate.slice(0, 13) : rawDate.slice(0, 10);
+      return date ? { date, close } : null;
+    }
+    function localPotentialCloses(ticker, period) {
+      const row = rowByTicker(ticker);
+      let points = [];
+      if (period === "day") points = row?.intradayClosePoints || [];
+      else if (period === "history") points = row?.historyClosePoints || row?.closePoints || [];
+      else points = row?.closePoints || [];
+      const clean = points.map(normalizeClosePoint).filter(Boolean);
+      if (period === "week") return clean.slice(-6);
+      return clean;
     }
     function rowByTicker(ticker) {
       return state.rows.find((row) => row.ticker === ticker) || COMPANIES.find((row) => row.ticker === ticker) || null;
@@ -4540,7 +4559,10 @@
           change1h: Number.isFinite(q.change1h) ? q.change1h : null,
           change7d: Number.isFinite(q.change7d) ? q.change7d : null,
           change30d: Number.isFinite(q.change30d) ? q.change30d : null,
-          sparkPoints: Array.isArray(q.sparkPoints) ? q.sparkPoints : null
+          sparkPoints: Array.isArray(q.sparkPoints) ? q.sparkPoints : null,
+          intradayClosePoints: Array.isArray(q.intradayClosePoints) ? q.intradayClosePoints : null,
+          closePoints: Array.isArray(q.closePoints) ? q.closePoints : null,
+          historyClosePoints: Array.isArray(q.historyClosePoints) ? q.historyClosePoints : null
         };
       });
       potentialSeriesCache.clear();
