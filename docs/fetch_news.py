@@ -640,7 +640,9 @@ TAVILY_SECTION_QUERIES = {
         'artificial intelligence chips data centers frontier models site:wsj.com OR site:ft.com OR site:nytimes.com OR site:scmp.com',
     ],
     "person": [
-        '"Yang Zhilin" OR "Cursor founder" OR "Fireworks AI founder" OR "Arkady Volozh" OR "Clem Delangue" OR "Thomas Wolf" OR "Arthur Mensch" OR "Liang Wenfeng" OR "Meta Llama" OR "Hugging Face founder" OR "Mistral AI founder" open source AI said OR says OR interview',
+        '("Clem Delangue" OR "Thomas Wolf" OR "Arthur Mensch" OR "Liang Wenfeng" OR "Meta Llama" OR "Hugging Face" OR "Mistral AI" OR "DeepSeek" OR "PyTorch" OR "EleutherAI" OR "Ollama" OR "Cursor founder" OR "Yang Zhilin" OR "Fireworks AI founder" OR "Arkady Volozh") ("open source AI" OR "open weights" OR "open model" OR Llama OR PyTorch OR GitHub) ("said" OR "says" OR "posted" OR "wrote" OR "interview" OR "speech" OR "keynote" OR "blog")',
+        'site:x.com ("Clem Delangue" OR "Thomas Wolf" OR "Arthur Mensch" OR "Liang Wenfeng" OR "Meta Llama" OR "Hugging Face" OR "Mistral AI" OR "DeepSeek" OR "PyTorch" OR "EleutherAI" OR "Ollama") ("AI" OR "open source" OR "open weights" OR "model")',
+        'site:github.com OR site:huggingface.co OR site:mistral.ai OR site:pytorch.org open source AI founder said interview blog keynote',
     ],
     "company": [
         'Nvidia OpenAI Anthropic Microsoft Google Meta AI acquisition funding investment Reuters Bloomberg',
