@@ -575,8 +575,8 @@ VIDEO_NEWS_SOURCES = [
     *NEW_VIDEO_SOURCES,
     {"name": "New York Times YouTube", "url": "https://www.youtube.com/@nytimes"},
     {"name": "Wall Street Journal YouTube", "url": "https://www.youtube.com/@wsj"},
-    google_news_query_source("Bloomberg Video", f"site:bloomberg.com/news/videos {AI_MARKET_NEWS_QUERY}"),
-    google_news_query_source("Bloomberg Technology Video", "site:bloomberg.com/news/videos technology OR AI OR chips OR markets"),
+    {"name": "Bloomberg YouTube", "url": "https://www.youtube.com/@markets"},
+    {"name": "Bloomberg Technology YouTube", "url": "https://www.youtube.com/@BloombergTechnology"},
     *LIVE_NEWS_SOURCES,
 ]
 NEWS_SECTIONS = [
@@ -658,10 +658,132 @@ TAVILY_SECTION_QUERIES = {
         'DevOps most read AI agents developer productivity platform engineering',
     ],
     "video": [
-        'site:bloomberg.com/news/videos artificial intelligence OR Nvidia OR chips OR data centers OR markets',
+        'site:youtube.com/watch Bloomberg artificial intelligence OR Nvidia OR chips OR data centers OR markets',
     ],
 }
 PINNED_SECTION_ITEMS = {
+    "video": [
+        {
+            "source": "YouTube New",
+            "feedSource": "YouTube New",
+            "sourceUrl": "https://www.youtube.com/watch?v=FR4i2DcequI",
+            "title": "4.3K",
+            "summary": "Pinned YouTube video.",
+            "url": "https://www.youtube.com/watch?v=FR4i2DcequI",
+            "author": "",
+            "image": "https://i.ytimg.com/vi/FR4i2DcequI/hqdefault.jpg",
+            "publishedAt": "",
+            "section": "video",
+            "sectionTitle": "视频",
+            "matchedPortfolios": ["ai-market"],
+            "tags": ["YouTube"],
+        },
+        {
+            "source": "YouTube New",
+            "feedSource": "YouTube New",
+            "sourceUrl": "https://www.youtube.com/watch?v=91fmhAnECVc",
+            "title": "348",
+            "summary": "Pinned YouTube video.",
+            "url": "https://www.youtube.com/watch?v=91fmhAnECVc",
+            "author": "",
+            "image": "https://i.ytimg.com/vi/91fmhAnECVc/hqdefault.jpg",
+            "publishedAt": "",
+            "section": "video",
+            "sectionTitle": "视频",
+            "matchedPortfolios": ["ai-market"],
+            "tags": ["YouTube"],
+        },
+        {
+            "source": "YouTube New",
+            "feedSource": "YouTube New",
+            "sourceUrl": "https://www.youtube.com/watch?v=33hNvOdGUhQ",
+            "title": "87",
+            "summary": "Pinned YouTube video.",
+            "url": "https://www.youtube.com/watch?v=33hNvOdGUhQ",
+            "author": "",
+            "image": "https://i.ytimg.com/vi/33hNvOdGUhQ/hqdefault.jpg",
+            "publishedAt": "",
+            "section": "video",
+            "sectionTitle": "视频",
+            "matchedPortfolios": ["ai-market"],
+            "tags": ["YouTube"],
+        },
+        {
+            "source": "YouTube New",
+            "feedSource": "YouTube New",
+            "sourceUrl": "https://www.youtube.com/watch?v=SzqEzVou-sk",
+            "title": "77",
+            "summary": "Pinned YouTube video.",
+            "url": "https://www.youtube.com/watch?v=SzqEzVou-sk",
+            "author": "",
+            "image": "https://i.ytimg.com/vi/SzqEzVou-sk/hqdefault.jpg",
+            "publishedAt": "",
+            "section": "video",
+            "sectionTitle": "视频",
+            "matchedPortfolios": ["ai-market"],
+            "tags": ["YouTube"],
+        },
+        {
+            "source": "YouTube Live",
+            "feedSource": "YouTube Live",
+            "sourceUrl": "https://www.youtube.com/watch?v=DxmDPrfinXY",
+            "title": "PBS NewsHour live",
+            "summary": "Pinned YouTube live video.",
+            "url": "https://www.youtube.com/watch?v=DxmDPrfinXY",
+            "author": "",
+            "image": "https://i.ytimg.com/vi/DxmDPrfinXY/hqdefault.jpg",
+            "publishedAt": "",
+            "section": "video",
+            "sectionTitle": "视频",
+            "matchedPortfolios": ["ai-market"],
+            "tags": ["YouTube", "Live"],
+        },
+        {
+            "source": "YouTube Live",
+            "feedSource": "YouTube Live",
+            "sourceUrl": "https://www.youtube.com/watch?v=f39oHo6vFLg",
+            "title": "Live market coverage",
+            "summary": "Pinned YouTube live video.",
+            "url": "https://www.youtube.com/watch?v=f39oHo6vFLg",
+            "author": "",
+            "image": "https://i.ytimg.com/vi/f39oHo6vFLg/hqdefault.jpg",
+            "publishedAt": "",
+            "section": "video",
+            "sectionTitle": "视频",
+            "matchedPortfolios": ["ai-market"],
+            "tags": ["YouTube", "Live"],
+        },
+        {
+            "source": "Bloomberg YouTube",
+            "feedSource": "Bloomberg YouTube",
+            "sourceUrl": "https://www.youtube.com/@markets",
+            "title": "Bloomberg Business News Live",
+            "summary": "Bloomberg live business news stream.",
+            "url": "https://www.youtube.com/watch?v=iEpJwprxDdk",
+            "author": "",
+            "image": "https://i.ytimg.com/vi/iEpJwprxDdk/hqdefault.jpg",
+            "publishedAt": "",
+            "section": "video",
+            "sectionTitle": "视频",
+            "matchedPortfolios": ["ai-market"],
+            "tags": ["Bloomberg", "YouTube"],
+        },
+        {
+            "source": "Bloomberg YouTube",
+            "feedSource": "Bloomberg YouTube",
+            "sourceUrl": "https://www.youtube.com/@markets",
+            "title": "Stock Market News and Analysis",
+            "summary": "Bloomberg market news and analysis video.",
+            "url": "https://www.youtube.com/watch?v=b7nXuniuVvI",
+            "author": "",
+            "image": "https://i.ytimg.com/vi/b7nXuniuVvI/hqdefault.jpg",
+            "publishedAt": "",
+            "section": "video",
+            "sectionTitle": "视频",
+            "matchedPortfolios": ["ai-market"],
+            "tags": ["Bloomberg", "YouTube"],
+        },
+    ],
     "papers": [
         {
             "source": "arXiv",
@@ -1200,6 +1322,32 @@ def parse_html_page(source: dict[str, str], data: bytes) -> list[dict[str, str]]
             })
             if len(items) >= 18:
                 break
+        if not items:
+            for match in re.finditer(r'"videoId":"([A-Za-z0-9_-]{11})".{0,1400}?"title":\{"runs":\[\{"text":"(.*?)"', page, re.S):
+                video_id = match.group(1)
+                if video_id in seen:
+                    continue
+                try:
+                    title = json.loads(f'"{match.group(2)}"')
+                except (json.JSONDecodeError, TypeError, ValueError):
+                    title = html.unescape(match.group(2).replace(r"\/", "/"))
+                title = clean_text(title, 180)
+                if not title:
+                    continue
+                seen.add(video_id)
+                items.append({
+                    "source": source_name,
+                    "feedSource": source_name,
+                    "sourceUrl": source_url,
+                    "title": title,
+                    "summary": title,
+                    "url": f"https://www.youtube.com/watch?v={video_id}",
+                    "author": "",
+                    "image": f"https://i.ytimg.com/vi/{video_id}/hqdefault.jpg",
+                    "publishedAt": "",
+                })
+                if len(items) >= 18:
+                    break
         return items
     if "wsj.com" in source_url:
         is_wsj_audio_source = "www.wsj.com/audio" in source_url or "wsj.com/audio" in source_url
@@ -1774,6 +1922,10 @@ def item_matches_terms(item: dict[str, str], terms: list[str]) -> bool:
     return any(term.lower() in text for term in terms)
 
 
+def is_youtube_video_url(url: str) -> bool:
+    return bool(re.search(r"(?:youtube\.com/watch\?v=|youtu\.be/)[A-Za-z0-9_-]{11}", str(url or "")))
+
+
 def canonical_news_title(title: str) -> str:
     title = clean_text(title, 180).lower()
     if "nebius ceo" in title and "美联储" in title and "人工智能" in title and "扼杀" in title:
@@ -1960,6 +2112,8 @@ def main() -> int:
             tavily_remaining_queries -= tavily_used
             source_status.extend(tavily_status)
             for item in tavily_items:
+                if section["id"] == "video" and not is_youtube_video_url(str(item.get("url") or "")):
+                    continue
                 key = canonical_news_title(str(item.get("title") or "")) or str(item.get("url") or "").lower()
                 if not key or key in section_seen:
                     continue
@@ -1973,6 +2127,8 @@ def main() -> int:
                 parsed = parse_feed(source, raw)
                 kept = 0
                 for item in parsed:
+                    if section["id"] == "video" and not is_youtube_video_url(str(item.get("url") or "")):
+                        continue
                     key = canonical_news_title(str(item.get("title") or "")) or (item.get("url") or "").lower()
                     if not key or key in section_seen:
                         continue
