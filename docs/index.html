@@ -3821,13 +3821,24 @@
     function mixedColumnistItems(items, limit = 16) {
       return balanceHotNewsItems(items, limit);
     }
+    function canonicalNewsTitle(title = "") {
+      return String(title || "")
+        .toLowerCase()
+        .replace(/\s*[—–-]\s*《[^》]{1,40}》\s*$/u, "")
+        .replace(/\s*[—–-]\s+(?:the\s+)?(?:new york times|financial times|south china morning post|wsj|wall street journal|wired|mit technology review|tradingview|yahoo finance|google news|bloomberg|reuters|marketwatch|fortune|cnbc|cnn|bbc|techcrunch|the verge|forbes|business insider|seeking alpha|motley fool)\s*$/iu, "")
+        .replace(/\s*[—–-]\s+[^—–-]{1,40}$/u, "")
+        .replace(/[^a-z0-9\u4e00-\u9fff]+/giu, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
     function uniqueNewsItems(items) {
       const seen = new Set();
       return (items || []).filter((item) => {
         if (!item?.title) return false;
         const url = safeUrl(item.url || "#", { allowHash: true });
         const videoId = youtubeVideoId(url);
-        const key = (videoId || url || item.title || "").toLowerCase();
+        const titleKey = canonicalNewsTitle(item.titleZh || item.titleEn || item.title || "");
+        const key = videoId || titleKey || url.toLowerCase();
         if (!key || seen.has(key)) return false;
         seen.add(key);
         return true;
@@ -3837,7 +3848,8 @@
       const track = $(`news-track-${sectionId}`);
       if (!track) return;
       const isVideoSection = sectionId === "hot" || sectionId === "video";
-      const clean = sectionId === "hot" ? uniqueNewsItems(items).slice(0, 16) : sectionId === "person" ? mixedColumnistItems(items, 16) : sectionId === "video" ? mixedRandomNewsItems(items, 16) : (items || []).filter((item) => item?.title).slice(0, 16);
+      const uniqueItems = uniqueNewsItems(items);
+      const clean = sectionId === "hot" ? uniqueItems.slice(0, 16) : sectionId === "person" ? mixedColumnistItems(uniqueItems, 16) : sectionId === "video" ? mixedRandomNewsItems(uniqueItems, 16) : uniqueItems.slice(0, 16);
       const news = clean.length ? clean : uniqueNewsItems(fallbackNewsItems(sectionId));
       const renderItems = sectionId === "hot" ? news : [...news, ...news];
       const nodes = renderItems.map((item) => {

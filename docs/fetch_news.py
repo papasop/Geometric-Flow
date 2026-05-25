@@ -1775,11 +1775,13 @@ def item_matches_terms(item: dict[str, str], terms: list[str]) -> bool:
 
 def canonical_news_title(title: str) -> str:
     title = clean_text(title, 180).lower()
+    title = re.sub(r"\s*[—–-]\s*《[^》]{1,40}》\s*$", "", title)
     title = re.sub(
-        r"\s+-\s+(?:the\s+)?(?:new york times|financial times|south china morning post|wsj|wall street journal|wired|mit technology review)$",
+        r"\s*[—–-]\s+(?:the\s+)?(?:new york times|financial times|south china morning post|wsj|wall street journal|wired|mit technology review|tradingview|yahoo finance|google news|bloomberg|reuters|marketwatch|fortune|cnbc|cnn|bbc|techcrunch|the verge|forbes|business insider|seeking alpha|motley fool)$",
         "",
         title,
     )
+    title = re.sub(r"\s*[—–-]\s+[^—–-]{1,40}$", "", title)
     title = re.sub(r"[^a-z0-9\u4e00-\u9fff]+", " ", title)
     return re.sub(r"\s+", " ", title).strip()
 
