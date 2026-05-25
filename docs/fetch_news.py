@@ -594,7 +594,7 @@ NEWS_SECTIONS = [
     },
     {
         "id": "person",
-        "title": "言论",
+        "title": "Opinion",
         "note": "公开新闻：只抓取 Kimi Founder Yang Zhilin、Cursor / Anysphere、Fireworks AI 与 Nebius / NBIS 创始人公开言论",
         "sources": PERSON_NEWS_SOURCES,
         "allowGeneralFeed": True,
@@ -1862,7 +1862,7 @@ def build_speech_items(items: list[dict[str, object]]) -> list[dict[str, object]
         seen.add(key)
         speech_item = dict(item)
         speech_item["section"] = "person"
-        speech_item["sectionTitle"] = "言论"
+        speech_item["sectionTitle"] = "Opinion"
         speech_items.append(speech_item)
         if len(speech_items) >= 32:
             break
