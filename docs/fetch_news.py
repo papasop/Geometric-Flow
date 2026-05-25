@@ -574,6 +574,8 @@ LIVE_NEWS_SOURCES = [
 VIDEO_NEWS_SOURCES = [
     {"name": "New York Times YouTube", "url": "https://www.youtube.com/@nytimes"},
     {"name": "Wall Street Journal YouTube", "url": "https://www.youtube.com/@wsj"},
+    google_news_query_source("Bloomberg Video", f"site:bloomberg.com/news/videos {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("Bloomberg Technology Video", "site:bloomberg.com/news/videos technology OR AI OR chips OR markets"),
     *LIVE_NEWS_SOURCES,
 ]
 NEWS_SECTIONS = [
@@ -625,7 +627,7 @@ NEWS_SECTIONS = [
     {
         "id": "video",
         "title": "视频",
-        "note": "New York Times YouTube / Wall Street Journal YouTube / YouTube Live",
+        "note": "New York Times YouTube / Wall Street Journal YouTube / Bloomberg Video / YouTube Live",
         "sources": VIDEO_NEWS_SOURCES,
         "allowGeneralFeed": True,
     },
@@ -651,6 +653,9 @@ TAVILY_SECTION_QUERIES = {
     ],
     "devops": [
         'DevOps most read AI agents developer productivity platform engineering',
+    ],
+    "video": [
+        'site:bloomberg.com/news/videos artificial intelligence OR Nvidia OR chips OR data centers OR markets',
     ],
 }
 PINNED_SECTION_ITEMS = {
