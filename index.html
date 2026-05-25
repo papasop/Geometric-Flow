@@ -4331,7 +4331,7 @@
           const cap = effectiveCap(row);
           if (!Number.isFinite(cap) || cap <= 0) return null;
           const multiple = row.ticker === "NVDA" ? 1 : potentialRatioMultipleVsNvda(row, nvda);
-          if (!Number.isFinite(multiple) || multiple <= 0) return null;
+          if (!Number.isFinite(multiple) || multiple <= 1) return null;
           const gain = multiple;
           const score = cap * gain;
           return {
