@@ -1,0 +1,62 @@
+name: Update news every 15 minutes
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-news
+  cancel-in-progress: false
+
+jobs:
+  update-news:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Update news feed
+        env:
+          TRANSLATE_NEWS_TITLES: "0"
+          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
+        run: python docs/fetch_news.py
+      - name: Commit updated news to main
+        id: commit_main
+        run: |
+          FILES="docs/news.json docs/news-a8febb0.json docs/agi/news.json docs/agi/news-a8febb0.json docs/ai-global-index/news.json docs/ai-global-index/news-a8febb0.json"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add $FILES
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "News already current"
+          else
+            git commit -m "Update news feed"
+            git push origin HEAD:main
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Publish news to gh-pages
+        if: steps.commit_main.outputs.changed == 'true'
+        run: |
+          git fetch origin gh-pages
+          git worktree add /tmp/agi-gh-pages-news origin/gh-pages
+          cp docs/news.json /tmp/agi-gh-pages-news/news.json
+          cp docs/news-a8febb0.json /tmp/agi-gh-pages-news/news-a8febb0.json
+          mkdir -p /tmp/agi-gh-pages-news/agi /tmp/agi-gh-pages-news/ai-global-index
+          cp docs/agi/news.json /tmp/agi-gh-pages-news/agi/news.json
+          cp docs/agi/news-a8febb0.json /tmp/agi-gh-pages-news/agi/news-a8febb0.json
+          cp docs/ai-global-index/news.json /tmp/agi-gh-pages-news/ai-global-index/news.json
+          cp docs/ai-global-index/news-a8febb0.json /tmp/agi-gh-pages-news/ai-global-index/news-a8febb0.json
+          cd /tmp/agi-gh-pages-news
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add news.json news-a8febb0.json agi/news.json agi/news-a8febb0.json ai-global-index/news.json ai-global-index/news-a8febb0.json
+          git commit -m "Publish news feed" || exit 0
+          git push origin HEAD:gh-pages
