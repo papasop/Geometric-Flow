@@ -1163,7 +1163,7 @@
       .ranking-panel-note { font-size: 11px; }
       .ranking-switch {
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
         width: 100%;
       }
       .ranking-switch button {
@@ -1439,17 +1439,14 @@
       </div>
     </section>
 
-    <section class="ranking-panel model-mode" aria-label="Token 调用排行与开支走势图">
+    <section class="ranking-panel chart-mode" aria-label="潜力图表与排行">
       <div class="ranking-panel-head">
         <div class="ranking-heading">
-          <div class="ranking-panel-title">大模型排行</div>
-          <div class="ranking-panel-note" id="ranking-panel-note">数据来源: CursorBench 3.1</div>
+          <div class="ranking-panel-title">潜力</div>
+          <div class="ranking-panel-note" id="ranking-panel-note">图表: NBIS / NVIDIA · 排行: 当前市值 × 历史涨幅比例 / NVIDIA</div>
         </div>
         <div class="ranking-switch" role="tablist" aria-label="排行切换">
-          <button data-ranking-view="token" type="button" role="tab" aria-selected="false">代币使用</button>
-          <button data-ranking-view="chart" type="button" role="tab" aria-selected="false">代币成本</button>
-          <button class="active" data-ranking-view="model" type="button" role="tab" aria-selected="true">大模型排行</button>
-          <button data-ranking-view="potential" type="button" role="tab" aria-selected="false">潜力</button>
+          <button class="active" data-ranking-view="potential" type="button" role="tab" aria-selected="true">潜力</button>
         </div>
       </div>
       <section class="ranking-view token-ranking" id="ranking-view-token" aria-label="Token 调用排行" hidden>
@@ -1490,11 +1487,11 @@
         </div>
       </section>
 
-      <section class="ranking-view model-ranking-view" id="ranking-view-model" aria-label="大模型排行">
+      <section class="ranking-view model-ranking-view" id="ranking-view-model" aria-label="大模型排行" hidden>
         <div class="model-ranking-table" id="model-ranking-list"></div>
       </section>
 
-      <section class="ranking-view index-chart-view" id="ranking-view-potential" aria-label="NBIS/NVIDIA 市值潜力比" hidden>
+      <section class="ranking-view index-chart-view" id="ranking-view-potential" aria-label="NBIS/NVIDIA 市值潜力比">
         <div class="index-chart-shell" id="potential-chart-panel">
           <div class="potential-view-switch" role="tablist" aria-label="Potential view">
             <button class="potential-view-tab active" data-potential-view="chart" type="button" role="tab" aria-selected="true">图表</button>
@@ -3241,7 +3238,7 @@
     };
     const CHINESE_REGION_CODES = new Set(["CN", "HK", "MO", "TW"]);
     const LANGUAGE_STORAGE_KEY = "isithub-language";
-    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: "ALL", infrastructureSubcategory: "DCI", hardwareSubcategory: "CNC", modelSubcategory: "LLM", llmSubcategory: "全部", worldModelSubcategory: "全部", selected: "NVDA", page: 1, rankingView: "model", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, potentialView: "chart", potentialPeriod: "history", potentialPinnedIndex: null, fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
+    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: "ALL", infrastructureSubcategory: "DCI", hardwareSubcategory: "CNC", modelSubcategory: "LLM", llmSubcategory: "全部", worldModelSubcategory: "全部", selected: "NVDA", page: 1, rankingView: "potential", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, potentialView: "chart", potentialPeriod: "history", potentialPinnedIndex: null, fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
     const potentialSeriesCache = new Map();
     try {
       const savedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY);
@@ -4090,7 +4087,7 @@
       renderSummary();
     }
     function setRankingView(view) {
-      state.rankingView = ["token", "chart", "model", "potential"].includes(view) ? view : "chart";
+      state.rankingView = "potential";
       document.querySelectorAll("[data-ranking-view]").forEach((button) => {
         const isActive = button.dataset.rankingView === state.rankingView;
         button.classList.toggle("active", isActive);
@@ -4107,13 +4104,9 @@
       const rankingPanel = document.querySelector(".ranking-panel");
       rankingPanel?.classList.toggle("chart-mode", state.rankingView === "chart" || state.rankingView === "potential");
       rankingPanel?.classList.toggle("model-mode", state.rankingView === "model");
-      const titleByView = { token: t("tokenRanking"), chart: t("chartRanking"), model: t("modelRanking"), potential: t("potentialRanking") };
-      const noteByView = { token: tokenRankingNoteText(), chart: tokenIndexNoteText(), model: modelRankingNoteText(), potential: potentialNoteText() };
-      setText(".ranking-panel-title", titleByView[state.rankingView]);
-      setText("#ranking-panel-note", noteByView[state.rankingView]);
-      if (state.rankingView === "chart") renderTokenIndexChart();
-      if (state.rankingView === "model") renderModelRanking();
-      if (state.rankingView === "potential") renderPotentialView();
+      setText(".ranking-panel-title", t("potentialRanking"));
+      setText("#ranking-panel-note", potentialNoteText());
+      renderPotentialView();
     }
     function renderTokenRanking() {
       const rows = TOKEN_RANKINGS[state.tokenPeriod] || TOKEN_RANKINGS.month;
@@ -5004,7 +4997,7 @@
       const changeClass = $("highlight-change")?.className || "positive";
       if (changeMini) changeMini.innerHTML = `<span class="${changeClass}" id="highlight-change">${changeValue}</span> · ${t("currentFilter")}`;
       setText(".highlight-card:nth-child(2) .mini", t("realVolume"));
-      setAllText(".ranking-switch button", [t("tokenRanking"), t("chartRanking"), t("modelRanking"), t("potentialRanking")]);
+      setAllText(".ranking-switch button", [t("potentialRanking")]);
       setRankingView(state.rankingView);
       setText(".token-ranking-head .panel-note", t("tokenNote"));
       setAllText(".token-tab", [t("day"), t("week"), t("month")]);
