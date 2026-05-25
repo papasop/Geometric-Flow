@@ -4,6 +4,10 @@
 Event Registry is the primary unified news layer when EVENT_REGISTRY_API_KEY is
 available. Official RSS/Atom sources (SEC, IR, NASA, Defense.gov, WHO, etc.)
 are always used as the confirmation/supplement layer.
+
+Tavily is an optional AI-native search supplement when TAVILY_API_KEY is
+available. It is intentionally server-side only; the key must stay in GitHub
+Secrets or the local environment and is never written to the static site.
 """
 
 from __future__ import annotations
@@ -37,6 +41,9 @@ USER_AGENT = (
 
 EVENT_REGISTRY_ENDPOINT = "https://eventregistry.org/api/v1/article/getArticles"
 EVENT_REGISTRY_MAX_PER_TOPIC = 18
+TAVILY_SEARCH_ENDPOINT = "https://api.tavily.com/search"
+TAVILY_MAX_RESULTS = max(1, min(20, int(os.environ.get("TAVILY_MAX_RESULTS", "6"))))
+TAVILY_MAX_QUERIES = max(0, int(os.environ.get("TAVILY_MAX_QUERIES", "8")))
 TRANSLATE_NEWS_TITLES = os.environ.get("TRANSLATE_NEWS_TITLES", "1").strip() != "0"
 TRANSLATE_ENDPOINT = "https://translate.googleapis.com/translate_a/single"
 
@@ -593,6 +600,29 @@ NEWS_SECTIONS = [
         "allowGeneralFeed": True,
     },
 ]
+TAVILY_SECTION_QUERIES = {
+    "hot": [
+        'site:wsj.com OR site:ft.com OR site:zaobao.com.sg artificial intelligence OR chips OR markets',
+    ],
+    "industry": [
+        'artificial intelligence chips data centers frontier models site:wsj.com OR site:ft.com OR site:nytimes.com OR site:scmp.com',
+    ],
+    "person": [
+        '"Yang Zhilin" OR "Cursor founder" OR "Fireworks AI founder" OR "Arkady Volozh" AI said OR says OR interview',
+    ],
+    "company": [
+        'Nvidia OpenAI Anthropic Microsoft Google Meta AI acquisition funding investment Reuters Bloomberg',
+    ],
+    "tech": [
+        'AI frontier technology robots world models agents chips site:wired.com OR site:technologyreview.com',
+    ],
+    "papers": [
+        'AI research paper large language model agents robotics Nature Science Cell arXiv',
+    ],
+    "devops": [
+        'DevOps most read AI agents developer productivity platform engineering',
+    ],
+}
 PINNED_SECTION_ITEMS = {
     "papers": [
         {
@@ -777,6 +807,23 @@ def post_json(url: str, payload: dict[str, object]) -> dict[str, object]:
         method="POST",
     )
     with urllib.request.urlopen(req, timeout=12) as response:
+        return json.loads(response.read().decode("utf-8", errors="replace"))
+
+
+def post_tavily_search(api_key: str, payload: dict[str, object]) -> dict[str, object]:
+    encoded = json.dumps(payload).encode("utf-8")
+    req = urllib.request.Request(
+        TAVILY_SEARCH_ENDPOINT,
+        data=encoded,
+        headers={
+            "User-Agent": USER_AGENT,
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {api_key}",
+        },
+        method="POST",
+    )
+    with urllib.request.urlopen(req, timeout=20) as response:
         return json.loads(response.read().decode("utf-8", errors="replace"))
 
 
@@ -1472,6 +1519,132 @@ def parse_event_registry_article(article: dict[str, object], portfolio: str) -> 
     }
 
 
+def source_name_from_url(url: str) -> str:
+    host = host_of(url)
+    if not host:
+        return "Tavily"
+    known = {
+        "wsj.com": "Wall Street Journal",
+        "ft.com": "Financial Times",
+        "nytimes.com": "New York Times",
+        "scmp.com": "South China Morning Post",
+        "reuters.com": "Reuters",
+        "bloomberg.com": "Bloomberg",
+        "wired.com": "WIRED",
+        "technologyreview.com": "MIT Technology Review",
+        "nature.com": "Nature",
+        "science.org": "Science",
+        "cell.com": "Cell",
+        "arxiv.org": "arXiv",
+        "techcrunch.com": "TechCrunch",
+        "devops.com": "DevOps.com",
+        "zaobao.com.sg": "Lianhe Zaobao",
+    }
+    for domain, name in known.items():
+        if host == domain or host.endswith(f".{domain}"):
+            return name
+    return host.removeprefix("www.").split(":")[0]
+
+
+def image_from_tavily_result(result: dict[str, object]) -> str:
+    images = result.get("images")
+    if isinstance(images, list):
+        for image in images:
+            if isinstance(image, dict):
+                url = clean_text(str(image.get("url") or ""), 300)
+            else:
+                url = clean_text(str(image or ""), 300)
+            if url.startswith("http"):
+                return url
+    return ""
+
+
+def parse_tavily_result(result: dict[str, object], section: dict[str, object], query: str) -> dict[str, object] | None:
+    title = clean_text(str(result.get("title") or ""), 180)
+    url = str(result.get("url") or "").strip()
+    if not title or not url:
+        return None
+    summary = clean_text(str(result.get("content") or result.get("raw_content") or ""), 320)
+    source_name = source_name_from_url(url)
+    published = parse_date(str(result.get("published_date") or result.get("publishedAt") or result.get("date") or ""))
+    item: dict[str, object] = {
+        "source": source_name,
+        "feedSource": "Tavily Search",
+        "sourceUrl": url,
+        "via": "Tavily",
+        "title": title,
+        "summary": summary or title,
+        "url": url,
+        "author": "",
+        "publishedAt": published,
+        "section": str(section["id"]),
+        "sectionTitle": str(section["title"]),
+        "tags": ["Tavily", query[:80]],
+    }
+    image = image_from_tavily_result(result)
+    if image:
+        item["image"] = image
+    matched, tags = classify(item)
+    item["matchedPortfolios"] = matched
+    item["tags"] = sorted(set([*item["tags"], *tags]))[:10]
+    enrich_title_fields(item)
+    apply_news_overrides(item)
+    return item
+
+
+def fetch_tavily_section(api_key: str, section: dict[str, object], budget: int) -> tuple[list[dict[str, object]], list[dict[str, object]], int]:
+    if budget <= 0:
+        return [], [], 0
+    queries = TAVILY_SECTION_QUERIES.get(str(section.get("id") or ""), [])
+    items: list[dict[str, object]] = []
+    statuses: list[dict[str, object]] = []
+    used = 0
+    for query in queries[:budget]:
+        payload = {
+            "query": query,
+            "topic": "news" if section.get("id") not in {"papers", "devops"} else "general",
+            "search_depth": "basic",
+            "max_results": TAVILY_MAX_RESULTS,
+            "time_range": "week",
+            "include_answer": False,
+            "include_raw_content": False,
+            "include_images": True,
+            "include_favicon": True,
+        }
+        try:
+            data = post_tavily_search(api_key, payload)
+            results = data.get("results") if isinstance(data, dict) else []
+            kept = 0
+            if isinstance(results, list):
+                for result in results:
+                    if not isinstance(result, dict):
+                        continue
+                    item = parse_tavily_result(result, section, query)
+                    if not item:
+                        continue
+                    items.append(item)
+                    kept += 1
+            statuses.append({
+                "section": section.get("id"),
+                "name": "Tavily Search",
+                "query": query,
+                "status": "ok",
+                "count": kept,
+            })
+        except (urllib.error.URLError, TimeoutError, socket.timeout, ValueError, OSError, TypeError) as exc:
+            statuses.append({
+                "section": section.get("id"),
+                "name": "Tavily Search",
+                "query": query,
+                "status": "error",
+                "error": str(exc)[:180],
+                "count": 0,
+            })
+        used += 1
+        time.sleep(0.25)
+    return items, statuses, used
+
+
 def fetch_event_registry(api_key: str) -> tuple[list[dict[str, object]], list[dict[str, object]]]:
     items: list[dict[str, object]] = []
     source_status: list[dict[str, object]] = []
@@ -1722,6 +1895,8 @@ def main() -> int:
                 continue
             items.append(item)
 
+    tavily_key = os.environ.get("TAVILY_API_KEY", "").strip()
+    tavily_remaining_queries = TAVILY_MAX_QUERIES
     for section in NEWS_SECTIONS:
         if section_filter and section["id"] not in section_filter:
             continue
@@ -1730,6 +1905,17 @@ def main() -> int:
         section_required_keywords = section.get("requiredKeywords", [])
         author_fetch_limit = 0 if section.get("id") == "hot" else 18 if section.get("id") in {"industry", "tech"} else 6
         author_fetches = 0
+        if tavily_key and tavily_remaining_queries > 0:
+            tavily_items, tavily_status, tavily_used = fetch_tavily_section(tavily_key, section, tavily_remaining_queries)
+            tavily_remaining_queries -= tavily_used
+            source_status.extend(tavily_status)
+            for item in tavily_items:
+                key = canonical_news_title(str(item.get("title") or "")) or str(item.get("url") or "").lower()
+                if not key or key in section_seen:
+                    continue
+                section_seen.add(key)
+                section_items.append(item)
+                items.append(item)
         for source in section["sources"]:
             source_required_keywords = [] if section.get("allowGeneralFeed") else source.get("requiredKeywords", [])
             try:
@@ -1846,6 +2032,7 @@ def main() -> int:
             "primary": "Tabbed news sections: hot headlines from Wall Street Journal Chinese and Financial Times, industry from WSJ/NYT/FT/SCMP/TechCrunch Startups, statements derived from all sources by named AI figures and speech signals, company from company-name searches plus M&A and financing keywords, frontier technology from Wired/MIT Technology Review/Stanford sources, papers from top AI journals, conferences, proceedings, and preprint sources",
             "primaryEnabled": True,
             "supplements": [
+                "Tavily Search (optional, via TAVILY_API_KEY)",
                 "TechCrunch",
                 "Wired",
                 "Wall Street Journal Chinese Headlines",

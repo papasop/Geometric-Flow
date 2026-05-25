@@ -29,6 +29,7 @@ jobs:
       - name: Update news feed
         env:
           TRANSLATE_NEWS_TITLES: "0"
+          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
         run: python docs/fetch_news.py
       - name: Update token index
         env:
