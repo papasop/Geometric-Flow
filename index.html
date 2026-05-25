@@ -219,6 +219,18 @@
       height: 100%;
       object-fit: cover;
     }
+    .news-thumb-fallback {
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at 24% 18%, rgba(34, 211, 238, 0.18), transparent 34%),
+        linear-gradient(135deg, #0f172a, #111827 56%, #172554);
+      color: #e2e8f0;
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
     .news-thumb iframe {
       display: block;
       width: 100%;
@@ -3898,12 +3910,13 @@
         const embedAttrs = videoId ? ` data-video-id="${escapeHtml(videoId)}" data-video-title="${escapeHtml(title)}"` : "";
         const targetAttrs = videoId ? "" : ` target="_blank" rel="noopener"`;
         const liveBadge = isLiveVideo ? `<span class="news-live-badge">${escapeHtml(state.lang === "zh" ? "直播" : "LIVE")}</span>` : "";
-        const imageNode = image ? `<span class="news-thumb">${liveBadge}<img src="${escapeHtml(image)}" alt="" loading="lazy"></span>` : "";
+        const fallbackThumb = isVideoSection && !image ? `<span class="news-thumb news-thumb-fallback">${liveBadge}${escapeHtml(source.replace(/\s*(video|youtube|直播).*$/i, "") || "Video")}</span>` : "";
+        const imageNode = image ? `<span class="news-thumb">${liveBadge}<img src="${escapeHtml(image)}" alt="" loading="lazy"></span>` : fallbackThumb;
         const authorNode = author ? `<span><span class="news-meta-label">${escapeHtml(t("newsAuthor"))}</span><b>${escapeHtml(author)}</b></span>` : "";
         const sourceNode = sectionId === "person"
           ? `<span><span class="news-meta-label">${escapeHtml(t("mediaSource"))}</span><b>${escapeHtml(source)}</b></span>`
           : `<span><span class="news-meta-label">${escapeHtml(t("newsSource"))}</span><b>${escapeHtml(source)}</b></span>`;
-        return `<a class="news-item${image ? " has-thumb" : ""}" href="${escapeHtml(href)}"${targetAttrs}${embedAttrs}>
+        return `<a class="news-item${imageNode ? " has-thumb" : ""}" href="${escapeHtml(href)}"${targetAttrs}${embedAttrs}>
           ${imageNode}
           <span class="news-title">${escapeHtml(title)}</span>
           <span class="news-meta">

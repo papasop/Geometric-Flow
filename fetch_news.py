@@ -572,6 +572,7 @@ LIVE_NEWS_SOURCES = [
     {"name": "YouTube Live", "url": "https://www.youtube.com/watch?v=f39oHo6vFLg"},
 ]
 VIDEO_NEWS_SOURCES = [
+    *NEW_VIDEO_SOURCES,
     {"name": "New York Times YouTube", "url": "https://www.youtube.com/@nytimes"},
     {"name": "Wall Street Journal YouTube", "url": "https://www.youtube.com/@wsj"},
     google_news_query_source("Bloomberg Video", f"site:bloomberg.com/news/videos {AI_MARKET_NEWS_QUERY}"),
