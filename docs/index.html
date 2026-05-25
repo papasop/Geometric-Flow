@@ -3824,9 +3824,11 @@
     function canonicalNewsTitle(title = "") {
       return String(title || "")
         .toLowerCase()
-        .replace(/\s*[—–-]\s*《[^》]{1,40}》\s*$/u, "")
-        .replace(/\s*[—–-]\s+(?:the\s+)?(?:new york times|financial times|south china morning post|wsj|wall street journal|wired|mit technology review|tradingview|yahoo finance|google news|bloomberg|reuters|marketwatch|fortune|cnbc|cnn|bbc|techcrunch|the verge|forbes|business insider|seeking alpha|motley fool)\s*$/iu, "")
-        .replace(/\s*[—–-]\s+[^—–-]{1,40}$/u, "")
+        .replace(/\s*[—–-]+\s*《[^》]{1,40}》\s*$/u, "")
+        .replace(/\s*[—–-]+\s*(?:the\s+)?(?:new york times|financial times|south china morning post|wsj|wall street journal|wired|mit technology review|tradingview|yahoo finance|google news|bloomberg|reuters|marketwatch|fortune|cnbc|cnn|bbc|techcrunch|the verge|forbes|business insider|seeking alpha|motley fool|aol\.com|24\/7\s+wall\s+st\.?)\s*$/iu, "")
+        .replace(/\s*[—–-]+\s*[^—–-]{1,40}$/u, "")
+        .replace(/(的)?这番言论表明|的言论表明|言论表明/gu, "")
+        .replace(/多么迅速地|多快|迅速地/gu, "")
         .replace(/[^a-z0-9\u4e00-\u9fff]+/giu, " ")
         .replace(/\s+/g, " ")
         .trim();
