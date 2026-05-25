@@ -135,6 +135,22 @@ def clean_values(values):
     return [value for value in (finite(value) for value in values) if value is not None]
 
 
+def close_points(frame):
+    if frame is None or frame.empty or "Close" not in frame:
+        return None
+    points = []
+    for index, value in zip(frame.index, frame["Close"].tolist()):
+        close = finite(value)
+        if close is None:
+            continue
+        try:
+            date = index.to_pydatetime().date().isoformat()
+        except AttributeError:
+            date = str(index)[:10]
+        points.append({"date": date, "close": close})
+    return points or None
+
+
 def previous_value(values):
     clean = clean_values(values)
     if len(clean) < 2:
@@ -177,6 +193,12 @@ def fetch_one(ticker):
         month = stock.history(period="1mo", interval="1d", auto_adjust=False, prepost=False)
     except Exception:
         month = None
+    history = None
+    if ticker in {"NBIS", "NVDA"}:
+        try:
+            history = stock.history(period="1y", interval="1wk", auto_adjust=False, prepost=False)
+        except Exception:
+            history = None
 
     intraday_closes = series_values(intraday, "Close")
     month_closes = series_values(month, "Close")
@@ -236,6 +258,9 @@ def fetch_one(ticker):
         "change7d": change_7d,
         "change30d": change_30d,
         "sparkPoints": spark,
+        "intradayClosePoints": close_points(intraday),
+        "closePoints": close_points(month),
+        "historyClosePoints": close_points(history),
     }
 
 
