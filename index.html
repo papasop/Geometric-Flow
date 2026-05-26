@@ -3735,7 +3735,11 @@
       updateSortControls();
     }
     function basketCandidateRows(rows = filteredRows()) {
-      return rows.filter((row) => row.status !== "prelist" && !String(row.ticker || "").endsWith(".PRE") && potentialHistoryPoints(row).length >= 2);
+      const listedRows = rows.filter((row) => row.status !== "prelist" && !String(row.ticker || "").endsWith(".PRE"));
+      const scopedRows = state.category === "ALL"
+        ? [...listedRows].sort((a, b) => compareByUnifiedCap(a, b)).slice(0, 100)
+        : listedRows;
+      return scopedRows.filter((row) => potentialHistoryPoints(row).length >= 2);
     }
     function weekKey(date) {
       const current = new Date(`${date.slice(0, 10)}T00:00:00Z`);
@@ -3806,6 +3810,11 @@
           : t("basketIndexTitle");
       }
       if (note) note.textContent = t("basketIndexNote");
+      if (note && state.category === "ALL") {
+        note.textContent = state.lang === "zh"
+          ? "市值前 100 · 每只 1% 等权 · 每周自动再平衡"
+          : "Top 100 by market cap · 1% each · weekly rebalanced";
+      }
       if (!svg || !valueNode || !stats) return;
       if (series.length < 2) {
         svg.innerHTML = `<text x="490" y="160" fill="#94a3b8" font-size="18" text-anchor="middle">${escapeHtml(t("basketIndexEmpty"))}</text>`;
