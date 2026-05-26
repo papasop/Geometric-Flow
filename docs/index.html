@@ -3735,11 +3735,14 @@
       updateSortControls();
     }
     function basketCandidateRows(rows = filteredRows()) {
-      const listedRows = rows.filter((row) => row.status !== "prelist" && !String(row.ticker || "").endsWith(".PRE"));
+      const listedRows = rows.filter((row) => !isPrelistRow(row));
       const scopedRows = state.category === "ALL"
         ? [...listedRows].sort((a, b) => compareByUnifiedCap(a, b)).slice(0, 100)
         : listedRows;
       return scopedRows.filter((row) => potentialHistoryPoints(row).length >= 2);
+    }
+    function isPrelistRow(row) {
+      return row?.status === "prelist" || String(row?.ticker || "").endsWith(".PRE");
     }
     function weekKey(date) {
       const current = new Date(`${date.slice(0, 10)}T00:00:00Z`);
@@ -3750,7 +3753,7 @@
       return `${current.getUTCFullYear()}-${String(week).padStart(2, "0")}`;
     }
     function basketIndexSeries(rows) {
-      const members = rows.map((row) => ({
+      const members = rows.filter((row) => !isPrelistRow(row)).map((row) => ({
         row,
         points: potentialHistoryPoints(row),
         index: 0,
@@ -3812,8 +3815,8 @@
       if (note) note.textContent = t("basketIndexNote");
       if (note && state.category === "ALL") {
         note.textContent = state.lang === "zh"
-          ? "市值前 100 · 每只 1% 等权 · 每周自动再平衡"
-          : "Top 100 by market cap · 1% each · weekly rebalanced";
+          ? "市值前 100 · 每只 1% 等权 · 不含预上市 · 每周自动再平衡"
+          : "Top 100 by market cap · 1% each · no pre-IPO · weekly rebalanced";
       }
       if (!svg || !valueNode || !stats) return;
       if (series.length < 2) {
