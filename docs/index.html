@@ -894,9 +894,83 @@
       padding-left: 0;
       background: transparent;
     }
+    .market-head-actions {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      min-width: 0;
+    }
+    .market-view-switch {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: rgba(15, 23, 42, 0.72);
+    }
+    .market-view-tab {
+      height: 26px;
+      padding: 0 9px;
+      border: 0;
+      border-radius: 5px;
+      background: transparent;
+      color: var(--soft);
+      font-size: 12px;
+      font-weight: 820;
+      cursor: pointer;
+    }
+    .market-view-tab.active {
+      color: #ecfeff;
+      background: rgba(34, 211, 238, 0.24);
+    }
     .panel-title { font-size: 13px; color: var(--soft); font-weight: 800; }
     .panel-note { color: var(--muted); font-size: 12px; }
     .table-wrap { overflow: visible; width: 100%; }
+    .table-wrap[hidden] { display: none; }
+    .basket-index-panel {
+      position: relative;
+      min-height: 390px;
+      padding: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-radius: 8px;
+      background: #05070a;
+      color: #f8fafc;
+      overflow: hidden;
+    }
+    .basket-index-panel[hidden] { display: none; }
+    .basket-index-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+    .basket-index-title { font-size: 16px; font-weight: 880; }
+    .basket-index-note,
+    .basket-index-stats {
+      color: #94a3b8;
+      font-size: 12px;
+      font-weight: 720;
+    }
+    .basket-index-value {
+      color: #67e8f9;
+      font-size: 20px;
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+    }
+    .basket-index-chart {
+      display: block;
+      width: 100%;
+      height: 310px;
+    }
+    .basket-index-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 14px;
+      margin-top: 8px;
+    }
     table { width: 100%; border-collapse: collapse; min-width: 0; table-layout: fixed; }
     th, td {
       padding: 9px 6px;
@@ -1589,7 +1663,13 @@
           <div class="panel-title">Rank Name</div>
           <div class="panel-note" id="table-note">Market Cap USD · Listed + Pre-IPO unified ranking</div>
         </div>
-        <div class="panel-note" id="count-note">100 companies</div>
+        <div class="market-head-actions">
+          <div class="market-view-switch" role="tablist" aria-label="Market view">
+            <button class="market-view-tab active" data-market-view="table" type="button" role="tab" aria-selected="true">列表</button>
+            <button class="market-view-tab" data-market-view="index" type="button" role="tab" aria-selected="false">指数</button>
+          </div>
+          <div class="panel-note" id="count-note">100 companies</div>
+        </div>
       </div>
       <div class="table-wrap">
         <table>
@@ -1610,6 +1690,17 @@
           <tbody id="rank-body"></tbody>
         </table>
       </div>
+      <section class="basket-index-panel" id="basket-index-panel" hidden>
+        <div class="basket-index-head">
+          <div>
+            <div class="basket-index-title" id="basket-index-title">Equal Weight Basket Index</div>
+            <div class="basket-index-note" id="basket-index-note">Weekly rebalanced · listed stocks only</div>
+          </div>
+          <div class="basket-index-value" id="basket-index-value">100.00</div>
+        </div>
+        <svg class="basket-index-chart" id="basket-index-chart" viewBox="0 0 980 310" role="img" aria-label="Equal weight basket index chart"></svg>
+        <div class="basket-index-stats" id="basket-index-stats"></div>
+      </section>
       <div class="pager" id="pager"></div>
     </section>
     <p class="footer-note">说明：这是 AI 相关美股挂牌、港股、A 股、韩股、日股、英国、加拿大、瑞典与台湾市场公司及少量预上市公司观察名单，不是投资建议，也不是官方指数。价格、1小时/24小时/7天/30天变化、成交额与市值均优先使用在线 quote/chart 真实行情；不可用时显示为空。预上市公司使用估算美元市值参与排行，不抓取实时行情。非美元公司市值与成交额在内部按 USD/CNY、USD/HKD、USD/KRW、USD/JPY、USD/TWD、USD/GBP、USD/CAD、USD/SEK 机制折算成美元口径，但页面不展示汇率。</p>
@@ -3201,6 +3292,7 @@
         physicalWorldModel: "物理世界模型", worldModelText: "文本", worldModelRobotics: "机器人", openSource: "开源", closedSource: "闭源",
         searchPlaceholder: "搜索公司、Ticker、子赛道", allSubsectors: "全部子赛道",
         rankName: "排名 / 公司", tableNote: "市值（美元）· 上市 + IPO 前合并排名",
+        marketTableView: "列表", marketIndexView: "指数", basketIndexTitle: "等权股票篮子指数", basketIndexNote: "当前筛选 · 已上市股票等权 · 每周自动再平衡", basketIndexEmpty: "等待足够历史行情生成指数",
         thCompany: "公司", thPrice: "价格", th1h: "1小时", th24h: "24小时", th7d: "7天", thVolume: "24小时交易量", thMcap: "总市值", thSpark: "最近30天",
         companies: "companies", companiesZh: "家", page: "第", perPage: "每页", noResults: "没有匹配结果",
         watch: "关注", prelist: "预上市", est: " est.",
@@ -3234,6 +3326,7 @@
         physicalWorldModel: "World Models", worldModelText: "Text", worldModelRobotics: "Robotics", openSource: "Open", closedSource: "Closed",
         searchPlaceholder: "Search company, ticker, or subsector", allSubsectors: "All subsectors",
         rankName: "Rank / Name", tableNote: "Market Cap USD · Listed + Pre-IPO unified ranking",
+        marketTableView: "List", marketIndexView: "Index", basketIndexTitle: "Equal Weight Basket Index", basketIndexNote: "Current filter · listed stocks only · weekly rebalanced", basketIndexEmpty: "Waiting for enough historical quotes",
         thCompany: "Company", thPrice: "Price", th1h: "1h", th24h: "24h", th7d: "7d", thVolume: "24h Volume", thMcap: "Market Cap", thSpark: "Last 30 days",
         companies: "companies", companiesZh: "companies", page: "Page", perPage: "Per page", noResults: "No matching results",
         watch: "Watch", prelist: "Pre-IPO", est: " est.",
@@ -3253,7 +3346,7 @@
     };
     const CHINESE_REGION_CODES = new Set(["CN", "HK", "MO", "TW"]);
     const LANGUAGE_STORAGE_KEY = "isithub-language";
-    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: "SMR", infrastructureSubcategory: "DCI", hardwareSubcategory: "CNC", modelSubcategory: "LLM", llmSubcategory: "全部", worldModelSubcategory: "全部", selected: "NVDA", page: 1, rankingView: "potential", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, potentialView: "chart", potentialPeriod: "history", potentialPinnedIndex: null, potentialAutoIndex: 0, potentialAutoPaused: false, potentialSort: "score", potentialSortDir: "desc", fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
+    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: "SMR", infrastructureSubcategory: "DCI", hardwareSubcategory: "CNC", modelSubcategory: "LLM", llmSubcategory: "全部", worldModelSubcategory: "全部", selected: "NVDA", page: 1, marketView: "table", rankingView: "potential", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, potentialView: "chart", potentialPeriod: "history", potentialPinnedIndex: null, potentialAutoIndex: 0, potentialAutoPaused: false, potentialSort: "score", potentialSortDir: "desc", fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
     const potentialSeriesCache = new Map();
     let potentialAutoTimer = null;
     try {
@@ -3641,6 +3734,133 @@
         });
       });
       updateSortControls();
+    }
+    function basketCandidateRows(rows = filteredRows()) {
+      return rows.filter((row) => row.status !== "prelist" && !String(row.ticker || "").endsWith(".PRE") && potentialHistoryPoints(row).length >= 2);
+    }
+    function weekKey(date) {
+      const current = new Date(`${date.slice(0, 10)}T00:00:00Z`);
+      const day = current.getUTCDay() || 7;
+      current.setUTCDate(current.getUTCDate() + 4 - day);
+      const yearStart = new Date(Date.UTC(current.getUTCFullYear(), 0, 1));
+      const week = Math.ceil((((current - yearStart) / 86400000) + 1) / 7);
+      return `${current.getUTCFullYear()}-${String(week).padStart(2, "0")}`;
+    }
+    function basketIndexSeries(rows) {
+      const members = rows.map((row) => ({
+        row,
+        points: potentialHistoryPoints(row),
+        index: 0,
+        lastClose: null,
+        units: 0,
+      })).filter((member) => member.points.length >= 2);
+      const dates = [...new Set(members.flatMap((member) => member.points.map((point) => point.date)))].sort();
+      if (members.length < 2 || dates.length < 2) return [];
+      let value = 100;
+      let initialized = false;
+      let currentWeek = "";
+      const series = [];
+      const rebalance = (active) => {
+        const allocation = value / active.length;
+        active.forEach((member) => {
+          member.units = allocation / member.lastClose;
+        });
+      };
+      dates.forEach((date) => {
+        members.forEach((member) => {
+          while (member.index < member.points.length && member.points[member.index].date <= date) {
+            member.lastClose = member.points[member.index].close;
+            member.index += 1;
+          }
+        });
+        const active = members.filter((member) => Number.isFinite(member.lastClose) && member.lastClose > 0);
+        if (active.length < 2) return;
+        const nextWeek = weekKey(date);
+        if (!initialized) {
+          initialized = true;
+          currentWeek = nextWeek;
+          rebalance(active);
+        } else {
+          value = active.reduce((sum, member) => sum + (member.units || 0) * member.lastClose, 0);
+          if (nextWeek !== currentWeek) {
+            currentWeek = nextWeek;
+            rebalance(active);
+          }
+        }
+        series.push({ date, value, count: active.length });
+      });
+      return series;
+    }
+    function renderBasketIndexChart() {
+      const rows = basketCandidateRows();
+      const series = basketIndexSeries(rows);
+      const svg = $("basket-index-chart");
+      const valueNode = $("basket-index-value");
+      const stats = $("basket-index-stats");
+      const title = $("basket-index-title");
+      const note = $("basket-index-note");
+      if (title) title.textContent = t("basketIndexTitle");
+      if (note) note.textContent = t("basketIndexNote");
+      if (!svg || !valueNode || !stats) return;
+      if (series.length < 2) {
+        svg.innerHTML = `<text x="490" y="160" fill="#94a3b8" font-size="18" text-anchor="middle">${escapeHtml(t("basketIndexEmpty"))}</text>`;
+        valueNode.textContent = "—";
+        stats.textContent = `${rows.length} ${t("companies")}`;
+        return;
+      }
+      const values = series.map((point) => point.value);
+      const min = Math.min(...values);
+      const max = Math.max(...values);
+      const width = 980;
+      const height = 310;
+      const pad = { top: 22, right: 62, bottom: 44, left: 34 };
+      const plotWidth = width - pad.left - pad.right;
+      const plotHeight = height - pad.top - pad.bottom;
+      const yMin = Math.max(0, min * 0.94);
+      const yMax = max * 1.06;
+      const xFor = (index) => pad.left + (index / Math.max(1, series.length - 1)) * plotWidth;
+      const yFor = (value) => pad.top + ((yMax - value) / Math.max(0.000001, yMax - yMin)) * plotHeight;
+      const line = series.map((point, index) => `${index ? "L" : "M"}${xFor(index).toFixed(1)} ${yFor(point.value).toFixed(1)}`).join(" ");
+      const area = `${line} L${xFor(series.length - 1).toFixed(1)} ${height - pad.bottom} L${pad.left} ${height - pad.bottom} Z`;
+      const yTicks = Array.from({ length: 6 }, (_, i) => yMin + ((yMax - yMin) / 5) * i);
+      const xTickIndexes = [...new Set([0, Math.floor((series.length - 1) * 0.25), Math.floor((series.length - 1) * 0.5), Math.floor((series.length - 1) * 0.75), series.length - 1])];
+      const latest = series.at(-1);
+      const first = series[0];
+      const move = first.value > 0 ? ((latest.value / first.value) - 1) * 100 : 0;
+      svg.innerHTML = `
+        <defs>
+          <linearGradient id="basket-index-fill" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.72" />
+            <stop offset="58%" stop-color="#0e7490" stop-opacity="0.40" />
+            <stop offset="100%" stop-color="#172554" stop-opacity="0.54" />
+          </linearGradient>
+        </defs>
+        ${yTicks.map((tick) => `<line x1="${pad.left}" x2="${width - pad.right}" y1="${yFor(tick).toFixed(1)}" y2="${yFor(tick).toFixed(1)}" stroke="rgba(203,213,225,.30)" stroke-dasharray="2 3" /><text x="${width - pad.right + 8}" y="${(yFor(tick) + 4).toFixed(1)}" fill="#f8fafc" font-size="12">${tick.toFixed(1)}</text>`).join("")}
+        ${xTickIndexes.map((index) => `<line x1="${xFor(index).toFixed(1)}" x2="${xFor(index).toFixed(1)}" y1="${pad.top}" y2="${height - pad.bottom}" stroke="rgba(203,213,225,.18)" stroke-dasharray="2 3" /><text x="${xFor(index).toFixed(1)}" y="${height - 26}" fill="#f8fafc" font-size="12" text-anchor="middle">${escapeHtml(chartDateLabel(series[index].date, "history"))}</text>`).join("")}
+        <path d="${area}" fill="url(#basket-index-fill)" />
+        <path d="${line}" fill="none" stroke="#e5e7eb" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+      `;
+      valueNode.textContent = latest.value.toFixed(2);
+      stats.innerHTML = `
+        <span>${escapeHtml(series[0].date)} → ${escapeHtml(latest.date)}</span>
+        <span>${escapeHtml(rows.length)} ${escapeHtml(t("companies"))}</span>
+        <span class="${move >= 0 ? "positive" : "negative"}">${escapeHtml(formatPercent(move))}</span>
+      `;
+    }
+    function setMarketView(view) {
+      state.marketView = view === "index" ? "index" : "table";
+      document.querySelectorAll("[data-market-view]").forEach((button) => {
+        const active = button.dataset.marketView === state.marketView;
+        button.classList.toggle("active", active);
+        button.setAttribute("aria-selected", active ? "true" : "false");
+      });
+      const tableWrap = document.querySelector(".table-wrap");
+      const basketPanel = $("basket-index-panel");
+      const pager = $("pager");
+      if (tableWrap) tableWrap.hidden = state.marketView !== "table";
+      if (basketPanel) basketPanel.hidden = state.marketView !== "index";
+      if (pager) pager.hidden = state.marketView !== "table";
+      if (state.marketView === "index") renderBasketIndexChart();
     }
     function updateSortControls() {
       document.querySelectorAll(".market-panel th[data-table-sort]").forEach((th) => {
@@ -4102,6 +4322,7 @@
     function render() {
       renderTable();
       renderSummary();
+      setMarketView(state.marketView);
     }
     function setRankingView(view) {
       state.rankingView = "potential";
@@ -5144,6 +5365,9 @@
       $("search").placeholder = t("searchPlaceholder");
       setText(".panel-title", t("rankName"));
       setText("#table-note", t("tableNote"));
+      setAllText(".market-view-tab", [t("marketTableView"), t("marketIndexView")]);
+      if ($("basket-index-title")) $("basket-index-title").textContent = t("basketIndexTitle");
+      if ($("basket-index-note")) $("basket-index-note").textContent = t("basketIndexNote");
       setAllText(".market-panel thead th:nth-child(-n+3)", ["", "#", t("thCompany")]);
       const sortLabels = { price: "thPrice", h1: "th1h", change: "th24h", d7: "th7d", volume: "thVolume", mcap: "thMcap", spark: "thSpark" };
       Object.entries(sortLabels).forEach(([sort, key]) => {
@@ -5257,6 +5481,9 @@
           updateCategoryControls();
           render();
         });
+      });
+      document.querySelectorAll("[data-market-view]").forEach((button) => {
+        button.addEventListener("click", () => setMarketView(button.dataset.marketView || "table"));
       });
       window.addEventListener("resize", updateCategoryControls);
       document.querySelectorAll("[data-ranking-view]").forEach((button) => {
