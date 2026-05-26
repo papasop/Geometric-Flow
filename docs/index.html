@@ -4391,7 +4391,7 @@
       const head = `<div class="potential-row potential-head">
         <div></div>
         <div>${escapeHtml(t("thCompany"))}</div>
-        <div class="potential-cell"><button class="potential-sort-button ${state.potentialSort === "score" ? "active" : ""}" type="button" data-potential-sort="score">${escapeHtml(t("potentialScore") + potentialSortArrow("score"))}</button></div>
+        <div class="potential-cell"><button class="potential-sort-button ${state.potentialSort === "score" ? "active" : ""}" type="button" data-potential-sort="score" aria-label="${escapeHtml(t("potentialScore"))}">${escapeHtml(potentialSortArrow("score").trim())}</button></div>
         <div class="potential-cell"><button class="potential-sort-button ${state.potentialSort === "gain" ? "active" : ""}" type="button" data-potential-sort="gain">${escapeHtml(t("potentialGain") + potentialSortArrow("gain"))}</button></div>
         <div class="potential-cell">${escapeHtml(t("potentialMcap"))}</div>
       </div>`;
