@@ -5292,9 +5292,7 @@
     }
     function selectCategory(category) {
       state.category = category || "ALL";
-      if (state.category === "ALL" || state.category === NVIDIA_CATEGORY) {
-        state.marketView = "index";
-      }
+      state.marketView = "table";
       if (state.category === TOKEN_FACTORY_CATEGORY && !TOKEN_FACTORY_SUBCATEGORIES.includes(state.tokenSubcategory)) {
         state.tokenSubcategory = "IaaS/PaaS";
       }
