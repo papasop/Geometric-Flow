@@ -374,7 +374,7 @@ AI_PERSON_NEWS_QUERY = (
     f"({quoted_or_query(AI_PERSON_NEWS_TERMS)}) "
     '("AI" OR "artificial intelligence" OR "OpenAI" OR "Nvidia" OR '
     '"large language model" OR "AI chip" OR "agent" OR "robotics" OR '
-    '"physical world model" OR "world model" OR "人工智能" OR "物理世界模型") '
+    '"physical world model" OR "world model" OR "人工智能" OR "人工智能推理" OR "物理世界模型") '
     '("says" OR "said" OR "warns" OR "predicts" OR "tweet" OR "post" OR "X" OR "推特" OR "发文" OR "表示")'
 )
 def ai_person_news_query(terms: list[str]) -> str:
@@ -382,7 +382,7 @@ def ai_person_news_query(terms: list[str]) -> str:
         f"({quoted_or_query(terms)}) "
         '("AI" OR "artificial intelligence" OR "OpenAI" OR "Nvidia" OR '
         '"large language model" OR "AI chip" OR "agent" OR "robotics" OR '
-        '"physical world model" OR "world model" OR "人工智能" OR "物理世界模型") '
+        '"physical world model" OR "world model" OR "人工智能" OR "人工智能推理" OR "物理世界模型") '
         '("says" OR "said" OR "warns" OR "warned" OR "predicts" OR "predicted" OR '
         '"thinks" OR "believes" OR "expects" OR "quote" OR "interview" OR "speech" OR '
         '"表示" OR "称" OR "认为" OR "警告" OR "预测" OR "指出" OR "采访" OR "演讲")'
