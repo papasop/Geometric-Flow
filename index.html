@@ -4587,7 +4587,12 @@
     function potentialRankingRows() {
       return basePotentialRows()
         .sort((a, b) => {
-          return (b.gain || 0) - (a.gain || 0) || b.cap - a.cap;
+          const key = state.potentialSort === "cap" ? "cap" : "gain";
+          const direction = state.potentialSortDir === "asc" ? 1 : -1;
+          if (key === "cap") {
+            return direction * ((a.cap || 0) - (b.cap || 0)) || (b.gain || 0) - (a.gain || 0);
+          }
+          return direction * ((a.gain || 0) - (b.gain || 0)) || b.cap - a.cap;
         });
     }
     function potentialSortArrow(key) {
@@ -4595,8 +4600,13 @@
       return state.potentialSortDir === "asc" ? " ↑" : " ↓";
     }
     function setPotentialSort(key) {
-      state.potentialSort = "gain";
-      state.potentialSortDir = "desc";
+      const nextKey = key === "cap" ? "cap" : "gain";
+      if (state.potentialSort === nextKey) {
+        state.potentialSortDir = state.potentialSortDir === "desc" ? "asc" : "desc";
+      } else {
+        state.potentialSort = nextKey;
+        state.potentialSortDir = "desc";
+      }
       renderPotentialRanking();
     }
     function renderPotentialRanking() {
@@ -4611,7 +4621,7 @@
         <div></div>
         <div>${escapeHtml(t("thCompany"))}</div>
         <div class="potential-cell"><button class="potential-sort-button ${state.potentialSort === "gain" ? "active" : ""}" type="button" data-potential-sort="gain">${escapeHtml(t("potentialGain") + potentialSortArrow("gain"))}</button></div>
-        <div class="potential-cell">${escapeHtml(t("potentialMcap"))}</div>
+        <div class="potential-cell"><button class="potential-sort-button ${state.potentialSort === "cap" ? "active" : ""}" type="button" data-potential-sort="cap">${escapeHtml(t("potentialMcap") + potentialSortArrow("cap"))}</button></div>
       </div>`;
       target.innerHTML = head + rows.map((entry, index) => {
         const row = entry.row;
