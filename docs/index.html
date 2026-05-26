@@ -4766,17 +4766,14 @@
         button.classList.toggle("active", isActive);
         button.setAttribute("aria-selected", isActive ? "true" : "false");
       });
-      const autoRows = potentialAutoRows();
-      if (state.potentialAutoIndex >= autoRows.length) state.potentialAutoIndex = 0;
-      const currentEntry = autoRows[state.potentialAutoIndex] || null;
-      const currentRow = currentEntry?.row || rowByTicker("NBIS");
+      const currentRow = rowByTicker("NBIS");
       const currentTicker = currentRow?.ticker || "NBIS";
       const title = $("potential-chart-title");
       const footerPrimary = $("potential-chart-footer-primary");
       const footerSecondary = $("potential-chart-footer-secondary");
       if (title) title.textContent = `${companyDisplayName(currentRow)} / NVIDIA Market Cap Ratio`;
       if (footerPrimary) footerPrimary.textContent = `${currentTicker} Market Cap / NVDA Market Cap`;
-      if (footerSecondary) footerSecondary.textContent = `${state.lang === "zh" ? "按起点倍数排序自动轮播" : "Auto-rotating by start multiple"} · ${currentEntry ? currentEntry.gain.toFixed(2) : "1.00"}x`;
+      if (footerSecondary) footerSecondary.textContent = state.lang === "zh" ? "固定显示 NBIS / NVIDIA" : "Fixed NBIS / NVIDIA view";
       try {
         const data = await potentialRatioSeries(currentTicker, state.potentialPeriod);
         renderRatioChart(data, {
@@ -4812,15 +4809,6 @@
     }
     function startPotentialAutoRotation() {
       stopPotentialAutoRotation();
-      if (state.rankingView !== "potential" || state.potentialView !== "chart" || state.potentialAutoPaused) return;
-      potentialAutoTimer = setInterval(() => {
-        if (state.rankingView !== "potential" || state.potentialView !== "chart" || state.potentialAutoPaused) return;
-        const rows = potentialAutoRows();
-        if (rows.length < 2) return;
-        state.potentialAutoIndex = (state.potentialAutoIndex + 1) % rows.length;
-        state.potentialPinnedIndex = null;
-        renderPotentialChart();
-      }, 3000);
     }
     function pausePotentialAutoRotation() {
       state.potentialAutoPaused = true;
