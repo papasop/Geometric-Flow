@@ -620,7 +620,7 @@
     }
     .potential-row {
       display: grid;
-      grid-template-columns: 42px minmax(0, 1fr) 116px 106px 110px;
+      grid-template-columns: 42px minmax(0, 1fr) 106px 110px;
       align-items: center;
       gap: 10px;
       min-height: 46px;
@@ -1330,7 +1330,6 @@
         min-height: 42px;
         padding: 0 8px;
       }
-      .potential-row > :nth-child(5) { display: none; }
       .potential-row.potential-head { font-size: 8px; letter-spacing: 0.04em; }
       .potential-name { font-size: 12px; }
       .potential-meta { font-size: 10px; }
@@ -4611,21 +4610,18 @@
       const head = `<div class="potential-row potential-head">
         <div></div>
         <div>${escapeHtml(t("thCompany"))}</div>
-        <div class="potential-cell"><button class="potential-sort-button ${state.potentialSort === "score" ? "active" : ""}" type="button" data-potential-sort="score" aria-label="${escapeHtml(t("potentialScore"))}">${escapeHtml(potentialSortArrow("score").trim())}</button></div>
         <div class="potential-cell"><button class="potential-sort-button ${state.potentialSort === "gain" ? "active" : ""}" type="button" data-potential-sort="gain">${escapeHtml(t("potentialGain") + potentialSortArrow("gain"))}</button></div>
         <div class="potential-cell">${escapeHtml(t("potentialMcap"))}</div>
       </div>`;
       target.innerHTML = head + rows.map((entry, index) => {
         const row = entry.row;
         const gainLabel = Number.isFinite(entry.gain) ? `${entry.gain.toFixed(2)}x` : "1.00x";
-        const scoreLabel = formatCap(entry.score);
         return `<div class="potential-row">
           <div class="potential-rank">${index + 1}</div>
           <div class="potential-company">
             <div class="potential-name">${escapeHtml(companyDisplayName(row))}</div>
             <div class="potential-meta">${escapeHtml(row.ticker)} · ${escapeHtml(companySubtext(row))}</div>
           </div>
-          <div class="potential-cell primary">${scoreLabel}</div>
           <div class="potential-cell">${gainLabel}</div>
           <div class="potential-cell">${formatCap(entry.cap)}</div>
         </div>`;
