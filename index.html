@@ -3798,7 +3798,11 @@
       const stats = $("basket-index-stats");
       const title = $("basket-index-title");
       const note = $("basket-index-note");
-      if (title) title.textContent = t("basketIndexTitle");
+      if (title) {
+        title.textContent = state.category === NVIDIA_CATEGORY
+          ? `${categoryDisplayLabel(NVIDIA_CATEGORY)} ${state.lang === "zh" ? "股票指数" : "Stock Index"}`
+          : t("basketIndexTitle");
+      }
       if (note) note.textContent = t("basketIndexNote");
       if (!svg || !valueNode || !stats) return;
       if (series.length < 2) {
@@ -5274,6 +5278,9 @@
     }
     function selectCategory(category) {
       state.category = category || "ALL";
+      if (state.category === NVIDIA_CATEGORY) {
+        state.marketView = "index";
+      }
       if (state.category === TOKEN_FACTORY_CATEGORY && !TOKEN_FACTORY_SUBCATEGORIES.includes(state.tokenSubcategory)) {
         state.tokenSubcategory = "IaaS/PaaS";
       }
