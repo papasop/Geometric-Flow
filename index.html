@@ -644,6 +644,21 @@
     .potential-meta { margin-top: 2px; color: #94a3b8; font-size: 11px; font-weight: 720; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .potential-cell { text-align: right; font-size: 12px; font-weight: 820; color: #e2e8f0; font-variant-numeric: tabular-nums; }
     .potential-cell.primary { color: #67e8f9; font-size: 13px; }
+    .potential-sort-button {
+      width: 100%;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      text-align: right;
+      text-transform: inherit;
+      letter-spacing: inherit;
+      cursor: pointer;
+    }
+    .potential-sort-button.active {
+      color: #67e8f9;
+    }
     .potential-empty {
       padding: 32px 12px;
       color: #94a3b8;
@@ -3238,7 +3253,7 @@
     };
     const CHINESE_REGION_CODES = new Set(["CN", "HK", "MO", "TW"]);
     const LANGUAGE_STORAGE_KEY = "isithub-language";
-    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: "ALL", infrastructureSubcategory: "DCI", hardwareSubcategory: "CNC", modelSubcategory: "LLM", llmSubcategory: "全部", worldModelSubcategory: "全部", selected: "NVDA", page: 1, rankingView: "potential", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, potentialView: "chart", potentialPeriod: "history", potentialPinnedIndex: null, fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
+    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: "ALL", infrastructureSubcategory: "DCI", hardwareSubcategory: "CNC", modelSubcategory: "LLM", llmSubcategory: "全部", worldModelSubcategory: "全部", selected: "NVDA", page: 1, rankingView: "potential", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, potentialView: "chart", potentialPeriod: "history", potentialPinnedIndex: null, potentialSort: "score", potentialSortDir: "desc", fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
     const potentialSeriesCache = new Map();
     try {
       const savedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY);
@@ -4343,7 +4358,24 @@
           };
         })
         .filter(Boolean)
-        .sort((a, b) => b.score - a.score);
+        .sort((a, b) => {
+          const key = state.potentialSort === "gain" ? "gain" : "score";
+          const direction = state.potentialSortDir === "asc" ? 1 : -1;
+          return direction * ((a[key] || 0) - (b[key] || 0)) || b.score - a.score;
+        });
+    }
+    function potentialSortArrow(key) {
+      if (state.potentialSort !== key) return "";
+      return state.potentialSortDir === "asc" ? " ↑" : " ↓";
+    }
+    function setPotentialSort(key) {
+      if (state.potentialSort === key) {
+        state.potentialSortDir = state.potentialSortDir === "desc" ? "asc" : "desc";
+      } else {
+        state.potentialSort = key;
+        state.potentialSortDir = "desc";
+      }
+      renderPotentialRanking();
     }
     function renderPotentialRanking() {
       const target = $("potential-ranking-list");
@@ -4356,9 +4388,9 @@
       const head = `<div class="potential-row potential-head">
         <div></div>
         <div>${escapeHtml(t("thCompany"))}</div>
-        <div class="potential-cell">${escapeHtml(t("potentialScore"))}</div>
+        <div class="potential-cell"><button class="potential-sort-button ${state.potentialSort === "score" ? "active" : ""}" type="button" data-potential-sort="score">${escapeHtml(t("potentialScore") + potentialSortArrow("score"))}</button></div>
         <div class="potential-cell">${escapeHtml(t("potentialVsNvda"))}</div>
-        <div class="potential-cell">${escapeHtml(t("potentialGain"))}</div>
+        <div class="potential-cell"><button class="potential-sort-button ${state.potentialSort === "gain" ? "active" : ""}" type="button" data-potential-sort="gain">${escapeHtml(t("potentialGain") + potentialSortArrow("gain"))}</button></div>
         <div class="potential-cell">${escapeHtml(t("potentialMcap"))}</div>
       </div>`;
       target.innerHTML = head + rows.map((entry, index) => {
@@ -4377,6 +4409,9 @@
           <div class="potential-cell">${formatCap(entry.cap)}</div>
         </div>`;
       }).join("");
+      target.querySelectorAll("[data-potential-sort]").forEach((button) => {
+        button.addEventListener("click", () => setPotentialSort(button.dataset.potentialSort || "score"));
+      });
     }
     function setPotentialView(view) {
       state.potentialView = view === "ranking" ? "ranking" : "chart";
