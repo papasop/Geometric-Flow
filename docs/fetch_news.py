@@ -553,6 +553,7 @@ TECH_NEWS_SOURCES = [
     google_news_query_source("Stanford Business Magazine", f"site:gsb.stanford.edu/stanford-business {AI_MARKET_NEWS_QUERY}"),
 ]
 PAPER_NEWS_SOURCES = [
+    google_news_query_source("arXiv · JEPA", 'site:arxiv.org ("H-JEPA" OR "Hierarchical JEPA" OR "Joint-Embedding Predictive Architecture" OR JEPA)'),
     google_news_query_source("Nature", f"site:nature.com {AI_MARKET_NEWS_QUERY}"),
     google_news_query_source("Nature Machine Intelligence", f"site:nature.com/natmachintell {AI_MARKET_NEWS_QUERY}"),
     {"name": "Science", "url": "https://www.science.org/action/showFeed?type=etoc&feed=rss&jc=science"},
@@ -617,7 +618,7 @@ NEWS_SECTIONS = [
     {
         "id": "papers",
         "title": "论文",
-        "note": "Science / Nature / Cell",
+        "note": "Science / Nature / Cell / arXiv JEPA",
         "sources": PAPER_NEWS_SOURCES,
     },
     {
@@ -656,6 +657,8 @@ TAVILY_SECTION_QUERIES = {
         'AI frontier technology robots world models agents chips site:wired.com OR site:technologyreview.com',
     ],
     "papers": [
+        '"H-JEPA" OR "Hierarchical JEPA" OR "Joint-Embedding Predictive Architecture" arXiv paper',
+        'JEPA "Joint-Embedding Predictive Architecture" AI research paper arXiv Yann LeCun',
         'AI research paper large language model agents robotics Nature Science Cell arXiv',
     ],
     "devops": [
@@ -789,6 +792,20 @@ PINNED_SECTION_ITEMS = {
         },
     ],
     "papers": [
+        {
+            "source": "arXiv",
+            "feedSource": "arXiv",
+            "sourceUrl": "https://arxiv.org/",
+            "title": "Hierarchical JEPA Meets Predictive Remote Control in Beyond 5G Networks",
+            "summary": "H-JEPA applies a hierarchical joint-embedding predictive architecture to remote-control systems, using multiscale prediction in embedding space to preserve control performance under constrained wireless capacity.",
+            "url": "https://arxiv.org/abs/2602.07000",
+            "author": "Abanoub M. Girgis, Ibtissam Labriji, Mehdi Bennis",
+            "publishedAt": "2026-01-28T00:00:00Z",
+            "section": "papers",
+            "sectionTitle": "论文",
+            "matchedPortfolios": ["ai-market"],
+            "tags": ["arXiv", "H-JEPA", "JEPA", "world models", "predictive control"],
+        },
         {
             "source": "arXiv",
             "feedSource": "arXiv",
