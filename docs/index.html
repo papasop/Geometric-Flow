@@ -3350,7 +3350,7 @@
     const CHINESE_REGION_CODES = new Set(["CN", "HK", "MO", "TW"]);
     const LANGUAGE_STORAGE_KEY = "isithub-language";
     const GLOBAL_CHART_START_DATE = "2022-11-30";
-    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: "SMR", infrastructureSubcategory: "DCI", hardwareSubcategory: "CNC", modelSubcategory: "LLM", llmSubcategory: "全部", worldModelSubcategory: "全部", selected: "NVDA", page: 1, marketView: "table", rankingView: "potential", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, potentialView: "chart", potentialPeriod: "history", potentialPinnedIndex: null, potentialAutoIndex: 0, potentialAutoPaused: false, potentialSort: "gain", potentialSortDir: "desc", fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
+    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: null, infrastructureSubcategory: "DCI", hardwareSubcategory: "CNC", modelSubcategory: "LLM", llmSubcategory: "全部", worldModelSubcategory: "全部", selected: "NVDA", page: 1, marketView: "table", rankingView: "potential", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, potentialView: "chart", potentialPeriod: "history", potentialPinnedIndex: null, potentialAutoIndex: 0, potentialAutoPaused: false, potentialSort: "gain", potentialSortDir: "desc", fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
     const potentialSeriesCache = new Map();
     let potentialAutoTimer = null;
     try {
@@ -3577,6 +3577,7 @@
     }
     function matchesEnergySubcategory(row) {
       if (state.category !== ENERGY_CATEGORY) return true;
+      if (!state.energySubcategory) return true;
       return energySubcategory(row) === state.energySubcategory;
     }
     function infrastructureSubcategory(row) {
@@ -5350,7 +5351,7 @@
         state.tokenSubcategory = "IaaS/PaaS";
       }
       if (state.category === ENERGY_CATEGORY) {
-        state.energySubcategory = "SMR";
+        state.energySubcategory = null;
       }
       if (state.category === INFRASTRUCTURE_CATEGORY && !INFRASTRUCTURE_SUBCATEGORIES.includes(state.infrastructureSubcategory)) {
         state.infrastructureSubcategory = "DCI";
