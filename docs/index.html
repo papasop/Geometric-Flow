@@ -1557,9 +1557,9 @@
       <button class="subtab notranslate" data-token-subcategory="ATaaS" type="button" translate="no" lang="en">ATaaS</button>
     </section>
     <section class="subtabs" id="energy-subtabs" aria-label="能源子标签" hidden>
-      <button class="subtab active" data-energy-subcategory="ALL" type="button">All</button>
-      <button class="subtab notranslate" data-energy-subcategory="SMR" type="button" translate="no" lang="en">SMR</button>
+      <button class="subtab active notranslate" data-energy-subcategory="SMR" type="button" translate="no" lang="en">SMR</button>
       <button class="subtab notranslate" data-energy-subcategory="SOFC" type="button" translate="no" lang="en">SOFC</button>
+      <button class="subtab" data-energy-subcategory="OTHERS" type="button">Others</button>
     </section>
     <section class="subtabs" id="infrastructure-subtabs" aria-label="基础设施子标签" hidden>
       <button class="subtab active notranslate" data-infrastructure-subcategory="DCI" type="button" translate="no" lang="en">DCI</button>
@@ -2476,7 +2476,7 @@
     const DBAAS_TICKERS = new Set(["SNOW", "MDB", "CLICKHOUSE.PRE", "DATABRICKS.PRE"]);
     const ATAAS_TICKERS = new Set(["QJTECH.PRE"]);
     const ENERGY_CATEGORY = "能源";
-    const ENERGY_SUBCATEGORIES = ["ALL", "SMR", "SOFC"];
+    const ENERGY_SUBCATEGORIES = ["SMR", "SOFC", "OTHERS"];
     const ENERGY_TICKERS = new Set(["VRT", "EOSE", "NEE", "LEU", "UUUU", "OKLO", "CEG", "VST", "BLDP", "PLUG", "FCEL", "FLNC", "HYLN"]);
     const SMR_TICKERS = new Set(["OKLO", "UUUU", "LEU", "VST", "SMR", "CEG", "XE", "KAIROS.PRE", "TERRAPOWER.PRE", "BWXT", "GEV", "HOLTEC.PRE", "601985.SS", "1816.HK", "LTBR", "ARE.TO", "ATRL.TO", "RR.L"]);
     const INFRASTRUCTURE_CATEGORY = "基础设施";
@@ -2732,7 +2732,7 @@
       ["BLDP", "Ballard Power Systems", "SOFC / fuel cell power", "巴拉德动力系统，NASDAQ:BLDP，燃料电池动力系统公司，按用户指定列入能源 SOFC 子标签。"],
       ["PLUG", "Plug Power", "SOFC / hydrogen fuel cell power", "普拉格能源，NASDAQ:PLUG，氢燃料电池与电解槽公司，按用户指定列入能源 SOFC 子标签。"],
       ["FCEL", "FuelCell Energy", "SOFC / fuel cell power", "FuelCell Energy，NASDAQ:FCEL，燃料电池发电与分布式能源公司，按用户指定列入能源 SOFC 子标签。"],
-      ["HYLN", "Hyliion Holdings", "SOFC / distributed power", "Hyliion Holdings Corp.，NYSE:HYLN，按用户指定列入能源 SOFC 子标签，聚焦分布式发电与 KARNO 固体氧化物燃料电池/发电机技术。"],
+      ["HYLN", "Hyliion Holdings", "Energy / distributed power", "Hyliion Holdings Corp.，NYSE:HYLN，列入能源 Others 子标签，聚焦分布式发电与 KARNO 固体氧化物燃料电池/发电机技术。"],
       ["000338.SZ", "潍柴动力", "SOFC / China system integration", "关键词：Ceres 中国第一大股东、系统集成、燃料电池产业园、净发电效率 60%+、重卡/分布式能源/数据中心备用电源。"],
       ["CWR.L", "Ceres Power", "SOFC / licensing IP", "关键词：SOFC 授权技术源头、SteelCell 金属支撑型 SOFC、核心专利、轻资产授权、潍柴/博世/康明斯合作。"],
       ["336260.KS", "Doosan Fuel Cell", "SOFC / Korea utility fuel cells", "关键词：韩国氢能电池龙头、PAFC 转 SOFC、Ceres 技术授权、公用事业级发电、大规模 SOFC 产线。"],
@@ -3253,7 +3253,7 @@
     };
     const CHINESE_REGION_CODES = new Set(["CN", "HK", "MO", "TW"]);
     const LANGUAGE_STORAGE_KEY = "isithub-language";
-    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: "ALL", infrastructureSubcategory: "DCI", hardwareSubcategory: "CNC", modelSubcategory: "LLM", llmSubcategory: "全部", worldModelSubcategory: "全部", selected: "NVDA", page: 1, rankingView: "potential", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, potentialView: "chart", potentialPeriod: "history", potentialPinnedIndex: null, potentialAutoIndex: 0, potentialAutoPaused: false, potentialSort: "score", potentialSortDir: "desc", fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
+    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: "SMR", infrastructureSubcategory: "DCI", hardwareSubcategory: "CNC", modelSubcategory: "LLM", llmSubcategory: "全部", worldModelSubcategory: "全部", selected: "NVDA", page: 1, rankingView: "potential", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, potentialView: "chart", potentialPeriod: "history", potentialPinnedIndex: null, potentialAutoIndex: 0, potentialAutoPaused: false, potentialSort: "score", potentialSortDir: "desc", fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
     const potentialSeriesCache = new Map();
     let potentialAutoTimer = null;
     try {
@@ -3457,14 +3457,14 @@
     }
     function energySubcategory(row) {
       const haystack = `${row.ticker} ${row.name} ${row.category} ${row.thesis} ${(row.tags || []).join(" ")}`.toLowerCase();
-      if (row.ticker === "BE" || row.ticker === "BLDP" || row.ticker === "PLUG" || row.ticker === "FCEL" || row.ticker === "FLNC" || row.ticker === "HYLN" || row.ticker === "000338.SZ") return "SOFC";
+      if (row.ticker === "HYLN") return "OTHERS";
+      if (row.ticker === "BE" || row.ticker === "BLDP" || row.ticker === "PLUG" || row.ticker === "FCEL" || row.ticker === "FLNC" || row.ticker === "000338.SZ") return "SOFC";
       if (SMR_TICKERS.has(row.ticker)) return "SMR";
       if (/sofc|solid oxide|fuel cell|fuel cells|燃料电池|固体氧化物/.test(haystack)) return "SOFC";
-      return null;
+      return "OTHERS";
     }
     function matchesEnergySubcategory(row) {
       if (state.category !== ENERGY_CATEGORY) return true;
-      if (state.energySubcategory === "ALL") return true;
       return energySubcategory(row) === state.energySubcategory;
     }
     function infrastructureSubcategory(row) {
@@ -5072,7 +5072,7 @@
         state.tokenSubcategory = "IaaS/PaaS";
       }
       if (state.category === ENERGY_CATEGORY) {
-        state.energySubcategory = "ALL";
+        state.energySubcategory = "SMR";
       }
       if (state.category === INFRASTRUCTURE_CATEGORY && !INFRASTRUCTURE_SUBCATEGORIES.includes(state.infrastructureSubcategory)) {
         state.infrastructureSubcategory = "DCI";
@@ -5135,7 +5135,7 @@
       setAllText(".potential-view-tab", [t("potentialChart"), t("potentialRank"), t("potentialChart"), t("potentialRank")]);
       setAllText(".token-metric span", [t("period"), "Top 10 Tokens", t("firstShare")]);
       setAllText(".tabs .tab", [t("all"), ...AIBOTT_THEMES.map(categoryDisplayLabel)]);
-      setAllText("#energy-subtabs .subtab", [t("all"), "SMR", "SOFC"]);
+      setAllText("#energy-subtabs .subtab", ["SMR", "SOFC", state.lang === "zh" ? "其他" : "Others"]);
       setAllText("#infrastructure-subtabs .subtab", ["DCI", "AIDC", "HPC"]);
       setAllText("#hardware-subtabs .subtab", ["CNC", "CPO"]);
       setAllText("#model-subtabs .subtab", ["LLM", t("physicalWorldModel")]);
@@ -5210,7 +5210,7 @@
       });
       document.querySelectorAll("[data-energy-subcategory]").forEach((button) => {
         button.addEventListener("click", () => {
-          state.energySubcategory = button.dataset.energySubcategory || "ALL";
+          state.energySubcategory = button.dataset.energySubcategory || "SMR";
           state.page = 1;
           updateCategoryControls();
           render();
