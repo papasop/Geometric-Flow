@@ -3799,7 +3799,9 @@
       const title = $("basket-index-title");
       const note = $("basket-index-note");
       if (title) {
-        title.textContent = state.category === NVIDIA_CATEGORY
+        title.textContent = state.category === "ALL"
+          ? `${t("all")} ${state.lang === "zh" ? "股票指数" : "Stock Index"}`
+          : state.category === NVIDIA_CATEGORY
           ? `${categoryDisplayLabel(NVIDIA_CATEGORY)} ${state.lang === "zh" ? "股票指数" : "Stock Index"}`
           : t("basketIndexTitle");
       }
@@ -5278,7 +5280,7 @@
     }
     function selectCategory(category) {
       state.category = category || "ALL";
-      if (state.category === NVIDIA_CATEGORY) {
+      if (state.category === "ALL" || state.category === NVIDIA_CATEGORY) {
         state.marketView = "index";
       }
       if (state.category === TOKEN_FACTORY_CATEGORY && !TOKEN_FACTORY_SUBCATEGORIES.includes(state.tokenSubcategory)) {
