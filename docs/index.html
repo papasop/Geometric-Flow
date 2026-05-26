@@ -3286,7 +3286,7 @@
         currentFilter: "按当前筛选", realVolume: "真实成交额，可用时更新", hot: "热门", topGainer: "最大升幅", waitingQuotes: "等待行情或估算涨跌",
         tokenRanking: "代币使用", tokenNote: "参考 OpenRouter Top Models，用量口径可切换",
         chartRanking: "代币成本", chartNote: "LLM Token Expenditure Index",
-        modelRanking: "大模型排行", modelNote: "CursorBench · 每日外部更新", potentialRanking: "潜力", potentialNote: "图表: NBIS / NVIDIA · 排行: 当前市值 × 起点倍数²", potentialChart: "图表", potentialRank: "排行", potentialScore: "潜力得分", potentialGain: "起点倍数", potentialMcap: "市值", potentialBasis: "当前市值 × 起点倍数²", modelColumn: "模型", modelScore: "得分", modelCostTask: "平均成本 / 任务", dataSource: "数据来源", updatedDate: "更新日期", dailyExternal: "每日外部更新", dailyLocal: "每日本地更新", inlineSnapshot: "内置快照",
+        modelRanking: "大模型排行", modelNote: "CursorBench · 每日外部更新", potentialRanking: "潜力", potentialNote: "图表: NBIS / NVIDIA · 排行: 起点倍数前十", potentialChart: "图表", potentialRank: "排行", potentialScore: "潜力得分", potentialGain: "起点倍数", potentialMcap: "市值", potentialBasis: "当前市值 × 起点倍数²", modelColumn: "模型", modelScore: "得分", modelCostTask: "平均成本 / 任务", dataSource: "数据来源", updatedDate: "更新日期", dailyExternal: "每日外部更新", dailyLocal: "每日本地更新", inlineSnapshot: "内置快照",
         day: "日", week: "周", month: "月", history: "历史", period: "周期", firstShare: "第一名占比",
         all: "全部", aiChips: "AI 芯片", aiCloud: "新云", dataCenter: "数据中心", enterpriseAi: "企业 AI", security: "安全", quantum: "量子", chinaAi: "中国 AI", leopold: "Leopold Aschenbrenner",
         physicalWorldModel: "物理世界模型", worldModelText: "文本", worldModelRobotics: "机器人", openSource: "开源", closedSource: "闭源",
@@ -3320,7 +3320,7 @@
         currentFilter: "Current filter", realVolume: "Real traded value when available", hot: "Trending", topGainer: "Top Gainer", waitingQuotes: "Waiting for quotes or estimated moves",
         tokenRanking: "Token Usage", tokenNote: "Inspired by OpenRouter Top Models; period is switchable",
         chartRanking: "Token Cost", chartNote: "LLM Token Expenditure Index",
-        modelRanking: "Model Ranking", modelNote: "CursorBench · daily external feed", potentialRanking: "Potential", potentialNote: "Chart: NBIS / NVIDIA · Ranking: market cap × start multiple²", potentialChart: "Chart", potentialRank: "Ranking", potentialScore: "Potential score", potentialGain: "Start multiple", potentialMcap: "Market cap", potentialBasis: "Market cap × start multiple²", modelColumn: "Model", modelScore: "Score", modelCostTask: "Avg Cost / Task", dataSource: "Source", updatedDate: "Updated", dailyExternal: "Daily external update", dailyLocal: "Daily local update", inlineSnapshot: "Inline snapshot",
+        modelRanking: "Model Ranking", modelNote: "CursorBench · daily external feed", potentialRanking: "Potential", potentialNote: "Chart: NBIS / NVIDIA · Ranking: start multiple top 10", potentialChart: "Chart", potentialRank: "Ranking", potentialScore: "Potential score", potentialGain: "Start multiple", potentialMcap: "Market cap", potentialBasis: "Market cap × start multiple²", modelColumn: "Model", modelScore: "Score", modelCostTask: "Avg Cost / Task", dataSource: "Source", updatedDate: "Updated", dailyExternal: "Daily external update", dailyLocal: "Daily local update", inlineSnapshot: "Inline snapshot",
         day: "Day", week: "Week", month: "Month", history: "History", period: "Period", firstShare: "Top share",
         all: "All", aiChips: "AI Chips", aiCloud: "AI Cloud", dataCenter: "Data Centers", enterpriseAi: "Enterprise AI", security: "Security", quantum: "Quantum", chinaAi: "China AI", leopold: "Leopold Aschenbrenner",
         physicalWorldModel: "World Models", worldModelText: "Text", worldModelRobotics: "Robotics", openSource: "Open", closedSource: "Closed",
@@ -3346,7 +3346,7 @@
     };
     const CHINESE_REGION_CODES = new Set(["CN", "HK", "MO", "TW"]);
     const LANGUAGE_STORAGE_KEY = "isithub-language";
-    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: "SMR", infrastructureSubcategory: "DCI", hardwareSubcategory: "CNC", modelSubcategory: "LLM", llmSubcategory: "全部", worldModelSubcategory: "全部", selected: "NVDA", page: 1, marketView: "table", rankingView: "potential", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, potentialView: "chart", potentialPeriod: "history", potentialPinnedIndex: null, potentialAutoIndex: 0, potentialAutoPaused: false, potentialSort: "score", potentialSortDir: "desc", fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
+    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: "SMR", infrastructureSubcategory: "DCI", hardwareSubcategory: "CNC", modelSubcategory: "LLM", llmSubcategory: "全部", worldModelSubcategory: "全部", selected: "NVDA", page: 1, marketView: "table", rankingView: "potential", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, potentialView: "chart", potentialPeriod: "history", potentialPinnedIndex: null, potentialAutoIndex: 0, potentialAutoPaused: false, potentialSort: "gain", potentialSortDir: "desc", fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
     const potentialSeriesCache = new Map();
     let potentialAutoTimer = null;
     try {
@@ -4588,12 +4588,7 @@
     function potentialRankingRows() {
       return basePotentialRows()
         .sort((a, b) => {
-          const key = state.potentialSort === "gain" ? "gain" : "score";
-          const direction = state.potentialSortDir === "asc" ? 1 : -1;
-          if (key === "gain") {
-            return direction * ((a.gain || 0) - (b.gain || 0)) || b.cap - a.cap;
-          }
-          return direction * ((a.score || 0) - (b.score || 0)) || b.gain - a.gain || b.cap - a.cap;
+          return (b.gain || 0) - (a.gain || 0) || b.cap - a.cap;
         });
     }
     function potentialSortArrow(key) {
@@ -4601,12 +4596,8 @@
       return state.potentialSortDir === "asc" ? " ↑" : " ↓";
     }
     function setPotentialSort(key) {
-      if (state.potentialSort === key) {
-        state.potentialSortDir = state.potentialSortDir === "desc" ? "asc" : "desc";
-      } else {
-        state.potentialSort = key;
-        state.potentialSortDir = "desc";
-      }
+      state.potentialSort = "gain";
+      state.potentialSortDir = "desc";
       renderPotentialRanking();
     }
     function renderPotentialRanking() {
@@ -4646,7 +4637,7 @@
     function setPotentialView(view) {
       const nextView = view === "ranking" ? "ranking" : "chart";
       if (nextView === "ranking" && state.potentialView !== "ranking") {
-        state.potentialSort = "score";
+        state.potentialSort = "gain";
         state.potentialSortDir = "desc";
       }
       if (nextView === "chart" && state.potentialView !== "chart") {
