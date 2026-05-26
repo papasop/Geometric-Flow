@@ -3345,6 +3345,7 @@
     };
     const CHINESE_REGION_CODES = new Set(["CN", "HK", "MO", "TW"]);
     const LANGUAGE_STORAGE_KEY = "isithub-language";
+    const GLOBAL_CHART_START_DATE = "2022-11-30";
     const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: "SMR", infrastructureSubcategory: "DCI", hardwareSubcategory: "CNC", modelSubcategory: "LLM", llmSubcategory: "全部", worldModelSubcategory: "全部", selected: "NVDA", page: 1, marketView: "table", rankingView: "potential", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, potentialView: "chart", potentialPeriod: "history", potentialPinnedIndex: null, potentialAutoIndex: 0, potentialAutoPaused: false, potentialSort: "gain", potentialSortDir: "desc", fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
     const potentialSeriesCache = new Map();
     let potentialAutoTimer = null;
@@ -3815,8 +3816,8 @@
       if (note) note.textContent = t("basketIndexNote");
       if (note && state.category === "ALL") {
         note.textContent = state.lang === "zh"
-          ? "市值前 100 · 每只 1% 等权 · 不含预上市 · 每周自动再平衡"
-          : "Top 100 by market cap · 1% each · no pre-IPO · weekly rebalanced";
+          ? "市值前 100 · 每只 1% 等权 · 不含预上市 · 每周自动再平衡 · 2022-11-30 起"
+          : "Top 100 by market cap · 1% each · no pre-IPO · weekly rebalanced · from 2022-11-30";
       }
       if (!svg || !valueNode || !stats) return;
       if (series.length < 2) {
@@ -4477,10 +4478,11 @@
       const config = potentialFetchConfig(period);
       const encoded = encodeURIComponent(ticker);
       const payload = await fetchJson(`https://query1.finance.yahoo.com/v8/finance/chart/${encoded}?range=${config.range}&interval=${config.interval}`);
-      return validCloses(payload.chart?.result?.[0]).map((point) => ({
+      const rows = validCloses(payload.chart?.result?.[0]).map((point) => ({
         date: new Date(point.ts * 1000).toISOString().slice(0, period === "day" ? 13 : 10),
         close: point.close
       }));
+      return chartHistoryScope(rows, period);
     }
     function normalizeClosePoint(point) {
       const close = Number(point?.close);
@@ -4489,13 +4491,17 @@
       const date = rawDate.includes("T") ? rawDate.slice(0, 13) : rawDate.slice(0, 10);
       return date ? { date, close } : null;
     }
+    function chartHistoryScope(points, period = "history") {
+      if (period !== "history") return points;
+      return points.filter((point) => String(point?.date || "") >= GLOBAL_CHART_START_DATE);
+    }
     function localPotentialCloses(ticker, period) {
       const row = rowByTicker(ticker);
       let points = [];
       if (period === "day") points = row?.intradayClosePoints || [];
       else if (period === "history") points = row?.historyClosePoints || row?.closePoints || [];
       else points = row?.closePoints || [];
-      const clean = points.map(normalizeClosePoint).filter(Boolean);
+      const clean = chartHistoryScope(points.map(normalizeClosePoint).filter(Boolean), period);
       if (period === "week") return clean.slice(-6);
       return clean;
     }
@@ -4535,7 +4541,7 @@
     }
     function potentialHistoryPoints(row) {
       const points = row?.historyClosePoints || row?.closePoints || [];
-      return points.map(normalizeClosePoint).filter(Boolean);
+      return chartHistoryScope(points.map(normalizeClosePoint).filter(Boolean));
     }
     function potentialGainRatio(row) {
       const points = potentialHistoryPoints(row);
@@ -4873,7 +4879,7 @@
       }
       if (period === "week") return daily.slice(-8);
       if (period === "month") return daily.slice(-31);
-      return anchors;
+      return anchors.filter((point) => String(point?.date || "") >= GLOBAL_CHART_START_DATE);
     }
     function renderTokenIndexChart(activeIndex = null) {
       const svg = $("llm-token-index-chart");
