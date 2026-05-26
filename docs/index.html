@@ -1458,7 +1458,7 @@
       <div class="ranking-panel-head">
         <div class="ranking-heading">
           <div class="ranking-panel-title">潜力</div>
-          <div class="ranking-panel-note" id="ranking-panel-note">图表: NBIS / NVIDIA · 排行: 当前市值 × 相对英伟达历史比例变动倍数</div>
+          <div class="ranking-panel-note" id="ranking-panel-note">图表: NBIS / NVIDIA · 排行: 当前市值 × 起点倍数</div>
         </div>
         <div class="ranking-switch" role="tablist" aria-label="排行切换">
           <button class="active" data-ranking-view="potential" type="button" role="tab" aria-selected="true">潜力</button>
@@ -4417,7 +4417,12 @@
       });
     }
     function setPotentialView(view) {
-      state.potentialView = view === "ranking" ? "ranking" : "chart";
+      const nextView = view === "ranking" ? "ranking" : "chart";
+      if (nextView === "ranking" && state.potentialView !== "ranking") {
+        state.potentialSort = "score";
+        state.potentialSortDir = "desc";
+      }
+      state.potentialView = nextView;
       document.querySelectorAll("[data-potential-view]").forEach((button) => {
         const active = button.dataset.potentialView === state.potentialView;
         button.classList.toggle("active", active);
