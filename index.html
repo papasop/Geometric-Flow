@@ -4428,6 +4428,10 @@
         state.potentialSort = "score";
         state.potentialSortDir = "desc";
       }
+      if (nextView === "chart" && state.potentialView !== "chart") {
+        state.potentialPeriod = "history";
+        state.potentialPinnedIndex = null;
+      }
       state.potentialView = nextView;
       document.querySelectorAll("[data-potential-view]").forEach((button) => {
         const active = button.dataset.potentialView === state.potentialView;
