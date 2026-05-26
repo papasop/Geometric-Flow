@@ -4339,7 +4339,7 @@
             cap,
             gain,
             score,
-            vsNvda: Number.isFinite(nvdaScore) && nvdaScore > 0 ? (score / nvdaScore) * 100 : null
+            vsNvda: Number.isFinite(nvdaScore) && nvdaScore > 0 ? (cap / nvdaScore) * 100 : null
           };
         })
         .filter(Boolean)
