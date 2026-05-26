@@ -3253,7 +3253,7 @@
     };
     const CHINESE_REGION_CODES = new Set(["CN", "HK", "MO", "TW"]);
     const LANGUAGE_STORAGE_KEY = "isithub-language";
-    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: "ALL", infrastructureSubcategory: "DCI", hardwareSubcategory: "CNC", modelSubcategory: "LLM", llmSubcategory: "全部", worldModelSubcategory: "全部", selected: "NVDA", page: 1, rankingView: "potential", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, potentialView: "chart", potentialPeriod: "history", potentialPinnedIndex: null, potentialSort: "score", potentialSortDir: "desc", fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
+    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: "ALL", infrastructureSubcategory: "DCI", hardwareSubcategory: "CNC", modelSubcategory: "LLM", llmSubcategory: "全部", worldModelSubcategory: "全部", selected: "NVDA", page: 1, rankingView: "potential", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, potentialView: "chart", potentialPeriod: "history", potentialPinnedIndex: null, potentialSort: "gain", potentialSortDir: "desc", fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
     const potentialSeriesCache = new Map();
     try {
       const savedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY);
@@ -4316,7 +4316,6 @@
       })).filter((point) => Number.isFinite(point.cap) && point.cap > 0);
     }
     const POTENTIAL_RATIO_START_DATE = "2024-10-21";
-    const POTENTIAL_MIN_START_MULTIPLE = 9;
     function potentialRatioMultipleVsNvda(row, nvda) {
       const rowCaps = impliedHistoricalMarketCaps(row);
       const nvdaCaps = impliedHistoricalMarketCaps(nvda);
@@ -4347,7 +4346,7 @@
           const cap = effectiveCap(row);
           if (!Number.isFinite(cap) || cap <= 0) return null;
           const multiple = row.ticker === "NVDA" ? 1 : potentialRatioMultipleVsNvda(row, nvda);
-          if (!Number.isFinite(multiple) || multiple < POTENTIAL_MIN_START_MULTIPLE) return null;
+          if (!Number.isFinite(multiple) || multiple <= 1) return null;
           const gain = multiple;
           return {
             row,
@@ -4364,7 +4363,7 @@
           if (key === "gain") {
             return direction * ((a.gain || 0) - (b.gain || 0)) || b.cap - a.cap;
           }
-          return direction * ((a.cap || 0) - (b.cap || 0)) || b.gain - a.gain;
+          return direction * ((a.gain || 0) - (b.gain || 0)) || b.cap - a.cap;
         });
     }
     function potentialSortArrow(key) {
