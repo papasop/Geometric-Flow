@@ -1835,7 +1835,7 @@ def parse_tavily_result(result: dict[str, object], section: dict[str, object], q
         "sectionTitle": str(section["title"]),
         "tags": ["Tavily", query[:80]],
     }
-    image = image_from_tavily_result(result)
+    image = "" if str(section.get("id") or "") == "person" else image_from_tavily_result(result)
     if image:
         item["image"] = image
     matched, tags = classify(item)
@@ -1862,7 +1862,7 @@ def fetch_tavily_section(api_key: str, section: dict[str, object], budget: int) 
             "time_range": "week",
             "include_answer": False,
             "include_raw_content": False,
-            "include_images": True,
+            "include_images": section.get("id") != "person",
             "include_favicon": True,
         }
         try:
