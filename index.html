@@ -3180,7 +3180,7 @@
         currentFilter: "按当前筛选", realVolume: "真实成交额，可用时更新", hot: "热门", topGainer: "最大升幅", waitingQuotes: "等待行情或估算涨跌",
         tokenRanking: "代币使用", tokenNote: "参考 OpenRouter Top Models，用量口径可切换",
         chartRanking: "代币成本", chartNote: "LLM Token Expenditure Index",
-        modelRanking: "大模型排行", modelNote: "CursorBench · 每日外部更新", potentialRanking: "潜力", potentialNote: "图表: NBIS / NVIDIA · 排行: 当前市值 × 2024-10-21 起相对英伟达倍数", potentialChart: "图表", potentialRank: "排行", potentialScore: "潜力得分", potentialVsNvda: "对英伟达", potentialGain: "起点倍数", potentialMcap: "市值", potentialBasis: "当前市值 × 2024-10-21 起相对英伟达倍数", modelColumn: "模型", modelScore: "得分", modelCostTask: "平均成本 / 任务", dataSource: "数据来源", updatedDate: "更新日期", dailyExternal: "每日外部更新", dailyLocal: "每日本地更新", inlineSnapshot: "内置快照",
+        modelRanking: "大模型排行", modelNote: "CursorBench · 每日外部更新", potentialRanking: "潜力", potentialNote: "图表: NBIS / NVIDIA · 排行: 当前市值 × 起点倍数²", potentialChart: "图表", potentialRank: "排行", potentialScore: "潜力得分", potentialVsNvda: "对英伟达", potentialGain: "起点倍数", potentialMcap: "市值", potentialBasis: "当前市值 × 2024-10-21 起相对英伟达倍数²", modelColumn: "模型", modelScore: "得分", modelCostTask: "平均成本 / 任务", dataSource: "数据来源", updatedDate: "更新日期", dailyExternal: "每日外部更新", dailyLocal: "每日本地更新", inlineSnapshot: "内置快照",
         day: "日", week: "周", month: "月", history: "历史", period: "周期", firstShare: "第一名占比",
         all: "全部", aiChips: "AI 芯片", aiCloud: "新云", dataCenter: "数据中心", enterpriseAi: "企业 AI", security: "安全", quantum: "量子", chinaAi: "中国 AI", leopold: "Leopold Aschenbrenner",
         physicalWorldModel: "物理世界模型", worldModelText: "文本", worldModelRobotics: "机器人", openSource: "开源", closedSource: "闭源",
@@ -3213,7 +3213,7 @@
         currentFilter: "Current filter", realVolume: "Real traded value when available", hot: "Trending", topGainer: "Top Gainer", waitingQuotes: "Waiting for quotes or estimated moves",
         tokenRanking: "Token Usage", tokenNote: "Inspired by OpenRouter Top Models; period is switchable",
         chartRanking: "Token Cost", chartNote: "LLM Token Expenditure Index",
-        modelRanking: "Model Ranking", modelNote: "CursorBench · daily external feed", potentialRanking: "Potential", potentialNote: "Chart: NBIS / NVIDIA · Ranking: market cap × ratio multiple vs NVIDIA since 2024-10-21", potentialChart: "Chart", potentialRank: "Ranking", potentialScore: "Potential score", potentialVsNvda: "vs NVIDIA", potentialGain: "Start multiple", potentialMcap: "Market cap", potentialBasis: "Market cap × ratio multiple vs NVIDIA since 2024-10-21", modelColumn: "Model", modelScore: "Score", modelCostTask: "Avg Cost / Task", dataSource: "Source", updatedDate: "Updated", dailyExternal: "Daily external update", dailyLocal: "Daily local update", inlineSnapshot: "Inline snapshot",
+        modelRanking: "Model Ranking", modelNote: "CursorBench · daily external feed", potentialRanking: "Potential", potentialNote: "Chart: NBIS / NVIDIA · Ranking: market cap × start multiple²", potentialChart: "Chart", potentialRank: "Ranking", potentialScore: "Potential score", potentialVsNvda: "vs NVIDIA", potentialGain: "Start multiple", potentialMcap: "Market cap", potentialBasis: "Market cap × start multiple² since 2024-10-21 vs NVIDIA", modelColumn: "Model", modelScore: "Score", modelCostTask: "Avg Cost / Task", dataSource: "Source", updatedDate: "Updated", dailyExternal: "Daily external update", dailyLocal: "Daily local update", inlineSnapshot: "Inline snapshot",
         day: "Day", week: "Week", month: "Month", history: "History", period: "Period", firstShare: "Top share",
         all: "All", aiChips: "AI Chips", aiCloud: "AI Cloud", dataCenter: "Data Centers", enterpriseAi: "Enterprise AI", security: "Security", quantum: "Quantum", chinaAi: "China AI", leopold: "Leopold Aschenbrenner",
         physicalWorldModel: "World Models", worldModelText: "Text", worldModelRobotics: "Robotics", openSource: "Open", closedSource: "Closed",
@@ -4333,7 +4333,7 @@
           const multiple = row.ticker === "NVDA" ? 1 : potentialRatioMultipleVsNvda(row, nvda);
           if (!Number.isFinite(multiple) || multiple <= 1) return null;
           const gain = multiple;
-          const score = cap * gain;
+          const score = cap * gain * gain;
           return {
             row,
             cap,
