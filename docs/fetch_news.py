@@ -347,6 +347,7 @@ AI_PERSON_NEWS_TERMS = [
     "physical world model", "world model", "物理世界模型",
 ]
 FOCUSED_PERSON_STATEMENT_TERMS = [
+    "Yann LeCun", "Yann Lecun", "杨立昆", "杨丽坤",
     "Yang Zhilin", "杨植麟", "Kimi founder", "Kimi 创始人",
     "Moonshot AI founder", "月之暗面创始人",
     "Michael Truell", "Aman Sanger", "Sualeh Asif", "Arvid Lunnemark",
@@ -495,6 +496,7 @@ PERSON_NEWS_SOURCES = [
     google_news_query_source(
         "Open-source AI Leaders Statements",
         ai_person_news_query([
+            "Yann LeCun", "Yann Lecun", "杨立昆", "杨丽坤",
             "Clem Delangue", "Clément Delangue", "Thomas Wolf", "Julien Chaumond",
             "Clémentine Fourrier", "Nathan Lambert", "Stella Biderman",
             "Arthur Mensch", "Guillaume Lample", "Timothée Lacroix", "Timothee Lacroix",
@@ -596,7 +598,7 @@ NEWS_SECTIONS = [
     {
         "id": "person",
         "title": "Opinion",
-        "note": "公开新闻：只抓取 Kimi Founder Yang Zhilin、Cursor / Anysphere、Fireworks AI 与 Nebius / NBIS 创始人公开言论",
+        "note": "公开新闻：重点抓取 Yann LeCun / 杨立昆，并补充 Kimi、Cursor、Fireworks AI、Nebius 与开源 AI 领域人物公开言论",
         "sources": PERSON_NEWS_SOURCES,
         "allowGeneralFeed": True,
     },
@@ -641,6 +643,8 @@ TAVILY_SECTION_QUERIES = {
         'artificial intelligence chips data centers frontier models site:wsj.com OR site:ft.com OR site:nytimes.com OR site:scmp.com',
     ],
     "person": [
+        '("Yann LeCun" OR "Yann Lecun" OR "杨立昆" OR "杨丽坤") ("open source AI" OR "open weights" OR "world model" OR "AI" OR "JEPA" OR "Llama") ("said" OR "says" OR "posted" OR "wrote" OR "interview" OR "speech" OR "keynote" OR "blog")',
+        'site:x.com ("Yann LeCun" OR "Yann Lecun") ("AI" OR "open source" OR "open weights" OR "world model" OR JEPA OR Llama)',
         '("Clem Delangue" OR "Thomas Wolf" OR "Arthur Mensch" OR "Liang Wenfeng" OR "Meta Llama" OR "Hugging Face" OR "Mistral AI" OR "DeepSeek" OR "PyTorch" OR "EleutherAI" OR "Ollama" OR "Cursor founder" OR "Yang Zhilin" OR "Fireworks AI founder" OR "Arkady Volozh") ("open source AI" OR "open weights" OR "open model" OR Llama OR PyTorch OR GitHub) ("said" OR "says" OR "posted" OR "wrote" OR "interview" OR "speech" OR "keynote" OR "blog")',
         'site:x.com ("Clem Delangue" OR "Thomas Wolf" OR "Arthur Mensch" OR "Liang Wenfeng" OR "Meta Llama" OR "Hugging Face" OR "Mistral AI" OR "DeepSeek" OR "PyTorch" OR "EleutherAI" OR "Ollama") ("AI" OR "open source" OR "open weights" OR "model")',
         'site:github.com OR site:huggingface.co OR site:mistral.ai OR site:pytorch.org open source AI founder said interview blog keynote',
