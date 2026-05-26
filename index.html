@@ -3507,13 +3507,27 @@
       return null;
     }
     function sparkline(row) {
-      if (!Array.isArray(row.sparkPoints) || row.sparkPoints.length < 2) return "—";
-      const points = row.sparkPoints;
-      const step = 120 / (points.length - 1);
-      const d = points.map((y, i) => `${i ? "L" : "M"}${(i * step).toFixed(1)},${y.toFixed(1)}`).join(" ");
+      const closePoints = Array.isArray(row.closePoints)
+        ? row.closePoints.map(normalizeClosePoint).filter(Boolean).slice(-30)
+        : [];
+      const yPoints = closePoints.length >= 2
+        ? normalizeSpark(closePoints.map((point) => point.close))
+        : Array.isArray(row.sparkPoints) ? row.sparkPoints : [];
+      if (yPoints.length < 2) return "—";
+      const step = 120 / (yPoints.length - 1);
+      const d = yPoints.map((y, i) => `${i ? "L" : "M"}${(i * step).toFixed(1)},${y.toFixed(1)}`).join(" ");
       const color = (row.change30d || row.changePercent || 0) >= 0 ? "#168a55" : "#c2414b";
+      const hitWidth = Math.max(6, step);
+      const hitAreas = closePoints.length === yPoints.length
+        ? closePoints.map((point, index) => {
+          const x = Math.max(0, (index * step) - (hitWidth / 2));
+          const label = `${state.lang === "zh" ? "日期" : "Date"} ${point.date}\n${state.lang === "zh" ? "价格" : "Price"} ${formatPrice(point.close, row)}`;
+          return `<rect x="${x.toFixed(1)}" y="0" width="${hitWidth.toFixed(1)}" height="34" fill="transparent" pointer-events="all"><title>${escapeHtml(label)}</title></rect>`;
+        }).join("")
+        : "";
       return `<svg class="spark" viewBox="0 0 128 34" aria-hidden="true">
         <path d="${d}" fill="none" stroke="${color}" stroke-width="2.2" stroke-linecap="round" />
+        ${hitAreas}
       </svg>`;
     }
     function categories() {
