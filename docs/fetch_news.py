@@ -43,7 +43,7 @@ EVENT_REGISTRY_ENDPOINT = "https://eventregistry.org/api/v1/article/getArticles"
 EVENT_REGISTRY_MAX_PER_TOPIC = 18
 TAVILY_SEARCH_ENDPOINT = "https://api.tavily.com/search"
 TAVILY_MAX_RESULTS = max(1, min(20, int(os.environ.get("TAVILY_MAX_RESULTS", "6"))))
-TAVILY_MAX_QUERIES = max(0, int(os.environ.get("TAVILY_MAX_QUERIES", "8")))
+TAVILY_MAX_QUERIES = max(0, int(os.environ.get("TAVILY_MAX_QUERIES", "20")))
 TRANSLATE_NEWS_TITLES = os.environ.get("TRANSLATE_NEWS_TITLES", "1").strip() != "0"
 TRANSLATE_ENDPOINT = "https://translate.googleapis.com/translate_a/single"
 
@@ -644,11 +644,18 @@ TAVILY_SECTION_QUERIES = {
         'artificial intelligence chips data centers frontier models site:wsj.com OR site:ft.com OR site:nytimes.com OR site:scmp.com',
     ],
     "person": [
-        '("Yann LeCun" OR "Yann Lecun" OR "杨立昆" OR "杨丽坤") ("open source AI" OR "open weights" OR "world model" OR "AI" OR "JEPA" OR "Llama") ("said" OR "says" OR "posted" OR "wrote" OR "interview" OR "speech" OR "keynote" OR "blog")',
-        'site:x.com ("Yann LeCun" OR "Yann Lecun") ("AI" OR "open source" OR "open weights" OR "world model" OR JEPA OR Llama)',
-        '("Clem Delangue" OR "Thomas Wolf" OR "Arthur Mensch" OR "Liang Wenfeng" OR "Meta Llama" OR "Hugging Face" OR "Mistral AI" OR "DeepSeek" OR "PyTorch" OR "EleutherAI" OR "Ollama" OR "Cursor founder" OR "Yang Zhilin" OR "Fireworks AI founder" OR "Arkady Volozh") ("open source AI" OR "open weights" OR "open model" OR Llama OR PyTorch OR GitHub) ("said" OR "says" OR "posted" OR "wrote" OR "interview" OR "speech" OR "keynote" OR "blog")',
-        'site:x.com ("Clem Delangue" OR "Thomas Wolf" OR "Arthur Mensch" OR "Liang Wenfeng" OR "Meta Llama" OR "Hugging Face" OR "Mistral AI" OR "DeepSeek" OR "PyTorch" OR "EleutherAI" OR "Ollama") ("AI" OR "open source" OR "open weights" OR "model")',
-        'site:github.com OR site:huggingface.co OR site:mistral.ai OR site:pytorch.org open source AI founder said interview blog keynote',
+        '"Yann LeCun" JEPA "world model" "open source AI" said interview',
+        'site:x.com "Yann LeCun" AI JEPA Llama "open source"',
+        '"Yang Zhilin" OR "杨植麟" Kimi Moonshot AI founder said interview',
+        '"Michael Truell" OR "Cursor founder" OR "Anysphere founder" AI said interview',
+        '"Lin Qiao" OR "Fireworks AI founder" AI tokens inference said interview',
+        '"Arkady Volozh" OR "Nebius CEO" OR "Nebius founder" AI infrastructure said interview',
+        '"Clem Delangue" Hugging Face "open source AI" said interview',
+        '"Thomas Wolf" Hugging Face "open models" said wrote',
+        '"Arthur Mensch" Mistral AI "open source" said interview',
+        '"Liang Wenfeng" OR "DeepSeek founder" "open source AI" said interview',
+        '"Meta Llama" OR PyTorch OR EleutherAI "open source AI" founder said interview',
+        'site:github.com OR site:huggingface.co OR site:mistral.ai open source AI founder said interview blog keynote',
     ],
     "company": [
         'Nvidia OpenAI Anthropic Microsoft Google Meta AI acquisition funding investment Reuters Bloomberg',
@@ -2051,10 +2058,19 @@ REAL_SPEECH_RE = re.compile(
     re.I,
 )
 QUOTED_STATEMENT_RE = re.compile(r"[\"“‘][^\"”’]{8,}[\"”’]")
+SPEECH_AGGREGATOR_SOURCES = {
+    "aol.com",
+    "msn",
+    "tradingview",
+    "yahoo finance",
+}
 
 
 def item_matches_speech(item: dict[str, object]) -> bool:
     title = str(item.get("title") or "")
+    source = str(item.get("source") or "").strip().lower()
+    if source in SPEECH_AGGREGATOR_SOURCES:
+        return False
     text = " ".join([
         title,
         str(item.get("summary") or ""),
@@ -2068,11 +2084,6 @@ def item_matches_speech(item: dict[str, object]) -> bool:
     has_person = any(re.search(rf"(?<![a-z0-9]){re.escape(term.lower())}(?![a-z0-9])", text_l) for term in AI_SPEECH_PERSON_TERMS)
     has_world_model = any(term.lower() in text_l for term in WORLD_MODEL_TERMS)
     if not (has_person or has_world_model):
-        return False
-    title_l = title.lower()
-    title_has_person = any(re.search(rf"(?<![a-z0-9]){re.escape(term.lower())}(?![a-z0-9])", title_l) for term in AI_SPEECH_PERSON_TERMS)
-    title_has_world_model = any(term.lower() in title_l for term in WORLD_MODEL_TERMS)
-    if not (title_has_person or title_has_world_model):
         return False
     has_real_statement = bool(REAL_SPEECH_RE.search(text) or QUOTED_STATEMENT_RE.search(text))
     return bool(SPEECH_SIGNAL_RE.search(text) and has_real_statement)
