@@ -1519,13 +1519,13 @@
           </div>
           <svg class="index-chart-svg" id="potential-ratio-chart" viewBox="0 0 980 310" role="img" aria-label="NBIS market cap divided by NVIDIA market cap chart"></svg>
           <div class="index-chart-overlay">
-            <div class="index-chart-title">NBIS / NVIDIA Market Cap Ratio</div>
+            <div class="index-chart-title" id="potential-chart-title">NBIS / NVIDIA Market Cap Ratio</div>
             <div class="index-chart-stats" id="potential-chart-stats"></div>
           </div>
           <div class="index-chart-tooltip" id="potential-chart-tooltip" hidden></div>
           <div class="index-chart-footer">
-            <span>NBIS Market Cap / NVDA Market Cap</span>
-            <span>Yahoo Finance chart · USD market cap ratio</span>
+            <span id="potential-chart-footer-primary">NBIS Market Cap / NVDA Market Cap</span>
+            <span id="potential-chart-footer-secondary">Yahoo Finance chart · USD market cap ratio</span>
           </div>
         </div>
         <div class="potential-ranking-panel" id="potential-ranking-panel" hidden>
@@ -3253,8 +3253,9 @@
     };
     const CHINESE_REGION_CODES = new Set(["CN", "HK", "MO", "TW"]);
     const LANGUAGE_STORAGE_KEY = "isithub-language";
-    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: "ALL", infrastructureSubcategory: "DCI", hardwareSubcategory: "CNC", modelSubcategory: "LLM", llmSubcategory: "全部", worldModelSubcategory: "全部", selected: "NVDA", page: 1, rankingView: "potential", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, potentialView: "chart", potentialPeriod: "history", potentialPinnedIndex: null, potentialSort: "score", potentialSortDir: "desc", fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
+    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: "ALL", infrastructureSubcategory: "DCI", hardwareSubcategory: "CNC", modelSubcategory: "LLM", llmSubcategory: "全部", worldModelSubcategory: "全部", selected: "NVDA", page: 1, rankingView: "potential", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, potentialView: "chart", potentialPeriod: "history", potentialPinnedIndex: null, potentialAutoIndex: 0, potentialAutoPaused: false, potentialSort: "score", potentialSortDir: "desc", fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
     const potentialSeriesCache = new Map();
+    let potentialAutoTimer = null;
     try {
       const savedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY);
       if (savedLanguage === "zh" || savedLanguage === "en") state.lang = savedLanguage;
@@ -4263,31 +4264,32 @@
     function rowByTicker(ticker) {
       return state.rows.find((row) => row.ticker === ticker) || COMPANIES.find((row) => row.ticker === ticker) || null;
     }
-    async function potentialRatioSeries(period) {
-      const cacheKey = `${period}:${state.quoteUpdatedAt || ""}`;
+    async function potentialRatioSeries(ticker, period) {
+      const normalizedTicker = String(ticker || "NBIS").toUpperCase();
+      const cacheKey = `${normalizedTicker}:${period}:${state.quoteUpdatedAt || ""}`;
       if (potentialSeriesCache.has(cacheKey)) return potentialSeriesCache.get(cacheKey);
-      const [nbisRows, nvdaRows] = await Promise.all([
-        fetchPotentialCloses("NBIS", period),
+      const [targetRows, nvdaRows] = await Promise.all([
+        fetchPotentialCloses(normalizedTicker, period),
         fetchPotentialCloses("NVDA", period)
       ]);
-      const nbis = rowByTicker("NBIS");
+      const target = rowByTicker(normalizedTicker);
       const nvda = rowByTicker("NVDA");
-      const nbisMarketCap = Number(nbis?.marketCap);
+      const targetMarketCap = Number(effectiveCap(target));
       const nvdaMarketCap = Number(nvda?.marketCap);
-      if (!Number.isFinite(nbisMarketCap) || !Number.isFinite(nvdaMarketCap) || nbisMarketCap <= 0 || nvdaMarketCap <= 0) return [];
-      const size = Math.min(nbisRows.length, nvdaRows.length);
-      const nbisTail = nbisRows.slice(-size);
+      if (!Number.isFinite(targetMarketCap) || !Number.isFinite(nvdaMarketCap) || targetMarketCap <= 0 || nvdaMarketCap <= 0) return [];
+      const size = Math.min(targetRows.length, nvdaRows.length);
+      const targetTail = targetRows.slice(-size);
       const nvdaTail = nvdaRows.slice(-size);
-      const nbisLatest = nbisTail.at(-1)?.close;
+      const targetLatest = targetTail.at(-1)?.close;
       const nvdaLatest = nvdaTail.at(-1)?.close;
-      if (!Number.isFinite(nbisLatest) || !Number.isFinite(nvdaLatest) || nbisLatest <= 0 || nvdaLatest <= 0) return [];
-      const series = nbisTail.map((point, index) => {
+      if (!Number.isFinite(targetLatest) || !Number.isFinite(nvdaLatest) || targetLatest <= 0 || nvdaLatest <= 0) return [];
+      const series = targetTail.map((point, index) => {
         const nvdaPoint = nvdaTail[index];
-        const impliedNbisCap = nbisMarketCap * (point.close / nbisLatest);
+        const impliedTargetCap = targetMarketCap * (point.close / targetLatest);
         const impliedNvdaCap = nvdaMarketCap * (nvdaPoint.close / nvdaLatest);
         return {
           date: point.date,
-          value: impliedNvdaCap > 0 ? (impliedNbisCap / impliedNvdaCap) * 100 : null
+          value: impliedNvdaCap > 0 ? (impliedTargetCap / impliedNvdaCap) * 100 : null
         };
       }).filter((point) => Number.isFinite(point.value) && point.value > 0);
       potentialSeriesCache.set(cacheKey, series);
@@ -4337,7 +4339,7 @@
       if (!Number.isFinite(currentRatio) || !Number.isFinite(startRatio) || startRatio <= 0) return null;
       return currentRatio / startRatio;
     }
-    function potentialRankingRows() {
+    function basePotentialRows() {
       const nvda = rowByTicker("NVDA");
       const nvdaCap = effectiveCap(nvda);
       const nvdaScore = Number.isFinite(nvdaCap) && nvdaCap > 0 ? nvdaCap : null;
@@ -4357,7 +4359,13 @@
             vsNvda: Number.isFinite(nvdaScore) && nvdaScore > 0 ? (cap / nvdaScore) * 100 : null
           };
         })
-        .filter(Boolean)
+        .filter(Boolean);
+    }
+    function potentialAutoRows() {
+      return basePotentialRows().sort((a, b) => (b.gain || 0) - (a.gain || 0) || b.cap - a.cap);
+    }
+    function potentialRankingRows() {
+      return basePotentialRows()
         .sort((a, b) => {
           const key = state.potentialSort === "gain" ? "gain" : "score";
           const direction = state.potentialSortDir === "asc" ? 1 : -1;
@@ -4430,8 +4438,13 @@
       const rankingPanel = $("potential-ranking-panel");
       if (chartPanel) chartPanel.hidden = state.potentialView !== "chart";
       if (rankingPanel) rankingPanel.hidden = state.potentialView !== "ranking";
-      if (state.potentialView === "chart") renderPotentialChart();
-      else renderPotentialRanking();
+      if (state.potentialView === "chart") {
+        renderPotentialChart();
+        startPotentialAutoRotation();
+      } else {
+        stopPotentialAutoRotation();
+        renderPotentialRanking();
+      }
     }
     function renderPotentialView() {
       setPotentialView(state.potentialView);
@@ -4528,8 +4541,19 @@
         button.classList.toggle("active", isActive);
         button.setAttribute("aria-selected", isActive ? "true" : "false");
       });
+      const autoRows = potentialAutoRows();
+      if (state.potentialAutoIndex >= autoRows.length) state.potentialAutoIndex = 0;
+      const currentEntry = autoRows[state.potentialAutoIndex] || null;
+      const currentRow = currentEntry?.row || rowByTicker("NBIS");
+      const currentTicker = currentRow?.ticker || "NBIS";
+      const title = $("potential-chart-title");
+      const footerPrimary = $("potential-chart-footer-primary");
+      const footerSecondary = $("potential-chart-footer-secondary");
+      if (title) title.textContent = `${companyDisplayName(currentRow)} / NVIDIA Market Cap Ratio`;
+      if (footerPrimary) footerPrimary.textContent = `${currentTicker} Market Cap / NVDA Market Cap`;
+      if (footerSecondary) footerSecondary.textContent = `${state.lang === "zh" ? "按起点倍数排序自动轮播" : "Auto-rotating by start multiple"} · ${currentEntry ? currentEntry.gain.toFixed(2) : "1.00"}x`;
       try {
-        const data = await potentialRatioSeries(state.potentialPeriod);
+        const data = await potentialRatioSeries(currentTicker, state.potentialPeriod);
         renderRatioChart(data, {
           svgId: "potential-ratio-chart",
           statsId: "potential-chart-stats",
@@ -4538,7 +4562,7 @@
           period: state.potentialPeriod,
           activeIndex,
           pinnedIndex: state.potentialPinnedIndex,
-          emptyText: state.lang === "zh" ? "等待 NBIS/NVDA 行情" : "Waiting for NBIS/NVDA quotes",
+          emptyText: state.lang === "zh" ? `等待 ${currentTicker}/NVDA 行情` : `Waiting for ${currentTicker}/NVDA quotes`,
           onActiveIndex: (index) => renderPotentialChart(index),
           onPinIndex: (index) => {
             state.potentialPinnedIndex = index;
@@ -4554,6 +4578,32 @@
           emptyText: state.lang === "zh" ? "潜力数据暂不可用" : "Potential data unavailable"
         });
       }
+    }
+    function stopPotentialAutoRotation() {
+      if (potentialAutoTimer) {
+        clearInterval(potentialAutoTimer);
+        potentialAutoTimer = null;
+      }
+    }
+    function startPotentialAutoRotation() {
+      stopPotentialAutoRotation();
+      if (state.rankingView !== "potential" || state.potentialView !== "chart" || state.potentialAutoPaused) return;
+      potentialAutoTimer = setInterval(() => {
+        if (state.rankingView !== "potential" || state.potentialView !== "chart" || state.potentialAutoPaused) return;
+        const rows = potentialAutoRows();
+        if (rows.length < 2) return;
+        state.potentialAutoIndex = (state.potentialAutoIndex + 1) % rows.length;
+        state.potentialPinnedIndex = null;
+        renderPotentialChart();
+      }, 3000);
+    }
+    function pausePotentialAutoRotation() {
+      state.potentialAutoPaused = true;
+      stopPotentialAutoRotation();
+    }
+    function resumePotentialAutoRotation() {
+      state.potentialAutoPaused = false;
+      startPotentialAutoRotation();
     }
     function chartDateLabel(date, period) {
       const d = new Date(date.includes("T") ? `${date}:00:00Z` : `${date}T00:00:00Z`);
@@ -5232,6 +5282,11 @@
       document.querySelectorAll("[data-potential-view]").forEach((button) => {
         button.addEventListener("click", () => setPotentialView(button.dataset.potentialView || "chart"));
       });
+      const potentialPanel = $("potential-chart-panel");
+      if (potentialPanel) {
+        potentialPanel.addEventListener("pointerdown", pausePotentialAutoRotation);
+        potentialPanel.addEventListener("pointerleave", resumePotentialAutoRotation);
+      }
       document.querySelectorAll(".news-tab").forEach((button) => {
         button.addEventListener("click", () => setNewsTab(button.dataset.newsTab || "industry"));
       });
