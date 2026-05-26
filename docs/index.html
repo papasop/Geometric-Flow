@@ -4612,7 +4612,7 @@
     function renderPotentialRanking() {
       const target = $("potential-ranking-list");
       if (!target) return;
-      const rows = potentialRankingRows().slice(0, 100);
+      const rows = potentialRankingRows().slice(0, 10);
       if (!rows.length) {
         target.innerHTML = `<div class="potential-empty">${escapeHtml(state.lang === "zh" ? "等待市值与历史行情" : "Waiting for market cap and history")}</div>`;
         return;
