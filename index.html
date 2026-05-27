@@ -245,6 +245,27 @@
       padding: 10px;
     }
     .news-item.video-active { z-index: 5; }
+    .news-item[data-video-id] { cursor: pointer; }
+    .video-voiceover {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: -4px;
+      padding: 8px;
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      border-radius: 6px;
+      background: rgba(16, 185, 129, 0.08);
+    }
+    .video-voiceover-label {
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .video-voiceover audio {
+      width: 100%;
+      height: 28px;
+    }
     .news-live-badge {
       position: absolute;
       left: 10px;
@@ -4283,6 +4304,7 @@
     }
     const NEWS_SECTION_IDS = ["industry", "person", "company", "tech", "papers", "video"];
     const PAPER_SOURCE_PATTERN = /nature|science|neurips|icml|iclr|acl anthology|cvf|cvpr|aaai|jmlr|pmlr|ieee tpami|acm digital library|arxiv/i;
+    let videoVoiceoverMap = new Map();
     function newsItemDate(item) {
       const raw = String(item?.publishedAt || item?.date || "");
       if (!raw) return "";
@@ -4521,6 +4543,22 @@
       } catch (error) {}
       return "";
     }
+    function voiceoverForVideoId(videoId) {
+      if (!videoId) return null;
+      const item = videoVoiceoverMap.get(videoId);
+      if (!item || item.status !== "ready") return null;
+      const audio = safeUrl(item.audio || "", { protocols: ["https:", "http:"] });
+      return audio ? { ...item, audio } : null;
+    }
+    async function fetchVideoVoiceovers() {
+      try {
+        const payload = await fetchJson("video-voiceover.json");
+        const items = Array.isArray(payload?.items) ? payload.items : [];
+        videoVoiceoverMap = new Map(items.filter((item) => item?.id).map((item) => [String(item.id), item]));
+      } catch (error) {
+        videoVoiceoverMap = new Map();
+      }
+    }
     let youtubeApiPromise = null;
     const youtubePlayers = new WeakMap();
     const youtubePollers = new WeakMap();
@@ -4749,23 +4787,31 @@
         const image = sectionId === "person" ? "" : safeUrl(item.image || item.thumbnail || "", { protocols: ["https:", "http:"] });
         const isLiveVideo = isVideoSection && /live/i.test(String(item.source || ""));
         const videoId = isVideoSection ? youtubeVideoId(href) : "";
+        const voiceover = isVideoSection ? voiceoverForVideoId(videoId) : null;
         const embedAttrs = videoId ? ` data-video-id="${escapeHtml(videoId)}" data-video-title="${escapeHtml(title)}"` : "";
         const targetAttrs = videoId ? "" : ` target="_blank" rel="noopener"`;
         const liveBadge = isLiveVideo ? `<span class="news-live-badge">${escapeHtml(state.lang === "zh" ? "直播" : "LIVE")}</span>` : "";
         const fallbackThumb = isVideoSection && !image ? `<span class="news-thumb news-thumb-fallback">${liveBadge}${escapeHtml(source.replace(/\s*(video|youtube|直播).*$/i, "") || "Video")}</span>` : "";
         const imageNode = image ? `<span class="news-thumb">${liveBadge}<img src="${escapeHtml(image)}" alt="" loading="lazy"></span>` : fallbackThumb;
+        const voiceoverNode = voiceover ? `<span class="video-voiceover" data-voiceover-control>
+            <span class="video-voiceover-label">${escapeHtml(state.lang === "zh" ? "中文语音" : "Mandarin voice")}</span>
+            <audio controls preload="none" src="${escapeHtml(voiceover.audio)}"></audio>
+          </span>` : "";
         const authorNode = author ? `<span><span class="news-meta-label">${escapeHtml(t("newsAuthor"))}</span><b>${escapeHtml(author)}</b></span>` : "";
         const sourceNode = sectionId === "person"
           ? `<span><span class="news-meta-label">${escapeHtml(t("mediaSource"))}</span><b>${escapeHtml(source)}</b></span>`
           : `<span><span class="news-meta-label">${escapeHtml(t("newsSource"))}</span><b>${escapeHtml(source)}</b></span>`;
-        return `<a class="news-item${imageNode ? " has-thumb" : ""}" href="${escapeHtml(href)}"${targetAttrs}${embedAttrs}>
+        const itemTag = videoId ? "article" : "a";
+        const itemAttrs = videoId ? ` role="button" tabindex="0"${embedAttrs}` : ` href="${escapeHtml(href)}"${targetAttrs}`;
+        return `<${itemTag} class="news-item${imageNode ? " has-thumb" : ""}"${itemAttrs}>
           ${imageNode}
           <span class="news-title">${escapeHtml(title)}</span>
+          ${voiceoverNode}
           <span class="news-meta">
             ${sourceNode}
             ${authorNode}
           </span>
-        </a>`;
+        </${itemTag}>`;
       }).join("");
       track.innerHTML = nodes;
       requestAnimationFrame(() => syncNewsTrackSpeed(track));
@@ -4795,7 +4841,7 @@
     }
     async function fetchNewsStrip() {
       try {
-        const payload = await fetchJson("news.json");
+        const [payload] = await Promise.all([fetchJson("news.json"), fetchVideoVoiceovers()]);
         collectChartNewsItems(payload);
         renderNewsSections(payload);
         render();
@@ -6042,6 +6088,10 @@
       });
       $("refresh")?.addEventListener("click", () => fetchQuotes().catch(handleQuoteError));
       document.addEventListener("click", (event) => {
+        if (event.target.closest?.("[data-voiceover-control]")) {
+          event.stopPropagation();
+          return;
+        }
         const videoLink = event.target.closest?.("[data-video-id]");
         if (!videoLink) return;
         event.preventDefault();
