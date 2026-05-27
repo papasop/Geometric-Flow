@@ -3523,7 +3523,7 @@
     const LANGUAGE_STORAGE_KEY = "isithub-language";
     const GLOBAL_CHART_START_DATE = "2022-11-30";
     const TABLE_PERFORMANCE_START_DATE = "2022-12-05";
-    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: null, infrastructureSubcategory: "DCI", hardwareSubcategory: "CNC", modelSubcategory: "LLM", llmSubcategory: "全部", worldModelSubcategory: "全部", selected: "NVDA", page: 1, marketView: "table", rankingView: "potential", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, potentialView: "chart", potentialPeriod: "history", potentialPinnedIndex: null, potentialAutoIndex: 0, potentialAutoPaused: false, potentialSort: "gain", potentialSortDir: "desc", performancePeriod: "history", fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
+    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: null, energySubcategory: null, infrastructureSubcategory: "DCI", hardwareSubcategory: "CNC", modelSubcategory: "LLM", llmSubcategory: "全部", worldModelSubcategory: "全部", selected: "NVDA", page: 1, marketView: "table", rankingView: "potential", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, potentialView: "chart", potentialPeriod: "history", potentialPinnedIndex: null, potentialAutoIndex: 0, potentialAutoPaused: false, potentialSort: "gain", potentialSortDir: "desc", performancePeriod: "history", fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
     const potentialSeriesCache = new Map();
     let chartNewsItems = [];
     let nvidiaDynamicPartnerTickersCache = null;
@@ -3787,6 +3787,7 @@
     }
     function matchesTokenSubcategory(row) {
       if (state.category !== TOKEN_FACTORY_CATEGORY) return true;
+      if (!state.tokenSubcategory) return true;
       return tokenFactorySubcategory(row) === state.tokenSubcategory;
     }
     function energySubcategory(row) {
@@ -5731,7 +5732,7 @@
       const tokenSubtabs = $("token-subtabs");
       if (tokenSubtabs) tokenSubtabs.hidden = state.category !== TOKEN_FACTORY_CATEGORY;
       document.querySelectorAll("[data-token-subcategory]").forEach((item) => {
-        item.classList.toggle("active", item.dataset.tokenSubcategory === state.tokenSubcategory);
+        item.classList.toggle("active", Boolean(state.tokenSubcategory) && item.dataset.tokenSubcategory === state.tokenSubcategory);
       });
       const energySubtabs = $("energy-subtabs");
       if (energySubtabs) energySubtabs.hidden = state.category !== ENERGY_CATEGORY;
@@ -5777,8 +5778,8 @@
     function selectCategory(category) {
       state.category = category || "ALL";
       state.marketView = "table";
-      if (state.category === TOKEN_FACTORY_CATEGORY && !TOKEN_FACTORY_SUBCATEGORIES.includes(state.tokenSubcategory)) {
-        state.tokenSubcategory = "IaaS/PaaS";
+      if (state.category === TOKEN_FACTORY_CATEGORY) {
+        state.tokenSubcategory = null;
       }
       if (state.category === ENERGY_CATEGORY) {
         state.energySubcategory = null;
