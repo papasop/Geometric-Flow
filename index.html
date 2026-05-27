@@ -2576,6 +2576,24 @@
     };
     const NVIDIA_CATEGORY = "英伟达";
     const NVIDIA_TICKERS = new Set(["NVDA", "OPENAI.PRE", "ANTHROPIC.PRE", "TERRAPOWER.PRE", "INTC", "CRWV", "SNPS", "COHR", "NOK", "NBIS", "GENB", "LITE", "MRVL", "GLW", "IREN", "NOW"]);
+    const NVIDIA_HISTORICAL_INVESTMENT_EVENTS = [
+      {
+        ticker: "NOK",
+        date: "2025-10-28",
+        titleZh: "英伟达宣布向诺基亚投资 10 亿美元，推进 AI-RAN / 6G 合作。",
+        titleEn: "NVIDIA announced a $1B equity investment in Nokia to accelerate AI-RAN and 6G collaboration.",
+        source: "NVIDIA / Nokia",
+        author: "NVIDIA Newsroom"
+      },
+      {
+        ticker: "NBIS",
+        date: "2026-03-11",
+        titleZh: "英伟达参与 Nebius 约 20 亿美元投资，支持 AI 云基础设施扩张。",
+        titleEn: "NVIDIA participated in a roughly $2B Nebius investment tied to AI cloud infrastructure expansion.",
+        source: "Nebius / Market reports",
+        author: "Public filings and press reports"
+      }
+    ];
     const TOKEN_FACTORY_CATEGORY = "Token 工厂 / 推理服务";
     const TOKEN_FACTORY_SUBCATEGORIES = ["IaaS/PaaS", "MaaS", "DBaaS", "ATaaS"];
     const IAAS_PAAS_TICKERS = new Set(["NBIS", "LAMBDA.PRE", "INFINIGENCE.PRE"]);
@@ -4099,8 +4117,30 @@
       const matchesNvidiaTicker = row && NVIDIA_TICKERS.has(String(row.ticker || "").toUpperCase()) && newsMatchesRow(item, row);
       return isTavilyNews(item) && (explicitInvestment || taggedListQuery || matchesNvidiaTicker);
     }
+    function historicalNvidiaInvestmentEvents(rows, series) {
+      if (state.category !== NVIDIA_CATEGORY || !rows.length || !series.length) return [];
+      const rowByTicker = new Map(rows.map((row) => [String(row.ticker || "").toUpperCase(), row]));
+      return NVIDIA_HISTORICAL_INVESTMENT_EVENTS
+        .map((event) => {
+          const row = rowByTicker.get(String(event.ticker || "").toUpperCase());
+          if (!row) return null;
+          const index = series.findIndex((point) => point.date >= event.date);
+          if (index < 0) return null;
+          return {
+            index,
+            date: event.date,
+            ticker: row.ticker,
+            name: companyDisplayName(row),
+            title: state.lang === "zh" ? event.titleZh : event.titleEn,
+            source: event.source,
+            author: event.author,
+            isNvidiaInvestment: true
+          };
+        })
+        .filter(Boolean);
+    }
     function chartEventsForRows(rows, series) {
-      if (!chartNewsItems.length || !rows.length || !series.length) return [];
+      if (!rows.length || !series.length) return [];
       const nvidiaInvestmentMode = state.category === NVIDIA_CATEGORY;
       const rowMatches = [];
       chartNewsItems.forEach((item) => {
@@ -4121,7 +4161,7 @@
           isNvidiaInvestment: isTavilyNvidiaInvestmentNews(item, row)
         });
       });
-      return rowMatches
+      return [...rowMatches, ...historicalNvidiaInvestmentEvents(rows, series)]
         .sort((a, b) => b.date.localeCompare(a.date))
         .filter((event, index, list) => list.findIndex((other) => other.index === event.index && other.ticker === event.ticker) === index)
         .slice(0, 18);
