@@ -1836,6 +1836,9 @@ def parse_tavily_result(result: dict[str, object], section: dict[str, object], q
         "sectionTitle": str(section["title"]),
         "tags": ["Tavily", query[:80]],
     }
+    query_lower = query.lower()
+    if "nvidia" in query_lower and any(term in query_lower for term in ["nvidia invested", "nvidia investment", "nvidia-backed", "nvidia portfolio", "nvidia stake", "nvidia partnership"]):
+        item["tags"].append("nvidia-investment-list")
     image = "" if str(section.get("id") or "") == "person" else image_from_tavily_result(result)
     if image:
         item["image"] = image

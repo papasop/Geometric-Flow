@@ -4087,20 +4087,26 @@
       const haystack = `${item?.title || ""} ${item?.titleEn || ""} ${item?.titleZh || ""} ${item?.summary || ""} ${item?.source || ""}`.toLowerCase();
       return rowNewsTerms(row).some((term) => haystack.includes(term));
     }
-    function isTavilyNvidiaInvestmentNews(item) {
+    function isTavilyNews(item) {
+      const tags = Array.isArray(item?.tags) ? item.tags.join(" ") : "";
+      return String(item?.via || "").toLowerCase() === "tavily" || tags.toLowerCase().includes("tavily");
+    }
+    function isTavilyNvidiaInvestmentNews(item, row = null) {
       const tags = Array.isArray(item?.tags) ? item.tags.join(" ") : "";
       const haystack = `${item?.title || ""} ${item?.titleEn || ""} ${item?.titleZh || ""} ${item?.summary || ""} ${tags}`.toLowerCase();
-      return tags.toLowerCase().includes("tavily")
-        && /(nvidia[- ]?backed|nvidia invested|nvidia investment|nvidia portfolio|nvidia stake|nvidia partnership)/i.test(haystack);
+      const taggedListQuery = tags.toLowerCase().includes("nvidia-investment-list");
+      const explicitInvestment = /(nvidia[- ]?backed|nvidia invested|nvidia investment|nvidia portfolio|nvidia stake|nvidia partnership)/i.test(haystack);
+      const matchesNvidiaTicker = row && NVIDIA_TICKERS.has(String(row.ticker || "").toUpperCase()) && newsMatchesRow(item, row);
+      return isTavilyNews(item) && (explicitInvestment || taggedListQuery || matchesNvidiaTicker);
     }
     function chartEventsForRows(rows, series) {
       if (!chartNewsItems.length || !rows.length || !series.length) return [];
       const nvidiaInvestmentMode = state.category === NVIDIA_CATEGORY;
       const rowMatches = [];
       chartNewsItems.forEach((item) => {
-        if (nvidiaInvestmentMode && !isTavilyNvidiaInvestmentNews(item)) return;
         const date = newsItemDate(item);
         const row = rows.find((candidate) => newsMatchesRow(item, candidate));
+        if (nvidiaInvestmentMode && (!row || !isTavilyNvidiaInvestmentNews(item, row))) return;
         if (!date || !row) return;
         const index = series.findIndex((point) => point.date >= date);
         if (index < 0) return;
@@ -4112,7 +4118,7 @@
           title: state.lang === "zh" ? (item.titleZh || item.title) : (item.titleEn || item.title),
           source: displayNewsParty(item.source || "News"),
           author: item.author || "",
-          isNvidiaInvestment: isTavilyNvidiaInvestmentNews(item)
+          isNvidiaInvestment: isTavilyNvidiaInvestmentNews(item, row)
         });
       });
       return rowMatches
