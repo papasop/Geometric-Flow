@@ -659,6 +659,7 @@ TAVILY_SECTION_QUERIES = {
     ],
     "company": [
         'Nvidia OpenAI Anthropic Microsoft Google Meta AI acquisition funding investment Reuters Bloomberg',
+        '("Nvidia invested" OR "Nvidia investment" OR "Nvidia-backed" OR "Nvidia portfolio" OR "Nvidia stake" OR "Nvidia partnership") ("OpenAI" OR "Anthropic" OR "TerraPower" OR "Intel" OR "CoreWeave" OR "Synopsys" OR "Coherent" OR "Nokia" OR "Nebius" OR "GeneDx" OR "Lumentum" OR "Marvell" OR "Corning" OR "IREN") company news',
     ],
     "tech": [
         'AI frontier technology robots world models agents chips site:wired.com OR site:technologyreview.com',
