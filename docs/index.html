@@ -2633,8 +2633,8 @@
       "Leopold Aschenbrenner": { zh: "Leopold Aschenbrenner", en: "Leopold Aschenbrenner" }
     };
     const NVIDIA_CATEGORY = "英伟达";
-    const NVIDIA_TICKERS = new Set(["NVDA", "OPENAI.PRE", "ANTHROPIC.PRE", "TERRAPOWER.PRE", "SPACEX.PRE", "LHX", "HXL", "ATI", "INTC", "CRWV", "SNPS", "COHR", "NOK", "NBIS", "GENB", "LITE", "MRVL", "GLW", "IREN", "NOW", "ARM"]);
-    const NVIDIA_SPACEX_TICKERS = new Set(["SPACEX.PRE", "LHX", "HXL", "ATI"]);
+    const NVIDIA_TICKERS = new Set(["NVDA", "OPENAI.PRE", "ANTHROPIC.PRE", "TERRAPOWER.PRE", "SPACEX.PRE", "LHX", "HXL", "ATI", "RDW", "002149.SZ", "603308.SS", "605123.SS", "301005.SZ", "688102.SS", "INTC", "CRWV", "SNPS", "COHR", "NOK", "NBIS", "GENB", "LITE", "MRVL", "GLW", "IREN", "NOW", "ARM"]);
+    const NVIDIA_SPACEX_TICKERS = new Set(["SPACEX.PRE", "LHX", "HXL", "ATI", "RDW", "002149.SZ", "603308.SS", "605123.SS", "301005.SZ", "688102.SS"]);
     const NVIDIA_PARTNER_NEWS_PATTERN = /(nvidia[- ]?backed|nvidia invested|nvidia investment|nvidia portfolio|nvidia stake|nvidia partnership|nvidia collaboration|nvidia strategic partnership|nvidia supply agreement|nvidia works with|nvidia teams with|英伟达.*(投资|入股|持股|合作|战略合作|供应协议|联手|携手))/i;
     const NVIDIA_HISTORICAL_INVESTMENT_EVENTS = [
       {
@@ -2826,6 +2826,12 @@
       ["LHX", "L3Harris Technologies", "SpaceX aerospace systems", "SpaceX 产业链观察项；航空航天、防务通信、传感器、任务系统与发射/卫星基础设施相关供应能力。"],
       ["HXL", "Hexcel", "SpaceX composite materials", "SpaceX 产业链观察项；航空航天复合材料、碳纤维、蜂窝材料与轻量化结构件供应商。"],
       ["ATI", "ATI", "SpaceX specialty metals", "SpaceX 产业链观察项；特种金属、高温合金、钛合金与航空航天关键材料供应商。"],
+      ["RDW", "Redwire", "SpaceX space infrastructure", "SpaceX 产业链观察项；空间基础设施、航空电子设备、太阳能组件与空间站任务技术支撑。"],
+      ["002149.SZ", "西部材料", "SpaceX aluminum alloy supplier", "SpaceX 产业链观察项；中国境内领先铝合金供应商，产品用于火箭箭体，并通过 SpaceX 认证。"],
+      ["603308.SS", "应流股份", "SpaceX engine casting supplier", "SpaceX 产业链观察项；猛禽发动机核心焊接铸件供应商，技术壁垒高，并通过 NASA 认证。"],
+      ["605123.SS", "派克新材", "SpaceX precision forging supplier", "SpaceX 产业链观察项；为火箭箭体和发动机提供精密锻件，技术门槛高，并通过 NASA 认证。"],
+      ["301005.SZ", "超捷股份", "SpaceX reusable rocket fasteners", "SpaceX 产业链观察项；可回收火箭高强度紧固件供应商，覆盖螺栓、螺母等高可靠性连接件。"],
+      ["688102.SS", "斯瑞新材", "SpaceX copper alloy materials", "SpaceX 产业链观察项；纳米晶铬铜合金材料供应商，适配星舰发动机电力传输需求，并通过欧美认证。"],
       ["JEPA.PRE", "AMI Labs", "Physical world model pre-IPO", "预上市物理世界模型公司，聚焦世界模型、表征学习、预测式 AI 与空间智能方向。", { status: "prelist" }],
       ["WORLDLABS.PRE", "World Labs", "Physical world model pre-IPO", "预上市物理世界模型公司，聚焦空间智能、3D 世界生成、场景理解和可交互世界模型。", { status: "prelist" }],
       ["ARYALABS.PRE", "ARYA Labs", "Physical world model pre-IPO", "预上市物理世界模型公司，聚焦 AI 世界模型、空间理解、仿真与可交互环境生成。", { status: "prelist" }],
