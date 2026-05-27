@@ -2794,7 +2794,7 @@
     const PHYSICAL_WORLD_MODEL_TICKERS = new Set([...WORLD_MODEL_TEXT_TICKERS, ...WORLD_MODEL_ROBOTICS_TICKERS]);
     const MODEL_TICKERS = new Set([...LLM_OPEN_TICKERS, ...LLM_CLOSED_TICKERS, ...PHYSICAL_WORLD_MODEL_TICKERS]);
     const DATA_LABELING_CATEGORY = "RLHF";
-    const DATA_LABELING_TICKERS = new Set(["TOLOKA.PRE", "SCALEAI.PRE", "MERCOR.PRE", "TURING.PRE", "INOD"]);
+    const DATA_LABELING_TICKERS = new Set(["TOLOKA.PRE", "SCALEAI.PRE", "MERCOR.PRE", "TURING.PRE", "INOD", "SPOT", "NYT"]);
     const AIBOTT_BY_TICKER = new Map(AIBOTT_WATCHLIST.map(([symbol, name, theme, oneLiner, conviction]) => [symbol, { name, theme, oneLiner, conviction }]));
     function inferAibottTheme(category, thesis, ticker) {
       const text = String(ticker || "") + " " + String(category || "") + " " + String(thesis || "");
@@ -2869,6 +2869,8 @@
       ["SCALEAI.PRE", "Scale AI", "RLHF / AI data labeling pre-IPO", "预上市 RLHF 与 AI 数据基础设施龙头；估值约 290 亿美元，总融资额约 159 亿美元，Meta Platforms 与硅谷顶级 VC 阵营参与，Meta 斥资超 140 亿美元收购 49% 无投票权股份。", { status: "prelist", estimatedMarketCap: 29000000000 }],
       ["MERCOR.PRE", "Mercor AI", "RLHF / expert data pre-IPO", "预上市 RLHF、专家数据与模型评测平台；估值约 100 亿美元，总融资额约 4.92 亿美元，Felicis、Benchmark、彼得·蒂尔等参与，由 00 后创立，半年内估值暴涨 5 倍。", { status: "prelist", estimatedMarketCap: 10000000000 }],
       ["TURING.PRE", "Turing", "RLHF / AI data labeling pre-IPO", "预上市 RLHF、AI 数据标注与全球技术人才平台，面向企业大模型训练、人类反馈、代码/专家数据、模型评测和 AI 数据工作流。", { status: "prelist" }],
+      ["SPOT", "Spotify", "RLHF / audio preference data", "RLHF 观察项；音频、播客、推荐系统与用户偏好反馈数据平台，可用于语音、音乐和内容推荐模型训练。"],
+      ["NYT", "The New York Times", "RLHF / premium text data", "RLHF 观察项；高质量新闻文本、版权内容、编辑语料与媒体数据授权，适合作为大模型训练和评测语料来源。"],
       ["CEREBRAS.PRE", "Cerebras", "AI wafer-scale accelerator pre-IPO", "预上市 AI 芯片公司，晶圆级加速器、推理云和大模型训练基础设施。", { status: "prelist", estimatedMarketCap: 8000000000 }],
       ["GROQ.PRE", "Groq", "AI inference chip pre-IPO", "预上市 AI 推理芯片与 LPU 云服务公司，聚焦低延迟大模型推理。", { status: "prelist", estimatedMarketCap: 3000000000 }],
       ["SAMBANOVA.PRE", "SambaNova", "AI systems pre-IPO", "预上市 AI 系统公司，提供企业级模型训练、推理和定制 AI 平台。", { status: "prelist", estimatedMarketCap: 5000000000 }],
