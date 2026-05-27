@@ -4286,7 +4286,8 @@
     function collectChartNewsItems(payload) {
       const sections = payload?.sections || {};
       const allItems = [];
-      Object.values(sections).forEach((section) => {
+      ["industry", "company"].forEach((sectionId) => {
+        const section = sections[sectionId];
         if (Array.isArray(section?.items)) allItems.push(...section.items);
       });
       if (Array.isArray(payload?.items)) allItems.push(...payload.items);
