@@ -1111,6 +1111,26 @@
       font-weight: 650;
     }
     .spark { width: 100%; max-width: 128px; height: 34px; display: block; margin-left: auto; }
+    .spark-toggle {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 2px;
+      width: 100%;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+      font: inherit;
+      padding: 0;
+    }
+    .spark-return {
+      font-size: 11px;
+      font-weight: 820;
+      line-height: 1;
+    }
+    .spark-return.positive { color: #22c55e; }
+    .spark-return.negative { color: #f87171; }
     .watch {
       display: inline-flex;
       align-items: center;
@@ -1706,7 +1726,7 @@
               <th data-table-sort="d7"><button class="sort-head" type="button" tabindex="-1"><span>7天</span><span class="sort-arrow"></span></button></th>
               <th data-table-sort="volume"><button class="sort-head" type="button" tabindex="-1"><span>24小时交易量</span><span class="sort-arrow"></span></button></th>
               <th data-table-sort="mcap"><button class="sort-head" type="button" tabindex="-1"><span>总市值</span><span class="sort-arrow"></span></button></th>
-              <th data-table-sort="spark"><button class="sort-head" type="button" tabindex="-1"><span>最近30天</span><span class="sort-arrow"></span></button></th>
+              <th data-table-sort="spark"><button class="sort-head" type="button" tabindex="-1"><span>历史表现</span><span class="sort-arrow"></span></button></th>
             </tr>
           </thead>
           <tbody id="rank-body"></tbody>
@@ -3432,7 +3452,7 @@
         searchPlaceholder: "搜索公司、Ticker、子赛道", allSubsectors: "全部子赛道",
         rankName: "排名 / 公司", tableNote: "市值（美元）· 上市 + IPO 前合并排名",
         marketTableView: "列表", marketIndexView: "指数", basketIndexTitle: "等权股票篮子指数", basketIndexNote: "当前筛选 · 已上市股票等权 · 每周自动再平衡", basketIndexEmpty: "等待足够历史行情生成指数",
-        thCompany: "公司", thPrice: "价格", th1h: "1小时", th24h: "24小时", th7d: "7天", thVolume: "24小时交易量", thMcap: "总市值", thSpark: "最近30天",
+        thCompany: "公司", thPrice: "价格", th1h: "1小时", th24h: "24小时", th7d: "7天", thVolume: "24小时交易量", thMcap: "总市值", thSpark: "历史表现", thSpark30: "30天表现", thSparkHistory: "历史表现",
         companies: "companies", companiesZh: "家", page: "第", perPage: "每页", noResults: "没有匹配结果",
         watch: "关注", prelist: "预上市", est: " est.",
         quoteDaily: "每日行情", quoteLive: "Yahoo 实时备用行情", quoteError: "行情接口暂不可用，真实行情为空", waitingLive: "等待真实行情",
@@ -3466,7 +3486,7 @@
         searchPlaceholder: "Search company, ticker, or subsector", allSubsectors: "All subsectors",
         rankName: "Rank / Name", tableNote: "Market Cap USD · Listed + Pre-IPO unified ranking",
         marketTableView: "List", marketIndexView: "Index", basketIndexTitle: "Equal Weight Basket Index", basketIndexNote: "Current filter · listed stocks only · weekly rebalanced", basketIndexEmpty: "Waiting for enough historical quotes",
-        thCompany: "Company", thPrice: "Price", th1h: "1h", th24h: "24h", th7d: "7d", thVolume: "24h Volume", thMcap: "Market Cap", thSpark: "Last 30 days",
+        thCompany: "Company", thPrice: "Price", th1h: "1h", th24h: "24h", th7d: "7d", thVolume: "24h Volume", thMcap: "Market Cap", thSpark: "History", thSpark30: "30d Performance", thSparkHistory: "Historical Performance",
         companies: "companies", companiesZh: "companies", page: "Page", perPage: "Per page", noResults: "No matching results",
         watch: "Watch", prelist: "Pre-IPO", est: " est.",
         quoteDaily: "Daily market data", quoteLive: "Live Yahoo fallback", quoteError: "Quote feed unavailable; live fields are blank", waitingLive: "Waiting for live quotes",
@@ -3486,7 +3506,8 @@
     const CHINESE_REGION_CODES = new Set(["CN", "HK", "MO", "TW"]);
     const LANGUAGE_STORAGE_KEY = "isithub-language";
     const GLOBAL_CHART_START_DATE = "2022-11-30";
-    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: null, infrastructureSubcategory: "DCI", hardwareSubcategory: "CNC", modelSubcategory: "LLM", llmSubcategory: "全部", worldModelSubcategory: "全部", selected: "NVDA", page: 1, marketView: "table", rankingView: "potential", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, potentialView: "chart", potentialPeriod: "history", potentialPinnedIndex: null, potentialAutoIndex: 0, potentialAutoPaused: false, potentialSort: "gain", potentialSortDir: "desc", fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
+    const TABLE_PERFORMANCE_START_DATE = "2022-12-05";
+    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: null, infrastructureSubcategory: "DCI", hardwareSubcategory: "CNC", modelSubcategory: "LLM", llmSubcategory: "全部", worldModelSubcategory: "全部", selected: "NVDA", page: 1, marketView: "table", rankingView: "potential", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, potentialView: "chart", potentialPeriod: "history", potentialPinnedIndex: null, potentialAutoIndex: 0, potentialAutoPaused: false, potentialSort: "gain", potentialSortDir: "desc", performancePeriod: "history", fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
     const potentialSeriesCache = new Map();
     let chartNewsItems = [];
     let potentialAutoTimer = null;
@@ -3646,17 +3667,42 @@
       if (Number.isFinite(row.volume) && row.volume > 0) return row.volume;
       return null;
     }
+    function tablePerformanceClosePoints(row) {
+      const source = state.performancePeriod === "history"
+        ? (Array.isArray(row.historyClosePoints) && row.historyClosePoints.length ? row.historyClosePoints : row.closePoints)
+        : row.closePoints;
+      const clean = (Array.isArray(source) ? source : [])
+        .map((point) => {
+          const close = Number(point?.close);
+          const date = String(point?.date || "").slice(0, 10);
+          return Number.isFinite(close) && close > 0 && date ? { date, close } : null;
+        })
+        .filter(Boolean)
+        .filter((point) => state.performancePeriod !== "history" || point.date >= TABLE_PERFORMANCE_START_DATE);
+      return state.performancePeriod === "history" ? clean : clean.slice(-30);
+    }
+    function tablePerformanceReturn(row) {
+      const points = tablePerformanceClosePoints(row);
+      if (points.length < 2) return null;
+      const first = points[0].close;
+      const lastClose = Number.isFinite(row.price) && row.price > 0 ? row.price : points[points.length - 1].close;
+      if (!Number.isFinite(first) || first <= 0 || !Number.isFinite(lastClose)) return null;
+      return ((lastClose / first) - 1) * 100;
+    }
+    function sampleClosePoints(points, maxPoints = 64) {
+      if (points.length <= maxPoints) return points;
+      return Array.from({ length: maxPoints }, (_, index) => points[Math.round((index / (maxPoints - 1)) * (points.length - 1))]);
+    }
     function sparkline(row) {
-      const closePoints = Array.isArray(row.closePoints)
-        ? row.closePoints.map(normalizeClosePoint).filter(Boolean).slice(-30)
-        : [];
+      const closePoints = sampleClosePoints(tablePerformanceClosePoints(row));
       const yPoints = closePoints.length >= 2
         ? normalizeSpark(closePoints.map((point) => point.close))
-        : Array.isArray(row.sparkPoints) ? row.sparkPoints : [];
+        : state.performancePeriod === "30d" && Array.isArray(row.sparkPoints) ? row.sparkPoints : [];
+      const performance = tablePerformanceReturn(row);
       if (yPoints.length < 2) return "—";
       const step = 120 / (yPoints.length - 1);
       const d = yPoints.map((y, i) => `${i ? "L" : "M"}${(i * step).toFixed(1)},${y.toFixed(1)}`).join(" ");
-      const color = (row.change30d || row.changePercent || 0) >= 0 ? "#168a55" : "#c2414b";
+      const color = (Number.isFinite(performance) ? performance : row.change30d || row.changePercent || 0) >= 0 ? "#168a55" : "#c2414b";
       const hitWidth = Math.max(6, step);
       const hitAreas = closePoints.length === yPoints.length
         ? closePoints.map((point, index) => {
@@ -3665,10 +3711,18 @@
           return `<rect x="${x.toFixed(1)}" y="0" width="${hitWidth.toFixed(1)}" height="34" fill="transparent" pointer-events="all"><title>${escapeHtml(label)}</title></rect>`;
         }).join("")
         : "";
-      return `<svg class="spark" viewBox="0 0 128 34" aria-hidden="true">
-        <path d="${d}" fill="none" stroke="${color}" stroke-width="2.2" stroke-linecap="round" />
-        ${hitAreas}
-      </svg>`;
+      const perfClass = Number.isFinite(performance) && performance < 0 ? "negative" : "positive";
+      const perfLabel = Number.isFinite(performance) ? formatPercent(performance) : "—";
+      const title = state.performancePeriod === "history"
+        ? `${t("thSparkHistory")} · ${TABLE_PERFORMANCE_START_DATE}`
+        : t("thSpark30");
+      return `<button class="spark-toggle" type="button" title="${escapeHtml(title)}">
+        <span class="spark-return ${perfClass}">${escapeHtml(perfLabel)}</span>
+        <svg class="spark" viewBox="0 0 128 34" aria-hidden="true">
+          <path d="${d}" fill="none" stroke="${color}" stroke-width="2.2" stroke-linecap="round" />
+          ${hitAreas}
+        </svg>
+      </button>`;
     }
     function categories() {
       return ["ALL", ...AIBOTT_THEMES];
@@ -3797,7 +3851,7 @@
       if (sort === "h1") return row.change1h;
       if (sort === "change") return row.changePercent;
       if (sort === "d7") return row.change7d;
-      if (sort === "spark") return row.change30d;
+      if (sort === "spark") return tablePerformanceReturn(row);
       if (sort === "volume") return effectiveVolume(row);
       if (sort === "mcap") return effectiveCap(row);
       return null;
@@ -3875,6 +3929,16 @@
           event.stopPropagation();
           button.classList.toggle("active");
           button.textContent = button.classList.contains("active") ? "★" : "☆";
+        });
+      });
+      document.querySelectorAll("#rank-body .spark-toggle").forEach((button) => {
+        button.addEventListener("click", (event) => {
+          event.stopPropagation();
+          state.performancePeriod = state.performancePeriod === "history" ? "30d" : "history";
+          state.sort = "spark";
+          state.sortDir = "desc";
+          state.page = 1;
+          render();
         });
       });
       document.querySelectorAll("#rank-body tr[data-ticker]").forEach((tr) => {
@@ -4117,6 +4181,8 @@
       if (state.marketView === "index") renderBasketIndexChart();
     }
     function updateSortControls() {
+      const sparkLabel = document.querySelector('[data-table-sort="spark"] span:first-child');
+      if (sparkLabel) sparkLabel.textContent = t(state.performancePeriod === "history" ? "thSparkHistory" : "thSpark30");
       document.querySelectorAll(".market-panel th[data-table-sort]").forEach((th) => {
         const isActive = th.dataset.tableSort === state.sort;
         th.classList.toggle("active", isActive);
@@ -5731,7 +5797,7 @@
       if ($("basket-index-title")) $("basket-index-title").textContent = t("basketIndexTitle");
       if ($("basket-index-note")) $("basket-index-note").textContent = t("basketIndexNote");
       setAllText(".market-panel thead th:nth-child(-n+3)", ["", "#", t("thCompany")]);
-      const sortLabels = { price: "thPrice", h1: "th1h", change: "th24h", d7: "th7d", volume: "thVolume", mcap: "thMcap", spark: "thSpark" };
+      const sortLabels = { price: "thPrice", h1: "th1h", change: "th24h", d7: "th7d", volume: "thVolume", mcap: "thMcap", spark: state.performancePeriod === "history" ? "thSparkHistory" : "thSpark30" };
       Object.entries(sortLabels).forEach(([sort, key]) => {
         const label = document.querySelector(`[data-table-sort="${sort}"] span:first-child`);
         if (label) label.textContent = t(key);
@@ -5895,6 +5961,15 @@
       document.querySelectorAll(".market-panel th[data-table-sort]").forEach((th) => {
         th.addEventListener("click", () => {
           const sort = th.dataset.tableSort || "mcap";
+          if (sort === "spark") {
+            state.performancePeriod = state.performancePeriod === "history" ? "30d" : "history";
+            state.sort = "spark";
+            state.sortDir = "desc";
+            state.page = 1;
+            updateSortControls();
+            render();
+            return;
+          }
           state.sortDir = state.sort === sort && state.sortDir === "desc" ? "asc" : "desc";
           state.sort = sort;
           state.page = 1;
