@@ -266,6 +266,13 @@
       width: 100%;
       height: 28px;
     }
+    .video-voiceover.pending {
+      border-color: rgba(148, 163, 184, 0.22);
+      background: rgba(148, 163, 184, 0.08);
+    }
+    .video-voiceover.pending .video-voiceover-label {
+      color: var(--muted);
+    }
     .news-live-badge {
       position: absolute;
       left: 10px;
@@ -4546,9 +4553,9 @@
     function voiceoverForVideoId(videoId) {
       if (!videoId) return null;
       const item = videoVoiceoverMap.get(videoId);
-      if (!item || item.status !== "ready") return null;
-      const audio = safeUrl(item.audio || "", { protocols: ["https:", "http:"] });
-      return audio ? { ...item, audio } : null;
+      if (!item) return null;
+      const audio = item.status === "ready" ? safeUrl(item.audio || "", { protocols: ["https:", "http:"] }) : "";
+      return { ...item, audio };
     }
     async function fetchVideoVoiceovers() {
       try {
@@ -4793,10 +4800,19 @@
         const liveBadge = isLiveVideo ? `<span class="news-live-badge">${escapeHtml(state.lang === "zh" ? "直播" : "LIVE")}</span>` : "";
         const fallbackThumb = isVideoSection && !image ? `<span class="news-thumb news-thumb-fallback">${liveBadge}${escapeHtml(source.replace(/\s*(video|youtube|直播).*$/i, "") || "Video")}</span>` : "";
         const imageNode = image ? `<span class="news-thumb">${liveBadge}<img src="${escapeHtml(image)}" alt="" loading="lazy"></span>` : fallbackThumb;
-        const voiceoverNode = voiceover ? `<span class="video-voiceover" data-voiceover-control>
+        const voiceoverStatusLabel = voiceover?.status === "missing_openai_key"
+          ? (state.lang === "zh" ? "缺少 OPENAI_API_KEY" : "OPENAI_API_KEY missing")
+          : voiceover?.status === "no_caption"
+            ? (state.lang === "zh" ? "无公开字幕，暂不能生成语音" : "No public captions")
+            : voiceover?.status === "error"
+              ? (state.lang === "zh" ? "语音生成失败" : "Voice generation failed")
+              : (state.lang === "zh" ? "中文语音生成中" : "Mandarin voice pending");
+        const voiceoverNode = voiceover?.status === "ready" && voiceover.audio ? `<span class="video-voiceover" data-voiceover-control>
             <span class="video-voiceover-label">${escapeHtml(state.lang === "zh" ? "中文语音" : "Mandarin voice")}</span>
             <audio controls preload="none" src="${escapeHtml(voiceover.audio)}"></audio>
-          </span>` : "";
+          </span>` : (voiceover ? `<span class="video-voiceover pending" data-voiceover-control>
+            <span class="video-voiceover-label">${escapeHtml(voiceoverStatusLabel)}</span>
+          </span>` : "");
         const authorNode = author ? `<span><span class="news-meta-label">${escapeHtml(t("newsAuthor"))}</span><b>${escapeHtml(author)}</b></span>` : "";
         const sourceNode = sectionId === "person"
           ? `<span><span class="news-meta-label">${escapeHtml(t("mediaSource"))}</span><b>${escapeHtml(source)}</b></span>`
