@@ -731,17 +731,24 @@
       position: absolute;
       z-index: 4;
       min-width: 132px;
-      padding: 8px 9px;
+      max-width: min(320px, calc(100vw - 32px));
+      padding: 10px 11px;
       border: 1px solid rgba(148, 163, 184, 0.32);
       border-radius: 5px;
-      background: rgba(2, 6, 23, 0.9);
+      background: rgba(2, 6, 23, 0.95);
       color: #e5e7eb;
       font-size: 12px;
       line-height: 1.35;
       pointer-events: none;
-      transform: translate(-50%, -112%);
+      overflow-wrap: anywhere;
+      transform: translate(-50%, -114%);
       box-shadow: 0 12px 30px rgba(2, 6, 23, 0.38);
     }
+    .index-chart-tooltip.align-left { transform: translate(-8px, -114%); }
+    .index-chart-tooltip.align-right { transform: translate(calc(-100% + 8px), -114%); }
+    .index-chart-tooltip.align-bottom { transform: translate(-50%, 12px); }
+    .index-chart-tooltip.align-left.align-bottom { transform: translate(-8px, 12px); }
+    .index-chart-tooltip.align-right.align-bottom { transform: translate(calc(-100% + 8px), 12px); }
     .index-chart-tooltip b {
       display: block;
       color: #f8fafc;
@@ -755,7 +762,7 @@
       font-weight: 800;
       line-height: 1.32;
       margin-top: 4px;
-      max-width: 280px;
+      max-width: 100%;
     }
     .index-chart-tooltip .event-meta {
       display: block;
@@ -3990,6 +3997,17 @@
       const yMax = max * 1.06;
       const xFor = (index) => pad.left + (index / Math.max(1, series.length - 1)) * plotWidth;
       const yFor = (value) => pad.top + ((yMax - value) / Math.max(0.000001, yMax - yMin)) * plotHeight;
+      const placeChartTooltip = (node, x, y) => {
+        if (!node) return;
+        node.classList.remove("align-left", "align-right", "align-bottom");
+        const xPct = (x / width) * 100;
+        const yPct = (y / height) * 100;
+        node.style.left = `${Math.min(98, Math.max(2, xPct))}%`;
+        node.style.top = `${Math.min(96, Math.max(4, yPct))}%`;
+        if (xPct < 24) node.classList.add("align-left");
+        if (xPct > 76) node.classList.add("align-right");
+        if (yPct < 24) node.classList.add("align-bottom");
+      };
       const line = series.map((point, index) => `${index ? "L" : "M"}${xFor(index).toFixed(1)} ${yFor(point.value).toFixed(1)}`).join(" ");
       const area = `${line} L${xFor(series.length - 1).toFixed(1)} ${height - pad.bottom} L${pad.left} ${height - pad.bottom} Z`;
       const yTicks = Array.from({ length: 6 }, (_, i) => yMin + ((yMax - yMin) / 5) * i);
@@ -4040,8 +4058,7 @@
       const hoveredMarker = markerModels.find((marker) => marker.key === state.chartHoverEventKey);
       if (tooltip && hoveredMarker) {
         tooltip.hidden = false;
-        tooltip.style.left = `${(hoveredMarker.x / width) * 100}%`;
-        tooltip.style.top = `${(hoveredMarker.y / height) * 100}%`;
+        placeChartTooltip(tooltip, hoveredMarker.x, hoveredMarker.y);
         tooltip.replaceChildren(document.createTextNode(`${hoveredMarker.date} · ${hoveredMarker.ticker || hoveredMarker.name}`));
         const titleNode = document.createElement("span");
         titleNode.className = "event-title";
@@ -4053,8 +4070,7 @@
         tooltip.appendChild(sourceNode);
       } else if (tooltip) {
         tooltip.hidden = false;
-        tooltip.style.left = `${(activeX / width) * 100}%`;
-        tooltip.style.top = `${(activeY / height) * 100}%`;
+        placeChartTooltip(tooltip, activeX, activeY);
         tooltip.replaceChildren(document.createTextNode(`${state.lang === "zh" ? "日期" : "Date"} ${active.date.replace("T", " ")}`));
         const tooltipValue = document.createElement("b");
         tooltipValue.textContent = active.value.toFixed(2);
