@@ -4669,10 +4669,18 @@
         .replace(/\s+/g, " ")
         .trim();
     }
+    function isDirectoryNewsItem(item) {
+      const title = String(item?.titleZh || item?.titleEn || item?.title || "");
+      const url = String(item?.url || "");
+      return /第\s*\d+\s*页\s*[，,]\s*共\s*\d+\s*页|\bpage\s+\d+\s*(?:of|\/)\s*\d+\b|\|\s*第\s*\d+\s*页\b/i.test(title)
+        || /\/page\/\d+\/?(?:[?#].*)?$|\/category\/[^?#]+\/page\/\d+\/?/i.test(url)
+        || (/新闻与人工智能\s*[|｜]/i.test(title) && /techcrunch/i.test(`${title} ${url}`));
+    }
     function uniqueNewsItems(items) {
       const seen = new Set();
       return (items || []).filter((item) => {
         if (!item?.title) return false;
+        if (isDirectoryNewsItem(item)) return false;
         const url = safeUrl(item.url || "#", { allowHash: true });
         const videoId = youtubeVideoId(url);
         const titleKey = canonicalNewsTitle(item.titleZh || item.titleEn || item.title || "");
