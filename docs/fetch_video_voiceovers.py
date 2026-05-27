@@ -35,6 +35,8 @@ OPENAI_TTS_VOICE = os.getenv("OPENAI_TTS_VOICE", "coral")
 VOICEOVER_AUDIO_FALLBACK = os.getenv("VOICEOVER_AUDIO_FALLBACK", "1") == "1"
 VOICEOVER_MAX_AUDIO_SECONDS = int(os.getenv("VOICEOVER_MAX_AUDIO_SECONDS", "600"))
 VOICEOVER_FORCE = os.getenv("VOICEOVER_FORCE", "0") == "1"
+YOUTUBE_COOKIES_FILE = os.getenv("YOUTUBE_COOKIES_FILE", "").strip()
+YOUTUBE_COOKIES = os.getenv("YOUTUBE_COOKIES", "").strip()
 
 YOUTUBE_RE = re.compile(r"(?:youtube\.com/watch\?v=|youtu\.be/)([A-Za-z0-9_-]{11})")
 VTT_TIME_RE = re.compile(r"^\d{2}:\d{2}:\d{2}\.\d{3}\s+-->\s+\d{2}:\d{2}:\d{2}\.\d{3}")
@@ -119,11 +121,23 @@ def clean_vtt(text: str) -> str:
     return " ".join(lines)
 
 
+def youtube_cookie_args(tmp: str | Path) -> list[str]:
+    if YOUTUBE_COOKIES_FILE:
+        cookie_path = Path(YOUTUBE_COOKIES_FILE)
+        if cookie_path.exists():
+            return ["--cookies", str(cookie_path)]
+    if YOUTUBE_COOKIES:
+        cookie_path = Path(tmp) / "youtube-cookies.txt"
+        cookie_path.write_text(YOUTUBE_COOKIES + "\n", encoding="utf-8")
+        return ["--cookies", str(cookie_path)]
+    return []
+
+
 def fetch_public_caption(video: dict[str, Any]) -> tuple[str, str]:
     if not shutil.which("yt-dlp"):
         return "", "yt-dlp is not installed"
     with tempfile.TemporaryDirectory() as tmp:
-        result = subprocess.run([
+        command = [
             "yt-dlp",
             "--skip-download",
             "--write-subs",
@@ -133,7 +147,9 @@ def fetch_public_caption(video: dict[str, Any]) -> tuple[str, str]:
             "--no-warnings",
             "-o", str(Path(tmp) / "%(id)s.%(ext)s"),
             video["url"],
-        ], text=True, capture_output=True, timeout=150)
+        ]
+        command[1:1] = youtube_cookie_args(tmp)
+        result = subprocess.run(command, text=True, capture_output=True, timeout=150)
         files = sorted(Path(tmp).glob("*.vtt"))
         if not files:
             return "", (result.stderr or result.stdout or "no public captions found").strip()[-240:]
@@ -211,6 +227,7 @@ def download_audio_sample(video: dict[str, Any], target: Path) -> tuple[bool, st
         str(target.with_suffix(".%(ext)s")),
         video["url"],
     ]
+    command[1:1] = youtube_cookie_args(target.parent)
     result = subprocess.run(command, text=True, capture_output=True, timeout=300)
     mp3 = target.with_suffix(".mp3")
     if mp3.exists() and mp3.stat().st_size > 1024:
@@ -331,6 +348,7 @@ def main() -> None:
             "transcriptionModel": OPENAI_TRANSCRIBE_MODEL,
             "ttsModel": OPENAI_TTS_MODEL,
             "audioFallback": VOICEOVER_AUDIO_FALLBACK,
+            "youtubeCookies": bool(YOUTUBE_COOKIES or YOUTUBE_COOKIES_FILE),
             "maxVideos": MAX_VIDEOS,
         },
         "items": items,

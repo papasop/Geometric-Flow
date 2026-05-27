@@ -37,6 +37,7 @@ jobs:
       - name: Generate Mandarin video voiceovers
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          YOUTUBE_COOKIES: ${{ secrets.YOUTUBE_COOKIES }}
           VOICEOVER_MAX_VIDEOS: "6"
         run: python docs/fetch_video_voiceovers.py
       - name: Update token index
