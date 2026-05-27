@@ -4161,10 +4161,16 @@
           isNvidiaInvestment: isTavilyNvidiaInvestmentNews(item, row)
         });
       });
-      return [...rowMatches, ...historicalNvidiaInvestmentEvents(rows, series)]
+      const historicalEvents = historicalNvidiaInvestmentEvents(rows, series);
+      const historicalKeys = new Set(historicalEvents.map((event) => `${event.index}-${event.ticker}`));
+      const newsEvents = rowMatches
         .sort((a, b) => b.date.localeCompare(a.date))
-        .filter((event, index, list) => list.findIndex((other) => other.index === event.index && other.ticker === event.ticker) === index)
-        .slice(0, 18);
+        .filter((event, index, list) => {
+          const key = `${event.index}-${event.ticker}`;
+          return !historicalKeys.has(key) && list.findIndex((other) => other.index === event.index && other.ticker === event.ticker) === index;
+        })
+        .slice(0, Math.max(0, 18 - historicalEvents.length));
+      return [...historicalEvents, ...newsEvents].sort((a, b) => b.date.localeCompare(a.date));
     }
     function fallbackNewsItems(sectionId = "industry") {
       const fallback = {
