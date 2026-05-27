@@ -2633,8 +2633,8 @@
       "Leopold Aschenbrenner": { zh: "Leopold Aschenbrenner", en: "Leopold Aschenbrenner" }
     };
     const NVIDIA_CATEGORY = "英伟达";
-    const NVIDIA_TICKERS = new Set(["NVDA", "OPENAI.PRE", "ANTHROPIC.PRE", "TERRAPOWER.PRE", "SPACEX.PRE", "LHX", "HXL", "ATI", "RDW", "002149.SZ", "603308.SS", "605123.SS", "603601.SS", "300136.SZ", "002792.SZ", "301005.SZ", "002131.SZ", "688102.SS", "INTC", "CRWV", "SNPS", "COHR", "NOK", "NBIS", "GENB", "LITE", "MRVL", "GLW", "IREN", "NOW", "ARM"]);
-    const NVIDIA_SPACEX_TICKERS = new Set(["SPACEX.PRE", "LHX", "HXL", "ATI", "RDW", "002149.SZ", "603308.SS", "605123.SS", "603601.SS", "300136.SZ", "002792.SZ", "301005.SZ", "002131.SZ", "688102.SS"]);
+    const NVIDIA_TICKERS = new Set(["NVDA", "OPENAI.PRE", "ANTHROPIC.PRE", "TERRAPOWER.PRE", "SPACEX.PRE", "LHX", "HXL", "ATI", "RDW", "TMUS", "SATS", "GSAT", "ASTS", "2313.TW", "3491.TW", "6271.TW", "6568.TW", "6285.TW", "2312.TW", "3138.TW", "4916.TW", "1101.TW", "002149.SZ", "603308.SS", "605123.SS", "603601.SS", "300136.SZ", "002792.SZ", "301005.SZ", "002131.SZ", "688102.SS", "INTC", "CRWV", "SNPS", "COHR", "NOK", "NBIS", "GENB", "LITE", "MRVL", "GLW", "IREN", "NOW", "ARM"]);
+    const NVIDIA_SPACEX_TICKERS = new Set(["SPACEX.PRE", "LHX", "HXL", "ATI", "RDW", "TMUS", "SATS", "GSAT", "ASTS", "2313.TW", "3491.TW", "6271.TW", "6568.TW", "6285.TW", "2312.TW", "3138.TW", "4916.TW", "1101.TW", "002149.SZ", "603308.SS", "605123.SS", "603601.SS", "300136.SZ", "002792.SZ", "301005.SZ", "002131.SZ", "688102.SS"]);
     const NVIDIA_PARTNER_NEWS_PATTERN = /(nvidia[- ]?backed|nvidia invested|nvidia investment|nvidia portfolio|nvidia stake|nvidia partnership|nvidia collaboration|nvidia strategic partnership|nvidia supply agreement|nvidia works with|nvidia teams with|英伟达.*(投资|入股|持股|合作|战略合作|供应协议|联手|携手))/i;
     const NVIDIA_HISTORICAL_INVESTMENT_EVENTS = [
       {
@@ -2827,6 +2827,19 @@
       ["HXL", "Hexcel", "SpaceX composite materials", "SpaceX 产业链观察项；航空航天复合材料、碳纤维、蜂窝材料与轻量化结构件供应商。"],
       ["ATI", "ATI", "SpaceX specialty metals", "SpaceX 产业链观察项；特种金属、高温合金、钛合金与航空航天关键材料供应商。"],
       ["RDW", "Redwire", "SpaceX space infrastructure", "SpaceX 产业链观察项；空间基础设施、航空电子设备、太阳能组件与空间站任务技术支撑。"],
+      ["TMUS", "T-Mobile US", "SpaceX Direct to Cell partner", "SpaceX 产业链观察项；Direct to Cell 合作伙伴，将星链卫星网络整合进移动通信服务。"],
+      ["SATS", "EchoStar", "SpaceX spectrum partner", "SpaceX 产业链观察项；频谱资源合作与交易标的，为星链直连设备服务提供关键频段资源。"],
+      ["GSAT", "Globalstar", "SpaceX launch service customer", "SpaceX 产业链观察项；与 SpaceX 签署发射服务协议，用于卫星网络更新和空间通信能力扩张。"],
+      ["ASTS", "AST SpaceMobile", "SpaceX launch service customer", "SpaceX 产业链观察项；通过多次发射协议与 SpaceX 合作，推进直连手机卫星服务。"],
+      ["2313.TW", "華通", "SpaceX satellite PCB supplier", "SpaceX 产业链观察项；低轨卫星 PCB 龙头，覆盖卫星本体及地面接收站电路板供应。"],
+      ["3491.TW", "昇達科", "SpaceX satellite RF modules", "SpaceX 产业链观察项；卫星通信射频模组供应商，受益低轨卫星通信元件需求。"],
+      ["6271.TW", "同欣電", "SpaceX ceramic substrate / RF modules", "SpaceX 产业链观察项；陶瓷基板与射频模组供应商，受益低轨卫星 RF 收发模组需求。"],
+      ["6568.TW", "宏觀", "SpaceX satellite communications chips", "SpaceX 产业链观察项；布局卫星通信芯片研发，是航太通信产业链技术型标的。"],
+      ["6285.TW", "啟碁", "SpaceX Starlink terminal equipment", "SpaceX 产业链观察项；星链地面终端核心供应商，提供卫星天线与阵列解决方案。"],
+      ["2312.TW", "金寶", "SpaceX ground station board manufacturing", "SpaceX 产业链观察项；切入低轨卫星地面站主机板代工与终端设备制造。"],
+      ["3138.TW", "耀登", "SpaceX wireless RF antenna", "SpaceX 产业链观察项；无线射频天线技术供应商，覆盖天地整合通信与卫星地面终端。"],
+      ["4916.TW", "事欣科", "SpaceX satellite PCB / PCBA manufacturing", "SpaceX 产业链观察项；以 PCB/PCBA 生产测试切入卫星通信电子制造供应链。"],
+      ["1101.TW", "台泥", "SpaceX Molicel battery exposure", "SpaceX 产业链观察项；集团旗下 Molicel 高端锂电池进入太空能源应用，支撑航天任务能源需求。"],
       ["002149.SZ", "西部材料", "SpaceX aluminum alloy supplier", "SpaceX 产业链观察项；中国境内领先铝合金供应商，产品用于火箭箭体，并通过 SpaceX 认证。"],
       ["603308.SS", "应流股份", "SpaceX engine casting supplier", "SpaceX 产业链观察项；猛禽发动机核心焊接铸件供应商，技术壁垒高，并通过 NASA 认证。"],
       ["605123.SS", "派克新材", "SpaceX precision forging supplier", "SpaceX 产业链观察项；为火箭箭体和发动机提供精密锻件，技术门槛高，并通过 NASA 认证。"],
