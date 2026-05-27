@@ -4691,8 +4691,20 @@
       });
     }
     const NEWS_SCROLL_DURATION_SECONDS = 90;
+    let industryNewsScrollPixelsPerSecond = null;
     function syncNewsTrackSpeed(track) {
       if (!track) return;
+      const distance = Math.max(1, track.scrollWidth / 2);
+      if (track.id === "news-track-industry") {
+        industryNewsScrollPixelsPerSecond = distance / NEWS_SCROLL_DURATION_SECONDS;
+        track.style.animationDuration = `${NEWS_SCROLL_DURATION_SECONDS}s`;
+        return;
+      }
+      if (track.id === "news-track-person" && industryNewsScrollPixelsPerSecond) {
+        const duration = Math.max(28, Math.min(140, distance / industryNewsScrollPixelsPerSecond));
+        track.style.animationDuration = `${duration.toFixed(1)}s`;
+        return;
+      }
       track.style.animationDuration = `${NEWS_SCROLL_DURATION_SECONDS}s`;
     }
     function renderNewsStrip(sectionId, items) {
