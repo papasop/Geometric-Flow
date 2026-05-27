@@ -538,6 +538,7 @@ for source in MNA_NEWS_SOURCES:
 for source in EQUITY_NEWS_SOURCES:
     source["requiredKeywords"] = DEAL_REQUIRED_KEYWORDS
 NEW_VIDEO_SOURCES = [
+    {"name": "YouTube New", "url": "https://www.youtube.com/watch?v=KZddMHvtvPQ"},
     {"name": "YouTube New", "url": "https://www.youtube.com/watch?v=FR4i2DcequI"},
     {"name": "YouTube New", "url": "https://www.youtube.com/watch?v=91fmhAnECVc"},
     {"name": "YouTube New", "url": "https://www.youtube.com/watch?v=33hNvOdGUhQ"},
@@ -678,6 +679,21 @@ TAVILY_SECTION_QUERIES = {
 }
 PINNED_SECTION_ITEMS = {
     "video": [
+        {
+            "source": "YouTube New",
+            "feedSource": "YouTube New",
+            "sourceUrl": "https://www.youtube.com/watch?v=KZddMHvtvPQ",
+            "title": "YouTube video",
+            "summary": "Pinned YouTube video.",
+            "url": "https://www.youtube.com/watch?v=KZddMHvtvPQ",
+            "author": "",
+            "image": "https://i.ytimg.com/vi/KZddMHvtvPQ/hqdefault.jpg",
+            "publishedAt": "",
+            "section": "video",
+            "sectionTitle": "视频",
+            "matchedPortfolios": ["ai-market"],
+            "tags": ["YouTube"],
+        },
         {
             "source": "YouTube New",
             "feedSource": "YouTube New",
