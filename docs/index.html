@@ -1693,6 +1693,9 @@
       <button class="tab" data-tab="Token 工厂 / 推理服务" type="button">Token Factory / Inference</button>
       <span class="tab-row-break" aria-hidden="true"></span>
     </section>
+    <section class="subtabs" id="nvidia-subtabs" aria-label="英伟达子标签" hidden>
+      <button class="subtab notranslate" data-nvidia-subcategory="SpaceX" type="button" translate="no" lang="en">SpaceX</button>
+    </section>
     <section class="subtabs" id="token-subtabs" aria-label="Token 工厂 / 推理服务子标签" hidden>
       <button class="subtab notranslate" data-token-subcategory="IaaS/PaaS" type="button" translate="no" lang="en">IaaS/PaaS</button>
       <button class="subtab notranslate" data-token-subcategory="MaaS" type="button" translate="no" lang="en">MaaS</button>
@@ -2630,7 +2633,8 @@
       "Leopold Aschenbrenner": { zh: "Leopold Aschenbrenner", en: "Leopold Aschenbrenner" }
     };
     const NVIDIA_CATEGORY = "英伟达";
-    const NVIDIA_TICKERS = new Set(["NVDA", "OPENAI.PRE", "ANTHROPIC.PRE", "TERRAPOWER.PRE", "INTC", "CRWV", "SNPS", "COHR", "NOK", "NBIS", "GENB", "LITE", "MRVL", "GLW", "IREN", "NOW", "ARM"]);
+    const NVIDIA_TICKERS = new Set(["NVDA", "OPENAI.PRE", "ANTHROPIC.PRE", "TERRAPOWER.PRE", "SPACEX.PRE", "INTC", "CRWV", "SNPS", "COHR", "NOK", "NBIS", "GENB", "LITE", "MRVL", "GLW", "IREN", "NOW", "ARM"]);
+    const NVIDIA_SPACEX_TICKERS = new Set(["SPACEX.PRE"]);
     const NVIDIA_PARTNER_NEWS_PATTERN = /(nvidia[- ]?backed|nvidia invested|nvidia investment|nvidia portfolio|nvidia stake|nvidia partnership|nvidia collaboration|nvidia strategic partnership|nvidia supply agreement|nvidia works with|nvidia teams with|英伟达.*(投资|入股|持股|合作|战略合作|供应协议|联手|携手))/i;
     const NVIDIA_HISTORICAL_INVESTMENT_EVENTS = [
       {
@@ -3551,7 +3555,7 @@
     const LANGUAGE_STORAGE_KEY = "isithub-language";
     const GLOBAL_CHART_START_DATE = "2022-11-30";
     const TABLE_PERFORMANCE_START_DATE = "2022-12-05";
-    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: null, energySubcategory: null, infrastructureSubcategory: "DCI", hardwareSubcategory: "CNC", modelSubcategory: "LLM", llmSubcategory: "全部", worldModelSubcategory: "全部", selected: "NVDA", page: 1, marketView: "table", rankingView: "potential", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, potentialView: "chart", potentialPeriod: "history", potentialPinnedIndex: null, potentialAutoIndex: 0, potentialAutoPaused: false, potentialSort: "gain", potentialSortDir: "desc", performancePeriod: "history", fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
+    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", nvidiaSubcategory: null, tokenSubcategory: null, energySubcategory: null, infrastructureSubcategory: "DCI", hardwareSubcategory: "CNC", modelSubcategory: "LLM", llmSubcategory: "全部", worldModelSubcategory: "全部", selected: "NVDA", page: 1, marketView: "table", rankingView: "potential", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, potentialView: "chart", potentialPeriod: "history", potentialPinnedIndex: null, potentialAutoIndex: 0, potentialAutoPaused: false, potentialSort: "gain", potentialSortDir: "desc", performancePeriod: "history", fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
     const potentialSeriesCache = new Map();
     let chartNewsItems = [];
     let nvidiaDynamicPartnerTickersCache = null;
@@ -3794,6 +3798,10 @@
       const symbol = String(ticker || "").toUpperCase();
       return NVIDIA_TICKERS.has(symbol) || dynamicNvidiaPartnerTickers().has(symbol);
     }
+    function nvidiaSubcategory(row) {
+      if (NVIDIA_SPACEX_TICKERS.has(row.ticker)) return "SpaceX";
+      return null;
+    }
     function matchesCategory(row, category) {
       if (category === "ALL") return true;
       if (category === LEOPOLD_CATEGORY) return LEOPOLD_TICKERS.has(row.ticker);
@@ -3873,12 +3881,17 @@
       if (state.modelSubcategory === "物理世界模型") return state.worldModelSubcategory === "全部" || worldModelSubcategory(row) === state.worldModelSubcategory;
       return true;
     }
+    function matchesNvidiaSubcategory(row) {
+      if (state.category !== NVIDIA_CATEGORY) return true;
+      if (!state.nvidiaSubcategory) return true;
+      return nvidiaSubcategory(row) === state.nvidiaSubcategory;
+    }
     function filteredRows() {
       const q = state.query.trim().toLowerCase();
       let rows = state.rows.filter((row) => {
         const matchCategory = matchesCategory(row, state.category);
         const haystack = `${row.ticker} ${row.name} ${row.category} ${row.thesis} ${row.country} ${flagFor(row)} ${(row.tags || []).join(" ")}`.toLowerCase();
-        return matchCategory && matchesTokenSubcategory(row) && matchesEnergySubcategory(row) && matchesInfrastructureSubcategory(row) && matchesHardwareSubcategory(row) && matchesModelSubcategory(row) && (!q || haystack.includes(q));
+        return matchCategory && matchesNvidiaSubcategory(row) && matchesTokenSubcategory(row) && matchesEnergySubcategory(row) && matchesInfrastructureSubcategory(row) && matchesHardwareSubcategory(row) && matchesModelSubcategory(row) && (!q || haystack.includes(q));
       });
       if (state.sort === "mcap") {
         rows = rows.sort((a, b) => compareMetric(a, b, "mcap"));
@@ -5791,6 +5804,11 @@
     function updateCategoryControls() {
       document.querySelectorAll(".tab").forEach((item) => item.classList.toggle("active", item.dataset.tab === state.category));
       document.querySelectorAll(".nav a[data-nav-tab]").forEach((item) => item.classList.toggle("active", item.dataset.navTab === state.category));
+      const nvidiaSubtabs = $("nvidia-subtabs");
+      if (nvidiaSubtabs) nvidiaSubtabs.hidden = state.category !== NVIDIA_CATEGORY;
+      document.querySelectorAll("[data-nvidia-subcategory]").forEach((item) => {
+        item.classList.toggle("active", Boolean(state.nvidiaSubcategory) && item.dataset.nvidiaSubcategory === state.nvidiaSubcategory);
+      });
       const tokenSubtabs = $("token-subtabs");
       if (tokenSubtabs) tokenSubtabs.hidden = state.category !== TOKEN_FACTORY_CATEGORY;
       document.querySelectorAll("[data-token-subcategory]").forEach((item) => {
@@ -5826,6 +5844,7 @@
       document.querySelectorAll("[data-world-model-subcategory]").forEach((item) => {
         item.classList.toggle("active", item.dataset.worldModelSubcategory === state.worldModelSubcategory);
       });
+      alignSubtabsToCategory(nvidiaSubtabs, NVIDIA_CATEGORY);
       alignSubtabsToCategory(tokenSubtabs, TOKEN_FACTORY_CATEGORY);
       alignSubtabsToCategory(energySubtabs, ENERGY_CATEGORY);
       alignSubtabsToCategory(infrastructureSubtabs, INFRASTRUCTURE_CATEGORY);
@@ -5842,6 +5861,9 @@
       state.marketView = "table";
       state.sort = "mcap";
       state.sortDir = "desc";
+      if (state.category === NVIDIA_CATEGORY) {
+        state.nvidiaSubcategory = null;
+      }
       if (state.category === TOKEN_FACTORY_CATEGORY) {
         state.tokenSubcategory = null;
       }
@@ -5909,6 +5931,7 @@
       setAllText(".potential-view-tab", [t("potentialChart"), t("potentialRank"), t("potentialChart"), t("potentialRank")]);
       setAllText(".token-metric span", [t("period"), "Top 10 Tokens", t("firstShare")]);
       setAllText(".tabs .tab", [t("all"), ...AIBOTT_THEMES.map(categoryDisplayLabel)]);
+      setAllText("#nvidia-subtabs .subtab", ["SpaceX"]);
       setAllText("#energy-subtabs .subtab", ["SMR", "SOFC", "SSCB", state.lang === "zh" ? "其他" : "Others"]);
       setAllText("#infrastructure-subtabs .subtab", ["DCI", "AIDC", "HPC"]);
       setAllText("#hardware-subtabs .subtab", ["CNC", "CPO"]);
@@ -5976,6 +5999,14 @@
       });
       document.querySelectorAll(".tab").forEach((tab) => {
         tab.addEventListener("click", () => selectCategory(tab.dataset.tab));
+      });
+      document.querySelectorAll("[data-nvidia-subcategory]").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.nvidiaSubcategory = button.dataset.nvidiaSubcategory || "SpaceX";
+          state.page = 1;
+          updateCategoryControls();
+          render();
+        });
       });
       document.querySelectorAll("[data-token-subcategory]").forEach((button) => {
         button.addEventListener("click", () => {
