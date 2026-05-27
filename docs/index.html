@@ -4482,6 +4482,13 @@
         return true;
       });
     }
+    function syncNewsTrackSpeed(track) {
+      if (!track) return;
+      const distance = Math.max(1, track.scrollWidth / 2);
+      const targetPixelsPerSecond = 58;
+      const duration = Math.max(34, Math.min(118, distance / targetPixelsPerSecond));
+      track.style.animationDuration = `${duration.toFixed(1)}s`;
+    }
     function renderNewsStrip(sectionId, items) {
       const track = $(`news-track-${sectionId}`);
       if (!track) return;
@@ -4517,6 +4524,7 @@
         </a>`;
       }).join("");
       track.innerHTML = nodes;
+      requestAnimationFrame(() => syncNewsTrackSpeed(track));
     }
     function renderNewsSections(payload) {
       const sections = payload?.sections || {};
