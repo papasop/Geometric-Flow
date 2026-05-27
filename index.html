@@ -4157,19 +4157,17 @@
       svg.onpointermove = (event) => {
         const rect = svg.getBoundingClientRect();
         const x = ((event.clientX - rect.left) / rect.width) * width;
-        const y = ((event.clientY - rect.top) / rect.height) * height;
         const raw = Math.round(((x - pad.left) / plotWidth) * (series.length - 1));
         const activeHoverIndex = Math.max(0, Math.min(series.length - 1, raw));
-        const activeHoverX = xFor(activeHoverIndex);
+        const eventHitRadius = Math.max(14, plotWidth / Math.max(18, series.length - 1));
         const markerEntries = markerModels
           .map((marker) => ({
             marker,
             indexDistance: Math.abs(marker.index - activeHoverIndex),
-            xDistance: Math.abs(marker.x - activeHoverX),
-            yDistance: Math.abs(marker.y - y)
+            xDistance: Math.abs(marker.x - x)
           }))
-          .filter((entry) => entry.indexDistance <= 1 || entry.xDistance <= 8)
-          .sort((a, b) => a.indexDistance - b.indexDistance || a.xDistance - b.xDistance || a.yDistance - b.yDistance);
+          .filter((entry) => entry.xDistance <= eventHitRadius || entry.indexDistance <= 1)
+          .sort((a, b) => a.xDistance - b.xDistance || a.indexDistance - b.indexDistance);
         const nearestMarker = markerEntries[0]?.marker || null;
         state.chartHoverEventKey = nearestMarker?.key || null;
         state.chartPinnedIndex = activeHoverIndex;
