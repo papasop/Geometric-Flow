@@ -33,6 +33,11 @@ FX_TICKERS = {
     "USDCAD": "CAD=X",
     "USDSEK": "SEK=X",
 }
+FALLBACK_SHARES_OUTSTANDING = {
+    # SJ Semiconductor (688820.SH) is newly listed; Yahoo can return a price
+    # without market cap or shares. SSE listing notice: 1,862,774,097 shares.
+    "688820.SS": 1_862_774_097,
+}
 
 
 def finite(value):
@@ -176,6 +181,8 @@ def fetch_one(ticker):
     market_cap = finite(fast_info.get("market_cap") or info.get("marketCap"))
     market_cap_currency = currency
     shares = finite(fast_info.get("shares") or info.get("sharesOutstanding"))
+    if shares is None:
+        shares = FALLBACK_SHARES_OUTSTANDING.get(ticker)
     volume_shares = finite(
         fast_info.get("last_volume")
         or fast_info.get("regular_market_volume")
