@@ -22,15 +22,22 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - name: Install voiceover dependencies
+        run: python -m pip install --upgrade yt-dlp
       - name: Update news feed
         env:
           TRANSLATE_NEWS_TITLES: "0"
           TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
         run: python docs/fetch_news.py
+      - name: Generate Mandarin video voiceovers
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          VOICEOVER_MAX_VIDEOS: "6"
+        run: python docs/fetch_video_voiceovers.py
       - name: Commit updated news to main
         id: commit_main
         run: |
-          FILES="docs/news.json docs/news-a8febb0.json docs/agi/news.json docs/agi/news-a8febb0.json docs/ai-global-index/news.json docs/ai-global-index/news-a8febb0.json"
+          FILES="docs/news.json docs/news-a8febb0.json docs/video-voiceover.json docs/audio/voiceovers docs/agi/news.json docs/agi/news-a8febb0.json docs/ai-global-index/news.json docs/ai-global-index/news-a8febb0.json"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add $FILES
@@ -49,6 +56,9 @@ jobs:
           git worktree add /tmp/agi-gh-pages-news origin/gh-pages
           cp docs/news.json /tmp/agi-gh-pages-news/news.json
           cp docs/news-a8febb0.json /tmp/agi-gh-pages-news/news-a8febb0.json
+          cp docs/video-voiceover.json /tmp/agi-gh-pages-news/video-voiceover.json
+          mkdir -p /tmp/agi-gh-pages-news/audio/voiceovers
+          cp -R docs/audio/voiceovers/. /tmp/agi-gh-pages-news/audio/voiceovers/ 2>/dev/null || true
           mkdir -p /tmp/agi-gh-pages-news/agi /tmp/agi-gh-pages-news/ai-global-index
           cp docs/agi/news.json /tmp/agi-gh-pages-news/agi/news.json
           cp docs/agi/news-a8febb0.json /tmp/agi-gh-pages-news/agi/news-a8febb0.json
@@ -57,6 +67,6 @@ jobs:
           cd /tmp/agi-gh-pages-news
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add news.json news-a8febb0.json agi/news.json agi/news-a8febb0.json ai-global-index/news.json ai-global-index/news-a8febb0.json
+          git add news.json news-a8febb0.json video-voiceover.json audio/voiceovers agi/news.json agi/news-a8febb0.json ai-global-index/news.json ai-global-index/news-a8febb0.json
           git commit -m "Publish news feed" || exit 0
           git push origin HEAD:gh-pages

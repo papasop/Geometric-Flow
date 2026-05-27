@@ -23,7 +23,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install dependencies
-        run: python -m pip install --upgrade yfinance pandas
+        run: python -m pip install --upgrade yfinance pandas yt-dlp
       - name: Update stock quotes
         run: python docs/fetch_quotes.py
       - name: Update news feed
@@ -31,6 +31,11 @@ jobs:
           TRANSLATE_NEWS_TITLES: "0"
           TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
         run: python docs/fetch_news.py
+      - name: Generate Mandarin video voiceovers
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          VOICEOVER_MAX_VIDEOS: "6"
+        run: python docs/fetch_video_voiceovers.py
       - name: Update token index
         env:
           TOKEN_INDEX_VALUE: ${{ github.event.inputs.value }}
@@ -40,7 +45,7 @@ jobs:
       - name: Commit updated feeds to main
         id: commit_main
         run: |
-          FILES="docs/quotes.json docs/agi/quotes.json docs/ai-global-index/quotes.json docs/news.json docs/news-a8febb0.json docs/agi/news.json docs/agi/news-a8febb0.json docs/ai-global-index/news.json docs/ai-global-index/news-a8febb0.json docs/token-index.json docs/agi/token-index.json docs/ai-global-index/token-index.json docs/model-rankings.json docs/agi/model-rankings.json docs/ai-global-index/model-rankings.json"
+          FILES="docs/quotes.json docs/agi/quotes.json docs/ai-global-index/quotes.json docs/news.json docs/news-a8febb0.json docs/video-voiceover.json docs/audio/voiceovers docs/agi/news.json docs/agi/news-a8febb0.json docs/ai-global-index/news.json docs/ai-global-index/news-a8febb0.json docs/token-index.json docs/agi/token-index.json docs/ai-global-index/token-index.json docs/model-rankings.json docs/agi/model-rankings.json docs/ai-global-index/model-rankings.json"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add $FILES
@@ -60,6 +65,9 @@ jobs:
           cp docs/quotes.json /tmp/agi-gh-pages/quotes.json
           cp docs/news.json /tmp/agi-gh-pages/news.json
           cp docs/news-a8febb0.json /tmp/agi-gh-pages/news-a8febb0.json
+          cp docs/video-voiceover.json /tmp/agi-gh-pages/video-voiceover.json
+          mkdir -p /tmp/agi-gh-pages/audio/voiceovers
+          cp -R docs/audio/voiceovers/. /tmp/agi-gh-pages/audio/voiceovers/ 2>/dev/null || true
           cp docs/token-index.json /tmp/agi-gh-pages/token-index.json
           cp docs/model-rankings.json /tmp/agi-gh-pages/model-rankings.json
           mkdir -p /tmp/agi-gh-pages/agi /tmp/agi-gh-pages/ai-global-index
@@ -76,6 +84,6 @@ jobs:
           cd /tmp/agi-gh-pages
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add quotes.json news.json news-a8febb0.json token-index.json model-rankings.json agi/quotes.json agi/news.json agi/news-a8febb0.json agi/token-index.json agi/model-rankings.json ai-global-index/quotes.json ai-global-index/news.json ai-global-index/news-a8febb0.json ai-global-index/token-index.json ai-global-index/model-rankings.json
+          git add quotes.json news.json news-a8febb0.json video-voiceover.json audio/voiceovers token-index.json model-rankings.json agi/quotes.json agi/news.json agi/news-a8febb0.json agi/token-index.json agi/model-rankings.json ai-global-index/quotes.json ai-global-index/news.json ai-global-index/news-a8febb0.json ai-global-index/token-index.json ai-global-index/model-rankings.json
           git commit -m "Publish AGI daily feeds" || exit 0
           git push origin HEAD:gh-pages
