@@ -748,6 +748,21 @@
       font-size: 15px;
       margin-top: 2px;
     }
+    .index-chart-tooltip .event-title {
+      display: block;
+      color: #f8fafc;
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 1.32;
+      margin-top: 4px;
+      max-width: 280px;
+    }
+    .index-chart-tooltip .event-meta {
+      display: block;
+      color: #22c55e;
+      font-weight: 760;
+      margin-top: 6px;
+    }
     .index-chart-footer {
       position: absolute;
       left: 12px;
@@ -3865,13 +3880,24 @@
       const area = `${line} L${xFor(series.length - 1).toFixed(1)} ${height - pad.bottom} L${pad.left} ${height - pad.bottom} Z`;
       const yTicks = Array.from({ length: 6 }, (_, i) => yMin + ((yMax - yMin) / 5) * i);
       const xTickIndexes = [...new Set([0, Math.floor((series.length - 1) * 0.25), Math.floor((series.length - 1) * 0.5), Math.floor((series.length - 1) * 0.75), series.length - 1])];
-      const eventMarkers = chartEventsForRows(rows, series).map((event, markerIndex) => {
+      const chartEvents = chartEventsForRows(rows, series);
+      const markerModels = chartEvents.map((event, markerIndex) => {
         const markerX = xFor(event.index);
         const markerY = yFor(series[event.index].value);
         const title = `${event.date} · ${event.ticker || event.name}\n${event.title}\n${event.source}`;
         const lane = markerIndex % 3;
-        return `<g class="chart-event-marker" transform="translate(${markerX.toFixed(1)} ${Math.max(pad.top + 10 + lane * 14, markerY - 18).toFixed(1)})">
-          <circle r="4.6" fill="#f97316" stroke="#ffedd5" stroke-width="1.4"><title>${escapeHtml(title)}</title></circle>
+        return {
+          ...event,
+          key: `${event.index}-${event.ticker}-${markerIndex}`,
+          x: markerX,
+          y: Math.max(pad.top + 10 + lane * 14, markerY - 18),
+          titleText: title
+        };
+      });
+      const eventMarkers = markerModels.map((marker) => {
+        const fill = marker.isNvidiaInvestment ? "#f97316" : "#38bdf8";
+        return `<g class="chart-event-marker" transform="translate(${marker.x.toFixed(1)} ${marker.y.toFixed(1)})">
+          <circle r="5.2" fill="${fill}" stroke="#ffedd5" stroke-width="1.4"><title>${escapeHtml(marker.titleText)}</title></circle>
         </g>`;
       }).join("");
       const activeIndex = Number.isInteger(state.chartPinnedIndex) ? Math.max(0, Math.min(series.length - 1, state.chartPinnedIndex)) : series.length - 1;
@@ -3897,7 +3923,21 @@
         <line x1="${activeX.toFixed(1)}" x2="${activeX.toFixed(1)}" y1="${pad.top}" y2="${height - pad.bottom}" stroke="#67e8f9" stroke-opacity="0.65" stroke-width="1.2" />
         <circle cx="${activeX.toFixed(1)}" cy="${activeY.toFixed(1)}" r="5.5" fill="#020617" stroke="#ecfeff" stroke-width="2.2" />
       `;
-      if (tooltip) {
+      const hoveredMarker = markerModels.find((marker) => marker.key === state.chartHoverEventKey);
+      if (tooltip && hoveredMarker) {
+        tooltip.hidden = false;
+        tooltip.style.left = `${(hoveredMarker.x / width) * 100}%`;
+        tooltip.style.top = `${(hoveredMarker.y / height) * 100}%`;
+        tooltip.replaceChildren(document.createTextNode(`${hoveredMarker.date} · ${hoveredMarker.ticker || hoveredMarker.name}`));
+        const titleNode = document.createElement("span");
+        titleNode.className = "event-title";
+        titleNode.textContent = hoveredMarker.title || "";
+        tooltip.appendChild(titleNode);
+        const sourceNode = document.createElement("span");
+        sourceNode.className = "event-meta";
+        sourceNode.textContent = [hoveredMarker.source, hoveredMarker.author].filter(Boolean).join(" · ");
+        tooltip.appendChild(sourceNode);
+      } else if (tooltip) {
         tooltip.hidden = false;
         tooltip.style.left = `${(activeX / width) * 100}%`;
         tooltip.style.top = `${(activeY / height) * 100}%`;
@@ -3915,12 +3955,19 @@
       svg.onpointermove = (event) => {
         const rect = svg.getBoundingClientRect();
         const x = ((event.clientX - rect.left) / rect.width) * width;
+        const y = ((event.clientY - rect.top) / rect.height) * height;
+        const nearestMarker = markerModels
+          .map((marker) => ({ marker, distance: Math.hypot(marker.x - x, marker.y - y) }))
+          .filter((entry) => entry.distance <= 18)
+          .sort((a, b) => a.distance - b.distance)[0]?.marker || null;
+        state.chartHoverEventKey = nearestMarker?.key || null;
         const raw = Math.round(((x - pad.left) / plotWidth) * (series.length - 1));
         state.chartPinnedIndex = Math.max(0, Math.min(series.length - 1, raw));
         renderBasketIndexChart();
       };
       svg.onpointerleave = () => {
         state.chartPinnedIndex = null;
+        state.chartHoverEventKey = null;
         renderBasketIndexChart();
       };
     }
@@ -4040,10 +4087,18 @@
       const haystack = `${item?.title || ""} ${item?.titleEn || ""} ${item?.titleZh || ""} ${item?.summary || ""} ${item?.source || ""}`.toLowerCase();
       return rowNewsTerms(row).some((term) => haystack.includes(term));
     }
+    function isTavilyNvidiaInvestmentNews(item) {
+      const tags = Array.isArray(item?.tags) ? item.tags.join(" ") : "";
+      const haystack = `${item?.title || ""} ${item?.titleEn || ""} ${item?.titleZh || ""} ${item?.summary || ""} ${tags}`.toLowerCase();
+      return tags.toLowerCase().includes("tavily")
+        && /(nvidia[- ]?backed|nvidia invested|nvidia investment|nvidia portfolio|nvidia stake|nvidia partnership)/i.test(haystack);
+    }
     function chartEventsForRows(rows, series) {
       if (!chartNewsItems.length || !rows.length || !series.length) return [];
+      const nvidiaInvestmentMode = state.category === NVIDIA_CATEGORY;
       const rowMatches = [];
       chartNewsItems.forEach((item) => {
+        if (nvidiaInvestmentMode && !isTavilyNvidiaInvestmentNews(item)) return;
         const date = newsItemDate(item);
         const row = rows.find((candidate) => newsMatchesRow(item, candidate));
         if (!date || !row) return;
@@ -4055,7 +4110,9 @@
           ticker: row.ticker,
           name: companyDisplayName(row),
           title: state.lang === "zh" ? (item.titleZh || item.title) : (item.titleEn || item.title),
-          source: displayNewsParty(item.source || "News")
+          source: displayNewsParty(item.source || "News"),
+          author: item.author || "",
+          isNvidiaInvestment: isTavilyNvidiaInvestmentNews(item)
         });
       });
       return rowMatches
