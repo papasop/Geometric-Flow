@@ -8,6 +8,7 @@ and publishes a static manifest. The browser never sees API keys.
 from __future__ import annotations
 
 import json
+import mimetypes
 import os
 import re
 import shutil
@@ -28,8 +29,11 @@ MAX_VIDEOS = int(os.getenv("VOICEOVER_MAX_VIDEOS", "6"))
 MAX_TRANSCRIPT_CHARS = int(os.getenv("VOICEOVER_MAX_TRANSCRIPT_CHARS", "18000"))
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "").strip()
 OPENAI_TEXT_MODEL = os.getenv("OPENAI_TEXT_MODEL", "gpt-4o-mini")
+OPENAI_TRANSCRIBE_MODEL = os.getenv("OPENAI_TRANSCRIBE_MODEL", "whisper-1")
 OPENAI_TTS_MODEL = os.getenv("OPENAI_TTS_MODEL", "gpt-4o-mini-tts")
 OPENAI_TTS_VOICE = os.getenv("OPENAI_TTS_VOICE", "coral")
+VOICEOVER_AUDIO_FALLBACK = os.getenv("VOICEOVER_AUDIO_FALLBACK", "1") == "1"
+VOICEOVER_MAX_AUDIO_SECONDS = int(os.getenv("VOICEOVER_MAX_AUDIO_SECONDS", "600"))
 VOICEOVER_FORCE = os.getenv("VOICEOVER_FORCE", "0") == "1"
 
 YOUTUBE_RE = re.compile(r"(?:youtube\.com/watch\?v=|youtu\.be/)([A-Za-z0-9_-]{11})")
@@ -161,6 +165,69 @@ def openai_post(endpoint: str, payload: dict[str, Any]) -> bytes:
         return response.read()
 
 
+def openai_multipart(endpoint: str, fields: dict[str, str], files: dict[str, Path]) -> bytes:
+    boundary = f"----IsitHUB{int(time.time() * 1000)}"
+    chunks: list[bytes] = []
+    for name, value in fields.items():
+        chunks.append(f"--{boundary}\r\n".encode("utf-8"))
+        chunks.append(f'Content-Disposition: form-data; name="{name}"\r\n\r\n'.encode("utf-8"))
+        chunks.append(str(value).encode("utf-8"))
+        chunks.append(b"\r\n")
+    for name, path in files.items():
+        mime = mimetypes.guess_type(path.name)[0] or "application/octet-stream"
+        chunks.append(f"--{boundary}\r\n".encode("utf-8"))
+        chunks.append(
+            f'Content-Disposition: form-data; name="{name}"; filename="{path.name}"\r\n'
+            f"Content-Type: {mime}\r\n\r\n"
+            .encode("utf-8")
+        )
+        chunks.append(path.read_bytes())
+        chunks.append(b"\r\n")
+    chunks.append(f"--{boundary}--\r\n".encode("utf-8"))
+    req = urllib.request.Request(
+        f"https://api.openai.com/v1/{endpoint}",
+        data=b"".join(chunks),
+        headers={"Authorization": f"Bearer {OPENAI_API_KEY}", "Content-Type": f"multipart/form-data; boundary={boundary}"},
+        method="POST",
+    )
+    with urllib.request.urlopen(req, timeout=300) as response:
+        return response.read()
+
+
+def download_audio_sample(video: dict[str, Any], target: Path) -> tuple[bool, str]:
+    if not shutil.which("yt-dlp"):
+        return False, "yt-dlp is not installed"
+    command = [
+        "yt-dlp",
+        "--no-warnings",
+        "--extract-audio",
+        "--audio-format",
+        "mp3",
+        "--audio-quality",
+        "64K",
+        "--download-sections",
+        f"*00:00:00-00:{VOICEOVER_MAX_AUDIO_SECONDS // 60:02d}:{VOICEOVER_MAX_AUDIO_SECONDS % 60:02d}",
+        "-o",
+        str(target.with_suffix(".%(ext)s")),
+        video["url"],
+    ]
+    result = subprocess.run(command, text=True, capture_output=True, timeout=300)
+    mp3 = target.with_suffix(".mp3")
+    if mp3.exists() and mp3.stat().st_size > 1024:
+        mp3.replace(target)
+        return True, ""
+    return False, (result.stderr or result.stdout or "audio download failed").strip()[-240:]
+
+
+def transcribe_audio(path: Path) -> str:
+    raw = openai_multipart("audio/transcriptions", {
+        "model": OPENAI_TRANSCRIBE_MODEL,
+        "response_format": "json",
+    }, {"file": path})
+    payload = json.loads(raw.decode("utf-8"))
+    return str(payload.get("text") or "").strip()
+
+
 def translate_to_chinese(text: str) -> str:
     raw = openai_post("responses", {
         "model": OPENAI_TEXT_MODEL,
@@ -217,7 +284,16 @@ def generate(video: dict[str, Any], prior: dict[str, Any] | None) -> dict[str, A
     transcript, reason = fetch_public_caption(video)
     transcript = transcript[:MAX_TRANSCRIPT_CHARS].strip()
     if len(transcript) < 120:
-        return {**base, "status": "no_caption", "note": reason or "No public caption transcript found."}
+        if not VOICEOVER_AUDIO_FALLBACK:
+            return {**base, "status": "no_caption", "note": reason or "No public caption transcript found."}
+        with tempfile.TemporaryDirectory() as tmp:
+            audio_sample = Path(tmp) / f"{video_id}.source.mp3"
+            ok, audio_reason = download_audio_sample(video, audio_sample)
+            if not ok:
+                return {**base, "status": "no_audio", "note": audio_reason or reason or "No caption or downloadable audio found."}
+            transcript = transcribe_audio(audio_sample)[:MAX_TRANSCRIPT_CHARS].strip()
+        if len(transcript) < 120:
+            return {**base, "status": "transcript_empty", "note": "Audio transcription returned too little text."}
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory() as tmp:
@@ -252,7 +328,9 @@ def main() -> None:
             "updatedAt": now_iso(),
             "source": "YouTube public captions + OpenAI translation/TTS",
             "translationModel": OPENAI_TEXT_MODEL,
+            "transcriptionModel": OPENAI_TRANSCRIBE_MODEL,
             "ttsModel": OPENAI_TTS_MODEL,
+            "audioFallback": VOICEOVER_AUDIO_FALLBACK,
             "maxVideos": MAX_VIDEOS,
         },
         "items": items,
