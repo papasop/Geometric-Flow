@@ -659,7 +659,7 @@ TAVILY_SECTION_QUERIES = {
     ],
     "company": [
         'Nvidia OpenAI Anthropic Microsoft Google Meta AI acquisition funding investment Reuters Bloomberg',
-        '("Nvidia invested" OR "Nvidia investment" OR "Nvidia-backed" OR "Nvidia portfolio" OR "Nvidia stake" OR "Nvidia partnership") ("OpenAI" OR "Anthropic" OR "TerraPower" OR "Intel" OR "CoreWeave" OR "Synopsys" OR "Coherent" OR "Nokia" OR "Nebius" OR "GeneDx" OR "Lumentum" OR "Marvell" OR "Corning" OR "IREN" OR "ServiceNow" OR "NOW") company news',
+        '("Nvidia invested" OR "Nvidia investment" OR "Nvidia-backed" OR "Nvidia portfolio" OR "Nvidia stake" OR "Nvidia partnership" OR "Nvidia collaboration" OR "Nvidia strategic partnership" OR "Nvidia supply agreement" OR "Nvidia works with" OR "Nvidia teams with") AI company news',
     ],
     "tech": [
         'AI frontier technology robots world models agents chips site:wired.com OR site:technologyreview.com',
@@ -1871,7 +1871,7 @@ def parse_tavily_result(result: dict[str, object], section: dict[str, object], q
         "tags": ["Tavily", query[:80]],
     }
     query_lower = query.lower()
-    if "nvidia" in query_lower and any(term in query_lower for term in ["nvidia invested", "nvidia investment", "nvidia-backed", "nvidia portfolio", "nvidia stake", "nvidia partnership"]):
+    if "nvidia" in query_lower and any(term in query_lower for term in ["nvidia invested", "nvidia investment", "nvidia-backed", "nvidia portfolio", "nvidia stake", "nvidia partnership", "nvidia collaboration", "nvidia strategic partnership", "nvidia supply agreement", "nvidia works with", "nvidia teams with"]):
         item["tags"].append("nvidia-investment-list")
     image = "" if str(section.get("id") or "") == "person" else image_from_tavily_result(result)
     if image:
