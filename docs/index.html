@@ -1685,6 +1685,7 @@
       <input class="search" id="search" name="ai-market-company-search" type="search" placeholder="搜索公司、Ticker、子赛道" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" inputmode="search" />
       <button class="tab active" data-tab="ALL" type="button">All</button>
       <button class="tab" data-tab="英伟达" type="button">NVIDIA</button>
+      <button class="tab" data-tab="SpaceX" type="button">SpaceX</button>
       <button class="tab" data-tab="能源" type="button">Energy</button>
       <button class="tab" data-tab="基础设施" type="button">Infrastructure</button>
       <button class="tab" data-tab="硬件" type="button">Hardware</button>
@@ -2614,6 +2615,7 @@
 ];
     const AIBOTT_THEMES = [
       "英伟达",
+      "SpaceX",
       "能源",
       "基础设施",
       "硬件",
@@ -2629,11 +2631,13 @@
       "RLHF": { zh: "RLHF", en: "RLHF" },
       "Token 工厂 / 推理服务": { zh: "Token 工厂 / 推理服务", en: "Token Factory / Inference" },
       "英伟达": { zh: "英伟达", en: "NVIDIA" },
+      "SpaceX": { zh: "SpaceX", en: "SpaceX" },
       "Serenity": { zh: "Serenity", en: "Serenity" },
       "Henderson": { zh: "Henderson", en: "Henderson" },
       "Leopold Aschenbrenner": { zh: "Leopold Aschenbrenner", en: "Leopold Aschenbrenner" }
     };
     const NVIDIA_CATEGORY = "英伟达";
+    const SPACEX_CATEGORY = "SpaceX";
     const NVIDIA_TICKERS = new Set(["NVDA", "OPENAI.PRE", "ANTHROPIC.PRE", "TERRAPOWER.PRE", "SPACEX.PRE", "LHX", "HXL", "ATI", "RDW", "TMUS", "SATS", "GSAT", "ASTS", "2313.TW", "3491.TW", "6271.TW", "6568.TW", "6285.TW", "2312.TW", "3138.TW", "4916.TW", "1101.TW", "002149.SZ", "603308.SS", "605123.SS", "603601.SS", "300136.SZ", "002792.SZ", "301005.SZ", "002131.SZ", "688102.SS", "INTC", "CRWV", "SNPS", "COHR", "NOK", "NBIS", "GENB", "LITE", "MRVL", "GLW", "IREN", "NOW", "ARM"]);
     const NVIDIA_SPACEX_TICKERS = new Set(["SPACEX.PRE", "LHX", "HXL", "ATI", "RDW", "TMUS", "SATS", "GSAT", "ASTS", "2313.TW", "3491.TW", "6271.TW", "6568.TW", "6285.TW", "2312.TW", "3138.TW", "4916.TW", "1101.TW", "002149.SZ", "603308.SS", "605123.SS", "603601.SS", "300136.SZ", "002792.SZ", "301005.SZ", "002131.SZ", "688102.SS"]);
     const NVIDIA_PARTNER_NEWS_PATTERN = /(nvidia[- ]?backed|nvidia invested|nvidia investment|nvidia portfolio|nvidia stake|nvidia partnership|nvidia collaboration|nvidia strategic partnership|nvidia supply agreement|nvidia works with|nvidia teams with|英伟达.*(投资|入股|持股|合作|战略合作|供应协议|联手|携手))/i;
@@ -3834,6 +3838,7 @@
       if (category === LEOPOLD_CATEGORY) return LEOPOLD_TICKERS.has(row.ticker);
       if (category === SERENITY_CATEGORY) return SERENITY_TICKERS.has(row.ticker);
       if (category === HENDERSON_CATEGORY) return HENDERSON_TICKERS.has(row.ticker);
+      if (category === SPACEX_CATEGORY) return NVIDIA_SPACEX_TICKERS.has(row.ticker);
       if (category === NVIDIA_CATEGORY) return isNvidiaCategoryTicker(row.ticker);
       if (category === DATA_LABELING_CATEGORY) return DATA_LABELING_TICKERS.has(row.ticker);
       if (category === MODEL_CATEGORY) return row.category === category || MODEL_TICKERS.has(row.ticker);
