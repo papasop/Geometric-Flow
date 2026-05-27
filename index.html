@@ -4158,13 +4158,21 @@
         const rect = svg.getBoundingClientRect();
         const x = ((event.clientX - rect.left) / rect.width) * width;
         const y = ((event.clientY - rect.top) / rect.height) * height;
-        const nearestMarker = markerModels
-          .map((marker) => ({ marker, distance: Math.hypot(marker.x - x, marker.y - y) }))
-          .filter((entry) => entry.distance <= 18)
-          .sort((a, b) => a.distance - b.distance)[0]?.marker || null;
-        state.chartHoverEventKey = nearestMarker?.key || null;
         const raw = Math.round(((x - pad.left) / plotWidth) * (series.length - 1));
-        state.chartPinnedIndex = Math.max(0, Math.min(series.length - 1, raw));
+        const activeHoverIndex = Math.max(0, Math.min(series.length - 1, raw));
+        const activeHoverX = xFor(activeHoverIndex);
+        const markerEntries = markerModels
+          .map((marker) => ({
+            marker,
+            indexDistance: Math.abs(marker.index - activeHoverIndex),
+            xDistance: Math.abs(marker.x - activeHoverX),
+            yDistance: Math.abs(marker.y - y)
+          }))
+          .filter((entry) => entry.indexDistance <= 1 || entry.xDistance <= 8)
+          .sort((a, b) => a.indexDistance - b.indexDistance || a.xDistance - b.xDistance || a.yDistance - b.yDistance);
+        const nearestMarker = markerEntries[0]?.marker || null;
+        state.chartHoverEventKey = nearestMarker?.key || null;
+        state.chartPinnedIndex = activeHoverIndex;
         renderBasketIndexChart();
       };
       svg.onpointerleave = () => {
