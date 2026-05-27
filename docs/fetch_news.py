@@ -462,7 +462,7 @@ INDUSTRY_NEWS_SOURCES = [
     google_news_query_source("New York Times", f"site:nytimes.com {AI_MARKET_NEWS_QUERY}"),
     google_news_query_source("Financial Times", f"site:ft.com {AI_MARKET_NEWS_QUERY}"),
     google_news_query_source("South China Morning Post", f"site:scmp.com {AI_MARKET_NEWS_QUERY}"),
-    google_news_query_source("TechCrunch Startups", f"site:techcrunch.com/category/startups {AI_MARKET_NEWS_QUERY}"),
+    google_news_query_source("TechCrunch Startups", f"site:techcrunch.com/2026 OR site:techcrunch.com/2025 {AI_MARKET_NEWS_QUERY} -inurl:/page/"),
 ]
 PERSON_NEWS_SOURCES = [
     google_news_query_source(
@@ -641,7 +641,7 @@ TAVILY_SECTION_QUERIES = {
         'site:wsj.com OR site:ft.com OR site:zaobao.com.sg artificial intelligence OR chips OR markets',
     ],
     "industry": [
-        'artificial intelligence chips data centers frontier models site:wsj.com OR site:ft.com OR site:nytimes.com OR site:scmp.com',
+        'artificial intelligence chips data centers frontier models site:wsj.com OR site:ft.com OR site:nytimes.com OR site:scmp.com OR site:techcrunch.com/2026 OR site:techcrunch.com/2025 -inurl:/page/',
     ],
     "person": [
         '"Yann LeCun" JEPA "world model" "open source AI" said interview',
@@ -1617,6 +1617,8 @@ def parse_html_page(source: dict[str, str], data: bytes) -> list[dict[str, str]]
         if not is_article_href:
             continue
         url = urljoin(source["url"], href)
+        if is_directory_or_pagination_result(body, url):
+            continue
         key = (body.lower(), url.lower())
         if key in seen:
             continue
@@ -1669,6 +1671,8 @@ def parse_feed(source: dict[str, str], data: bytes) -> list[dict[str, str]]:
         image = thumbnail_of(node)
         published = parse_date(text_of(node, ["pubDate", "published", "updated", "{http://www.w3.org/2005/Atom}published", "{http://www.w3.org/2005/Atom}updated"]))
         if title and url:
+            if is_directory_or_pagination_result(title, url):
+                continue
             item = {
                 "source": display_source,
                 "feedSource": source["name"],
@@ -1707,6 +1711,8 @@ def parse_event_registry_article(article: dict[str, object], portfolio: str) -> 
     title = clean_text(str(article.get("title") or ""), 180)
     url = str(article.get("url") or "").strip()
     if not title or not url:
+        return None
+    if is_directory_or_pagination_result(title, url):
         return None
     source = article.get("source")
     source_name = ""
@@ -1759,6 +1765,32 @@ def source_name_from_url(url: str) -> str:
         if host == domain or host.endswith(f".{domain}"):
             return name
     return host.removeprefix("www.").split(":")[0]
+
+
+PAGINATION_TITLE_RE = re.compile(
+    r"第\s*\d+\s*页\s*[，,]\s*共\s*\d+\s*页|"
+    r"\bpage\s+\d+\s*(?:of|/)\s*\d+\b|"
+    r"\|\s*第\s*\d+\s*页\b",
+    re.I,
+)
+PAGINATION_URL_RE = re.compile(r"/page/\d+/?(?:[?#].*)?$|/category/[^?#]+/page/\d+/?", re.I)
+DIRECTORY_TITLE_RE = re.compile(
+    r"\b(search results|tag archive|category archive|latest stories|all articles)\b|"
+    r"新闻与人工智能\s*[|｜]",
+    re.I,
+)
+
+
+def is_directory_or_pagination_result(title: str, url: str = "") -> bool:
+    title = clean_text(title, 220)
+    url = str(url or "")
+    if not title:
+        return True
+    if PAGINATION_TITLE_RE.search(title) or PAGINATION_URL_RE.search(url):
+        return True
+    if DIRECTORY_TITLE_RE.search(title) and ("techcrunch" in title.lower() or "techcrunch.com" in url.lower()):
+        return True
+    return False
 
 
 def image_from_tavily_result(result: dict[str, object]) -> str:
@@ -1817,6 +1849,8 @@ def parse_tavily_result(result: dict[str, object], section: dict[str, object], q
     title = clean_text(str(result.get("title") or ""), 180)
     url = str(result.get("url") or "").strip()
     if not title or not url:
+        return None
+    if is_directory_or_pagination_result(title, url):
         return None
     summary = clean_text(str(result.get("content") or result.get("raw_content") or ""), 320)
     source_name = source_name_from_url(url)
