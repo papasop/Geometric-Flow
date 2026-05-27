@@ -35,6 +35,7 @@ VOICEOVER_FORCE = os.getenv("VOICEOVER_FORCE", "0") == "1"
 YOUTUBE_RE = re.compile(r"(?:youtube\.com/watch\?v=|youtu\.be/)([A-Za-z0-9_-]{11})")
 VTT_TIME_RE = re.compile(r"^\d{2}:\d{2}:\d{2}\.\d{3}\s+-->\s+\d{2}:\d{2}:\d{2}\.\d{3}")
 TAG_RE = re.compile(r"<[^>]+>")
+LIVE_RE = re.compile(r"\b(live|直播|watch live|business news live|market news live|newshour)\b", re.I)
 
 
 def now_iso() -> str:
@@ -64,6 +65,11 @@ def collect_videos() -> list[dict[str, Any]]:
     for section_id in ("video", "hot"):
         candidates.extend((sections.get(section_id) or {}).get("items") or [])
 
+    def is_live_item(item: dict[str, Any]) -> bool:
+        haystack = " ".join(str(item.get(key) or "") for key in ("title", "titleEn", "titleZh", "source", "summary"))
+        return bool(LIVE_RE.search(haystack))
+
+    candidates = sorted(candidates, key=lambda item: 1 if is_live_item(item) else 0)
     seen: set[str] = set()
     videos: list[dict[str, Any]] = []
     for item in candidates:
@@ -72,12 +78,16 @@ def collect_videos() -> list[dict[str, Any]]:
         if not video_id or video_id in seen:
             continue
         seen.add(video_id)
+        live = is_live_item(item)
+        if live:
+            continue
         videos.append({
             "id": video_id,
             "url": f"https://www.youtube.com/watch?v={video_id}",
             "title": item.get("title") or item.get("titleEn") or item.get("titleZh") or video_id,
             "titleZh": item.get("titleZh") or "",
             "source": item.get("source") or "YouTube",
+            "isLive": live,
         })
         if len(videos) >= MAX_VIDEOS:
             break
