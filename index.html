@@ -3352,6 +3352,7 @@
     const GLOBAL_CHART_START_DATE = "2022-11-30";
     const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: "IaaS/PaaS", energySubcategory: null, infrastructureSubcategory: "DCI", hardwareSubcategory: "CNC", modelSubcategory: "LLM", llmSubcategory: "全部", worldModelSubcategory: "全部", selected: "NVDA", page: 1, marketView: "table", rankingView: "potential", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, potentialView: "chart", potentialPeriod: "history", potentialPinnedIndex: null, potentialAutoIndex: 0, potentialAutoPaused: false, potentialSort: "gain", potentialSortDir: "desc", fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
     const potentialSeriesCache = new Map();
+    let chartNewsItems = [];
     let potentialAutoTimer = null;
     try {
       const savedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY);
@@ -3864,6 +3865,15 @@
       const area = `${line} L${xFor(series.length - 1).toFixed(1)} ${height - pad.bottom} L${pad.left} ${height - pad.bottom} Z`;
       const yTicks = Array.from({ length: 6 }, (_, i) => yMin + ((yMax - yMin) / 5) * i);
       const xTickIndexes = [...new Set([0, Math.floor((series.length - 1) * 0.25), Math.floor((series.length - 1) * 0.5), Math.floor((series.length - 1) * 0.75), series.length - 1])];
+      const eventMarkers = chartEventsForRows(rows, series).map((event, markerIndex) => {
+        const markerX = xFor(event.index);
+        const markerY = yFor(series[event.index].value);
+        const title = `${event.date} · ${event.ticker || event.name}\n${event.title}\n${event.source}`;
+        const lane = markerIndex % 3;
+        return `<g class="chart-event-marker" transform="translate(${markerX.toFixed(1)} ${Math.max(pad.top + 10 + lane * 14, markerY - 18).toFixed(1)})">
+          <circle r="4.6" fill="#f97316" stroke="#ffedd5" stroke-width="1.4"><title>${escapeHtml(title)}</title></circle>
+        </g>`;
+      }).join("");
       const activeIndex = Number.isInteger(state.chartPinnedIndex) ? Math.max(0, Math.min(series.length - 1, state.chartPinnedIndex)) : series.length - 1;
       const active = series[activeIndex];
       const activeX = xFor(activeIndex);
@@ -3883,6 +3893,7 @@
         ${xTickIndexes.map((index) => `<line x1="${xFor(index).toFixed(1)}" x2="${xFor(index).toFixed(1)}" y1="${pad.top}" y2="${height - pad.bottom}" stroke="rgba(203,213,225,.18)" stroke-dasharray="2 3" /><text x="${xFor(index).toFixed(1)}" y="${height - 26}" fill="#f8fafc" font-size="12" text-anchor="middle">${escapeHtml(chartDateLabel(series[index].date, "history"))}</text>`).join("")}
         <path d="${area}" fill="url(#basket-index-fill)" />
         <path d="${line}" fill="none" stroke="#e5e7eb" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+        ${eventMarkers}
         <line x1="${activeX.toFixed(1)}" x2="${activeX.toFixed(1)}" y1="${pad.top}" y2="${height - pad.bottom}" stroke="#67e8f9" stroke-opacity="0.65" stroke-width="1.2" />
         <circle cx="${activeX.toFixed(1)}" cy="${activeY.toFixed(1)}" r="5.5" fill="#020617" stroke="#ecfeff" stroke-width="2.2" />
       `;
@@ -3990,6 +4001,68 @@
     }
     const NEWS_SECTION_IDS = ["industry", "person", "company", "tech", "papers", "video"];
     const PAPER_SOURCE_PATTERN = /nature|science|neurips|icml|iclr|acl anthology|cvf|cvpr|aaai|jmlr|pmlr|ieee tpami|acm digital library|arxiv/i;
+    function newsItemDate(item) {
+      const raw = String(item?.publishedAt || item?.date || "");
+      if (!raw) return "";
+      const date = new Date(raw);
+      if (Number.isFinite(date.getTime())) return date.toISOString().slice(0, 10);
+      const match = raw.match(/\d{4}-\d{2}-\d{2}/);
+      return match ? match[0] : "";
+    }
+    function collectChartNewsItems(payload) {
+      const sections = payload?.sections || {};
+      const allItems = [];
+      Object.values(sections).forEach((section) => {
+        if (Array.isArray(section?.items)) allItems.push(...section.items);
+      });
+      if (Array.isArray(payload?.items)) allItems.push(...payload.items);
+      const seen = new Set();
+      chartNewsItems = allItems
+        .filter((item) => newsItemDate(item))
+        .filter((item) => {
+          const key = canonicalNewsTitle(item.titleZh || item.titleEn || item.title || "") || String(item.url || "").toLowerCase();
+          if (!key || seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        })
+        .slice(0, 260);
+    }
+    function rowNewsTerms(row) {
+      return [
+        row?.ticker,
+        String(row?.ticker || "").replace(/\.(PRE|SS|SZ|HK|KS|TO|L|ST|PA|AS|AX|TW|TWO)$/i, ""),
+        row?.name,
+        row?.nameEn,
+        row?.nameZh,
+      ].filter(Boolean).map((term) => String(term).toLowerCase()).filter((term) => term.length >= 2);
+    }
+    function newsMatchesRow(item, row) {
+      const haystack = `${item?.title || ""} ${item?.titleEn || ""} ${item?.titleZh || ""} ${item?.summary || ""} ${item?.source || ""}`.toLowerCase();
+      return rowNewsTerms(row).some((term) => haystack.includes(term));
+    }
+    function chartEventsForRows(rows, series) {
+      if (!chartNewsItems.length || !rows.length || !series.length) return [];
+      const rowMatches = [];
+      chartNewsItems.forEach((item) => {
+        const date = newsItemDate(item);
+        const row = rows.find((candidate) => newsMatchesRow(item, candidate));
+        if (!date || !row) return;
+        const index = series.findIndex((point) => point.date >= date);
+        if (index < 0) return;
+        rowMatches.push({
+          index,
+          date,
+          ticker: row.ticker,
+          name: companyDisplayName(row),
+          title: state.lang === "zh" ? (item.titleZh || item.title) : (item.titleEn || item.title),
+          source: displayNewsParty(item.source || "News")
+        });
+      });
+      return rowMatches
+        .sort((a, b) => b.date.localeCompare(a.date))
+        .filter((event, index, list) => list.findIndex((other) => other.index === event.index && other.ticker === event.ticker) === index)
+        .slice(0, 18);
+    }
     function fallbackNewsItems(sectionId = "industry") {
       const fallback = {
         hot: [
@@ -4368,7 +4441,9 @@
     async function fetchNewsStrip() {
       try {
         const payload = await fetchJson("news.json");
+        collectChartNewsItems(payload);
         renderNewsSections(payload);
+        if (state.marketView === "index") renderBasketIndexChart();
       } catch (error) {
         console.warn(error);
         NEWS_SECTION_IDS.forEach((sectionId) => renderNewsStrip(sectionId, fallbackNewsItems(sectionId)));
