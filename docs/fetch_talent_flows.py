@@ -54,6 +54,14 @@ COMPANIES = {
         "zh": "前沿模型 / Agent / 产品化",
         "en": "Frontier models / agents / productization",
     },
+    "anthropic": {
+        "name": "Anthropic",
+        "aliases": ["Anthropic", "Claude"],
+        "x": 43,
+        "y": 68,
+        "zh": "Claude / 安全对齐 / 企业模型",
+        "en": "Claude / safety alignment / enterprise models",
+    },
     "google": {
         "name": "Google",
         "aliases": ["Google", "DeepMind", "Google DeepMind", "Google Brain"],
@@ -72,7 +80,7 @@ COMPANIES = {
     },
 }
 
-CORE_COMPANY_KEYS = ["spacex", "nvidia", "openai", "google"]
+CORE_COMPANY_KEYS = ["spacex", "nvidia", "openai", "anthropic", "google"]
 
 
 def quoted_aliases(key: str) -> str:
@@ -288,7 +296,7 @@ def build_payload(events: list[dict[str, object]], statuses: list[dict[str, obje
     return {
         "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "source": source,
-        "strategy": "Search public news, interviews, speeches, and x.com references for senior AI talent movement among SpaceX, NVIDIA, OpenAI, and Google.",
+        "strategy": "Search public news, interviews, speeches, and x.com references for senior AI talent movement among SpaceX, NVIDIA, OpenAI, Anthropic, and Google.",
         "companies": list(company_map.values()),
         "flows": flows,
         "events": events,
