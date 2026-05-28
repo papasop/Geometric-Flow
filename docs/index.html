@@ -4711,7 +4711,7 @@
           { title: t("fallbackIndustry"), source: "IsItHub", author: "", url: "#" },
         ],
         person: [
-          { title: t("fallbackPerson"), source: "Google News / Tavily", author: "", url: "https://news.google.com/search?q=Jim%20Covello%20Torsten%20Slok%20Daron%20Acemoglu%20David%20Cahn%20Ed%20Zitron%20Gary%20Marcus%20AI%20bubble" },
+          { title: t("fallbackPerson"), source: "Tavily", author: "", url: "https://news.google.com/search?q=Jim%20Covello%20Torsten%20Slok%20Daron%20Acemoglu%20David%20Cahn%20Ed%20Zitron%20Gary%20Marcus%20AI%20bubble" },
         ],
         company: [
           { title: t("fallbackCompany"), source: "IsItHub", author: "", url: "#" },
@@ -5080,8 +5080,9 @@
       const uniqueItems = uniqueNewsItems(items);
       const scopedItems = sectionId === "person" ? uniqueItems.filter(isBearOpinionItem) : uniqueItems;
       const clean = sectionId === "hot" ? scopedItems.slice(0, 16) : sectionId === "person" ? mixedColumnistItems(scopedItems, 16) : sectionId === "video" ? mixedRandomNewsItems(scopedItems, 16) : scopedItems.slice(0, 16);
-      const news = clean.length ? clean : uniqueNewsItems(fallbackNewsItems(sectionId));
-      const renderItems = sectionId === "hot" ? news : [...news, ...news];
+      const usingFallback = clean.length === 0;
+      const news = usingFallback ? uniqueNewsItems(fallbackNewsItems(sectionId)) : clean;
+      const renderItems = sectionId === "hot" || (sectionId === "person" && usingFallback) ? news : [...news, ...news];
       const nodes = renderItems.map((item) => {
         const source = displayNewsParty(item.source || "News");
         const author = displayNewsAuthor(item.source || "News", item.author || "");
