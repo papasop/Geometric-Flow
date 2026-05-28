@@ -737,7 +737,15 @@
       align-items: center;
       text-align: center;
       transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease, opacity 160ms ease;
+      animation-duration: var(--talent-float-duration, 7s);
+      animation-delay: var(--talent-float-delay, 0s);
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
+      animation-direction: alternate;
+      will-change: translate;
     }
+    .talent-node.float-up { animation-name: talentFloatUp; }
+    .talent-node.float-down { animation-name: talentFloatDown; }
     .talent-node.net-inflow {
       border-color: rgba(52, 211, 153, 0.42);
       background:
@@ -804,6 +812,20 @@
       transform: scale(1.04);
       border-color: rgba(52, 211, 153, 0.8);
       color: #6ee7b7;
+    }
+    @keyframes talentFloatUp {
+      from { translate: 0 5px; }
+      to { translate: 0 -11px; }
+    }
+    @keyframes talentFloatDown {
+      from { translate: 0 -4px; }
+      to { translate: 0 10px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .talent-node {
+        animation: none;
+        translate: 0 0;
+      }
     }
     .talent-flow-detail {
       position: absolute;
@@ -5714,6 +5736,10 @@
         return Math.max(compact ? 70 : 82, Math.min(compact ? 146 : 190, raw));
       };
       state.potentialAutoIndex = flows.indexOf(activeFlow);
+      const bubbleSizes = new Map(companies.map((company) => [company.key, talentBubbleSize(company)]));
+      const averageBubbleSize = companies.length
+        ? companies.reduce((sum, company) => sum + (bubbleSizes.get(company.key) || 0), 0) / companies.length
+        : 0;
       if (title) title.textContent = state.lang === "zh" ? "追踪顶尖人才流向模型" : "Tracking the Talent Model";
       if (stats) {
         const totalIn = companies.reduce((sum, company) => sum + (Number(company.inflow) || 0), 0);
@@ -5757,15 +5783,18 @@
         const inflow = Number(company.inflow) || 0;
         const outflow = Number(company.outflow) || 0;
         const net = inflow - outflow;
-        button.className = `talent-node ${net >= 0 ? "net-inflow" : "net-outflow"} ${company.key === activeFlow.from || company.key === activeFlow.to ? "active" : ""}`;
+        const size = bubbleSizes.get(company.key) || talentBubbleSize(company);
+        const floatClass = size >= averageBubbleSize ? "float-up" : "float-down";
+        button.className = `talent-node ${floatClass} ${net >= 0 ? "net-inflow" : "net-outflow"} ${company.key === activeFlow.from || company.key === activeFlow.to ? "active" : ""}`;
         button.type = "button";
         button.dataset.company = company.key;
         const position = positionFor(company);
-        const size = talentBubbleSize(company);
         button.style.width = `${size}px`;
         button.style.height = `${size}px`;
         button.style.left = `${position.x}%`;
         button.style.top = `${position.y}%`;
+        button.style.setProperty("--talent-float-duration", `${(6.4 + (size % 37) / 20).toFixed(2)}s`);
+        button.style.setProperty("--talent-float-delay", `${-((position.x + position.y) % 9 / 3).toFixed(2)}s`);
         button.innerHTML = `
           <div class="talent-node-name">${escapeHtml(company.name)}</div>
           <div class="talent-node-meta">${escapeHtml(state.lang === "zh" ? company.zh : company.en)}</div>
