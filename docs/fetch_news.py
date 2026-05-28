@@ -24,7 +24,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from urllib.parse import urljoin
 
@@ -346,25 +346,23 @@ AI_PERSON_NEWS_TERMS = [
     "Zhu Wenjia", "朱文佳", "Robin Li", "李彦宏", "Wang Xingxing", "王兴兴", "Lei Jun", "雷军",
     "physical world model", "world model", "物理世界模型",
 ]
+OPINION_RECENT_DAYS = 90
+AI_BUBBLE_SKEPTIC_TERMS = [
+    "Jim Covello", "吉姆·科韦洛", "吉姆 科韦洛",
+    "Daron Acemoglu", "达龙·阿西莫格鲁", "达龙 阿西莫格鲁",
+    "David Cahn", "大卫·卡恩", "大卫 卡恩",
+    "Ed Zitron", "埃德·齐特隆", "埃德 齐特隆",
+    "Gary Marcus", "加里·马库斯", "加里 马库斯",
+]
+AI_BUBBLE_OPINION_TOPIC_TERMS = [
+    "AI bubble", "AI capex", "AI spending", "AI infrastructure", "AI returns",
+    "AI productivity", "Gen AI", "Too Much Spend", "Too Little Benefit",
+    "600 billion", "600B", "cost-effective", "cost effective", "hallucination",
+    "scaling law", "人工智能泡沫", "AI 泡沫", "资本开支", "基础设施",
+    "生产力", "投入过大", "回报太少", "成本效益", "幻觉", "规模法则",
+]
 FOCUSED_PERSON_STATEMENT_TERMS = [
-    "Yann LeCun", "Yann Lecun", "杨立昆", "杨丽坤",
-    "Yang Zhilin", "杨植麟", "Kimi founder", "Kimi 创始人",
-    "Moonshot AI founder", "月之暗面创始人",
-    "Michael Truell", "Aman Sanger", "Sualeh Asif", "Arvid Lunnemark",
-    "Cursor founder", "Cursor CEO", "Cursor 创始人",
-    "Anysphere", "Anysphere founder", "Anysphere 创始人",
-    "Lin Qiao", "Fireworks AI founder", "Fireworks AI CEO", "Fireworks AI 创始人",
-    "Arkady Volozh", "Nebius founder", "Nebius CEO", "Nebius Group founder",
-    "NBIS founder", "NBIS CEO", "Nebius 创始人",
-    "Clem Delangue", "Clément Delangue", "Thomas Wolf", "Julien Chaumond",
-    "Clémentine Fourrier", "Nathan Lambert", "Stella Biderman", "Emad Mostaque",
-    "Joelle Pineau", "Soumith Chintala", "Tri Dao", "Percy Liang",
-    "Ion Stoica", "Matei Zaharia", "Ali Ghodsi", "Reynold Xin",
-    "Arthur Mensch", "Guillaume Lample", "Timothée Lacroix", "Timothee Lacroix",
-    "Georgi Gerganov", "Hugging Face founder", "Hugging Face CEO",
-    "Mistral AI founder", "Mistral AI CEO", "DeepSeek founder",
-    "Meta Llama", "Llama open source", "PyTorch creator", "EleutherAI",
-    "Stability AI founder", "Ollama founder",
+    *AI_BUBBLE_SKEPTIC_TERMS,
 ]
 AI_SPEECH_PERSON_TERMS = [
     term for term in FOCUSED_PERSON_STATEMENT_TERMS
@@ -466,45 +464,38 @@ INDUSTRY_NEWS_SOURCES = [
 ]
 PERSON_NEWS_SOURCES = [
     google_news_query_source(
-        "Kimi / Yang Zhilin Statements",
+        "Opinion · Jim Covello",
         ai_person_news_query([
-            "Yang Zhilin", "杨植麟", "Kimi founder", "Kimi 创始人",
-            "Moonshot AI founder", "月之暗面创始人",
+            "Jim Covello", "吉姆·科韦洛", "Goldman Sachs",
+            "Gen AI Too Much Spend Too Little Benefit",
         ]),
     ),
     google_news_query_source(
-        "Cursor / Anysphere Founder Statements",
+        "Opinion · Daron Acemoglu",
         ai_person_news_query([
-            "Michael Truell", "Aman Sanger", "Sualeh Asif", "Arvid Lunnemark",
-            "Cursor founder", "Cursor CEO", "Cursor 创始人",
-            "Anysphere", "Anysphere founder", "Anysphere 创始人",
+            "Daron Acemoglu", "达龙·阿西莫格鲁", "MIT",
+            "AI productivity", "AI automation",
         ]),
     ),
     google_news_query_source(
-        "Fireworks AI Founder Statements",
+        "Opinion · David Cahn",
         ai_person_news_query([
-            "Lin Qiao", "Fireworks AI founder", "Fireworks AI CEO", "Fireworks AI 创始人",
+            "David Cahn", "大卫·卡恩", "Sequoia Capital",
+            "AI 600 billion revenue gap", "AI infrastructure",
         ]),
     ),
     google_news_query_source(
-        "Nebius / NBIS Founder Statements",
+        "Opinion · Ed Zitron",
         ai_person_news_query([
-            "Arkady Volozh", "Nebius founder", "Nebius CEO", "Nebius Group founder",
-            "NBIS founder", "NBIS CEO", "Nebius 创始人",
+            "Ed Zitron", "埃德·齐特隆", "AI bubble",
+            "OpenAI Anthropic enterprise AI",
         ]),
     ),
     google_news_query_source(
-        "Open-source AI Leaders Statements",
+        "Opinion · Gary Marcus",
         ai_person_news_query([
-            "Yann LeCun", "Yann Lecun", "杨立昆", "杨丽坤",
-            "Clem Delangue", "Clément Delangue", "Thomas Wolf", "Julien Chaumond",
-            "Clémentine Fourrier", "Nathan Lambert", "Stella Biderman",
-            "Arthur Mensch", "Guillaume Lample", "Timothée Lacroix", "Timothee Lacroix",
-            "Liang Wenfeng", "梁文锋", "Joelle Pineau", "Soumith Chintala",
-            "Emad Mostaque", "Tri Dao", "Percy Liang", "Ion Stoica", "Matei Zaharia",
-            "Ali Ghodsi", "Reynold Xin", "Georgi Gerganov",
-            "Hugging Face founder", "Mistral AI founder", "DeepSeek founder",
-            "Meta Llama", "PyTorch creator", "EleutherAI", "Ollama founder",
+            "Gary Marcus", "加里·马库斯", "AI hallucination",
+            "scaling law", "AI reasoning",
         ]),
     ),
 ]
@@ -600,7 +591,7 @@ NEWS_SECTIONS = [
     {
         "id": "person",
         "title": "Opinion",
-        "note": "公开新闻：重点抓取 Yann LeCun / 杨立昆，并补充 Kimi、Cursor、Fireworks AI、Nebius 与开源 AI 领域人物公开言论",
+        "note": "最近 3 个月：Jim Covello、Daron Acemoglu、David Cahn、Ed Zitron、Gary Marcus 对 AI 泡沫、资本开支与回报的观点",
         "sources": PERSON_NEWS_SOURCES,
         "allowGeneralFeed": True,
     },
@@ -645,18 +636,12 @@ TAVILY_SECTION_QUERIES = {
         'artificial intelligence chips data centers frontier models site:wsj.com OR site:ft.com OR site:nytimes.com OR site:scmp.com OR site:techcrunch.com/2026 OR site:techcrunch.com/2025 -inurl:/page/',
     ],
     "person": [
-        '"Yann LeCun" JEPA "world model" "open source AI" said interview',
-        'site:x.com "Yann LeCun" AI JEPA Llama "open source"',
-        '"Yang Zhilin" OR "杨植麟" Kimi Moonshot AI founder said interview',
-        '"Michael Truell" OR "Cursor founder" OR "Anysphere founder" AI said interview',
-        '"Lin Qiao" OR "Fireworks AI founder" AI tokens inference said interview',
-        '"Arkady Volozh" OR "Nebius CEO" OR "Nebius founder" AI infrastructure said interview',
-        '"Clem Delangue" Hugging Face "open source AI" said interview',
-        '"Thomas Wolf" Hugging Face "open models" said wrote',
-        '"Arthur Mensch" Mistral AI "open source" said interview',
-        '"Liang Wenfeng" OR "DeepSeek founder" "open source AI" said interview',
-        '"Meta Llama" OR PyTorch OR EleutherAI "open source AI" founder said interview',
-        'site:github.com OR site:huggingface.co OR site:mistral.ai open source AI founder said interview blog keynote',
+        '"Jim Covello" "AI" "Too Much Spend" OR "Too Little Benefit" OR "cost-effective" OR "Goldman Sachs"',
+        '"Daron Acemoglu" "AI" productivity automation GDP cost-effective',
+        '"David Cahn" "AI" "600 billion" OR "revenue gap" OR "Sequoia"',
+        '"Ed Zitron" "AI bubble" OR "OpenAI" OR "Anthropic" enterprise spending',
+        '"Gary Marcus" "AI" hallucination reasoning "scaling law"',
+        'site:x.com ("Jim Covello" OR "Daron Acemoglu" OR "David Cahn" OR "Ed Zitron" OR "Gary Marcus") AI',
     ],
     "company": [
         'Nvidia OpenAI Anthropic Microsoft Google Meta AI acquisition funding investment Reuters Bloomberg',
@@ -981,6 +966,36 @@ def parse_date(value: str | None) -> str | None:
         except ValueError:
             continue
     return None
+
+
+def parse_iso_datetime(value: str | None) -> datetime | None:
+    if not value:
+        return None
+    try:
+        return datetime.fromisoformat(value.replace("Z", "+00:00")).astimezone(timezone.utc)
+    except ValueError:
+        return None
+
+
+def is_recent_item(item: dict[str, object], days: int = OPINION_RECENT_DAYS) -> bool:
+    published = parse_iso_datetime(str(item.get("publishedAt") or ""))
+    if not published:
+        return True
+    return published >= datetime.now(timezone.utc) - timedelta(days=days)
+
+
+def item_matches_opinion_focus(item: dict[str, object]) -> bool:
+    feed_source = str(item.get("feedSource") or "")
+    text = " ".join([
+        str(item.get("title") or ""),
+        str(item.get("summary") or ""),
+        str(item.get("author") or ""),
+        feed_source,
+        " ".join(str(tag) for tag in item.get("tags") or []),
+    ]).lower()
+    has_person = any(term.lower() in text for term in AI_BUBBLE_SKEPTIC_TERMS)
+    has_topic = any(term.lower() in text for term in AI_BUBBLE_OPINION_TOPIC_TERMS)
+    return has_person and (has_topic or feed_source.startswith("Opinion ·")) and is_recent_item(item)
 
 
 def fetch_url(url: str) -> bytes:
@@ -1913,7 +1928,8 @@ def fetch_tavily_section(api_key: str, section: dict[str, object], budget: int) 
             "topic": "news" if section.get("id") not in {"papers", "devops"} else "general",
             "search_depth": "basic",
             "max_results": TAVILY_MAX_RESULTS,
-            "time_range": "week",
+            "time_range": "month" if section.get("id") == "person" else "week",
+            "days": OPINION_RECENT_DAYS if section.get("id") == "person" else 7,
             "include_answer": False,
             "include_raw_content": False,
             "include_images": section.get("id") != "person",
@@ -1929,6 +1945,8 @@ def fetch_tavily_section(api_key: str, section: dict[str, object], budget: int) 
                         continue
                     item = parse_tavily_result(result, section, query)
                     if not item:
+                        continue
+                    if section.get("id") == "person" and not item_matches_opinion_focus(item):
                         continue
                     items.append(item)
                     kept += 1
@@ -2240,6 +2258,8 @@ def main() -> int:
             for item in tavily_items:
                 if section["id"] == "video" and not is_youtube_video_url(str(item.get("url") or "")):
                     continue
+                if section["id"] == "person" and not item_matches_opinion_focus(item):
+                    continue
                 key = canonical_news_title(str(item.get("title") or "")) or str(item.get("url") or "").lower()
                 if not key or key in section_seen:
                     continue
@@ -2261,6 +2281,8 @@ def main() -> int:
                 kept = 0
                 for item in parsed:
                     if section["id"] == "video" and not is_youtube_video_url(str(item.get("url") or "")):
+                        continue
+                    if section["id"] == "person" and not item_matches_opinion_focus(item):
                         continue
                     key = canonical_news_title(str(item.get("title") or "")) or (item.get("url") or "").lower()
                     if not key or key in section_seen:
@@ -2332,11 +2354,11 @@ def main() -> int:
     if speech_section and not speech_section.get("columnists") and (not section_filter or "person" in section_filter):
         existing_speech_items = [
             item for item in section_payload.get("person", {}).get("items", [])
-            if item_matches_speech(item)
+            if item_matches_opinion_focus(item)
         ]
         speech_seen = set()
         merged_speech_items = []
-        for item in [*existing_speech_items, *build_speech_items(items)]:
+        for item in [*existing_speech_items, *[item for item in items if item_matches_opinion_focus(item)]]:
             key = (item.get("url") or item.get("title") or "").lower()
             if not key or key in speech_seen:
                 continue
@@ -2345,7 +2367,7 @@ def main() -> int:
         merged_speech_items.sort(key=lambda item: item.get("publishedAt") or "", reverse=True)
         section_payload["person"] = {
             "title": speech_section["title"],
-            "note": f"{speech_section['note']}；仅保留带真实发言内容的新闻",
+            "note": f"{speech_section['note']}；仅保留匹配五位人物且约 90 天内的观点新闻",
             "items": merged_speech_items[:32],
         }
 
