@@ -2636,7 +2636,7 @@
     const NVIDIA_CATEGORY = "英伟达";
     const SPACEX_CATEGORY = "SpaceX";
     const NVIDIA_TICKERS = new Set(["NVDA", "OPENAI.PRE", "ANTHROPIC.PRE", "TERRAPOWER.PRE", "SPACEX.PRE", "LHX", "HXL", "ATI", "RDW", "TMUS", "SATS", "GSAT", "ASTS", "2313.TW", "3491.TW", "6271.TW", "6568.TW", "6285.TW", "2312.TW", "3138.TW", "4916.TW", "1101.TW", "002149.SZ", "603308.SS", "605123.SS", "603601.SS", "300136.SZ", "002792.SZ", "301005.SZ", "002131.SZ", "688102.SS", "INTC", "CRWV", "SNPS", "COHR", "NOK", "NBIS", "GENB", "LITE", "MRVL", "GLW", "IREN", "NOW", "ARM"]);
-    const NVIDIA_SPACEX_TICKERS = new Set(["SPACEX.PRE", "LHX", "HXL", "ATI", "RDW", "TMUS", "SATS", "GSAT", "ASTS", "2313.TW", "3491.TW", "6271.TW", "6568.TW", "6285.TW", "2312.TW", "3138.TW", "4916.TW", "1101.TW", "002149.SZ", "603308.SS", "605123.SS", "603601.SS", "300136.SZ", "002792.SZ", "301005.SZ", "002131.SZ", "688102.SS"]);
+    const NVIDIA_SPACEX_TICKERS = new Set(["SPACEX.PRE", "LHX", "HXL", "ATI", "RDW", "TMUS", "SATS", "GSAT", "ASTS", "2313.TW", "3491.TW", "6271.TW", "6568.TW", "6285.TW", "2312.TW", "3138.TW", "4916.TW", "1101.TW", "002149.SZ", "603308.SS", "605123.SS", "603601.SS", "300136.SZ", "002792.SZ", "301005.SZ", "002131.SZ", "688102.SS", "VELO", "GHM", "FTC.L", "347700.KQ"]);
     const NVIDIA_PARTNER_NEWS_PATTERN = /(nvidia[- ]?backed|nvidia invested|nvidia investment|nvidia portfolio|nvidia stake|nvidia partnership|nvidia collaboration|nvidia strategic partnership|nvidia supply agreement|nvidia works with|nvidia teams with|英伟达.*(投资|入股|持股|合作|战略合作|供应协议|联手|携手))/i;
     const NVIDIA_HISTORICAL_INVESTMENT_EVENTS = [
       {
@@ -2859,6 +2859,10 @@
       ["301005.SZ", "超捷股份", "SpaceX reusable rocket fasteners", "SpaceX 产业链观察项；可回收火箭高强度紧固件供应商，覆盖螺栓、螺母等高可靠性连接件。"],
       ["002131.SZ", "利欧股份", "SpaceX equity exposure", "SpaceX 产业链观察项；A 股稀缺 SpaceX 股权投资标的，通过股权融资参与分享估值重估弹性。"],
       ["688102.SS", "斯瑞新材", "SpaceX copper alloy materials", "SpaceX 产业链观察项；纳米晶铬铜合金材料供应商，适配星舰发动机电力传输需求，并通过欧美认证。"],
+      ["VELO", "Velo3D", "SpaceX 3D printed metal parts", "SpaceX 产业链观察项；为猛禽发动机等航天制造提供 3D 打印金属零件，SpaceX 是其早期客户，用户口径提到多台设备在 SpaceX 工厂运行。"],
+      ["GHM", "Graham Corporation", "SpaceX turbopump supply chain", "SpaceX 产业链观察项；通过 Barber-Nichols 等涡轮机械链条供应火箭涡轮泵相关能力，覆盖航天发射客户订单。"],
+      ["FTC.L", "Filtronic", "SpaceX Starlink GaN amplifier supplier", "SpaceX 产业链观察项；为 Starlink 下一代地面站提供氮化镓功率放大器，用户口径提到 4730 万英镑合同。"],
+      ["347700.KQ", "Sphere Corp", "SpaceX nickel / superalloy supply chain", "SpaceX 产业链观察项；KOSDAQ 上市，镍与超合金供应链观察项，用户口径提到长期镍和超合金交易及印尼矿山权益。"],
       ["JEPA.PRE", "AMI Labs", "Physical world model pre-IPO", "预上市物理世界模型公司，聚焦世界模型、表征学习、预测式 AI 与空间智能方向。", { status: "prelist" }],
       ["WORLDLABS.PRE", "World Labs", "Physical world model pre-IPO", "预上市物理世界模型公司，聚焦空间智能、3D 世界生成、场景理解和可交互世界模型。", { status: "prelist" }],
       ["ARYALABS.PRE", "ARYA Labs", "Physical world model pre-IPO", "预上市物理世界模型公司，聚焦 AI 世界模型、空间理解、仿真与可交互环境生成。", { status: "prelist" }],
