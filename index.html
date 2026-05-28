@@ -173,7 +173,6 @@
     #news-track-person,
     #news-track-company,
     #news-track-tech,
-    #news-track-papers,
     #news-track-video { animation-duration: 90s; }
     .news-strip[hidden] { display: none; }
     .news-track:hover,
@@ -1702,13 +1701,12 @@
   </nav>
   <main class="shell">
     <section class="hero">
-      <div class="news-sections" aria-label="行业/Opinion/快讯/前沿/论文/视频 新闻切换">
-        <div class="news-tabs" role="tablist" aria-label="行业/Opinion/快讯/前沿/论文/视频">
+      <div class="news-sections" aria-label="行业/Opinion/快讯/前沿/视频 新闻切换">
+        <div class="news-tabs" role="tablist" aria-label="行业/Opinion/快讯/前沿/视频">
           <button class="news-tab active" type="button" role="tab" aria-selected="true" aria-controls="news-panel-industry" data-news-tab="industry">行业</button>
           <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-person" data-news-tab="person">Opinion</button>
           <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-company" data-news-tab="company">快讯</button>
           <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-tech" data-news-tab="tech">前沿</button>
-          <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-papers" data-news-tab="papers">论文</button>
           <button class="news-tab" type="button" role="tab" aria-selected="false" aria-controls="news-panel-video" data-news-tab="video">视频</button>
         </div>
         <div class="news-strip" id="news-panel-industry" role="tabpanel" aria-label="行业">
@@ -1736,13 +1734,6 @@
           <div class="news-marquee">
             <div class="news-track" id="news-track-tech">
               <span class="news-item">正在加载前沿…</span>
-            </div>
-          </div>
-        </div>
-        <div class="news-strip" id="news-panel-papers" role="tabpanel" aria-label="论文" hidden>
-          <div class="news-marquee">
-            <div class="news-track" id="news-track-papers">
-              <span class="news-item">正在加载论文…</span>
             </div>
           </div>
         </div>
@@ -3705,8 +3696,8 @@
         totalCap: "总市值", volume24h: "24小时交易量",
         initialQuote: "USD · 实时行情可用时更新",
         navAiChips: "人工智能芯片", navCloud: "AI云", navDataCenter: "数据中心", navEnterpriseAi: "企业人工智能", navSecurity: "安全", navQuantum: "量子", navChinaAi: "中国人工智能", navLeopold: "Leopold Aschenbrenner",
-        newsHot: "🔥热点", industry: "行业", person: "Opinion", company: "快讯", market: "并购/融资", frontier: "前沿", papers: "论文", devops: "DevOps", video: "视频",
-        loadingHot: "正在加载热点…", loadingIndustry: "正在加载行业…", loadingPerson: "正在加载 Opinion…", loadingCompany: "正在加载快讯…", loadingMarket: "正在加载并购/融资…", loadingFrontier: "正在加载前沿…", loadingPapers: "正在加载论文…", loadingDevops: "正在加载 DevOps…", loadingVideo: "正在加载视频…",
+        newsHot: "🔥热点", industry: "行业", person: "Opinion", company: "快讯", market: "并购/融资", frontier: "前沿", devops: "DevOps", video: "视频",
+        loadingHot: "正在加载热点…", loadingIndustry: "正在加载行业…", loadingPerson: "正在加载 Opinion…", loadingCompany: "正在加载快讯…", loadingMarket: "正在加载并购/融资…", loadingFrontier: "正在加载前沿…", loadingDevops: "正在加载 DevOps…", loadingVideo: "正在加载视频…",
         currentFilter: "按当前筛选", realVolume: "真实成交额，可用时更新", hot: "热门", topGainer: "最大升幅", waitingQuotes: "等待行情或估算涨跌",
         tokenRanking: "代币使用", tokenNote: "参考 OpenRouter Top Models，用量口径可切换",
         chartRanking: "代币成本", chartNote: "LLM Token Expenditure Index",
@@ -3729,7 +3720,6 @@
         fallbackCompany: "快讯按成分股、并购、入股、股权与融资关键词追踪 Bloomberg 与 Reuters",
         fallbackMarket: "并购/融资新闻按收购、入股、股权、融资、投资关键词追踪 Bloomberg 与 Reuters",
         fallbackFrontier: "MIT Technology Review、Wired、Stanford Engineering 与 Stanford Business 追踪 AI 前沿技术趋势",
-        fallbackPapers: "Science、Nature、Cell 与 arXiv 追踪 AI/JEPA 论文和科研突破",
         fallbackDevops: "DevOps.com Most Read 追踪过去 7 天阅读量最高的 DevOps 新闻和文章",
         fallbackVideo: "纽约时报、华尔街日报、Bloomberg 与 YouTube 直播视频持续更新",
       },
@@ -3739,8 +3729,8 @@
         totalCap: "Market Cap", volume24h: "24h Volume",
         initialQuote: "USD · live quote when available",
         navAiChips: "AI Chips", navCloud: "AI Cloud", navDataCenter: "Data Centers", navEnterpriseAi: "Enterprise AI", navSecurity: "Security", navQuantum: "Quantum", navChinaAi: "China AI", navLeopold: "Leopold Aschenbrenner",
-        newsHot: "🔥 Hot", industry: "Industry", person: "Opinion", company: "Flash", market: "M&A / Financing", frontier: "Frontier Tech", papers: "Research Papers", devops: "DevOps", video: "Video",
-        loadingHot: "Loading hot videos…", loadingIndustry: "Loading industry…", loadingPerson: "Loading opinion…", loadingCompany: "Loading companies…", loadingMarket: "Loading M&A / financing…", loadingFrontier: "Loading frontier tech…", loadingPapers: "Loading research papers…", loadingDevops: "Loading DevOps…", loadingVideo: "Loading video…",
+        newsHot: "🔥 Hot", industry: "Industry", person: "Opinion", company: "Flash", market: "M&A / Financing", frontier: "Frontier Tech", devops: "DevOps", video: "Video",
+        loadingHot: "Loading hot videos…", loadingIndustry: "Loading industry…", loadingPerson: "Loading opinion…", loadingCompany: "Loading companies…", loadingMarket: "Loading M&A / financing…", loadingFrontier: "Loading frontier tech…", loadingDevops: "Loading DevOps…", loadingVideo: "Loading video…",
         currentFilter: "Current filter", realVolume: "Real traded value when available", hot: "Trending", topGainer: "Top Gainer", waitingQuotes: "Waiting for quotes or estimated moves",
         tokenRanking: "Token Usage", tokenNote: "Inspired by OpenRouter Top Models; period is switchable",
         chartRanking: "Token Cost", chartNote: "LLM Token Expenditure Index",
@@ -3763,7 +3753,6 @@
         fallbackCompany: "Company news tracks constituent names plus M&A, stakes, equity, funding, and investment keywords across Bloomberg and Reuters",
         fallbackMarket: "M&A / financing news tracks acquisitions, stakes, equity, funding, investment, and IPO keywords across Bloomberg and Reuters",
         fallbackFrontier: "MIT Technology Review, Wired, Stanford Engineering, and Stanford Business track AI frontier technology trends",
-        fallbackPapers: "Science, Nature, Cell, and arXiv track AI/JEPA papers and research breakthroughs",
         fallbackDevops: "DevOps.com Most Read tracks the highest-read DevOps news and articles from the last 7 days",
         fallbackVideo: "New York Times, Wall Street Journal, Bloomberg, and YouTube live videos keep updating",
       }
@@ -4600,7 +4589,7 @@
       $("gainer-one").textContent = gainers[0] ? `${gainers[0].ticker} ${formatPercent(gainers[0].changePercent)}` : "—";
       $("gainer-list").textContent = gainers.length ? gainers.map((row) => `${row.ticker} ${formatPercent(row.changePercent)}`).join(" · ") : t("waitingLive");
     }
-    const NEWS_SECTION_IDS = ["industry", "person", "company", "tech", "papers", "video"];
+    const NEWS_SECTION_IDS = ["industry", "person", "company", "tech", "video"];
     const PAPER_SOURCE_PATTERN = /nature|science|neurips|icml|iclr|acl anthology|cvf|cvpr|aaai|jmlr|pmlr|ieee tpami|acm digital library|arxiv/i;
     let videoVoiceoverMap = new Map();
     function newsItemDate(item) {
@@ -4729,10 +4718,6 @@
         ],
         tech: [
           { title: t("fallbackFrontier"), source: "IsItHub", author: "", url: "#" },
-        ],
-        papers: [
-          { title: "Hierarchical JEPA Meets Predictive Remote Control in Beyond 5G Networks", source: "arXiv", author: "Abanoub M. Girgis, Ibtissam Labriji, Mehdi Bennis", url: "https://arxiv.org/abs/2602.07000" },
-          { title: t("fallbackPapers"), source: "IsItHub", author: "", url: "#" },
         ],
         devops: [
           { title: t("fallbackDevops"), source: "DevOps.com", author: "", url: "https://devops.com/most-read/" },
@@ -5150,19 +5135,15 @@
           renderNewsStrip(sectionId, fallbackNewsItems("hot"));
           return;
         }
-        const legacyTechItems = sections.tech?.items || [];
-        const paperItems = sectionId === "papers" && !sections.papers?.items ? legacyTechItems.filter((item) => PAPER_SOURCE_PATTERN.test(item.source || "")) : [];
         const companyItems = sectionId === "company"
           ? [...(sections.company?.items || []), ...(sections.deals?.items || [])]
             .filter((item, index, list) => item?.title && list.findIndex((other) => (other.url || other.title) === (item.url || item.title)) === index)
             .sort((a, b) => String(b.publishedAt || "").localeCompare(String(a.publishedAt || "")))
           : null;
-        const sectionItems = companyItems || sections[sectionId]?.items || paperItems || (sectionId === "industry" ? payload?.items : []);
+        const sectionItems = companyItems || sections[sectionId]?.items || (sectionId === "industry" ? payload?.items : []);
         const filteredItems = sectionId === "tech"
           ? (sectionItems || []).filter((item) => /wired|mit technology review|stanford engineering|stanford business/i.test(item.source || ""))
-          : sectionId === "papers"
-            ? (sectionItems || []).filter((item) => PAPER_SOURCE_PATTERN.test(item.source || ""))
-            : sectionItems;
+          : sectionItems;
         renderNewsStrip(sectionId, filteredItems || []);
       });
     }
@@ -6417,14 +6398,14 @@
       setFirstText(".topline-inner > span:nth-child(4)", `${t("volume24h")}: `);
       updateQuoteStatusLabel();
       setAllText(".nav a[data-nav-tab]", AIBOTT_THEMES.map(categoryDisplayLabel));
-      document.querySelector(".news-sections")?.setAttribute("aria-label", `${t("industry")}/${t("person")}/${t("company")}/${t("frontier")}/${t("papers")}/${t("video")}`);
-      setAllText(".news-tab", [t("industry"), t("person"), t("company"), t("frontier"), t("papers"), t("video")]);
+      document.querySelector(".news-sections")?.setAttribute("aria-label", `${t("industry")}/${t("person")}/${t("company")}/${t("frontier")}/${t("video")}`);
+      setAllText(".news-tab", [t("industry"), t("person"), t("company"), t("frontier"), t("video")]);
       NEWS_SECTION_IDS.forEach((id) => {
         const panel = $(`news-panel-${id}`);
-        const label = id === "industry" ? t("industry") : id === "person" ? t("person") : id === "company" ? t("company") : id === "papers" ? t("papers") : id === "video" ? t("video") : t("frontier");
+        const label = id === "industry" ? t("industry") : id === "person" ? t("person") : id === "company" ? t("company") : id === "video" ? t("video") : t("frontier");
         if (panel) panel.setAttribute("aria-label", label);
       });
-      const loading = { industry: "loadingIndustry", person: "loadingPerson", company: "loadingCompany", tech: "loadingFrontier", papers: "loadingPapers", video: "loadingVideo" };
+      const loading = { industry: "loadingIndustry", person: "loadingPerson", company: "loadingCompany", tech: "loadingFrontier", video: "loadingVideo" };
       Object.entries(loading).forEach(([id, key]) => {
         const track = $(`news-track-${id}`);
         if (track && track.children.length === 1 && track.textContent.includes("加载")) track.innerHTML = `<span class="news-item">${t(key)}</span>`;
