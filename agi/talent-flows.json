@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-28T19:59:38.625685Z",
+  "generatedAt": "2026-05-28T20:58:08.503016Z",
   "source": "Tavily Search",
   "strategy": "Search public news, interviews, speeches, and x.com references for senior AI talent movement among SpaceX, NVIDIA, OpenAI, Anthropic, Meta, and Google.",
   "companies": [
@@ -14,9 +14,9 @@
       "zh": "航天工程 / Starlink / 自动化制造",
       "en": "Space systems / Starlink / automated manufacturing",
       "key": "spacex",
-      "inflow": 6,
+      "inflow": 2,
       "outflow": 16,
-      "events": 22
+      "events": 18
     },
     {
       "name": "NVIDIA",
@@ -45,8 +45,8 @@
       "en": "Frontier models / agents / productization",
       "key": "openai",
       "inflow": 8,
-      "outflow": 4,
-      "events": 12
+      "outflow": 5,
+      "events": 13
     },
     {
       "name": "Anthropic",
@@ -60,8 +60,8 @@
       "en": "Claude / safety alignment / enterprise models",
       "key": "anthropic",
       "inflow": 5,
-      "outflow": 5,
-      "events": 10
+      "outflow": 2,
+      "events": 7
     },
     {
       "name": "Meta",
@@ -76,9 +76,9 @@
       "zh": "Llama / FAIR / 开源模型",
       "en": "Llama / FAIR / open models",
       "key": "meta",
-      "inflow": 8,
-      "outflow": 2,
-      "events": 10
+      "inflow": 9,
+      "outflow": 3,
+      "events": 12
     },
     {
       "name": "Google",
@@ -110,9 +110,9 @@
       "zh": "外部公司 / 高校 / 研究机构",
       "en": "Outside companies / universities / research labs",
       "key": "external",
-      "inflow": 5,
+      "inflow": 7,
       "outflow": 5,
-      "events": 10
+      "events": 12
     }
   ],
   "flows": [
@@ -357,75 +357,60 @@
       ]
     },
     {
-      "from": "anthropic",
-      "to": "spacex",
-      "count": 4,
-      "label": "Anthropic → SpaceX",
+      "from": "openai",
+      "to": "external",
+      "count": 3,
+      "label": "OpenAI → External Talent Pool",
       "events": [
         {
-          "from": "anthropic",
-          "to": "spacex",
-          "title": "Anthropic Rolls Out Claude Security for AI Vulnerability Scanning - Infosecurity Magazine",
-          "summary": "# Anthropic Rolls Out Claude Security for AI Vulnerability Scanning. Anthropic has launched Claude Security in public beta to its Claude Enterprise customers. Previously known as Claude Code Security, the cybersecurity tool is built on Anthropic’s latest generally available AI mo",
-          "url": "https://www.infosecurity-magazine.com/news/anthropic-claude-security-for-ai/",
-          "source": "Infosecurity-Magazine",
+          "from": "openai",
+          "to": "external",
+          "title": "OpenAI Founding Member Andrej Karpathy Takes Role at Anthropic - Bloomberg.com",
+          "summary": "# OpenAI Founding Member Andrej Karpathy Takes Role at Anthropic. Provide news feedback or report an error. Send a tip to our reporters. Andrej Karpathy, a founding member of OpenAI who later went to work for Tesla Inc., has joined Anthropic PBC to do research and development foc",
+          "url": "https://www.bloomberg.com/news/articles/2026-05-19/openai-founding-member-andrej-karpathy-takes-role-at-anthropic",
+          "source": "Bloomberg",
           "publishedAt": "",
           "people": [
-            "Anthropic Rolls Out",
-            "Claude Security",
-            "Vulnerability Scanning",
-            "Infosecurity Magazine"
+            "Founding Member Andrej",
+            "Karpathy Takes Role",
+            "Andrej Karpathy",
+            "Tesla Inc"
           ],
-          "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Anthropic\" OR \"Claude\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
         },
         {
-          "from": "anthropic",
-          "to": "spacex",
-          "title": "Anthropic Buys The SDK Pipeline OpenAI And Gemini Depend On - Forbes",
-          "summary": "Anthropic acquired Stainless on May 18, the New York startup whose compiler generates the official software development kits that ship inside OpenAI's, Google Gemini's and Meta Llama's APIs. The press release frames the deal as a developer experience upgrade for Claude. Anthropic",
-          "url": "https://www.forbes.com/sites/janakirammsv/2026/05/19/anthropic-buys-the-sdk-pipeline-openai-and-gemini-depend-on/",
-          "source": "Forbes",
+          "from": "openai",
+          "to": "external",
+          "title": "Ilya Sutskever Stands by His Role in Sam Altman’s OpenAI Ouster: ‘I Didn’t Want It to Be Destroyed’ - WIRED",
+          "summary": "# Ilya Sutskever Stands by His Role in Sam Altman’s OpenAI Ouster: ‘I Didn’t Want It to Be Destroyed’. The former OpenAI chief scientist may be estranged from the company, but he still came to its defense as he testified on Monday. Elon Musk’s trial against OpenAI and Microsoft e",
+          "url": "https://www.wired.com/story/ilya-sutskever-testifies-musk-v-altman-trial/",
+          "source": "Wired",
           "publishedAt": "",
           "people": [
-            "Anthropic Buys The",
-            "And Gemini Depend",
-            "Forbes Anthropic",
-            "Meta Llama"
+            "Ilya Sutskever Stands",
+            "His Role",
+            "Sam Altman",
+            "Want It"
           ],
-          "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Anthropic\" OR \"Claude\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
         },
         {
-          "from": "anthropic",
-          "to": "spacex",
-          "title": "Anthropic investors are being swarmed by desperate buyers. Some are getting very creative. - Business Insider",
-          "summary": "* One large VC firm offered to hire a tech founder as a partner in exchange for his Anthropic shares. A gold-rush mentality for Anthropic stock has gripped Silicon Valley in recent weeks, as investors have been wowed by its torrid revenue growth and momentum around its AI-powered",
-          "url": "https://www.businessinsider.com/anthropic-investors-are-being-swarmed-by-desperate-buyers-2026-4",
-          "source": "Businessinsider",
+          "from": "openai",
+          "to": "external",
+          "title": "OpenAI's head of sales leaves for role at Thrive Capital - CNBC",
+          "summary": "# OpenAI's head of sales leaves for role at Thrive Capital. * OpenAI Head of Sales James Dyett announced Monday that he is leaving his role. * Dyett said he is moving to a new role at the venture capital firm Thrive Capital, where he will serve as an Operator in Residence. OpenAI",
+          "url": "https://www.cnbc.com/2026/05/04/open-ai-executive-leaves-thrive-capital.html",
+          "source": "Cnbc",
           "publishedAt": "",
           "people": [
-            "Business Insider",
-            "Claude Code",
-            "Marin County",
-            "Since Anthropic"
+            "Thrive Capital",
+            "Sales James Dyett",
+            "Big Technology",
+            "Alex Kantrowitz"
           ],
-          "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Anthropic\" OR \"Claude\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        },
-        {
-          "from": "anthropic",
-          "to": "spacex",
-          "title": "Job postings for this tech role have grown more than 700% in the last year - AOL.com",
-          "summary": "# Job postings for this tech role have grown more than 700% in the last year. * Forward-deployed engineers are one of tech's buzziest jobs. * Salaries can range from $170,000 to over $200,000, according to Indeed data. Despite the wave of layoffs that have battered the tech indus",
-          "url": "https://www.aol.com/articles/job-postings-tech-role-grown-185134480.html",
-          "source": "Aol",
-          "publishedAt": "",
-          "people": [
-            "In April",
-            "Business Insider"
-          ],
-          "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Anthropic\" OR \"Claude\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
         }
       ]
@@ -454,60 +439,16 @@
         {
           "from": "external",
           "to": "openai",
-          "title": "OpenAI hires ServiceNow CMO Fleming for business marketing role - Adweek By Investing.com - Investing.com Australia",
-          "summary": "View all comments (0)0. Investing.com - OpenAI has appointed Colin Fleming as chief marketing officer for its business unit, Adweek reported Tuesday. Fleming previously served as chief marketing officer at ServiceNow. Fleming announced his departure from ServiceNow in a LinkedIn ",
-          "url": "https://au.investing.com/news/stock-market-news/openai-hires-servicenow-cmo-fleming-for-business-marketing-role--adweek-93CH-4456292",
-          "source": "Investing",
+          "title": "Job postings for this tech role have grown more than 700% in the last year - AOL.com",
+          "summary": "# Job postings for this tech role have grown more than 700% in the last year. * Forward-deployed engineers are one of tech's buzziest jobs. * Salaries can range from $170,000 to over $200,000, according to Indeed data. Despite the wave of layoffs that have battered the tech indus",
+          "url": "https://www.aol.com/articles/job-postings-tech-role-grown-185134480.html",
+          "source": "Aol",
           "publishedAt": "",
           "people": [
-            "Adweek By Investing",
-            "Australia View",
-            "Colin Fleming",
-            "Stocks That Remain"
+            "In April",
+            "Business Insider"
           ],
           "query": "(\"OpenAI\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
-      "from": "openai",
-      "to": "external",
-      "count": 2,
-      "label": "OpenAI → External Talent Pool",
-      "events": [
-        {
-          "from": "openai",
-          "to": "external",
-          "title": "OpenAI's head of sales leaves for role at Thrive Capital - CNBC",
-          "summary": "# OpenAI's head of sales leaves for role at Thrive Capital. * OpenAI Head of Sales James Dyett announced Monday that he is leaving his role. * Dyett said he is moving to a new role at the venture capital firm Thrive Capital, where he will serve as an Operator in Residence. OpenAI",
-          "url": "https://www.cnbc.com/2026/05/04/open-ai-executive-leaves-thrive-capital.html",
-          "source": "Cnbc",
-          "publishedAt": "",
-          "people": [
-            "Thrive Capital",
-            "Sales James Dyett",
-            "Big Technology",
-            "Alex Kantrowitz"
-          ],
-          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-          "confidence": "tavily"
-        },
-        {
-          "from": "openai",
-          "to": "external",
-          "title": "Ilya Sutskever Stands by His Role in Sam Altman’s OpenAI Ouster: ‘I Didn’t Want It to Be Destroyed’ - WIRED",
-          "summary": "# Ilya Sutskever Stands by His Role in Sam Altman’s OpenAI Ouster: ‘I Didn’t Want It to Be Destroyed’. The former OpenAI chief scientist may be estranged from the company, but he still came to its defense as he testified on Monday. Elon Musk’s trial against OpenAI and Microsoft e",
-          "url": "https://www.wired.com/story/ilya-sutskever-testifies-musk-v-altman-trial/",
-          "source": "Wired",
-          "publishedAt": "",
-          "people": [
-            "Ilya Sutskever Stands",
-            "His Role",
-            "Sam Altman",
-            "Want It"
-          ],
-          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
         }
       ]
@@ -550,6 +491,46 @@
             "Yahoo News Malaysia"
           ],
           "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
+      "from": "meta",
+      "to": "external",
+      "count": 2,
+      "label": "Meta → External Talent Pool",
+      "events": [
+        {
+          "from": "meta",
+          "to": "external",
+          "title": "Mira Murati's AI dream team got their stock options. Now many are out. - Business Insider",
+          "summary": "* Thinking Machines Lab has lost a third of its founding team to rivals amid fierce AI talent wars. * CEO Mira Murati's startup has also hired top talent and recently unveiled a new type of AI model. Thinking Machines Lab's head count has more than quadrupled to over 150 people s",
+          "url": "https://www.businessinsider.com/thinking-machines-lab-key-talent-meta-openai-xai-2026-5",
+          "source": "Businessinsider",
+          "publishedAt": "",
+          "people": [
+            "Mira Murati",
+            "Business Insider",
+            "Thinking Machines Lab"
+          ],
+          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        },
+        {
+          "from": "meta",
+          "to": "external",
+          "title": "Nearly 30,000 tech workers laid off this month so far, tracker says - PennLive.com",
+          "summary": "Meta is laying off thousands of employees, The Verge reports, as a means to offset artificial intelligence (AI) investments. But according to a career website for tech talent, these Meta layoffs are just the latest that’ve plagued the industry in roughly the past year. TrueUp dat",
+          "url": "https://www.pennlive.com/life/2026/05/nearly-30000-tech-workers-laid-off-this-month-so-far-tracker-asys.html",
+          "source": "Pennlive",
+          "publishedAt": "",
+          "people": [
+            "The Verge",
+            "Fox Business",
+            "Business Insider"
+          ],
+          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
         }
       ]
@@ -730,6 +711,31 @@
       ]
     },
     {
+      "from": "anthropic",
+      "to": "meta",
+      "count": 1,
+      "label": "Anthropic → Meta",
+      "events": [
+        {
+          "from": "anthropic",
+          "to": "meta",
+          "title": "Anthropic Buys The SDK Pipeline OpenAI And Gemini Depend On - Forbes",
+          "summary": "Anthropic acquired Stainless on May 18, the New York startup whose compiler generates the official software development kits that ship inside OpenAI's, Google Gemini's and Meta Llama's APIs. The press release frames the deal as a developer experience upgrade for Claude. Anthropic",
+          "url": "https://www.forbes.com/sites/janakirammsv/2026/05/19/anthropic-buys-the-sdk-pipeline-openai-and-gemini-depend-on/",
+          "source": "Forbes",
+          "publishedAt": "",
+          "people": [
+            "Anthropic Buys The",
+            "And Gemini Depend",
+            "Forbes Anthropic",
+            "Meta Llama"
+          ],
+          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Anthropic\" OR \"Claude\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
       "from": "meta",
       "to": "anthropic",
       "count": 1,
@@ -821,30 +827,6 @@
             "Business Insider"
           ],
           "query": "(\"Anthropic\" OR \"Claude\") (\"left Anthropic\" OR \"leaves Anthropic\" OR \"departed Anthropic\" OR \"resigned from Anthropic\" OR \"former Anthropic\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
-      "from": "meta",
-      "to": "external",
-      "count": 1,
-      "label": "Meta → External Talent Pool",
-      "events": [
-        {
-          "from": "meta",
-          "to": "external",
-          "title": "Mira Murati's AI dream team got their stock options. Now many are out. - Business Insider",
-          "summary": "* Thinking Machines Lab has lost a third of its founding team to rivals amid fierce AI talent wars. * CEO Mira Murati's startup has also hired top talent and recently unveiled a new type of AI model. Thinking Machines Lab's head count has more than quadrupled to over 150 people s",
-          "url": "https://www.businessinsider.com/thinking-machines-lab-key-talent-meta-openai-xai-2026-5",
-          "source": "Businessinsider",
-          "publishedAt": "",
-          "people": [
-            "Mira Murati",
-            "Business Insider",
-            "Thinking Machines Lab"
-          ],
-          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
         }
       ]
@@ -1188,24 +1170,7 @@
     },
     {
       "from": "anthropic",
-      "to": "spacex",
-      "title": "Anthropic Rolls Out Claude Security for AI Vulnerability Scanning - Infosecurity Magazine",
-      "summary": "# Anthropic Rolls Out Claude Security for AI Vulnerability Scanning. Anthropic has launched Claude Security in public beta to its Claude Enterprise customers. Previously known as Claude Code Security, the cybersecurity tool is built on Anthropic’s latest generally available AI mo",
-      "url": "https://www.infosecurity-magazine.com/news/anthropic-claude-security-for-ai/",
-      "source": "Infosecurity-Magazine",
-      "publishedAt": "",
-      "people": [
-        "Anthropic Rolls Out",
-        "Claude Security",
-        "Vulnerability Scanning",
-        "Infosecurity Magazine"
-      ],
-      "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Anthropic\" OR \"Claude\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-      "confidence": "tavily"
-    },
-    {
-      "from": "anthropic",
-      "to": "spacex",
+      "to": "meta",
       "title": "Anthropic Buys The SDK Pipeline OpenAI And Gemini Depend On - Forbes",
       "summary": "Anthropic acquired Stainless on May 18, the New York startup whose compiler generates the official software development kits that ship inside OpenAI's, Google Gemini's and Meta Llama's APIs. The press release frames the deal as a developer experience upgrade for Claude. Anthropic",
       "url": "https://www.forbes.com/sites/janakirammsv/2026/05/19/anthropic-buys-the-sdk-pipeline-openai-and-gemini-depend-on/",
@@ -1217,39 +1182,7 @@
         "Forbes Anthropic",
         "Meta Llama"
       ],
-      "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Anthropic\" OR \"Claude\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-      "confidence": "tavily"
-    },
-    {
-      "from": "anthropic",
-      "to": "spacex",
-      "title": "Anthropic investors are being swarmed by desperate buyers. Some are getting very creative. - Business Insider",
-      "summary": "* One large VC firm offered to hire a tech founder as a partner in exchange for his Anthropic shares. A gold-rush mentality for Anthropic stock has gripped Silicon Valley in recent weeks, as investors have been wowed by its torrid revenue growth and momentum around its AI-powered",
-      "url": "https://www.businessinsider.com/anthropic-investors-are-being-swarmed-by-desperate-buyers-2026-4",
-      "source": "Businessinsider",
-      "publishedAt": "",
-      "people": [
-        "Business Insider",
-        "Claude Code",
-        "Marin County",
-        "Since Anthropic"
-      ],
-      "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Anthropic\" OR \"Claude\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-      "confidence": "tavily"
-    },
-    {
-      "from": "anthropic",
-      "to": "spacex",
-      "title": "Job postings for this tech role have grown more than 700% in the last year - AOL.com",
-      "summary": "# Job postings for this tech role have grown more than 700% in the last year. * Forward-deployed engineers are one of tech's buzziest jobs. * Salaries can range from $170,000 to over $200,000, according to Indeed data. Despite the wave of layoffs that have battered the tech indus",
-      "url": "https://www.aol.com/articles/job-postings-tech-role-grown-185134480.html",
-      "source": "Aol",
-      "publishedAt": "",
-      "people": [
-        "In April",
-        "Business Insider"
-      ],
-      "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Anthropic\" OR \"Claude\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+      "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Anthropic\" OR \"Claude\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "confidence": "tavily"
     },
     {
@@ -1320,16 +1253,14 @@
     {
       "from": "external",
       "to": "openai",
-      "title": "OpenAI hires ServiceNow CMO Fleming for business marketing role - Adweek By Investing.com - Investing.com Australia",
-      "summary": "View all comments (0)0. Investing.com - OpenAI has appointed Colin Fleming as chief marketing officer for its business unit, Adweek reported Tuesday. Fleming previously served as chief marketing officer at ServiceNow. Fleming announced his departure from ServiceNow in a LinkedIn ",
-      "url": "https://au.investing.com/news/stock-market-news/openai-hires-servicenow-cmo-fleming-for-business-marketing-role--adweek-93CH-4456292",
-      "source": "Investing",
+      "title": "Job postings for this tech role have grown more than 700% in the last year - AOL.com",
+      "summary": "# Job postings for this tech role have grown more than 700% in the last year. * Forward-deployed engineers are one of tech's buzziest jobs. * Salaries can range from $170,000 to over $200,000, according to Indeed data. Despite the wave of layoffs that have battered the tech indus",
+      "url": "https://www.aol.com/articles/job-postings-tech-role-grown-185134480.html",
+      "source": "Aol",
       "publishedAt": "",
       "people": [
-        "Adweek By Investing",
-        "Australia View",
-        "Colin Fleming",
-        "Stocks That Remain"
+        "In April",
+        "Business Insider"
       ],
       "query": "(\"OpenAI\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "confidence": "tavily"
@@ -1337,16 +1268,16 @@
     {
       "from": "openai",
       "to": "external",
-      "title": "OpenAI's head of sales leaves for role at Thrive Capital - CNBC",
-      "summary": "# OpenAI's head of sales leaves for role at Thrive Capital. * OpenAI Head of Sales James Dyett announced Monday that he is leaving his role. * Dyett said he is moving to a new role at the venture capital firm Thrive Capital, where he will serve as an Operator in Residence. OpenAI",
-      "url": "https://www.cnbc.com/2026/05/04/open-ai-executive-leaves-thrive-capital.html",
-      "source": "Cnbc",
+      "title": "OpenAI Founding Member Andrej Karpathy Takes Role at Anthropic - Bloomberg.com",
+      "summary": "# OpenAI Founding Member Andrej Karpathy Takes Role at Anthropic. Provide news feedback or report an error. Send a tip to our reporters. Andrej Karpathy, a founding member of OpenAI who later went to work for Tesla Inc., has joined Anthropic PBC to do research and development foc",
+      "url": "https://www.bloomberg.com/news/articles/2026-05-19/openai-founding-member-andrej-karpathy-takes-role-at-anthropic",
+      "source": "Bloomberg",
       "publishedAt": "",
       "people": [
-        "Thrive Capital",
-        "Sales James Dyett",
-        "Big Technology",
-        "Alex Kantrowitz"
+        "Founding Member Andrej",
+        "Karpathy Takes Role",
+        "Andrej Karpathy",
+        "Tesla Inc"
       ],
       "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "confidence": "tavily"
@@ -1364,6 +1295,23 @@
         "His Role",
         "Sam Altman",
         "Want It"
+      ],
+      "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+      "confidence": "tavily"
+    },
+    {
+      "from": "openai",
+      "to": "external",
+      "title": "OpenAI's head of sales leaves for role at Thrive Capital - CNBC",
+      "summary": "# OpenAI's head of sales leaves for role at Thrive Capital. * OpenAI Head of Sales James Dyett announced Monday that he is leaving his role. * Dyett said he is moving to a new role at the venture capital firm Thrive Capital, where he will serve as an Operator in Residence. OpenAI",
+      "url": "https://www.cnbc.com/2026/05/04/open-ai-executive-leaves-thrive-capital.html",
+      "source": "Cnbc",
+      "publishedAt": "",
+      "people": [
+        "Thrive Capital",
+        "Sales James Dyett",
+        "Big Technology",
+        "Alex Kantrowitz"
       ],
       "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "confidence": "tavily"
@@ -1431,6 +1379,22 @@
       ],
       "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "confidence": "tavily"
+    },
+    {
+      "from": "meta",
+      "to": "external",
+      "title": "Nearly 30,000 tech workers laid off this month so far, tracker says - PennLive.com",
+      "summary": "Meta is laying off thousands of employees, The Verge reports, as a means to offset artificial intelligence (AI) investments. But according to a career website for tech talent, these Meta layoffs are just the latest that’ve plagued the industry in roughly the past year. TrueUp dat",
+      "url": "https://www.pennlive.com/life/2026/05/nearly-30000-tech-workers-laid-off-this-month-so-far-tracker-asys.html",
+      "source": "Pennlive",
+      "publishedAt": "",
+      "people": [
+        "The Verge",
+        "Fox Business",
+        "Business Insider"
+      ],
+      "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+      "confidence": "tavily"
     }
   ],
   "statuses": [
@@ -1467,7 +1431,7 @@
       "from": "spacex",
       "to": "google",
       "status": "ok",
-      "count": 4
+      "count": 3
     },
     {
       "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
@@ -1544,7 +1508,7 @@
       "from": "anthropic",
       "to": "spacex",
       "status": "ok",
-      "count": 4
+      "count": 5
     },
     {
       "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Anthropic\" OR \"Claude\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
@@ -1614,7 +1578,7 @@
       "from": "google",
       "to": "spacex",
       "status": "ok",
-      "count": 4
+      "count": 5
     },
     {
       "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
@@ -1684,7 +1648,7 @@
       "from": "openai",
       "to": "external",
       "status": "ok",
-      "count": 4
+      "count": 5
     },
     {
       "query": "(\"Anthropic\" OR \"Claude\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
@@ -1698,7 +1662,7 @@
       "from": "anthropic",
       "to": "external",
       "status": "ok",
-      "count": 4
+      "count": 5
     },
     {
       "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
