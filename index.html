@@ -3673,7 +3673,7 @@
         currentFilter: "按当前筛选", realVolume: "真实成交额，可用时更新", hot: "热门", topGainer: "最大升幅", waitingQuotes: "等待行情或估算涨跌",
         tokenRanking: "代币使用", tokenNote: "参考 OpenRouter Top Models，用量口径可切换",
         chartRanking: "代币成本", chartNote: "LLM Token Expenditure Index",
-        modelRanking: "大模型排行", modelNote: "CursorBench · 每日外部更新", potentialRanking: "追踪顶尖人才流向模型", potentialNote: "Tracking the Talent Model · Tavily 抓取公开履历、采访、新闻与 x.com 引用，统计公司人才流入/流出", potentialChart: "图表", potentialRank: "排行", potentialScore: "潜力得分", potentialGain: "起点倍数", potentialMcap: "市值", potentialBasis: "当前市值 × 起点倍数²", modelColumn: "模型", modelScore: "得分", modelCostTask: "平均成本 / 任务", dataSource: "数据来源", updatedDate: "更新日期", dailyExternal: "每日外部更新", dailyLocal: "每日本地更新", inlineSnapshot: "内置快照",
+        modelRanking: "大模型排行", modelNote: "CursorBench · 每日外部更新", potentialRanking: "追踪顶尖人才流向模型", potentialNote: "Tracking the Talent Model · Tavily 抓取公开履历、采访、新闻与 x.com 引用，统计四家公司全部公开入职/离职信号", potentialChart: "图表", potentialRank: "排行", potentialScore: "潜力得分", potentialGain: "起点倍数", potentialMcap: "市值", potentialBasis: "当前市值 × 起点倍数²", modelColumn: "模型", modelScore: "得分", modelCostTask: "平均成本 / 任务", dataSource: "数据来源", updatedDate: "更新日期", dailyExternal: "每日外部更新", dailyLocal: "每日本地更新", inlineSnapshot: "内置快照",
         day: "日", week: "周", month: "月", history: "历史", period: "周期", firstShare: "第一名占比",
         all: "全部", aiChips: "AI 芯片", aiCloud: "新云", dataCenter: "数据中心", enterpriseAi: "企业 AI", security: "安全", quantum: "量子", chinaAi: "中国 AI", leopold: "Leopold Aschenbrenner",
         physicalWorldModel: "物理世界模型", worldModelText: "文本", worldModelRobotics: "机器人", openSource: "开源", closedSource: "闭源",
@@ -3707,7 +3707,7 @@
         currentFilter: "Current filter", realVolume: "Real traded value when available", hot: "Trending", topGainer: "Top Gainer", waitingQuotes: "Waiting for quotes or estimated moves",
         tokenRanking: "Token Usage", tokenNote: "Inspired by OpenRouter Top Models; period is switchable",
         chartRanking: "Token Cost", chartNote: "LLM Token Expenditure Index",
-        modelRanking: "Model Ranking", modelNote: "CursorBench · daily external feed", potentialRanking: "Tracking the Talent Model", potentialNote: "Tracking the Talent Model · Tavily searches public bios, interviews, news, and x.com references to count talent inflow/outflow", potentialChart: "Chart", potentialRank: "Ranking", potentialScore: "Potential score", potentialGain: "Start multiple", potentialMcap: "Market cap", potentialBasis: "Market cap × start multiple²", modelColumn: "Model", modelScore: "Score", modelCostTask: "Avg Cost / Task", dataSource: "Source", updatedDate: "Updated", dailyExternal: "Daily external update", dailyLocal: "Daily local update", inlineSnapshot: "Inline snapshot",
+        modelRanking: "Model Ranking", modelNote: "CursorBench · daily external feed", potentialRanking: "Tracking the Talent Model", potentialNote: "Tracking the Talent Model · Tavily searches public bios, interviews, news, and x.com references for all public join/leave signals across the four companies", potentialChart: "Chart", potentialRank: "Ranking", potentialScore: "Potential score", potentialGain: "Start multiple", potentialMcap: "Market cap", potentialBasis: "Market cap × start multiple²", modelColumn: "Model", modelScore: "Score", modelCostTask: "Avg Cost / Task", dataSource: "Source", updatedDate: "Updated", dailyExternal: "Daily external update", dailyLocal: "Daily local update", inlineSnapshot: "Inline snapshot",
         day: "Day", week: "Week", month: "Month", history: "History", period: "Period", firstShare: "Top share",
         all: "All", aiChips: "AI Chips", aiCloud: "AI Cloud", dataCenter: "Data Centers", enterpriseAi: "Enterprise AI", security: "Security", quantum: "Quantum", chinaAi: "China AI", leopold: "Leopold Aschenbrenner",
         physicalWorldModel: "World Models", worldModelText: "Text", worldModelRobotics: "Robotics", openSource: "Open", closedSource: "Closed",
@@ -3740,7 +3740,8 @@
       { key: "spacex", name: "SpaceX", x: 8, y: 14, zh: "航天工程 / Starlink / 物理世界系统", en: "Space systems / Starlink / physical systems" },
       { key: "nvidia", name: "NVIDIA", x: 74, y: 14, zh: "GPU / CUDA / AI 基础设施", en: "GPU / CUDA / AI infrastructure" },
       { key: "openai", name: "OpenAI", x: 11, y: 58, zh: "前沿模型 / Agent / 产品化", en: "Frontier models / agents / productization" },
-      { key: "google", name: "Google", x: 74, y: 58, zh: "DeepMind / TPU / 搜索与云 AI", en: "DeepMind / TPU / search and cloud AI" }
+      { key: "google", name: "Google", x: 74, y: 58, zh: "DeepMind / TPU / 搜索与云 AI", en: "DeepMind / TPU / search and cloud AI" },
+      { key: "external", name: "External Talent Pool", x: 43, y: 39, zh: "外部公司 / 高校 / 研究机构", en: "Outside companies / universities / research labs" }
     ];
     const TALENT_FLOW_EDGES = [
       { from: "google", to: "openai", label: "Research migration", zh: "研究人才流动", detail: "DeepMind、Google Brain 与大模型研究体系是前沿模型人才的重要源头，OpenAI 是最核心的吸纳端之一。", detailEn: "DeepMind and Google Brain are major origin pools for frontier-model researchers, with OpenAI as one of the key absorption nodes." },
@@ -5635,7 +5636,8 @@
         spacex: { x: 6, y: 12 },
         nvidia: { x: 58, y: 12 },
         openai: { x: 6, y: 42 },
-        google: { x: 58, y: 42 }
+        google: { x: 58, y: 42 },
+        external: { x: 31, y: 66 }
       };
       const positionFor = (company) => compact ? (compactPositions[company.key] || company) : company;
       const activeFlow = flows[Math.max(0, Math.min(activeIndex || 0, flows.length - 1))] || flows[0];
