@@ -736,7 +736,21 @@
       justify-content: center;
       align-items: center;
       text-align: center;
-      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease, opacity 160ms ease;
+    }
+    .talent-node.net-inflow {
+      border-color: rgba(52, 211, 153, 0.42);
+      background:
+        radial-gradient(circle at 50% 38%, rgba(52, 211, 153, 0.28), transparent 58%),
+        rgba(15, 23, 42, 0.92);
+      box-shadow: 0 18px 48px rgba(16, 185, 129, 0.16), 0 16px 40px rgba(0, 0, 0, 0.28);
+    }
+    .talent-node.net-outflow {
+      border-color: rgba(248, 113, 113, 0.34);
+      background:
+        radial-gradient(circle at 50% 38%, rgba(248, 113, 113, 0.18), transparent 56%),
+        rgba(15, 23, 42, 0.82);
+      opacity: 0.9;
     }
     .talent-node:hover,
     .talent-node.active {
@@ -761,6 +775,7 @@
       display: flex;
       justify-content: center;
       gap: 7px;
+      flex-wrap: wrap;
       color: #dbeafe;
       font-size: 10px;
       font-weight: 820;
@@ -5642,6 +5657,19 @@
       const positionFor = (company) => compact ? (compactPositions[company.key] || company) : company;
       const activeFlow = flows[Math.max(0, Math.min(activeIndex || 0, flows.length - 1))] || flows[0];
       const nodeByKey = Object.fromEntries(companies.map((item) => [item.key, item]));
+      const maxInflow = Math.max(1, ...companies.map((company) => Number(company.inflow) || 0));
+      const maxOutflow = Math.max(1, ...companies.map((company) => Number(company.outflow) || 0));
+      const talentBubbleSize = (company) => {
+        const inflow = Number(company.inflow) || 0;
+        const outflow = Number(company.outflow) || 0;
+        const total = inflow + outflow;
+        if (!total) return compact ? 78 : 94;
+        const inflowWeight = inflow / maxInflow;
+        const outflowWeight = outflow / maxOutflow;
+        const balance = (inflow - outflow) / Math.max(1, total);
+        const raw = (compact ? 84 : 100) + inflowWeight * (compact ? 54 : 82) - outflowWeight * (compact ? 24 : 36) + balance * 18;
+        return Math.max(compact ? 70 : 82, Math.min(compact ? 146 : 190, raw));
+      };
       state.potentialAutoIndex = flows.indexOf(activeFlow);
       if (title) title.textContent = state.lang === "zh" ? "追踪顶尖人才流向模型" : "Tracking the Talent Model";
       if (stats) {
@@ -5683,11 +5711,14 @@
       stage.querySelectorAll(".talent-node, .talent-flow-pill").forEach((item) => item.remove());
       companies.forEach((company) => {
         const button = document.createElement("button");
-        button.className = `talent-node ${company.key === activeFlow.from || company.key === activeFlow.to ? "active" : ""}`;
+        const inflow = Number(company.inflow) || 0;
+        const outflow = Number(company.outflow) || 0;
+        const net = inflow - outflow;
+        button.className = `talent-node ${net >= 0 ? "net-inflow" : "net-outflow"} ${company.key === activeFlow.from || company.key === activeFlow.to ? "active" : ""}`;
         button.type = "button";
         button.dataset.company = company.key;
         const position = positionFor(company);
-        const size = Math.min(176, Math.max(112, 112 + Math.sqrt((company.inflow || 0) + (company.outflow || 0)) * 22));
+        const size = talentBubbleSize(company);
         button.style.width = `${size}px`;
         button.style.height = `${size}px`;
         button.style.left = `${position.x}%`;
@@ -5696,8 +5727,9 @@
           <div class="talent-node-name">${escapeHtml(company.name)}</div>
           <div class="talent-node-meta">${escapeHtml(state.lang === "zh" ? company.zh : company.en)}</div>
           <div class="talent-node-counts">
-            <span>${state.lang === "zh" ? "入" : "In"} <strong>${Number(company.inflow) || 0}</strong></span>
-            <span>${state.lang === "zh" ? "出" : "Out"} <strong>${Number(company.outflow) || 0}</strong></span>
+            <span>${state.lang === "zh" ? "入" : "In"} <strong>${inflow}</strong></span>
+            <span>${state.lang === "zh" ? "出" : "Out"} <strong>${outflow}</strong></span>
+            <span>${state.lang === "zh" ? "净" : "Net"} <strong>${net > 0 ? "+" : ""}${net}</strong></span>
           </div>
         `;
         button.addEventListener("mouseenter", () => {
