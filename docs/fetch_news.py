@@ -347,6 +347,7 @@ AI_PERSON_NEWS_TERMS = [
     "physical world model", "world model", "物理世界模型",
 ]
 OPINION_RECENT_DAYS = 90
+OPINION_TAVILY_PRIMARY_MIN_ITEMS = 8
 AI_BUBBLE_SKEPTIC_TERMS = [
     "Jim Covello", "吉姆·科韦洛", "吉姆 科韦洛",
     "Torsten Sløk", "Torsten Slok", "托尔斯滕·斯洛克", "托尔斯滕 斯洛克",
@@ -2288,6 +2289,7 @@ def main() -> int:
         section_required_keywords = section.get("requiredKeywords", [])
         author_fetch_limit = 0 if section.get("id") == "hot" else 18 if section.get("id") in {"industry", "tech"} else 6
         author_fetches = 0
+        tavily_primary_count = 0
         if tavily_key and tavily_remaining_queries > 0:
             tavily_items, tavily_status, tavily_used = fetch_tavily_section(tavily_key, section, tavily_remaining_queries)
             tavily_remaining_queries -= tavily_used
@@ -2310,6 +2312,16 @@ def main() -> int:
                 section_seen.add(key)
                 section_items.append(item)
                 items.append(item)
+                if section["id"] == "person":
+                    tavily_primary_count += 1
+        if section["id"] == "person" and tavily_primary_count >= OPINION_TAVILY_PRIMARY_MIN_ITEMS:
+            section_items.sort(key=lambda item: item.get("publishedAt") or "", reverse=True)
+            section_payload[section["id"]] = {
+                "title": section["title"],
+                "note": f"{section['note']}；Tavily 优先，已跳过 Google News 补源",
+                "items": section_items[:32],
+            }
+            continue
         for source in section["sources"]:
             source_required_keywords = [] if section.get("allowGeneralFeed") else source.get("requiredKeywords", [])
             try:
