@@ -3864,22 +3864,44 @@
       }
       return rate;
     }
+    const USD_CONVERTIBLE_CURRENCIES = new Set(["CNY", "HKD", "KRW", "JPY", "TWD", "GBp", "GBP", "CAD", "SEK"]);
+    function dateKey(dateLike) {
+      if (!dateLike) return new Date().toISOString().slice(0, 10);
+      if (typeof dateLike === "string") return dateLike.slice(0, 10);
+      return dateLike.toISOString().slice(0, 10);
+    }
+    function shouldUseLiveFx(dateLike) {
+      return dateKey(dateLike) >= new Date().toISOString().slice(0, 10);
+    }
+    function liveFxOrHistory(liveKey, historyFn, dateLike) {
+      return shouldUseLiveFx(dateLike) && Number.isFinite(state.fxRates[liveKey]) ? state.fxRates[liveKey] : historyFn(dateLike);
+    }
     function fxRateFor(currency, dateLike) {
-      if (currency === "CNY") return Number.isFinite(state.fxRates.USDCNY) ? state.fxRates.USDCNY : usdCnyRateFor(dateLike);
-      if (currency === "HKD") return Number.isFinite(state.fxRates.USDHKD) ? state.fxRates.USDHKD : usdHkdRateFor(dateLike);
-      if (currency === "KRW") return Number.isFinite(state.fxRates.USDKRW) ? state.fxRates.USDKRW : usdKrwRateFor(dateLike);
-      if (currency === "JPY") return Number.isFinite(state.fxRates.USDJPY) ? state.fxRates.USDJPY : usdJpyRateFor(dateLike);
-      if (currency === "TWD") return Number.isFinite(state.fxRates.USDTWD) ? state.fxRates.USDTWD : usdTwdRateFor(dateLike);
-      if (currency === "GBP" || currency === "GBp") return Number.isFinite(state.fxRates.USDGBP) ? state.fxRates.USDGBP : usdGbpRateFor(dateLike);
-      if (currency === "CAD") return Number.isFinite(state.fxRates.USDCAD) ? state.fxRates.USDCAD : usdCadRateFor(dateLike);
-      if (currency === "SEK") return Number.isFinite(state.fxRates.USDSEK) ? state.fxRates.USDSEK : usdSekRateFor(dateLike);
+      if (currency === "CNY") return liveFxOrHistory("USDCNY", usdCnyRateFor, dateLike);
+      if (currency === "HKD") return liveFxOrHistory("USDHKD", usdHkdRateFor, dateLike);
+      if (currency === "KRW") return liveFxOrHistory("USDKRW", usdKrwRateFor, dateLike);
+      if (currency === "JPY") return liveFxOrHistory("USDJPY", usdJpyRateFor, dateLike);
+      if (currency === "TWD") return liveFxOrHistory("USDTWD", usdTwdRateFor, dateLike);
+      if (currency === "GBP" || currency === "GBp") return liveFxOrHistory("USDGBP", usdGbpRateFor, dateLike);
+      if (currency === "CAD") return liveFxOrHistory("USDCAD", usdCadRateFor, dateLike);
+      if (currency === "SEK") return liveFxOrHistory("USDSEK", usdSekRateFor, dateLike);
       return 1;
     }
     function toUsd(value, currency, dateLike) {
       if (!Number.isFinite(value)) return null;
       if (currency === "GBp") return (value / 100) / fxRateFor(currency, dateLike);
-      if (currency === "CNY" || currency === "HKD" || currency === "KRW" || currency === "JPY" || currency === "TWD" || currency === "GBP" || currency === "CAD" || currency === "SEK") return value / fxRateFor(currency, dateLike);
+      if (USD_CONVERTIBLE_CURRENCIES.has(currency)) return value / fxRateFor(currency, dateLike);
       return value;
+    }
+    function quoteClosePointToUsd(point, currency) {
+      const close = Number(point?.close);
+      const date = String(point?.date || "").slice(0, 10);
+      if (!date || !Number.isFinite(close) || close <= 0) return null;
+      const convertedClose = USD_CONVERTIBLE_CURRENCIES.has(currency) ? toUsd(close, currency, date) : close;
+      return Number.isFinite(convertedClose) && convertedClose > 0 ? { ...point, date, close: convertedClose } : null;
+    }
+    function quoteClosePointsToUsd(points, currency) {
+      return Array.isArray(points) ? points.map((point) => quoteClosePointToUsd(point, currency)).filter(Boolean) : null;
     }
     function normalizeQuoteMarketCap(value, currency, explicitMarketCapCurrency) {
       if (!Number.isFinite(value)) return null;
@@ -6092,12 +6114,15 @@
         if (row.status === "prelist") return { ...row };
         const q = quotes.get(row.ticker) || {};
         const quoteCurrency = q.currency || row.currency || "USD";
-        const quoteDate = updatedAt ? new Date(updatedAt) : new Date();
+        const quoteDate = new Date();
         const marketCapCurrency = q.marketCapCurrency || (quoteCurrency === "GBp" ? "GBP" : quoteCurrency);
         const quoteMarketCap = toUsd(normalizeQuoteMarketCap(q.marketCap, quoteCurrency, q.marketCapCurrency), marketCapCurrency, quoteDate);
         const quoteVolume = toUsd(q.volume, quoteCurrency, quoteDate);
-        const quotePrice = quoteCurrency === "KRW" || quoteCurrency === "JPY" || quoteCurrency === "TWD" || quoteCurrency === "GBp" || quoteCurrency === "GBP" || quoteCurrency === "CAD" || quoteCurrency === "SEK" ? toUsd(q.price, quoteCurrency, quoteDate) : q.price;
-        const displayCurrency = quoteCurrency === "KRW" || quoteCurrency === "JPY" || quoteCurrency === "TWD" || quoteCurrency === "GBp" || quoteCurrency === "GBP" || quoteCurrency === "CAD" || quoteCurrency === "SEK" ? "USD" : quoteCurrency;
+        const quotePrice = USD_CONVERTIBLE_CURRENCIES.has(quoteCurrency) ? toUsd(q.price, quoteCurrency, quoteDate) : q.price;
+        const displayCurrency = USD_CONVERTIBLE_CURRENCIES.has(quoteCurrency) ? "USD" : quoteCurrency;
+        const intradayClosePoints = quoteClosePointsToUsd(q.intradayClosePoints, quoteCurrency);
+        const closePoints = quoteClosePointsToUsd(q.closePoints, quoteCurrency);
+        const historyClosePoints = quoteClosePointsToUsd(q.historyClosePoints, quoteCurrency);
         return {
           ...row,
           marketCap: quoteMarketCap,
@@ -6110,9 +6135,9 @@
           change7d: Number.isFinite(q.change7d) ? q.change7d : null,
           change30d: Number.isFinite(q.change30d) ? q.change30d : null,
           sparkPoints: Array.isArray(q.sparkPoints) ? q.sparkPoints : null,
-          intradayClosePoints: Array.isArray(q.intradayClosePoints) ? q.intradayClosePoints : null,
-          closePoints: Array.isArray(q.closePoints) ? q.closePoints : null,
-          historyClosePoints: Array.isArray(q.historyClosePoints) ? q.historyClosePoints : null
+          intradayClosePoints,
+          closePoints,
+          historyClosePoints
         };
       });
       potentialSeriesCache.clear();
