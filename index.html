@@ -5009,6 +5009,24 @@
     function mixedColumnistItems(items, limit = 16) {
       return balanceHotNewsItems(items, limit);
     }
+    const OPINION_BEAR_PERSON_RE = /(jim\s+covello|吉姆[·\s]?科韦洛|torsten\s+sl[øo]k|托尔斯滕[·\s]?斯洛克|daron\s+acemoglu|达龙[·\s]?阿西莫格鲁|david\s+cahn|大卫[·\s]?卡恩|jeffrey\s+gundlach|杰弗里[·\s]?冈拉克|jim\s+chanos|吉姆[·\s]?查诺斯|nate\s+anderson|内特[·\s]?安德森|ed\s+zitron|埃德[·\s]?齐特隆|gary\s+marcus|加里[·\s]?马库斯|yann\s+lecun|jan\s+lecun|杨[立丽]坤)/i;
+    const OPINION_BEAR_TOPIC_RE = /(ai\s+bubble|ai\s+capex|ai\s+spending|too\s+much\s+spend|too\s+little\s+benefit|600\s*b|600\s+billion|1\s+trillion|cost[-\s]?effective|s&p\s*500|dot[-\s]?com|internet\s+bubble|valuation|productivity|gdp|automation|hallucination|scaling\s+law|agi|neurosymbolic|人工智能泡沫|ai\s*泡沫|资本开支|估值|生产力|投入过大|回报太少|成本效益|互联网泡沫|幻觉|规模法则|神经符号|通用人工智能)/i;
+    function isBearOpinionItem(item) {
+      const personText = [
+        item?.title,
+        item?.titleZh,
+        item?.titleEn,
+        item?.summary,
+        item?.author,
+        item?.url
+      ].filter(Boolean).join(" ");
+      const topicText = [
+        personText,
+        item?.source,
+        ...(Array.isArray(item?.tags) ? item.tags : [])
+      ].filter(Boolean).join(" ");
+      return OPINION_BEAR_PERSON_RE.test(personText) && OPINION_BEAR_TOPIC_RE.test(topicText);
+    }
     function canonicalNewsTitle(title = "") {
       let key = String(title || "").toLowerCase();
       if (key.includes("nebius ceo") && key.includes("美联储") && key.includes("人工智能") && key.includes("扼杀")) {
@@ -5053,7 +5071,7 @@
       });
     }
     const NEWS_SCROLL_DURATION_SECONDS = 90;
-    const OPINION_SCROLL_SLOWDOWN = 1.65;
+    const OPINION_SCROLL_SLOWDOWN = 3.2;
     let industryNewsScrollPixelsPerSecond = null;
     function syncNewsTrackSpeed(track) {
       if (!track) return;
@@ -5064,7 +5082,7 @@
         return;
       }
       if (track.id === "news-track-person" && industryNewsScrollPixelsPerSecond) {
-        const duration = Math.max(80, Math.min(220, (distance / industryNewsScrollPixelsPerSecond) * OPINION_SCROLL_SLOWDOWN));
+        const duration = Math.max(180, Math.min(520, (distance / industryNewsScrollPixelsPerSecond) * OPINION_SCROLL_SLOWDOWN));
         track.style.animationDuration = `${duration.toFixed(1)}s`;
         return;
       }
@@ -5075,7 +5093,8 @@
       if (!track) return;
       const isVideoSection = sectionId === "hot" || sectionId === "video";
       const uniqueItems = uniqueNewsItems(items);
-      const clean = sectionId === "hot" ? uniqueItems.slice(0, 16) : sectionId === "person" ? mixedColumnistItems(uniqueItems, 16) : sectionId === "video" ? mixedRandomNewsItems(uniqueItems, 16) : uniqueItems.slice(0, 16);
+      const scopedItems = sectionId === "person" ? uniqueItems.filter(isBearOpinionItem) : uniqueItems;
+      const clean = sectionId === "hot" ? scopedItems.slice(0, 16) : sectionId === "person" ? mixedColumnistItems(scopedItems, 16) : sectionId === "video" ? mixedRandomNewsItems(scopedItems, 16) : scopedItems.slice(0, 16);
       const news = clean.length ? clean : uniqueNewsItems(fallbackNewsItems(sectionId));
       const renderItems = sectionId === "hot" ? news : [...news, ...news];
       const nodes = renderItems.map((item) => {
