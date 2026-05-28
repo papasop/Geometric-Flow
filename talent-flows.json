@@ -1,0 +1,163 @@
+{
+  "generatedAt": "2026-05-28T03:28:23.446591Z",
+  "source": "IsItHub seed model",
+  "strategy": "Search public news, interviews, speeches, and x.com references for senior AI talent movement among SpaceX, NVIDIA, OpenAI, and Google.",
+  "companies": [
+    {
+      "name": "SpaceX",
+      "aliases": [
+        "SpaceX",
+        "Starlink"
+      ],
+      "x": 12,
+      "y": 18,
+      "zh": "航天工程 / Starlink / 自动化制造",
+      "en": "Space systems / Starlink / automated manufacturing",
+      "key": "spacex",
+      "inflow": 1,
+      "outflow": 0,
+      "events": 1
+    },
+    {
+      "name": "NVIDIA",
+      "aliases": [
+        "NVIDIA",
+        "Nvidia",
+        "NVDA"
+      ],
+      "x": 72,
+      "y": 18,
+      "zh": "GPU / CUDA / AI 基础设施",
+      "en": "GPU / CUDA / AI infrastructure",
+      "key": "nvidia",
+      "inflow": 0,
+      "outflow": 1,
+      "events": 1
+    },
+    {
+      "name": "OpenAI",
+      "aliases": [
+        "OpenAI"
+      ],
+      "x": 18,
+      "y": 62,
+      "zh": "前沿模型 / Agent / 产品化",
+      "en": "Frontier models / agents / productization",
+      "key": "openai",
+      "inflow": 2,
+      "outflow": 1,
+      "events": 3
+    },
+    {
+      "name": "Google",
+      "aliases": [
+        "Google",
+        "DeepMind",
+        "Google DeepMind",
+        "Google Brain"
+      ],
+      "x": 72,
+      "y": 62,
+      "zh": "DeepMind / TPU / 搜索与云 AI",
+      "en": "DeepMind / TPU / search and cloud AI",
+      "key": "google",
+      "inflow": 0,
+      "outflow": 1,
+      "events": 1
+    }
+  ],
+  "flows": [
+    {
+      "from": "google",
+      "to": "openai",
+      "count": 1,
+      "label": "Google → OpenAI",
+      "events": [
+        {
+          "from": "google",
+          "to": "openai",
+          "title": "DeepMind / Google Brain alumni remain a key talent pool for frontier-model labs",
+          "url": "https://isithub.com/",
+          "source": "IsItHub seed model",
+          "publishedAt": "",
+          "people": [],
+          "confidence": "seed"
+        }
+      ]
+    },
+    {
+      "from": "nvidia",
+      "to": "openai",
+      "count": 1,
+      "label": "NVIDIA → OpenAI",
+      "events": [
+        {
+          "from": "nvidia",
+          "to": "openai",
+          "title": "GPU infrastructure and compiler talent connects NVIDIA to frontier-model deployment",
+          "url": "https://isithub.com/",
+          "source": "IsItHub seed model",
+          "publishedAt": "",
+          "people": [],
+          "confidence": "seed"
+        }
+      ]
+    },
+    {
+      "from": "openai",
+      "to": "spacex",
+      "count": 1,
+      "label": "OpenAI → SpaceX",
+      "events": [
+        {
+          "from": "openai",
+          "to": "spacex",
+          "title": "Agent, robotics, and physical-system talent is a crossover watchpoint for SpaceX",
+          "url": "https://isithub.com/",
+          "source": "IsItHub seed model",
+          "publishedAt": "",
+          "people": [],
+          "confidence": "seed"
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "from": "google",
+      "to": "openai",
+      "title": "DeepMind / Google Brain alumni remain a key talent pool for frontier-model labs",
+      "url": "https://isithub.com/",
+      "source": "IsItHub seed model",
+      "publishedAt": "",
+      "people": [],
+      "confidence": "seed"
+    },
+    {
+      "from": "nvidia",
+      "to": "openai",
+      "title": "GPU infrastructure and compiler talent connects NVIDIA to frontier-model deployment",
+      "url": "https://isithub.com/",
+      "source": "IsItHub seed model",
+      "publishedAt": "",
+      "people": [],
+      "confidence": "seed"
+    },
+    {
+      "from": "openai",
+      "to": "spacex",
+      "title": "Agent, robotics, and physical-system talent is a crossover watchpoint for SpaceX",
+      "url": "https://isithub.com/",
+      "source": "IsItHub seed model",
+      "publishedAt": "",
+      "people": [],
+      "confidence": "seed"
+    }
+  ],
+  "statuses": [
+    {
+      "status": "skipped",
+      "reason": "TAVILY_API_KEY not set"
+    }
+  ]
+}
