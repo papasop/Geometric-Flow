@@ -152,7 +152,7 @@ def main() -> None:
     source_url = CURSORBENCH_URL
     if not rankings:
         rankings = read_existing_rankings() or read_inline_rankings()
-        source = "IsitHUB model ranking fallback"
+        source = "IsItHub model ranking fallback"
         source_url = ""
     if not rankings:
         raise SystemExit("No model rankings available")

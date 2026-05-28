@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate prebuilt Mandarin voiceover tracks for IsitHUB videos.
+"""Generate prebuilt Mandarin voiceover tracks for IsItHub videos.
 
 This is the "方案 C" batch path: GitHub Actions reads video items, tries to
 fetch public YouTube captions, translates them to Chinese, generates MP3 files,
@@ -182,7 +182,7 @@ def openai_post(endpoint: str, payload: dict[str, Any]) -> bytes:
 
 
 def openai_multipart(endpoint: str, fields: dict[str, str], files: dict[str, Path]) -> bytes:
-    boundary = f"----IsitHUB{int(time.time() * 1000)}"
+    boundary = f"----IsItHub{int(time.time() * 1000)}"
     chunks: list[bytes] = []
     for name, value in fields.items():
         chunks.append(f"--{boundary}\r\n".encode("utf-8"))
