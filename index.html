@@ -5331,6 +5331,26 @@
       const moveStart = first.value > 0 ? ((selected.value / first.value) - 1) * 100 : 0;
       const yTicks = Array.from({ length: 6 }, (_, i) => yMin + ((yMax - yMin) / 5) * i);
       const xTickIndexes = [...new Set([0, Math.floor((data.length - 1) * 0.25), Math.floor((data.length - 1) * 0.5), Math.floor((data.length - 1) * 0.75), data.length - 1])];
+      const markerModels = (options.events || [])
+        .map((item, markerIndex) => {
+          const index = data.findIndex((point) => point.date >= item.date);
+          if (index < 0) return null;
+          const markerX = xFor(index);
+          const markerY = yFor(data[index].value);
+          const lane = markerIndex % 3;
+          return {
+            ...item,
+            index,
+            key: `${index}-${item.ticker || item.date}-${markerIndex}`,
+            x: markerX,
+            y: Math.max(pad.top + 10 + lane * 14, markerY - 18),
+            title: state.lang === "zh" ? (item.titleZh || item.title) : (item.titleEn || item.title)
+          };
+        })
+        .filter(Boolean);
+      const eventMarkers = markerModels.map((marker) => `<g class="chart-event-marker" transform="translate(${marker.x.toFixed(1)} ${marker.y.toFixed(1)})">
+        <circle r="5.2" fill="#f97316" stroke="#ffedd5" stroke-width="1.4"><title>${escapeHtml(`${marker.date} · ${marker.ticker || ""}\n${marker.title || ""}\n${marker.source || ""}`)}</title></circle>
+      </g>`).join("");
       svg.innerHTML = `
         <defs>
           <linearGradient id="${escapeHtml(options.gradientId)}" x1="0" x2="0" y1="0" y2="1">
@@ -5343,6 +5363,7 @@
         ${xTickIndexes.map((index) => `<line x1="${xFor(index).toFixed(1)}" x2="${xFor(index).toFixed(1)}" y1="${pad.top}" y2="${height - pad.bottom}" stroke="rgba(203,213,225,.20)" stroke-dasharray="2 3" /><text x="${xFor(index).toFixed(1)}" y="${height - 26}" fill="#f8fafc" font-size="12" text-anchor="middle">${escapeHtml(chartDateLabel(data[index].date, options.period))}</text>`).join("")}
         <path d="${area}" fill="url(#${escapeHtml(options.gradientId)})" />
         <path d="${line}" fill="none" stroke="#e5e7eb" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" />
+        ${eventMarkers}
         <line x1="${selectedX.toFixed(1)}" x2="${selectedX.toFixed(1)}" y1="${pad.top}" y2="${height - pad.bottom}" stroke="#67e8f9" stroke-opacity="0.65" stroke-width="1.2" />
         <circle cx="${selectedX.toFixed(1)}" cy="${selectedY.toFixed(1)}" r="5.5" fill="#020617" stroke="#ecfeff" stroke-width="2.2" />
       `;
@@ -5357,13 +5378,28 @@
         <span>Low to point</span><b>${low.toFixed(4)}%</b>
       `;
       if (tooltip) {
+        const hoveredMarker = markerModels
+          .filter((marker) => Math.abs(marker.index - selectedIndex) <= 1)
+          .sort((a, b) => Math.abs(a.index - selectedIndex) - Math.abs(b.index - selectedIndex))[0];
         tooltip.hidden = false;
-        tooltip.style.left = `${(selectedX / width) * 100}%`;
-        tooltip.style.top = `${(selectedY / height) * 100}%`;
-        tooltip.replaceChildren(document.createTextNode(`${state.lang === "zh" ? "日期" : "Date"} ${selected.date.replace("T", " ")}`));
-        const valueNode = document.createElement("b");
-        valueNode.textContent = `${selected.value.toFixed(4)}%`;
-        tooltip.appendChild(valueNode);
+        tooltip.style.left = `${((hoveredMarker?.x ?? selectedX) / width) * 100}%`;
+        tooltip.style.top = `${((hoveredMarker?.y ?? selectedY) / height) * 100}%`;
+        if (hoveredMarker) {
+          tooltip.replaceChildren(document.createTextNode(`${hoveredMarker.date} · ${hoveredMarker.ticker || ""}`));
+          const titleNode = document.createElement("span");
+          titleNode.className = "event-title";
+          titleNode.textContent = hoveredMarker.title || "";
+          tooltip.appendChild(titleNode);
+          const sourceNode = document.createElement("span");
+          sourceNode.className = "event-meta";
+          sourceNode.textContent = [hoveredMarker.source, hoveredMarker.author].filter(Boolean).join(" · ");
+          tooltip.appendChild(sourceNode);
+        } else {
+          tooltip.replaceChildren(document.createTextNode(`${state.lang === "zh" ? "日期" : "Date"} ${selected.date.replace("T", " ")}`));
+          const valueNode = document.createElement("b");
+          valueNode.textContent = `${selected.value.toFixed(4)}%`;
+          tooltip.appendChild(valueNode);
+        }
       }
       svg.onpointermove = (event) => {
         const rect = svg.getBoundingClientRect();
@@ -5402,6 +5438,7 @@
           period: state.potentialPeriod,
           activeIndex,
           pinnedIndex: state.potentialPinnedIndex,
+          events: NVIDIA_HISTORICAL_INVESTMENT_EVENTS.filter((item) => item.ticker === currentTicker),
           emptyText: state.lang === "zh" ? `等待 ${currentTicker}/NVDA 行情` : `Waiting for ${currentTicker}/NVDA quotes`,
           onActiveIndex: (index) => renderPotentialChart(index),
           onPinIndex: (index) => {
