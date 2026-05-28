@@ -5053,6 +5053,7 @@
       });
     }
     const NEWS_SCROLL_DURATION_SECONDS = 90;
+    const OPINION_SCROLL_SLOWDOWN = 1.65;
     let industryNewsScrollPixelsPerSecond = null;
     function syncNewsTrackSpeed(track) {
       if (!track) return;
@@ -5063,7 +5064,7 @@
         return;
       }
       if (track.id === "news-track-person" && industryNewsScrollPixelsPerSecond) {
-        const duration = Math.max(28, Math.min(140, distance / industryNewsScrollPixelsPerSecond));
+        const duration = Math.max(80, Math.min(220, (distance / industryNewsScrollPixelsPerSecond) * OPINION_SCROLL_SLOWDOWN));
         track.style.animationDuration = `${duration.toFixed(1)}s`;
         return;
       }
