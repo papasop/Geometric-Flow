@@ -693,6 +693,113 @@
       text-align: center;
       font-weight: 760;
     }
+    .talent-flow-stage {
+      position: relative;
+      min-height: 350px;
+      padding: 18px;
+      background:
+        radial-gradient(circle at 22% 22%, rgba(34, 211, 238, 0.14), transparent 28%),
+        radial-gradient(circle at 80% 28%, rgba(99, 102, 241, 0.14), transparent 32%),
+        linear-gradient(180deg, #020617 0%, #030712 100%);
+    }
+    .talent-flow-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .talent-flow-line {
+      fill: none;
+      stroke: rgba(103, 232, 249, 0.34);
+      stroke-width: 2.2;
+      marker-end: url(#talent-arrow);
+      transition: stroke 160ms ease, stroke-width 160ms ease, opacity 160ms ease;
+    }
+    .talent-flow-line.active {
+      stroke: rgba(52, 211, 153, 0.98);
+      stroke-width: 3.6;
+    }
+    .talent-node {
+      position: absolute;
+      width: 176px;
+      min-height: 84px;
+      padding: 13px 14px;
+      border: 1px solid rgba(148, 163, 184, 0.24);
+      border-radius: 10px;
+      background: rgba(15, 23, 42, 0.92);
+      color: #f8fafc;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
+      cursor: pointer;
+      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+    }
+    .talent-node:hover,
+    .talent-node.active {
+      transform: translateY(-2px);
+      border-color: rgba(52, 211, 153, 0.82);
+      background: rgba(12, 74, 110, 0.82);
+    }
+    .talent-node-name {
+      font-size: 19px;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+    .talent-node-meta {
+      margin-top: 7px;
+      color: #94a3b8;
+      font-size: 11px;
+      font-weight: 760;
+      line-height: 1.35;
+    }
+    .talent-flow-pill {
+      position: absolute;
+      z-index: 3;
+      min-width: 128px;
+      padding: 8px 10px;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 999px;
+      background: rgba(2, 6, 23, 0.82);
+      color: #dbeafe;
+      font-size: 11px;
+      font-weight: 830;
+      text-align: center;
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+      transition: transform 160ms ease, border-color 160ms ease, color 160ms ease;
+    }
+    .talent-flow-pill:hover,
+    .talent-flow-pill.active {
+      transform: scale(1.04);
+      border-color: rgba(52, 211, 153, 0.8);
+      color: #6ee7b7;
+    }
+    .talent-flow-detail {
+      position: absolute;
+      left: 50%;
+      bottom: 18px;
+      z-index: 4;
+      width: min(440px, calc(100% - 36px));
+      transform: translateX(-50%);
+      padding: 13px 15px;
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      border-radius: 10px;
+      background: rgba(2, 6, 23, 0.9);
+      color: #dbeafe;
+      box-shadow: 0 18px 44px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(8px);
+    }
+    .talent-flow-detail-title {
+      color: #f8fafc;
+      font-size: 14px;
+      font-weight: 900;
+    }
+    .talent-flow-detail-body {
+      margin-top: 6px;
+      color: #94a3b8;
+      font-size: 12px;
+      font-weight: 720;
+      line-height: 1.45;
+    }
     .index-chart-view {
       padding: 14px;
       background: #05070a;
@@ -1393,6 +1500,27 @@
         padding: 0 10px 10px;
         font-size: 10px;
       }
+      .talent-flow-stage {
+        order: 4;
+        min-height: 520px;
+        padding: 12px;
+      }
+      .talent-node {
+        width: 138px;
+        min-height: 74px;
+        padding: 10px;
+      }
+      .talent-node-name { font-size: 15px; }
+      .talent-node-meta { font-size: 10px; }
+      .talent-flow-pill {
+        min-width: 106px;
+        padding: 7px 8px;
+        font-size: 10px;
+      }
+      .talent-flow-detail {
+        bottom: 12px;
+        width: calc(100% - 24px);
+      }
       .potential-ranking-panel { padding: 10px; }
       .potential-row {
         grid-template-columns: 26px minmax(0, 1fr) 74px 58px;
@@ -1649,27 +1777,20 @@
         <div class="model-ranking-table" id="model-ranking-list"></div>
       </section>
 
-      <section class="ranking-view index-chart-view" id="ranking-view-potential" aria-label="NBIS/NVIDIA 市值潜力比">
+      <section class="ranking-view index-chart-view" id="ranking-view-potential" aria-label="追踪顶尖人才流向模型">
         <div class="index-chart-shell" id="potential-chart-panel">
-          <div class="potential-view-switch" role="tablist" aria-label="Potential view">
-            <button class="potential-view-tab active" data-potential-view="chart" type="button" role="tab" aria-selected="true">图表</button>
-            <button class="potential-view-tab" data-potential-view="ranking" type="button" role="tab" aria-selected="false">排行</button>
-          </div>
-          <div class="chart-range-tabs" role="tablist" aria-label="Potential chart range">
-            <button class="chart-range-tab potential-range-tab active" data-potential-period="history" type="button">历史</button>
-            <button class="chart-range-tab potential-range-tab" data-potential-period="day" type="button">日</button>
-            <button class="chart-range-tab potential-range-tab" data-potential-period="week" type="button">周</button>
-            <button class="chart-range-tab potential-range-tab" data-potential-period="month" type="button">月</button>
-          </div>
-          <svg class="index-chart-svg" id="potential-ratio-chart" viewBox="0 0 980 310" role="img" aria-label="NBIS market cap divided by NVIDIA market cap chart"></svg>
-          <div class="index-chart-overlay">
-            <div class="index-chart-title" id="potential-chart-title">NBIS / NVIDIA Market Cap Ratio</div>
-            <div class="index-chart-stats" id="potential-chart-stats"></div>
+          <div class="talent-flow-stage" id="talent-flow-model" aria-label="Tracking the Talent Model">
+            <svg class="talent-flow-svg" id="talent-flow-svg" viewBox="0 0 980 350" aria-hidden="true"></svg>
+            <div class="index-chart-overlay">
+              <div class="index-chart-title" id="potential-chart-title">Tracking the Talent Model</div>
+              <div class="index-chart-stats" id="potential-chart-stats"></div>
+            </div>
+            <div class="talent-flow-detail" id="talent-flow-detail"></div>
           </div>
           <div class="index-chart-tooltip" id="potential-chart-tooltip" hidden></div>
           <div class="index-chart-footer">
-            <span id="potential-chart-footer-primary">NBIS Market Cap / NVDA Market Cap</span>
-            <span id="potential-chart-footer-secondary">Yahoo Finance chart · USD market cap ratio</span>
+            <span id="potential-chart-footer-primary">Tracking the Talent Model</span>
+            <span id="potential-chart-footer-secondary">SpaceX · NVIDIA · OpenAI · Google</span>
           </div>
         </div>
         <div class="potential-ranking-panel" id="potential-ranking-panel" hidden>
@@ -3535,7 +3656,7 @@
         currentFilter: "按当前筛选", realVolume: "真实成交额，可用时更新", hot: "热门", topGainer: "最大升幅", waitingQuotes: "等待行情或估算涨跌",
         tokenRanking: "代币使用", tokenNote: "参考 OpenRouter Top Models，用量口径可切换",
         chartRanking: "代币成本", chartNote: "LLM Token Expenditure Index",
-        modelRanking: "大模型排行", modelNote: "CursorBench · 每日外部更新", potentialRanking: "潜力", potentialNote: "图表: NBIS / NVIDIA · 排行: 起点倍数前十", potentialChart: "图表", potentialRank: "排行", potentialScore: "潜力得分", potentialGain: "起点倍数", potentialMcap: "市值", potentialBasis: "当前市值 × 起点倍数²", modelColumn: "模型", modelScore: "得分", modelCostTask: "平均成本 / 任务", dataSource: "数据来源", updatedDate: "更新日期", dailyExternal: "每日外部更新", dailyLocal: "每日本地更新", inlineSnapshot: "内置快照",
+        modelRanking: "大模型排行", modelNote: "CursorBench · 每日外部更新", potentialRanking: "追踪顶尖人才流向模型", potentialNote: "Tracking the Talent Model · 重点关注 SpaceX / NVIDIA / OpenAI / Google 顶尖人才流动", potentialChart: "图表", potentialRank: "排行", potentialScore: "潜力得分", potentialGain: "起点倍数", potentialMcap: "市值", potentialBasis: "当前市值 × 起点倍数²", modelColumn: "模型", modelScore: "得分", modelCostTask: "平均成本 / 任务", dataSource: "数据来源", updatedDate: "更新日期", dailyExternal: "每日外部更新", dailyLocal: "每日本地更新", inlineSnapshot: "内置快照",
         day: "日", week: "周", month: "月", history: "历史", period: "周期", firstShare: "第一名占比",
         all: "全部", aiChips: "AI 芯片", aiCloud: "新云", dataCenter: "数据中心", enterpriseAi: "企业 AI", security: "安全", quantum: "量子", chinaAi: "中国 AI", leopold: "Leopold Aschenbrenner",
         physicalWorldModel: "物理世界模型", worldModelText: "文本", worldModelRobotics: "机器人", openSource: "开源", closedSource: "闭源",
@@ -3569,7 +3690,7 @@
         currentFilter: "Current filter", realVolume: "Real traded value when available", hot: "Trending", topGainer: "Top Gainer", waitingQuotes: "Waiting for quotes or estimated moves",
         tokenRanking: "Token Usage", tokenNote: "Inspired by OpenRouter Top Models; period is switchable",
         chartRanking: "Token Cost", chartNote: "LLM Token Expenditure Index",
-        modelRanking: "Model Ranking", modelNote: "CursorBench · daily external feed", potentialRanking: "Potential", potentialNote: "Chart: NBIS / NVIDIA · Ranking: start multiple top 10", potentialChart: "Chart", potentialRank: "Ranking", potentialScore: "Potential score", potentialGain: "Start multiple", potentialMcap: "Market cap", potentialBasis: "Market cap × start multiple²", modelColumn: "Model", modelScore: "Score", modelCostTask: "Avg Cost / Task", dataSource: "Source", updatedDate: "Updated", dailyExternal: "Daily external update", dailyLocal: "Daily local update", inlineSnapshot: "Inline snapshot",
+        modelRanking: "Model Ranking", modelNote: "CursorBench · daily external feed", potentialRanking: "Tracking the Talent Model", potentialNote: "Tracking the Talent Model · SpaceX / NVIDIA / OpenAI / Google senior talent flows", potentialChart: "Chart", potentialRank: "Ranking", potentialScore: "Potential score", potentialGain: "Start multiple", potentialMcap: "Market cap", potentialBasis: "Market cap × start multiple²", modelColumn: "Model", modelScore: "Score", modelCostTask: "Avg Cost / Task", dataSource: "Source", updatedDate: "Updated", dailyExternal: "Daily external update", dailyLocal: "Daily local update", inlineSnapshot: "Inline snapshot",
         day: "Day", week: "Week", month: "Month", history: "History", period: "Period", firstShare: "Top share",
         all: "All", aiChips: "AI Chips", aiCloud: "AI Cloud", dataCenter: "Data Centers", enterpriseAi: "Enterprise AI", security: "Security", quantum: "Quantum", chinaAi: "China AI", leopold: "Leopold Aschenbrenner",
         physicalWorldModel: "World Models", worldModelText: "Text", worldModelRobotics: "Robotics", openSource: "Open", closedSource: "Closed",
@@ -3598,6 +3719,20 @@
     const GLOBAL_CHART_START_DATE = "2022-11-30";
     const TABLE_PERFORMANCE_START_DATE = "2022-12-05";
     const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", nvidiaSubcategory: null, tokenSubcategory: null, energySubcategory: null, infrastructureSubcategory: "DCI", hardwareSubcategory: "CNC", modelSubcategory: "LLM", llmSubcategory: "全部", worldModelSubcategory: "全部", selected: "NVDA", page: 1, marketView: "table", rankingView: "potential", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, potentialView: "chart", potentialPeriod: "history", potentialPinnedIndex: null, potentialAutoIndex: 0, potentialAutoPaused: false, potentialSort: "gain", potentialSortDir: "desc", performancePeriod: "history", fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
+    const TALENT_FLOW_COMPANIES = [
+      { key: "spacex", name: "SpaceX", x: 8, y: 14, zh: "航天工程 / Starlink / 物理世界系统", en: "Space systems / Starlink / physical systems" },
+      { key: "nvidia", name: "NVIDIA", x: 74, y: 14, zh: "GPU / CUDA / AI 基础设施", en: "GPU / CUDA / AI infrastructure" },
+      { key: "openai", name: "OpenAI", x: 11, y: 58, zh: "前沿模型 / Agent / 产品化", en: "Frontier models / agents / productization" },
+      { key: "google", name: "Google", x: 74, y: 58, zh: "DeepMind / TPU / 搜索与云 AI", en: "DeepMind / TPU / search and cloud AI" }
+    ];
+    const TALENT_FLOW_EDGES = [
+      { from: "google", to: "openai", label: "Research migration", zh: "研究人才流动", detail: "DeepMind、Google Brain 与大模型研究体系是前沿模型人才的重要源头，OpenAI 是最核心的吸纳端之一。", detailEn: "DeepMind and Google Brain are major origin pools for frontier-model researchers, with OpenAI as one of the key absorption nodes." },
+      { from: "openai", to: "spacex", label: "AI systems / robotics", zh: "AI 系统 / 机器人", detail: "OpenAI 训练出的模型产品、Agent、机器人与物理世界系统经验，是 SpaceX / Starlink / 自动化制造值得持续追踪的人才交叉方向。", detailEn: "OpenAI-trained product, agent, robotics, and physical-system talent is a key crossover to watch for SpaceX, Starlink, and automated manufacturing." },
+      { from: "nvidia", to: "openai", label: "GPU infrastructure", zh: "GPU 基础设施", detail: "NVIDIA 的 GPU、网络、编译器和推理优化人才，是 OpenAI 等模型公司扩展训练与推理基础设施的关键外部供给。", detailEn: "NVIDIA GPU, networking, compiler, and inference-optimization talent is a critical external supply for OpenAI-style model infrastructure." },
+      { from: "google", to: "nvidia", label: "Accelerator architecture", zh: "加速器架构", detail: "Google TPU / 数据中心架构经验与 NVIDIA GPU 生态之间的人才流动，反映 AI 计算栈竞争与融合。", detailEn: "Talent movement between Google's TPU/data-center architecture and NVIDIA's GPU ecosystem reflects competition and convergence across the AI compute stack." },
+      { from: "nvidia", to: "spacex", label: "Simulation / autonomy", zh: "仿真 / 自主系统", detail: "NVIDIA 的仿真、机器人、自动驾驶与边缘计算能力，与 SpaceX 的航天制造、发射和卫星网络存在潜在人才交叉。", detailEn: "NVIDIA simulation, robotics, autonomy, and edge-compute expertise has potential crossover with SpaceX manufacturing, launch, and satellite-network systems." },
+      { from: "spacex", to: "google", label: "Network / cloud-scale ops", zh: "网络 / 云规模运维", detail: "SpaceX / Starlink 的全球网络、硬件部署和实时运维经验，与 Google 的云、网络和 AI 平台能力形成双向观察点。", detailEn: "SpaceX/Starlink global networking, hardware deployment, and real-time operations create a two-way watchpoint with Google cloud, network, and AI platform talent." }
+    ];
     const potentialSeriesCache = new Map();
     let chartNewsItems = [];
     let nvidiaDynamicPartnerTickersCache = null;
@@ -5043,8 +5178,7 @@
       return feedNoteText(tokenRankingMeta, t("inlineSnapshot")) || t("tokenNote");
     }
     function potentialNoteText() {
-      const updated = formatFeedUpdatedAt(state.quoteUpdatedAt);
-      return updated ? `${t("potentialNote")} · ${t("updatedDate")}: ${updated}` : t("potentialNote");
+      return t("potentialNote");
     }
     function renderModelRanking() {
       const target = $("model-ranking-list");
@@ -5418,45 +5552,107 @@
       svg.onpointerleave = () => options.onActiveIndex(options.pinnedIndex);
     }
     async function renderPotentialChart(activeIndex = null) {
-      document.querySelectorAll(".potential-range-tab").forEach((button) => {
-        const isActive = button.dataset.potentialPeriod === state.potentialPeriod;
-        button.classList.toggle("active", isActive);
-        button.setAttribute("aria-selected", isActive ? "true" : "false");
-      });
-      const currentRow = rowByTicker("NBIS");
-      const currentTicker = currentRow?.ticker || "NBIS";
+      renderTalentFlowModel(activeIndex);
+    }
+    function renderTalentFlowModel(activeIndex = 0) {
+      const stage = $("talent-flow-model");
+      const svg = $("talent-flow-svg");
       const title = $("potential-chart-title");
+      const stats = $("potential-chart-stats");
       const footerPrimary = $("potential-chart-footer-primary");
       const footerSecondary = $("potential-chart-footer-secondary");
-      if (title) title.textContent = `${companyDisplayName(currentRow)} / NVIDIA Market Cap Ratio`;
-      if (footerPrimary) footerPrimary.textContent = `${currentTicker} Market Cap / NVDA Market Cap`;
-      if (footerSecondary) footerSecondary.textContent = state.lang === "zh" ? "固定显示 NBIS / NVIDIA" : "Fixed NBIS / NVIDIA view";
-      try {
-        const data = await potentialRatioSeries(currentTicker, state.potentialPeriod);
-        renderRatioChart(data, {
-          svgId: "potential-ratio-chart",
-          statsId: "potential-chart-stats",
-          tooltipId: "potential-chart-tooltip",
-          gradientId: "potential-ratio-fill",
-          period: state.potentialPeriod,
-          activeIndex,
-          pinnedIndex: state.potentialPinnedIndex,
-          events: NVIDIA_HISTORICAL_INVESTMENT_EVENTS.filter((item) => item.ticker === currentTicker),
-          emptyText: state.lang === "zh" ? `等待 ${currentTicker}/NVDA 行情` : `Waiting for ${currentTicker}/NVDA quotes`,
-          onActiveIndex: (index) => renderPotentialChart(index),
-          onPinIndex: (index) => {
-            state.potentialPinnedIndex = index;
-            renderPotentialChart(index);
-          }
+      const detail = $("talent-flow-detail");
+      if (!stage || !svg || !detail) return;
+      const compact = stage.clientWidth < 620;
+      const compactPositions = {
+        spacex: { x: 6, y: 12 },
+        nvidia: { x: 58, y: 12 },
+        openai: { x: 6, y: 42 },
+        google: { x: 58, y: 42 }
+      };
+      const positionFor = (company) => compact ? (compactPositions[company.key] || company) : company;
+      const activeFlow = TALENT_FLOW_EDGES[Math.max(0, Math.min(activeIndex || 0, TALENT_FLOW_EDGES.length - 1))] || TALENT_FLOW_EDGES[0];
+      const nodeByKey = Object.fromEntries(TALENT_FLOW_COMPANIES.map((item) => [item.key, item]));
+      state.potentialAutoIndex = TALENT_FLOW_EDGES.indexOf(activeFlow);
+      if (title) title.textContent = state.lang === "zh" ? "追踪顶尖人才流向模型" : "Tracking the Talent Model";
+      if (stats) {
+        stats.innerHTML = `
+          <span>${state.lang === "zh" ? "核心公司" : "Core companies"} <strong>${TALENT_FLOW_COMPANIES.length}</strong></span>
+          <span>${state.lang === "zh" ? "流动路径" : "Talent paths"} <strong>${TALENT_FLOW_EDGES.length}</strong></span>
+          <span>${state.lang === "zh" ? "重点" : "Focus"} <strong>SpaceX / NVIDIA / OpenAI / Google</strong></span>
+        `;
+      }
+      if (footerPrimary) footerPrimary.textContent = state.lang === "zh" ? "追踪顶尖人才流向模型" : "Tracking the Talent Model";
+      if (footerSecondary) footerSecondary.textContent = "SpaceX · NVIDIA · OpenAI · Google";
+      svg.innerHTML = `
+        <defs>
+          <marker id="talent-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="strokeWidth">
+            <path d="M0,0 L0,6 L7,3 z" fill="rgba(103, 232, 249, 0.76)"></path>
+          </marker>
+        </defs>
+        ${TALENT_FLOW_EDGES.map((flow, index) => {
+          const from = positionFor(nodeByKey[flow.from]);
+          const to = positionFor(nodeByKey[flow.to]);
+          const x1 = from.x + 9;
+          const y1 = from.y + 11;
+          const x2 = to.x + 9;
+          const y2 = to.y + 11;
+          const dx = Math.abs(x2 - x1);
+          const curve = Math.max(60, dx * 2.1);
+          return `<path class="talent-flow-line ${flow === activeFlow ? "active" : ""}" data-flow-index="${index}" d="M${x1 * 9.8},${y1 * 3.5} C${x1 * 9.8 + curve},${y1 * 3.5} ${x2 * 9.8 - curve},${y2 * 3.5} ${x2 * 9.8},${y2 * 3.5}"></path>`;
+        }).join("")}
+      `;
+      stage.querySelectorAll(".talent-node, .talent-flow-pill").forEach((item) => item.remove());
+      TALENT_FLOW_COMPANIES.forEach((company) => {
+        const button = document.createElement("button");
+        button.className = `talent-node ${company.key === activeFlow.from || company.key === activeFlow.to ? "active" : ""}`;
+        button.type = "button";
+        button.dataset.company = company.key;
+        const position = positionFor(company);
+        button.style.left = `${position.x}%`;
+        button.style.top = `${position.y}%`;
+        button.innerHTML = `
+          <div class="talent-node-name">${escapeHtml(company.name)}</div>
+          <div class="talent-node-meta">${escapeHtml(state.lang === "zh" ? company.zh : company.en)}</div>
+        `;
+        button.addEventListener("mouseenter", () => {
+          const index = TALENT_FLOW_EDGES.findIndex((flow) => flow.from === company.key || flow.to === company.key);
+          renderTalentFlowModel(index >= 0 ? index : 0);
         });
-      } catch (error) {
-        console.warn("Potential chart unavailable", error);
-        renderRatioChart([], {
-          svgId: "potential-ratio-chart",
-          statsId: "potential-chart-stats",
-          tooltipId: "potential-chart-tooltip",
-          emptyText: state.lang === "zh" ? "潜力数据暂不可用" : "Potential data unavailable"
+        button.addEventListener("click", () => {
+          const index = TALENT_FLOW_EDGES.findIndex((flow) => flow.from === company.key || flow.to === company.key);
+          renderTalentFlowModel(index >= 0 ? index : 0);
         });
+        stage.appendChild(button);
+      });
+      TALENT_FLOW_EDGES.forEach((flow, index) => {
+        const from = positionFor(nodeByKey[flow.from]);
+        const to = positionFor(nodeByKey[flow.to]);
+        const pill = document.createElement("button");
+        pill.className = `talent-flow-pill ${flow === activeFlow ? "active" : ""}`;
+        pill.type = "button";
+        pill.dataset.flowIndex = String(index);
+        pill.style.left = `${(from.x + to.x) / 2 + 2}%`;
+        pill.style.top = `${(from.y + to.y) / 2 + 3}%`;
+        pill.textContent = state.lang === "zh" ? flow.zh : flow.label;
+        pill.addEventListener("mouseenter", () => renderTalentFlowModel(index));
+        pill.addEventListener("click", () => renderTalentFlowModel(index));
+        stage.appendChild(pill);
+      });
+      const fromName = nodeByKey[activeFlow.from]?.name || activeFlow.from;
+      const toName = nodeByKey[activeFlow.to]?.name || activeFlow.to;
+      detail.innerHTML = `
+        <div class="talent-flow-detail-title">${escapeHtml(fromName)} → ${escapeHtml(toName)} · ${escapeHtml(state.lang === "zh" ? activeFlow.zh : activeFlow.label)}</div>
+        <div class="talent-flow-detail-body">${escapeHtml(state.lang === "zh" ? activeFlow.detail : activeFlow.detailEn)}</div>
+      `;
+      const tooltip = $("potential-chart-tooltip");
+      if (tooltip) tooltip.hidden = true;
+      if (state.potentialView === "chart" && !state.potentialAutoPaused) {
+        stopPotentialAutoRotation();
+        potentialAutoTimer = setInterval(() => {
+          const current = TALENT_FLOW_EDGES.indexOf(activeFlow);
+          renderTalentFlowModel((current + 1) % TALENT_FLOW_EDGES.length);
+        }, 3000);
       }
     }
     function stopPotentialAutoRotation() {
@@ -5467,6 +5663,9 @@
     }
     function startPotentialAutoRotation() {
       stopPotentialAutoRotation();
+      if (state.potentialView === "chart" && !state.potentialAutoPaused) {
+        renderTalentFlowModel(state.potentialAutoIndex || 0);
+      }
     }
     function pausePotentialAutoRotation() {
       state.potentialAutoPaused = true;
