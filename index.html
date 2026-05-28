@@ -11,7 +11,7 @@
   <!-- End Google Tag Manager -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IsitHUB</title>
+  <title>IsItHub</title>
   <link rel="icon" type="image/svg+xml" href="isithub-logo.svg" />
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LY00KSNQ2E"></script>
   <script>
@@ -1502,12 +1502,13 @@
       <span id="updated-at">USD · live quote when available</span>
     </div>
   </div>
-  <nav class="nav" aria-label="IsitHUB navigation">
+  <nav class="nav" aria-label="IsItHub navigation">
     <div class="nav-inner">
-      <button class="brand" type="button" id="brand-all" aria-label="IsitHUB">
+      <button class="brand" type="button" id="brand-all" aria-label="IsItHub">
         <img class="brand-mark" src="isithub-logo.svg" alt="" />
-        <span class="brand-name">IsitHUB</span>
+        <span class="brand-name">IsItHub</span>
       </button>
+      <a href="#" data-nav-tab="SpaceX">SpaceX</a>
       <a href="#" data-nav-tab="英伟达">NVIDIA</a>
       <a href="#" data-nav-tab="能源">Energy</a>
       <a href="#" data-nav-tab="基础设施">Infrastructure</a>
@@ -1684,6 +1685,7 @@
     <section class="tabs" aria-label="Search and category shortcuts">
       <input class="search" id="search" name="ai-market-company-search" type="search" placeholder="搜索公司、Ticker、子赛道" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" inputmode="search" />
       <button class="tab active" data-tab="ALL" type="button">All</button>
+      <button class="tab" data-tab="SpaceX" type="button">SpaceX</button>
       <button class="tab" data-tab="英伟达" type="button">NVIDIA</button>
       <button class="tab" data-tab="能源" type="button">Energy</button>
       <button class="tab" data-tab="基础设施" type="button">Infrastructure</button>
@@ -1692,6 +1694,10 @@
       <button class="tab" data-tab="RLHF" type="button">RLHF</button>
       <button class="tab" data-tab="Token 工厂 / 推理服务" type="button">Token Factory / Inference</button>
       <span class="tab-row-break" aria-hidden="true"></span>
+    </section>
+    <section class="subtabs" id="nvidia-subtabs" aria-label="英伟达子标签" hidden>
+      <button class="subtab active" data-nvidia-subcategory="ALL" type="button">All</button>
+      <button class="subtab notranslate" data-nvidia-subcategory="SpaceX" type="button" translate="no" lang="en">SpaceX</button>
     </section>
     <section class="subtabs" id="token-subtabs" aria-label="Token 工厂 / 推理服务子标签" hidden>
       <button class="subtab notranslate" data-token-subcategory="IaaS/PaaS" type="button" translate="no" lang="en">IaaS/PaaS</button>
@@ -2609,6 +2615,7 @@
       ]
 ];
     const AIBOTT_THEMES = [
+      "SpaceX",
       "英伟达",
       "能源",
       "基础设施",
@@ -2625,12 +2632,15 @@
       "RLHF": { zh: "RLHF", en: "RLHF" },
       "Token 工厂 / 推理服务": { zh: "Token 工厂 / 推理服务", en: "Token Factory / Inference" },
       "英伟达": { zh: "英伟达", en: "NVIDIA" },
+      "SpaceX": { zh: "SpaceX", en: "SpaceX" },
       "Serenity": { zh: "Serenity", en: "Serenity" },
       "Henderson": { zh: "Henderson", en: "Henderson" },
       "Leopold Aschenbrenner": { zh: "Leopold Aschenbrenner", en: "Leopold Aschenbrenner" }
     };
     const NVIDIA_CATEGORY = "英伟达";
-    const NVIDIA_TICKERS = new Set(["NVDA", "OPENAI.PRE", "ANTHROPIC.PRE", "TERRAPOWER.PRE", "INTC", "CRWV", "SNPS", "COHR", "NOK", "NBIS", "GENB", "LITE", "MRVL", "GLW", "IREN", "NOW", "ARM"]);
+    const SPACEX_CATEGORY = "SpaceX";
+    const NVIDIA_TICKERS = new Set(["NVDA", "OPENAI.PRE", "ANTHROPIC.PRE", "TERRAPOWER.PRE", "SPACEX.PRE", "LHX", "HXL", "ATI", "RDW", "TMUS", "SATS", "GSAT", "ASTS", "2313.TW", "3491.TW", "6271.TW", "6568.TW", "6285.TW", "2312.TW", "3138.TW", "4916.TW", "1101.TW", "002149.SZ", "603308.SS", "605123.SS", "603601.SS", "300136.SZ", "002792.SZ", "301005.SZ", "002131.SZ", "688102.SS", "INTC", "CRWV", "SNPS", "COHR", "NOK", "NBIS", "GENB", "LITE", "MRVL", "GLW", "IREN", "NOW", "ARM"]);
+    const NVIDIA_SPACEX_TICKERS = new Set(["SPACEX.PRE", "LHX", "HXL", "ATI", "RDW", "TMUS", "SATS", "GSAT", "ASTS", "2313.TW", "3491.TW", "6271.TW", "6568.TW", "6285.TW", "2312.TW", "3138.TW", "4916.TW", "1101.TW", "002149.SZ", "603308.SS", "605123.SS", "603601.SS", "300136.SZ", "002792.SZ", "301005.SZ", "002131.SZ", "688102.SS"]);
     const NVIDIA_PARTNER_NEWS_PATTERN = /(nvidia[- ]?backed|nvidia invested|nvidia investment|nvidia portfolio|nvidia stake|nvidia partnership|nvidia collaboration|nvidia strategic partnership|nvidia supply agreement|nvidia works with|nvidia teams with|英伟达.*(投资|入股|持股|合作|战略合作|供应协议|联手|携手))/i;
     const NVIDIA_HISTORICAL_INVESTMENT_EVENTS = [
       {
@@ -2704,6 +2714,14 @@
         titleEn: "NVIDIA announced a $1B equity investment in Nokia to accelerate AI-RAN and 6G collaboration.",
         source: "NVIDIA / Nokia",
         author: "NVIDIA Newsroom"
+      },
+      {
+        ticker: "NBIS",
+        date: "2024-12-02",
+        titleZh: "Nebius 披露向包括英伟达在内的投资者配售 7 亿美元股份，英伟达参与该轮投资。",
+        titleEn: "Nebius disclosed a $700M private placement to investors including NVIDIA.",
+        source: "Nebius",
+        author: "Nebius Investor Relations"
       },
       {
         ticker: "NBIS",
@@ -2785,7 +2803,7 @@
     const PHYSICAL_WORLD_MODEL_TICKERS = new Set([...WORLD_MODEL_TEXT_TICKERS, ...WORLD_MODEL_ROBOTICS_TICKERS]);
     const MODEL_TICKERS = new Set([...LLM_OPEN_TICKERS, ...LLM_CLOSED_TICKERS, ...PHYSICAL_WORLD_MODEL_TICKERS]);
     const DATA_LABELING_CATEGORY = "RLHF";
-    const DATA_LABELING_TICKERS = new Set(["TOLOKA.PRE", "SCALEAI.PRE", "MERCOR.PRE", "TURING.PRE", "INOD"]);
+    const DATA_LABELING_TICKERS = new Set(["TOLOKA.PRE", "SCALEAI.PRE", "MERCOR.PRE", "TURING.PRE", "INOD", "SPOT", "NYT"]);
     const AIBOTT_BY_TICKER = new Map(AIBOTT_WATCHLIST.map(([symbol, name, theme, oneLiner, conviction]) => [symbol, { name, theme, oneLiner, conviction }]));
     function inferAibottTheme(category, thesis, ticker) {
       const text = String(ticker || "") + " " + String(category || "") + " " + String(thesis || "");
@@ -2819,6 +2837,32 @@
       ["META", "Meta Platforms", "Open LLM / foundation models", "Llama 开源大模型、广告 AI、推荐系统和 AI 资本开支。"],
       ["TSLA", "Tesla", "Autonomy / robotics", "FSD、车端 AI、机器人与大规模真实世界数据闭环。"],
       ["SPACEX.PRE", "SpaceX", "Closed LLM / AI infrastructure pre-IPO", "预上市闭源 AI 与航天通信基础设施公司，Starlink、发射体系、卫星网络与 AI 数据中心网络潜在协同。", { status: "prelist", estimatedMarketCap: 350000000000 }],
+      ["LHX", "L3Harris Technologies", "SpaceX aerospace systems", "SpaceX 产业链观察项；航空航天、防务通信、传感器、任务系统与发射/卫星基础设施相关供应能力。"],
+      ["HXL", "Hexcel", "SpaceX composite materials", "SpaceX 产业链观察项；航空航天复合材料、碳纤维、蜂窝材料与轻量化结构件供应商。"],
+      ["ATI", "ATI", "SpaceX specialty metals", "SpaceX 产业链观察项；特种金属、高温合金、钛合金与航空航天关键材料供应商。"],
+      ["RDW", "Redwire", "SpaceX space infrastructure", "SpaceX 产业链观察项；空间基础设施、航空电子设备、太阳能组件与空间站任务技术支撑。"],
+      ["TMUS", "T-Mobile US", "SpaceX Direct to Cell partner", "SpaceX 产业链观察项；Direct to Cell 合作伙伴，将星链卫星网络整合进移动通信服务。"],
+      ["SATS", "EchoStar", "SpaceX spectrum partner", "SpaceX 产业链观察项；频谱资源合作与交易标的，为星链直连设备服务提供关键频段资源。"],
+      ["GSAT", "Globalstar", "SpaceX launch service customer", "SpaceX 产业链观察项；与 SpaceX 签署发射服务协议，用于卫星网络更新和空间通信能力扩张。"],
+      ["ASTS", "AST SpaceMobile", "SpaceX launch service customer", "SpaceX 产业链观察项；通过多次发射协议与 SpaceX 合作，推进直连手机卫星服务。"],
+      ["2313.TW", "華通", "SpaceX satellite PCB supplier", "SpaceX 产业链观察项；低轨卫星 PCB 龙头，覆盖卫星本体及地面接收站电路板供应。"],
+      ["3491.TW", "昇達科", "SpaceX satellite RF modules", "SpaceX 产业链观察项；卫星通信射频模组供应商，受益低轨卫星通信元件需求。"],
+      ["6271.TW", "同欣電", "SpaceX ceramic substrate / RF modules", "SpaceX 产业链观察项；陶瓷基板与射频模组供应商，受益低轨卫星 RF 收发模组需求。"],
+      ["6568.TW", "宏觀", "SpaceX satellite communications chips", "SpaceX 产业链观察项；布局卫星通信芯片研发，是航太通信产业链技术型标的。"],
+      ["6285.TW", "啟碁", "SpaceX Starlink terminal equipment", "SpaceX 产业链观察项；星链地面终端核心供应商，提供卫星天线与阵列解决方案。"],
+      ["2312.TW", "金寶", "SpaceX ground station board manufacturing", "SpaceX 产业链观察项；切入低轨卫星地面站主机板代工与终端设备制造。"],
+      ["3138.TW", "耀登", "SpaceX wireless RF antenna", "SpaceX 产业链观察项；无线射频天线技术供应商，覆盖天地整合通信与卫星地面终端。"],
+      ["4916.TW", "事欣科", "SpaceX satellite PCB / PCBA manufacturing", "SpaceX 产业链观察项；以 PCB/PCBA 生产测试切入卫星通信电子制造供应链。"],
+      ["1101.TW", "台泥", "SpaceX Molicel battery exposure", "SpaceX 产业链观察项；集团旗下 Molicel 高端锂电池进入太空能源应用，支撑航天任务能源需求。"],
+      ["002149.SZ", "西部材料", "SpaceX aluminum alloy supplier", "SpaceX 产业链观察项；中国境内领先铝合金供应商，产品用于火箭箭体，并通过 SpaceX 认证。"],
+      ["603308.SS", "应流股份", "SpaceX engine casting supplier", "SpaceX 产业链观察项；猛禽发动机核心焊接铸件供应商，技术壁垒高，并通过 NASA 认证。"],
+      ["605123.SS", "派克新材", "SpaceX precision forging supplier", "SpaceX 产业链观察项；为火箭箭体和发动机提供精密锻件，技术门槛高，并通过 NASA 认证。"],
+      ["603601.SS", "再升科技", "SpaceX thermal insulation materials", "SpaceX 产业链观察项；航空级超细玻璃纤维棉与太空保温材料供应商，受益星链卫星和火箭热防护需求。"],
+      ["300136.SZ", "信维通信", "SpaceX Starlink terminal connector", "SpaceX 产业链观察项；卫星与地面终端高频连接器供应商，受益星链终端和直连手机卫星服务扩张。"],
+      ["002792.SZ", "通宇通讯", "SpaceX Starlink ground antenna", "SpaceX 产业链观察项；星链地面互联与 MacroWiFi 天线模组供应商，受益卫星地面通信链路建设。"],
+      ["301005.SZ", "超捷股份", "SpaceX reusable rocket fasteners", "SpaceX 产业链观察项；可回收火箭高强度紧固件供应商，覆盖螺栓、螺母等高可靠性连接件。"],
+      ["002131.SZ", "利欧股份", "SpaceX equity exposure", "SpaceX 产业链观察项；A 股稀缺 SpaceX 股权投资标的，通过股权融资参与分享估值重估弹性。"],
+      ["688102.SS", "斯瑞新材", "SpaceX copper alloy materials", "SpaceX 产业链观察项；纳米晶铬铜合金材料供应商，适配星舰发动机电力传输需求，并通过欧美认证。"],
       ["JEPA.PRE", "AMI Labs", "Physical world model pre-IPO", "预上市物理世界模型公司，聚焦世界模型、表征学习、预测式 AI 与空间智能方向。", { status: "prelist" }],
       ["WORLDLABS.PRE", "World Labs", "Physical world model pre-IPO", "预上市物理世界模型公司，聚焦空间智能、3D 世界生成、场景理解和可交互世界模型。", { status: "prelist" }],
       ["ARYALABS.PRE", "ARYA Labs", "Physical world model pre-IPO", "预上市物理世界模型公司，聚焦 AI 世界模型、空间理解、仿真与可交互环境生成。", { status: "prelist" }],
@@ -2834,6 +2878,8 @@
       ["SCALEAI.PRE", "Scale AI", "RLHF / AI data labeling pre-IPO", "预上市 RLHF 与 AI 数据基础设施龙头；估值约 290 亿美元，总融资额约 159 亿美元，Meta Platforms 与硅谷顶级 VC 阵营参与，Meta 斥资超 140 亿美元收购 49% 无投票权股份。", { status: "prelist", estimatedMarketCap: 29000000000 }],
       ["MERCOR.PRE", "Mercor AI", "RLHF / expert data pre-IPO", "预上市 RLHF、专家数据与模型评测平台；估值约 100 亿美元，总融资额约 4.92 亿美元，Felicis、Benchmark、彼得·蒂尔等参与，由 00 后创立，半年内估值暴涨 5 倍。", { status: "prelist", estimatedMarketCap: 10000000000 }],
       ["TURING.PRE", "Turing", "RLHF / AI data labeling pre-IPO", "预上市 RLHF、AI 数据标注与全球技术人才平台，面向企业大模型训练、人类反馈、代码/专家数据、模型评测和 AI 数据工作流。", { status: "prelist" }],
+      ["SPOT", "Spotify", "RLHF / audio preference data", "RLHF 观察项；音频、播客、推荐系统与用户偏好反馈数据平台，可用于语音、音乐和内容推荐模型训练。"],
+      ["NYT", "The New York Times", "RLHF / premium text data", "RLHF 观察项；高质量新闻文本、版权内容、编辑语料与媒体数据授权，适合作为大模型训练和评测语料来源。"],
       ["CEREBRAS.PRE", "Cerebras", "AI wafer-scale accelerator pre-IPO", "预上市 AI 芯片公司，晶圆级加速器、推理云和大模型训练基础设施。", { status: "prelist", estimatedMarketCap: 8000000000 }],
       ["GROQ.PRE", "Groq", "AI inference chip pre-IPO", "预上市 AI 推理芯片与 LPU 云服务公司，聚焦低延迟大模型推理。", { status: "prelist", estimatedMarketCap: 3000000000 }],
       ["SAMBANOVA.PRE", "SambaNova", "AI systems pre-IPO", "预上市 AI 系统公司，提供企业级模型训练、推理和定制 AI 平台。", { status: "prelist", estimatedMarketCap: 5000000000 }],
@@ -3474,12 +3520,12 @@
     ];
     let tokenExpenditureIndexData = TOKEN_EXPENDITURE_INDEX;
     let tokenIndexMeta = { updatedAt: "", source: "Manual/carry-forward LLM Token Expenditure Index feed", sourceUrl: "" };
-    const tokenRankingMeta = { updatedAt: "2026-05-23T00:00:00Z", source: "OpenRouter Top Models reference / IsitHUB inline snapshot", sourceUrl: "https://openrouter.ai/rankings" };
+    const tokenRankingMeta = { updatedAt: "2026-05-23T00:00:00Z", source: "OpenRouter Top Models reference / IsItHub inline snapshot", sourceUrl: "https://openrouter.ai/rankings" };
     let modelRankingData = MODEL_RANKINGS;
     let modelRankingMeta = { updatedAt: "", source: "CursorBench 3.1", sourceUrl: "https://cursor.com/cursorbench" };
     const I18N = {
       zh: {
-        pageTitle: "IsitHUB",
+        pageTitle: "IsItHub",
         topCompanies: "公司数量", topMarket: "市场", topMarketValue: "纽约证券交易所/纳斯达克 🇺🇸 / A 股 🇨🇳 / 韩国 🇰🇷 / 日本 🇯🇵 / 英国 🇬🇧 / 加拿大 🇨🇦 / 上市前",
         totalCap: "总市值", volume24h: "24小时交易量",
         initialQuote: "USD · 实时行情可用时更新",
@@ -3513,7 +3559,7 @@
         fallbackVideo: "纽约时报、华尔街日报、Bloomberg 与 YouTube 直播视频持续更新",
       },
       en: {
-        pageTitle: "IsitHUB",
+        pageTitle: "IsItHub",
         topCompanies: "Company count", topMarket: "Markets", topMarketValue: "NYSE / Nasdaq 🇺🇸 / A-shares 🇨🇳 / Korea 🇰🇷 / Japan 🇯🇵 / UK 🇬🇧 / Canada 🇨🇦 / Pre-IPO",
         totalCap: "Market Cap", volume24h: "24h Volume",
         initialQuote: "USD · live quote when available",
@@ -3551,7 +3597,7 @@
     const LANGUAGE_STORAGE_KEY = "isithub-language";
     const GLOBAL_CHART_START_DATE = "2022-11-30";
     const TABLE_PERFORMANCE_START_DATE = "2022-12-05";
-    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", tokenSubcategory: null, energySubcategory: null, infrastructureSubcategory: "DCI", hardwareSubcategory: "CNC", modelSubcategory: "LLM", llmSubcategory: "全部", worldModelSubcategory: "全部", selected: "NVDA", page: 1, marketView: "table", rankingView: "potential", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, potentialView: "chart", potentialPeriod: "history", potentialPinnedIndex: null, potentialAutoIndex: 0, potentialAutoPaused: false, potentialSort: "gain", potentialSortDir: "desc", performancePeriod: "history", fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
+    const state = { rows: [...COMPANIES], sort: "mcap", sortDir: "desc", query: "", category: "ALL", nvidiaSubcategory: null, tokenSubcategory: null, energySubcategory: null, infrastructureSubcategory: "DCI", hardwareSubcategory: "CNC", modelSubcategory: "LLM", llmSubcategory: "全部", worldModelSubcategory: "全部", selected: "NVDA", page: 1, marketView: "table", rankingView: "potential", tokenPeriod: "month", chartPeriod: "history", chartPinnedIndex: null, potentialView: "chart", potentialPeriod: "history", potentialPinnedIndex: null, potentialAutoIndex: 0, potentialAutoPaused: false, potentialSort: "gain", potentialSortDir: "desc", performancePeriod: "history", fxRates: {}, quoteUpdatedAt: null, quoteSourceKey: "initialQuote", lang: "en" };
     const potentialSeriesCache = new Map();
     let chartNewsItems = [];
     let nvidiaDynamicPartnerTickersCache = null;
@@ -3794,11 +3840,16 @@
       const symbol = String(ticker || "").toUpperCase();
       return NVIDIA_TICKERS.has(symbol) || dynamicNvidiaPartnerTickers().has(symbol);
     }
+    function nvidiaSubcategory(row) {
+      if (NVIDIA_SPACEX_TICKERS.has(row.ticker)) return "SpaceX";
+      return null;
+    }
     function matchesCategory(row, category) {
       if (category === "ALL") return true;
       if (category === LEOPOLD_CATEGORY) return LEOPOLD_TICKERS.has(row.ticker);
       if (category === SERENITY_CATEGORY) return SERENITY_TICKERS.has(row.ticker);
       if (category === HENDERSON_CATEGORY) return HENDERSON_TICKERS.has(row.ticker);
+      if (category === SPACEX_CATEGORY) return NVIDIA_SPACEX_TICKERS.has(row.ticker);
       if (category === NVIDIA_CATEGORY) return isNvidiaCategoryTicker(row.ticker);
       if (category === DATA_LABELING_CATEGORY) return DATA_LABELING_TICKERS.has(row.ticker);
       if (category === MODEL_CATEGORY) return row.category === category || MODEL_TICKERS.has(row.ticker);
@@ -3873,12 +3924,17 @@
       if (state.modelSubcategory === "物理世界模型") return state.worldModelSubcategory === "全部" || worldModelSubcategory(row) === state.worldModelSubcategory;
       return true;
     }
+    function matchesNvidiaSubcategory(row) {
+      if (state.category !== NVIDIA_CATEGORY) return true;
+      if (!state.nvidiaSubcategory || state.nvidiaSubcategory === "ALL") return true;
+      return nvidiaSubcategory(row) === state.nvidiaSubcategory;
+    }
     function filteredRows() {
       const q = state.query.trim().toLowerCase();
       let rows = state.rows.filter((row) => {
         const matchCategory = matchesCategory(row, state.category);
         const haystack = `${row.ticker} ${row.name} ${row.category} ${row.thesis} ${row.country} ${flagFor(row)} ${(row.tags || []).join(" ")}`.toLowerCase();
-        return matchCategory && matchesTokenSubcategory(row) && matchesEnergySubcategory(row) && matchesInfrastructureSubcategory(row) && matchesHardwareSubcategory(row) && matchesModelSubcategory(row) && (!q || haystack.includes(q));
+        return matchCategory && matchesNvidiaSubcategory(row) && matchesTokenSubcategory(row) && matchesEnergySubcategory(row) && matchesInfrastructureSubcategory(row) && matchesHardwareSubcategory(row) && matchesModelSubcategory(row) && (!q || haystack.includes(q));
       });
       if (state.sort === "mcap") {
         rows = rows.sort((a, b) => compareMetric(a, b, "mcap"));
@@ -4428,20 +4484,20 @@
           { title: t("fallbackHot"), source: "YouTube New", author: "", url: "https://www.youtube.com/watch?v=b5EP6YHMaEg", image: "https://i.ytimg.com/vi/b5EP6YHMaEg/hqdefault.jpg" },
         ],
         industry: [
-          { title: t("fallbackIndustry"), source: "IsitHUB", author: "", url: "#" },
+          { title: t("fallbackIndustry"), source: "IsItHub", author: "", url: "#" },
         ],
         person: [
           { title: t("fallbackPerson"), source: "Google News / Public Web", author: "", url: "https://news.google.com/search?q=Yann%20LeCun%20open%20source%20AI%20said" },
         ],
         company: [
-          { title: t("fallbackCompany"), source: "IsitHUB", author: "", url: "#" },
+          { title: t("fallbackCompany"), source: "IsItHub", author: "", url: "#" },
         ],
         tech: [
-          { title: t("fallbackFrontier"), source: "IsitHUB", author: "", url: "#" },
+          { title: t("fallbackFrontier"), source: "IsItHub", author: "", url: "#" },
         ],
         papers: [
           { title: "Hierarchical JEPA Meets Predictive Remote Control in Beyond 5G Networks", source: "arXiv", author: "Abanoub M. Girgis, Ibtissam Labriji, Mehdi Bennis", url: "https://arxiv.org/abs/2602.07000" },
-          { title: t("fallbackPapers"), source: "IsitHUB", author: "", url: "#" },
+          { title: t("fallbackPapers"), source: "IsItHub", author: "", url: "#" },
         ],
         devops: [
           { title: t("fallbackDevops"), source: "DevOps.com", author: "", url: "https://devops.com/most-read/" },
@@ -4613,7 +4669,7 @@
       restoreInlineVideos(link);
       link.classList.add("video-active");
       thumb.dataset.originalHtml = thumb.dataset.originalHtml || thumb.innerHTML;
-      const title = link.dataset.videoTitle || "IsitHUB Video";
+      const title = link.dataset.videoTitle || "IsItHub Video";
       thumb.innerHTML = `<iframe src="${youtubeEmbedUrl(videoId)}" title="${escapeHtml(title)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
       bindYouTubePlayer(thumb.querySelector("iframe"));
     }
@@ -5791,6 +5847,11 @@
     function updateCategoryControls() {
       document.querySelectorAll(".tab").forEach((item) => item.classList.toggle("active", item.dataset.tab === state.category));
       document.querySelectorAll(".nav a[data-nav-tab]").forEach((item) => item.classList.toggle("active", item.dataset.navTab === state.category));
+      const nvidiaSubtabs = $("nvidia-subtabs");
+      if (nvidiaSubtabs) nvidiaSubtabs.hidden = state.category !== NVIDIA_CATEGORY;
+      document.querySelectorAll("[data-nvidia-subcategory]").forEach((item) => {
+        item.classList.toggle("active", item.dataset.nvidiaSubcategory === (state.nvidiaSubcategory || "ALL"));
+      });
       const tokenSubtabs = $("token-subtabs");
       if (tokenSubtabs) tokenSubtabs.hidden = state.category !== TOKEN_FACTORY_CATEGORY;
       document.querySelectorAll("[data-token-subcategory]").forEach((item) => {
@@ -5826,6 +5887,7 @@
       document.querySelectorAll("[data-world-model-subcategory]").forEach((item) => {
         item.classList.toggle("active", item.dataset.worldModelSubcategory === state.worldModelSubcategory);
       });
+      alignSubtabsToCategory(nvidiaSubtabs, NVIDIA_CATEGORY);
       alignSubtabsToCategory(tokenSubtabs, TOKEN_FACTORY_CATEGORY);
       alignSubtabsToCategory(energySubtabs, ENERGY_CATEGORY);
       alignSubtabsToCategory(infrastructureSubtabs, INFRASTRUCTURE_CATEGORY);
@@ -5842,6 +5904,9 @@
       state.marketView = "table";
       state.sort = "mcap";
       state.sortDir = "desc";
+      if (state.category === NVIDIA_CATEGORY) {
+        state.nvidiaSubcategory = "ALL";
+      }
       if (state.category === TOKEN_FACTORY_CATEGORY) {
         state.tokenSubcategory = null;
       }
@@ -5909,6 +5974,7 @@
       setAllText(".potential-view-tab", [t("potentialChart"), t("potentialRank"), t("potentialChart"), t("potentialRank")]);
       setAllText(".token-metric span", [t("period"), "Top 10 Tokens", t("firstShare")]);
       setAllText(".tabs .tab", [t("all"), ...AIBOTT_THEMES.map(categoryDisplayLabel)]);
+      setAllText("#nvidia-subtabs .subtab", [t("all"), "SpaceX"]);
       setAllText("#energy-subtabs .subtab", ["SMR", "SOFC", "SSCB", state.lang === "zh" ? "其他" : "Others"]);
       setAllText("#infrastructure-subtabs .subtab", ["DCI", "AIDC", "HPC"]);
       setAllText("#hardware-subtabs .subtab", ["CNC", "CPO"]);
@@ -5976,6 +6042,14 @@
       });
       document.querySelectorAll(".tab").forEach((tab) => {
         tab.addEventListener("click", () => selectCategory(tab.dataset.tab));
+      });
+      document.querySelectorAll("[data-nvidia-subcategory]").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.nvidiaSubcategory = button.dataset.nvidiaSubcategory || "ALL";
+          state.page = 1;
+          updateCategoryControls();
+          render();
+        });
       });
       document.querySelectorAll("[data-token-subcategory]").forEach((button) => {
         button.addEventListener("click", () => {
