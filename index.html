@@ -3998,6 +3998,7 @@
       return state.lang === "zh" ? (row.nameZh || row.name) : (row.nameEn || row.name);
     }
     function companySubtext(row) {
+      if (state.category === SPACEX_CATEGORY && NVIDIA_SPACEX_TICKERS.has(row.ticker)) return "SpaceX";
       if (tokenFactorySubcategory(row) === "DBaaS") return "Data as a Service（数据即服务）";
       if (tokenFactorySubcategory(row) === "MaaS") return "Model as a Service（模型即服务）";
       if (tokenFactorySubcategory(row) === "ATaaS") return "Approaching AI Token as a Service";
@@ -4148,6 +4149,8 @@
       if (title) {
         title.textContent = state.category === "ALL"
           ? `${t("all")} ${state.lang === "zh" ? "股票指数" : "Stock Index"}`
+          : state.category === SPACEX_CATEGORY
+          ? "SpaceX Index"
           : state.category === NVIDIA_CATEGORY
           ? `${categoryDisplayLabel(NVIDIA_CATEGORY)} ${state.lang === "zh" ? "股票指数" : "Stock Index"}`
           : t("basketIndexTitle");
