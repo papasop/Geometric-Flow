@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-28T15:20:57.700522Z",
+  "generatedAt": "2026-05-28T16:48:52.857058Z",
   "source": "Tavily Search",
   "strategy": "Search public news, interviews, speeches, and x.com references for senior AI talent movement among SpaceX, NVIDIA, OpenAI, Anthropic, Meta, and Google.",
   "companies": [
@@ -14,8 +14,8 @@
       "zh": "航天工程 / Starlink / 自动化制造",
       "en": "Space systems / Starlink / automated manufacturing",
       "key": "spacex",
-      "inflow": 2,
-      "outflow": 16,
+      "inflow": 1,
+      "outflow": 17,
       "events": 18
     },
     {
@@ -31,8 +31,8 @@
       "en": "GPU / CUDA / AI infrastructure",
       "key": "nvidia",
       "inflow": 2,
-      "outflow": 3,
-      "events": 5
+      "outflow": 2,
+      "events": 4
     },
     {
       "name": "OpenAI",
@@ -93,9 +93,9 @@
       "zh": "DeepMind / TPU / 搜索与云 AI",
       "en": "DeepMind / TPU / search and cloud AI",
       "key": "google",
-      "inflow": 1,
+      "inflow": 2,
       "outflow": 0,
-      "events": 1
+      "events": 2
     },
     {
       "name": "External Talent Pool",
@@ -416,6 +416,48 @@
       ]
     },
     {
+      "from": "spacex",
+      "to": "google",
+      "count": 2,
+      "label": "SpaceX → Google",
+      "events": [
+        {
+          "from": "spacex",
+          "to": "google",
+          "title": "Google DeepMind and Edison Are Building the AI Scientist - Genetic Engineering and Biotechnology News",
+          "summary": "Home Topics Artificial Intelligence Google DeepMind and Edison Are Building the AI Scientist. # Google DeepMind and Edison Are Building the AI Scientist. Google DeepMind and Edison Scientific are on an ambitious mission to build the AI scientist. In drug discovery, where traditio",
+          "url": "https://www.genengnews.com/topics/artificial-intelligence/google-deepmind-and-edison-are-building-the-ai-scientist/",
+          "source": "Genengnews",
+          "publishedAt": "",
+          "people": [
+            "Edison Are Building",
+            "Genetic Engineering",
+            "Biotechnology News Home",
+            "Topics Artificial Intelligence"
+          ],
+          "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        },
+        {
+          "from": "spacex",
+          "to": "google",
+          "title": "SpaceX Is Hiring — and Elon Musk Says He'll Read Your Application - Business Insider",
+          "summary": "# Elon Musk says he's personally reviewing job applications as SpaceX ramps up hiring. * Elon Musk will personally review the emails of applicants for new roles at SpaceXAI. * Amid the tech talent wars, SpaceX's hiring push comes as the company gears up for its historic IPO. Elon",
+          "url": "https://www.businessinsider.com/elon-musk-spacex-ai-hiring-personally-reviews-applications-2026-5",
+          "source": "Businessinsider",
+          "publishedAt": "",
+          "people": [
+            "Is Hiring",
+            "Elon Musk Says",
+            "Read Your Application",
+            "Business Insider"
+          ],
+          "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
       "from": "external",
       "to": "openai",
       "count": 2,
@@ -518,56 +560,6 @@
             "Ilya Sutskever"
           ],
           "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
-      "from": "spacex",
-      "to": "google",
-      "count": 1,
-      "label": "SpaceX → Google",
-      "events": [
-        {
-          "from": "spacex",
-          "to": "google",
-          "title": "Google DeepMind and Edison Are Building the AI Scientist - Genetic Engineering and Biotechnology News",
-          "summary": "Home Topics Artificial Intelligence Google DeepMind and Edison Are Building the AI Scientist. # Google DeepMind and Edison Are Building the AI Scientist. Google DeepMind and Edison Scientific are on an ambitious mission to build the AI scientist. In drug discovery, where traditio",
-          "url": "https://www.genengnews.com/topics/artificial-intelligence/google-deepmind-and-edison-are-building-the-ai-scientist/",
-          "source": "Genengnews",
-          "publishedAt": "",
-          "people": [
-            "Edison Are Building",
-            "Genetic Engineering",
-            "Biotechnology News Home",
-            "Topics Artificial Intelligence"
-          ],
-          "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
-      "from": "nvidia",
-      "to": "spacex",
-      "count": 1,
-      "label": "NVIDIA → SpaceX",
-      "events": [
-        {
-          "from": "nvidia",
-          "to": "spacex",
-          "title": "SpaceX Is Hiring — and Elon Musk Says He'll Read Your Application - Business Insider",
-          "summary": "# Elon Musk says he's personally reviewing job applications as SpaceX ramps up hiring. * Elon Musk will personally review the emails of applicants for new roles at SpaceXAI. * Amid the tech talent wars, SpaceX's hiring push comes as the company gears up for its historic IPO. Elon",
-          "url": "https://www.businessinsider.com/elon-musk-spacex-ai-hiring-personally-reviews-applications-2026-5",
-          "source": "Businessinsider",
-          "publishedAt": "",
-          "people": [
-            "Is Hiring",
-            "Elon Musk Says",
-            "Read Your Application",
-            "Business Insider"
-          ],
-          "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
           "confidence": "tavily"
         }
       ]
@@ -1070,8 +1062,8 @@
       "confidence": "tavily"
     },
     {
-      "from": "nvidia",
-      "to": "spacex",
+      "from": "spacex",
+      "to": "google",
       "title": "SpaceX Is Hiring — and Elon Musk Says He'll Read Your Application - Business Insider",
       "summary": "# Elon Musk says he's personally reviewing job applications as SpaceX ramps up hiring. * Elon Musk will personally review the emails of applicants for new roles at SpaceXAI. * Amid the tech talent wars, SpaceX's hiring push comes as the company gears up for its historic IPO. Elon",
       "url": "https://www.businessinsider.com/elon-musk-spacex-ai-hiring-personally-reviews-applications-2026-5",
@@ -1083,7 +1075,7 @@
         "Read Your Application",
         "Business Insider"
       ],
-      "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+      "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "confidence": "tavily"
     },
     {
@@ -1403,14 +1395,14 @@
       "from": "spacex",
       "to": "google",
       "status": "ok",
-      "count": 3
+      "count": 4
     },
     {
       "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "from": "nvidia",
       "to": "spacex",
       "status": "ok",
-      "count": 4
+      "count": 3
     },
     {
       "query": "(\"OpenAI\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
@@ -1522,7 +1514,7 @@
       "from": "meta",
       "to": "nvidia",
       "status": "ok",
-      "count": 3
+      "count": 4
     },
     {
       "query": "(\"OpenAI\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
@@ -1627,7 +1619,7 @@
       "from": "external",
       "to": "anthropic",
       "status": "ok",
-      "count": 5
+      "count": 4
     },
     {
       "query": "(\"Anthropic\" OR \"Claude\") (\"left Anthropic\" OR \"leaves Anthropic\" OR \"departed Anthropic\" OR \"resigned from Anthropic\" OR \"former Anthropic\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
