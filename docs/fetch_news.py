@@ -349,17 +349,26 @@ AI_PERSON_NEWS_TERMS = [
 OPINION_RECENT_DAYS = 90
 AI_BUBBLE_SKEPTIC_TERMS = [
     "Jim Covello", "吉姆·科韦洛", "吉姆 科韦洛",
+    "Torsten Sløk", "Torsten Slok", "托尔斯滕·斯洛克", "托尔斯滕 斯洛克",
     "Daron Acemoglu", "达龙·阿西莫格鲁", "达龙 阿西莫格鲁",
     "David Cahn", "大卫·卡恩", "大卫 卡恩",
+    "Jeffrey Gundlach", "杰弗里·冈拉克", "杰弗里 冈拉克",
+    "Jim Chanos", "吉姆·查诺斯", "吉姆 查诺斯",
+    "Nate Anderson", "内特·安德森", "内特 安德森",
     "Ed Zitron", "埃德·齐特隆", "埃德 齐特隆",
     "Gary Marcus", "加里·马库斯", "加里 马库斯",
+    "Yann LeCun", "Yann Lecun", "Jan LeCun", "杨立昆", "杨丽坤",
 ]
 AI_BUBBLE_OPINION_TOPIC_TERMS = [
     "AI bubble", "AI capex", "AI spending", "AI infrastructure", "AI returns",
     "AI productivity", "Gen AI", "Too Much Spend", "Too Little Benefit",
-    "600 billion", "600B", "cost-effective", "cost effective", "hallucination",
-    "scaling law", "人工智能泡沫", "AI 泡沫", "资本开支", "基础设施",
-    "生产力", "投入过大", "回报太少", "成本效益", "幻觉", "规模法则",
+    "1 trillion", "$1 trillion", "600 billion", "600B", "cost-effective",
+    "cost effective", "S&P 500", "internet bubble", "dot-com bubble",
+    "valuation", "productivity", "GDP", "automation", "machine usefulness",
+    "hallucination", "scaling law", "AGI", "neurosymbolic",
+    "人工智能泡沫", "AI 泡沫", "资本开支", "基础设施", "估值",
+    "生产力", "投入过大", "回报太少", "成本效益", "互联网泡沫",
+    "幻觉", "规模法则", "神经符号", "通用人工智能",
 ]
 FOCUSED_PERSON_STATEMENT_TERMS = [
     *AI_BUBBLE_SKEPTIC_TERMS,
@@ -466,15 +475,22 @@ PERSON_NEWS_SOURCES = [
     google_news_query_source(
         "Opinion · Jim Covello",
         ai_person_news_query([
-            "Jim Covello", "吉姆·科韦洛", "Goldman Sachs",
-            "Gen AI Too Much Spend Too Little Benefit",
+            "Jim Covello", "吉姆·科韦洛", "Goldman Sachs", "Yahoo Finance",
+            "Gen AI Too Much Spend Too Little Benefit", "AI spending returns",
+        ]),
+    ),
+    google_news_query_source(
+        "Opinion · Torsten Sløk",
+        ai_person_news_query([
+            "Torsten Sløk", "Torsten Slok", "Apollo chief economist", "Fortune",
+            "S&P 500 top 10 companies overvalued", "AI bubble 1999",
         ]),
     ),
     google_news_query_source(
         "Opinion · Daron Acemoglu",
         ai_person_news_query([
-            "Daron Acemoglu", "达龙·阿西莫格鲁", "MIT",
-            "AI productivity", "AI automation",
+            "Daron Acemoglu", "达龙·阿西莫格鲁", "MIT", "NPR",
+            "AI productivity", "AI automation", "machine usefulness",
         ]),
     ),
     google_news_query_source(
@@ -485,17 +501,31 @@ PERSON_NEWS_SOURCES = [
         ]),
     ),
     google_news_query_source(
+        "Opinion · Gundlach / Chanos / Anderson",
+        ai_person_news_query([
+            "Jeffrey Gundlach", "Jim Chanos", "Nate Anderson",
+            "DoubleLine", "Stockhead", "Futurism", "AI bubble",
+        ]),
+    ),
+    google_news_query_source(
         "Opinion · Ed Zitron",
         ai_person_news_query([
             "Ed Zitron", "埃德·齐特隆", "AI bubble",
-            "OpenAI Anthropic enterprise AI",
+            "OpenAI Anthropic enterprise AI", "Yahoo Finance", "The Argument",
         ]),
     ),
     google_news_query_source(
         "Opinion · Gary Marcus",
         ai_person_news_query([
             "Gary Marcus", "加里·马库斯", "AI hallucination",
-            "scaling law", "AI reasoning",
+            "scaling law", "AI reasoning", "Tech Xplore", "neurosymbolic",
+        ]),
+    ),
+    google_news_query_source(
+        "Opinion · Yann LeCun",
+        ai_person_news_query([
+            "Yann LeCun", "Yann Lecun", "Jan LeCun", "杨立昆", "杨丽坤",
+            "LLM is not path to AGI", "world model", "JEPA",
         ]),
     ),
 ]
@@ -591,7 +621,7 @@ NEWS_SECTIONS = [
     {
         "id": "person",
         "title": "Opinion",
-        "note": "最近 3 个月：Jim Covello、Daron Acemoglu、David Cahn、Ed Zitron、Gary Marcus 对 AI 泡沫、资本开支与回报的观点",
+        "note": "最近 3 个月：金融派、经济/生产力派、技术派与媒体评论派对 AI 泡沫、资本开支、估值和回报的观点",
         "sources": PERSON_NEWS_SOURCES,
         "allowGeneralFeed": True,
     },
@@ -637,11 +667,14 @@ TAVILY_SECTION_QUERIES = {
     ],
     "person": [
         '"Jim Covello" "AI" "Too Much Spend" OR "Too Little Benefit" OR "cost-effective" OR "Goldman Sachs"',
+        '"Torsten Slok" OR "Torsten Sløk" "AI bubble" OR "S&P 500" OR "Apollo" OR "Fortune"',
         '"Daron Acemoglu" "AI" productivity automation GDP cost-effective',
         '"David Cahn" "AI" "600 billion" OR "revenue gap" OR "Sequoia"',
+        '"Jeffrey Gundlach" OR "Jim Chanos" OR "Nate Anderson" "AI bubble" OR "1999" OR "Futurism" OR "Stockhead"',
         '"Ed Zitron" "AI bubble" OR "OpenAI" OR "Anthropic" enterprise spending',
         '"Gary Marcus" "AI" hallucination reasoning "scaling law"',
-        'site:x.com ("Jim Covello" OR "Daron Acemoglu" OR "David Cahn" OR "Ed Zitron" OR "Gary Marcus") AI',
+        '"Yann LeCun" OR "Yann Lecun" "LLM" "AGI" OR "world model" OR "JEPA"',
+        'site:x.com ("Jim Covello" OR "Torsten Slok" OR "Daron Acemoglu" OR "David Cahn" OR "Jeffrey Gundlach" OR "Jim Chanos" OR "Nate Anderson" OR "Ed Zitron" OR "Gary Marcus" OR "Yann LeCun") AI',
     ],
     "company": [
         'Nvidia OpenAI Anthropic Microsoft Google Meta AI acquisition funding investment Reuters Bloomberg',
