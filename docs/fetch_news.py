@@ -1019,16 +1019,20 @@ def is_recent_item(item: dict[str, object], days: int = OPINION_RECENT_DAYS) -> 
 
 def item_matches_opinion_focus(item: dict[str, object]) -> bool:
     feed_source = str(item.get("feedSource") or "")
-    text = " ".join([
+    person_text = " ".join([
         str(item.get("title") or ""),
         str(item.get("summary") or ""),
         str(item.get("author") or ""),
+        str(item.get("url") or ""),
+    ]).lower()
+    topic_text = " ".join([
+        person_text,
         feed_source,
         " ".join(str(tag) for tag in item.get("tags") or []),
     ]).lower()
-    has_person = any(term.lower() in text for term in AI_BUBBLE_SKEPTIC_TERMS)
-    has_topic = any(term.lower() in text for term in AI_BUBBLE_OPINION_TOPIC_TERMS)
-    return has_person and (has_topic or feed_source.startswith("Opinion ·")) and is_recent_item(item)
+    has_person = any(term.lower() in person_text for term in AI_BUBBLE_SKEPTIC_TERMS)
+    has_topic = any(term.lower() in topic_text for term in AI_BUBBLE_OPINION_TOPIC_TERMS)
+    return has_person and has_topic and is_recent_item(item)
 
 
 def fetch_url(url: str) -> bytes:
@@ -2400,7 +2404,7 @@ def main() -> int:
         merged_speech_items.sort(key=lambda item: item.get("publishedAt") or "", reverse=True)
         section_payload["person"] = {
             "title": speech_section["title"],
-            "note": f"{speech_section['note']}；仅保留匹配五位人物且约 90 天内的观点新闻",
+            "note": f"{speech_section['note']}；仅保留正文匹配指定人物且约 90 天内的观点新闻",
             "items": merged_speech_items[:32],
         }
 
