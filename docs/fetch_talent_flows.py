@@ -27,7 +27,7 @@ TAVILY_SEARCH_ENDPOINT = "https://api.tavily.com/search"
 USER_AGENT = "IsItHub/1.0 (talent-flow; https://isithub.com/)"
 
 MAX_RESULTS = max(1, min(10, int(os.environ.get("TALENT_FLOW_MAX_RESULTS", "5"))))
-MAX_QUERIES = max(0, int(os.environ.get("TALENT_FLOW_MAX_QUERIES", "18")))
+MAX_QUERIES = max(0, int(os.environ.get("TALENT_FLOW_MAX_QUERIES", "40")))
 
 COMPANIES = {
     "spacex": {
@@ -62,22 +62,57 @@ COMPANIES = {
         "zh": "DeepMind / TPU / 搜索与云 AI",
         "en": "DeepMind / TPU / search and cloud AI",
     },
+    "external": {
+        "name": "External Talent Pool",
+        "aliases": ["external talent", "startup", "university", "research lab"],
+        "x": 43,
+        "y": 39,
+        "zh": "外部公司 / 高校 / 研究机构",
+        "en": "Outside companies / universities / research labs",
+    },
 }
 
-PAIR_QUERIES = [
-    ("google", "openai", '"OpenAI" ("joined from Google" OR "joined from DeepMind" OR "former Google" OR "former DeepMind") AI researcher'),
-    ("openai", "google", '"Google DeepMind" ("joined from OpenAI" OR "former OpenAI" OR "left OpenAI") AI researcher'),
-    ("nvidia", "openai", '"OpenAI" ("NVIDIA" OR "former Nvidia") ("hired" OR "joined" OR "recruited" OR "talent") AI infrastructure'),
-    ("openai", "nvidia", '"NVIDIA" ("OpenAI" OR "former OpenAI") ("hired" OR "joined" OR "recruited" OR "talent")'),
-    ("google", "nvidia", '"NVIDIA" ("Google" OR "DeepMind" OR "former Google") ("hired" OR "joined" OR "recruited" OR "AI chip")'),
-    ("nvidia", "google", '"Google" ("NVIDIA" OR "former Nvidia") ("hired" OR "joined" OR "recruited" OR "AI infrastructure")'),
-    ("openai", "spacex", '"SpaceX" ("OpenAI" OR "former OpenAI") ("hired" OR "joined" OR "AI" OR "robotics")'),
-    ("spacex", "openai", '"OpenAI" ("SpaceX" OR "former SpaceX" OR "Starlink") ("hired" OR "joined" OR "systems")'),
-    ("nvidia", "spacex", '"SpaceX" ("NVIDIA" OR "former Nvidia") ("hired" OR "joined" OR "simulation" OR "robotics" OR "autonomy")'),
-    ("spacex", "nvidia", '"NVIDIA" ("SpaceX" OR "former SpaceX" OR "Starlink") ("hired" OR "joined" OR "systems")'),
-    ("spacex", "google", '"Google" ("SpaceX" OR "Starlink" OR "former SpaceX") ("hired" OR "joined" OR "network")'),
-    ("google", "spacex", '"SpaceX" ("Google" OR "DeepMind" OR "former Google") ("hired" OR "joined" OR "AI")'),
-]
+CORE_COMPANY_KEYS = ["spacex", "nvidia", "openai", "google"]
+
+
+def quoted_aliases(key: str) -> str:
+    return " OR ".join(f'"{alias}"' for alias in COMPANIES[key]["aliases"])
+
+
+def primary_alias(key: str) -> str:
+    return str(COMPANIES[key]["aliases"][0])
+
+
+def build_talent_queries() -> list[tuple[str, str, str]]:
+    queries: list[tuple[str, str, str]] = []
+    for from_key in CORE_COMPANY_KEYS:
+        for to_key in CORE_COMPANY_KEYS:
+            if from_key == to_key:
+                continue
+            from_terms = quoted_aliases(from_key)
+            to_terms = quoted_aliases(to_key)
+            queries.append((
+                from_key,
+                to_key,
+                f'({to_terms}) ("joined from" OR "hired from" OR "recruited from" OR "former" OR "alumni") ({from_terms}) ("AI researcher" OR engineer OR executive OR scientist OR talent OR founder)',
+            ))
+    for key in CORE_COMPANY_KEYS:
+        terms = quoted_aliases(key)
+        name = primary_alias(key)
+        queries.append((
+            "external",
+            key,
+            f'({terms}) ("hired" OR "appointed" OR "named" OR "joins" OR "joined" OR "recruited") ("AI researcher" OR engineer OR executive OR scientist OR talent OR founder) -jobs',
+        ))
+        queries.append((
+            key,
+            "external",
+            f'({terms}) ("left {name}" OR "leaves {name}" OR "departed {name}" OR "resigned from {name}" OR "former {name}") ("AI researcher" OR engineer OR executive OR scientist OR talent OR founder) -jobs',
+        ))
+    return queries
+
+
+PAIR_QUERIES = build_talent_queries()
 
 FALLBACK_EVENTS = [
     {
@@ -114,7 +149,7 @@ FALLBACK_EVENTS = [
 
 PERSON_STOPWORDS = {
     "OpenAI", "NVIDIA", "Nvidia", "Google", "DeepMind", "SpaceX", "Starlink",
-    "Artificial Intelligence", "Wall Street", "New York", "Silicon Valley",
+    "External Talent", "Artificial Intelligence", "Wall Street", "New York", "Silicon Valley",
 }
 
 
