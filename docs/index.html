@@ -5088,7 +5088,7 @@
         const author = displayNewsAuthor(item.source || "News", item.author || "");
         const href = safeUrl(item.url || "#", { allowHash: true });
         const title = state.lang === "zh" ? (item.titleZh || item.title) : (item.titleEn || item.title);
-        const image = sectionId === "person" ? "" : safeUrl(item.image || item.thumbnail || "", { protocols: ["https:", "http:"] });
+        const image = sectionId === "person" || sectionId === "company" ? "" : safeUrl(item.image || item.thumbnail || "", { protocols: ["https:", "http:"] });
         const isLiveVideo = isVideoSection && /live/i.test(String(item.source || ""));
         const videoId = isVideoSection ? youtubeVideoId(href) : "";
         const voiceover = isVideoSection ? voiceoverForVideoId(videoId) : null;
