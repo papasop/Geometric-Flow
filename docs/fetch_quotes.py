@@ -40,6 +40,26 @@ FALLBACK_SHARES_OUTSTANDING = {
 }
 
 
+def inferred_currency(ticker):
+    if ticker.endswith(".TW") or ticker.endswith(".TWO"):
+        return "TWD"
+    if ticker.endswith(".KS") or ticker.endswith(".KQ"):
+        return "KRW"
+    if ticker.endswith(".T") or ticker.endswith(".JP"):
+        return "JPY"
+    if ticker.endswith(".HK"):
+        return "HKD"
+    if ticker.endswith(".SS") or ticker.endswith(".SZ"):
+        return "CNY"
+    if ticker.endswith(".L"):
+        return "GBp"
+    if ticker.endswith(".TO") or ticker.endswith(".V"):
+        return "CAD"
+    if ticker.endswith(".ST"):
+        return "SEK"
+    return "USD"
+
+
 def finite(value):
     try:
         number = float(value)
@@ -177,7 +197,7 @@ def fetch_one(ticker):
         info = {}
 
     price = finite(fast_info.get("last_price") or info.get("regularMarketPrice") or info.get("currentPrice"))
-    currency = fast_info.get("currency") or info.get("currency") or "USD"
+    currency = fast_info.get("currency") or info.get("currency") or inferred_currency(ticker)
     market_cap = finite(fast_info.get("market_cap") or info.get("marketCap"))
     market_cap_currency = currency
     shares = finite(fast_info.get("shares") or info.get("sharesOutstanding"))

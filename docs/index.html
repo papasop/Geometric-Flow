@@ -3893,6 +3893,23 @@
       if (USD_CONVERTIBLE_CURRENCIES.has(currency)) return value / fxRateFor(currency, dateLike);
       return value;
     }
+    function inferredCurrencyForTicker(ticker) {
+      if (ticker.endsWith(".TW") || ticker.endsWith(".TWO")) return "TWD";
+      if (ticker.endsWith(".KS") || ticker.endsWith(".KQ")) return "KRW";
+      if (ticker.endsWith(".T") || ticker.endsWith(".JP")) return "JPY";
+      if (ticker.endsWith(".HK")) return "HKD";
+      if (ticker.endsWith(".SS") || ticker.endsWith(".SZ")) return "CNY";
+      if (ticker.endsWith(".L")) return "GBp";
+      if (ticker.endsWith(".TO") || ticker.endsWith(".V")) return "CAD";
+      if (ticker.endsWith(".ST")) return "SEK";
+      return "USD";
+    }
+    function quoteCurrencyFor(row, quote) {
+      const inferred = inferredCurrencyForTicker(row.ticker);
+      const explicit = quote?.currency || row.currency;
+      if (inferred !== "USD" && (!explicit || explicit === "USD")) return inferred;
+      return explicit || inferred;
+    }
     function quoteClosePointToUsd(point, currency) {
       const close = Number(point?.close);
       const date = String(point?.date || "").slice(0, 10);
@@ -6113,7 +6130,7 @@
       state.rows = COMPANIES.map((row) => {
         if (row.status === "prelist") return { ...row };
         const q = quotes.get(row.ticker) || {};
-        const quoteCurrency = q.currency || row.currency || "USD";
+        const quoteCurrency = quoteCurrencyFor(row, q);
         const quoteDate = new Date();
         const marketCapCurrency = q.marketCapCurrency || (quoteCurrency === "GBp" ? "GBP" : quoteCurrency);
         const quoteMarketCap = toUsd(normalizeQuoteMarketCap(q.marketCap, quoteCurrency, q.marketCapCurrency), marketCapCurrency, quoteDate);
@@ -6171,7 +6188,7 @@
       }
       const normalized = new Map(COMPANIES.map((row) => {
         const q = quotes.get(row.ticker) || {};
-        const quoteCurrency = q.currency || row.currency || "USD";
+        const quoteCurrency = quoteCurrencyFor(row, q);
         const rawQuoteVolume = Number.isFinite(q.regularMarketPrice) && Number.isFinite(q.regularMarketVolume)
           ? q.regularMarketPrice * q.regularMarketVolume
           : null;
