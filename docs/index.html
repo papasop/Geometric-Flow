@@ -722,15 +722,20 @@
     }
     .talent-node {
       position: absolute;
-      width: 176px;
-      min-height: 84px;
-      padding: 13px 14px;
+      width: 132px;
+      height: 132px;
+      padding: 14px;
       border: 1px solid rgba(148, 163, 184, 0.24);
-      border-radius: 10px;
+      border-radius: 999px;
       background: rgba(15, 23, 42, 0.92);
       color: #f8fafc;
       box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
       cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
       transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
     }
     .talent-node:hover,
@@ -750,6 +755,18 @@
       font-size: 11px;
       font-weight: 760;
       line-height: 1.35;
+    }
+    .talent-node-counts {
+      margin-top: 8px;
+      display: flex;
+      justify-content: center;
+      gap: 7px;
+      color: #dbeafe;
+      font-size: 10px;
+      font-weight: 820;
+    }
+    .talent-node-counts strong {
+      color: #6ee7b7;
     }
     .talent-flow-pill {
       position: absolute;
@@ -1506,8 +1523,8 @@
         padding: 12px;
       }
       .talent-node {
-        width: 138px;
-        min-height: 74px;
+        width: 112px !important;
+        height: 112px !important;
         padding: 10px;
       }
       .talent-node-name { font-size: 15px; }
@@ -3656,7 +3673,7 @@
         currentFilter: "按当前筛选", realVolume: "真实成交额，可用时更新", hot: "热门", topGainer: "最大升幅", waitingQuotes: "等待行情或估算涨跌",
         tokenRanking: "代币使用", tokenNote: "参考 OpenRouter Top Models，用量口径可切换",
         chartRanking: "代币成本", chartNote: "LLM Token Expenditure Index",
-        modelRanking: "大模型排行", modelNote: "CursorBench · 每日外部更新", potentialRanking: "追踪顶尖人才流向模型", potentialNote: "Tracking the Talent Model · 重点关注 SpaceX / NVIDIA / OpenAI / Google 顶尖人才流动", potentialChart: "图表", potentialRank: "排行", potentialScore: "潜力得分", potentialGain: "起点倍数", potentialMcap: "市值", potentialBasis: "当前市值 × 起点倍数²", modelColumn: "模型", modelScore: "得分", modelCostTask: "平均成本 / 任务", dataSource: "数据来源", updatedDate: "更新日期", dailyExternal: "每日外部更新", dailyLocal: "每日本地更新", inlineSnapshot: "内置快照",
+        modelRanking: "大模型排行", modelNote: "CursorBench · 每日外部更新", potentialRanking: "追踪顶尖人才流向模型", potentialNote: "Tracking the Talent Model · Tavily 抓取公开履历、采访、新闻与 x.com 引用，统计公司人才流入/流出", potentialChart: "图表", potentialRank: "排行", potentialScore: "潜力得分", potentialGain: "起点倍数", potentialMcap: "市值", potentialBasis: "当前市值 × 起点倍数²", modelColumn: "模型", modelScore: "得分", modelCostTask: "平均成本 / 任务", dataSource: "数据来源", updatedDate: "更新日期", dailyExternal: "每日外部更新", dailyLocal: "每日本地更新", inlineSnapshot: "内置快照",
         day: "日", week: "周", month: "月", history: "历史", period: "周期", firstShare: "第一名占比",
         all: "全部", aiChips: "AI 芯片", aiCloud: "新云", dataCenter: "数据中心", enterpriseAi: "企业 AI", security: "安全", quantum: "量子", chinaAi: "中国 AI", leopold: "Leopold Aschenbrenner",
         physicalWorldModel: "物理世界模型", worldModelText: "文本", worldModelRobotics: "机器人", openSource: "开源", closedSource: "闭源",
@@ -3690,7 +3707,7 @@
         currentFilter: "Current filter", realVolume: "Real traded value when available", hot: "Trending", topGainer: "Top Gainer", waitingQuotes: "Waiting for quotes or estimated moves",
         tokenRanking: "Token Usage", tokenNote: "Inspired by OpenRouter Top Models; period is switchable",
         chartRanking: "Token Cost", chartNote: "LLM Token Expenditure Index",
-        modelRanking: "Model Ranking", modelNote: "CursorBench · daily external feed", potentialRanking: "Tracking the Talent Model", potentialNote: "Tracking the Talent Model · SpaceX / NVIDIA / OpenAI / Google senior talent flows", potentialChart: "Chart", potentialRank: "Ranking", potentialScore: "Potential score", potentialGain: "Start multiple", potentialMcap: "Market cap", potentialBasis: "Market cap × start multiple²", modelColumn: "Model", modelScore: "Score", modelCostTask: "Avg Cost / Task", dataSource: "Source", updatedDate: "Updated", dailyExternal: "Daily external update", dailyLocal: "Daily local update", inlineSnapshot: "Inline snapshot",
+        modelRanking: "Model Ranking", modelNote: "CursorBench · daily external feed", potentialRanking: "Tracking the Talent Model", potentialNote: "Tracking the Talent Model · Tavily searches public bios, interviews, news, and x.com references to count talent inflow/outflow", potentialChart: "Chart", potentialRank: "Ranking", potentialScore: "Potential score", potentialGain: "Start multiple", potentialMcap: "Market cap", potentialBasis: "Market cap × start multiple²", modelColumn: "Model", modelScore: "Score", modelCostTask: "Avg Cost / Task", dataSource: "Source", updatedDate: "Updated", dailyExternal: "Daily external update", dailyLocal: "Daily local update", inlineSnapshot: "Inline snapshot",
         day: "Day", week: "Week", month: "Month", history: "History", period: "Period", firstShare: "Top share",
         all: "All", aiChips: "AI Chips", aiCloud: "AI Cloud", dataCenter: "Data Centers", enterpriseAi: "Enterprise AI", security: "Security", quantum: "Quantum", chinaAi: "China AI", leopold: "Leopold Aschenbrenner",
         physicalWorldModel: "World Models", worldModelText: "Text", worldModelRobotics: "Robotics", openSource: "Open", closedSource: "Closed",
@@ -3735,6 +3752,7 @@
     ];
     const potentialSeriesCache = new Map();
     let chartNewsItems = [];
+    let talentFlowData = null;
     let nvidiaDynamicPartnerTickersCache = null;
     let potentialAutoTimer = null;
     try {
@@ -5554,6 +5572,52 @@
     async function renderPotentialChart(activeIndex = null) {
       renderTalentFlowModel(activeIndex);
     }
+    function fallbackTalentFlowData() {
+      const companies = TALENT_FLOW_COMPANIES.map((company) => ({
+        ...company,
+        inflow: TALENT_FLOW_EDGES.filter((flow) => flow.to === company.key).length,
+        outflow: TALENT_FLOW_EDGES.filter((flow) => flow.from === company.key).length,
+        events: TALENT_FLOW_EDGES.filter((flow) => flow.to === company.key || flow.from === company.key).length,
+      }));
+      const flows = TALENT_FLOW_EDGES.map((flow) => ({
+        from: flow.from,
+        to: flow.to,
+        count: 1,
+        label: `${flow.from} → ${flow.to}`,
+        zh: flow.zh,
+        events: [{
+          title: state.lang === "zh" ? flow.detail : flow.detailEn,
+          source: "IsItHub seed model",
+          url: "https://isithub.com/",
+          people: [],
+        }],
+      }));
+      return { generatedAt: "", source: "IsItHub seed model", companies, flows, events: [] };
+    }
+    function talentFlowPayload() {
+      const payload = talentFlowData && Array.isArray(talentFlowData.companies) && Array.isArray(talentFlowData.flows)
+        ? talentFlowData
+        : fallbackTalentFlowData();
+      const companies = payload.companies
+        .filter((company) => company?.key && company?.name)
+        .map((company, index) => ({
+          ...company,
+          x: Number.isFinite(Number(company.x)) ? Number(company.x) : 16 + (index % 4) * 20,
+          y: Number.isFinite(Number(company.y)) ? Number(company.y) : 24 + Math.floor(index / 4) * 24,
+          inflow: Number(company.inflow) || 0,
+          outflow: Number(company.outflow) || 0,
+          events: Number(company.events) || 0,
+        }));
+      const companyKeys = new Set(companies.map((company) => company.key));
+      const flows = payload.flows
+        .filter((flow) => companyKeys.has(flow?.from) && companyKeys.has(flow?.to))
+        .map((flow) => ({
+          ...flow,
+          count: Math.max(1, Number(flow.count) || 1),
+          events: Array.isArray(flow.events) ? flow.events : [],
+        }));
+      return { ...payload, companies, flows };
+    }
     function renderTalentFlowModel(activeIndex = 0) {
       const stage = $("talent-flow-model");
       const svg = $("talent-flow-svg");
@@ -5563,6 +5627,9 @@
       const footerSecondary = $("potential-chart-footer-secondary");
       const detail = $("talent-flow-detail");
       if (!stage || !svg || !detail) return;
+      const payload = talentFlowPayload();
+      const companies = payload.companies;
+      const flows = payload.flows.length ? payload.flows : fallbackTalentFlowData().flows;
       const compact = stage.clientWidth < 620;
       const compactPositions = {
         spacex: { x: 6, y: 12 },
@@ -5571,87 +5638,108 @@
         google: { x: 58, y: 42 }
       };
       const positionFor = (company) => compact ? (compactPositions[company.key] || company) : company;
-      const activeFlow = TALENT_FLOW_EDGES[Math.max(0, Math.min(activeIndex || 0, TALENT_FLOW_EDGES.length - 1))] || TALENT_FLOW_EDGES[0];
-      const nodeByKey = Object.fromEntries(TALENT_FLOW_COMPANIES.map((item) => [item.key, item]));
-      state.potentialAutoIndex = TALENT_FLOW_EDGES.indexOf(activeFlow);
+      const activeFlow = flows[Math.max(0, Math.min(activeIndex || 0, flows.length - 1))] || flows[0];
+      const nodeByKey = Object.fromEntries(companies.map((item) => [item.key, item]));
+      state.potentialAutoIndex = flows.indexOf(activeFlow);
       if (title) title.textContent = state.lang === "zh" ? "追踪顶尖人才流向模型" : "Tracking the Talent Model";
       if (stats) {
+        const totalIn = companies.reduce((sum, company) => sum + (Number(company.inflow) || 0), 0);
+        const totalOut = companies.reduce((sum, company) => sum + (Number(company.outflow) || 0), 0);
         stats.innerHTML = `
-          <span>${state.lang === "zh" ? "核心公司" : "Core companies"} <strong>${TALENT_FLOW_COMPANIES.length}</strong></span>
-          <span>${state.lang === "zh" ? "流动路径" : "Talent paths"} <strong>${TALENT_FLOW_EDGES.length}</strong></span>
-          <span>${state.lang === "zh" ? "重点" : "Focus"} <strong>SpaceX / NVIDIA / OpenAI / Google</strong></span>
+          <span>${state.lang === "zh" ? "公司气泡" : "Company bubbles"} <strong>${companies.length}</strong></span>
+          <span>${state.lang === "zh" ? "流入" : "Inflow"} <strong>${totalIn}</strong></span>
+          <span>${state.lang === "zh" ? "流出" : "Outflow"} <strong>${totalOut}</strong></span>
         `;
       }
       if (footerPrimary) footerPrimary.textContent = state.lang === "zh" ? "追踪顶尖人才流向模型" : "Tracking the Talent Model";
-      if (footerSecondary) footerSecondary.textContent = "SpaceX · NVIDIA · OpenAI · Google";
+      if (footerSecondary) {
+        const updated = formatFeedUpdatedAt(payload.generatedAt);
+        footerSecondary.textContent = updated
+          ? `${payload.source || "Tavily"} · ${state.lang === "zh" ? "更新" : "Updated"} ${updated}`
+          : `${payload.source || "Tavily"} · SpaceX · NVIDIA · OpenAI · Google`;
+      }
       svg.innerHTML = `
         <defs>
           <marker id="talent-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="strokeWidth">
             <path d="M0,0 L0,6 L7,3 z" fill="rgba(103, 232, 249, 0.76)"></path>
           </marker>
         </defs>
-        ${TALENT_FLOW_EDGES.map((flow, index) => {
+        ${flows.map((flow, index) => {
           const from = positionFor(nodeByKey[flow.from]);
           const to = positionFor(nodeByKey[flow.to]);
+          if (!from || !to) return "";
           const x1 = from.x + 9;
           const y1 = from.y + 11;
           const x2 = to.x + 9;
           const y2 = to.y + 11;
           const dx = Math.abs(x2 - x1);
           const curve = Math.max(60, dx * 2.1);
-          return `<path class="talent-flow-line ${flow === activeFlow ? "active" : ""}" data-flow-index="${index}" d="M${x1 * 9.8},${y1 * 3.5} C${x1 * 9.8 + curve},${y1 * 3.5} ${x2 * 9.8 - curve},${y2 * 3.5} ${x2 * 9.8},${y2 * 3.5}"></path>`;
+          const width = Math.min(7, 1.8 + (Number(flow.count) || 1) * 0.8);
+          return `<path class="talent-flow-line ${flow === activeFlow ? "active" : ""}" data-flow-index="${index}" style="stroke-width:${width}" d="M${x1 * 9.8},${y1 * 3.5} C${x1 * 9.8 + curve},${y1 * 3.5} ${x2 * 9.8 - curve},${y2 * 3.5} ${x2 * 9.8},${y2 * 3.5}"></path>`;
         }).join("")}
       `;
       stage.querySelectorAll(".talent-node, .talent-flow-pill").forEach((item) => item.remove());
-      TALENT_FLOW_COMPANIES.forEach((company) => {
+      companies.forEach((company) => {
         const button = document.createElement("button");
         button.className = `talent-node ${company.key === activeFlow.from || company.key === activeFlow.to ? "active" : ""}`;
         button.type = "button";
         button.dataset.company = company.key;
         const position = positionFor(company);
+        const size = Math.min(176, Math.max(112, 112 + Math.sqrt((company.inflow || 0) + (company.outflow || 0)) * 22));
+        button.style.width = `${size}px`;
+        button.style.height = `${size}px`;
         button.style.left = `${position.x}%`;
         button.style.top = `${position.y}%`;
         button.innerHTML = `
           <div class="talent-node-name">${escapeHtml(company.name)}</div>
           <div class="talent-node-meta">${escapeHtml(state.lang === "zh" ? company.zh : company.en)}</div>
+          <div class="talent-node-counts">
+            <span>${state.lang === "zh" ? "入" : "In"} <strong>${Number(company.inflow) || 0}</strong></span>
+            <span>${state.lang === "zh" ? "出" : "Out"} <strong>${Number(company.outflow) || 0}</strong></span>
+          </div>
         `;
         button.addEventListener("mouseenter", () => {
-          const index = TALENT_FLOW_EDGES.findIndex((flow) => flow.from === company.key || flow.to === company.key);
+          const index = flows.findIndex((flow) => flow.from === company.key || flow.to === company.key);
           renderTalentFlowModel(index >= 0 ? index : 0);
         });
         button.addEventListener("click", () => {
-          const index = TALENT_FLOW_EDGES.findIndex((flow) => flow.from === company.key || flow.to === company.key);
+          const index = flows.findIndex((flow) => flow.from === company.key || flow.to === company.key);
           renderTalentFlowModel(index >= 0 ? index : 0);
         });
         stage.appendChild(button);
       });
-      TALENT_FLOW_EDGES.forEach((flow, index) => {
+      flows.forEach((flow, index) => {
         const from = positionFor(nodeByKey[flow.from]);
         const to = positionFor(nodeByKey[flow.to]);
+        if (!from || !to) return;
         const pill = document.createElement("button");
         pill.className = `talent-flow-pill ${flow === activeFlow ? "active" : ""}`;
         pill.type = "button";
         pill.dataset.flowIndex = String(index);
         pill.style.left = `${(from.x + to.x) / 2 + 2}%`;
         pill.style.top = `${(from.y + to.y) / 2 + 3}%`;
-        pill.textContent = state.lang === "zh" ? flow.zh : flow.label;
+        pill.textContent = `${flow.count || 1} · ${state.lang === "zh" ? (flow.zh || flow.label) : flow.label}`;
         pill.addEventListener("mouseenter", () => renderTalentFlowModel(index));
         pill.addEventListener("click", () => renderTalentFlowModel(index));
         stage.appendChild(pill);
       });
       const fromName = nodeByKey[activeFlow.from]?.name || activeFlow.from;
       const toName = nodeByKey[activeFlow.to]?.name || activeFlow.to;
+      const event = activeFlow.events?.[0] || {};
+      const people = Array.isArray(event.people) && event.people.length ? ` · ${event.people.join(", ")}` : "";
+      const eventTitle = event.title || (state.lang === "zh" ? "等待 Tavily 抓取到公开人才流动事件" : "Waiting for Tavily public talent-flow events");
+      const source = event.source ? ` · ${event.source}` : "";
       detail.innerHTML = `
-        <div class="talent-flow-detail-title">${escapeHtml(fromName)} → ${escapeHtml(toName)} · ${escapeHtml(state.lang === "zh" ? activeFlow.zh : activeFlow.label)}</div>
-        <div class="talent-flow-detail-body">${escapeHtml(state.lang === "zh" ? activeFlow.detail : activeFlow.detailEn)}</div>
+        <div class="talent-flow-detail-title">${escapeHtml(fromName)} → ${escapeHtml(toName)} · ${Number(activeFlow.count) || 1} ${escapeHtml(state.lang === "zh" ? "条人才信号" : "talent signals")}</div>
+        <div class="talent-flow-detail-body">${escapeHtml(eventTitle)}${escapeHtml(source)}${escapeHtml(people)}</div>
       `;
       const tooltip = $("potential-chart-tooltip");
       if (tooltip) tooltip.hidden = true;
       if (state.potentialView === "chart" && !state.potentialAutoPaused) {
         stopPotentialAutoRotation();
         potentialAutoTimer = setInterval(() => {
-          const current = TALENT_FLOW_EDGES.indexOf(activeFlow);
-          renderTalentFlowModel((current + 1) % TALENT_FLOW_EDGES.length);
+          const current = flows.indexOf(activeFlow);
+          renderTalentFlowModel((current + 1) % flows.length);
         }, 3000);
       }
     }
@@ -5853,6 +5941,20 @@
         }
       } catch (error) {
         console.warn("Model ranking feed unavailable; using inline fallback", error);
+      }
+    }
+    async function fetchTalentFlows() {
+      try {
+        const payload = await fetchJson("talent-flows.json");
+        if (Array.isArray(payload?.companies) && Array.isArray(payload?.flows)) {
+          talentFlowData = payload;
+          if (state.rankingView === "potential") {
+            setText("#ranking-panel-note", potentialNoteText());
+            renderPotentialChart(state.potentialAutoIndex || 0);
+          }
+        }
+      } catch (error) {
+        console.warn("Talent flow feed unavailable; using inline fallback", error);
       }
     }
     async function fetchJson(url) {
@@ -6441,6 +6543,7 @@
     render();
     fetchTokenIndex();
     fetchModelRankings();
+    fetchTalentFlows();
     fetchQuotes().catch(handleQuoteError);
     detectLanguageByIp();
   </script>
