@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-29T13:56:07.600485Z",
+  "generatedAt": "2026-05-29T15:18:30.241137Z",
   "source": "Tavily Search",
   "strategy": "Search public news, interviews, speeches, and x.com references for senior AI talent movement among SpaceX, NVIDIA, OpenAI, Anthropic, Meta, and Google.",
   "companies": [
@@ -30,9 +30,9 @@
       "zh": "GPU / CUDA / AI 基础设施",
       "en": "GPU / CUDA / AI infrastructure",
       "key": "nvidia",
-      "inflow": 7,
+      "inflow": 2,
       "outflow": 3,
-      "events": 10
+      "events": 5
     },
     {
       "name": "OpenAI",
@@ -45,8 +45,8 @@
       "en": "Frontier models / agents / productization",
       "key": "openai",
       "inflow": 8,
-      "outflow": 6,
-      "events": 14
+      "outflow": 5,
+      "events": 13
     },
     {
       "name": "Anthropic",
@@ -60,8 +60,8 @@
       "en": "Claude / safety alignment / enterprise models",
       "key": "anthropic",
       "inflow": 5,
-      "outflow": 4,
-      "events": 9
+      "outflow": 2,
+      "events": 7
     },
     {
       "name": "Meta",
@@ -111,8 +111,8 @@
       "en": "Outside companies / universities / research labs",
       "key": "external",
       "inflow": 6,
-      "outflow": 7,
-      "events": 13
+      "outflow": 5,
+      "events": 11
     }
   ],
   "flows": [
@@ -357,64 +357,6 @@
       ]
     },
     {
-      "from": "external",
-      "to": "nvidia",
-      "count": 3,
-      "label": "External Talent Pool → NVIDIA",
-      "events": [
-        {
-          "from": "external",
-          "to": "nvidia",
-          "title": "Jensen Huang Frames AI as Career Opportunity - Let's Data Science",
-          "summary": "Per Carnegie Mellon University, NVIDIA founder and CEO Jensen Huang delivered the keynote at CMU's 128th Commencement on May 10 and received an honorary Doctor of Science and Technology degree. In his address, Huang said, \"You are entering the world at an extraordinary moment,\" a",
-          "url": "https://letsdatascience.com/news/jensen-huang-frames-ai-as-career-opportunity-4027a3a8",
-          "source": "Letsdatascience",
-          "publishedAt": "",
-          "people": [
-            "Jensen Huang Frames",
-            "Career Opportunity",
-            "Data Science Per",
-            "Carnegie Mellon University"
-          ],
-          "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-          "confidence": "tavily"
-        },
-        {
-          "from": "external",
-          "to": "nvidia",
-          "title": "Mira Murati's AI dream team got their stock options. Now many are out. - Business Insider",
-          "summary": "* Thinking Machines Lab has lost a third of its founding team to rivals amid fierce AI talent wars. * CEO Mira Murati's startup has also hired top talent and recently unveiled a new type of AI model. Thinking Machines Lab's head count has more than quadrupled to over 150 people s",
-          "url": "https://www.businessinsider.com/thinking-machines-lab-key-talent-meta-openai-xai-2026-5",
-          "source": "Businessinsider",
-          "publishedAt": "",
-          "people": [
-            "Mira Murati",
-            "Business Insider",
-            "Thinking Machines Lab"
-          ],
-          "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-          "confidence": "tavily"
-        },
-        {
-          "from": "external",
-          "to": "nvidia",
-          "title": "Jensen Huang Tells Graduates There Is No Better Time - Let's Data Science",
-          "summary": "Let's Data ScienceLEARN • BUILD • STAY AHEAD. # Jensen Huang Tells Graduates There Is No Better Time. **Nvidia** CEO Jensen Huang told **Carnegie Mellon** graduates on Sunday that they have reasons to be optimistic as they embark on the start of their careers. He delivered the re",
-          "url": "https://letsdatascience.com/news/jensen-huang-tells-graduates-there-is-no-better-time-b9dd9b2d",
-          "source": "Letsdatascience",
-          "publishedAt": "",
-          "people": [
-            "Jensen Huang Tells",
-            "Graduates There Is",
-            "No Better Time",
-            "Data Science Let"
-          ],
-          "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
       "from": "openai",
       "to": "external",
       "count": 3,
@@ -474,42 +416,6 @@
       ]
     },
     {
-      "from": "anthropic",
-      "to": "nvidia",
-      "count": 2,
-      "label": "Anthropic → NVIDIA",
-      "events": [
-        {
-          "from": "anthropic",
-          "to": "nvidia",
-          "title": "Anthropic hires OpenAI co-founder Andrej Karpathy, former Tesla AI leader",
-          "summary": "Andrej Karpathy, an artificial intelligence researcher who co-founded OpenAI before getting poached by Tesla, said he's joining Anthropic.",
-          "url": "https://www.cnbc.com/2026/05/19/anthropic-hires-openai-cofounder-andrej-karpathy-former-tesla-ai-lead.html",
-          "source": "Cnbc",
-          "publishedAt": "",
-          "people": [
-            "Andrej Karpathy"
-          ],
-          "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Anthropic\" OR \"Claude\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        },
-        {
-          "from": "anthropic",
-          "to": "nvidia",
-          "title": "OpenAI co-founder Andrej Karpathy joins Anthropic to lead AI research unit",
-          "summary": "Anthropic's annualised revenue has tripled to $30 billion since December and now it has pulled off the kind of hire that signals a company playing to win.",
-          "url": "https://www.thenews.com.pk/latest/1403201-openai-co-founder-andrej-karpathy-joins-anthropic-to-lead-ai-research-unit",
-          "source": "Com",
-          "publishedAt": "",
-          "people": [
-            "Andrej Karpathy"
-          ],
-          "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Anthropic\" OR \"Claude\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
       "from": "external",
       "to": "openai",
       "count": 2,
@@ -533,14 +439,16 @@
         {
           "from": "external",
           "to": "openai",
-          "title": "Job postings for this tech role have grown more than 700% in the last year - AOL.com",
-          "summary": "# Job postings for this tech role have grown more than 700% in the last year. * Forward-deployed engineers are one of tech's buzziest jobs. * Salaries can range from $170,000 to over $200,000, according to Indeed data. Despite the wave of layoffs that have battered the tech indus",
-          "url": "https://www.aol.com/articles/job-postings-tech-role-grown-185134480.html",
-          "source": "Aol",
+          "title": "OpenAI hires ServiceNow CMO Fleming for business marketing role - Adweek By Investing.com - Investing.com Australia",
+          "summary": "View all comments (0)0. Investing.com - OpenAI has appointed Colin Fleming as chief marketing officer for its business unit, Adweek reported Tuesday. Fleming previously served as chief marketing officer at ServiceNow. Fleming announced his departure from ServiceNow in a LinkedIn ",
+          "url": "https://au.investing.com/news/stock-market-news/openai-hires-servicenow-cmo-fleming-for-business-marketing-role--adweek-93CH-4456292",
+          "source": "Investing",
           "publishedAt": "",
           "people": [
-            "In April",
-            "Business Insider"
+            "Adweek By Investing",
+            "Australia View",
+            "Colin Fleming",
+            "Stocks That Remain"
           ],
           "query": "(\"OpenAI\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
@@ -741,31 +649,6 @@
     },
     {
       "from": "openai",
-      "to": "nvidia",
-      "count": 1,
-      "label": "OpenAI → NVIDIA",
-      "events": [
-        {
-          "from": "openai",
-          "to": "nvidia",
-          "title": "IREN Stock Rallies On Nvidia Partnership For AI Deployments - Investor's Business Daily",
-          "summary": "**BREAKING: Futures, Oil Prices Rise As U.S, Iran Clash; Akamai, IREN Jump Late**. # IREN Stock Rallies On Nvidia Partnership For AI Deployments. **IREN** (IREN) stock vaulted late Thursday after the bitcoin miner and AI cloud infrastructure provider announced a strategic partner",
-          "url": "https://www.investors.com/news/iren-stock-nvidia-strategic-partnership-ai-infrastructure-earnings/",
-          "source": "Investors",
-          "publishedAt": "",
-          "people": [
-            "Stock Rallies On",
-            "Business Daily",
-            "Oil Prices Rise",
-            "Iran Clash"
-          ],
-          "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
-      "from": "openai",
       "to": "meta",
       "count": 1,
       "label": "OpenAI → Meta",
@@ -864,6 +747,31 @@
       ]
     },
     {
+      "from": "external",
+      "to": "nvidia",
+      "count": 1,
+      "label": "External Talent Pool → NVIDIA",
+      "events": [
+        {
+          "from": "external",
+          "to": "nvidia",
+          "title": "Jensen Huang Frames AI as Career Opportunity - Let's Data Science",
+          "summary": "Per Carnegie Mellon University, NVIDIA founder and CEO Jensen Huang delivered the keynote at CMU's 128th Commencement on May 10 and received an honorary Doctor of Science and Technology degree. In his address, Huang said, \"You are entering the world at an extraordinary moment,\" a",
+          "url": "https://letsdatascience.com/news/jensen-huang-frames-ai-as-career-opportunity-4027a3a8",
+          "source": "Letsdatascience",
+          "publishedAt": "",
+          "people": [
+            "Jensen Huang Frames",
+            "Career Opportunity",
+            "Data Science Per",
+            "Carnegie Mellon University"
+          ],
+          "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
       "from": "anthropic",
       "to": "external",
       "count": 1,
@@ -894,15 +802,15 @@
         {
           "from": "meta",
           "to": "external",
-          "title": "Nearly 30,000 tech workers laid off this month so far, tracker says - PennLive.com",
-          "summary": "Meta is laying off thousands of employees, The Verge reports, as a means to offset artificial intelligence (AI) investments. But according to a career website for tech talent, these Meta layoffs are just the latest that’ve plagued the industry in roughly the past year. TrueUp dat",
-          "url": "https://www.pennlive.com/life/2026/05/nearly-30000-tech-workers-laid-off-this-month-so-far-tracker-asys.html",
-          "source": "Pennlive",
+          "title": "Mira Murati's AI dream team got their stock options. Now many are out. - Business Insider",
+          "summary": "* Thinking Machines Lab has lost a third of its founding team to rivals amid fierce AI talent wars. * CEO Mira Murati's startup has also hired top talent and recently unveiled a new type of AI model. Thinking Machines Lab's head count has more than quadrupled to over 150 people s",
+          "url": "https://www.businessinsider.com/thinking-machines-lab-key-talent-meta-openai-xai-2026-5",
+          "source": "Businessinsider",
           "publishedAt": "",
           "people": [
-            "The Verge",
-            "Fox Business",
-            "Business Insider"
+            "Mira Murati",
+            "Business Insider",
+            "Thinking Machines Lab"
           ],
           "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
@@ -1231,23 +1139,6 @@
     },
     {
       "from": "openai",
-      "to": "nvidia",
-      "title": "IREN Stock Rallies On Nvidia Partnership For AI Deployments - Investor's Business Daily",
-      "summary": "**BREAKING: Futures, Oil Prices Rise As U.S, Iran Clash; Akamai, IREN Jump Late**. # IREN Stock Rallies On Nvidia Partnership For AI Deployments. **IREN** (IREN) stock vaulted late Thursday after the bitcoin miner and AI cloud infrastructure provider announced a strategic partner",
-      "url": "https://www.investors.com/news/iren-stock-nvidia-strategic-partnership-ai-infrastructure-earnings/",
-      "source": "Investors",
-      "publishedAt": "",
-      "people": [
-        "Stock Rallies On",
-        "Business Daily",
-        "Oil Prices Rise",
-        "Iran Clash"
-      ],
-      "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-      "confidence": "tavily"
-    },
-    {
-      "from": "openai",
       "to": "meta",
       "title": "Recursive Superintelligence raises $650m at $4.65bn valuation to build self-improving AI - The Next Web",
       "summary": "Recursive Superintelligence, a startup founded by former leaders from Meta AI, Google DeepMind, OpenAI, and Salesforce AI, has emerged from stealth with $650 million in funding at a $4.65 billion valuation. Led by Richard Socher and co-founded by ex-Meta FAIR director Yuandong Ti",
@@ -1261,34 +1152,6 @@
         "Yuandong Tian"
       ],
       "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-      "confidence": "tavily"
-    },
-    {
-      "from": "anthropic",
-      "to": "nvidia",
-      "title": "Anthropic hires OpenAI co-founder Andrej Karpathy, former Tesla AI leader",
-      "summary": "Andrej Karpathy, an artificial intelligence researcher who co-founded OpenAI before getting poached by Tesla, said he's joining Anthropic.",
-      "url": "https://www.cnbc.com/2026/05/19/anthropic-hires-openai-cofounder-andrej-karpathy-former-tesla-ai-lead.html",
-      "source": "Cnbc",
-      "publishedAt": "",
-      "people": [
-        "Andrej Karpathy"
-      ],
-      "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Anthropic\" OR \"Claude\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-      "confidence": "tavily"
-    },
-    {
-      "from": "anthropic",
-      "to": "nvidia",
-      "title": "OpenAI co-founder Andrej Karpathy joins Anthropic to lead AI research unit",
-      "summary": "Anthropic's annualised revenue has tripled to $30 billion since December and now it has pulled off the kind of hire that signals a company playing to win.",
-      "url": "https://www.thenews.com.pk/latest/1403201-openai-co-founder-andrej-karpathy-joins-anthropic-to-lead-ai-research-unit",
-      "source": "Com",
-      "publishedAt": "",
-      "people": [
-        "Andrej Karpathy"
-      ],
-      "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Anthropic\" OR \"Claude\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "confidence": "tavily"
     },
     {
@@ -1360,39 +1223,6 @@
     },
     {
       "from": "external",
-      "to": "nvidia",
-      "title": "Mira Murati's AI dream team got their stock options. Now many are out. - Business Insider",
-      "summary": "* Thinking Machines Lab has lost a third of its founding team to rivals amid fierce AI talent wars. * CEO Mira Murati's startup has also hired top talent and recently unveiled a new type of AI model. Thinking Machines Lab's head count has more than quadrupled to over 150 people s",
-      "url": "https://www.businessinsider.com/thinking-machines-lab-key-talent-meta-openai-xai-2026-5",
-      "source": "Businessinsider",
-      "publishedAt": "",
-      "people": [
-        "Mira Murati",
-        "Business Insider",
-        "Thinking Machines Lab"
-      ],
-      "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-      "confidence": "tavily"
-    },
-    {
-      "from": "external",
-      "to": "nvidia",
-      "title": "Jensen Huang Tells Graduates There Is No Better Time - Let's Data Science",
-      "summary": "Let's Data ScienceLEARN • BUILD • STAY AHEAD. # Jensen Huang Tells Graduates There Is No Better Time. **Nvidia** CEO Jensen Huang told **Carnegie Mellon** graduates on Sunday that they have reasons to be optimistic as they embark on the start of their careers. He delivered the re",
-      "url": "https://letsdatascience.com/news/jensen-huang-tells-graduates-there-is-no-better-time-b9dd9b2d",
-      "source": "Letsdatascience",
-      "publishedAt": "",
-      "people": [
-        "Jensen Huang Tells",
-        "Graduates There Is",
-        "No Better Time",
-        "Data Science Let"
-      ],
-      "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-      "confidence": "tavily"
-    },
-    {
-      "from": "external",
       "to": "openai",
       "title": "OpenAI hires ServiceNow CMO Fleming for business marketing role - Adweek - Investing.com",
       "summary": "View all comments (0)0. Investing.com - OpenAI has appointed Colin Fleming as chief marketing officer for its business unit, Adweek reported Tuesday. Fleming previously served as chief marketing officer at ServiceNow. Fleming announced his departure from ServiceNow in a LinkedIn ",
@@ -1409,14 +1239,16 @@
     {
       "from": "external",
       "to": "openai",
-      "title": "Job postings for this tech role have grown more than 700% in the last year - AOL.com",
-      "summary": "# Job postings for this tech role have grown more than 700% in the last year. * Forward-deployed engineers are one of tech's buzziest jobs. * Salaries can range from $170,000 to over $200,000, according to Indeed data. Despite the wave of layoffs that have battered the tech indus",
-      "url": "https://www.aol.com/articles/job-postings-tech-role-grown-185134480.html",
-      "source": "Aol",
+      "title": "OpenAI hires ServiceNow CMO Fleming for business marketing role - Adweek By Investing.com - Investing.com Australia",
+      "summary": "View all comments (0)0. Investing.com - OpenAI has appointed Colin Fleming as chief marketing officer for its business unit, Adweek reported Tuesday. Fleming previously served as chief marketing officer at ServiceNow. Fleming announced his departure from ServiceNow in a LinkedIn ",
+      "url": "https://au.investing.com/news/stock-market-news/openai-hires-servicenow-cmo-fleming-for-business-marketing-role--adweek-93CH-4456292",
+      "source": "Investing",
       "publishedAt": "",
       "people": [
-        "In April",
-        "Business Insider"
+        "Adweek By Investing",
+        "Australia View",
+        "Colin Fleming",
+        "Stocks That Remain"
       ],
       "query": "(\"OpenAI\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "confidence": "tavily"
@@ -1523,15 +1355,15 @@
     {
       "from": "meta",
       "to": "external",
-      "title": "Nearly 30,000 tech workers laid off this month so far, tracker says - PennLive.com",
-      "summary": "Meta is laying off thousands of employees, The Verge reports, as a means to offset artificial intelligence (AI) investments. But according to a career website for tech talent, these Meta layoffs are just the latest that’ve plagued the industry in roughly the past year. TrueUp dat",
-      "url": "https://www.pennlive.com/life/2026/05/nearly-30000-tech-workers-laid-off-this-month-so-far-tracker-asys.html",
-      "source": "Pennlive",
+      "title": "Mira Murati's AI dream team got their stock options. Now many are out. - Business Insider",
+      "summary": "* Thinking Machines Lab has lost a third of its founding team to rivals amid fierce AI talent wars. * CEO Mira Murati's startup has also hired top talent and recently unveiled a new type of AI model. Thinking Machines Lab's head count has more than quadrupled to over 150 people s",
+      "url": "https://www.businessinsider.com/thinking-machines-lab-key-talent-meta-openai-xai-2026-5",
+      "source": "Businessinsider",
       "publishedAt": "",
       "people": [
-        "The Verge",
-        "Fox Business",
-        "Business Insider"
+        "Mira Murati",
+        "Business Insider",
+        "Thinking Machines Lab"
       ],
       "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "confidence": "tavily"
@@ -1620,7 +1452,7 @@
       "from": "openai",
       "to": "nvidia",
       "status": "ok",
-      "count": 4
+      "count": 5
     },
     {
       "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
@@ -1655,7 +1487,7 @@
       "from": "anthropic",
       "to": "nvidia",
       "status": "ok",
-      "count": 2
+      "count": 5
     },
     {
       "query": "(\"OpenAI\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Anthropic\" OR \"Claude\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
@@ -1683,14 +1515,14 @@
       "from": "meta",
       "to": "spacex",
       "status": "ok",
-      "count": 4
+      "count": 5
     },
     {
       "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "from": "meta",
       "to": "nvidia",
       "status": "ok",
-      "count": 3
+      "count": 4
     },
     {
       "query": "(\"OpenAI\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
@@ -1718,7 +1550,7 @@
       "from": "google",
       "to": "spacex",
       "status": "ok",
-      "count": 4
+      "count": 5
     },
     {
       "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
@@ -1767,7 +1599,7 @@
       "from": "external",
       "to": "nvidia",
       "status": "ok",
-      "count": 4
+      "count": 2
     },
     {
       "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"left NVIDIA\" OR \"leaves NVIDIA\" OR \"departed NVIDIA\" OR \"resigned from NVIDIA\" OR \"former NVIDIA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
@@ -1795,7 +1627,7 @@
       "from": "external",
       "to": "anthropic",
       "status": "ok",
-      "count": 5
+      "count": 4
     },
     {
       "query": "(\"Anthropic\" OR \"Claude\") (\"left Anthropic\" OR \"leaves Anthropic\" OR \"departed Anthropic\" OR \"resigned from Anthropic\" OR \"former Anthropic\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
