@@ -1823,7 +1823,7 @@
         <div class="model-ranking-table" id="model-ranking-list"></div>
       </section>
 
-      <section class="ranking-view index-chart-view" id="ranking-view-potential" aria-label="AI Short Index">
+      <section class="ranking-view index-chart-view" id="ranking-view-potential" aria-label="Google and NVIDIA Index">
         <div class="index-chart-shell" id="potential-chart-panel">
           <div class="chart-range-tabs" role="tablist" aria-label="Short index chart range">
             <button class="chart-range-tab potential-range-tab active" data-potential-period="history" type="button">历史</button>
@@ -1831,15 +1831,15 @@
             <button class="chart-range-tab potential-range-tab" data-potential-period="week" type="button">周</button>
             <button class="chart-range-tab potential-range-tab" data-potential-period="month" type="button">月</button>
           </div>
-          <svg class="index-chart-svg" id="short-index-chart" viewBox="0 0 980 310" role="img" aria-label="Google and NVIDIA short index chart"></svg>
+          <svg class="index-chart-svg" id="short-index-chart" viewBox="0 0 980 310" role="img" aria-label="Google and NVIDIA index chart"></svg>
           <div class="index-chart-overlay">
-            <div class="index-chart-title" id="potential-chart-title">AI Short Index</div>
+            <div class="index-chart-title" id="potential-chart-title">Google + NVIDIA Index</div>
             <div class="index-chart-stats" id="potential-chart-stats"></div>
           </div>
           <div class="index-chart-tooltip" id="potential-chart-tooltip" hidden></div>
           <div class="index-chart-footer">
-            <span id="potential-chart-footer-primary">AI Short Index</span>
-            <span id="potential-chart-footer-secondary">Google 50% short · NVIDIA 50% short · Base 100</span>
+            <span id="potential-chart-footer-primary">Google + NVIDIA Index</span>
+            <span id="potential-chart-footer-secondary">GOOG 50% · NVDA 50% · Start 100</span>
           </div>
         </div>
         <div class="potential-ranking-panel" id="potential-ranking-panel" hidden>
@@ -3705,7 +3705,7 @@
         currentFilter: "按当前筛选", realVolume: "真实成交额，可用时更新", hot: "热门", topGainer: "最大升幅", waitingQuotes: "等待行情或估算涨跌",
         tokenRanking: "代币使用", tokenNote: "参考 OpenRouter Top Models，用量口径可切换",
         chartRanking: "代币成本", chartNote: "LLM Token Expenditure Index",
-        modelRanking: "大模型排行", modelNote: "CursorBench · 每日外部更新", potentialRanking: "空头指标", potentialNote: "AI Short Index · Google 50% 空头 + 英伟达 50% 空头 · 基准 100", potentialChart: "图表", potentialRank: "排行", potentialScore: "潜力得分", potentialGain: "起点倍数", potentialMcap: "市值", potentialBasis: "当前市值 × 起点倍数²", modelColumn: "模型", modelScore: "得分", modelCostTask: "平均成本 / 任务", dataSource: "数据来源", updatedDate: "更新日期", dailyExternal: "每日外部更新", dailyLocal: "每日本地更新", inlineSnapshot: "内置快照",
+        modelRanking: "大模型排行", modelNote: "CursorBench · 每日外部更新", potentialRanking: "Google + 英伟达指数", potentialNote: "Google + 英伟达指数 · GOOG 50% + NVDA 50% · 起点 100", potentialChart: "图表", potentialRank: "排行", potentialScore: "潜力得分", potentialGain: "起点倍数", potentialMcap: "市值", potentialBasis: "当前市值 × 起点倍数²", modelColumn: "模型", modelScore: "得分", modelCostTask: "平均成本 / 任务", dataSource: "数据来源", updatedDate: "更新日期", dailyExternal: "每日外部更新", dailyLocal: "每日本地更新", inlineSnapshot: "内置快照",
         day: "日", week: "周", month: "月", history: "历史", period: "周期", firstShare: "第一名占比",
         all: "全部", aiChips: "AI 芯片", aiCloud: "新云", dataCenter: "数据中心", enterpriseAi: "企业 AI", security: "安全", quantum: "量子", chinaAi: "中国 AI", leopold: "Leopold Aschenbrenner",
         physicalWorldModel: "物理世界模型", worldModelText: "文本", worldModelRobotics: "机器人", openSource: "开源", closedSource: "闭源",
@@ -3738,7 +3738,7 @@
         currentFilter: "Current filter", realVolume: "Real traded value when available", hot: "Trending", topGainer: "Top Gainer", waitingQuotes: "Waiting for quotes or estimated moves",
         tokenRanking: "Token Usage", tokenNote: "Inspired by OpenRouter Top Models; period is switchable",
         chartRanking: "Token Cost", chartNote: "LLM Token Expenditure Index",
-        modelRanking: "Model Ranking", modelNote: "CursorBench · daily external feed", potentialRanking: "Short Indicator", potentialNote: "AI Short Index · Google 50% short + NVIDIA 50% short · Base 100", potentialChart: "Chart", potentialRank: "Ranking", potentialScore: "Potential score", potentialGain: "Start multiple", potentialMcap: "Market cap", potentialBasis: "Market cap × start multiple²", modelColumn: "Model", modelScore: "Score", modelCostTask: "Avg Cost / Task", dataSource: "Source", updatedDate: "Updated", dailyExternal: "Daily external update", dailyLocal: "Daily local update", inlineSnapshot: "Inline snapshot",
+        modelRanking: "Model Ranking", modelNote: "CursorBench · daily external feed", potentialRanking: "Google + NVIDIA Index", potentialNote: "Google + NVIDIA Index · GOOG 50% + NVDA 50% · Start 100", potentialChart: "Chart", potentialRank: "Ranking", potentialScore: "Potential score", potentialGain: "Start multiple", potentialMcap: "Market cap", potentialBasis: "Market cap × start multiple²", modelColumn: "Model", modelScore: "Score", modelCostTask: "Avg Cost / Task", dataSource: "Source", updatedDate: "Updated", dailyExternal: "Daily external update", dailyLocal: "Daily local update", inlineSnapshot: "Inline snapshot",
         day: "Day", week: "Week", month: "Month", history: "History", period: "Period", firstShare: "Top share",
         all: "All", aiChips: "AI Chips", aiCloud: "AI Cloud", dataCenter: "Data Centers", enterpriseAi: "Enterprise AI", security: "Security", quantum: "Quantum", chinaAi: "China AI", leopold: "Leopold Aschenbrenner",
         physicalWorldModel: "World Models", worldModelText: "Text", worldModelRobotics: "Robotics", openSource: "Open", closedSource: "Closed",
@@ -5674,8 +5674,8 @@
           if (Number.isFinite(googlePrev) && Number.isFinite(nvidiaPrev) && googlePrev > 0 && nvidiaPrev > 0) {
             const googleReturn = (googleClose / googlePrev) - 1;
             const nvidiaReturn = (nvidiaClose / nvidiaPrev) - 1;
-            const shortReturn = -0.5 * googleReturn - 0.5 * nvidiaReturn;
-            indexValue *= Math.max(0.01, 1 + shortReturn);
+            const portfolioReturn = 0.5 * googleReturn + 0.5 * nvidiaReturn;
+            indexValue *= Math.max(0.01, 1 + portfolioReturn);
           }
         }
         return {
@@ -5700,8 +5700,8 @@
         button.classList.toggle("active", isActive);
         button.setAttribute("aria-selected", isActive ? "true" : "false");
       });
-      if (title) title.textContent = state.lang === "zh" ? "空头指标" : "AI Short Index";
-      if (footerPrimary) footerPrimary.textContent = state.lang === "zh" ? "Google + 英伟达空头收益指数" : "Google + NVIDIA Short Return Index";
+      if (title) title.textContent = state.lang === "zh" ? "Google + 英伟达指数" : "Google + NVIDIA Index";
+      if (footerPrimary) footerPrimary.textContent = state.lang === "zh" ? "Google + 英伟达多头组合指数" : "Google + NVIDIA Long Index";
       if (footerSecondary) footerSecondary.textContent = state.lang === "zh" ? "GOOG 50% · NVDA 50% · 起点 100" : "GOOG 50% · NVDA 50% · Start 100";
       try {
         const data = await shortIndexSeries(state.potentialPeriod);
