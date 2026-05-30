@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-30T18:15:09.819234Z",
+  "generatedAt": "2026-05-30T18:46:52.202560Z",
   "source": "Tavily Search",
   "strategy": "Search public news, interviews, speeches, and x.com references for senior AI talent movement among SpaceX, NVIDIA, OpenAI, Anthropic, Meta, and Google.",
   "companies": [
@@ -14,9 +14,9 @@
       "zh": "航天工程 / Starlink / 自动化制造",
       "en": "Space systems / Starlink / automated manufacturing",
       "key": "spacex",
-      "inflow": 1,
+      "inflow": 2,
       "outflow": 16,
-      "events": 17
+      "events": 18
     },
     {
       "name": "NVIDIA",
@@ -30,9 +30,9 @@
       "zh": "GPU / CUDA / AI 基础设施",
       "en": "GPU / CUDA / AI infrastructure",
       "key": "nvidia",
-      "inflow": 2,
-      "outflow": 6,
-      "events": 8
+      "inflow": 5,
+      "outflow": 5,
+      "events": 10
     },
     {
       "name": "OpenAI",
@@ -45,8 +45,8 @@
       "en": "Frontier models / agents / productization",
       "key": "openai",
       "inflow": 8,
-      "outflow": 6,
-      "events": 14
+      "outflow": 8,
+      "events": 16
     },
     {
       "name": "Anthropic",
@@ -60,8 +60,8 @@
       "en": "Claude / safety alignment / enterprise models",
       "key": "anthropic",
       "inflow": 5,
-      "outflow": 2,
-      "events": 7
+      "outflow": 3,
+      "events": 8
     },
     {
       "name": "Meta",
@@ -110,8 +110,8 @@
       "zh": "外部公司 / 高校 / 研究机构",
       "en": "Outside companies / universities / research labs",
       "key": "external",
-      "inflow": 9,
-      "outflow": 4,
+      "inflow": 8,
+      "outflow": 5,
       "events": 13
     }
   ],
@@ -475,6 +475,48 @@
       ]
     },
     {
+      "from": "openai",
+      "to": "nvidia",
+      "count": 2,
+      "label": "OpenAI → NVIDIA",
+      "events": [
+        {
+          "from": "openai",
+          "to": "nvidia",
+          "title": "Chip Stocks Slide After U.S.-China Summit Ends Without Major Tech Deals - Yahoo Finance",
+          "summary": "- Best gifts for sister-in-law. - Best birthday gifts for her. - Best gifts for mother-in-law. - Best anniversary gifts for wife. ### New on Yahoo. Global semiconductor stocks skidded after a summit between President Trump and Chinese leader Xi Jinping concluded without major chi",
+          "url": "https://finance.yahoo.com/markets/stocks/articles/chip-stocks-slide-u-china-110300500.html",
+          "source": "Yahoo",
+          "publishedAt": "",
+          "people": [
+            "Chip Stocks Slide",
+            "China Summit Ends",
+            "Without Major Tech",
+            "Yahoo Finance"
+          ],
+          "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        },
+        {
+          "from": "openai",
+          "to": "nvidia",
+          "title": "IREN Stock Rallies On Nvidia Partnership For AI Deployments - Investor's Business Daily",
+          "summary": "**BREAKING: Futures, Oil Prices Rise As U.S, Iran Clash; Akamai, IREN Jump Late**. # IREN Stock Rallies On Nvidia Partnership For AI Deployments. **IREN** (IREN) stock vaulted late Thursday after the bitcoin miner and AI cloud infrastructure provider announced a strategic partner",
+          "url": "https://www.investors.com/news/iren-stock-nvidia-strategic-partnership-ai-infrastructure-earnings/",
+          "source": "Investors",
+          "publishedAt": "",
+          "people": [
+            "Stock Rallies On",
+            "Business Daily",
+            "Oil Prices Rise",
+            "Iran Clash"
+          ],
+          "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
       "from": "external",
       "to": "openai",
       "count": 2,
@@ -523,15 +565,16 @@
         {
           "from": "meta",
           "to": "external",
-          "title": "Mira Murati's AI dream team got their stock options. Now many are out. - Business Insider",
-          "summary": "* Thinking Machines Lab has lost a third of its founding team to rivals amid fierce AI talent wars. * CEO Mira Murati's startup has also hired top talent and recently unveiled a new type of AI model. Thinking Machines Lab's head count has more than quadrupled to over 150 people s",
-          "url": "https://www.businessinsider.com/thinking-machines-lab-key-talent-meta-openai-xai-2026-5",
-          "source": "Businessinsider",
+          "title": "Meta is rapidly reorganizing its workers’ jobs around AI: ‘Transfers aren’t optional’ - The Guardian",
+          "summary": "Some employees will be moved to new teams focused on AI agents and cloud infrastructure. As Meta races to recenter itself around artificial intelligence, the tech giant is mandating that more than 7,000 workers must move to new teams, and it’s radically changing some employees’ j",
+          "url": "https://www.theguardian.com/technology/2026/may/19/meta-jobs-ai-transfers",
+          "source": "Theguardian",
           "publishedAt": "",
           "people": [
-            "Mira Murati",
-            "Business Insider",
-            "Thinking Machines Lab"
+            "The Guardian Some",
+            "As Meta",
+            "The Guardian",
+            "Peter Hoose"
           ],
           "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
@@ -539,15 +582,16 @@
         {
           "from": "meta",
           "to": "external",
-          "title": "Nearly 30,000 tech workers laid off this month so far, tracker says - PennLive.com",
-          "summary": "Meta is laying off thousands of employees, The Verge reports, as a means to offset artificial intelligence (AI) investments. But according to a career website for tech talent, these Meta layoffs are just the latest that’ve plagued the industry in roughly the past year. TrueUp dat",
-          "url": "https://www.pennlive.com/life/2026/05/nearly-30000-tech-workers-laid-off-this-month-so-far-tracker-asys.html",
-          "source": "Pennlive",
+          "title": "Technology News | ⚡Layoffs: Meta Workforce Faces Anxiety as Large-Scale Layoffs Approach - LatestLY",
+          "summary": "## Technology. # ⚡Layoffs: Meta Workforce Faces Anxiety as Large-Scale Layoffs Approach. A former Meta employee has described a \"doomsday\" atmosphere at the company ahead of a planned 8,000-person layoff on May 20. Staff morale is reportedly at an all-time low as Meta redirects r",
+          "url": "https://www.latestly.com/quickly/technology/layoffs-meta-workforce-faces-anxiety-as-large-scale-layoffs-approach-7433611.html",
+          "source": "Latestly",
           "publishedAt": "",
           "people": [
-            "The Verge",
-            "Fox Business",
-            "Business Insider"
+            "Technology News",
+            "Meta Workforce Faces",
+            "Scale Layoffs Approach",
+            "Owned Professional Network"
           ],
           "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
@@ -731,6 +775,31 @@
     },
     {
       "from": "anthropic",
+      "to": "nvidia",
+      "count": 1,
+      "label": "Anthropic → NVIDIA",
+      "events": [
+        {
+          "from": "anthropic",
+          "to": "nvidia",
+          "title": "Anthropic investors are being swarmed by desperate buyers. Some are getting very creative. - Business Insider",
+          "summary": "* One large VC firm offered to hire a tech founder as a partner in exchange for his Anthropic shares. A gold-rush mentality for Anthropic stock has gripped Silicon Valley in recent weeks, as investors have been wowed by its torrid revenue growth and momentum around its AI-powered",
+          "url": "https://www.businessinsider.com/anthropic-investors-are-being-swarmed-by-desperate-buyers-2026-4",
+          "source": "Businessinsider",
+          "publishedAt": "",
+          "people": [
+            "Business Insider",
+            "Claude Code",
+            "Marin County",
+            "Since Anthropic"
+          ],
+          "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Anthropic\" OR \"Claude\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
+      "from": "anthropic",
       "to": "meta",
       "count": 1,
       "label": "Anthropic → Meta",
@@ -780,6 +849,29 @@
       ]
     },
     {
+      "from": "external",
+      "to": "spacex",
+      "count": 1,
+      "label": "External Talent Pool → SpaceX",
+      "events": [
+        {
+          "from": "external",
+          "to": "spacex",
+          "title": "Job postings for this tech role have grown more than 700% in the last year - Business Insider",
+          "summary": "# Job postings for this tech role have grown more than 700% in the last year. * Forward-deployed engineers are one of tech's buzziest jobs. * Summaries are generated by an AI model trained on Business Insider's articles. Despite the wave of layoffs that have battered the tech ind",
+          "url": "https://www.businessinsider.com/forward-deployed-engineer-jobs-in-demand-2026-5",
+          "source": "Businessinsider",
+          "publishedAt": "",
+          "people": [
+            "Business Insider",
+            "In April"
+          ],
+          "query": "(\"SpaceX\" OR \"Starlink\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
       "from": "spacex",
       "to": "external",
       "count": 1,
@@ -824,31 +916,6 @@
             "Carnegie Mellon University"
           ],
           "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
-      "from": "nvidia",
-      "to": "external",
-      "count": 1,
-      "label": "NVIDIA → External Talent Pool",
-      "events": [
-        {
-          "from": "nvidia",
-          "to": "external",
-          "title": "Nvidia’s Jensen Huang May Soon Be Worth $200 Billion - Forbes",
-          "summary": "# Nvidia’s Jensen Huang Nears $200 Billion Club—Overtakes Michael Dell As 7th Richest. This voice experience is generated by AI. Nvidia CEO Jensen Huang became the world’s seventh-richest person on Monday, overtaking Dell founder Michael Dell as Nvidia rallied toward another reco",
-          "url": "https://www.forbes.com/sites/tylerroush/2026/05/11/nvidias-jensen-huang-nears-200-billion-club-overtakes-michael-dell-as-7th-richest/",
-          "source": "Forbes",
-          "publishedAt": "",
-          "people": [
-            "Jensen Huang May",
-            "Soon Be Worth",
-            "Jensen Huang Nears",
-            "Billion Club"
-          ],
-          "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"left NVIDIA\" OR \"leaves NVIDIA\" OR \"departed NVIDIA\" OR \"resigned from NVIDIA\" OR \"former NVIDIA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
         }
       ]
@@ -1239,6 +1306,40 @@
     },
     {
       "from": "openai",
+      "to": "nvidia",
+      "title": "Chip Stocks Slide After U.S.-China Summit Ends Without Major Tech Deals - Yahoo Finance",
+      "summary": "- Best gifts for sister-in-law. - Best birthday gifts for her. - Best gifts for mother-in-law. - Best anniversary gifts for wife. ### New on Yahoo. Global semiconductor stocks skidded after a summit between President Trump and Chinese leader Xi Jinping concluded without major chi",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/chip-stocks-slide-u-china-110300500.html",
+      "source": "Yahoo",
+      "publishedAt": "",
+      "people": [
+        "Chip Stocks Slide",
+        "China Summit Ends",
+        "Without Major Tech",
+        "Yahoo Finance"
+      ],
+      "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+      "confidence": "tavily"
+    },
+    {
+      "from": "openai",
+      "to": "nvidia",
+      "title": "IREN Stock Rallies On Nvidia Partnership For AI Deployments - Investor's Business Daily",
+      "summary": "**BREAKING: Futures, Oil Prices Rise As U.S, Iran Clash; Akamai, IREN Jump Late**. # IREN Stock Rallies On Nvidia Partnership For AI Deployments. **IREN** (IREN) stock vaulted late Thursday after the bitcoin miner and AI cloud infrastructure provider announced a strategic partner",
+      "url": "https://www.investors.com/news/iren-stock-nvidia-strategic-partnership-ai-infrastructure-earnings/",
+      "source": "Investors",
+      "publishedAt": "",
+      "people": [
+        "Stock Rallies On",
+        "Business Daily",
+        "Oil Prices Rise",
+        "Iran Clash"
+      ],
+      "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+      "confidence": "tavily"
+    },
+    {
+      "from": "openai",
       "to": "meta",
       "title": "Recursive Superintelligence raises $650m at $4.65bn valuation to build self-improving AI - The Next Web",
       "summary": "Recursive Superintelligence, a startup founded by former leaders from Meta AI, Google DeepMind, OpenAI, and Salesforce AI, has emerged from stealth with $650 million in funding at a $4.65 billion valuation. Led by Richard Socher and co-founded by ex-Meta FAIR director Yuandong Ti",
@@ -1269,6 +1370,23 @@
         "Joe Mandese"
       ],
       "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+      "confidence": "tavily"
+    },
+    {
+      "from": "anthropic",
+      "to": "nvidia",
+      "title": "Anthropic investors are being swarmed by desperate buyers. Some are getting very creative. - Business Insider",
+      "summary": "* One large VC firm offered to hire a tech founder as a partner in exchange for his Anthropic shares. A gold-rush mentality for Anthropic stock has gripped Silicon Valley in recent weeks, as investors have been wowed by its torrid revenue growth and momentum around its AI-powered",
+      "url": "https://www.businessinsider.com/anthropic-investors-are-being-swarmed-by-desperate-buyers-2026-4",
+      "source": "Businessinsider",
+      "publishedAt": "",
+      "people": [
+        "Business Insider",
+        "Claude Code",
+        "Marin County",
+        "Since Anthropic"
+      ],
+      "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Anthropic\" OR \"Claude\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "confidence": "tavily"
     },
     {
@@ -1306,6 +1424,21 @@
       "confidence": "tavily"
     },
     {
+      "from": "external",
+      "to": "spacex",
+      "title": "Job postings for this tech role have grown more than 700% in the last year - Business Insider",
+      "summary": "# Job postings for this tech role have grown more than 700% in the last year. * Forward-deployed engineers are one of tech's buzziest jobs. * Summaries are generated by an AI model trained on Business Insider's articles. Despite the wave of layoffs that have battered the tech ind",
+      "url": "https://www.businessinsider.com/forward-deployed-engineer-jobs-in-demand-2026-5",
+      "source": "Businessinsider",
+      "publishedAt": "",
+      "people": [
+        "Business Insider",
+        "In April"
+      ],
+      "query": "(\"SpaceX\" OR \"Starlink\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+      "confidence": "tavily"
+    },
+    {
       "from": "spacex",
       "to": "external",
       "title": "Former Ukraine official calls for stricter restrictions on Russian use of Starlink - SpaceNews",
@@ -1336,23 +1469,6 @@
         "Carnegie Mellon University"
       ],
       "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-      "confidence": "tavily"
-    },
-    {
-      "from": "nvidia",
-      "to": "external",
-      "title": "Nvidia’s Jensen Huang May Soon Be Worth $200 Billion - Forbes",
-      "summary": "# Nvidia’s Jensen Huang Nears $200 Billion Club—Overtakes Michael Dell As 7th Richest. This voice experience is generated by AI. Nvidia CEO Jensen Huang became the world’s seventh-richest person on Monday, overtaking Dell founder Michael Dell as Nvidia rallied toward another reco",
-      "url": "https://www.forbes.com/sites/tylerroush/2026/05/11/nvidias-jensen-huang-nears-200-billion-club-overtakes-michael-dell-as-7th-richest/",
-      "source": "Forbes",
-      "publishedAt": "",
-      "people": [
-        "Jensen Huang May",
-        "Soon Be Worth",
-        "Jensen Huang Nears",
-        "Billion Club"
-      ],
-      "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"left NVIDIA\" OR \"leaves NVIDIA\" OR \"departed NVIDIA\" OR \"resigned from NVIDIA\" OR \"former NVIDIA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "confidence": "tavily"
     },
     {
@@ -1489,15 +1605,16 @@
     {
       "from": "meta",
       "to": "external",
-      "title": "Mira Murati's AI dream team got their stock options. Now many are out. - Business Insider",
-      "summary": "* Thinking Machines Lab has lost a third of its founding team to rivals amid fierce AI talent wars. * CEO Mira Murati's startup has also hired top talent and recently unveiled a new type of AI model. Thinking Machines Lab's head count has more than quadrupled to over 150 people s",
-      "url": "https://www.businessinsider.com/thinking-machines-lab-key-talent-meta-openai-xai-2026-5",
-      "source": "Businessinsider",
+      "title": "Meta is rapidly reorganizing its workers’ jobs around AI: ‘Transfers aren’t optional’ - The Guardian",
+      "summary": "Some employees will be moved to new teams focused on AI agents and cloud infrastructure. As Meta races to recenter itself around artificial intelligence, the tech giant is mandating that more than 7,000 workers must move to new teams, and it’s radically changing some employees’ j",
+      "url": "https://www.theguardian.com/technology/2026/may/19/meta-jobs-ai-transfers",
+      "source": "Theguardian",
       "publishedAt": "",
       "people": [
-        "Mira Murati",
-        "Business Insider",
-        "Thinking Machines Lab"
+        "The Guardian Some",
+        "As Meta",
+        "The Guardian",
+        "Peter Hoose"
       ],
       "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "confidence": "tavily"
@@ -1505,15 +1622,16 @@
     {
       "from": "meta",
       "to": "external",
-      "title": "Nearly 30,000 tech workers laid off this month so far, tracker says - PennLive.com",
-      "summary": "Meta is laying off thousands of employees, The Verge reports, as a means to offset artificial intelligence (AI) investments. But according to a career website for tech talent, these Meta layoffs are just the latest that’ve plagued the industry in roughly the past year. TrueUp dat",
-      "url": "https://www.pennlive.com/life/2026/05/nearly-30000-tech-workers-laid-off-this-month-so-far-tracker-asys.html",
-      "source": "Pennlive",
+      "title": "Technology News | ⚡Layoffs: Meta Workforce Faces Anxiety as Large-Scale Layoffs Approach - LatestLY",
+      "summary": "## Technology. # ⚡Layoffs: Meta Workforce Faces Anxiety as Large-Scale Layoffs Approach. A former Meta employee has described a \"doomsday\" atmosphere at the company ahead of a planned 8,000-person layoff on May 20. Staff morale is reportedly at an all-time low as Meta redirects r",
+      "url": "https://www.latestly.com/quickly/technology/layoffs-meta-workforce-faces-anxiety-as-large-scale-layoffs-approach-7433611.html",
+      "source": "Latestly",
       "publishedAt": "",
       "people": [
-        "The Verge",
-        "Fox Business",
-        "Business Insider"
+        "Technology News",
+        "Meta Workforce Faces",
+        "Scale Layoffs Approach",
+        "Owned Professional Network"
       ],
       "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "confidence": "tavily"
@@ -1553,7 +1671,7 @@
       "from": "spacex",
       "to": "google",
       "status": "ok",
-      "count": 4
+      "count": 3
     },
     {
       "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
@@ -1588,7 +1706,7 @@
       "from": "nvidia",
       "to": "google",
       "status": "ok",
-      "count": 4
+      "count": 3
     },
     {
       "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
@@ -1602,7 +1720,7 @@
       "from": "openai",
       "to": "nvidia",
       "status": "ok",
-      "count": 5
+      "count": 2
     },
     {
       "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
@@ -1637,7 +1755,7 @@
       "from": "anthropic",
       "to": "nvidia",
       "status": "ok",
-      "count": 5
+      "count": 4
     },
     {
       "query": "(\"OpenAI\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Anthropic\" OR \"Claude\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
@@ -1693,14 +1811,14 @@
       "from": "meta",
       "to": "google",
       "status": "ok",
-      "count": 4
+      "count": 5
     },
     {
       "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "from": "google",
       "to": "spacex",
       "status": "ok",
-      "count": 4
+      "count": 5
     },
     {
       "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
@@ -1735,7 +1853,7 @@
       "from": "external",
       "to": "spacex",
       "status": "ok",
-      "count": 4
+      "count": 5
     },
     {
       "query": "(\"SpaceX\" OR \"Starlink\") (\"left SpaceX\" OR \"leaves SpaceX\" OR \"departed SpaceX\" OR \"resigned from SpaceX\" OR \"former SpaceX\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
@@ -1756,7 +1874,7 @@
       "from": "nvidia",
       "to": "external",
       "status": "ok",
-      "count": 2
+      "count": 1
     },
     {
       "query": "(\"OpenAI\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
@@ -1777,7 +1895,7 @@
       "from": "external",
       "to": "anthropic",
       "status": "ok",
-      "count": 5
+      "count": 4
     },
     {
       "query": "(\"Anthropic\" OR \"Claude\") (\"left Anthropic\" OR \"leaves Anthropic\" OR \"departed Anthropic\" OR \"resigned from Anthropic\" OR \"former Anthropic\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
