@@ -887,6 +887,7 @@
       backdrop-filter: blur(6px);
     }
     #potential-chart-panel .index-chart-overlay { top: 58px; }
+    #potential-chart-panel .index-chart-overlay { display: none; }
     .index-chart-title {
       display: flex;
       align-items: center;
@@ -5661,17 +5662,25 @@
       const googleTail = googleRows.slice(-size);
       const nvidiaTail = nvidiaRows.slice(-size);
       if (googleTail.length < 2 || nvidiaTail.length < 2) return [];
-      const googleStart = googleTail[0]?.close;
-      const nvidiaStart = nvidiaTail[0]?.close;
-      if (!Number.isFinite(googleStart) || !Number.isFinite(nvidiaStart) || googleStart <= 0 || nvidiaStart <= 0) return [];
+      let indexValue = 100;
       return googleTail.map((point, index) => {
         const nvidiaPoint = nvidiaTail[index];
         const googleClose = Number(point.close);
         const nvidiaClose = Number(nvidiaPoint.close);
         if (!Number.isFinite(googleClose) || !Number.isFinite(nvidiaClose) || googleClose <= 0 || nvidiaClose <= 0) return null;
+        if (index > 0) {
+          const googlePrev = Number(googleTail[index - 1]?.close);
+          const nvidiaPrev = Number(nvidiaTail[index - 1]?.close);
+          if (Number.isFinite(googlePrev) && Number.isFinite(nvidiaPrev) && googlePrev > 0 && nvidiaPrev > 0) {
+            const googleReturn = (googleClose / googlePrev) - 1;
+            const nvidiaReturn = (nvidiaClose / nvidiaPrev) - 1;
+            const shortReturn = -0.5 * googleReturn - 0.5 * nvidiaReturn;
+            indexValue *= Math.max(0.01, 1 + shortReturn);
+          }
+        }
         return {
           date: point.date,
-          value: 100 * (0.5 * (googleStart / googleClose) + 0.5 * (nvidiaStart / nvidiaClose))
+          value: indexValue
         };
       }).filter(Boolean);
     }
@@ -5692,8 +5701,8 @@
         button.setAttribute("aria-selected", isActive ? "true" : "false");
       });
       if (title) title.textContent = state.lang === "zh" ? "空头指标" : "AI Short Index";
-      if (footerPrimary) footerPrimary.textContent = state.lang === "zh" ? "Google + 英伟达空头指数" : "Google + NVIDIA Short Index";
-      if (footerSecondary) footerSecondary.textContent = state.lang === "zh" ? "GOOG 50% 空头 · NVDA 50% 空头 · 基准 100" : "GOOG 50% short · NVDA 50% short · Base 100";
+      if (footerPrimary) footerPrimary.textContent = state.lang === "zh" ? "Google + 英伟达空头收益指数" : "Google + NVIDIA Short Return Index";
+      if (footerSecondary) footerSecondary.textContent = state.lang === "zh" ? "GOOG 50% · NVDA 50% · 起点 100" : "GOOG 50% · NVDA 50% · Start 100";
       try {
         const data = await shortIndexSeries(state.potentialPeriod);
         renderRatioChart(data, {
