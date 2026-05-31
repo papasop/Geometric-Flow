@@ -45,6 +45,8 @@ jobs:
           TOKEN_INDEX_VALUE: ${{ github.event.inputs.value }}
         run: python docs/fetch_token_index.py
       - name: Update OpenRouter weekly usage
+        env:
+          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
         run: python docs/fetch_openrouter_usage.py
       - name: Update model rankings
         run: python docs/fetch_model_rankings.py
