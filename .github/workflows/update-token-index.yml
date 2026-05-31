@@ -44,12 +44,14 @@ jobs:
         env:
           TOKEN_INDEX_VALUE: ${{ github.event.inputs.value }}
         run: python docs/fetch_token_index.py
+      - name: Update OpenRouter weekly usage
+        run: python docs/fetch_openrouter_usage.py
       - name: Update model rankings
         run: python docs/fetch_model_rankings.py
       - name: Commit updated feeds to main
         id: commit_main
         run: |
-          FILES="docs/quotes.json docs/agi/quotes.json docs/ai-global-index/quotes.json docs/news.json docs/news-a8febb0.json docs/video-voiceover.json docs/audio/voiceovers docs/agi/news.json docs/agi/news-a8febb0.json docs/ai-global-index/news.json docs/ai-global-index/news-a8febb0.json docs/token-index.json docs/agi/token-index.json docs/ai-global-index/token-index.json docs/model-rankings.json docs/agi/model-rankings.json docs/ai-global-index/model-rankings.json"
+          FILES="docs/quotes.json docs/agi/quotes.json docs/ai-global-index/quotes.json docs/news.json docs/news-a8febb0.json docs/video-voiceover.json docs/audio/voiceovers docs/agi/news.json docs/agi/news-a8febb0.json docs/ai-global-index/news.json docs/ai-global-index/news-a8febb0.json docs/token-index.json docs/agi/token-index.json docs/ai-global-index/token-index.json docs/openrouter-usage.json docs/agi/openrouter-usage.json docs/ai-global-index/openrouter-usage.json docs/model-rankings.json docs/agi/model-rankings.json docs/ai-global-index/model-rankings.json"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add $FILES
@@ -73,21 +75,24 @@ jobs:
           mkdir -p /tmp/agi-gh-pages/audio/voiceovers
           cp -R docs/audio/voiceovers/. /tmp/agi-gh-pages/audio/voiceovers/ 2>/dev/null || true
           cp docs/token-index.json /tmp/agi-gh-pages/token-index.json
+          cp docs/openrouter-usage.json /tmp/agi-gh-pages/openrouter-usage.json
           cp docs/model-rankings.json /tmp/agi-gh-pages/model-rankings.json
           mkdir -p /tmp/agi-gh-pages/agi /tmp/agi-gh-pages/ai-global-index
           cp docs/agi/quotes.json /tmp/agi-gh-pages/agi/quotes.json
           cp docs/agi/news.json /tmp/agi-gh-pages/agi/news.json
           cp docs/agi/news-a8febb0.json /tmp/agi-gh-pages/agi/news-a8febb0.json
           cp docs/agi/token-index.json /tmp/agi-gh-pages/agi/token-index.json
+          cp docs/agi/openrouter-usage.json /tmp/agi-gh-pages/agi/openrouter-usage.json
           cp docs/agi/model-rankings.json /tmp/agi-gh-pages/agi/model-rankings.json
           cp docs/ai-global-index/quotes.json /tmp/agi-gh-pages/ai-global-index/quotes.json
           cp docs/ai-global-index/news.json /tmp/agi-gh-pages/ai-global-index/news.json
           cp docs/ai-global-index/news-a8febb0.json /tmp/agi-gh-pages/ai-global-index/news-a8febb0.json
           cp docs/ai-global-index/token-index.json /tmp/agi-gh-pages/ai-global-index/token-index.json
+          cp docs/ai-global-index/openrouter-usage.json /tmp/agi-gh-pages/ai-global-index/openrouter-usage.json
           cp docs/ai-global-index/model-rankings.json /tmp/agi-gh-pages/ai-global-index/model-rankings.json
           cd /tmp/agi-gh-pages
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add quotes.json news.json news-a8febb0.json video-voiceover.json audio/voiceovers token-index.json model-rankings.json agi/quotes.json agi/news.json agi/news-a8febb0.json agi/token-index.json agi/model-rankings.json ai-global-index/quotes.json ai-global-index/news.json ai-global-index/news-a8febb0.json ai-global-index/token-index.json ai-global-index/model-rankings.json
+          git add quotes.json news.json news-a8febb0.json video-voiceover.json audio/voiceovers token-index.json openrouter-usage.json model-rankings.json agi/quotes.json agi/news.json agi/news-a8febb0.json agi/token-index.json agi/openrouter-usage.json agi/model-rankings.json ai-global-index/quotes.json ai-global-index/news.json ai-global-index/news-a8febb0.json ai-global-index/token-index.json ai-global-index/openrouter-usage.json ai-global-index/model-rankings.json
           git commit -m "Publish AGI daily feeds" || exit 0
           git push origin HEAD:gh-pages
