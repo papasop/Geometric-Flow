@@ -3720,7 +3720,7 @@
         footer: "说明：这是 AI 相关美股挂牌、港股、A 股、韩股、日股、英国、加拿大、瑞典与台湾市场公司及少量预上市公司观察名单，不是投资建议，也不是官方指数。价格、1小时/24小时/7天/30天变化、成交额与市值均优先使用在线 quote/chart 真实行情；不可用时显示为空。预上市公司使用估算美元市值参与排行，不抓取实时行情。非美元公司市值与成交额在内部按 USD/CNY、USD/HKD、USD/KRW、USD/JPY、USD/TWD、USD/GBP、USD/CAD、USD/SEK 机制折算成美元口径，但页面不展示汇率。",
         fallbackHot: "新视频",
         fallbackIndustry: "行业动态持续追踪 AI 芯片、云、数据中心与大模型",
-        fallbackPerson: "正在抓取 Jim Covello、Torsten Sløk、Daron Acemoglu、David Cahn、Jeffrey Gundlach、Jim Chanos、Nate Anderson、Ed Zitron、Gary Marcus、Yann LeCun 最近 3 个月关于 AI 泡沫、资本开支、估值和回报的观点",
+        fallbackPerson: "正在抓取 Jim Covello、Torsten Sløk、Daron Acemoglu、David Cahn、Jeffrey Gundlach、Jim Chanos、Nate Anderson、Ed Zitron、Gary Marcus、Yann LeCun、Andrew Macdonald 最近 3 个月关于 AI 泡沫、资本开支、估值和回报的观点",
         fallbackCompany: "快讯按成分股、并购、入股、股权与融资关键词追踪 Bloomberg 与 Reuters",
         fallbackMarket: "并购/融资新闻按收购、入股、股权、融资、投资关键词追踪 Bloomberg 与 Reuters",
         fallbackFrontier: "MIT Technology Review、Wired、Stanford Engineering 与 Stanford Business 追踪 AI 前沿技术趋势",
@@ -3753,7 +3753,7 @@
         footer: "Note: This is a watchlist of AI-related US-listed, Hong Kong-listed, A-share, Korean, Japanese, UK, Canadian, Swedish, Taiwan-market, and selected pre-IPO companies. It is not investment advice or an official index. Price, 1h/24h/7d/30d change, volume, and market cap use online quote/chart data when available; unavailable fields are left blank. Pre-IPO companies use estimated USD market caps for ranking and do not fetch live quotes. Non-USD market caps and volume are converted internally to USD using USD/CNY, USD/HKD, USD/KRW, USD/JPY, USD/TWD, USD/GBP, USD/CAD, and USD/SEK logic; exchange rates are not displayed.",
         fallbackHot: "New video",
         fallbackIndustry: "Industry news tracking AI chips, cloud, data centers, and foundation models",
-        fallbackPerson: "Tracking recent AI-bubble, capex, valuation, and ROI views from Jim Covello, Torsten Sløk, Daron Acemoglu, David Cahn, Jeffrey Gundlach, Jim Chanos, Nate Anderson, Ed Zitron, Gary Marcus, and Yann LeCun",
+        fallbackPerson: "Tracking recent AI-bubble, capex, valuation, and ROI views from Jim Covello, Torsten Sløk, Daron Acemoglu, David Cahn, Jeffrey Gundlach, Jim Chanos, Nate Anderson, Ed Zitron, Gary Marcus, Yann LeCun, and Andrew Macdonald",
         fallbackCompany: "Company news tracks constituent names plus M&A, stakes, equity, funding, and investment keywords across Bloomberg and Reuters",
         fallbackMarket: "M&A / financing news tracks acquisitions, stakes, equity, funding, investment, and IPO keywords across Bloomberg and Reuters",
         fallbackFrontier: "MIT Technology Review, Wired, Stanford Engineering, and Stanford Business track AI frontier technology trends",
@@ -4998,8 +4998,8 @@
     function mixedColumnistItems(items, limit = 16) {
       return balanceHotNewsItems(items, limit);
     }
-    const OPINION_BEAR_PERSON_RE = /(jim\s+covello|吉姆[·\s]?科韦洛|torsten\s+sl[øo]k|托尔斯滕[·\s]?斯洛克|daron\s+acemoglu|达龙[·\s]?阿西莫格鲁|david\s+cahn|大卫[·\s]?卡恩|jeffrey\s+gundlach|杰弗里[·\s]?冈拉克|jim\s+chanos|吉姆[·\s]?查诺斯|nate\s+anderson|内特[·\s]?安德森|ed\s+zitron|埃德[·\s]?齐特隆|gary\s+marcus|加里[·\s]?马库斯|yann\s+lecun|jan\s+lecun|杨[立丽]坤)/i;
-    const OPINION_BEAR_TOPIC_RE = /(ai\s+bubble|ai\s+capex|ai\s+spending|too\s+much\s+spend|too\s+little\s+benefit|600\s*b|600\s+billion|1\s+trillion|cost[-\s]?effective|s&p\s*500|dot[-\s]?com|internet\s+bubble|valuation|productivity|gdp|automation|hallucination|scaling\s+law|agi|neurosymbolic|人工智能泡沫|ai\s*泡沫|资本开支|估值|生产力|投入过大|回报太少|成本效益|互联网泡沫|幻觉|规模法则|神经符号|通用人工智能)/i;
+    const OPINION_BEAR_PERSON_RE = /(jim\s+covello|吉姆[·\s]?科韦洛|torsten\s+sl[øo]k|托尔斯滕[·\s]?斯洛克|daron\s+acemoglu|达龙[·\s]?阿西莫格鲁|david\s+cahn|大卫[·\s]?卡恩|jeffrey\s+gundlach|杰弗里[·\s]?冈拉克|jim\s+chanos|吉姆[·\s]?查诺斯|nate\s+anderson|内特[·\s]?安德森|ed\s+zitron|埃德[·\s]?齐特隆|gary\s+marcus|加里[·\s]?马库斯|yann\s+lecun|jan\s+lecun|杨[立丽]坤|andrew\s+(g\s+)?macdonald|uber\s+(coo|president|operations\s+chief)|安德鲁[·\s]?麦克唐纳|优步\s*(coo|首席运营官|营运长))/i;
+    const OPINION_BEAR_TOPIC_RE = /(ai\s+bubble|ai\s+capex|ai\s+spending|ai\s+costs|ai\s+roi|too\s+much\s+spend|too\s+little\s+benefit|600\s*b|600\s+billion|1\s+trillion|cost[-\s]?effective|tokenmaxxing|token\s+costs|harder\s+to\s+justify|useful\s+(consumer\s+)?features|claude\s+code|s&p\s*500|dot[-\s]?com|internet\s+bubble|valuation|productivity|gdp|automation|hallucination|scaling\s+law|agi|neurosymbolic|人工智能泡沫|ai\s*泡沫|资本开支|估值|生产力|投入过大|回报太少|成本效益|互联网泡沫|幻觉|规模法则|神经符号|通用人工智能|ai\s*成本|人工智能成本|难以证明|难以辩护|实用功能|功能增加|投资回报率)/i;
     function isBearOpinionItem(item) {
       const personText = [
         item?.title,
