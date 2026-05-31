@@ -1823,7 +1823,7 @@
         <div class="model-ranking-table" id="model-ranking-list"></div>
       </section>
 
-      <section class="ranking-view index-chart-view" id="ranking-view-potential" aria-label="Google and NVIDIA Index">
+      <section class="ranking-view index-chart-view" id="ranking-view-potential" aria-label="OpenRouter token usage chart">
         <div class="index-chart-shell" id="potential-chart-panel">
           <div class="chart-range-tabs" role="tablist" aria-label="Short index chart range">
             <button class="chart-range-tab potential-range-tab active" data-potential-period="history" type="button">历史</button>
@@ -1831,15 +1831,15 @@
             <button class="chart-range-tab potential-range-tab" data-potential-period="week" type="button">周</button>
             <button class="chart-range-tab potential-range-tab" data-potential-period="month" type="button">月</button>
           </div>
-          <svg class="index-chart-svg" id="short-index-chart" viewBox="0 0 980 310" role="img" aria-label="Google and NVIDIA index chart"></svg>
+          <svg class="index-chart-svg" id="short-index-chart" viewBox="0 0 980 310" role="img" aria-label="OpenRouter weekly token usage chart"></svg>
           <div class="index-chart-overlay">
-            <div class="index-chart-title" id="potential-chart-title">Google + NVIDIA Index</div>
+            <div class="index-chart-title" id="potential-chart-title">OpenRouter Token Usage</div>
             <div class="index-chart-stats" id="potential-chart-stats"></div>
           </div>
           <div class="index-chart-tooltip" id="potential-chart-tooltip" hidden></div>
           <div class="index-chart-footer">
-            <span id="potential-chart-footer-primary">Google + NVIDIA Index</span>
-            <span id="potential-chart-footer-secondary">GOOG 50% · NVDA 50% · Start 100</span>
+            <span id="potential-chart-footer-primary">Number of tokens used per week, across models on OpenRouter</span>
+            <span id="potential-chart-footer-secondary">Source: OpenRouter · Chart reference: Semafor</span>
           </div>
         </div>
         <div class="potential-ranking-panel" id="potential-ranking-panel" hidden>
@@ -3672,6 +3672,36 @@
       ["2026-05-12", 1.95],
       ["2026-05-18", 2.1169]
     ];
+    const OPENROUTER_WEEKLY_USAGE = [
+      ["2025-10-13", 5.2e12],
+      ["2025-10-20", 4.9e12],
+      ["2025-10-27", 4.8e12],
+      ["2025-11-03", 5.4e12],
+      ["2025-11-10", 5.8e12],
+      ["2025-11-17", 5.8e12],
+      ["2025-11-24", 6.1e12],
+      ["2025-12-01", 7.4e12],
+      ["2025-12-08", 6.3e12],
+      ["2025-12-15", 5.8e12],
+      ["2025-12-22", 5.8e12],
+      ["2025-12-29", 5.7e12],
+      ["2026-01-05", 5.5e12],
+      ["2026-01-12", 6.4e12],
+      ["2026-01-19", 7.7e12],
+      ["2026-01-26", 7.4e12],
+      ["2026-02-02", 8.1e12],
+      ["2026-02-09", 9.8e12],
+      ["2026-02-16", 13.0e12],
+      ["2026-02-23", 14.0e12],
+      ["2026-03-02", 13.6e12],
+      ["2026-03-09", 14.9e12],
+      ["2026-03-16", 16.8e12],
+      ["2026-03-23", 20.4e12],
+      ["2026-03-30", 22.7e12],
+      ["2026-04-06", 26.9e12],
+      ["2026-04-13", 21.0e12],
+      ["2026-04-20", 20.5e12]
+    ];
     const MODEL_RANKINGS = [
       ["Opus 4.7 Max", "anthropic", 64.8, 11.02],
       ["GPT-5.5 Extra High", "openai", 64.3, 4.37],
@@ -3690,6 +3720,8 @@
     ];
     let tokenExpenditureIndexData = TOKEN_EXPENDITURE_INDEX;
     let tokenIndexMeta = { updatedAt: "", source: "Manual/carry-forward LLM Token Expenditure Index feed", sourceUrl: "" };
+    let openRouterUsageData = OPENROUTER_WEEKLY_USAGE;
+    let openRouterUsageMeta = { updatedAt: "", source: "Semafor chart by Marta Biino / OpenRouter weekly token usage", sourceUrl: "https://openrouter.ai/rankings" };
     const tokenRankingMeta = { updatedAt: "2026-05-23T00:00:00Z", source: "OpenRouter Top Models reference / IsItHub inline snapshot", sourceUrl: "https://openrouter.ai/rankings" };
     let modelRankingData = MODEL_RANKINGS;
     let modelRankingMeta = { updatedAt: "", source: "CursorBench 3.1", sourceUrl: "https://cursor.com/cursorbench" };
@@ -3705,7 +3737,7 @@
         currentFilter: "按当前筛选", realVolume: "真实成交额，可用时更新", hot: "热门", topGainer: "最大升幅", waitingQuotes: "等待行情或估算涨跌",
         tokenRanking: "代币使用", tokenNote: "参考 OpenRouter Top Models，用量口径可切换",
         chartRanking: "代币成本", chartNote: "LLM Token Expenditure Index",
-        modelRanking: "大模型排行", modelNote: "CursorBench · 每日外部更新", potentialRanking: "Google + 英伟达指数", potentialNote: "Google + 英伟达指数 · GOOG 50% + NVDA 50% · 起点 100", potentialChart: "图表", potentialRank: "排行", potentialScore: "潜力得分", potentialGain: "起点倍数", potentialMcap: "市值", potentialBasis: "当前市值 × 起点倍数²", modelColumn: "模型", modelScore: "得分", modelCostTask: "平均成本 / 任务", dataSource: "数据来源", updatedDate: "更新日期", dailyExternal: "每日外部更新", dailyLocal: "每日本地更新", inlineSnapshot: "内置快照",
+        modelRanking: "大模型排行", modelNote: "CursorBench · 每日外部更新", potentialRanking: "OpenRouter 用量", potentialNote: "OpenRouter 全模型每周 token 使用量 · 每日更新", potentialChart: "图表", potentialRank: "排行", potentialScore: "潜力得分", potentialGain: "起点倍数", potentialMcap: "市值", potentialBasis: "当前市值 × 起点倍数²", modelColumn: "模型", modelScore: "得分", modelCostTask: "平均成本 / 任务", dataSource: "数据来源", updatedDate: "更新日期", dailyExternal: "每日外部更新", dailyLocal: "每日本地更新", inlineSnapshot: "内置快照",
         day: "日", week: "周", month: "月", history: "历史", period: "周期", firstShare: "第一名占比",
         all: "全部", aiChips: "AI 芯片", aiCloud: "新云", dataCenter: "数据中心", enterpriseAi: "企业 AI", security: "安全", quantum: "量子", chinaAi: "中国 AI", leopold: "Leopold Aschenbrenner",
         physicalWorldModel: "物理世界模型", worldModelText: "文本", worldModelRobotics: "机器人", openSource: "开源", closedSource: "闭源",
@@ -3738,7 +3770,7 @@
         currentFilter: "Current filter", realVolume: "Real traded value when available", hot: "Trending", topGainer: "Top Gainer", waitingQuotes: "Waiting for quotes or estimated moves",
         tokenRanking: "Token Usage", tokenNote: "Inspired by OpenRouter Top Models; period is switchable",
         chartRanking: "Token Cost", chartNote: "LLM Token Expenditure Index",
-        modelRanking: "Model Ranking", modelNote: "CursorBench · daily external feed", potentialRanking: "Google + NVIDIA Index", potentialNote: "Google + NVIDIA Index · GOOG 50% + NVDA 50% · Start 100", potentialChart: "Chart", potentialRank: "Ranking", potentialScore: "Potential score", potentialGain: "Start multiple", potentialMcap: "Market cap", potentialBasis: "Market cap × start multiple²", modelColumn: "Model", modelScore: "Score", modelCostTask: "Avg Cost / Task", dataSource: "Source", updatedDate: "Updated", dailyExternal: "Daily external update", dailyLocal: "Daily local update", inlineSnapshot: "Inline snapshot",
+        modelRanking: "Model Ranking", modelNote: "CursorBench · daily external feed", potentialRanking: "OpenRouter Usage", potentialNote: "Weekly tokens used across models on OpenRouter · daily feed", potentialChart: "Chart", potentialRank: "Ranking", potentialScore: "Potential score", potentialGain: "Start multiple", potentialMcap: "Market cap", potentialBasis: "Market cap × start multiple²", modelColumn: "Model", modelScore: "Score", modelCostTask: "Avg Cost / Task", dataSource: "Source", updatedDate: "Updated", dailyExternal: "Daily external update", dailyLocal: "Daily local update", inlineSnapshot: "Inline snapshot",
         day: "Day", week: "Week", month: "Month", history: "History", period: "Period", firstShare: "Top share",
         all: "All", aiChips: "AI Chips", aiCloud: "AI Cloud", dataCenter: "Data Centers", enterpriseAi: "Enterprise AI", security: "Security", quantum: "Quantum", chinaAi: "China AI", leopold: "Leopold Aschenbrenner",
         physicalWorldModel: "World Models", worldModelText: "Text", worldModelRobotics: "Robotics", openSource: "Open", closedSource: "Closed",
@@ -5281,7 +5313,7 @@
       return feedNoteText(tokenRankingMeta, t("inlineSnapshot")) || t("tokenNote");
     }
     function potentialNoteText() {
-      return t("potentialNote");
+      return feedNoteText(openRouterUsageMeta, t("dailyExternal")) || t("potentialNote");
     }
     function renderModelRanking() {
       const target = $("model-ranking-list");
@@ -5657,39 +5689,93 @@
       };
       svg.onpointerleave = () => options.onActiveIndex(options.pinnedIndex);
     }
-    function alignedShortIndexSeries(googleRows, nvidiaRows, period) {
-      const size = Math.min(googleRows.length, nvidiaRows.length);
-      const googleTail = googleRows.slice(-size);
-      const nvidiaTail = nvidiaRows.slice(-size);
-      if (googleTail.length < 2 || nvidiaTail.length < 2) return [];
-      let indexValue = 100;
-      return googleTail.map((point, index) => {
-        const nvidiaPoint = nvidiaTail[index];
-        const googleClose = Number(point.close);
-        const nvidiaClose = Number(nvidiaPoint.close);
-        if (!Number.isFinite(googleClose) || !Number.isFinite(nvidiaClose) || googleClose <= 0 || nvidiaClose <= 0) return null;
-        if (index > 0) {
-          const googlePrev = Number(googleTail[index - 1]?.close);
-          const nvidiaPrev = Number(nvidiaTail[index - 1]?.close);
-          if (Number.isFinite(googlePrev) && Number.isFinite(nvidiaPrev) && googlePrev > 0 && nvidiaPrev > 0) {
-            const googleReturn = (googleClose / googlePrev) - 1;
-            const nvidiaReturn = (nvidiaClose / nvidiaPrev) - 1;
-            const portfolioReturn = 0.5 * googleReturn + 0.5 * nvidiaReturn;
-            indexValue *= Math.max(0.01, 1 + portfolioReturn);
-          }
-        }
-        return {
-          date: point.date,
-          value: indexValue
-        };
-      }).filter(Boolean);
+    function openRouterUsageSeries(period) {
+      const rows = openRouterUsageData
+        .map((row) => Array.isArray(row) ? { date: String(row[0]), value: Number(row[1]) } : { date: String(row.date || row.week || ""), value: Number(row.tokens || row.value) })
+        .filter((point) => /^\d{4}-\d{2}-\d{2}$/.test(point.date) && Number.isFinite(point.value) && point.value > 0)
+        .sort((a, b) => a.date.localeCompare(b.date));
+      if (period === "day") return rows.slice(-1);
+      if (period === "week") return rows.slice(-8);
+      if (period === "month") return rows.slice(-13);
+      return rows;
     }
-    async function shortIndexSeries(period) {
-      const [googleRows, nvidiaRows] = await Promise.all([
-        fetchPotentialCloses("GOOG", period),
-        fetchPotentialCloses("NVDA", period)
-      ]);
-      return alignedShortIndexSeries(googleRows, nvidiaRows, period);
+    function renderOpenRouterUsageChart(data, activeIndex = null) {
+      const svg = $("short-index-chart");
+      const stats = $("potential-chart-stats");
+      const tooltip = $("potential-chart-tooltip");
+      if (!svg || !stats) return;
+      if (!data.length) {
+        svg.innerHTML = `<text x="490" y="160" fill="#94a3b8" font-size="15" font-weight="760" text-anchor="middle">${escapeHtml(state.lang === "zh" ? "等待 OpenRouter 用量数据" : "Waiting for OpenRouter usage data")}</text>`;
+        stats.textContent = "";
+        if (tooltip) tooltip.hidden = true;
+        return;
+      }
+      const width = 980;
+      const height = 310;
+      const pad = { top: 22, right: 60, bottom: 52, left: 54 };
+      const plotWidth = width - pad.left - pad.right;
+      const plotHeight = height - pad.top - pad.bottom;
+      const max = Math.max(...data.map((point) => point.value));
+      const yMax = Math.max(1, Math.ceil((max * 1.12) / 5e12) * 5e12);
+      const yTicks = [0, yMax / 2, yMax].filter((value, index, arr) => index === 0 || value !== arr[index - 1]);
+      const barGap = data.length > 20 ? 7 : 12;
+      const barWidth = Math.max(8, (plotWidth - barGap * Math.max(0, data.length - 1)) / data.length);
+      const xFor = (index) => pad.left + index * (barWidth + barGap);
+      const yFor = (value) => pad.top + ((yMax - value) / yMax) * plotHeight;
+      const selectedIndex = Number.isInteger(activeIndex) ? Math.max(0, Math.min(data.length - 1, activeIndex)) : data.length - 1;
+      const selected = data[selectedIndex];
+      const selectedX = xFor(selectedIndex) + barWidth / 2;
+      const selectedY = yFor(selected.value);
+      const xTickIndexes = [...new Set([0, Math.floor((data.length - 1) * 0.25), Math.floor((data.length - 1) * 0.5), Math.floor((data.length - 1) * 0.75), data.length - 1])].filter((index) => index >= 0);
+      const selectedWindow = data.slice(0, selectedIndex + 1);
+      const selectedHigh = selectedWindow.reduce((best, point) => point.value > best.value ? point : best, selectedWindow[0]);
+      const selectedLow = selectedWindow.reduce((best, point) => point.value < best.value ? point : best, selectedWindow[0]);
+      const prev = data[Math.max(0, selectedIndex - 1)];
+      const first = data[0];
+      const deltaPrev = selectedIndex > 0 ? ((selected.value / prev.value) - 1) * 100 : 0;
+      const deltaRange = first.value > 0 ? ((selected.value / first.value) - 1) * 100 : 0;
+      const fmtDelta = (value) => `${value > 0 ? "+" : ""}${value.toFixed(2)}%`;
+      svg.innerHTML = `
+        ${yTicks.map((tick) => `<line x1="${pad.left}" x2="${width - pad.right}" y1="${yFor(tick).toFixed(1)}" y2="${yFor(tick).toFixed(1)}" stroke="rgba(203,213,225,.28)" stroke-dasharray="2 3" /><text x="${pad.left - 10}" y="${(yFor(tick) + 4).toFixed(1)}" fill="#f8fafc" font-size="12" text-anchor="end">${formatTokens(tick)}</text>`).join("")}
+        ${xTickIndexes.map((index) => `<text x="${(xFor(index) + barWidth / 2).toFixed(1)}" y="${height - 28}" fill="#f8fafc" font-size="12" text-anchor="middle">${chartDateLabel(data[index].date, "history")}</text>`).join("")}
+        ${data.map((point, index) => {
+          const barHeight = Math.max(1, height - pad.bottom - yFor(point.value));
+          const active = index === selectedIndex;
+          return `<rect x="${xFor(index).toFixed(1)}" y="${yFor(point.value).toFixed(1)}" width="${barWidth.toFixed(1)}" height="${barHeight.toFixed(1)}" rx="1.5" fill="${active ? "#67e8f9" : "#1e3a8a"}" opacity="${active ? "1" : "0.92"}" />`;
+        }).join("")}
+        <line x1="${selectedX.toFixed(1)}" x2="${selectedX.toFixed(1)}" y1="${pad.top}" y2="${height - pad.bottom}" stroke="#67e8f9" stroke-opacity="0.42" stroke-width="1.2" />
+        <rect x="${pad.left}" y="${pad.top}" width="${plotWidth}" height="${plotHeight}" fill="transparent" data-chart-hitarea="true" />
+      `;
+      stats.innerHTML = `
+        <span>${state.lang === "zh" ? "周度" : "Weekly"}</span><b>${data.length} pts</b>
+        <span>${state.lang === "zh" ? "周期" : "Week"} ${selected.date.slice(5)}</span><b>${formatTokens(selected.value)}</b>
+        <span>Move vs prev</span><b class="${deltaPrev >= 0 ? "positive" : "negative"}">${fmtDelta(deltaPrev)}</b>
+        <span>Move from start</span><b class="${deltaRange >= 0 ? "positive" : "negative"}">${fmtDelta(deltaRange)}</b>
+        <span>High to point</span><b>${formatTokens(selectedHigh.value)}</b>
+        <span>Low to point</span><b>${formatTokens(selectedLow.value)}</b>
+      `;
+      if (tooltip) {
+        tooltip.hidden = false;
+        tooltip.style.left = `${(selectedX / width) * 100}%`;
+        tooltip.style.top = `${(selectedY / height) * 100}%`;
+        tooltip.replaceChildren(document.createTextNode(`${state.lang === "zh" ? "周" : "Week"} ${selected.date}`));
+        const valueNode = document.createElement("b");
+        valueNode.textContent = formatTokens(selected.value);
+        tooltip.appendChild(valueNode);
+      }
+      svg.onpointermove = (event) => {
+        const rect = svg.getBoundingClientRect();
+        const x = ((event.clientX - rect.left) / rect.width) * width;
+        const raw = Math.round((x - pad.left) / (barWidth + barGap));
+        renderPotentialChart(Math.max(0, Math.min(data.length - 1, raw)));
+      };
+      svg.onclick = (event) => {
+        const rect = svg.getBoundingClientRect();
+        const x = ((event.clientX - rect.left) / rect.width) * width;
+        state.potentialPinnedIndex = Math.max(0, Math.min(data.length - 1, Math.round((x - pad.left) / (barWidth + barGap))));
+        renderPotentialChart(state.potentialPinnedIndex);
+      };
+      svg.onpointerleave = () => renderPotentialChart(state.potentialPinnedIndex);
     }
     async function renderPotentialChart(activeIndex = null) {
       const title = $("potential-chart-title");
@@ -5700,40 +5786,10 @@
         button.classList.toggle("active", isActive);
         button.setAttribute("aria-selected", isActive ? "true" : "false");
       });
-      if (title) title.textContent = state.lang === "zh" ? "Google + 英伟达指数" : "Google + NVIDIA Index";
-      if (footerPrimary) footerPrimary.textContent = state.lang === "zh" ? "Google + 英伟达多头组合指数" : "Google + NVIDIA Long Index";
-      if (footerSecondary) footerSecondary.textContent = state.lang === "zh" ? "GOOG 50% · NVDA 50% · 起点 100" : "GOOG 50% · NVDA 50% · Start 100";
-      try {
-        const data = await shortIndexSeries(state.potentialPeriod);
-        renderRatioChart(data, {
-          svgId: "short-index-chart",
-          statsId: "potential-chart-stats",
-          tooltipId: "potential-chart-tooltip",
-          gradientId: "short-index-gradient",
-          period: state.potentialPeriod,
-          activeIndex: activeIndex ?? state.potentialPinnedIndex,
-          pinnedIndex: state.potentialPinnedIndex,
-          valueSuffix: "",
-          valueDecimals: 2,
-          emptyText: state.lang === "zh" ? "等待 Google 与英伟达行情" : "Waiting for Google and NVIDIA quotes",
-          onActiveIndex: (index) => renderPotentialChart(index),
-          onPinIndex: (index) => {
-            state.potentialPinnedIndex = index;
-            renderPotentialChart(index);
-          }
-        });
-      } catch (error) {
-        renderRatioChart([], {
-          svgId: "short-index-chart",
-          statsId: "potential-chart-stats",
-          tooltipId: "potential-chart-tooltip",
-          gradientId: "short-index-gradient",
-          period: state.potentialPeriod,
-          emptyText: state.lang === "zh" ? "空头指数行情暂不可用" : "Short index quotes unavailable",
-          onActiveIndex: () => {},
-          onPinIndex: () => {}
-        });
-      }
+      if (title) title.textContent = state.lang === "zh" ? "OpenRouter 周 token 用量" : "OpenRouter Weekly Token Usage";
+      if (footerPrimary) footerPrimary.textContent = state.lang === "zh" ? "OpenRouter 全模型每周 token 使用量" : "Number of tokens used per week, across models on OpenRouter";
+      if (footerSecondary) footerSecondary.textContent = state.lang === "zh" ? "图表参考：Semafor · 数据源：OpenRouter" : "Chart reference: Semafor · Source: OpenRouter";
+      renderOpenRouterUsageChart(openRouterUsageSeries(state.potentialPeriod), activeIndex ?? state.potentialPinnedIndex);
     }
     function fallbackTalentFlowData() {
       const companies = TALENT_FLOW_COMPANIES.map((company) => ({
@@ -6109,6 +6165,32 @@
         console.warn("Token index feed unavailable; using inline fallback", error);
       }
     }
+    async function fetchOpenRouterUsage() {
+      try {
+        const payload = await fetchJson("openrouter-usage.json");
+        const rows = Array.isArray(payload?.usage) ? payload.usage : payload;
+        const clean = (Array.isArray(rows) ? rows : [])
+          .map((row) => Array.isArray(row) ? [String(row[0]), Number(row[1])] : [String(row.week || row.date), Number(row.tokens || row.value)])
+          .filter(([date, value]) => /^\d{4}-\d{2}-\d{2}$/.test(date) && Number.isFinite(value) && value > 0)
+          .sort((a, b) => a[0].localeCompare(b[0]));
+        if (clean.length >= 2) {
+          openRouterUsageData = clean;
+          if (payload?.meta && typeof payload.meta === "object") {
+            openRouterUsageMeta = {
+              updatedAt: String(payload.meta.updatedAt || ""),
+              source: String(payload.meta.source || "Semafor chart by Marta Biino / OpenRouter weekly token usage"),
+              sourceUrl: String(payload.meta.sourceUrl || "https://openrouter.ai/rankings")
+            };
+          }
+          if (state.rankingView === "potential") {
+            setText("#ranking-panel-note", potentialNoteText());
+            renderPotentialChart();
+          }
+        }
+      } catch (error) {
+        console.warn("OpenRouter usage feed unavailable; using inline fallback", error);
+      }
+    }
     async function fetchModelRankings() {
       try {
         const payload = await fetchJson("model-rankings.json");
@@ -6137,7 +6219,7 @@
           talentFlowData = payload;
           if (state.rankingView === "potential") {
             setText("#ranking-panel-note", potentialNoteText());
-            renderPotentialChart(state.potentialAutoIndex || 0);
+            renderPotentialChart();
           }
         }
       } catch (error) {
@@ -6732,6 +6814,7 @@
     renderModelRanking();
     render();
     fetchTokenIndex();
+    fetchOpenRouterUsage();
     fetchModelRankings();
     fetchTalentFlows();
     fetchQuotes().catch(handleQuoteError);
