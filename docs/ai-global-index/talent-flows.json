@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-31T22:54:09.029710Z",
+  "generatedAt": "2026-05-31T23:33:50.859330Z",
   "source": "Tavily Search",
   "strategy": "Search public news, interviews, speeches, and x.com references for senior AI talent movement among SpaceX, NVIDIA, OpenAI, Anthropic, Meta, and Google.",
   "companies": [
@@ -14,9 +14,9 @@
       "zh": "航天工程 / Starlink / 自动化制造",
       "en": "Space systems / Starlink / automated manufacturing",
       "key": "spacex",
-      "inflow": 2,
+      "inflow": 1,
       "outflow": 16,
-      "events": 18
+      "events": 17
     },
     {
       "name": "NVIDIA",
@@ -31,8 +31,8 @@
       "en": "GPU / CUDA / AI infrastructure",
       "key": "nvidia",
       "inflow": 3,
-      "outflow": 3,
-      "events": 6
+      "outflow": 5,
+      "events": 8
     },
     {
       "name": "OpenAI",
@@ -44,9 +44,9 @@
       "zh": "前沿模型 / Agent / 产品化",
       "en": "Frontier models / agents / productization",
       "key": "openai",
-      "inflow": 7,
+      "inflow": 8,
       "outflow": 7,
-      "events": 14
+      "events": 15
     },
     {
       "name": "Anthropic",
@@ -77,8 +77,8 @@
       "en": "Llama / FAIR / open models",
       "key": "meta",
       "inflow": 9,
-      "outflow": 2,
-      "events": 11
+      "outflow": 3,
+      "events": 12
     },
     {
       "name": "Google",
@@ -110,9 +110,9 @@
       "zh": "外部公司 / 高校 / 研究机构",
       "en": "Outside companies / universities / research labs",
       "key": "external",
-      "inflow": 7,
-      "outflow": 5,
-      "events": 12
+      "inflow": 9,
+      "outflow": 4,
+      "events": 13
     }
   ],
   "flows": [
@@ -365,33 +365,16 @@
         {
           "from": "openai",
           "to": "external",
-          "title": "OpenAI Founding Member Andrej Karpathy Takes Role at Anthropic - Bloomberg.com",
-          "summary": "# OpenAI Founding Member Andrej Karpathy Takes Role at Anthropic. Provide news feedback or report an error. Send a tip to our reporters. Andrej Karpathy, a founding member of OpenAI who later went to work for Tesla Inc., has joined Anthropic PBC to do research and development foc",
-          "url": "https://www.bloomberg.com/news/articles/2026-05-19/openai-founding-member-andrej-karpathy-takes-role-at-anthropic",
-          "source": "Bloomberg",
+          "title": "OpenAI's head of sales leaves for role at Thrive Capital - CNBC",
+          "summary": "# OpenAI's head of sales leaves for role at Thrive Capital. * OpenAI Head of Sales James Dyett announced Monday that he is leaving his role. * Dyett said he is moving to a new role at the venture capital firm Thrive Capital, where he will serve as an Operator in Residence. OpenAI",
+          "url": "https://www.cnbc.com/2026/05/04/open-ai-executive-leaves-thrive-capital.html",
+          "source": "Cnbc",
           "publishedAt": "",
           "people": [
-            "Founding Member Andrej",
-            "Karpathy Takes Role",
-            "Andrej Karpathy",
-            "Tesla Inc"
-          ],
-          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-          "confidence": "tavily"
-        },
-        {
-          "from": "openai",
-          "to": "external",
-          "title": "OpenAI CEO Sam Altman was dishonest, caused 'chaos,' ex-exec Mira Murati says in bombshell testimony - New York Post",
-          "summary": "# OpenAI CEO Sam Altman was dishonest, caused ‘chaos,’ ex-exec Mira Murati says in bombshell testimony. OpenAI’s former head of technology Mira Murati slammed CEO Sam Altman as an untrustworthy leader who fomented strife among the company’s top ranks — stunning testimony that was",
-          "url": "https://nypost.com/2026/05/06/business/openai-ceo-sam-altman-was-dishonest-caused-chaos-ex-exec-mira-murati-says-in-bombshell-testimony/",
-          "source": "Nypost",
-          "publishedAt": "",
-          "people": [
-            "Sam Altman",
-            "Mira Murati",
-            "New York Post",
-            "Elon Musk"
+            "Thrive Capital",
+            "Sales James Dyett",
+            "Big Technology",
+            "Alex Kantrowitz"
           ],
           "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
@@ -416,16 +399,31 @@
         {
           "from": "openai",
           "to": "external",
-          "title": "OpenAI's head of sales leaves for role at Thrive Capital - CNBC",
-          "summary": "# OpenAI's head of sales leaves for role at Thrive Capital. * OpenAI Head of Sales James Dyett announced Monday that he is leaving his role. * Dyett said he is moving to a new role at the venture capital firm Thrive Capital, where he will serve as an Operator in Residence. OpenAI",
-          "url": "https://www.cnbc.com/2026/05/04/open-ai-executive-leaves-thrive-capital.html",
-          "source": "Cnbc",
+          "title": "OpenAI loses its head of private equity to Google - Business Insider",
+          "summary": "# OpenAI loses its head of private equity to Google. * Paul Zimmerman, the AI lab's former head of private equity, announced a move to Google. * OpenAI, Anthropic, and Google are increasingly turning to PE firms for help ramping sales. Two more senior staffers left OpenAI in rece",
+          "url": "https://www.businessinsider.com/openai-loses-head-private-equity-google",
+          "source": "Businessinsider",
           "publishedAt": "",
           "people": [
-            "Thrive Capital",
-            "Sales James Dyett",
-            "Big Technology",
-            "Alex Kantrowitz"
+            "Business Insider",
+            "Paul Zimmerman"
+          ],
+          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        },
+        {
+          "from": "openai",
+          "to": "external",
+          "title": "OpenAI Hires ServiceNow CMO Colin Fleming to Lead Business Marketing Push - ADWEEK",
+          "summary": "OpenAI has hired ServiceNow chief marketing officer Colin Fleming as CMO for its business unit, a move that signals the AI company is deepening its enterprise marketing as it looks to expand beyond its core AI products. Fleming announced his departure in a LinkedIn post Tuesday, ",
+          "url": "https://www.adweek.com/media/openai-hires-servicenow-cmo-colin-fleming-to-lead-business-marketing-push/",
+          "source": "Adweek",
+          "publishedAt": "",
+          "people": [
+            "Colin Fleming",
+            "Lead Business Marketing",
+            "Is Hiring",
+            "Top Marketing Exec"
           ],
           "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
@@ -515,6 +513,47 @@
       ]
     },
     {
+      "from": "meta",
+      "to": "external",
+      "count": 2,
+      "label": "Meta → External Talent Pool",
+      "events": [
+        {
+          "from": "meta",
+          "to": "external",
+          "title": "Technology News | ⚡Layoffs: Meta Workforce Faces Anxiety as Large-Scale Layoffs Approach - LatestLY",
+          "summary": "## Technology. # ⚡Layoffs: Meta Workforce Faces Anxiety as Large-Scale Layoffs Approach. A former Meta employee has described a \"doomsday\" atmosphere at the company ahead of a planned 8,000-person layoff on May 20. Staff morale is reportedly at an all-time low as Meta redirects r",
+          "url": "https://www.latestly.com/quickly/technology/layoffs-meta-workforce-faces-anxiety-as-large-scale-layoffs-approach-7433611.html",
+          "source": "Latestly",
+          "publishedAt": "",
+          "people": [
+            "Technology News",
+            "Meta Workforce Faces",
+            "Scale Layoffs Approach",
+            "Owned Professional Network"
+          ],
+          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        },
+        {
+          "from": "meta",
+          "to": "external",
+          "title": "Mira Murati's AI dream team got their stock options. Now many are out. - Business Insider",
+          "summary": "* Thinking Machines Lab has lost a third of its founding team to rivals amid fierce AI talent wars. * CEO Mira Murati's startup has also hired top talent and recently unveiled a new type of AI model. Thinking Machines Lab's head count has more than quadrupled to over 150 people s",
+          "url": "https://www.businessinsider.com/thinking-machines-lab-key-talent-meta-openai-xai-2026-5",
+          "source": "Businessinsider",
+          "publishedAt": "",
+          "people": [
+            "Mira Murati",
+            "Business Insider",
+            "Thinking Machines Lab"
+          ],
+          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
       "from": "spacex",
       "to": "nvidia",
       "count": 1,
@@ -590,14 +629,14 @@
       ]
     },
     {
-      "from": "openai",
-      "to": "nvidia",
+      "from": "nvidia",
+      "to": "openai",
       "count": 1,
-      "label": "OpenAI → NVIDIA",
+      "label": "NVIDIA → OpenAI",
       "events": [
         {
-          "from": "openai",
-          "to": "nvidia",
+          "from": "nvidia",
+          "to": "openai",
           "title": "OpenAI co-founder and former Tesla AI executive Karpathy joins Anthropic - Reuters",
           "summary": "# OpenAI co-founder and former Tesla AI executive Karpathy joins Anthropic | Reuters. Exclusive news, data and analytics for financial market professionals Learn more about Refinitiv. ## Browse World. ## Browse Business. ## Browse Legal. # OpenAI co-founder and former Tesla AI ex",
           "url": "https://www.reuters.com/business/autos-transportation/former-tesla-ai-executive-openai-founding-member-andrej-karpathy-joins-anthropic-2026-05-19/",
@@ -608,6 +647,31 @@
             "Browse Business",
             "Browse Legal",
             "Dado Ruvic"
+          ],
+          "query": "(\"OpenAI\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
+      "from": "openai",
+      "to": "nvidia",
+      "count": 1,
+      "label": "OpenAI → NVIDIA",
+      "events": [
+        {
+          "from": "openai",
+          "to": "nvidia",
+          "title": "IREN Stock Rallies On Nvidia Partnership For AI Deployments - Investor's Business Daily",
+          "summary": "**BREAKING: Futures, Oil Prices Rise As U.S, Iran Clash; Akamai, IREN Jump Late**. # IREN Stock Rallies On Nvidia Partnership For AI Deployments. **IREN** (IREN) stock vaulted late Thursday after the bitcoin miner and AI cloud infrastructure provider announced a strategic partner",
+          "url": "https://www.investors.com/news/iren-stock-nvidia-strategic-partnership-ai-infrastructure-earnings/",
+          "source": "Investors",
+          "publishedAt": "",
+          "people": [
+            "Stock Rallies On",
+            "Business Daily",
+            "Oil Prices Rise",
+            "Iran Clash"
           ],
           "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
           "confidence": "tavily"
@@ -715,29 +779,6 @@
       ]
     },
     {
-      "from": "external",
-      "to": "spacex",
-      "count": 1,
-      "label": "External Talent Pool → SpaceX",
-      "events": [
-        {
-          "from": "external",
-          "to": "spacex",
-          "title": "Job postings for this tech role have grown more than 700% in the last year - Business Insider",
-          "summary": "# Job postings for this tech role have grown more than 700% in the last year. * Forward-deployed engineers are one of tech's buzziest jobs. * Summaries are generated by an AI model trained on Business Insider's articles. Despite the wave of layoffs that have battered the tech ind",
-          "url": "https://www.businessinsider.com/forward-deployed-engineer-jobs-in-demand-2026-5",
-          "source": "Businessinsider",
-          "publishedAt": "",
-          "people": [
-            "Business Insider",
-            "In April"
-          ],
-          "query": "(\"SpaceX\" OR \"Starlink\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
       "from": "spacex",
       "to": "external",
       "count": 1,
@@ -787,6 +828,31 @@
       ]
     },
     {
+      "from": "nvidia",
+      "to": "external",
+      "count": 1,
+      "label": "NVIDIA → External Talent Pool",
+      "events": [
+        {
+          "from": "nvidia",
+          "to": "external",
+          "title": "Nvidia’s Jensen Huang May Soon Be Worth $200 Billion - Forbes",
+          "summary": "# Nvidia’s Jensen Huang Nears $200 Billion Club—Overtakes Michael Dell As 7th Richest. This voice experience is generated by AI. Nvidia CEO Jensen Huang became the world’s seventh-richest person on Monday, overtaking Dell founder Michael Dell as Nvidia rallied toward another reco",
+          "url": "https://www.forbes.com/sites/tylerroush/2026/05/11/nvidias-jensen-huang-nears-200-billion-club-overtakes-michael-dell-as-7th-richest/",
+          "source": "Forbes",
+          "publishedAt": "",
+          "people": [
+            "Jensen Huang May",
+            "Soon Be Worth",
+            "Jensen Huang Nears",
+            "Billion Club"
+          ],
+          "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"left NVIDIA\" OR \"leaves NVIDIA\" OR \"departed NVIDIA\" OR \"resigned from NVIDIA\" OR \"former NVIDIA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
       "from": "anthropic",
       "to": "external",
       "count": 1,
@@ -829,30 +895,6 @@
             "Yahoo News Malaysia"
           ],
           "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
-      "from": "meta",
-      "to": "external",
-      "count": 1,
-      "label": "Meta → External Talent Pool",
-      "events": [
-        {
-          "from": "meta",
-          "to": "external",
-          "title": "Mira Murati's AI dream team got their stock options. Now many are out. - Business Insider",
-          "summary": "* Thinking Machines Lab has lost a third of its founding team to rivals amid fierce AI talent wars. * CEO Mira Murati's startup has also hired top talent and recently unveiled a new type of AI model. Thinking Machines Lab's head count has more than quadrupled to over 150 people s",
-          "url": "https://www.businessinsider.com/thinking-machines-lab-key-talent-meta-openai-xai-2026-5",
-          "source": "Businessinsider",
-          "publishedAt": "",
-          "people": [
-            "Mira Murati",
-            "Business Insider",
-            "Thinking Machines Lab"
-          ],
-          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
         }
       ]
@@ -1128,6 +1170,23 @@
     },
     {
       "from": "nvidia",
+      "to": "openai",
+      "title": "OpenAI co-founder and former Tesla AI executive Karpathy joins Anthropic - Reuters",
+      "summary": "# OpenAI co-founder and former Tesla AI executive Karpathy joins Anthropic | Reuters. Exclusive news, data and analytics for financial market professionals Learn more about Refinitiv. ## Browse World. ## Browse Business. ## Browse Legal. # OpenAI co-founder and former Tesla AI ex",
+      "url": "https://www.reuters.com/business/autos-transportation/former-tesla-ai-executive-openai-founding-member-andrej-karpathy-joins-anthropic-2026-05-19/",
+      "source": "Reuters",
+      "publishedAt": "",
+      "people": [
+        "Browse World",
+        "Browse Business",
+        "Browse Legal",
+        "Dado Ruvic"
+      ],
+      "query": "(\"OpenAI\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+      "confidence": "tavily"
+    },
+    {
+      "from": "nvidia",
       "to": "meta",
       "title": "Ex-Meta Chinese star joins race for self-improving AI with US$4.6b start-up - South China Morning Post",
       "summary": "# Ex-Meta Chinese star researcher joins race for self-improving AI with US$4.6b start-up. The funding round was led by venture capital firms GV and Greycroft, with ‘major participation’ from Nvidia and AMD. A star Chinese researcher laid off by Facebook owner Meta Platforms has c",
@@ -1163,16 +1222,16 @@
     {
       "from": "openai",
       "to": "nvidia",
-      "title": "OpenAI co-founder and former Tesla AI executive Karpathy joins Anthropic - Reuters",
-      "summary": "# OpenAI co-founder and former Tesla AI executive Karpathy joins Anthropic | Reuters. Exclusive news, data and analytics for financial market professionals Learn more about Refinitiv. ## Browse World. ## Browse Business. ## Browse Legal. # OpenAI co-founder and former Tesla AI ex",
-      "url": "https://www.reuters.com/business/autos-transportation/former-tesla-ai-executive-openai-founding-member-andrej-karpathy-joins-anthropic-2026-05-19/",
-      "source": "Reuters",
+      "title": "IREN Stock Rallies On Nvidia Partnership For AI Deployments - Investor's Business Daily",
+      "summary": "**BREAKING: Futures, Oil Prices Rise As U.S, Iran Clash; Akamai, IREN Jump Late**. # IREN Stock Rallies On Nvidia Partnership For AI Deployments. **IREN** (IREN) stock vaulted late Thursday after the bitcoin miner and AI cloud infrastructure provider announced a strategic partner",
+      "url": "https://www.investors.com/news/iren-stock-nvidia-strategic-partnership-ai-infrastructure-earnings/",
+      "source": "Investors",
       "publishedAt": "",
       "people": [
-        "Browse World",
-        "Browse Business",
-        "Browse Legal",
-        "Dado Ruvic"
+        "Stock Rallies On",
+        "Business Daily",
+        "Oil Prices Rise",
+        "Iran Clash"
       ],
       "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "confidence": "tavily"
@@ -1246,21 +1305,6 @@
       "confidence": "tavily"
     },
     {
-      "from": "external",
-      "to": "spacex",
-      "title": "Job postings for this tech role have grown more than 700% in the last year - Business Insider",
-      "summary": "# Job postings for this tech role have grown more than 700% in the last year. * Forward-deployed engineers are one of tech's buzziest jobs. * Summaries are generated by an AI model trained on Business Insider's articles. Despite the wave of layoffs that have battered the tech ind",
-      "url": "https://www.businessinsider.com/forward-deployed-engineer-jobs-in-demand-2026-5",
-      "source": "Businessinsider",
-      "publishedAt": "",
-      "people": [
-        "Business Insider",
-        "In April"
-      ],
-      "query": "(\"SpaceX\" OR \"Starlink\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-      "confidence": "tavily"
-    },
-    {
       "from": "spacex",
       "to": "external",
       "title": "Former Ukraine official calls for stricter restrictions on Russian use of Starlink - SpaceNews",
@@ -1291,6 +1335,23 @@
         "Carnegie Mellon University"
       ],
       "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+      "confidence": "tavily"
+    },
+    {
+      "from": "nvidia",
+      "to": "external",
+      "title": "Nvidia’s Jensen Huang May Soon Be Worth $200 Billion - Forbes",
+      "summary": "# Nvidia’s Jensen Huang Nears $200 Billion Club—Overtakes Michael Dell As 7th Richest. This voice experience is generated by AI. Nvidia CEO Jensen Huang became the world’s seventh-richest person on Monday, overtaking Dell founder Michael Dell as Nvidia rallied toward another reco",
+      "url": "https://www.forbes.com/sites/tylerroush/2026/05/11/nvidias-jensen-huang-nears-200-billion-club-overtakes-michael-dell-as-7th-richest/",
+      "source": "Forbes",
+      "publishedAt": "",
+      "people": [
+        "Jensen Huang May",
+        "Soon Be Worth",
+        "Jensen Huang Nears",
+        "Billion Club"
+      ],
+      "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"left NVIDIA\" OR \"leaves NVIDIA\" OR \"departed NVIDIA\" OR \"resigned from NVIDIA\" OR \"former NVIDIA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "confidence": "tavily"
     },
     {
@@ -1328,33 +1389,16 @@
     {
       "from": "openai",
       "to": "external",
-      "title": "OpenAI Founding Member Andrej Karpathy Takes Role at Anthropic - Bloomberg.com",
-      "summary": "# OpenAI Founding Member Andrej Karpathy Takes Role at Anthropic. Provide news feedback or report an error. Send a tip to our reporters. Andrej Karpathy, a founding member of OpenAI who later went to work for Tesla Inc., has joined Anthropic PBC to do research and development foc",
-      "url": "https://www.bloomberg.com/news/articles/2026-05-19/openai-founding-member-andrej-karpathy-takes-role-at-anthropic",
-      "source": "Bloomberg",
+      "title": "OpenAI's head of sales leaves for role at Thrive Capital - CNBC",
+      "summary": "# OpenAI's head of sales leaves for role at Thrive Capital. * OpenAI Head of Sales James Dyett announced Monday that he is leaving his role. * Dyett said he is moving to a new role at the venture capital firm Thrive Capital, where he will serve as an Operator in Residence. OpenAI",
+      "url": "https://www.cnbc.com/2026/05/04/open-ai-executive-leaves-thrive-capital.html",
+      "source": "Cnbc",
       "publishedAt": "",
       "people": [
-        "Founding Member Andrej",
-        "Karpathy Takes Role",
-        "Andrej Karpathy",
-        "Tesla Inc"
-      ],
-      "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-      "confidence": "tavily"
-    },
-    {
-      "from": "openai",
-      "to": "external",
-      "title": "OpenAI CEO Sam Altman was dishonest, caused 'chaos,' ex-exec Mira Murati says in bombshell testimony - New York Post",
-      "summary": "# OpenAI CEO Sam Altman was dishonest, caused ‘chaos,’ ex-exec Mira Murati says in bombshell testimony. OpenAI’s former head of technology Mira Murati slammed CEO Sam Altman as an untrustworthy leader who fomented strife among the company’s top ranks — stunning testimony that was",
-      "url": "https://nypost.com/2026/05/06/business/openai-ceo-sam-altman-was-dishonest-caused-chaos-ex-exec-mira-murati-says-in-bombshell-testimony/",
-      "source": "Nypost",
-      "publishedAt": "",
-      "people": [
-        "Sam Altman",
-        "Mira Murati",
-        "New York Post",
-        "Elon Musk"
+        "Thrive Capital",
+        "Sales James Dyett",
+        "Big Technology",
+        "Alex Kantrowitz"
       ],
       "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "confidence": "tavily"
@@ -1379,16 +1423,31 @@
     {
       "from": "openai",
       "to": "external",
-      "title": "OpenAI's head of sales leaves for role at Thrive Capital - CNBC",
-      "summary": "# OpenAI's head of sales leaves for role at Thrive Capital. * OpenAI Head of Sales James Dyett announced Monday that he is leaving his role. * Dyett said he is moving to a new role at the venture capital firm Thrive Capital, where he will serve as an Operator in Residence. OpenAI",
-      "url": "https://www.cnbc.com/2026/05/04/open-ai-executive-leaves-thrive-capital.html",
-      "source": "Cnbc",
+      "title": "OpenAI loses its head of private equity to Google - Business Insider",
+      "summary": "# OpenAI loses its head of private equity to Google. * Paul Zimmerman, the AI lab's former head of private equity, announced a move to Google. * OpenAI, Anthropic, and Google are increasingly turning to PE firms for help ramping sales. Two more senior staffers left OpenAI in rece",
+      "url": "https://www.businessinsider.com/openai-loses-head-private-equity-google",
+      "source": "Businessinsider",
       "publishedAt": "",
       "people": [
-        "Thrive Capital",
-        "Sales James Dyett",
-        "Big Technology",
-        "Alex Kantrowitz"
+        "Business Insider",
+        "Paul Zimmerman"
+      ],
+      "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+      "confidence": "tavily"
+    },
+    {
+      "from": "openai",
+      "to": "external",
+      "title": "OpenAI Hires ServiceNow CMO Colin Fleming to Lead Business Marketing Push - ADWEEK",
+      "summary": "OpenAI has hired ServiceNow chief marketing officer Colin Fleming as CMO for its business unit, a move that signals the AI company is deepening its enterprise marketing as it looks to expand beyond its core AI products. Fleming announced his departure in a LinkedIn post Tuesday, ",
+      "url": "https://www.adweek.com/media/openai-hires-servicenow-cmo-colin-fleming-to-lead-business-marketing-push/",
+      "source": "Adweek",
+      "publishedAt": "",
+      "people": [
+        "Colin Fleming",
+        "Lead Business Marketing",
+        "Is Hiring",
+        "Top Marketing Exec"
       ],
       "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "confidence": "tavily"
@@ -1422,6 +1481,23 @@
         "Yahoo News Malaysia"
       ],
       "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+      "confidence": "tavily"
+    },
+    {
+      "from": "meta",
+      "to": "external",
+      "title": "Technology News | ⚡Layoffs: Meta Workforce Faces Anxiety as Large-Scale Layoffs Approach - LatestLY",
+      "summary": "## Technology. # ⚡Layoffs: Meta Workforce Faces Anxiety as Large-Scale Layoffs Approach. A former Meta employee has described a \"doomsday\" atmosphere at the company ahead of a planned 8,000-person layoff on May 20. Staff morale is reportedly at an all-time low as Meta redirects r",
+      "url": "https://www.latestly.com/quickly/technology/layoffs-meta-workforce-faces-anxiety-as-large-scale-layoffs-approach-7433611.html",
+      "source": "Latestly",
+      "publishedAt": "",
+      "people": [
+        "Technology News",
+        "Meta Workforce Faces",
+        "Scale Layoffs Approach",
+        "Owned Professional Network"
+      ],
+      "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "confidence": "tavily"
     },
     {
@@ -1524,7 +1600,7 @@
       "from": "openai",
       "to": "nvidia",
       "status": "ok",
-      "count": 5
+      "count": 4
     },
     {
       "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
@@ -1552,7 +1628,7 @@
       "from": "anthropic",
       "to": "spacex",
       "status": "ok",
-      "count": 4
+      "count": 5
     },
     {
       "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Anthropic\" OR \"Claude\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
@@ -1622,7 +1698,7 @@
       "from": "google",
       "to": "spacex",
       "status": "ok",
-      "count": 5
+      "count": 4
     },
     {
       "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
@@ -1657,7 +1733,7 @@
       "from": "external",
       "to": "spacex",
       "status": "ok",
-      "count": 5
+      "count": 4
     },
     {
       "query": "(\"SpaceX\" OR \"Starlink\") (\"left SpaceX\" OR \"leaves SpaceX\" OR \"departed SpaceX\" OR \"resigned from SpaceX\" OR \"former SpaceX\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
@@ -1678,7 +1754,7 @@
       "from": "nvidia",
       "to": "external",
       "status": "ok",
-      "count": 1
+      "count": 2
     },
     {
       "query": "(\"OpenAI\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
@@ -1692,14 +1768,14 @@
       "from": "openai",
       "to": "external",
       "status": "ok",
-      "count": 5
+      "count": 4
     },
     {
       "query": "(\"Anthropic\" OR \"Claude\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "from": "external",
       "to": "anthropic",
       "status": "ok",
-      "count": 5
+      "count": 4
     },
     {
       "query": "(\"Anthropic\" OR \"Claude\") (\"left Anthropic\" OR \"leaves Anthropic\" OR \"departed Anthropic\" OR \"resigned from Anthropic\" OR \"former Anthropic\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
