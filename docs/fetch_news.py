@@ -359,6 +359,8 @@ AI_BUBBLE_SKEPTIC_TERMS = [
     "Ed Zitron", "埃德·齐特隆", "埃德 齐特隆",
     "Gary Marcus", "加里·马库斯", "加里 马库斯",
     "Yann LeCun", "Yann Lecun", "Jan LeCun", "杨立昆", "杨丽坤",
+    "Andrew Macdonald", "Andrew G Macdonald", "Uber COO", "Uber president", "Uber operations chief",
+    "安德鲁·麦克唐纳", "安德鲁 麦克唐纳", "优步 COO", "优步营运长", "Uber 首席运营官",
 ]
 AI_BUBBLE_OPINION_TOPIC_TERMS = [
     "AI bubble", "AI capex", "AI spending", "AI infrastructure", "AI returns",
@@ -366,10 +368,14 @@ AI_BUBBLE_OPINION_TOPIC_TERMS = [
     "1 trillion", "$1 trillion", "600 billion", "600B", "cost-effective",
     "cost effective", "S&P 500", "internet bubble", "dot-com bubble",
     "valuation", "productivity", "GDP", "automation", "machine usefulness",
+    "tokenmaxxing", "token costs", "AI costs", "AI ROI", "return on investment",
+    "harder to justify", "useful features", "consumer features", "Claude Code",
     "hallucination", "scaling law", "AGI", "neurosymbolic",
     "人工智能泡沫", "AI 泡沫", "资本开支", "基础设施", "估值",
     "生产力", "投入过大", "回报太少", "成本效益", "互联网泡沫",
     "幻觉", "规模法则", "神经符号", "通用人工智能",
+    "token 成本", "AI 成本", "人工智能成本", "难以证明", "难以辩护",
+    "功能增加", "实用功能", "投资回报率",
 ]
 FOCUSED_PERSON_STATEMENT_TERMS = [
     *AI_BUBBLE_SKEPTIC_TERMS,
@@ -529,6 +535,14 @@ PERSON_NEWS_SOURCES = [
             "LLM is not path to AGI", "world model", "JEPA",
         ]),
     ),
+    google_news_query_source(
+        "Opinion · Andrew Macdonald",
+        ai_person_news_query([
+            "Andrew Macdonald", "Andrew G Macdonald", "Uber COO", "Uber operations chief",
+            "Uber AI spending harder to justify", "tokenmaxxing", "Claude Code",
+            "useful consumer features", "AI ROI", "Business Insider", "Fortune",
+        ]),
+    ),
 ]
 COMPANY_NEWS_SOURCES = [
     google_news_query_source(f"Bloomberg · Company Batch {index + 1}", f"site:bloomberg.com ({quoted_or_query(batch)})")
@@ -675,7 +689,8 @@ TAVILY_SECTION_QUERIES = {
         '"Ed Zitron" "AI bubble" OR "OpenAI" OR "Anthropic" enterprise spending',
         '"Gary Marcus" "AI" hallucination reasoning "scaling law"',
         '"Yann LeCun" OR "Yann Lecun" "LLM" "AGI" OR "world model" OR "JEPA"',
-        'site:x.com ("Jim Covello" OR "Torsten Slok" OR "Daron Acemoglu" OR "David Cahn" OR "Jeffrey Gundlach" OR "Jim Chanos" OR "Nate Anderson" OR "Ed Zitron" OR "Gary Marcus" OR "Yann LeCun") AI',
+        '("Andrew Macdonald" OR "Andrew G Macdonald" OR "Uber COO" OR "Uber operations chief") ("AI spending" OR "tokenmaxxing" OR "harder to justify" OR "Claude Code" OR "useful consumer features")',
+        'site:x.com ("Jim Covello" OR "Torsten Slok" OR "Daron Acemoglu" OR "David Cahn" OR "Jeffrey Gundlach" OR "Jim Chanos" OR "Nate Anderson" OR "Ed Zitron" OR "Gary Marcus" OR "Yann LeCun" OR "Andrew Macdonald" OR "Uber COO") AI',
     ],
     "company": [
         'Nvidia OpenAI Anthropic Microsoft Google Meta AI acquisition funding investment Reuters Bloomberg',
