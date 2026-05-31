@@ -1833,13 +1833,13 @@
           </div>
           <svg class="index-chart-svg" id="short-index-chart" viewBox="0 0 980 310" role="img" aria-label="OpenRouter weekly token usage chart"></svg>
           <div class="index-chart-overlay">
-            <div class="index-chart-title" id="potential-chart-title">OpenRouter Token Usage</div>
+            <div class="index-chart-title" id="potential-chart-title">OpenRouter Anthropic + ChatGPT Usage</div>
             <div class="index-chart-stats" id="potential-chart-stats"></div>
           </div>
           <div class="index-chart-tooltip" id="potential-chart-tooltip" hidden></div>
           <div class="index-chart-footer">
-            <span id="potential-chart-footer-primary">Number of tokens used per week, across models on OpenRouter</span>
-            <span id="potential-chart-footer-secondary">Source: OpenRouter · Chart reference: Semafor</span>
+            <span id="potential-chart-footer-primary">Weekly token usage for Anthropic + ChatGPT/OpenAI models only</span>
+            <span id="potential-chart-footer-secondary">Tavily searches public OpenRouter / Semafor data</span>
           </div>
         </div>
         <div class="potential-ranking-panel" id="potential-ranking-panel" hidden>
@@ -3721,7 +3721,7 @@
     let tokenExpenditureIndexData = TOKEN_EXPENDITURE_INDEX;
     let tokenIndexMeta = { updatedAt: "", source: "Manual/carry-forward LLM Token Expenditure Index feed", sourceUrl: "" };
     let openRouterUsageData = OPENROUTER_WEEKLY_USAGE;
-    let openRouterUsageMeta = { updatedAt: "", source: "Semafor chart by Marta Biino / OpenRouter weekly token usage", sourceUrl: "https://openrouter.ai/rankings" };
+    let openRouterUsageMeta = { updatedAt: "", source: "Tavily public search: OpenRouter Anthropic + ChatGPT/OpenAI weekly token usage", sourceUrl: "https://openrouter.ai/rankings", scope: "anthropic_chatgpt_openai" };
     const tokenRankingMeta = { updatedAt: "2026-05-23T00:00:00Z", source: "OpenRouter Top Models reference / IsItHub inline snapshot", sourceUrl: "https://openrouter.ai/rankings" };
     let modelRankingData = MODEL_RANKINGS;
     let modelRankingMeta = { updatedAt: "", source: "CursorBench 3.1", sourceUrl: "https://cursor.com/cursorbench" };
@@ -3737,7 +3737,7 @@
         currentFilter: "按当前筛选", realVolume: "真实成交额，可用时更新", hot: "热门", topGainer: "最大升幅", waitingQuotes: "等待行情或估算涨跌",
         tokenRanking: "代币使用", tokenNote: "参考 OpenRouter Top Models，用量口径可切换",
         chartRanking: "代币成本", chartNote: "LLM Token Expenditure Index",
-        modelRanking: "大模型排行", modelNote: "CursorBench · 每日外部更新", potentialRanking: "OpenRouter 用量", potentialNote: "OpenRouter 全模型每周 token 使用量 · 每日更新", potentialChart: "图表", potentialRank: "排行", potentialScore: "潜力得分", potentialGain: "起点倍数", potentialMcap: "市值", potentialBasis: "当前市值 × 起点倍数²", modelColumn: "模型", modelScore: "得分", modelCostTask: "平均成本 / 任务", dataSource: "数据来源", updatedDate: "更新日期", dailyExternal: "每日外部更新", dailyLocal: "每日本地更新", inlineSnapshot: "内置快照",
+        modelRanking: "大模型排行", modelNote: "CursorBench · 每日外部更新", potentialRanking: "OpenRouter 用量", potentialNote: "Anthropic + ChatGPT/OpenAI 模型每周 token 使用量 · Tavily 每日搜索", potentialChart: "图表", potentialRank: "排行", potentialScore: "潜力得分", potentialGain: "起点倍数", potentialMcap: "市值", potentialBasis: "当前市值 × 起点倍数²", modelColumn: "模型", modelScore: "得分", modelCostTask: "平均成本 / 任务", dataSource: "数据来源", updatedDate: "更新日期", dailyExternal: "每日外部更新", dailyLocal: "每日本地更新", inlineSnapshot: "内置快照",
         day: "日", week: "周", month: "月", history: "历史", period: "周期", firstShare: "第一名占比",
         all: "全部", aiChips: "AI 芯片", aiCloud: "新云", dataCenter: "数据中心", enterpriseAi: "企业 AI", security: "安全", quantum: "量子", chinaAi: "中国 AI", leopold: "Leopold Aschenbrenner",
         physicalWorldModel: "物理世界模型", worldModelText: "文本", worldModelRobotics: "机器人", openSource: "开源", closedSource: "闭源",
@@ -3770,7 +3770,7 @@
         currentFilter: "Current filter", realVolume: "Real traded value when available", hot: "Trending", topGainer: "Top Gainer", waitingQuotes: "Waiting for quotes or estimated moves",
         tokenRanking: "Token Usage", tokenNote: "Inspired by OpenRouter Top Models; period is switchable",
         chartRanking: "Token Cost", chartNote: "LLM Token Expenditure Index",
-        modelRanking: "Model Ranking", modelNote: "CursorBench · daily external feed", potentialRanking: "OpenRouter Usage", potentialNote: "Weekly tokens used across models on OpenRouter · daily feed", potentialChart: "Chart", potentialRank: "Ranking", potentialScore: "Potential score", potentialGain: "Start multiple", potentialMcap: "Market cap", potentialBasis: "Market cap × start multiple²", modelColumn: "Model", modelScore: "Score", modelCostTask: "Avg Cost / Task", dataSource: "Source", updatedDate: "Updated", dailyExternal: "Daily external update", dailyLocal: "Daily local update", inlineSnapshot: "Inline snapshot",
+        modelRanking: "Model Ranking", modelNote: "CursorBench · daily external feed", potentialRanking: "OpenRouter Usage", potentialNote: "Weekly Anthropic + ChatGPT/OpenAI token usage on OpenRouter · daily Tavily search", potentialChart: "Chart", potentialRank: "Ranking", potentialScore: "Potential score", potentialGain: "Start multiple", potentialMcap: "Market cap", potentialBasis: "Market cap × start multiple²", modelColumn: "Model", modelScore: "Score", modelCostTask: "Avg Cost / Task", dataSource: "Source", updatedDate: "Updated", dailyExternal: "Daily external update", dailyLocal: "Daily local update", inlineSnapshot: "Inline snapshot",
         day: "Day", week: "Week", month: "Month", history: "History", period: "Period", firstShare: "Top share",
         all: "All", aiChips: "AI Chips", aiCloud: "AI Cloud", dataCenter: "Data Centers", enterpriseAi: "Enterprise AI", security: "Security", quantum: "Quantum", chinaAi: "China AI", leopold: "Leopold Aschenbrenner",
         physicalWorldModel: "World Models", worldModelText: "Text", worldModelRobotics: "Robotics", openSource: "Open", closedSource: "Closed",
@@ -5786,9 +5786,9 @@
         button.classList.toggle("active", isActive);
         button.setAttribute("aria-selected", isActive ? "true" : "false");
       });
-      if (title) title.textContent = state.lang === "zh" ? "OpenRouter 周 token 用量" : "OpenRouter Weekly Token Usage";
-      if (footerPrimary) footerPrimary.textContent = state.lang === "zh" ? "OpenRouter 全模型每周 token 使用量" : "Number of tokens used per week, across models on OpenRouter";
-      if (footerSecondary) footerSecondary.textContent = state.lang === "zh" ? "图表参考：Semafor · 数据源：OpenRouter" : "Chart reference: Semafor · Source: OpenRouter";
+      if (title) title.textContent = state.lang === "zh" ? "OpenRouter Anthropic + ChatGPT 用量" : "OpenRouter Anthropic + ChatGPT Usage";
+      if (footerPrimary) footerPrimary.textContent = state.lang === "zh" ? "仅统计 Anthropic + ChatGPT/OpenAI 模型每周 token 使用量" : "Weekly token usage for Anthropic + ChatGPT/OpenAI models only";
+      if (footerSecondary) footerSecondary.textContent = state.lang === "zh" ? "Tavily 搜索公开 OpenRouter / Semafor 数据" : "Tavily searches public OpenRouter / Semafor data";
       renderOpenRouterUsageChart(openRouterUsageSeries(state.potentialPeriod), activeIndex ?? state.potentialPinnedIndex);
     }
     function fallbackTalentFlowData() {
@@ -6178,8 +6178,9 @@
           if (payload?.meta && typeof payload.meta === "object") {
             openRouterUsageMeta = {
               updatedAt: String(payload.meta.updatedAt || ""),
-              source: String(payload.meta.source || "Semafor chart by Marta Biino / OpenRouter weekly token usage"),
-              sourceUrl: String(payload.meta.sourceUrl || "https://openrouter.ai/rankings")
+              source: String(payload.meta.source || "Tavily public search: OpenRouter Anthropic + ChatGPT/OpenAI weekly token usage"),
+              sourceUrl: String(payload.meta.sourceUrl || "https://openrouter.ai/rankings"),
+              scope: String(payload.meta.scope || "anthropic_chatgpt_openai")
             };
           }
           if (state.rankingView === "potential") {

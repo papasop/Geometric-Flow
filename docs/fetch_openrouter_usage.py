@@ -4,10 +4,11 @@ Generate openrouter-usage.json for the OpenRouter weekly token usage chart.
 
 The public page reads openrouter-usage.json first and falls back to the inline
 HTML seed. The seed is transcribed from the Semafor chart credited to
-Marta Biino, with OpenRouter as the source. A real weekly value can be supplied
-with --tokens or OPENROUTER_WEEKLY_TOKENS. Otherwise the updater searches
-public OpenRouter/Semafor mentions with Tavily; if no parseable value is found,
-it carries the latest known value forward and marks that in metadata.
+Marta Biino, with OpenRouter as the source. A real weekly Anthropic + ChatGPT
+/ OpenAI value can be supplied with --tokens or OPENROUTER_WEEKLY_TOKENS.
+Otherwise the updater searches public OpenRouter/Semafor mentions with Tavily;
+if no parseable filtered value is found, it carries the latest known value
+forward and marks that in metadata.
 """
 
 from __future__ import annotations
@@ -27,14 +28,31 @@ OUTFILE = ROOT / "openrouter-usage.json"
 MIRROR_DIRS = [ROOT / "agi", ROOT / "ai-global-index"]
 TAVILY_SEARCH_ENDPOINT = "https://api.tavily.com/search"
 USER_AGENT = "IsItHub/1.0 (openrouter-usage; https://isithub.com/)"
-SOURCE_NAME = "Semafor / OpenRouter public weekly token usage"
+SOURCE_NAME = "Tavily public search: OpenRouter Anthropic + ChatGPT/OpenAI weekly token usage"
 SOURCE_URL = "https://openrouter.ai/rankings"
-TAVILY_QUERIES = [
-    '"Number of tokens used per week" OpenRouter Semafor',
-    '"OpenRouter" "tokens used per week" "Semafor"',
-    '"OpenRouter" "weekly token" "trillion"',
-    '"OpenRouter" "Number of tokens" "Marta Biino"',
-]
+MODEL_SCOPE = "anthropic_chatgpt_openai"
+MODEL_FAMILIES = {
+    "anthropic": {
+        "label": "Anthropic / Claude",
+        "terms": ("anthropic", "claude", "opus", "sonnet", "haiku"),
+        "queries": [
+            '"OpenRouter" "Anthropic" "token usage" "trillion"',
+            '"OpenRouter" "Claude" "tokens" "Semafor"',
+            '"OpenRouter" "Claude" "weekly tokens"',
+            '"OpenRouter rankings" "Anthropic" "tokens"',
+        ],
+    },
+    "openai": {
+        "label": "ChatGPT / OpenAI",
+        "terms": ("openai", "chatgpt", "gpt-4", "gpt-5", "gpt 4", "gpt 5", "o3", "o4"),
+        "queries": [
+            '"OpenRouter" "ChatGPT" "token usage" "trillion"',
+            '"OpenRouter" "OpenAI" "tokens" "Semafor"',
+            '"OpenRouter" "GPT-5" "weekly tokens"',
+            '"OpenRouter rankings" "OpenAI" "tokens"',
+        ],
+    },
+}
 
 SEED_ROWS: list[list[object]] = [
     ["2025-10-13", 5.2e12],
@@ -122,6 +140,43 @@ def parse_token_value(text: str) -> float | None:
     return round(max(values), 2)
 
 
+def parse_family_token_value(text: str, family_terms: tuple[str, ...]) -> float | None:
+    """Parse token usage values only when they appear near a target model family."""
+    cleaned = re.sub(r"\s+", " ", text or "")
+    lowered = cleaned.lower()
+    if not any(term in lowered for term in family_terms):
+        return None
+    term_positions: list[int] = []
+    for term in family_terms:
+        term_positions.extend(match.start() for match in re.finditer(re.escape(term), lowered))
+
+    patterns = [
+        r"(\d+(?:\.\d+)?)\s*(?:T|tn|trillion)\s+(?:tokens|token)",
+        r"(\d+(?:\.\d+)?)\s*(?:T|tn|trillion)\b",
+        r"(\d+(?:\.\d+)?)\s*(?:万亿|兆)\s*(?:tokens|token|代币|令牌)?",
+    ]
+    candidates: list[tuple[int, float]] = []
+    for pattern in patterns:
+        for match in re.finditer(pattern, cleaned, flags=re.I):
+            start = max(0, match.start() - 180)
+            end = min(len(cleaned), match.end() + 180)
+            window = cleaned[start:end].lower()
+            if not any(term in window for term in family_terms):
+                continue
+            before_start = max(0, match.start() - 52)
+            before_window = cleaned[before_start:match.start()].lower()
+            if "all models" in before_window or "across models" in before_window:
+                continue
+            value = float(match.group(1)) * 1e12
+            if 1e9 <= value <= 200e12:
+                distance = min(abs(match.start() - pos) for pos in term_positions)
+                candidates.append((distance, value))
+    if not candidates:
+        return None
+    candidates.sort(key=lambda item: (item[0], -item[1]))
+    return round(candidates[0][1], 2)
+
+
 def post_tavily_search(api_key: str, query: str) -> dict:
     payload = {
         "query": query,
@@ -149,15 +204,12 @@ def post_tavily_search(api_key: str, query: str) -> dict:
         return json.loads(response.read().decode("utf-8", errors="replace"))
 
 
-def search_public_weekly_tokens() -> dict[str, object]:
-    api_key = os.environ.get("TAVILY_API_KEY", "").strip()
-    if not api_key:
-        return {"tokens": None, "status": "missing-key", "observations": []}
-
+def search_family_weekly_tokens(api_key: str, family_key: str, config: dict[str, object]) -> dict[str, object]:
+    terms = tuple(str(term).lower() for term in config["terms"])
     observations: list[dict[str, object]] = []
-    for query in TAVILY_QUERIES:
+    for query in config["queries"]:
         try:
-            data = post_tavily_search(api_key, query)
+            data = post_tavily_search(api_key, str(query))
         except (urllib.error.URLError, TimeoutError, OSError, json.JSONDecodeError) as exc:
             observations.append({"query": query, "status": "error", "error": str(exc)[:180]})
             continue
@@ -178,13 +230,45 @@ def search_public_weekly_tokens() -> dict[str, object]:
                 ]))
 
         for text in texts:
-            value = parse_token_value(text)
+            value = parse_family_token_value(text, terms)
             if value:
                 observations.append({"query": query, "status": "parsed", "tokens": value})
-                return {"tokens": value, "status": "parsed", "observations": observations}
+                return {"family": family_key, "tokens": value, "status": "parsed", "observations": observations}
         observations.append({"query": query, "status": "no-parse"})
 
-    return {"tokens": None, "status": "no-public-value", "observations": observations}
+    return {"family": family_key, "tokens": None, "status": "no-public-family-value", "observations": observations}
+
+
+def search_public_weekly_tokens() -> dict[str, object]:
+    api_key = os.environ.get("TAVILY_API_KEY", "").strip()
+    if not api_key:
+        return {"tokens": None, "status": "missing-key", "observations": []}
+
+    family_results: dict[str, dict[str, object]] = {}
+    family_tokens: dict[str, float] = {}
+    for family_key, config in MODEL_FAMILIES.items():
+        result = search_family_weekly_tokens(api_key, family_key, config)
+        family_results[family_key] = result
+        if result.get("tokens"):
+            family_tokens[family_key] = round(float(result["tokens"]), 2)
+
+    if set(family_tokens) == set(MODEL_FAMILIES):
+        total = round(sum(family_tokens.values()), 2)
+        return {
+            "tokens": total,
+            "status": "parsed",
+            "scope": MODEL_SCOPE,
+            "familyTokens": family_tokens,
+            "observations": family_results,
+        }
+
+    return {
+        "tokens": None,
+        "status": "missing-family-values",
+        "scope": MODEL_SCOPE,
+        "familyTokens": family_tokens,
+        "observations": family_results,
+    }
 
 
 def resolve_tokens(cli_tokens: float | None, previous_value: float) -> tuple[float, str, dict[str, object] | None]:
@@ -197,8 +281,8 @@ def resolve_tokens(cli_tokens: float | None, previous_value: float) -> tuple[flo
 
     search = search_public_weekly_tokens()
     if search.get("tokens"):
-        return round(float(search["tokens"]), 2), "tavily-public-search", search
-    return round(previous_value, 2), "carry-forward", search
+        return round(float(search["tokens"]), 2), "tavily-filtered-public-search", search
+    return round(previous_value, 2), "carry-forward-filtered-scope", search
 
 
 def update_usage(target_day: date, tokens: float | None) -> dict:
@@ -212,10 +296,7 @@ def update_usage(target_day: date, tokens: float | None) -> dict:
     if target_week < last_week:
         raise ValueError(f"target week {target_week} is before latest row {last_week}")
     if target_week == last_week:
-        if tokens is not None or os.environ.get("OPENROUTER_WEEKLY_TOKENS") not in (None, ""):
-            rows[-1][1], update_mode, search_status = resolve_tokens(tokens, last_value)
-        else:
-            update_mode = "existing-week"
+        rows[-1][1], update_mode, search_status = resolve_tokens(tokens, last_value)
     else:
         current = last_week + timedelta(days=7)
         while current <= target_week:
@@ -233,12 +314,14 @@ def update_usage(target_day: date, tokens: float | None) -> dict:
             "updatedAt": datetime.now(timezone.utc).isoformat(),
             "source": SOURCE_NAME,
             "sourceUrl": SOURCE_URL,
+            "scope": MODEL_SCOPE,
+            "families": {key: config["label"] for key, config in MODEL_FAMILIES.items()},
             "unit": "tokens per week",
             "count": len(rows),
             "latestWeek": latest[0],
             "latestValue": latest[1],
             "updateMode": update_mode,
-            "carriedForward": update_mode == "carry-forward",
+            "carriedForward": update_mode.startswith("carry-forward"),
             "searchStatus": search_status,
         },
         "usage": rows,
