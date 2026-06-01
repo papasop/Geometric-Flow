@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-01T13:18:16.220569Z",
+  "generatedAt": "2026-06-01T15:34:52.855072Z",
   "source": "Tavily Search",
   "strategy": "Search public news, interviews, speeches, and x.com references for senior AI talent movement among SpaceX, NVIDIA, OpenAI, Anthropic, Meta, and Google.",
   "companies": [
@@ -14,9 +14,9 @@
       "zh": "航天工程 / Starlink / 自动化制造",
       "en": "Space systems / Starlink / automated manufacturing",
       "key": "spacex",
-      "inflow": 1,
+      "inflow": 0,
       "outflow": 16,
-      "events": 17
+      "events": 16
     },
     {
       "name": "NVIDIA",
@@ -76,9 +76,9 @@
       "zh": "Llama / FAIR / 开源模型",
       "en": "Llama / FAIR / open models",
       "key": "meta",
-      "inflow": 14,
-      "outflow": 2,
-      "events": 16
+      "inflow": 9,
+      "outflow": 3,
+      "events": 12
     },
     {
       "name": "Google",
@@ -93,9 +93,9 @@
       "zh": "DeepMind / TPU / 搜索与云 AI",
       "en": "DeepMind / TPU / search and cloud AI",
       "key": "google",
-      "inflow": 2,
-      "outflow": 5,
-      "events": 7
+      "inflow": 3,
+      "outflow": 0,
+      "events": 3
     },
     {
       "name": "External Talent Pool",
@@ -110,9 +110,9 @@
       "zh": "外部公司 / 高校 / 研究机构",
       "en": "Outside companies / universities / research labs",
       "key": "external",
-      "inflow": 7,
+      "inflow": 8,
       "outflow": 5,
-      "events": 12
+      "events": 13
     }
   ],
   "flows": [
@@ -206,164 +206,6 @@
       ]
     },
     {
-      "from": "google",
-      "to": "meta",
-      "count": 5,
-      "label": "Google → Meta",
-      "events": [
-        {
-          "from": "google",
-          "to": "meta",
-          "title": "OpenAI hires former Roblox comms lead Eric Porterfield for youth safety and education role",
-          "summary": "Porterfield joins OpenAI's policy communications team after roles covering child safety at Roblox, integrity at Meta, and crisis communications across",
-          "url": "https://www.edtechinnovationhub.com/news/openai-hires-former-roblox-comms-lead-eric-porterfield-for-youth-safety-and-education-role",
-          "source": "Edtechinnovationhub",
-          "publishedAt": "",
-          "people": [
-            "Eric Porterfield"
-          ],
-          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        },
-        {
-          "from": "google",
-          "to": "meta",
-          "title": "The Vogue Business People Moves Tracker",
-          "summary": "Introducing the Vogue Business People Moves Tracker, a running list highlighting the key executive appointments and exits across the fashion and beauty",
-          "url": "https://www.vogue.com/article/the-vogue-business-people-moves-tracker",
-          "source": "Vogue",
-          "publishedAt": "",
-          "people": [
-            "The Vogue Business",
-            "People Moves Tracker",
-            "Vogue Business People",
-            "Moves Tracker"
-          ],
-          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        },
-        {
-          "from": "google",
-          "to": "meta",
-          "title": "Exodus at xAI: Over 50 Researchers Depart After SpaceX Merger",
-          "summary": "Exodus at xAI: Over 50 Researchers Depart After SpaceX Merger Leadership Changes, High-Pressure Culture Drive Talent to Meta, Thinking Machines Lab Mo.",
-          "url": "https://www.chosun.com/english/industry-en/2026/05/15/WTULL54CCVGGDOWDNBLXBNAYS4/",
-          "source": "Chosun",
-          "publishedAt": "",
-          "people": [
-            "Researchers Depart After",
-            "Merger Exodus",
-            "Merger Leadership Changes",
-            "Pressure Culture Drive"
-          ],
-          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        },
-        {
-          "from": "google",
-          "to": "meta",
-          "title": "GitHub faces a fight for its survival at Microsoft",
-          "summary": "GitHub is battling outages, security issues, and a talent exodus.",
-          "url": "https://www.theverge.com/tech/935250/microsoft-github-struggles-notepad",
-          "source": "Theverge",
-          "publishedAt": "",
-          "people": [],
-          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        },
-        {
-          "from": "google",
-          "to": "meta",
-          "title": "OpenAI co-founder Andrej Karpathy joins Anthropic to lead AI research unit",
-          "summary": "Anthropic's annualised revenue has tripled to $30 billion since December and now it has pulled off the kind of hire that signals a company playing to win.",
-          "url": "https://www.thenews.com.pk/latest/1403201-openai-co-founder-andrej-karpathy-joins-anthropic-to-lead-ai-research-unit",
-          "source": "Com",
-          "publishedAt": "",
-          "people": [
-            "Andrej Karpathy"
-          ],
-          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
-      "from": "spacex",
-      "to": "anthropic",
-      "count": 4,
-      "label": "SpaceX → Anthropic",
-      "events": [
-        {
-          "from": "spacex",
-          "to": "anthropic",
-          "title": "Anthropic hires OpenAI co-founder Andrej Karpathy as its momentum continues to surge - New York Post",
-          "summary": "# Anthropic hires OpenAI co-founder Andrej Karpathy as its momentum continues to surge. Andrej Karpathy, an OpenAI co-founder and former Tesla executive, has joined Anthropic – adding to the artificial intelligence giant’s surging momentum. Karpathy — considered to be one of the ",
-          "url": "https://nypost.com/2026/05/19/business/anthropic-hires-openai-co-founder-andrej-karpathy/",
-          "source": "Nypost",
-          "publishedAt": "",
-          "people": [
-            "Andrej Karpathy",
-            "New York Post",
-            "Dario Amodei",
-            "Sam Altman"
-          ],
-          "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        },
-        {
-          "from": "spacex",
-          "to": "anthropic",
-          "title": "OpenAI Co-Founder Andrej Karpathy Joins Anthropic to Lead Claude Pretraining - OpenTools",
-          "summary": "# OpenAI Co-Founder Andrej Karpathy Joins Anthropic to Lead Claude Pretraining. Andrej Karpathy, OpenAI co‑founder and former Tesla AI director, has joined Anthropic's pretraining team to build a group that uses Claude itself to accelerate AI research. The hire is the biggest tal",
-          "url": "https://opentools.ai/news/andrej-karpathy-joins-anthropic-pretraining-claude",
-          "source": "Opentools",
-          "publishedAt": "",
-          "people": [
-            "Founder Andrej Karpathy",
-            "Joins Anthropic",
-            "Lead Claude Pretraining",
-            "Andrej Karpathy"
-          ],
-          "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        },
-        {
-          "from": "spacex",
-          "to": "anthropic",
-          "title": "Andrej Karpathy, Tesla Alum and OpenAI Co-Founder, Joins Anthropic - WSJ",
-          "summary": "# Anthropic Hires OpenAI Co-Founder Karpathy to Lead New AI Group - WSJ. S&P GSCI Index Spot 763.15 -0.29%. https://www.wsj.com/tech/ai/andrej-karpathy-tesla-alum-and-openai-co-founder-joins-anthropic-c665f51f. # Andrej Karpathy, Tesla Alum and OpenAI Co-Founder, Joins Anthropic.",
-          "url": "https://www.wsj.com/tech/ai/andrej-karpathy-tesla-alum-and-openai-co-founder-joins-anthropic-c665f51f",
-          "source": "Wsj",
-          "publishedAt": "",
-          "people": [
-            "Andrej Karpathy",
-            "Tesla Alum",
-            "Joins Anthropic",
-            "Anthropic Hires"
-          ],
-          "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        },
-        {
-          "from": "spacex",
-          "to": "anthropic",
-          "title": "OpenAI co-founder Andrej Karpathy joins Anthropic’s pre-training team - TechCrunch",
-          "summary": "# OpenAI co-founder Andrej Karpathy joins Anthropic’s pre-training team. Andrej Karpathy, the AI researcher who co-founded and formerly worked at OpenAI and previously led AI at Tesla, has joined Anthropic. “I think the next few years at the frontier of LLMs will be especially fo",
-          "url": "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/",
-          "source": "Techcrunch",
-          "publishedAt": "",
-          "people": [
-            "Andrej Karpathy",
-            "Nick Joseph",
-            "An Anthropic",
-            "The Paranoids"
-          ],
-          "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
       "from": "spacex",
       "to": "meta",
       "count": 4,
@@ -447,16 +289,33 @@
         {
           "from": "openai",
           "to": "external",
-          "title": "OpenAI's head of sales leaves for role at Thrive Capital - CNBC",
-          "summary": "# OpenAI's head of sales leaves for role at Thrive Capital. * OpenAI Head of Sales James Dyett announced Monday that he is leaving his role. * Dyett said he is moving to a new role at the venture capital firm Thrive Capital, where he will serve as an Operator in Residence. OpenAI",
-          "url": "https://www.cnbc.com/2026/05/04/open-ai-executive-leaves-thrive-capital.html",
-          "source": "Cnbc",
+          "title": "OpenAI Founding Member Andrej Karpathy Takes Role at Anthropic - Bloomberg.com",
+          "summary": "# OpenAI Founding Member Andrej Karpathy Takes Role at Anthropic. Provide news feedback or report an error. Send a tip to our reporters. Andrej Karpathy, a founding member of OpenAI who later went to work for Tesla Inc., has joined Anthropic PBC to do research and development foc",
+          "url": "https://www.bloomberg.com/news/articles/2026-05-19/openai-founding-member-andrej-karpathy-takes-role-at-anthropic",
+          "source": "Bloomberg",
           "publishedAt": "",
           "people": [
-            "Thrive Capital",
-            "Sales James Dyett",
-            "Big Technology",
-            "Alex Kantrowitz"
+            "Founding Member Andrej",
+            "Karpathy Takes Role",
+            "Andrej Karpathy",
+            "Tesla Inc"
+          ],
+          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        },
+        {
+          "from": "openai",
+          "to": "external",
+          "title": "OpenAI CEO Sam Altman was dishonest, caused 'chaos,' ex-exec Mira Murati says in bombshell testimony - New York Post",
+          "summary": "# OpenAI CEO Sam Altman was dishonest, caused ‘chaos,’ ex-exec Mira Murati says in bombshell testimony. OpenAI’s former head of technology Mira Murati slammed CEO Sam Altman as an untrustworthy leader who fomented strife among the company’s top ranks — stunning testimony that was",
+          "url": "https://nypost.com/2026/05/06/business/openai-ceo-sam-altman-was-dishonest-caused-chaos-ex-exec-mira-murati-says-in-bombshell-testimony/",
+          "source": "Nypost",
+          "publishedAt": "",
+          "people": [
+            "Sam Altman",
+            "Mira Murati",
+            "New York Post",
+            "Elon Musk"
           ],
           "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
@@ -481,33 +340,119 @@
         {
           "from": "openai",
           "to": "external",
-          "title": "OpenAI loses its head of private equity to Google - Business Insider",
-          "summary": "# OpenAI loses its head of private equity to Google. * Paul Zimmerman, the AI lab's former head of private equity, announced a move to Google. * OpenAI, Anthropic, and Google are increasingly turning to PE firms for help ramping sales. Two more senior staffers left OpenAI in rece",
-          "url": "https://www.businessinsider.com/openai-loses-head-private-equity-google",
-          "source": "Businessinsider",
+          "title": "OpenAI's head of sales leaves for role at Thrive Capital - CNBC",
+          "summary": "# OpenAI's head of sales leaves for role at Thrive Capital. * OpenAI Head of Sales James Dyett announced Monday that he is leaving his role. * Dyett said he is moving to a new role at the venture capital firm Thrive Capital, where he will serve as an Operator in Residence. OpenAI",
+          "url": "https://www.cnbc.com/2026/05/04/open-ai-executive-leaves-thrive-capital.html",
+          "source": "Cnbc",
           "publishedAt": "",
           "people": [
-            "Business Insider",
-            "Paul Zimmerman"
+            "Thrive Capital",
+            "Sales James Dyett",
+            "Big Technology",
+            "Alex Kantrowitz"
           ],
           "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
-        },
+        }
+      ]
+    },
+    {
+      "from": "spacex",
+      "to": "anthropic",
+      "count": 3,
+      "label": "SpaceX → Anthropic",
+      "events": [
         {
-          "from": "openai",
-          "to": "external",
-          "title": "OpenAI Hires ServiceNow CMO Colin Fleming to Lead Business Marketing Push - ADWEEK",
-          "summary": "OpenAI has hired ServiceNow chief marketing officer Colin Fleming as CMO for its business unit, a move that signals the AI company is deepening its enterprise marketing as it looks to expand beyond its core AI products. Fleming announced his departure in a LinkedIn post Tuesday, ",
-          "url": "https://www.adweek.com/media/openai-hires-servicenow-cmo-colin-fleming-to-lead-business-marketing-push/",
-          "source": "Adweek",
+          "from": "spacex",
+          "to": "anthropic",
+          "title": "Anthropic hires OpenAI co-founder Andrej Karpathy as its momentum continues to surge - New York Post",
+          "summary": "# Anthropic hires OpenAI co-founder Andrej Karpathy as its momentum continues to surge. Andrej Karpathy, an OpenAI co-founder and former Tesla executive, has joined Anthropic – adding to the artificial intelligence giant’s surging momentum. Karpathy — considered to be one of the ",
+          "url": "https://nypost.com/2026/05/19/business/anthropic-hires-openai-co-founder-andrej-karpathy/",
+          "source": "Nypost",
           "publishedAt": "",
           "people": [
-            "Colin Fleming",
-            "Lead Business Marketing",
-            "Is Hiring",
-            "Top Marketing Exec"
+            "Andrej Karpathy",
+            "New York Post",
+            "Dario Amodei",
+            "Sam Altman"
           ],
-          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        },
+        {
+          "from": "spacex",
+          "to": "anthropic",
+          "title": "Andrej Karpathy, Tesla Alum and OpenAI Co-Founder, Joins Anthropic - WSJ",
+          "summary": "# Anthropic Hires OpenAI Co-Founder Karpathy to Lead New AI Group - WSJ. S&P GSCI Index Spot 763.15 -0.29%. https://www.wsj.com/tech/ai/andrej-karpathy-tesla-alum-and-openai-co-founder-joins-anthropic-c665f51f. # Andrej Karpathy, Tesla Alum and OpenAI Co-Founder, Joins Anthropic.",
+          "url": "https://www.wsj.com/tech/ai/andrej-karpathy-tesla-alum-and-openai-co-founder-joins-anthropic-c665f51f",
+          "source": "Wsj",
+          "publishedAt": "",
+          "people": [
+            "Andrej Karpathy",
+            "Tesla Alum",
+            "Joins Anthropic",
+            "Anthropic Hires"
+          ],
+          "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        },
+        {
+          "from": "spacex",
+          "to": "anthropic",
+          "title": "OpenAI Co-Founder Andrej Karpathy Joins Anthropic to Lead Claude Pretraining - OpenTools",
+          "summary": "# OpenAI Co-Founder Andrej Karpathy Joins Anthropic to Lead Claude Pretraining. Andrej Karpathy, OpenAI co‑founder and former Tesla AI director, has joined Anthropic's pretraining team to build a group that uses Claude itself to accelerate AI research. The hire is the biggest tal",
+          "url": "https://opentools.ai/news/andrej-karpathy-joins-anthropic-pretraining-claude",
+          "source": "Opentools",
+          "publishedAt": "",
+          "people": [
+            "Founder Andrej Karpathy",
+            "Joins Anthropic",
+            "Lead Claude Pretraining",
+            "Andrej Karpathy"
+          ],
+          "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
+      "from": "spacex",
+      "to": "google",
+      "count": 2,
+      "label": "SpaceX → Google",
+      "events": [
+        {
+          "from": "spacex",
+          "to": "google",
+          "title": "Google DeepMind and Edison Are Building the AI Scientist - Genetic Engineering and Biotechnology News",
+          "summary": "Home Topics Artificial Intelligence Google DeepMind and Edison Are Building the AI Scientist. # Google DeepMind and Edison Are Building the AI Scientist. Google DeepMind and Edison Scientific are on an ambitious mission to build the AI scientist. In drug discovery, where traditio",
+          "url": "https://www.genengnews.com/topics/artificial-intelligence/google-deepmind-and-edison-are-building-the-ai-scientist/",
+          "source": "Genengnews",
+          "publishedAt": "",
+          "people": [
+            "Edison Are Building",
+            "Genetic Engineering",
+            "Biotechnology News Home",
+            "Topics Artificial Intelligence"
+          ],
+          "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        },
+        {
+          "from": "spacex",
+          "to": "google",
+          "title": "SpaceX Is Hiring — and Elon Musk Says He'll Read Your Application - Business Insider",
+          "summary": "# Elon Musk says he's personally reviewing job applications as SpaceX ramps up hiring. * Elon Musk will personally review the emails of applicants for new roles at SpaceXAI. * Amid the tech talent wars, SpaceX's hiring push comes as the company gears up for its historic IPO. Elon",
+          "url": "https://www.businessinsider.com/elon-musk-spacex-ai-hiring-personally-reviews-applications-2026-5",
+          "source": "Businessinsider",
+          "publishedAt": "",
+          "people": [
+            "Is Hiring",
+            "Elon Musk Says",
+            "Read Your Application",
+            "Business Insider"
+          ],
+          "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
           "confidence": "tavily"
         }
       ]
@@ -637,6 +582,46 @@
       ]
     },
     {
+      "from": "meta",
+      "to": "external",
+      "count": 2,
+      "label": "Meta → External Talent Pool",
+      "events": [
+        {
+          "from": "meta",
+          "to": "external",
+          "title": "Mira Murati's AI dream team got their stock options. Now many are out. - Business Insider",
+          "summary": "* Thinking Machines Lab has lost a third of its founding team to rivals amid fierce AI talent wars. * CEO Mira Murati's startup has also hired top talent and recently unveiled a new type of AI model. Thinking Machines Lab's head count has more than quadrupled to over 150 people s",
+          "url": "https://www.businessinsider.com/thinking-machines-lab-key-talent-meta-openai-xai-2026-5",
+          "source": "Businessinsider",
+          "publishedAt": "",
+          "people": [
+            "Mira Murati",
+            "Business Insider",
+            "Thinking Machines Lab"
+          ],
+          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        },
+        {
+          "from": "meta",
+          "to": "external",
+          "title": "Nearly 30,000 tech workers laid off this month so far, tracker says - PennLive.com",
+          "summary": "Meta is laying off thousands of employees, The Verge reports, as a means to offset artificial intelligence (AI) investments. But according to a career website for tech talent, these Meta layoffs are just the latest that’ve plagued the industry in roughly the past year. TrueUp dat",
+          "url": "https://www.pennlive.com/life/2026/05/nearly-30000-tech-workers-laid-off-this-month-so-far-tracker-asys.html",
+          "source": "Pennlive",
+          "publishedAt": "",
+          "people": [
+            "The Verge",
+            "Fox Business",
+            "Business Insider"
+          ],
+          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
       "from": "spacex",
       "to": "nvidia",
       "count": 1,
@@ -662,56 +647,6 @@
       ]
     },
     {
-      "from": "spacex",
-      "to": "google",
-      "count": 1,
-      "label": "SpaceX → Google",
-      "events": [
-        {
-          "from": "spacex",
-          "to": "google",
-          "title": "Google DeepMind and Edison Are Building the AI Scientist - Genetic Engineering and Biotechnology News",
-          "summary": "Home Topics Artificial Intelligence Google DeepMind and Edison Are Building the AI Scientist. # Google DeepMind and Edison Are Building the AI Scientist. Google DeepMind and Edison Scientific are on an ambitious mission to build the AI scientist. In drug discovery, where traditio",
-          "url": "https://www.genengnews.com/topics/artificial-intelligence/google-deepmind-and-edison-are-building-the-ai-scientist/",
-          "source": "Genengnews",
-          "publishedAt": "",
-          "people": [
-            "Edison Are Building",
-            "Genetic Engineering",
-            "Biotechnology News Home",
-            "Topics Artificial Intelligence"
-          ],
-          "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
-      "from": "nvidia",
-      "to": "spacex",
-      "count": 1,
-      "label": "NVIDIA → SpaceX",
-      "events": [
-        {
-          "from": "nvidia",
-          "to": "spacex",
-          "title": "SpaceX Is Hiring — and Elon Musk Says He'll Read Your Application - Business Insider",
-          "summary": "# Elon Musk says he's personally reviewing job applications as SpaceX ramps up hiring. * Elon Musk will personally review the emails of applicants for new roles at SpaceXAI. * Amid the tech talent wars, SpaceX's hiring push comes as the company gears up for its historic IPO. Elon",
-          "url": "https://www.businessinsider.com/elon-musk-spacex-ai-hiring-personally-reviews-applications-2026-5",
-          "source": "Businessinsider",
-          "publishedAt": "",
-          "people": [
-            "Is Hiring",
-            "Elon Musk Says",
-            "Read Your Application",
-            "Business Insider"
-          ],
-          "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
       "from": "nvidia",
       "to": "openai",
       "count": 1,
@@ -732,6 +667,31 @@
             "Dado Ruvic"
           ],
           "query": "(\"OpenAI\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
+      "from": "nvidia",
+      "to": "anthropic",
+      "count": 1,
+      "label": "NVIDIA → Anthropic",
+      "events": [
+        {
+          "from": "nvidia",
+          "to": "anthropic",
+          "title": "OpenAI co-founder Andrej Karpathy joins Anthropic’s pre-training team - TechCrunch",
+          "summary": "# OpenAI co-founder Andrej Karpathy joins Anthropic’s pre-training team. Andrej Karpathy, the AI researcher who co-founded and formerly worked at OpenAI and previously led AI at Tesla, has joined Anthropic. “I think the next few years at the frontier of LLMs will be especially fo",
+          "url": "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/",
+          "source": "Techcrunch",
+          "publishedAt": "",
+          "people": [
+            "Andrej Karpathy",
+            "Nick Joseph",
+            "An Anthropic",
+            "The Paranoids"
+          ],
+          "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
           "confidence": "tavily"
         }
       ]
@@ -906,30 +866,6 @@
           "confidence": "tavily"
         }
       ]
-    },
-    {
-      "from": "meta",
-      "to": "external",
-      "count": 1,
-      "label": "Meta → External Talent Pool",
-      "events": [
-        {
-          "from": "meta",
-          "to": "external",
-          "title": "Mira Murati's AI dream team got their stock options. Now many are out. - Business Insider",
-          "summary": "* Thinking Machines Lab has lost a third of its founding team to rivals amid fierce AI talent wars. * CEO Mira Murati's startup has also hired top talent and recently unveiled a new type of AI model. Thinking Machines Lab's head count has more than quadrupled to over 150 people s",
-          "url": "https://www.businessinsider.com/thinking-machines-lab-key-talent-meta-openai-xai-2026-5",
-          "source": "Businessinsider",
-          "publishedAt": "",
-          "people": [
-            "Mira Murati",
-            "Business Insider",
-            "Thinking Machines Lab"
-          ],
-          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-          "confidence": "tavily"
-        }
-      ]
     }
   ],
   "events": [
@@ -1051,23 +987,6 @@
     {
       "from": "spacex",
       "to": "anthropic",
-      "title": "OpenAI Co-Founder Andrej Karpathy Joins Anthropic to Lead Claude Pretraining - OpenTools",
-      "summary": "# OpenAI Co-Founder Andrej Karpathy Joins Anthropic to Lead Claude Pretraining. Andrej Karpathy, OpenAI co‑founder and former Tesla AI director, has joined Anthropic's pretraining team to build a group that uses Claude itself to accelerate AI research. The hire is the biggest tal",
-      "url": "https://opentools.ai/news/andrej-karpathy-joins-anthropic-pretraining-claude",
-      "source": "Opentools",
-      "publishedAt": "",
-      "people": [
-        "Founder Andrej Karpathy",
-        "Joins Anthropic",
-        "Lead Claude Pretraining",
-        "Andrej Karpathy"
-      ],
-      "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-      "confidence": "tavily"
-    },
-    {
-      "from": "spacex",
-      "to": "anthropic",
       "title": "Andrej Karpathy, Tesla Alum and OpenAI Co-Founder, Joins Anthropic - WSJ",
       "summary": "# Anthropic Hires OpenAI Co-Founder Karpathy to Lead New AI Group - WSJ. S&P GSCI Index Spot 763.15 -0.29%. https://www.wsj.com/tech/ai/andrej-karpathy-tesla-alum-and-openai-co-founder-joins-anthropic-c665f51f. # Andrej Karpathy, Tesla Alum and OpenAI Co-Founder, Joins Anthropic.",
       "url": "https://www.wsj.com/tech/ai/andrej-karpathy-tesla-alum-and-openai-co-founder-joins-anthropic-c665f51f",
@@ -1085,16 +1004,16 @@
     {
       "from": "spacex",
       "to": "anthropic",
-      "title": "OpenAI co-founder Andrej Karpathy joins Anthropic’s pre-training team - TechCrunch",
-      "summary": "# OpenAI co-founder Andrej Karpathy joins Anthropic’s pre-training team. Andrej Karpathy, the AI researcher who co-founded and formerly worked at OpenAI and previously led AI at Tesla, has joined Anthropic. “I think the next few years at the frontier of LLMs will be especially fo",
-      "url": "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/",
-      "source": "Techcrunch",
+      "title": "OpenAI Co-Founder Andrej Karpathy Joins Anthropic to Lead Claude Pretraining - OpenTools",
+      "summary": "# OpenAI Co-Founder Andrej Karpathy Joins Anthropic to Lead Claude Pretraining. Andrej Karpathy, OpenAI co‑founder and former Tesla AI director, has joined Anthropic's pretraining team to build a group that uses Claude itself to accelerate AI research. The hire is the biggest tal",
+      "url": "https://opentools.ai/news/andrej-karpathy-joins-anthropic-pretraining-claude",
+      "source": "Opentools",
       "publishedAt": "",
       "people": [
-        "Andrej Karpathy",
-        "Nick Joseph",
-        "An Anthropic",
-        "The Paranoids"
+        "Founder Andrej Karpathy",
+        "Joins Anthropic",
+        "Lead Claude Pretraining",
+        "Andrej Karpathy"
       ],
       "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "confidence": "tavily"
@@ -1184,8 +1103,8 @@
       "confidence": "tavily"
     },
     {
-      "from": "nvidia",
-      "to": "spacex",
+      "from": "spacex",
+      "to": "google",
       "title": "SpaceX Is Hiring — and Elon Musk Says He'll Read Your Application - Business Insider",
       "summary": "# Elon Musk says he's personally reviewing job applications as SpaceX ramps up hiring. * Elon Musk will personally review the emails of applicants for new roles at SpaceXAI. * Amid the tech talent wars, SpaceX's hiring push comes as the company gears up for its historic IPO. Elon",
       "url": "https://www.businessinsider.com/elon-musk-spacex-ai-hiring-personally-reviews-applications-2026-5",
@@ -1197,7 +1116,7 @@
         "Read Your Application",
         "Business Insider"
       ],
-      "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+      "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "confidence": "tavily"
     },
     {
@@ -1215,6 +1134,23 @@
         "Dado Ruvic"
       ],
       "query": "(\"OpenAI\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+      "confidence": "tavily"
+    },
+    {
+      "from": "nvidia",
+      "to": "anthropic",
+      "title": "OpenAI co-founder Andrej Karpathy joins Anthropic’s pre-training team - TechCrunch",
+      "summary": "# OpenAI co-founder Andrej Karpathy joins Anthropic’s pre-training team. Andrej Karpathy, the AI researcher who co-founded and formerly worked at OpenAI and previously led AI at Tesla, has joined Anthropic. “I think the next few years at the frontier of LLMs will be especially fo",
+      "url": "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/",
+      "source": "Techcrunch",
+      "publishedAt": "",
+      "people": [
+        "Andrej Karpathy",
+        "Nick Joseph",
+        "An Anthropic",
+        "The Paranoids"
+      ],
+      "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "confidence": "tavily"
     },
     {
@@ -1320,80 +1256,6 @@
       "confidence": "tavily"
     },
     {
-      "from": "google",
-      "to": "meta",
-      "title": "OpenAI hires former Roblox comms lead Eric Porterfield for youth safety and education role",
-      "summary": "Porterfield joins OpenAI's policy communications team after roles covering child safety at Roblox, integrity at Meta, and crisis communications across",
-      "url": "https://www.edtechinnovationhub.com/news/openai-hires-former-roblox-comms-lead-eric-porterfield-for-youth-safety-and-education-role",
-      "source": "Edtechinnovationhub",
-      "publishedAt": "",
-      "people": [
-        "Eric Porterfield"
-      ],
-      "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-      "confidence": "tavily"
-    },
-    {
-      "from": "google",
-      "to": "meta",
-      "title": "The Vogue Business People Moves Tracker",
-      "summary": "Introducing the Vogue Business People Moves Tracker, a running list highlighting the key executive appointments and exits across the fashion and beauty",
-      "url": "https://www.vogue.com/article/the-vogue-business-people-moves-tracker",
-      "source": "Vogue",
-      "publishedAt": "",
-      "people": [
-        "The Vogue Business",
-        "People Moves Tracker",
-        "Vogue Business People",
-        "Moves Tracker"
-      ],
-      "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-      "confidence": "tavily"
-    },
-    {
-      "from": "google",
-      "to": "meta",
-      "title": "Exodus at xAI: Over 50 Researchers Depart After SpaceX Merger",
-      "summary": "Exodus at xAI: Over 50 Researchers Depart After SpaceX Merger Leadership Changes, High-Pressure Culture Drive Talent to Meta, Thinking Machines Lab Mo.",
-      "url": "https://www.chosun.com/english/industry-en/2026/05/15/WTULL54CCVGGDOWDNBLXBNAYS4/",
-      "source": "Chosun",
-      "publishedAt": "",
-      "people": [
-        "Researchers Depart After",
-        "Merger Exodus",
-        "Merger Leadership Changes",
-        "Pressure Culture Drive"
-      ],
-      "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-      "confidence": "tavily"
-    },
-    {
-      "from": "google",
-      "to": "meta",
-      "title": "GitHub faces a fight for its survival at Microsoft",
-      "summary": "GitHub is battling outages, security issues, and a talent exodus.",
-      "url": "https://www.theverge.com/tech/935250/microsoft-github-struggles-notepad",
-      "source": "Theverge",
-      "publishedAt": "",
-      "people": [],
-      "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-      "confidence": "tavily"
-    },
-    {
-      "from": "google",
-      "to": "meta",
-      "title": "OpenAI co-founder Andrej Karpathy joins Anthropic to lead AI research unit",
-      "summary": "Anthropic's annualised revenue has tripled to $30 billion since December and now it has pulled off the kind of hire that signals a company playing to win.",
-      "url": "https://www.thenews.com.pk/latest/1403201-openai-co-founder-andrej-karpathy-joins-anthropic-to-lead-ai-research-unit",
-      "source": "Com",
-      "publishedAt": "",
-      "people": [
-        "Andrej Karpathy"
-      ],
-      "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-      "confidence": "tavily"
-    },
-    {
       "from": "spacex",
       "to": "external",
       "title": "Former Ukraine official calls for stricter restrictions on Russian use of Starlink - SpaceNews",
@@ -1478,16 +1340,33 @@
     {
       "from": "openai",
       "to": "external",
-      "title": "OpenAI's head of sales leaves for role at Thrive Capital - CNBC",
-      "summary": "# OpenAI's head of sales leaves for role at Thrive Capital. * OpenAI Head of Sales James Dyett announced Monday that he is leaving his role. * Dyett said he is moving to a new role at the venture capital firm Thrive Capital, where he will serve as an Operator in Residence. OpenAI",
-      "url": "https://www.cnbc.com/2026/05/04/open-ai-executive-leaves-thrive-capital.html",
-      "source": "Cnbc",
+      "title": "OpenAI Founding Member Andrej Karpathy Takes Role at Anthropic - Bloomberg.com",
+      "summary": "# OpenAI Founding Member Andrej Karpathy Takes Role at Anthropic. Provide news feedback or report an error. Send a tip to our reporters. Andrej Karpathy, a founding member of OpenAI who later went to work for Tesla Inc., has joined Anthropic PBC to do research and development foc",
+      "url": "https://www.bloomberg.com/news/articles/2026-05-19/openai-founding-member-andrej-karpathy-takes-role-at-anthropic",
+      "source": "Bloomberg",
       "publishedAt": "",
       "people": [
-        "Thrive Capital",
-        "Sales James Dyett",
-        "Big Technology",
-        "Alex Kantrowitz"
+        "Founding Member Andrej",
+        "Karpathy Takes Role",
+        "Andrej Karpathy",
+        "Tesla Inc"
+      ],
+      "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+      "confidence": "tavily"
+    },
+    {
+      "from": "openai",
+      "to": "external",
+      "title": "OpenAI CEO Sam Altman was dishonest, caused 'chaos,' ex-exec Mira Murati says in bombshell testimony - New York Post",
+      "summary": "# OpenAI CEO Sam Altman was dishonest, caused ‘chaos,’ ex-exec Mira Murati says in bombshell testimony. OpenAI’s former head of technology Mira Murati slammed CEO Sam Altman as an untrustworthy leader who fomented strife among the company’s top ranks — stunning testimony that was",
+      "url": "https://nypost.com/2026/05/06/business/openai-ceo-sam-altman-was-dishonest-caused-chaos-ex-exec-mira-murati-says-in-bombshell-testimony/",
+      "source": "Nypost",
+      "publishedAt": "",
+      "people": [
+        "Sam Altman",
+        "Mira Murati",
+        "New York Post",
+        "Elon Musk"
       ],
       "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "confidence": "tavily"
@@ -1512,31 +1391,16 @@
     {
       "from": "openai",
       "to": "external",
-      "title": "OpenAI loses its head of private equity to Google - Business Insider",
-      "summary": "# OpenAI loses its head of private equity to Google. * Paul Zimmerman, the AI lab's former head of private equity, announced a move to Google. * OpenAI, Anthropic, and Google are increasingly turning to PE firms for help ramping sales. Two more senior staffers left OpenAI in rece",
-      "url": "https://www.businessinsider.com/openai-loses-head-private-equity-google",
-      "source": "Businessinsider",
+      "title": "OpenAI's head of sales leaves for role at Thrive Capital - CNBC",
+      "summary": "# OpenAI's head of sales leaves for role at Thrive Capital. * OpenAI Head of Sales James Dyett announced Monday that he is leaving his role. * Dyett said he is moving to a new role at the venture capital firm Thrive Capital, where he will serve as an Operator in Residence. OpenAI",
+      "url": "https://www.cnbc.com/2026/05/04/open-ai-executive-leaves-thrive-capital.html",
+      "source": "Cnbc",
       "publishedAt": "",
       "people": [
-        "Business Insider",
-        "Paul Zimmerman"
-      ],
-      "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-      "confidence": "tavily"
-    },
-    {
-      "from": "openai",
-      "to": "external",
-      "title": "OpenAI Hires ServiceNow CMO Colin Fleming to Lead Business Marketing Push - ADWEEK",
-      "summary": "OpenAI has hired ServiceNow chief marketing officer Colin Fleming as CMO for its business unit, a move that signals the AI company is deepening its enterprise marketing as it looks to expand beyond its core AI products. Fleming announced his departure in a LinkedIn post Tuesday, ",
-      "url": "https://www.adweek.com/media/openai-hires-servicenow-cmo-colin-fleming-to-lead-business-marketing-push/",
-      "source": "Adweek",
-      "publishedAt": "",
-      "people": [
-        "Colin Fleming",
-        "Lead Business Marketing",
-        "Is Hiring",
-        "Top Marketing Exec"
+        "Thrive Capital",
+        "Sales James Dyett",
+        "Big Technology",
+        "Alex Kantrowitz"
       ],
       "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "confidence": "tavily"
@@ -1584,6 +1448,22 @@
         "Mira Murati",
         "Business Insider",
         "Thinking Machines Lab"
+      ],
+      "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+      "confidence": "tavily"
+    },
+    {
+      "from": "meta",
+      "to": "external",
+      "title": "Nearly 30,000 tech workers laid off this month so far, tracker says - PennLive.com",
+      "summary": "Meta is laying off thousands of employees, The Verge reports, as a means to offset artificial intelligence (AI) investments. But according to a career website for tech talent, these Meta layoffs are just the latest that’ve plagued the industry in roughly the past year. TrueUp dat",
+      "url": "https://www.pennlive.com/life/2026/05/nearly-30000-tech-workers-laid-off-this-month-so-far-tracker-asys.html",
+      "source": "Pennlive",
+      "publishedAt": "",
+      "people": [
+        "The Verge",
+        "Fox Business",
+        "Business Insider"
       ],
       "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "confidence": "tavily"
@@ -1840,14 +1720,14 @@
       "from": "openai",
       "to": "external",
       "status": "ok",
-      "count": 4
+      "count": 5
     },
     {
       "query": "(\"Anthropic\" OR \"Claude\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "from": "external",
       "to": "anthropic",
       "status": "ok",
-      "count": 5
+      "count": 4
     },
     {
       "query": "(\"Anthropic\" OR \"Claude\") (\"left Anthropic\" OR \"leaves Anthropic\" OR \"departed Anthropic\" OR \"resigned from Anthropic\" OR \"former Anthropic\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
