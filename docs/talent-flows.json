@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-01T02:08:26.338441Z",
+  "generatedAt": "2026-06-01T03:33:00.692085Z",
   "source": "Tavily Search",
   "strategy": "Search public news, interviews, speeches, and x.com references for senior AI talent movement among SpaceX, NVIDIA, OpenAI, Anthropic, Meta, and Google.",
   "companies": [
@@ -15,8 +15,8 @@
       "en": "Space systems / Starlink / automated manufacturing",
       "key": "spacex",
       "inflow": 1,
-      "outflow": 18,
-      "events": 19
+      "outflow": 16,
+      "events": 17
     },
     {
       "name": "NVIDIA",
@@ -30,9 +30,9 @@
       "zh": "GPU / CUDA / AI 基础设施",
       "en": "GPU / CUDA / AI infrastructure",
       "key": "nvidia",
-      "inflow": 5,
+      "inflow": 4,
       "outflow": 4,
-      "events": 9
+      "events": 8
     },
     {
       "name": "OpenAI",
@@ -76,8 +76,8 @@
       "zh": "Llama / FAIR / 开源模型",
       "en": "Llama / FAIR / open models",
       "key": "meta",
-      "inflow": 8,
-      "outflow": 2,
+      "inflow": 9,
+      "outflow": 1,
       "events": 10
     },
     {
@@ -110,9 +110,9 @@
       "zh": "外部公司 / 高校 / 研究机构",
       "en": "Outside companies / universities / research labs",
       "key": "external",
-      "inflow": 7,
-      "outflow": 4,
-      "events": 11
+      "inflow": 6,
+      "outflow": 6,
+      "events": 12
     }
   ],
   "flows": [
@@ -207,82 +207,6 @@
     },
     {
       "from": "spacex",
-      "to": "nvidia",
-      "count": 4,
-      "label": "SpaceX → NVIDIA",
-      "events": [
-        {
-          "from": "spacex",
-          "to": "nvidia",
-          "title": "Key takeaways from Musk's testimony at OpenAI trial - Reuters",
-          "summary": "Musk, the CEO of Tesla (TSLA.O), opens new tab and SpaceX as well as the world's richest person, is also ​suing OpenAI's Chief Executive Sam Altman and its President Greg Brockman, saying they betrayed him and the public by abandoning the mission to be ‌a benevolent steward of AI",
-          "url": "https://www.reuters.com/sustainability/boards-policy-regulation/key-takeaways-musks-testimony-openai-trial-2026-05-01/",
-          "source": "Reuters",
-          "publishedAt": "",
-          "people": [
-            "Reuters Musk",
-            "Chief Executive Sam",
-            "President Greg Brockman",
-            "Ilya Sutskever"
-          ],
-          "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        },
-        {
-          "from": "spacex",
-          "to": "nvidia",
-          "title": "Elon Musk’s SpaceXAI has been bleeding staff since its merger - TechCrunch",
-          "summary": "# Elon Musk’s SpaceXAI has been bleeding staff since its merger. Elon Musk’s newly rebranded SpaceXAI is reportedly losing top talent, with more than 50 researchers and engineers departing since February, according to The Information. Rivals like Meta and Thinking Machine Labs ar",
-          "url": "https://techcrunch.com/2026/05/14/elon-musks-spacexai-has-been-bleeding-staff-since-its-merger/",
-          "source": "Techcrunch",
-          "publishedAt": "",
-          "people": [
-            "Elon Musk",
-            "The Information",
-            "Thinking Machine Labs",
-            "Since February"
-          ],
-          "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        },
-        {
-          "from": "spacex",
-          "to": "nvidia",
-          "title": "IREN Stock Rallies On Nvidia Partnership For AI Deployments - Investor's Business Daily",
-          "summary": "**BREAKING: Futures, Oil Prices Rise As U.S, Iran Clash; Akamai, IREN Jump Late**. # IREN Stock Rallies On Nvidia Partnership For AI Deployments. **IREN** (IREN) stock vaulted late Thursday after the bitcoin miner and AI cloud infrastructure provider announced a strategic partner",
-          "url": "https://www.investors.com/news/iren-stock-nvidia-strategic-partnership-ai-infrastructure-earnings/",
-          "source": "Investors",
-          "publishedAt": "",
-          "people": [
-            "Stock Rallies On",
-            "Business Daily",
-            "Oil Prices Rise",
-            "Iran Clash"
-          ],
-          "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        },
-        {
-          "from": "spacex",
-          "to": "nvidia",
-          "title": "Axios C-Suite: What Jim learned for the week of May 23 - Axios",
-          "summary": "# Axios C-Suite: What Jim learned for the week of May 23. 🔥 **AI explosion:** Nvidia reported $81.6B in revenue Wednesday — up 85% year-over-year. * **Noodle on this:** Nvidia added $37B in revenue year-over-year in a single quarter. That's like building the entire global empire ",
-          "url": "https://www.axios.com/2026/05/25/trump-ai-executive-order-fallout-david-sacks",
-          "source": "Axios",
-          "publishedAt": "",
-          "people": [
-            "What Jim",
-            "David Sacks",
-            "American Hotel",
-            "Lodging Association"
-          ],
-          "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
-      "from": "spacex",
       "to": "anthropic",
       "count": 4,
       "label": "SpaceX → Anthropic",
@@ -353,6 +277,81 @@
             "The Paranoids"
           ],
           "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
+      "from": "spacex",
+      "to": "meta",
+      "count": 4,
+      "label": "SpaceX → Meta",
+      "events": [
+        {
+          "from": "spacex",
+          "to": "meta",
+          "title": "Elon Musk’s SpaceXAI has been bleeding staff since its merger - TechCrunch",
+          "summary": "# Elon Musk’s SpaceXAI has been bleeding staff since its merger. Elon Musk’s newly rebranded SpaceXAI is reportedly losing top talent, with more than 50 researchers and engineers departing since February, according to The Information. Rivals like Meta and Thinking Machine Labs ar",
+          "url": "https://techcrunch.com/2026/05/14/elon-musks-spacexai-has-been-bleeding-staff-since-its-merger/",
+          "source": "Techcrunch",
+          "publishedAt": "",
+          "people": [
+            "Elon Musk",
+            "The Information",
+            "Thinking Machine Labs",
+            "Since February"
+          ],
+          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        },
+        {
+          "from": "spacex",
+          "to": "meta",
+          "title": "Alexandr Wang says it's 'unfair' to say Meta's AI researchers are just there for the money - Business Insider",
+          "summary": "# Alexandr Wang says it's 'unfair' to say Meta's AI researchers are just there for the money. * Meta AI chief Alexandr Wang said his team isn't just in it for the money. Meta made some big splashes in the AI talent war, but the tech giant's AI chief isn't thrilled by the narrativ",
+          "url": "https://www.businessinsider.com/alexandr-wang-meta-ai-superintelligence-talent-war-pay-packages-compute-2026-5",
+          "source": "Businessinsider",
+          "publishedAt": "",
+          "people": [
+            "Alexandr Wang",
+            "Business Insider",
+            "Mark Zuckerberg"
+          ],
+          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        },
+        {
+          "from": "spacex",
+          "to": "meta",
+          "title": "'I got drafted': Inside Meta's push to move 7,000 staff into its AI task force - Business Insider",
+          "summary": "# 'I got drafted': Inside Meta's push to move 7,000 staff into its AI task force. For thousands of Meta employees, it's now the AI way or the highway. They had been selected to join a new AI initiative spun up directly by CEO Mark Zuckerberg — and it would be crucial to accelerat",
+          "url": "https://www.businessinsider.com/meta-ai-task-force-workers-2026-5",
+          "source": "Businessinsider",
+          "publishedAt": "",
+          "people": [
+            "Inside Meta",
+            "Business Insider",
+            "Mark Zuckerberg",
+            "Larry Page"
+          ],
+          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        },
+        {
+          "from": "spacex",
+          "to": "meta",
+          "title": "Elon Muskнинг SpaceXAI компаниясини юқори малакали мутахассислар тарк этмоқда - Zamin.uz",
+          "summary": "# Highly skilled experts are leaving Elon Musk's SpaceXAI. SpaceXAI, the company rebranded by Elon Musk, is facing significant staff losses. According to The Information, more than 50 researchers and engineers have left the company since February. Among them are leading experts i",
+          "url": "https://zamin.uz/en/technology/201119-highly-skilled-experts-are-leaving-elon-musk-s-spacexai.html",
+          "source": "Zamin",
+          "publishedAt": "",
+          "people": [
+            "Elon Musk",
+            "The Information",
+            "Thinking Machine Labs",
+            "Mira Murati"
+          ],
+          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
           "confidence": "tavily"
         }
       ]
@@ -434,59 +433,59 @@
       ]
     },
     {
-      "from": "spacex",
-      "to": "meta",
+      "from": "external",
+      "to": "nvidia",
       "count": 3,
-      "label": "SpaceX → Meta",
+      "label": "External Talent Pool → NVIDIA",
       "events": [
         {
-          "from": "spacex",
-          "to": "meta",
-          "title": "Alexandr Wang says it's 'unfair' to say Meta's AI researchers are just there for the money - Business Insider",
-          "summary": "# Alexandr Wang says it's 'unfair' to say Meta's AI researchers are just there for the money. * Meta AI chief Alexandr Wang said his team isn't just in it for the money. Meta made some big splashes in the AI talent war, but the tech giant's AI chief isn't thrilled by the narrativ",
-          "url": "https://www.businessinsider.com/alexandr-wang-meta-ai-superintelligence-talent-war-pay-packages-compute-2026-5",
-          "source": "Businessinsider",
+          "from": "external",
+          "to": "nvidia",
+          "title": "Jensen Huang Frames AI as Career Opportunity - Let's Data Science",
+          "summary": "Per Carnegie Mellon University, NVIDIA founder and CEO Jensen Huang delivered the keynote at CMU's 128th Commencement on May 10 and received an honorary Doctor of Science and Technology degree. In his address, Huang said, \"You are entering the world at an extraordinary moment,\" a",
+          "url": "https://letsdatascience.com/news/jensen-huang-frames-ai-as-career-opportunity-4027a3a8",
+          "source": "Letsdatascience",
           "publishedAt": "",
           "people": [
-            "Alexandr Wang",
-            "Business Insider",
-            "Mark Zuckerberg"
+            "Jensen Huang Frames",
+            "Career Opportunity",
+            "Data Science Per",
+            "Carnegie Mellon University"
           ],
-          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
         },
         {
-          "from": "spacex",
-          "to": "meta",
-          "title": "'I got drafted': Inside Meta's push to move 7,000 staff into its AI task force - Business Insider",
-          "summary": "# 'I got drafted': Inside Meta's push to move 7,000 staff into its AI task force. For thousands of Meta employees, it's now the AI way or the highway. They had been selected to join a new AI initiative spun up directly by CEO Mark Zuckerberg — and it would be crucial to accelerat",
-          "url": "https://www.businessinsider.com/meta-ai-task-force-workers-2026-5",
+          "from": "external",
+          "to": "nvidia",
+          "title": "Mira Murati's AI dream team got their stock options. Now many are out. - Business Insider",
+          "summary": "* Thinking Machines Lab has lost a third of its founding team to rivals amid fierce AI talent wars. * CEO Mira Murati's startup has also hired top talent and recently unveiled a new type of AI model. Thinking Machines Lab's head count has more than quadrupled to over 150 people s",
+          "url": "https://www.businessinsider.com/thinking-machines-lab-key-talent-meta-openai-xai-2026-5",
           "source": "Businessinsider",
           "publishedAt": "",
           "people": [
-            "Inside Meta",
+            "Mira Murati",
             "Business Insider",
-            "Mark Zuckerberg",
-            "Larry Page"
+            "Thinking Machines Lab"
           ],
-          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
         },
         {
-          "from": "spacex",
-          "to": "meta",
-          "title": "Elon Muskнинг SpaceXAI компаниясини юқори малакали мутахассислар тарк этмоқда - Zamin.uz",
-          "summary": "# Highly skilled experts are leaving Elon Musk's SpaceXAI. SpaceXAI, the company rebranded by Elon Musk, is facing significant staff losses. According to The Information, more than 50 researchers and engineers have left the company since February. Among them are leading experts i",
-          "url": "https://zamin.uz/en/technology/201119-highly-skilled-experts-are-leaving-elon-musk-s-spacexai.html",
-          "source": "Zamin",
+          "from": "external",
+          "to": "nvidia",
+          "title": "Jensen Huang Tells Graduates There Is No Better Time - Let's Data Science",
+          "summary": "Let's Data ScienceLEARN • BUILD • STAY AHEAD. # Jensen Huang Tells Graduates There Is No Better Time. **Nvidia** CEO Jensen Huang told **Carnegie Mellon** graduates on Sunday that they have reasons to be optimistic as they embark on the start of their careers. He delivered the re",
+          "url": "https://letsdatascience.com/news/jensen-huang-tells-graduates-there-is-no-better-time-b9dd9b2d",
+          "source": "Letsdatascience",
           "publishedAt": "",
           "people": [
-            "Elon Musk",
-            "The Information",
-            "Thinking Machine Labs",
-            "Mira Murati"
+            "Jensen Huang Tells",
+            "Graduates There Is",
+            "No Better Time",
+            "Data Science Let"
           ],
-          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
         }
       ]
@@ -569,6 +568,31 @@
             "Stocks That Remain"
           ],
           "query": "(\"OpenAI\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
+      "from": "spacex",
+      "to": "nvidia",
+      "count": 1,
+      "label": "SpaceX → NVIDIA",
+      "events": [
+        {
+          "from": "spacex",
+          "to": "nvidia",
+          "title": "Key takeaways from Musk's testimony at OpenAI trial - Reuters",
+          "summary": "Musk, the CEO of Tesla (TSLA.O), opens new tab and SpaceX as well as the world's richest person, is also ​suing OpenAI's Chief Executive Sam Altman and its President Greg Brockman, saying they betrayed him and the public by abandoning the mission to be ‌a benevolent steward of AI",
+          "url": "https://www.reuters.com/sustainability/boards-policy-regulation/key-takeaways-musks-testimony-openai-trial-2026-05-01/",
+          "source": "Reuters",
+          "publishedAt": "",
+          "people": [
+            "Reuters Musk",
+            "Chief Executive Sam",
+            "President Greg Brockman",
+            "Ilya Sutskever"
+          ],
+          "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
           "confidence": "tavily"
         }
       ]
@@ -773,31 +797,6 @@
       ]
     },
     {
-      "from": "external",
-      "to": "nvidia",
-      "count": 1,
-      "label": "External Talent Pool → NVIDIA",
-      "events": [
-        {
-          "from": "external",
-          "to": "nvidia",
-          "title": "Jensen Huang Frames AI as Career Opportunity - Let's Data Science",
-          "summary": "Per Carnegie Mellon University, NVIDIA founder and CEO Jensen Huang delivered the keynote at CMU's 128th Commencement on May 10 and received an honorary Doctor of Science and Technology degree. In his address, Huang said, \"You are entering the world at an extraordinary moment,\" a",
-          "url": "https://letsdatascience.com/news/jensen-huang-frames-ai-as-career-opportunity-4027a3a8",
-          "source": "Letsdatascience",
-          "publishedAt": "",
-          "people": [
-            "Jensen Huang Frames",
-            "Career Opportunity",
-            "Data Science Per",
-            "Carnegie Mellon University"
-          ],
-          "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
       "from": "anthropic",
       "to": "external",
       "count": 1,
@@ -843,30 +842,6 @@
           "confidence": "tavily"
         }
       ]
-    },
-    {
-      "from": "meta",
-      "to": "external",
-      "count": 1,
-      "label": "Meta → External Talent Pool",
-      "events": [
-        {
-          "from": "meta",
-          "to": "external",
-          "title": "Mira Murati's AI dream team got their stock options. Now many are out. - Business Insider",
-          "summary": "* Thinking Machines Lab has lost a third of its founding team to rivals amid fierce AI talent wars. * CEO Mira Murati's startup has also hired top talent and recently unveiled a new type of AI model. Thinking Machines Lab's head count has more than quadrupled to over 150 people s",
-          "url": "https://www.businessinsider.com/thinking-machines-lab-key-talent-meta-openai-xai-2026-5",
-          "source": "Businessinsider",
-          "publishedAt": "",
-          "people": [
-            "Mira Murati",
-            "Business Insider",
-            "Thinking Machines Lab"
-          ],
-          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-          "confidence": "tavily"
-        }
-      ]
     }
   ],
   "events": [
@@ -883,57 +858,6 @@
         "Chief Executive Sam",
         "President Greg Brockman",
         "Ilya Sutskever"
-      ],
-      "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-      "confidence": "tavily"
-    },
-    {
-      "from": "spacex",
-      "to": "nvidia",
-      "title": "Elon Musk’s SpaceXAI has been bleeding staff since its merger - TechCrunch",
-      "summary": "# Elon Musk’s SpaceXAI has been bleeding staff since its merger. Elon Musk’s newly rebranded SpaceXAI is reportedly losing top talent, with more than 50 researchers and engineers departing since February, according to The Information. Rivals like Meta and Thinking Machine Labs ar",
-      "url": "https://techcrunch.com/2026/05/14/elon-musks-spacexai-has-been-bleeding-staff-since-its-merger/",
-      "source": "Techcrunch",
-      "publishedAt": "",
-      "people": [
-        "Elon Musk",
-        "The Information",
-        "Thinking Machine Labs",
-        "Since February"
-      ],
-      "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-      "confidence": "tavily"
-    },
-    {
-      "from": "spacex",
-      "to": "nvidia",
-      "title": "IREN Stock Rallies On Nvidia Partnership For AI Deployments - Investor's Business Daily",
-      "summary": "**BREAKING: Futures, Oil Prices Rise As U.S, Iran Clash; Akamai, IREN Jump Late**. # IREN Stock Rallies On Nvidia Partnership For AI Deployments. **IREN** (IREN) stock vaulted late Thursday after the bitcoin miner and AI cloud infrastructure provider announced a strategic partner",
-      "url": "https://www.investors.com/news/iren-stock-nvidia-strategic-partnership-ai-infrastructure-earnings/",
-      "source": "Investors",
-      "publishedAt": "",
-      "people": [
-        "Stock Rallies On",
-        "Business Daily",
-        "Oil Prices Rise",
-        "Iran Clash"
-      ],
-      "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-      "confidence": "tavily"
-    },
-    {
-      "from": "spacex",
-      "to": "nvidia",
-      "title": "Axios C-Suite: What Jim learned for the week of May 23 - Axios",
-      "summary": "# Axios C-Suite: What Jim learned for the week of May 23. 🔥 **AI explosion:** Nvidia reported $81.6B in revenue Wednesday — up 85% year-over-year. * **Noodle on this:** Nvidia added $37B in revenue year-over-year in a single quarter. That's like building the entire global empire ",
-      "url": "https://www.axios.com/2026/05/25/trump-ai-executive-order-fallout-david-sacks",
-      "source": "Axios",
-      "publishedAt": "",
-      "people": [
-        "What Jim",
-        "David Sacks",
-        "American Hotel",
-        "Lodging Association"
       ],
       "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "confidence": "tavily"
@@ -1085,6 +1009,23 @@
         "The Paranoids"
       ],
       "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+      "confidence": "tavily"
+    },
+    {
+      "from": "spacex",
+      "to": "meta",
+      "title": "Elon Musk’s SpaceXAI has been bleeding staff since its merger - TechCrunch",
+      "summary": "# Elon Musk’s SpaceXAI has been bleeding staff since its merger. Elon Musk’s newly rebranded SpaceXAI is reportedly losing top talent, with more than 50 researchers and engineers departing since February, according to The Information. Rivals like Meta and Thinking Machine Labs ar",
+      "url": "https://techcrunch.com/2026/05/14/elon-musks-spacexai-has-been-bleeding-staff-since-its-merger/",
+      "source": "Techcrunch",
+      "publishedAt": "",
+      "people": [
+        "Elon Musk",
+        "The Information",
+        "Thinking Machine Labs",
+        "Since February"
+      ],
+      "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "confidence": "tavily"
     },
     {
@@ -1325,6 +1266,39 @@
     },
     {
       "from": "external",
+      "to": "nvidia",
+      "title": "Mira Murati's AI dream team got their stock options. Now many are out. - Business Insider",
+      "summary": "* Thinking Machines Lab has lost a third of its founding team to rivals amid fierce AI talent wars. * CEO Mira Murati's startup has also hired top talent and recently unveiled a new type of AI model. Thinking Machines Lab's head count has more than quadrupled to over 150 people s",
+      "url": "https://www.businessinsider.com/thinking-machines-lab-key-talent-meta-openai-xai-2026-5",
+      "source": "Businessinsider",
+      "publishedAt": "",
+      "people": [
+        "Mira Murati",
+        "Business Insider",
+        "Thinking Machines Lab"
+      ],
+      "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+      "confidence": "tavily"
+    },
+    {
+      "from": "external",
+      "to": "nvidia",
+      "title": "Jensen Huang Tells Graduates There Is No Better Time - Let's Data Science",
+      "summary": "Let's Data ScienceLEARN • BUILD • STAY AHEAD. # Jensen Huang Tells Graduates There Is No Better Time. **Nvidia** CEO Jensen Huang told **Carnegie Mellon** graduates on Sunday that they have reasons to be optimistic as they embark on the start of their careers. He delivered the re",
+      "url": "https://letsdatascience.com/news/jensen-huang-tells-graduates-there-is-no-better-time-b9dd9b2d",
+      "source": "Letsdatascience",
+      "publishedAt": "",
+      "people": [
+        "Jensen Huang Tells",
+        "Graduates There Is",
+        "No Better Time",
+        "Data Science Let"
+      ],
+      "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+      "confidence": "tavily"
+    },
+    {
+      "from": "external",
       "to": "openai",
       "title": "OpenAI hires ServiceNow CMO Fleming for business marketing role - Adweek - Investing.com",
       "summary": "View all comments (0)0. Investing.com - OpenAI has appointed Colin Fleming as chief marketing officer for its business unit, Adweek reported Tuesday. Fleming previously served as chief marketing officer at ServiceNow. Fleming announced his departure from ServiceNow in a LinkedIn ",
@@ -1453,22 +1427,6 @@
       ],
       "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "confidence": "tavily"
-    },
-    {
-      "from": "meta",
-      "to": "external",
-      "title": "Mira Murati's AI dream team got their stock options. Now many are out. - Business Insider",
-      "summary": "* Thinking Machines Lab has lost a third of its founding team to rivals amid fierce AI talent wars. * CEO Mira Murati's startup has also hired top talent and recently unveiled a new type of AI model. Thinking Machines Lab's head count has more than quadrupled to over 150 people s",
-      "url": "https://www.businessinsider.com/thinking-machines-lab-key-talent-meta-openai-xai-2026-5",
-      "source": "Businessinsider",
-      "publishedAt": "",
-      "people": [
-        "Mira Murati",
-        "Business Insider",
-        "Thinking Machines Lab"
-      ],
-      "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-      "confidence": "tavily"
     }
   ],
   "statuses": [
@@ -1477,7 +1435,7 @@
       "from": "spacex",
       "to": "nvidia",
       "status": "ok",
-      "count": 4
+      "count": 1
     },
     {
       "query": "(\"OpenAI\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
@@ -1701,7 +1659,7 @@
       "from": "external",
       "to": "nvidia",
       "status": "ok",
-      "count": 2
+      "count": 4
     },
     {
       "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"left NVIDIA\" OR \"leaves NVIDIA\" OR \"departed NVIDIA\" OR \"resigned from NVIDIA\" OR \"former NVIDIA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
