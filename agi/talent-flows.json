@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-03T19:44:33.389148Z",
+  "generatedAt": "2026-06-03T20:49:49.039043Z",
   "source": "Tavily Search",
   "strategy": "Search public news, interviews, speeches, and x.com references for senior AI talent movement among SpaceX, NVIDIA, OpenAI, Anthropic, Meta, and Google.",
   "companies": [
@@ -31,8 +31,8 @@
       "en": "GPU / CUDA / AI infrastructure",
       "key": "nvidia",
       "inflow": 4,
-      "outflow": 7,
-      "events": 11
+      "outflow": 4,
+      "events": 8
     },
     {
       "name": "OpenAI",
@@ -45,8 +45,8 @@
       "en": "Frontier models / agents / productization",
       "key": "openai",
       "inflow": 9,
-      "outflow": 5,
-      "events": 14
+      "outflow": 7,
+      "events": 16
     },
     {
       "name": "Anthropic",
@@ -111,8 +111,8 @@
       "en": "Outside companies / universities / research labs",
       "key": "external",
       "inflow": 8,
-      "outflow": 6,
-      "events": 14
+      "outflow": 7,
+      "events": 15
     }
   ],
   "flows": [
@@ -513,90 +513,6 @@
       ]
     },
     {
-      "from": "nvidia",
-      "to": "spacex",
-      "count": 2,
-      "label": "NVIDIA → SpaceX",
-      "events": [
-        {
-          "from": "nvidia",
-          "to": "spacex",
-          "title": "SpaceX Is Hiring — and Elon Musk Says He'll Read Your Application - Business Insider",
-          "summary": "# Elon Musk says he's personally reviewing job applications as SpaceX ramps up hiring. * Elon Musk will personally review the emails of applicants for new roles at SpaceXAI. * Amid the tech talent wars, SpaceX's hiring push comes as the company gears up for its historic IPO. Elon",
-          "url": "https://www.businessinsider.com/elon-musk-spacex-ai-hiring-personally-reviews-applications-2026-5",
-          "source": "Businessinsider",
-          "publishedAt": "",
-          "people": [
-            "Is Hiring",
-            "Elon Musk Says",
-            "Read Your Application",
-            "Business Insider"
-          ],
-          "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        },
-        {
-          "from": "nvidia",
-          "to": "spacex",
-          "title": "IREN Stock Rallies On Nvidia Partnership For AI Deployments - Investor's Business Daily",
-          "summary": "**BREAKING: Futures, Oil Prices Rise As U.S, Iran Clash; Akamai, IREN Jump Late**. # IREN Stock Rallies On Nvidia Partnership For AI Deployments. **IREN** (IREN) stock vaulted late Thursday after the bitcoin miner and AI cloud infrastructure provider announced a strategic partner",
-          "url": "https://www.investors.com/news/iren-stock-nvidia-strategic-partnership-ai-infrastructure-earnings/",
-          "source": "Investors",
-          "publishedAt": "",
-          "people": [
-            "Stock Rallies On",
-            "Business Daily",
-            "Oil Prices Rise",
-            "Iran Clash"
-          ],
-          "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
-      "from": "nvidia",
-      "to": "meta",
-      "count": 2,
-      "label": "NVIDIA → Meta",
-      "events": [
-        {
-          "from": "nvidia",
-          "to": "meta",
-          "title": "Ex-Meta Chinese star joins race for self-improving AI with US$4.6b start-up - South China Morning Post",
-          "summary": "# Ex-Meta Chinese star researcher joins race for self-improving AI with US$4.6b start-up. The funding round was led by venture capital firms GV and Greycroft, with ‘major participation’ from Nvidia and AMD. A star Chinese researcher laid off by Facebook owner Meta Platforms has c",
-          "url": "https://www.scmp.com/tech/big-tech/article/3353576/ex-meta-chinese-star-researcher-joins-race-self-improving-ai-us46b-start",
-          "source": "Scmp",
-          "publishedAt": "",
-          "people": [
-            "Meta Chinese",
-            "South China Morning",
-            "Meta Platforms",
-            "Advanced Micro Devices"
-          ],
-          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        },
-        {
-          "from": "nvidia",
-          "to": "meta",
-          "title": "AI Giants Bet Billions On The Most Expensive Job In Enterprise - Forbes",
-          "summary": "Meta is reportedly launching a new Enterprise Solutions unit that will embed engineers and product managers inside corporate customers to push them toward its AI tools, according to The Information. The unit, led by head of product Naomi Gleit, is the latest sign that the most ex",
-          "url": "https://www.forbes.com/sites/janakirammsv/2026/05/28/ai-giants-bet-billions-on-the-most-expensive-job-in-enterprise/",
-          "source": "Forbes",
-          "publishedAt": "",
-          "people": [
-            "Giants Bet Billions",
-            "On The Most",
-            "Expensive Job In",
-            "Forbes Meta"
-          ],
-          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
       "from": "external",
       "to": "nvidia",
       "count": 2,
@@ -639,6 +555,48 @@
       ]
     },
     {
+      "from": "external",
+      "to": "meta",
+      "count": 2,
+      "label": "External Talent Pool → Meta",
+      "events": [
+        {
+          "from": "external",
+          "to": "meta",
+          "title": "AI Giants Bet Billions On The Most Expensive Job In Enterprise - Forbes",
+          "summary": "Meta is reportedly launching a new Enterprise Solutions unit that will embed engineers and product managers inside corporate customers to push them toward its AI tools, according to The Information. The unit, led by head of product Naomi Gleit, is the latest sign that the most ex",
+          "url": "https://www.forbes.com/sites/janakirammsv/2026/05/28/ai-giants-bet-billions-on-the-most-expensive-job-in-enterprise/",
+          "source": "Forbes",
+          "publishedAt": "",
+          "people": [
+            "Giants Bet Billions",
+            "On The Most",
+            "Expensive Job In",
+            "Forbes Meta"
+          ],
+          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        },
+        {
+          "from": "external",
+          "to": "meta",
+          "title": "AI Giants Bet Billions On The Most Expensive Job In Enterprise - Yahoo News Malaysia",
+          "summary": "Meta is reportedly launching a new Enterprise Solutions unit that will embed engineers and product managers inside corporate customers to push them toward its AI tools, according to The Information. The unit, led by head of product Naomi Gleit, is the latest sign that the most ex",
+          "url": "https://malaysia.news.yahoo.com/ai-giants-bet-billions-most-041000568.html",
+          "source": "Yahoo",
+          "publishedAt": "",
+          "people": [
+            "Giants Bet Billions",
+            "On The Most",
+            "Expensive Job In",
+            "Yahoo News Malaysia"
+          ],
+          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
       "from": "spacex",
       "to": "nvidia",
       "count": 1,
@@ -665,6 +623,31 @@
     },
     {
       "from": "nvidia",
+      "to": "spacex",
+      "count": 1,
+      "label": "NVIDIA → SpaceX",
+      "events": [
+        {
+          "from": "nvidia",
+          "to": "spacex",
+          "title": "SpaceX Is Hiring — and Elon Musk Says He'll Read Your Application - Business Insider",
+          "summary": "# Elon Musk says he's personally reviewing job applications as SpaceX ramps up hiring. * Elon Musk will personally review the emails of applicants for new roles at SpaceXAI. * Amid the tech talent wars, SpaceX's hiring push comes as the company gears up for its historic IPO. Elon",
+          "url": "https://www.businessinsider.com/elon-musk-spacex-ai-hiring-personally-reviews-applications-2026-5",
+          "source": "Businessinsider",
+          "publishedAt": "",
+          "people": [
+            "Is Hiring",
+            "Elon Musk Says",
+            "Read Your Application",
+            "Business Insider"
+          ],
+          "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
+      "from": "nvidia",
       "to": "openai",
       "count": 1,
       "label": "NVIDIA → OpenAI",
@@ -672,6 +655,56 @@
         {
           "from": "nvidia",
           "to": "openai",
+          "title": "Chip Stocks Slide After U.S.-China Summit Ends Without Major Tech Deals - Yahoo Finance",
+          "summary": "- Best gifts for sister-in-law. - Best birthday gifts for her. - Best gifts for mother-in-law. - Best anniversary gifts for wife. ### New on Yahoo. Global semiconductor stocks skidded after a summit between President Trump and Chinese leader Xi Jinping concluded without major chi",
+          "url": "https://finance.yahoo.com/markets/stocks/articles/chip-stocks-slide-u-china-110300500.html",
+          "source": "Yahoo",
+          "publishedAt": "",
+          "people": [
+            "Chip Stocks Slide",
+            "China Summit Ends",
+            "Without Major Tech",
+            "Yahoo Finance"
+          ],
+          "query": "(\"OpenAI\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
+      "from": "nvidia",
+      "to": "meta",
+      "count": 1,
+      "label": "NVIDIA → Meta",
+      "events": [
+        {
+          "from": "nvidia",
+          "to": "meta",
+          "title": "Ex-Meta Chinese star joins race for self-improving AI with US$4.6b start-up - South China Morning Post",
+          "summary": "# Ex-Meta Chinese star researcher joins race for self-improving AI with US$4.6b start-up. The funding round was led by venture capital firms GV and Greycroft, with ‘major participation’ from Nvidia and AMD. A star Chinese researcher laid off by Facebook owner Meta Platforms has c",
+          "url": "https://www.scmp.com/tech/big-tech/article/3353576/ex-meta-chinese-star-researcher-joins-race-self-improving-ai-us46b-start",
+          "source": "Scmp",
+          "publishedAt": "",
+          "people": [
+            "Meta Chinese",
+            "South China Morning",
+            "Meta Platforms",
+            "Advanced Micro Devices"
+          ],
+          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
+      "from": "openai",
+      "to": "spacex",
+      "count": 1,
+      "label": "OpenAI → SpaceX",
+      "events": [
+        {
+          "from": "openai",
+          "to": "spacex",
           "title": "OpenAI co-founder and former Tesla AI executive Karpathy joins Anthropic - Reuters",
           "summary": "# OpenAI co-founder and former Tesla AI executive Karpathy joins Anthropic | Reuters. Exclusive news, data and analytics for financial market professionals Learn more about Refinitiv. ## Browse World. ## Browse Business. ## Browse Legal. # OpenAI co-founder and former Tesla AI ex",
           "url": "https://www.reuters.com/business/autos-transportation/former-tesla-ai-executive-openai-founding-member-andrej-karpathy-joins-anthropic-2026-05-19/",
@@ -683,19 +716,19 @@
             "Browse Legal",
             "Dado Ruvic"
           ],
-          "query": "(\"OpenAI\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
           "confidence": "tavily"
         }
       ]
     },
     {
-      "from": "nvidia",
+      "from": "openai",
       "to": "anthropic",
       "count": 1,
-      "label": "NVIDIA → Anthropic",
+      "label": "OpenAI → Anthropic",
       "events": [
         {
-          "from": "nvidia",
+          "from": "openai",
           "to": "anthropic",
           "title": "OpenAI co-founder Andrej Karpathy joins Anthropic’s pre-training team - TechCrunch",
           "summary": "# OpenAI co-founder Andrej Karpathy joins Anthropic’s pre-training team. Andrej Karpathy, the AI researcher who co-founded and formerly worked at OpenAI and previously led AI at Tesla, has joined Anthropic. “I think the next few years at the frontier of LLMs will be especially fo",
@@ -708,7 +741,7 @@
             "An Anthropic",
             "The Paranoids"
           ],
-          "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
           "confidence": "tavily"
         }
       ]
@@ -905,31 +938,6 @@
             "Business Insider"
           ],
           "query": "(\"Anthropic\" OR \"Claude\") (\"left Anthropic\" OR \"leaves Anthropic\" OR \"departed Anthropic\" OR \"resigned from Anthropic\" OR \"former Anthropic\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
-      "from": "external",
-      "to": "meta",
-      "count": 1,
-      "label": "External Talent Pool → Meta",
-      "events": [
-        {
-          "from": "external",
-          "to": "meta",
-          "title": "AI Giants Bet Billions On The Most Expensive Job In Enterprise - Yahoo News Malaysia",
-          "summary": "Meta is reportedly launching a new Enterprise Solutions unit that will embed engineers and product managers inside corporate customers to push them toward its AI tools, according to The Information. The unit, led by head of product Naomi Gleit, is the latest sign that the most ex",
-          "url": "https://malaysia.news.yahoo.com/ai-giants-bet-billions-most-041000568.html",
-          "source": "Yahoo",
-          "publishedAt": "",
-          "people": [
-            "Giants Bet Billions",
-            "On The Most",
-            "Expensive Job In",
-            "Yahoo News Malaysia"
-          ],
-          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
         }
       ]
@@ -1229,53 +1237,19 @@
     },
     {
       "from": "nvidia",
-      "to": "spacex",
-      "title": "IREN Stock Rallies On Nvidia Partnership For AI Deployments - Investor's Business Daily",
-      "summary": "**BREAKING: Futures, Oil Prices Rise As U.S, Iran Clash; Akamai, IREN Jump Late**. # IREN Stock Rallies On Nvidia Partnership For AI Deployments. **IREN** (IREN) stock vaulted late Thursday after the bitcoin miner and AI cloud infrastructure provider announced a strategic partner",
-      "url": "https://www.investors.com/news/iren-stock-nvidia-strategic-partnership-ai-infrastructure-earnings/",
-      "source": "Investors",
-      "publishedAt": "",
-      "people": [
-        "Stock Rallies On",
-        "Business Daily",
-        "Oil Prices Rise",
-        "Iran Clash"
-      ],
-      "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-      "confidence": "tavily"
-    },
-    {
-      "from": "nvidia",
       "to": "openai",
-      "title": "OpenAI co-founder and former Tesla AI executive Karpathy joins Anthropic - Reuters",
-      "summary": "# OpenAI co-founder and former Tesla AI executive Karpathy joins Anthropic | Reuters. Exclusive news, data and analytics for financial market professionals Learn more about Refinitiv. ## Browse World. ## Browse Business. ## Browse Legal. # OpenAI co-founder and former Tesla AI ex",
-      "url": "https://www.reuters.com/business/autos-transportation/former-tesla-ai-executive-openai-founding-member-andrej-karpathy-joins-anthropic-2026-05-19/",
-      "source": "Reuters",
+      "title": "Chip Stocks Slide After U.S.-China Summit Ends Without Major Tech Deals - Yahoo Finance",
+      "summary": "- Best gifts for sister-in-law. - Best birthday gifts for her. - Best gifts for mother-in-law. - Best anniversary gifts for wife. ### New on Yahoo. Global semiconductor stocks skidded after a summit between President Trump and Chinese leader Xi Jinping concluded without major chi",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/chip-stocks-slide-u-china-110300500.html",
+      "source": "Yahoo",
       "publishedAt": "",
       "people": [
-        "Browse World",
-        "Browse Business",
-        "Browse Legal",
-        "Dado Ruvic"
+        "Chip Stocks Slide",
+        "China Summit Ends",
+        "Without Major Tech",
+        "Yahoo Finance"
       ],
       "query": "(\"OpenAI\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-      "confidence": "tavily"
-    },
-    {
-      "from": "nvidia",
-      "to": "anthropic",
-      "title": "OpenAI co-founder Andrej Karpathy joins Anthropic’s pre-training team - TechCrunch",
-      "summary": "# OpenAI co-founder Andrej Karpathy joins Anthropic’s pre-training team. Andrej Karpathy, the AI researcher who co-founded and formerly worked at OpenAI and previously led AI at Tesla, has joined Anthropic. “I think the next few years at the frontier of LLMs will be especially fo",
-      "url": "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/",
-      "source": "Techcrunch",
-      "publishedAt": "",
-      "people": [
-        "Andrej Karpathy",
-        "Nick Joseph",
-        "An Anthropic",
-        "The Paranoids"
-      ],
-      "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "confidence": "tavily"
     },
     {
@@ -1296,20 +1270,37 @@
       "confidence": "tavily"
     },
     {
-      "from": "nvidia",
-      "to": "meta",
-      "title": "AI Giants Bet Billions On The Most Expensive Job In Enterprise - Forbes",
-      "summary": "Meta is reportedly launching a new Enterprise Solutions unit that will embed engineers and product managers inside corporate customers to push them toward its AI tools, according to The Information. The unit, led by head of product Naomi Gleit, is the latest sign that the most ex",
-      "url": "https://www.forbes.com/sites/janakirammsv/2026/05/28/ai-giants-bet-billions-on-the-most-expensive-job-in-enterprise/",
-      "source": "Forbes",
+      "from": "openai",
+      "to": "spacex",
+      "title": "OpenAI co-founder and former Tesla AI executive Karpathy joins Anthropic - Reuters",
+      "summary": "# OpenAI co-founder and former Tesla AI executive Karpathy joins Anthropic | Reuters. Exclusive news, data and analytics for financial market professionals Learn more about Refinitiv. ## Browse World. ## Browse Business. ## Browse Legal. # OpenAI co-founder and former Tesla AI ex",
+      "url": "https://www.reuters.com/business/autos-transportation/former-tesla-ai-executive-openai-founding-member-andrej-karpathy-joins-anthropic-2026-05-19/",
+      "source": "Reuters",
       "publishedAt": "",
       "people": [
-        "Giants Bet Billions",
-        "On The Most",
-        "Expensive Job In",
-        "Forbes Meta"
+        "Browse World",
+        "Browse Business",
+        "Browse Legal",
+        "Dado Ruvic"
       ],
-      "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+      "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+      "confidence": "tavily"
+    },
+    {
+      "from": "openai",
+      "to": "anthropic",
+      "title": "OpenAI co-founder Andrej Karpathy joins Anthropic’s pre-training team - TechCrunch",
+      "summary": "# OpenAI co-founder Andrej Karpathy joins Anthropic’s pre-training team. Andrej Karpathy, the AI researcher who co-founded and formerly worked at OpenAI and previously led AI at Tesla, has joined Anthropic. “I think the next few years at the frontier of LLMs will be especially fo",
+      "url": "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/",
+      "source": "Techcrunch",
+      "publishedAt": "",
+      "people": [
+        "Andrej Karpathy",
+        "Nick Joseph",
+        "An Anthropic",
+        "The Paranoids"
+      ],
+      "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "confidence": "tavily"
     },
     {
@@ -1596,6 +1587,23 @@
     {
       "from": "external",
       "to": "meta",
+      "title": "AI Giants Bet Billions On The Most Expensive Job In Enterprise - Forbes",
+      "summary": "Meta is reportedly launching a new Enterprise Solutions unit that will embed engineers and product managers inside corporate customers to push them toward its AI tools, according to The Information. The unit, led by head of product Naomi Gleit, is the latest sign that the most ex",
+      "url": "https://www.forbes.com/sites/janakirammsv/2026/05/28/ai-giants-bet-billions-on-the-most-expensive-job-in-enterprise/",
+      "source": "Forbes",
+      "publishedAt": "",
+      "people": [
+        "Giants Bet Billions",
+        "On The Most",
+        "Expensive Job In",
+        "Forbes Meta"
+      ],
+      "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+      "confidence": "tavily"
+    },
+    {
+      "from": "external",
+      "to": "meta",
       "title": "AI Giants Bet Billions On The Most Expensive Job In Enterprise - Yahoo News Malaysia",
       "summary": "Meta is reportedly launching a new Enterprise Solutions unit that will embed engineers and product managers inside corporate customers to push them toward its AI tools, according to The Information. The unit, led by head of product Naomi Gleit, is the latest sign that the most ex",
       "url": "https://malaysia.news.yahoo.com/ai-giants-bet-billions-most-041000568.html",
@@ -1668,14 +1676,14 @@
       "from": "nvidia",
       "to": "spacex",
       "status": "ok",
-      "count": 3
+      "count": 4
     },
     {
       "query": "(\"OpenAI\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "from": "nvidia",
       "to": "openai",
       "status": "ok",
-      "count": 5
+      "count": 2
     },
     {
       "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
@@ -1689,7 +1697,7 @@
       "from": "nvidia",
       "to": "meta",
       "status": "ok",
-      "count": 5
+      "count": 4
     },
     {
       "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
@@ -1808,7 +1816,7 @@
       "from": "google",
       "to": "spacex",
       "status": "ok",
-      "count": 5
+      "count": 4
     },
     {
       "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
@@ -1885,7 +1893,7 @@
       "from": "external",
       "to": "anthropic",
       "status": "ok",
-      "count": 4
+      "count": 5
     },
     {
       "query": "(\"Anthropic\" OR \"Claude\") (\"left Anthropic\" OR \"leaves Anthropic\" OR \"departed Anthropic\" OR \"resigned from Anthropic\" OR \"former Anthropic\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
