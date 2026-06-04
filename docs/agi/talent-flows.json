@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-04T10:50:08.955042Z",
+  "generatedAt": "2026-06-04T11:53:24.611445Z",
   "source": "Tavily Search",
   "strategy": "Search public news, interviews, speeches, and x.com references for senior AI talent movement among SpaceX, NVIDIA, OpenAI, Anthropic, Meta, and Google.",
   "companies": [
@@ -44,8 +44,8 @@
       "zh": "前沿模型 / Agent / 产品化",
       "en": "Frontier models / agents / productization",
       "key": "openai",
-      "inflow": 10,
-      "outflow": 4,
+      "inflow": 9,
+      "outflow": 5,
       "events": 14
     },
     {
@@ -59,9 +59,9 @@
       "zh": "Claude / 安全对齐 / 企业模型",
       "en": "Claude / safety alignment / enterprise models",
       "key": "anthropic",
-      "inflow": 4,
+      "inflow": 5,
       "outflow": 2,
-      "events": 6
+      "events": 7
     },
     {
       "name": "Meta",
@@ -77,8 +77,8 @@
       "en": "Llama / FAIR / open models",
       "key": "meta",
       "inflow": 8,
-      "outflow": 4,
-      "events": 12
+      "outflow": 3,
+      "events": 11
     },
     {
       "name": "Google",
@@ -231,6 +231,39 @@
         {
           "from": "spacex",
           "to": "meta",
+          "title": "Alexandr Wang says it's 'unfair' to say Meta's AI researchers are just there for the money - Business Insider",
+          "summary": "# Alexandr Wang says it's 'unfair' to say Meta's AI researchers are just there for the money. * Meta AI chief Alexandr Wang said his team isn't just in it for the money. Meta made some big splashes in the AI talent war, but the tech giant's AI chief isn't thrilled by the narrativ",
+          "url": "https://www.businessinsider.com/alexandr-wang-meta-ai-superintelligence-talent-war-pay-packages-compute-2026-5",
+          "source": "Businessinsider",
+          "publishedAt": "",
+          "people": [
+            "Alexandr Wang",
+            "Business Insider",
+            "Mark Zuckerberg"
+          ],
+          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        },
+        {
+          "from": "spacex",
+          "to": "meta",
+          "title": "'I got drafted': Inside Meta's push to move 7,000 staff into its AI task force - Business Insider",
+          "summary": "# 'I got drafted': Inside Meta's push to move 7,000 staff into its AI task force. For thousands of Meta employees, it's now the AI way or the highway. They had been selected to join a new AI initiative spun up directly by CEO Mark Zuckerberg — and it would be crucial to accelerat",
+          "url": "https://www.businessinsider.com/meta-ai-task-force-workers-2026-5",
+          "source": "Businessinsider",
+          "publishedAt": "",
+          "people": [
+            "Inside Meta",
+            "Business Insider",
+            "Mark Zuckerberg",
+            "Larry Page"
+          ],
+          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        },
+        {
+          "from": "spacex",
+          "to": "meta",
           "title": "Elon Muskнинг SpaceXAI компаниясини юқори малакали мутахассислар тарк этмоқда - Zamin.uz",
           "summary": "# Highly skilled experts are leaving Elon Musk's SpaceXAI. SpaceXAI, the company rebranded by Elon Musk, is facing significant staff losses. According to The Information, more than 50 researchers and engineers have left the company since February. Among them are leading experts i",
           "url": "https://zamin.uz/en/technology/201119-highly-skilled-experts-are-leaving-elon-musk-s-spacexai.html",
@@ -244,39 +277,79 @@
           ],
           "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
           "confidence": "tavily"
-        },
+        }
+      ]
+    },
+    {
+      "from": "openai",
+      "to": "external",
+      "count": 4,
+      "label": "OpenAI → External Talent Pool",
+      "events": [
         {
-          "from": "spacex",
-          "to": "meta",
-          "title": "AI Giants Bet Billions On The Most Expensive Job In Enterprise - Forbes",
-          "summary": "Meta is reportedly launching a new Enterprise Solutions unit that will embed engineers and product managers inside corporate customers to push them toward its AI tools, according to The Information. The unit, led by head of product Naomi Gleit, is the latest sign that the most ex",
-          "url": "https://www.forbes.com/sites/janakirammsv/2026/05/28/ai-giants-bet-billions-on-the-most-expensive-job-in-enterprise/",
-          "source": "Forbes",
+          "from": "openai",
+          "to": "external",
+          "title": "OpenAI's head of sales leaves for role at Thrive Capital - CNBC",
+          "summary": "# OpenAI's head of sales leaves for role at Thrive Capital. * OpenAI Head of Sales James Dyett announced Monday that he is leaving his role. * Dyett said he is moving to a new role at the venture capital firm Thrive Capital, where he will serve as an Operator in Residence. OpenAI",
+          "url": "https://www.cnbc.com/2026/05/04/open-ai-executive-leaves-thrive-capital.html",
+          "source": "Cnbc",
           "publishedAt": "",
           "people": [
-            "Giants Bet Billions",
-            "On The Most",
-            "Expensive Job In",
-            "Forbes Meta"
+            "Thrive Capital",
+            "Sales James Dyett",
+            "Big Technology",
+            "Alex Kantrowitz"
           ],
-          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
         },
         {
-          "from": "spacex",
-          "to": "meta",
-          "title": "Ex-Meta Chinese star joins race for self-improving AI with US$4.6b start-up - South China Morning Post",
-          "summary": "# Ex-Meta Chinese star researcher joins race for self-improving AI with US$4.6b start-up. The funding round was led by venture capital firms GV and Greycroft, with ‘major participation’ from Nvidia and AMD. A star Chinese researcher laid off by Facebook owner Meta Platforms has c",
-          "url": "https://www.scmp.com/tech/big-tech/article/3353576/ex-meta-chinese-star-researcher-joins-race-self-improving-ai-us46b-start",
-          "source": "Scmp",
+          "from": "openai",
+          "to": "external",
+          "title": "Ilya Sutskever Stands by His Role in Sam Altman’s OpenAI Ouster: ‘I Didn’t Want It to Be Destroyed’ - WIRED",
+          "summary": "# Ilya Sutskever Stands by His Role in Sam Altman’s OpenAI Ouster: ‘I Didn’t Want It to Be Destroyed’. The former OpenAI chief scientist may be estranged from the company, but he still came to its defense as he testified on Monday. Elon Musk’s trial against OpenAI and Microsoft e",
+          "url": "https://www.wired.com/story/ilya-sutskever-testifies-musk-v-altman-trial/",
+          "source": "Wired",
           "publishedAt": "",
           "people": [
-            "Meta Chinese",
-            "South China Morning",
-            "Meta Platforms",
-            "Advanced Micro Devices"
+            "Ilya Sutskever Stands",
+            "His Role",
+            "Sam Altman",
+            "Want It"
           ],
-          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        },
+        {
+          "from": "openai",
+          "to": "external",
+          "title": "OpenAI loses its head of private equity to Google - Business Insider",
+          "summary": "# OpenAI loses its head of private equity to Google. * Paul Zimmerman, the AI lab's former head of private equity, announced a move to Google. * OpenAI, Anthropic, and Google are increasingly turning to PE firms for help ramping sales. Two more senior staffers left OpenAI in rece",
+          "url": "https://www.businessinsider.com/openai-loses-head-private-equity-google",
+          "source": "Businessinsider",
+          "publishedAt": "",
+          "people": [
+            "Business Insider",
+            "Paul Zimmerman"
+          ],
+          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        },
+        {
+          "from": "openai",
+          "to": "external",
+          "title": "OpenAI Hires ServiceNow CMO Colin Fleming to Lead Business Marketing Push - ADWEEK",
+          "summary": "OpenAI has hired ServiceNow chief marketing officer Colin Fleming as CMO for its business unit, a move that signals the AI company is deepening its enterprise marketing as it looks to expand beyond its core AI products. Fleming announced his departure in a LinkedIn post Tuesday, ",
+          "url": "https://www.adweek.com/media/openai-hires-servicenow-cmo-colin-fleming-to-lead-business-marketing-push/",
+          "source": "Adweek",
+          "publishedAt": "",
+          "people": [
+            "Colin Fleming",
+            "Lead Business Marketing",
+            "Is Hiring",
+            "Top Marketing Exec"
+          ],
+          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
         }
       ]
@@ -457,65 +530,6 @@
       ]
     },
     {
-      "from": "openai",
-      "to": "external",
-      "count": 3,
-      "label": "OpenAI → External Talent Pool",
-      "events": [
-        {
-          "from": "openai",
-          "to": "external",
-          "title": "OpenAI Founding Member Andrej Karpathy Takes Role at Anthropic - Bloomberg.com",
-          "summary": "# OpenAI Founding Member Andrej Karpathy Takes Role at Anthropic. Provide news feedback or report an error. Send a tip to our reporters. Andrej Karpathy, a founding member of OpenAI who later went to work for Tesla Inc., has joined Anthropic PBC to do research and development foc",
-          "url": "https://www.bloomberg.com/news/articles/2026-05-19/openai-founding-member-andrej-karpathy-takes-role-at-anthropic",
-          "source": "Bloomberg",
-          "publishedAt": "",
-          "people": [
-            "Founding Member Andrej",
-            "Karpathy Takes Role",
-            "Andrej Karpathy",
-            "Tesla Inc"
-          ],
-          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-          "confidence": "tavily"
-        },
-        {
-          "from": "openai",
-          "to": "external",
-          "title": "Ilya Sutskever Stands by His Role in Sam Altman’s OpenAI Ouster: ‘I Didn’t Want It to Be Destroyed’ - WIRED",
-          "summary": "# Ilya Sutskever Stands by His Role in Sam Altman’s OpenAI Ouster: ‘I Didn’t Want It to Be Destroyed’. The former OpenAI chief scientist may be estranged from the company, but he still came to its defense as he testified on Monday. Elon Musk’s trial against OpenAI and Microsoft e",
-          "url": "https://www.wired.com/story/ilya-sutskever-testifies-musk-v-altman-trial/",
-          "source": "Wired",
-          "publishedAt": "",
-          "people": [
-            "Ilya Sutskever Stands",
-            "His Role",
-            "Sam Altman",
-            "Want It"
-          ],
-          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-          "confidence": "tavily"
-        },
-        {
-          "from": "openai",
-          "to": "external",
-          "title": "OpenAI's head of sales leaves for role at Thrive Capital - CNBC",
-          "summary": "# OpenAI's head of sales leaves for role at Thrive Capital. * OpenAI Head of Sales James Dyett announced Monday that he is leaving his role. * Dyett said he is moving to a new role at the venture capital firm Thrive Capital, where he will serve as an Operator in Residence. OpenAI",
-          "url": "https://www.cnbc.com/2026/05/04/open-ai-executive-leaves-thrive-capital.html",
-          "source": "Cnbc",
-          "publishedAt": "",
-          "people": [
-            "Thrive Capital",
-            "Sales James Dyett",
-            "Big Technology",
-            "Alex Kantrowitz"
-          ],
-          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
       "from": "nvidia",
       "to": "meta",
       "count": 2,
@@ -524,15 +538,16 @@
         {
           "from": "nvidia",
           "to": "meta",
-          "title": "Alexandr Wang says it's 'unfair' to say Meta's AI researchers are just there for the money - Business Insider",
-          "summary": "# Alexandr Wang says it's 'unfair' to say Meta's AI researchers are just there for the money. * Meta AI chief Alexandr Wang said his team isn't just in it for the money. Meta made some big splashes in the AI talent war, but the tech giant's AI chief isn't thrilled by the narrativ",
-          "url": "https://www.businessinsider.com/alexandr-wang-meta-ai-superintelligence-talent-war-pay-packages-compute-2026-5",
-          "source": "Businessinsider",
+          "title": "Ex-Meta Chinese star joins race for self-improving AI with US$4.6b start-up - South China Morning Post",
+          "summary": "# Ex-Meta Chinese star researcher joins race for self-improving AI with US$4.6b start-up. The funding round was led by venture capital firms GV and Greycroft, with ‘major participation’ from Nvidia and AMD. A star Chinese researcher laid off by Facebook owner Meta Platforms has c",
+          "url": "https://www.scmp.com/tech/big-tech/article/3353576/ex-meta-chinese-star-researcher-joins-race-self-improving-ai-us46b-start",
+          "source": "Scmp",
           "publishedAt": "",
           "people": [
-            "Alexandr Wang",
-            "Business Insider",
-            "Mark Zuckerberg"
+            "Meta Chinese",
+            "South China Morning",
+            "Meta Platforms",
+            "Advanced Micro Devices"
           ],
           "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
           "confidence": "tavily"
@@ -540,16 +555,16 @@
         {
           "from": "nvidia",
           "to": "meta",
-          "title": "'I got drafted': Inside Meta's push to move 7,000 staff into its AI task force - Business Insider",
-          "summary": "# 'I got drafted': Inside Meta's push to move 7,000 staff into its AI task force. For thousands of Meta employees, it's now the AI way or the highway. They had been selected to join a new AI initiative spun up directly by CEO Mark Zuckerberg — and it would be crucial to accelerat",
-          "url": "https://www.businessinsider.com/meta-ai-task-force-workers-2026-5",
-          "source": "Businessinsider",
+          "title": "AI Giants Bet Billions On The Most Expensive Job In Enterprise - Forbes",
+          "summary": "Meta is reportedly launching a new Enterprise Solutions unit that will embed engineers and product managers inside corporate customers to push them toward its AI tools, according to The Information. The unit, led by head of product Naomi Gleit, is the latest sign that the most ex",
+          "url": "https://www.forbes.com/sites/janakirammsv/2026/05/28/ai-giants-bet-billions-on-the-most-expensive-job-in-enterprise/",
+          "source": "Forbes",
           "publishedAt": "",
           "people": [
-            "Inside Meta",
-            "Business Insider",
-            "Mark Zuckerberg",
-            "Larry Page"
+            "Giants Bet Billions",
+            "On The Most",
+            "Expensive Job In",
+            "Forbes Meta"
           ],
           "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
           "confidence": "tavily"
@@ -594,46 +609,6 @@
             "Carnegie Mellon University"
           ],
           "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
-      "from": "meta",
-      "to": "external",
-      "count": 2,
-      "label": "Meta → External Talent Pool",
-      "events": [
-        {
-          "from": "meta",
-          "to": "external",
-          "title": "Mira Murati's AI dream team got their stock options. Now many are out. - Business Insider",
-          "summary": "* Thinking Machines Lab has lost a third of its founding team to rivals amid fierce AI talent wars. * CEO Mira Murati's startup has also hired top talent and recently unveiled a new type of AI model. Thinking Machines Lab's head count has more than quadrupled to over 150 people s",
-          "url": "https://www.businessinsider.com/thinking-machines-lab-key-talent-meta-openai-xai-2026-5",
-          "source": "Businessinsider",
-          "publishedAt": "",
-          "people": [
-            "Mira Murati",
-            "Business Insider",
-            "Thinking Machines Lab"
-          ],
-          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-          "confidence": "tavily"
-        },
-        {
-          "from": "meta",
-          "to": "external",
-          "title": "Nearly 30,000 tech workers laid off this month so far, tracker says - PennLive.com",
-          "summary": "Meta is laying off thousands of employees, The Verge reports, as a means to offset artificial intelligence (AI) investments. But according to a career website for tech talent, these Meta layoffs are just the latest that’ve plagued the industry in roughly the past year. TrueUp dat",
-          "url": "https://www.pennlive.com/life/2026/05/nearly-30000-tech-workers-laid-off-this-month-so-far-tracker-asys.html",
-          "source": "Pennlive",
-          "publishedAt": "",
-          "people": [
-            "The Verge",
-            "Fox Business",
-            "Business Insider"
-          ],
-          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
         }
       ]
@@ -765,13 +740,13 @@
     },
     {
       "from": "meta",
-      "to": "openai",
+      "to": "anthropic",
       "count": 1,
-      "label": "Meta → OpenAI",
+      "label": "Meta → Anthropic",
       "events": [
         {
           "from": "meta",
-          "to": "openai",
+          "to": "anthropic",
           "title": "Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects - OpenTools",
           "summary": "# Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects. Andrej Karpathy, one of OpenAI original 11 co‑founders and former Tesla AI director, has joined Anthropic pretraining team to lead a new group focused on using Claude to accelerate AI research itself. Andrej ",
           "url": "https://opentools.ai/news/andrej-karpathy-joins-anthropic-openai-cofounder-defects",
@@ -783,7 +758,7 @@
             "Andrej Karpathy",
             "Eureka Labs"
           ],
-          "query": "(\"OpenAI\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
           "confidence": "tavily"
         }
       ]
@@ -930,6 +905,30 @@
             "Yahoo News Malaysia"
           ],
           "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
+      "from": "meta",
+      "to": "external",
+      "count": 1,
+      "label": "Meta → External Talent Pool",
+      "events": [
+        {
+          "from": "meta",
+          "to": "external",
+          "title": "Mira Murati's AI dream team got their stock options. Now many are out. - Business Insider",
+          "summary": "* Thinking Machines Lab has lost a third of its founding team to rivals amid fierce AI talent wars. * CEO Mira Murati's startup has also hired top talent and recently unveiled a new type of AI model. Thinking Machines Lab's head count has more than quadrupled to over 150 people s",
+          "url": "https://www.businessinsider.com/thinking-machines-lab-key-talent-meta-openai-xai-2026-5",
+          "source": "Businessinsider",
+          "publishedAt": "",
+          "people": [
+            "Mira Murati",
+            "Business Insider",
+            "Thinking Machines Lab"
+          ],
+          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
         }
       ]
@@ -1105,6 +1104,39 @@
     {
       "from": "spacex",
       "to": "meta",
+      "title": "Alexandr Wang says it's 'unfair' to say Meta's AI researchers are just there for the money - Business Insider",
+      "summary": "# Alexandr Wang says it's 'unfair' to say Meta's AI researchers are just there for the money. * Meta AI chief Alexandr Wang said his team isn't just in it for the money. Meta made some big splashes in the AI talent war, but the tech giant's AI chief isn't thrilled by the narrativ",
+      "url": "https://www.businessinsider.com/alexandr-wang-meta-ai-superintelligence-talent-war-pay-packages-compute-2026-5",
+      "source": "Businessinsider",
+      "publishedAt": "",
+      "people": [
+        "Alexandr Wang",
+        "Business Insider",
+        "Mark Zuckerberg"
+      ],
+      "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+      "confidence": "tavily"
+    },
+    {
+      "from": "spacex",
+      "to": "meta",
+      "title": "'I got drafted': Inside Meta's push to move 7,000 staff into its AI task force - Business Insider",
+      "summary": "# 'I got drafted': Inside Meta's push to move 7,000 staff into its AI task force. For thousands of Meta employees, it's now the AI way or the highway. They had been selected to join a new AI initiative spun up directly by CEO Mark Zuckerberg — and it would be crucial to accelerat",
+      "url": "https://www.businessinsider.com/meta-ai-task-force-workers-2026-5",
+      "source": "Businessinsider",
+      "publishedAt": "",
+      "people": [
+        "Inside Meta",
+        "Business Insider",
+        "Mark Zuckerberg",
+        "Larry Page"
+      ],
+      "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+      "confidence": "tavily"
+    },
+    {
+      "from": "spacex",
+      "to": "meta",
       "title": "Elon Muskнинг SpaceXAI компаниясини юқори малакали мутахассислар тарк этмоқда - Zamin.uz",
       "summary": "# Highly skilled experts are leaving Elon Musk's SpaceXAI. SpaceXAI, the company rebranded by Elon Musk, is facing significant staff losses. According to The Information, more than 50 researchers and engineers have left the company since February. Among them are leading experts i",
       "url": "https://zamin.uz/en/technology/201119-highly-skilled-experts-are-leaving-elon-musk-s-spacexai.html",
@@ -1115,40 +1147,6 @@
         "The Information",
         "Thinking Machine Labs",
         "Mira Murati"
-      ],
-      "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-      "confidence": "tavily"
-    },
-    {
-      "from": "spacex",
-      "to": "meta",
-      "title": "AI Giants Bet Billions On The Most Expensive Job In Enterprise - Forbes",
-      "summary": "Meta is reportedly launching a new Enterprise Solutions unit that will embed engineers and product managers inside corporate customers to push them toward its AI tools, according to The Information. The unit, led by head of product Naomi Gleit, is the latest sign that the most ex",
-      "url": "https://www.forbes.com/sites/janakirammsv/2026/05/28/ai-giants-bet-billions-on-the-most-expensive-job-in-enterprise/",
-      "source": "Forbes",
-      "publishedAt": "",
-      "people": [
-        "Giants Bet Billions",
-        "On The Most",
-        "Expensive Job In",
-        "Forbes Meta"
-      ],
-      "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-      "confidence": "tavily"
-    },
-    {
-      "from": "spacex",
-      "to": "meta",
-      "title": "Ex-Meta Chinese star joins race for self-improving AI with US$4.6b start-up - South China Morning Post",
-      "summary": "# Ex-Meta Chinese star researcher joins race for self-improving AI with US$4.6b start-up. The funding round was led by venture capital firms GV and Greycroft, with ‘major participation’ from Nvidia and AMD. A star Chinese researcher laid off by Facebook owner Meta Platforms has c",
-      "url": "https://www.scmp.com/tech/big-tech/article/3353576/ex-meta-chinese-star-researcher-joins-race-self-improving-ai-us46b-start",
-      "source": "Scmp",
-      "publishedAt": "",
-      "people": [
-        "Meta Chinese",
-        "South China Morning",
-        "Meta Platforms",
-        "Advanced Micro Devices"
       ],
       "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "confidence": "tavily"
@@ -1241,15 +1239,16 @@
     {
       "from": "nvidia",
       "to": "meta",
-      "title": "Alexandr Wang says it's 'unfair' to say Meta's AI researchers are just there for the money - Business Insider",
-      "summary": "# Alexandr Wang says it's 'unfair' to say Meta's AI researchers are just there for the money. * Meta AI chief Alexandr Wang said his team isn't just in it for the money. Meta made some big splashes in the AI talent war, but the tech giant's AI chief isn't thrilled by the narrativ",
-      "url": "https://www.businessinsider.com/alexandr-wang-meta-ai-superintelligence-talent-war-pay-packages-compute-2026-5",
-      "source": "Businessinsider",
+      "title": "Ex-Meta Chinese star joins race for self-improving AI with US$4.6b start-up - South China Morning Post",
+      "summary": "# Ex-Meta Chinese star researcher joins race for self-improving AI with US$4.6b start-up. The funding round was led by venture capital firms GV and Greycroft, with ‘major participation’ from Nvidia and AMD. A star Chinese researcher laid off by Facebook owner Meta Platforms has c",
+      "url": "https://www.scmp.com/tech/big-tech/article/3353576/ex-meta-chinese-star-researcher-joins-race-self-improving-ai-us46b-start",
+      "source": "Scmp",
       "publishedAt": "",
       "people": [
-        "Alexandr Wang",
-        "Business Insider",
-        "Mark Zuckerberg"
+        "Meta Chinese",
+        "South China Morning",
+        "Meta Platforms",
+        "Advanced Micro Devices"
       ],
       "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "confidence": "tavily"
@@ -1257,16 +1256,16 @@
     {
       "from": "nvidia",
       "to": "meta",
-      "title": "'I got drafted': Inside Meta's push to move 7,000 staff into its AI task force - Business Insider",
-      "summary": "# 'I got drafted': Inside Meta's push to move 7,000 staff into its AI task force. For thousands of Meta employees, it's now the AI way or the highway. They had been selected to join a new AI initiative spun up directly by CEO Mark Zuckerberg — and it would be crucial to accelerat",
-      "url": "https://www.businessinsider.com/meta-ai-task-force-workers-2026-5",
-      "source": "Businessinsider",
+      "title": "AI Giants Bet Billions On The Most Expensive Job In Enterprise - Forbes",
+      "summary": "Meta is reportedly launching a new Enterprise Solutions unit that will embed engineers and product managers inside corporate customers to push them toward its AI tools, according to The Information. The unit, led by head of product Naomi Gleit, is the latest sign that the most ex",
+      "url": "https://www.forbes.com/sites/janakirammsv/2026/05/28/ai-giants-bet-billions-on-the-most-expensive-job-in-enterprise/",
+      "source": "Forbes",
       "publishedAt": "",
       "people": [
-        "Inside Meta",
-        "Business Insider",
-        "Mark Zuckerberg",
-        "Larry Page"
+        "Giants Bet Billions",
+        "On The Most",
+        "Expensive Job In",
+        "Forbes Meta"
       ],
       "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "confidence": "tavily"
@@ -1307,7 +1306,7 @@
     },
     {
       "from": "meta",
-      "to": "openai",
+      "to": "anthropic",
       "title": "Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects - OpenTools",
       "summary": "# Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects. Andrej Karpathy, one of OpenAI original 11 co‑founders and former Tesla AI director, has joined Anthropic pretraining team to lead a new group focused on using Claude to accelerate AI research itself. Andrej ",
       "url": "https://opentools.ai/news/andrej-karpathy-joins-anthropic-openai-cofounder-defects",
@@ -1319,7 +1318,7 @@
         "Andrej Karpathy",
         "Eureka Labs"
       ],
-      "query": "(\"OpenAI\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+      "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "confidence": "tavily"
     },
     {
@@ -1475,16 +1474,16 @@
     {
       "from": "openai",
       "to": "external",
-      "title": "OpenAI Founding Member Andrej Karpathy Takes Role at Anthropic - Bloomberg.com",
-      "summary": "# OpenAI Founding Member Andrej Karpathy Takes Role at Anthropic. Provide news feedback or report an error. Send a tip to our reporters. Andrej Karpathy, a founding member of OpenAI who later went to work for Tesla Inc., has joined Anthropic PBC to do research and development foc",
-      "url": "https://www.bloomberg.com/news/articles/2026-05-19/openai-founding-member-andrej-karpathy-takes-role-at-anthropic",
-      "source": "Bloomberg",
+      "title": "OpenAI's head of sales leaves for role at Thrive Capital - CNBC",
+      "summary": "# OpenAI's head of sales leaves for role at Thrive Capital. * OpenAI Head of Sales James Dyett announced Monday that he is leaving his role. * Dyett said he is moving to a new role at the venture capital firm Thrive Capital, where he will serve as an Operator in Residence. OpenAI",
+      "url": "https://www.cnbc.com/2026/05/04/open-ai-executive-leaves-thrive-capital.html",
+      "source": "Cnbc",
       "publishedAt": "",
       "people": [
-        "Founding Member Andrej",
-        "Karpathy Takes Role",
-        "Andrej Karpathy",
-        "Tesla Inc"
+        "Thrive Capital",
+        "Sales James Dyett",
+        "Big Technology",
+        "Alex Kantrowitz"
       ],
       "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "confidence": "tavily"
@@ -1509,16 +1508,31 @@
     {
       "from": "openai",
       "to": "external",
-      "title": "OpenAI's head of sales leaves for role at Thrive Capital - CNBC",
-      "summary": "# OpenAI's head of sales leaves for role at Thrive Capital. * OpenAI Head of Sales James Dyett announced Monday that he is leaving his role. * Dyett said he is moving to a new role at the venture capital firm Thrive Capital, where he will serve as an Operator in Residence. OpenAI",
-      "url": "https://www.cnbc.com/2026/05/04/open-ai-executive-leaves-thrive-capital.html",
-      "source": "Cnbc",
+      "title": "OpenAI loses its head of private equity to Google - Business Insider",
+      "summary": "# OpenAI loses its head of private equity to Google. * Paul Zimmerman, the AI lab's former head of private equity, announced a move to Google. * OpenAI, Anthropic, and Google are increasingly turning to PE firms for help ramping sales. Two more senior staffers left OpenAI in rece",
+      "url": "https://www.businessinsider.com/openai-loses-head-private-equity-google",
+      "source": "Businessinsider",
       "publishedAt": "",
       "people": [
-        "Thrive Capital",
-        "Sales James Dyett",
-        "Big Technology",
-        "Alex Kantrowitz"
+        "Business Insider",
+        "Paul Zimmerman"
+      ],
+      "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+      "confidence": "tavily"
+    },
+    {
+      "from": "openai",
+      "to": "external",
+      "title": "OpenAI Hires ServiceNow CMO Colin Fleming to Lead Business Marketing Push - ADWEEK",
+      "summary": "OpenAI has hired ServiceNow chief marketing officer Colin Fleming as CMO for its business unit, a move that signals the AI company is deepening its enterprise marketing as it looks to expand beyond its core AI products. Fleming announced his departure in a LinkedIn post Tuesday, ",
+      "url": "https://www.adweek.com/media/openai-hires-servicenow-cmo-colin-fleming-to-lead-business-marketing-push/",
+      "source": "Adweek",
+      "publishedAt": "",
+      "people": [
+        "Colin Fleming",
+        "Lead Business Marketing",
+        "Is Hiring",
+        "Top Marketing Exec"
       ],
       "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "confidence": "tavily"
@@ -1569,22 +1583,6 @@
       ],
       "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "confidence": "tavily"
-    },
-    {
-      "from": "meta",
-      "to": "external",
-      "title": "Nearly 30,000 tech workers laid off this month so far, tracker says - PennLive.com",
-      "summary": "Meta is laying off thousands of employees, The Verge reports, as a means to offset artificial intelligence (AI) investments. But according to a career website for tech talent, these Meta layoffs are just the latest that’ve plagued the industry in roughly the past year. TrueUp dat",
-      "url": "https://www.pennlive.com/life/2026/05/nearly-30000-tech-workers-laid-off-this-month-so-far-tracker-asys.html",
-      "source": "Pennlive",
-      "publishedAt": "",
-      "people": [
-        "The Verge",
-        "Fox Business",
-        "Business Insider"
-      ],
-      "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-      "confidence": "tavily"
     }
   ],
   "statuses": [
@@ -1621,7 +1619,7 @@
       "from": "spacex",
       "to": "google",
       "status": "ok",
-      "count": 4
+      "count": 5
     },
     {
       "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
@@ -1705,7 +1703,7 @@
       "from": "anthropic",
       "to": "nvidia",
       "status": "ok",
-      "count": 4
+      "count": 5
     },
     {
       "query": "(\"OpenAI\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Anthropic\" OR \"Claude\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
@@ -1740,7 +1738,7 @@
       "from": "meta",
       "to": "nvidia",
       "status": "ok",
-      "count": 3
+      "count": 4
     },
     {
       "query": "(\"OpenAI\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
@@ -1768,7 +1766,7 @@
       "from": "google",
       "to": "spacex",
       "status": "ok",
-      "count": 5
+      "count": 4
     },
     {
       "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
@@ -1845,7 +1843,7 @@
       "from": "external",
       "to": "anthropic",
       "status": "ok",
-      "count": 4
+      "count": 5
     },
     {
       "query": "(\"Anthropic\" OR \"Claude\") (\"left Anthropic\" OR \"leaves Anthropic\" OR \"departed Anthropic\" OR \"resigned from Anthropic\" OR \"former Anthropic\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
