@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-04T17:47:05.762578Z",
+  "generatedAt": "2026-06-04T18:36:13.949390Z",
   "strategy": {
     "primary": "Tabbed news sections: hot headlines from Wall Street Journal Chinese and Financial Times, industry from WSJ/NYT/FT/SCMP/TechCrunch Startups, statements derived from all sources by named AI figures and speech signals, company from company-name searches plus M&A and financing keywords, frontier technology from Wired/MIT Technology Review/Stanford sources, papers from top AI journals, conferences, proceedings, and preprint sources",
     "primaryEnabled": true,
@@ -32,8 +32,9 @@
       "section": "hot",
       "name": "Tavily Search",
       "query": "site:wsj.com OR site:ft.com OR site:zaobao.com.sg artificial intelligence OR chips OR markets",
-      "status": "ok",
-      "count": 6
+      "status": "error",
+      "error": "HTTP Error 403: Forbidden",
+      "count": 0
     },
     {
       "section": "hot",
@@ -74,15 +75,16 @@
       "section": "industry",
       "name": "Tavily Search",
       "query": "artificial intelligence chips data centers frontier models site:wsj.com OR site:ft.com OR site:nytimes.com OR site:scmp.com OR site:techcrunch.com/2026 OR site:techcrunch.com/2025 -inurl:/page/",
-      "status": "ok",
-      "count": 6
+      "status": "error",
+      "error": "HTTP Error 403: Forbidden",
+      "count": 0
     },
     {
       "section": "industry",
       "name": "New York Times",
       "url": "https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml",
       "status": "ok",
-      "count": 17
+      "count": 18
     },
     {
       "section": "industry",
@@ -165,69 +167,142 @@
       "section": "person",
       "name": "Tavily Search",
       "query": "\"Jim Covello\" \"AI\" \"Too Much Spend\" OR \"Too Little Benefit\" OR \"cost-effective\" OR \"Goldman Sachs\"",
-      "status": "ok",
+      "status": "error",
+      "error": "HTTP Error 403: Forbidden",
       "count": 0
     },
     {
       "section": "person",
       "name": "Tavily Search",
       "query": "\"Torsten Slok\" OR \"Torsten Sløk\" \"AI bubble\" OR \"S&P 500\" OR \"Apollo\" OR \"Fortune\"",
-      "status": "ok",
-      "count": 6
+      "status": "error",
+      "error": "HTTP Error 403: Forbidden",
+      "count": 0
     },
     {
       "section": "person",
       "name": "Tavily Search",
       "query": "\"Daron Acemoglu\" \"AI\" productivity automation GDP cost-effective",
-      "status": "ok",
+      "status": "error",
+      "error": "HTTP Error 403: Forbidden",
       "count": 0
     },
     {
       "section": "person",
       "name": "Tavily Search",
       "query": "\"David Cahn\" \"AI\" \"600 billion\" OR \"revenue gap\" OR \"Sequoia\"",
-      "status": "ok",
+      "status": "error",
+      "error": "HTTP Error 403: Forbidden",
       "count": 0
     },
     {
       "section": "person",
       "name": "Tavily Search",
       "query": "\"Jeffrey Gundlach\" OR \"Jim Chanos\" OR \"Nate Anderson\" \"AI bubble\" OR \"1999\" OR \"Futurism\" OR \"Stockhead\"",
-      "status": "ok",
-      "count": 3
+      "status": "error",
+      "error": "HTTP Error 403: Forbidden",
+      "count": 0
     },
     {
       "section": "person",
       "name": "Tavily Search",
       "query": "\"Ed Zitron\" \"AI bubble\" OR \"OpenAI\" OR \"Anthropic\" enterprise spending",
-      "status": "ok",
+      "status": "error",
+      "error": "HTTP Error 403: Forbidden",
       "count": 0
     },
     {
       "section": "person",
       "name": "Tavily Search",
       "query": "\"Gary Marcus\" \"AI\" hallucination reasoning \"scaling law\"",
-      "status": "ok",
+      "status": "error",
+      "error": "HTTP Error 403: Forbidden",
       "count": 0
     },
     {
       "section": "person",
       "name": "Tavily Search",
       "query": "\"Yann LeCun\" OR \"Yann Lecun\" \"LLM\" \"AGI\" OR \"world model\" OR \"JEPA\"",
-      "status": "ok",
-      "count": 1
+      "status": "error",
+      "error": "HTTP Error 403: Forbidden",
+      "count": 0
     },
     {
       "section": "person",
       "name": "Tavily Search",
       "query": "(\"Andrew Macdonald\" OR \"Andrew G Macdonald\" OR \"Uber COO\" OR \"Uber operations chief\") (\"AI spending\" OR \"tokenmaxxing\" OR \"harder to justify\" OR \"Claude Code\" OR \"useful consumer features\")",
-      "status": "ok",
-      "count": 4
+      "status": "error",
+      "error": "HTTP Error 403: Forbidden",
+      "count": 0
     },
     {
       "section": "person",
       "name": "Tavily Search",
       "query": "site:x.com (\"Jim Covello\" OR \"Torsten Slok\" OR \"Daron Acemoglu\" OR \"David Cahn\" OR \"Jeffrey Gundlach\" OR \"Jim Chanos\" OR \"Nate Anderson\" OR \"Ed Zitron\" OR \"Gary Marcus\" OR \"Yann LeCun\" OR \"Andrew Macdonald\" OR \"Uber COO\") AI",
+      "status": "error",
+      "error": "HTTP Error 403: Forbidden",
+      "count": 0
+    },
+    {
+      "section": "person",
+      "name": "Opinion · Jim Covello",
+      "url": "https://news.google.com/rss/search?q=%28%22Jim%20Covello%22%20OR%20%22%E5%90%89%E5%A7%86%C2%B7%E7%A7%91%E9%9F%A6%E6%B4%9B%22%20OR%20%22Goldman%20Sachs%22%20OR%20%22Yahoo%20Finance%22%20OR%20%22Gen%20AI%20Too%20Much%20Spend%20Too%20Little%20Benefit%22%20OR%20%22AI%20spending%20returns%22%29%20%28%22AI%22%20OR%20%22artificial%20intelligence%22%20OR%20%22OpenAI%22%20OR%20%22Nvidia%22%20OR%20%22large%20language%20model%22%20OR%20%22AI%20chip%22%20OR%20%22agent%22%20OR%20%22robotics%22%20OR%20%22physical%20world%20model%22%20OR%20%22world%20model%22%20OR%20%22%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%22%20OR%20%22%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%8E%A8%E7%90%86%22%20OR%20%22%E7%89%A9%E7%90%86%E4%B8%96%E7%95%8C%E6%A8%A1%E5%9E%8B%22%29%20%28%22says%22%20OR%20%22said%22%20OR%20%22warns%22%20OR%20%22warned%22%20OR%20%22predicts%22%20OR%20%22predicted%22%20OR%20%22thinks%22%20OR%20%22believes%22%20OR%20%22expects%22%20OR%20%22quote%22%20OR%20%22interview%22%20OR%20%22speech%22%20OR%20%22%E8%A1%A8%E7%A4%BA%22%20OR%20%22%E7%A7%B0%22%20OR%20%22%E8%AE%A4%E4%B8%BA%22%20OR%20%22%E8%AD%A6%E5%91%8A%22%20OR%20%22%E9%A2%84%E6%B5%8B%22%20OR%20%22%E6%8C%87%E5%87%BA%22%20OR%20%22%E9%87%87%E8%AE%BF%22%20OR%20%22%E6%BC%94%E8%AE%B2%22%29&hl=en-US&gl=US&ceid=US:en",
+      "status": "ok",
+      "count": 0
+    },
+    {
+      "section": "person",
+      "name": "Opinion · Torsten Sløk",
+      "url": "https://news.google.com/rss/search?q=%28%22Torsten%20Sl%C3%B8k%22%20OR%20%22Torsten%20Slok%22%20OR%20%22Apollo%20chief%20economist%22%20OR%20%22Fortune%22%20OR%20%22S%26P%20500%20top%2010%20companies%20overvalued%22%20OR%20%22AI%20bubble%201999%22%29%20%28%22AI%22%20OR%20%22artificial%20intelligence%22%20OR%20%22OpenAI%22%20OR%20%22Nvidia%22%20OR%20%22large%20language%20model%22%20OR%20%22AI%20chip%22%20OR%20%22agent%22%20OR%20%22robotics%22%20OR%20%22physical%20world%20model%22%20OR%20%22world%20model%22%20OR%20%22%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%22%20OR%20%22%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%8E%A8%E7%90%86%22%20OR%20%22%E7%89%A9%E7%90%86%E4%B8%96%E7%95%8C%E6%A8%A1%E5%9E%8B%22%29%20%28%22says%22%20OR%20%22said%22%20OR%20%22warns%22%20OR%20%22warned%22%20OR%20%22predicts%22%20OR%20%22predicted%22%20OR%20%22thinks%22%20OR%20%22believes%22%20OR%20%22expects%22%20OR%20%22quote%22%20OR%20%22interview%22%20OR%20%22speech%22%20OR%20%22%E8%A1%A8%E7%A4%BA%22%20OR%20%22%E7%A7%B0%22%20OR%20%22%E8%AE%A4%E4%B8%BA%22%20OR%20%22%E8%AD%A6%E5%91%8A%22%20OR%20%22%E9%A2%84%E6%B5%8B%22%20OR%20%22%E6%8C%87%E5%87%BA%22%20OR%20%22%E9%87%87%E8%AE%BF%22%20OR%20%22%E6%BC%94%E8%AE%B2%22%29&hl=en-US&gl=US&ceid=US:en",
+      "status": "ok",
+      "count": 0
+    },
+    {
+      "section": "person",
+      "name": "Opinion · Daron Acemoglu",
+      "url": "https://news.google.com/rss/search?q=%28%22Daron%20Acemoglu%22%20OR%20%22%E8%BE%BE%E9%BE%99%C2%B7%E9%98%BF%E8%A5%BF%E8%8E%AB%E6%A0%BC%E9%B2%81%22%20OR%20%22MIT%22%20OR%20%22NPR%22%20OR%20%22AI%20productivity%22%20OR%20%22AI%20automation%22%20OR%20%22machine%20usefulness%22%29%20%28%22AI%22%20OR%20%22artificial%20intelligence%22%20OR%20%22OpenAI%22%20OR%20%22Nvidia%22%20OR%20%22large%20language%20model%22%20OR%20%22AI%20chip%22%20OR%20%22agent%22%20OR%20%22robotics%22%20OR%20%22physical%20world%20model%22%20OR%20%22world%20model%22%20OR%20%22%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%22%20OR%20%22%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%8E%A8%E7%90%86%22%20OR%20%22%E7%89%A9%E7%90%86%E4%B8%96%E7%95%8C%E6%A8%A1%E5%9E%8B%22%29%20%28%22says%22%20OR%20%22said%22%20OR%20%22warns%22%20OR%20%22warned%22%20OR%20%22predicts%22%20OR%20%22predicted%22%20OR%20%22thinks%22%20OR%20%22believes%22%20OR%20%22expects%22%20OR%20%22quote%22%20OR%20%22interview%22%20OR%20%22speech%22%20OR%20%22%E8%A1%A8%E7%A4%BA%22%20OR%20%22%E7%A7%B0%22%20OR%20%22%E8%AE%A4%E4%B8%BA%22%20OR%20%22%E8%AD%A6%E5%91%8A%22%20OR%20%22%E9%A2%84%E6%B5%8B%22%20OR%20%22%E6%8C%87%E5%87%BA%22%20OR%20%22%E9%87%87%E8%AE%BF%22%20OR%20%22%E6%BC%94%E8%AE%B2%22%29&hl=en-US&gl=US&ceid=US:en",
+      "status": "ok",
+      "count": 0
+    },
+    {
+      "section": "person",
+      "name": "Opinion · David Cahn",
+      "url": "https://news.google.com/rss/search?q=%28%22David%20Cahn%22%20OR%20%22%E5%A4%A7%E5%8D%AB%C2%B7%E5%8D%A1%E6%81%A9%22%20OR%20%22Sequoia%20Capital%22%20OR%20%22AI%20600%20billion%20revenue%20gap%22%20OR%20%22AI%20infrastructure%22%29%20%28%22AI%22%20OR%20%22artificial%20intelligence%22%20OR%20%22OpenAI%22%20OR%20%22Nvidia%22%20OR%20%22large%20language%20model%22%20OR%20%22AI%20chip%22%20OR%20%22agent%22%20OR%20%22robotics%22%20OR%20%22physical%20world%20model%22%20OR%20%22world%20model%22%20OR%20%22%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%22%20OR%20%22%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%8E%A8%E7%90%86%22%20OR%20%22%E7%89%A9%E7%90%86%E4%B8%96%E7%95%8C%E6%A8%A1%E5%9E%8B%22%29%20%28%22says%22%20OR%20%22said%22%20OR%20%22warns%22%20OR%20%22warned%22%20OR%20%22predicts%22%20OR%20%22predicted%22%20OR%20%22thinks%22%20OR%20%22believes%22%20OR%20%22expects%22%20OR%20%22quote%22%20OR%20%22interview%22%20OR%20%22speech%22%20OR%20%22%E8%A1%A8%E7%A4%BA%22%20OR%20%22%E7%A7%B0%22%20OR%20%22%E8%AE%A4%E4%B8%BA%22%20OR%20%22%E8%AD%A6%E5%91%8A%22%20OR%20%22%E9%A2%84%E6%B5%8B%22%20OR%20%22%E6%8C%87%E5%87%BA%22%20OR%20%22%E9%87%87%E8%AE%BF%22%20OR%20%22%E6%BC%94%E8%AE%B2%22%29&hl=en-US&gl=US&ceid=US:en",
+      "status": "ok",
+      "count": 0
+    },
+    {
+      "section": "person",
+      "name": "Opinion · Gundlach / Chanos / Anderson",
+      "url": "https://news.google.com/rss/search?q=%28%22Jeffrey%20Gundlach%22%20OR%20%22Jim%20Chanos%22%20OR%20%22Nate%20Anderson%22%20OR%20%22DoubleLine%22%20OR%20%22Stockhead%22%20OR%20%22Futurism%22%20OR%20%22AI%20bubble%22%29%20%28%22AI%22%20OR%20%22artificial%20intelligence%22%20OR%20%22OpenAI%22%20OR%20%22Nvidia%22%20OR%20%22large%20language%20model%22%20OR%20%22AI%20chip%22%20OR%20%22agent%22%20OR%20%22robotics%22%20OR%20%22physical%20world%20model%22%20OR%20%22world%20model%22%20OR%20%22%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%22%20OR%20%22%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%8E%A8%E7%90%86%22%20OR%20%22%E7%89%A9%E7%90%86%E4%B8%96%E7%95%8C%E6%A8%A1%E5%9E%8B%22%29%20%28%22says%22%20OR%20%22said%22%20OR%20%22warns%22%20OR%20%22warned%22%20OR%20%22predicts%22%20OR%20%22predicted%22%20OR%20%22thinks%22%20OR%20%22believes%22%20OR%20%22expects%22%20OR%20%22quote%22%20OR%20%22interview%22%20OR%20%22speech%22%20OR%20%22%E8%A1%A8%E7%A4%BA%22%20OR%20%22%E7%A7%B0%22%20OR%20%22%E8%AE%A4%E4%B8%BA%22%20OR%20%22%E8%AD%A6%E5%91%8A%22%20OR%20%22%E9%A2%84%E6%B5%8B%22%20OR%20%22%E6%8C%87%E5%87%BA%22%20OR%20%22%E9%87%87%E8%AE%BF%22%20OR%20%22%E6%BC%94%E8%AE%B2%22%29&hl=en-US&gl=US&ceid=US:en",
+      "status": "ok",
+      "count": 0
+    },
+    {
+      "section": "person",
+      "name": "Opinion · Ed Zitron",
+      "url": "https://news.google.com/rss/search?q=%28%22Ed%20Zitron%22%20OR%20%22%E5%9F%83%E5%BE%B7%C2%B7%E9%BD%90%E7%89%B9%E9%9A%86%22%20OR%20%22AI%20bubble%22%20OR%20%22OpenAI%20Anthropic%20enterprise%20AI%22%20OR%20%22Yahoo%20Finance%22%20OR%20%22The%20Argument%22%29%20%28%22AI%22%20OR%20%22artificial%20intelligence%22%20OR%20%22OpenAI%22%20OR%20%22Nvidia%22%20OR%20%22large%20language%20model%22%20OR%20%22AI%20chip%22%20OR%20%22agent%22%20OR%20%22robotics%22%20OR%20%22physical%20world%20model%22%20OR%20%22world%20model%22%20OR%20%22%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%22%20OR%20%22%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%8E%A8%E7%90%86%22%20OR%20%22%E7%89%A9%E7%90%86%E4%B8%96%E7%95%8C%E6%A8%A1%E5%9E%8B%22%29%20%28%22says%22%20OR%20%22said%22%20OR%20%22warns%22%20OR%20%22warned%22%20OR%20%22predicts%22%20OR%20%22predicted%22%20OR%20%22thinks%22%20OR%20%22believes%22%20OR%20%22expects%22%20OR%20%22quote%22%20OR%20%22interview%22%20OR%20%22speech%22%20OR%20%22%E8%A1%A8%E7%A4%BA%22%20OR%20%22%E7%A7%B0%22%20OR%20%22%E8%AE%A4%E4%B8%BA%22%20OR%20%22%E8%AD%A6%E5%91%8A%22%20OR%20%22%E9%A2%84%E6%B5%8B%22%20OR%20%22%E6%8C%87%E5%87%BA%22%20OR%20%22%E9%87%87%E8%AE%BF%22%20OR%20%22%E6%BC%94%E8%AE%B2%22%29&hl=en-US&gl=US&ceid=US:en",
+      "status": "ok",
+      "count": 0
+    },
+    {
+      "section": "person",
+      "name": "Opinion · Gary Marcus",
+      "url": "https://news.google.com/rss/search?q=%28%22Gary%20Marcus%22%20OR%20%22%E5%8A%A0%E9%87%8C%C2%B7%E9%A9%AC%E5%BA%93%E6%96%AF%22%20OR%20%22AI%20hallucination%22%20OR%20%22scaling%20law%22%20OR%20%22AI%20reasoning%22%20OR%20%22Tech%20Xplore%22%20OR%20%22neurosymbolic%22%29%20%28%22AI%22%20OR%20%22artificial%20intelligence%22%20OR%20%22OpenAI%22%20OR%20%22Nvidia%22%20OR%20%22large%20language%20model%22%20OR%20%22AI%20chip%22%20OR%20%22agent%22%20OR%20%22robotics%22%20OR%20%22physical%20world%20model%22%20OR%20%22world%20model%22%20OR%20%22%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%22%20OR%20%22%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%8E%A8%E7%90%86%22%20OR%20%22%E7%89%A9%E7%90%86%E4%B8%96%E7%95%8C%E6%A8%A1%E5%9E%8B%22%29%20%28%22says%22%20OR%20%22said%22%20OR%20%22warns%22%20OR%20%22warned%22%20OR%20%22predicts%22%20OR%20%22predicted%22%20OR%20%22thinks%22%20OR%20%22believes%22%20OR%20%22expects%22%20OR%20%22quote%22%20OR%20%22interview%22%20OR%20%22speech%22%20OR%20%22%E8%A1%A8%E7%A4%BA%22%20OR%20%22%E7%A7%B0%22%20OR%20%22%E8%AE%A4%E4%B8%BA%22%20OR%20%22%E8%AD%A6%E5%91%8A%22%20OR%20%22%E9%A2%84%E6%B5%8B%22%20OR%20%22%E6%8C%87%E5%87%BA%22%20OR%20%22%E9%87%87%E8%AE%BF%22%20OR%20%22%E6%BC%94%E8%AE%B2%22%29&hl=en-US&gl=US&ceid=US:en",
+      "status": "ok",
+      "count": 0
+    },
+    {
+      "section": "person",
+      "name": "Opinion · Yann LeCun",
+      "url": "https://news.google.com/rss/search?q=%28%22Yann%20LeCun%22%20OR%20%22Yann%20Lecun%22%20OR%20%22Jan%20LeCun%22%20OR%20%22%E6%9D%A8%E7%AB%8B%E6%98%86%22%20OR%20%22%E6%9D%A8%E4%B8%BD%E5%9D%A4%22%20OR%20%22LLM%20is%20not%20path%20to%20AGI%22%20OR%20%22world%20model%22%20OR%20%22JEPA%22%29%20%28%22AI%22%20OR%20%22artificial%20intelligence%22%20OR%20%22OpenAI%22%20OR%20%22Nvidia%22%20OR%20%22large%20language%20model%22%20OR%20%22AI%20chip%22%20OR%20%22agent%22%20OR%20%22robotics%22%20OR%20%22physical%20world%20model%22%20OR%20%22world%20model%22%20OR%20%22%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%22%20OR%20%22%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%8E%A8%E7%90%86%22%20OR%20%22%E7%89%A9%E7%90%86%E4%B8%96%E7%95%8C%E6%A8%A1%E5%9E%8B%22%29%20%28%22says%22%20OR%20%22said%22%20OR%20%22warns%22%20OR%20%22warned%22%20OR%20%22predicts%22%20OR%20%22predicted%22%20OR%20%22thinks%22%20OR%20%22believes%22%20OR%20%22expects%22%20OR%20%22quote%22%20OR%20%22interview%22%20OR%20%22speech%22%20OR%20%22%E8%A1%A8%E7%A4%BA%22%20OR%20%22%E7%A7%B0%22%20OR%20%22%E8%AE%A4%E4%B8%BA%22%20OR%20%22%E8%AD%A6%E5%91%8A%22%20OR%20%22%E9%A2%84%E6%B5%8B%22%20OR%20%22%E6%8C%87%E5%87%BA%22%20OR%20%22%E9%87%87%E8%AE%BF%22%20OR%20%22%E6%BC%94%E8%AE%B2%22%29&hl=en-US&gl=US&ceid=US:en",
+      "status": "ok",
+      "count": 0
+    },
+    {
+      "section": "person",
+      "name": "Opinion · Andrew Macdonald",
+      "url": "https://news.google.com/rss/search?q=%28%22Andrew%20Macdonald%22%20OR%20%22Andrew%20G%20Macdonald%22%20OR%20%22Uber%20COO%22%20OR%20%22Uber%20operations%20chief%22%20OR%20%22Uber%20AI%20spending%20harder%20to%20justify%22%20OR%20%22tokenmaxxing%22%20OR%20%22Claude%20Code%22%20OR%20%22useful%20consumer%20features%22%20OR%20%22AI%20ROI%22%20OR%20%22Business%20Insider%22%20OR%20%22Fortune%22%29%20%28%22AI%22%20OR%20%22artificial%20intelligence%22%20OR%20%22OpenAI%22%20OR%20%22Nvidia%22%20OR%20%22large%20language%20model%22%20OR%20%22AI%20chip%22%20OR%20%22agent%22%20OR%20%22robotics%22%20OR%20%22physical%20world%20model%22%20OR%20%22world%20model%22%20OR%20%22%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%22%20OR%20%22%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%8E%A8%E7%90%86%22%20OR%20%22%E7%89%A9%E7%90%86%E4%B8%96%E7%95%8C%E6%A8%A1%E5%9E%8B%22%29%20%28%22says%22%20OR%20%22said%22%20OR%20%22warns%22%20OR%20%22warned%22%20OR%20%22predicts%22%20OR%20%22predicted%22%20OR%20%22thinks%22%20OR%20%22believes%22%20OR%20%22expects%22%20OR%20%22quote%22%20OR%20%22interview%22%20OR%20%22speech%22%20OR%20%22%E8%A1%A8%E7%A4%BA%22%20OR%20%22%E7%A7%B0%22%20OR%20%22%E8%AE%A4%E4%B8%BA%22%20OR%20%22%E8%AD%A6%E5%91%8A%22%20OR%20%22%E9%A2%84%E6%B5%8B%22%20OR%20%22%E6%8C%87%E5%87%BA%22%20OR%20%22%E9%87%87%E8%AE%BF%22%20OR%20%22%E6%BC%94%E8%AE%B2%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
       "count": 0
     },
@@ -235,15 +310,17 @@
       "section": "company",
       "name": "Tavily Search",
       "query": "Nvidia OpenAI Anthropic Microsoft Google Meta AI acquisition funding investment Reuters Bloomberg",
-      "status": "ok",
-      "count": 6
+      "status": "error",
+      "error": "HTTP Error 403: Forbidden",
+      "count": 0
     },
     {
       "section": "company",
       "name": "Tavily Search",
       "query": "(\"Nvidia invested\" OR \"Nvidia investment\" OR \"Nvidia-backed\" OR \"Nvidia portfolio\" OR \"Nvidia stake\" OR \"Nvidia partnership\" OR \"Nvidia collaboration\" OR \"Nvidia strategic partnership\" OR \"Nvidia supply agreement\" OR \"Nvidia works with\" OR \"Nvidia teams with\") AI company news",
-      "status": "ok",
-      "count": 6
+      "status": "error",
+      "error": "HTTP Error 403: Forbidden",
+      "count": 0
     },
     {
       "section": "company",
@@ -257,7 +334,7 @@
       "name": "Bloomberg · Company Batch 2",
       "url": "https://news.google.com/rss/search?q=site%3Abloomberg.com%20%28%22AMI%20Labs%22%20OR%20%22Amkor%20Technology%22%20OR%20%22Amphenol%22%20OR%20%22Analog%20Devices%22%20OR%20%22Anthropic%22%20OR%20%22anthropic%22%20OR%20%22Anysphere%20/%20Cursor%22%20OR%20%22Apple%22%20OR%20%22Applied%20Digital%22%20OR%20%22Applied%20Energetics%22%20OR%20%22Applied%20Materials%22%20OR%20%22Applied%20Optoelectronics%22%20OR%20%22AppLovin%22%20OR%20%22Arista%22%20OR%20%22Arista%20Networks%22%20OR%20%22Arm%20Holdings%22%20OR%20%22ARYA%20Labs%22%20OR%20%22Asana%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 20
+      "count": 21
     },
     {
       "section": "company",
@@ -278,14 +355,14 @@
       "name": "Bloomberg · Company Batch 5",
       "url": "https://news.google.com/rss/search?q=site%3Abloomberg.com%20%28%22Ceres%20Power%22%20OR%20%22CEVA%22%20OR%20%22change%22%20OR%20%22CIEN%22%20OR%20%22Ciena%22%20OR%20%22Cipher%20Mining%22%20OR%20%22Cisco%22%20OR%20%22CleanSpark%22%20OR%20%22ClickHouse%22%20OR%20%22Cloudflare%22%20OR%20%22Cognex%22%20OR%20%22Cohere%22%20OR%20%22Coherent%22%20OR%20%22Coherent%20Corp.%22%20OR%20%22Cohu%22%20OR%20%22Comfort%20Systems%20USA%22%20OR%20%22company%22%20OR%20%22Confluent%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 7
+      "count": 6
     },
     {
       "section": "company",
       "name": "Bloomberg · Company Batch 6",
       "url": "https://news.google.com/rss/search?q=site%3Abloomberg.com%20%28%22Constellation%20Energy%22%20OR%20%22Core%20Scientific%22%20OR%20%22CoreWeave%22%20OR%20%22Corning%22%20OR%20%22CPO%22%20OR%20%22Credo%20Technology%22%20OR%20%22CrowdStrike%22%20OR%20%22cursor%22%20OR%20%22D-Wave%20Quantum%22%20OR%20%22Databricks%22%20OR%20%22Datadog%22%20OR%20%22DeepSeek%22%20OR%20%22deepseek%22%20OR%20%22del%22%20OR%20%22Dell%20Technologies%22%20OR%20%22Digital%20Realty%22%20OR%20%22DigitalOcean%22%20OR%20%22DISCO%20Corporation%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 13
+      "count": 15
     },
     {
       "section": "company",
@@ -348,7 +425,7 @@
       "name": "Bloomberg · Company Batch 15",
       "url": "https://news.google.com/rss/search?q=site%3Abloomberg.com%20%28%22Nebius%22%20OR%20%22Nebius%20Group%22%20OR%20%22NetApp%22%20OR%20%22New%20Oriental%20Education%22%20OR%20%22NextEra%20Energy%22%20OR%20%22NICE%22%20OR%20%22nLIGHT%22%20OR%20%22Nokia%22%20OR%20%22NuScale%20Power%22%20OR%20%22nVent%22%20OR%20%22Nvidia%22%20OR%20%22NVIDIA%22%20OR%20%22NXP%20Semiconductors%22%20OR%20%22OceanPal%22%20OR%20%22Oklo%22%20OR%20%22Okta%22%20OR%20%22ON%20Semiconductor%22%20OR%20%22Onto%20Innovation%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 12
+      "count": 13
     },
     {
       "section": "company",
@@ -369,7 +446,7 @@
       "name": "Bloomberg · Company Batch 18",
       "url": "https://news.google.com/rss/search?q=site%3Abloomberg.com%20%28%22rank%22%20OR%20%22Raspberry%20Pi%20Holdings%22%20OR%20%22REalloys%22%20OR%20%22Recursion%20Pharmaceuticals%22%20OR%20%22Red%20Cat%22%20OR%20%22Reddit%22%20OR%20%22Redwire%22%20OR%20%22Replit%22%20OR%20%22Resonac%20%28Tokyo%29%22%20OR%20%22Rigetti%20Computing%22%20OR%20%22Riot%20Platforms%22%20OR%20%22Roblox%22%20OR%20%22Rockwell%20Automation%22%20OR%20%22Rolls-Royce%20Holdings%22%20OR%20%22Rubrik%22%20OR%20%22Salesforce%22%20OR%20%22SambaNova%22%20OR%20%22Samsara%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 9
+      "count": 10
     },
     {
       "section": "company",
@@ -411,7 +488,7 @@
       "name": "Bloomberg · Company Batch 24",
       "url": "https://news.google.com/rss/search?q=site%3Abloomberg.com%20%28%22Vycor%20Medical%22%20OR%20%22Wayve%22%20OR%20%22WeRide%22%20OR%20%22Western%20Digital%22%20OR%20%22WhiteFiber%22%20OR%20%22WIN%20Semiconductors%22%20OR%20%22Wolfspeed%22%20OR%20%22Workday%22%20OR%20%22World%20Labs%22%20OR%20%22WORLDLABS.PRE%22%20OR%20%22X-energy%22%20OR%20%22xAI%22%20OR%20%22xiaomi%22%20OR%20%22Xtant%20Medical%22%20OR%20%22z.ai%22%20OR%20%22Zscaler%22%20OR%20%22ZTO%20Express%22%20OR%20%22%E4%B8%87%E5%9B%BD%E6%95%B0%E6%8D%AE%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 19
+      "count": 20
     },
     {
       "section": "company",
@@ -495,7 +572,7 @@
       "name": "Reuters · Company Batch 6",
       "url": "https://news.google.com/rss/search?q=site%3Areuters.com%20%28%22Constellation%20Energy%22%20OR%20%22Core%20Scientific%22%20OR%20%22CoreWeave%22%20OR%20%22Corning%22%20OR%20%22CPO%22%20OR%20%22Credo%20Technology%22%20OR%20%22CrowdStrike%22%20OR%20%22cursor%22%20OR%20%22D-Wave%20Quantum%22%20OR%20%22Databricks%22%20OR%20%22Datadog%22%20OR%20%22DeepSeek%22%20OR%20%22deepseek%22%20OR%20%22del%22%20OR%20%22Dell%20Technologies%22%20OR%20%22Digital%20Realty%22%20OR%20%22DigitalOcean%22%20OR%20%22DISCO%20Corporation%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 8
+      "count": 6
     },
     {
       "section": "company",
@@ -544,7 +621,7 @@
       "name": "Reuters · Company Batch 13",
       "url": "https://news.google.com/rss/search?q=site%3Areuters.com%20%28%22Lynas%20Rare%20Earths%22%20OR%20%22MaaS%22%20OR%20%22MACOM%22%20OR%20%22MARA%20Holdings%22%20OR%20%22Marvell%22%20OR%20%22Marvell%20Technology%22%20OR%20%22MaxLinear%22%20OR%20%22mcap%22%20OR%20%22MDB%22%20OR%20%22Mercor%20AI%22%20OR%20%22Meta%20Platforms%22%20OR%20%22Microchip%20Technology%22%20OR%20%22Micron%22%20OR%20%22Micron%20Technology%22%20OR%20%22Microsoft%22%20OR%20%22MiniMax%22%20OR%20%22minimax%22%20OR%20%22MINISO%20Group%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 12
+      "count": 13
     },
     {
       "section": "company",
@@ -642,7 +719,7 @@
       "name": "Reuters · Company Batch 27",
       "url": "https://news.google.com/rss/search?q=site%3Areuters.com%20%28%22%E5%AE%81%E5%BE%B7%E6%97%B6%E4%BB%A3%22%20OR%20%22%E5%AE%8F%E8%A7%80%22%20OR%20%22%E5%AF%92%E6%AD%A6%E7%BA%AA%22%20OR%20%22%E5%B0%8F%E7%B1%B3%E9%9B%86%E5%9B%A2%22%20OR%20%22%E5%B0%8F%E9%A9%AC%E6%99%BA%E8%A1%8C%22%20OR%20%22%E5%BA%94%E6%B5%81%E8%82%A1%E4%BB%BD%22%20OR%20%22%E5%BC%80%E6%BA%90%22%20OR%20%22%E5%BE%AE%E7%9B%9F%E9%9B%86%E5%9B%A2%22%20OR%20%22%E5%BE%B7%E6%98%8C%E7%94%B5%E6%9C%BA%E6%8E%A7%E8%82%A1%22%20OR%20%22%E5%BF%AB%E6%89%8B%22%20OR%20%22%E6%81%92%E7%94%9F%E7%94%B5%E5%AD%90%22%20OR%20%22%E6%91%A9%E5%B0%94%E7%BA%BF%E7%A8%8B%22%20OR%20%22%E6%96%87%E6%9C%AC%22%20OR%20%22%E6%96%87%E8%BF%9C%E7%9F%A5%E8%A1%8C%22%20OR%20%22%E6%96%AF%E7%91%9E%E6%96%B0%E6%9D%90%22%20OR%20%22%E6%96%B0%E6%98%93%E7%9B%9B%22%20OR%20%22%E6%97%A0%E9%97%AE%E8%8A%AF%E7%A9%B9%22%20OR%20%22%E6%98%87%E9%81%94%E7%A7%91%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 6
+      "count": 7
     },
     {
       "section": "company",
@@ -796,7 +873,7 @@
       "name": "Bloomberg · M&A Batch 19",
       "url": "https://news.google.com/rss/search?q=site%3Abloomberg.com%20%28%22Samsung%20Electro-Mechanics%22%20OR%20%22Samsung%20Electronics%20%28Seoul%29%22%20OR%20%22SanDisk%22%20OR%20%22SAP%22%20OR%20%22Scale%20AI%22%20OR%20%22SCALEAI.PRE%22%20OR%20%22Schneider%20Electric%22%20OR%20%22Schrodinger%22%20OR%20%22Seagate%22%20OR%20%22SentinelOne%22%20OR%20%22Serve%20Robotics%22%20OR%20%22ServiceNow%22%20OR%20%22ServiceTitan%22%20OR%20%22Shopify%22%20OR%20%22ShunSin%20Technology%20Holdings%22%20OR%20%22SILICONFLOW.PRE%22%20OR%20%22SiTime%22%20OR%20%22SIVE.ST%22%29%20%28%22acquires%22%20OR%20%22acquisition%22%20OR%20%22merger%22%20OR%20%22M%26A%22%20OR%20%22buys%20stake%22%20OR%20%22takes%20stake%22%20OR%20%22takes%20a%20stake%22%20OR%20%22invests%20in%22%20OR%20%22investment%20in%22%20OR%20%22stake%20in%22%20OR%20%22to%20buy%22%20OR%20%22buyout%22%20OR%20%22takeover%22%20OR%20%22%E6%94%B6%E8%B4%AD%22%20OR%20%22%E5%B9%B6%E8%B4%AD%22%20OR%20%22%E5%85%A5%E8%82%A1%22%20OR%20%22%E6%8C%81%E8%82%A1%22%20OR%20%22%E8%82%A1%E6%9D%83%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 0
+      "count": 1
     },
     {
       "section": "company",
@@ -1062,7 +1139,7 @@
       "name": "Reuters · M&A Batch 27",
       "url": "https://news.google.com/rss/search?q=site%3Areuters.com%20%28%22%E5%AE%81%E5%BE%B7%E6%97%B6%E4%BB%A3%22%20OR%20%22%E5%AE%8F%E8%A7%80%22%20OR%20%22%E5%AF%92%E6%AD%A6%E7%BA%AA%22%20OR%20%22%E5%B0%8F%E7%B1%B3%E9%9B%86%E5%9B%A2%22%20OR%20%22%E5%B0%8F%E9%A9%AC%E6%99%BA%E8%A1%8C%22%20OR%20%22%E5%BA%94%E6%B5%81%E8%82%A1%E4%BB%BD%22%20OR%20%22%E5%BC%80%E6%BA%90%22%20OR%20%22%E5%BE%AE%E7%9B%9F%E9%9B%86%E5%9B%A2%22%20OR%20%22%E5%BE%B7%E6%98%8C%E7%94%B5%E6%9C%BA%E6%8E%A7%E8%82%A1%22%20OR%20%22%E5%BF%AB%E6%89%8B%22%20OR%20%22%E6%81%92%E7%94%9F%E7%94%B5%E5%AD%90%22%20OR%20%22%E6%91%A9%E5%B0%94%E7%BA%BF%E7%A8%8B%22%20OR%20%22%E6%96%87%E6%9C%AC%22%20OR%20%22%E6%96%87%E8%BF%9C%E7%9F%A5%E8%A1%8C%22%20OR%20%22%E6%96%AF%E7%91%9E%E6%96%B0%E6%9D%90%22%20OR%20%22%E6%96%B0%E6%98%93%E7%9B%9B%22%20OR%20%22%E6%97%A0%E9%97%AE%E8%8A%AF%E7%A9%B9%22%20OR%20%22%E6%98%87%E9%81%94%E7%A7%91%22%29%20%28%22acquires%22%20OR%20%22acquisition%22%20OR%20%22merger%22%20OR%20%22M%26A%22%20OR%20%22buys%20stake%22%20OR%20%22takes%20stake%22%20OR%20%22takes%20a%20stake%22%20OR%20%22invests%20in%22%20OR%20%22investment%20in%22%20OR%20%22stake%20in%22%20OR%20%22to%20buy%22%20OR%20%22buyout%22%20OR%20%22takeover%22%20OR%20%22%E6%94%B6%E8%B4%AD%22%20OR%20%22%E5%B9%B6%E8%B4%AD%22%20OR%20%22%E5%85%A5%E8%82%A1%22%20OR%20%22%E6%8C%81%E8%82%A1%22%20OR%20%22%E8%82%A1%E6%9D%83%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 1
+      "count": 0
     },
     {
       "section": "company",
@@ -1111,7 +1188,7 @@
       "name": "Bloomberg · Equity Batch 2",
       "url": "https://news.google.com/rss/search?q=site%3Abloomberg.com%20%28%22AMI%20Labs%22%20OR%20%22Amkor%20Technology%22%20OR%20%22Amphenol%22%20OR%20%22Analog%20Devices%22%20OR%20%22Anthropic%22%20OR%20%22anthropic%22%20OR%20%22Anysphere%20/%20Cursor%22%20OR%20%22Apple%22%20OR%20%22Applied%20Digital%22%20OR%20%22Applied%20Energetics%22%20OR%20%22Applied%20Materials%22%20OR%20%22Applied%20Optoelectronics%22%20OR%20%22AppLovin%22%20OR%20%22Arista%22%20OR%20%22Arista%20Networks%22%20OR%20%22Arm%20Holdings%22%20OR%20%22ARYA%20Labs%22%20OR%20%22Asana%22%29%20%28%22equity%22%20OR%20%22stake%22%20OR%20%22financing%22%20OR%20%22funding%22%20OR%20%22financial%22%20OR%20%22capital%22%20OR%20%22valuation%22%20OR%20%22investment%22%20OR%20%22raises%22%20OR%20%22IPO%22%20OR%20%22private%20placement%22%20OR%20%22venture%20capital%22%20OR%20%22debt%20financing%22%20OR%20%22%E8%82%A1%E6%9D%83%22%20OR%20%22%E8%9E%8D%E8%B5%84%22%20OR%20%22%E9%87%91%E8%9E%8D%22%20OR%20%22%E8%B5%84%E6%9C%AC%22%20OR%20%22%E4%BC%B0%E5%80%BC%22%20OR%20%22%E6%8A%95%E8%B5%84%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 0
+      "count": 1
     },
     {
       "section": "company",
@@ -1265,7 +1342,7 @@
       "name": "Bloomberg · Equity Batch 24",
       "url": "https://news.google.com/rss/search?q=site%3Abloomberg.com%20%28%22Vycor%20Medical%22%20OR%20%22Wayve%22%20OR%20%22WeRide%22%20OR%20%22Western%20Digital%22%20OR%20%22WhiteFiber%22%20OR%20%22WIN%20Semiconductors%22%20OR%20%22Wolfspeed%22%20OR%20%22Workday%22%20OR%20%22World%20Labs%22%20OR%20%22WORLDLABS.PRE%22%20OR%20%22X-energy%22%20OR%20%22xAI%22%20OR%20%22xiaomi%22%20OR%20%22Xtant%20Medical%22%20OR%20%22z.ai%22%20OR%20%22Zscaler%22%20OR%20%22ZTO%20Express%22%20OR%20%22%E4%B8%87%E5%9B%BD%E6%95%B0%E6%8D%AE%22%29%20%28%22equity%22%20OR%20%22stake%22%20OR%20%22financing%22%20OR%20%22funding%22%20OR%20%22financial%22%20OR%20%22capital%22%20OR%20%22valuation%22%20OR%20%22investment%22%20OR%20%22raises%22%20OR%20%22IPO%22%20OR%20%22private%20placement%22%20OR%20%22venture%20capital%22%20OR%20%22debt%20financing%22%20OR%20%22%E8%82%A1%E6%9D%83%22%20OR%20%22%E8%9E%8D%E8%B5%84%22%20OR%20%22%E9%87%91%E8%9E%8D%22%20OR%20%22%E8%B5%84%E6%9C%AC%22%20OR%20%22%E4%BC%B0%E5%80%BC%22%20OR%20%22%E6%8A%95%E8%B5%84%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 1
+      "count": 0
     },
     {
       "section": "company",
@@ -1356,7 +1433,7 @@
       "name": "Reuters · Equity Batch 7",
       "url": "https://news.google.com/rss/search?q=site%3Areuters.com%20%28%22DocuSign%22%20OR%20%22Doosan%20Fuel%20Cell%22%20OR%20%22Duolingo%22%20OR%20%22Dynatrace%22%20OR%20%22Eaton%22%20OR%20%22EchoStar%22%20OR%20%22Elastic%22%20OR%20%22EMCOR%22%20OR%20%22Emerson%20Electric%22%20OR%20%22Energy%20Fuels%22%20OR%20%22Enovix%22%20OR%20%22Entegris%22%20OR%20%22Eos%20Energy%20Enterprises%22%20OR%20%22EOSE%22%20OR%20%22EPAM%20Systems%22%20OR%20%22EQT%22%20OR%20%22Equinix%22%20OR%20%22Ethema%20Health%22%29%20%28%22equity%22%20OR%20%22stake%22%20OR%20%22financing%22%20OR%20%22funding%22%20OR%20%22financial%22%20OR%20%22capital%22%20OR%20%22valuation%22%20OR%20%22investment%22%20OR%20%22raises%22%20OR%20%22IPO%22%20OR%20%22private%20placement%22%20OR%20%22venture%20capital%22%20OR%20%22debt%20financing%22%20OR%20%22%E8%82%A1%E6%9D%83%22%20OR%20%22%E8%9E%8D%E8%B5%84%22%20OR%20%22%E9%87%91%E8%9E%8D%22%20OR%20%22%E8%B5%84%E6%9C%AC%22%20OR%20%22%E4%BC%B0%E5%80%BC%22%20OR%20%22%E6%8A%95%E8%B5%84%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 1
+      "count": 2
     },
     {
       "section": "company",
@@ -1412,7 +1489,7 @@
       "name": "Reuters · Equity Batch 15",
       "url": "https://news.google.com/rss/search?q=site%3Areuters.com%20%28%22Nebius%22%20OR%20%22Nebius%20Group%22%20OR%20%22NetApp%22%20OR%20%22New%20Oriental%20Education%22%20OR%20%22NextEra%20Energy%22%20OR%20%22NICE%22%20OR%20%22nLIGHT%22%20OR%20%22Nokia%22%20OR%20%22NuScale%20Power%22%20OR%20%22nVent%22%20OR%20%22Nvidia%22%20OR%20%22NVIDIA%22%20OR%20%22NXP%20Semiconductors%22%20OR%20%22OceanPal%22%20OR%20%22Oklo%22%20OR%20%22Okta%22%20OR%20%22ON%20Semiconductor%22%20OR%20%22Onto%20Innovation%22%29%20%28%22equity%22%20OR%20%22stake%22%20OR%20%22financing%22%20OR%20%22funding%22%20OR%20%22financial%22%20OR%20%22capital%22%20OR%20%22valuation%22%20OR%20%22investment%22%20OR%20%22raises%22%20OR%20%22IPO%22%20OR%20%22private%20placement%22%20OR%20%22venture%20capital%22%20OR%20%22debt%20financing%22%20OR%20%22%E8%82%A1%E6%9D%83%22%20OR%20%22%E8%9E%8D%E8%B5%84%22%20OR%20%22%E9%87%91%E8%9E%8D%22%20OR%20%22%E8%B5%84%E6%9C%AC%22%20OR%20%22%E4%BC%B0%E5%80%BC%22%20OR%20%22%E6%8A%95%E8%B5%84%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 1
+      "count": 0
     },
     {
       "section": "company",
@@ -1523,15 +1600,16 @@
       "section": "tech",
       "name": "Tavily Search",
       "query": "AI frontier technology robots world models agents chips site:wired.com OR site:technologyreview.com",
-      "status": "ok",
-      "count": 6
+      "status": "error",
+      "error": "HTTP Error 403: Forbidden",
+      "count": 0
     },
     {
       "section": "tech",
       "name": "WIRED",
       "url": "https://www.wired.com/feed/category/business/latest/rss",
       "status": "ok",
-      "count": 14
+      "count": 16
     },
     {
       "section": "tech",
@@ -1552,7 +1630,7 @@
       "name": "Wired",
       "url": "https://news.google.com/rss/search?q=site%3Awired.com%20%28%22artificial%20intelligence%22%20OR%20AI%20OR%20Nvidia%20OR%20OpenAI%20OR%20Anthropic%20OR%20%22AI%20chip%22%20OR%20semiconductor%20OR%20%22data%20center%22%20OR%20%22AI%20cloud%22%20OR%20%22large%20language%20model%22%20OR%20%22machine%20learning%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 3
+      "count": 6
     },
     {
       "section": "tech",
@@ -1572,22 +1650,25 @@
       "section": "papers",
       "name": "Tavily Search",
       "query": "\"H-JEPA\" OR \"Hierarchical JEPA\" OR \"Joint-Embedding Predictive Architecture\" arXiv paper",
-      "status": "ok",
-      "count": 6
+      "status": "error",
+      "error": "HTTP Error 403: Forbidden",
+      "count": 0
     },
     {
       "section": "papers",
       "name": "Tavily Search",
       "query": "JEPA \"Joint-Embedding Predictive Architecture\" AI research paper arXiv Yann LeCun",
-      "status": "ok",
+      "status": "error",
+      "error": "HTTP Error 403: Forbidden",
       "count": 0
     },
     {
       "section": "papers",
       "name": "Tavily Search",
       "query": "AI research paper large language model agents robotics Nature Science Cell arXiv",
-      "status": "ok",
-      "count": 1
+      "status": "error",
+      "error": "HTTP Error 403: Forbidden",
+      "count": 0
     },
     {
       "section": "papers",
@@ -1622,7 +1703,7 @@
       "name": "Science",
       "url": "https://news.google.com/rss/search?q=site%3Ascience.org%20%28%22artificial%20intelligence%22%20OR%20AI%20OR%20Nvidia%20OR%20OpenAI%20OR%20Anthropic%20OR%20%22AI%20chip%22%20OR%20semiconductor%20OR%20%22data%20center%22%20OR%20%22AI%20cloud%22%20OR%20%22large%20language%20model%22%20OR%20%22machine%20learning%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 2
+      "count": 3
     },
     {
       "section": "papers",
@@ -1650,13 +1731,14 @@
       "name": "Cell",
       "url": "https://news.google.com/rss/search?q=site%3Acell.com/cell%20%28%22artificial%20intelligence%22%20OR%20AI%20OR%20Nvidia%20OR%20OpenAI%20OR%20Anthropic%20OR%20%22AI%20chip%22%20OR%20semiconductor%20OR%20%22data%20center%22%20OR%20%22AI%20cloud%22%20OR%20%22large%20language%20model%22%20OR%20%22machine%20learning%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 9
+      "count": 10
     },
     {
       "section": "devops",
       "name": "Tavily Search",
       "query": "DevOps most read AI agents developer productivity platform engineering",
-      "status": "ok",
+      "status": "error",
+      "error": "HTTP Error 403: Forbidden",
       "count": 0
     },
     {
@@ -1670,8 +1752,9 @@
       "section": "video",
       "name": "Tavily Search",
       "query": "site:youtube.com/watch Bloomberg artificial intelligence OR Nvidia OR chips OR data centers OR markets",
-      "status": "ok",
-      "count": 6
+      "status": "error",
+      "error": "HTTP Error 403: Forbidden",
+      "count": 0
     },
     {
       "section": "video",
@@ -1727,7 +1810,7 @@
       "name": "Bloomberg YouTube",
       "url": "https://www.youtube.com/@markets/videos",
       "status": "ok",
-      "count": 16
+      "count": 18
     },
     {
       "section": "video",
@@ -1756,138 +1839,6 @@
       "title": "🔥热点",
       "note": "New video highlights",
       "items": [
-        {
-          "source": "Wall Street Journal",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://www.wsj.com/tech/air-liquide-invests-233-million-in-south-korea-to-back-sk-hynixs-ai-chips-production-92fde1f1",
-          "via": "Tavily",
-          "title": "Air Liquide Invests $233 Million in South Korea to Back SK Hynix’s AI Chips Production - WSJ",
-          "summary": "# Air Liquide Invests $233 Million in South Korea to Back SK Hynix’s AI Chips Production - WSJ. SX5P 5172.63 -0.32%. https://www.wsj.com/tech/air-liquide-invests-233-million-in-south-korea-to-back-sk-hynixs-ai-chips-production-92fde1f1. # Air Liquide Invests $233 Million in South Korea to Back SK Hynix’s AI Chips Produ",
-          "url": "https://www.wsj.com/tech/air-liquide-invests-233-million-in-south-korea-to-back-sk-hynixs-ai-chips-production-92fde1f1",
-          "author": "",
-          "publishedAt": "2026-06-03T09:14:00Z",
-          "section": "hot",
-          "sectionTitle": "🔥热点",
-          "tags": [
-            "Tavily",
-            "Wall Street Journal",
-            "site:wsj.com OR site:ft.com OR site:zaobao.com.sg artificial intelligence OR chi"
-          ],
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "titleEn": "Air Liquide Invests $233 Million in South Korea to Back SK Hynix’s AI Chips Production - WSJ"
-        },
-        {
-          "source": "Wall Street Journal",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://www.wsj.com/finance/stocks/google-sends-a-clear-signal-3120cd4f",
-          "via": "Tavily",
-          "title": "Google Sends a Clear Signal - WSJ",
-          "summary": "# Google Spends, Chips Win and Victoria’s Secret Shines | Markets P.M. for June 2 - WSJ. S&P 500 7609.78 0.13%. _This is an edition of the Markets P.M. newsletter, a recap of the day’s most important markets moves, delivered after the closing bell. The S&P 500 edged up 0.1% even though four of the five largest companie",
-          "url": "https://www.wsj.com/finance/stocks/google-sends-a-clear-signal-3120cd4f",
-          "author": "",
-          "publishedAt": "2026-06-02T20:24:00Z",
-          "section": "hot",
-          "sectionTitle": "🔥热点",
-          "tags": [
-            "Google",
-            "Tavily",
-            "Wall Street Journal",
-            "google",
-            "site:wsj.com OR site:ft.com OR site:zaobao.com.sg artificial intelligence OR chi"
-          ],
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "titleEn": "Google Sends a Clear Signal - WSJ"
-        },
-        {
-          "source": "Wall Street Journal",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://www.wsj.com/tech/why-nvidia-inside-can-work-in-the-pc-market-c5ab3111",
-          "via": "Tavily",
-          "title": "Why ‘Nvidia Inside’ Can Work in the PC Market - WSJ",
-          "summary": "# Why ‘Nvidia Inside’ Can Work in the PC Market - WSJ. https://www.wsj.com/tech/why-nvidia-inside-can-work-in-the-pc-market-c5ab3111. # Why ‘Nvidia Inside’ Can Work in the PC Market. That is what NvidiaNVDA 6.26%increase; green up pointing triangle is betting with its new line of PC chips, set to be in Windows-based co",
-          "url": "https://www.wsj.com/tech/why-nvidia-inside-can-work-in-the-pc-market-c5ab3111",
-          "author": "",
-          "publishedAt": "2026-06-02T09:30:00Z",
-          "section": "hot",
-          "sectionTitle": "🔥热点",
-          "tags": [
-            "NVIDIA",
-            "Nvidia",
-            "Tavily",
-            "Wall Street Journal",
-            "site:wsj.com OR site:ft.com OR site:zaobao.com.sg artificial intelligence OR chi"
-          ],
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "titleEn": "Why ‘Nvidia Inside’ Can Work in the PC Market - WSJ"
-        },
-        {
-          "source": "Wall Street Journal",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://www.wsj.com/economy/trade/chips-ai-keep-south-koreas-export-engine-firing-on-all-cylinders-ada32a96",
-          "via": "Tavily",
-          "title": "Chips, AI Keep South Korea’s Export Engine Firing on All Cylinders - WSJ",
-          "summary": "# South Korea Exports Grow at Fastest Pace Since 1984 on AI Chip Demand - WSJ. # Chips, AI Keep South Korea’s Export Engine Firing on All Cylinders. ## South Korea’s exports grew at the fastest pace in more than four decades in May. May 31, 2026 10:23 pm ET. South Korea’s exports grew at the fastest pace in more than f",
-          "url": "https://www.wsj.com/economy/trade/chips-ai-keep-south-koreas-export-engine-firing-on-all-cylinders-ada32a96",
-          "author": "",
-          "publishedAt": "2026-06-01T02:23:00Z",
-          "section": "hot",
-          "sectionTitle": "🔥热点",
-          "tags": [
-            "AI chip",
-            "Tavily",
-            "Wall Street Journal",
-            "site:wsj.com OR site:ft.com OR site:zaobao.com.sg artificial intelligence OR chi"
-          ],
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "titleEn": "Chips, AI Keep South Korea’s Export Engine Firing on All Cylinders - WSJ"
-        },
-        {
-          "source": "Wall Street Journal",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://www.wsj.com/finance/stocks/ai-stocks-trade-e7b19a9f",
-          "via": "Tavily",
-          "title": "The AI Trade Hits Overdrive, Powering Stocks to Historic Gains - WSJ",
-          "summary": "# The AI Trade Hits Overdrive, Powering Stocks to Historic Gains - WSJ. https://www.wsj.com/finance/stocks/ai-stocks-trade-e7b19a9f. # The AI Trade Hits Overdrive, Powering Stocks to Historic Gains. Chip stocks powered the S&P 500 up 16% across April and May, a two-month surge matched only four other times since 1950,",
-          "url": "https://www.wsj.com/finance/stocks/ai-stocks-trade-e7b19a9f",
-          "author": "",
-          "publishedAt": "2026-06-01T01:00:00Z",
-          "section": "hot",
-          "sectionTitle": "🔥热点",
-          "tags": [
-            "Tavily",
-            "site:wsj.com OR site:ft.com OR site:zaobao.com.sg artificial intelligence OR chi"
-          ],
-          "image": "https://sts3.wsj.net/iweb/images/wsj-logo-big-black.svg",
-          "matchedPortfolios": [],
-          "titleEn": "The AI Trade Hits Overdrive, Powering Stocks to Historic Gains - WSJ"
-        },
-        {
-          "source": "Wall Street Journal",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://www.wsj.com/tech/ai-has-made-memory-chips-more-valuable-than-oil-3b6976d8",
-          "via": "Tavily",
-          "title": "AI Has Made Memory Chips More Valuable Than Oil - WSJ",
-          "summary": "# AI Has Made Memory Chips More Valuable Than Oil - WSJ. https://www.wsj.com/tech/ai-has-made-memory-chips-more-valuable-than-oil-3b6976d8. # AI Has Made Memory Chips More Valuable Than Oil. Image 1: SK hynix logo displayed on a glass wall at the 2026 World IT Show. The world’s three largest memory-chip makers—Samsung",
-          "url": "https://www.wsj.com/tech/ai-has-made-memory-chips-more-valuable-than-oil-3b6976d8",
-          "author": "",
-          "publishedAt": "2026-05-29T09:30:00Z",
-          "section": "hot",
-          "sectionTitle": "🔥热点",
-          "tags": [
-            "Tavily",
-            "site:wsj.com OR site:ft.com OR site:zaobao.com.sg artificial intelligence OR chi"
-          ],
-          "matchedPortfolios": [],
-          "titleEn": "AI Has Made Memory Chips More Valuable Than Oil - WSJ"
-        },
         {
           "source": "YouTube New",
           "feedSource": "YouTube New",
@@ -1975,6 +1926,25 @@
       "note": "Wall Street Journal / New York Times / Financial Times / South China Morning Post / TechCrunch Startups",
       "items": [
         {
+          "source": "The New York Times",
+          "feedSource": "New York Times",
+          "sourceUrl": "https://www.nytimes.com",
+          "title": "How Trump Was Persuaded to Regulate A.I. - The New York Times",
+          "summary": "How Trump Was Persuaded to Regulate A.I. The New York Times",
+          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNQV9DYTRJel9hcUJ0cXR5RGdlT2drZG5FRjQwaG4yWEZodDdyc0d5VllrLUhLZ3pHSUVOZURKMUtkeEtXcjRlcDZLdmdGeHRkNHZjMXp2ZGFJQk5ldHBvbXJhT1VwMlU0RFZ4eFR5aDA0ZTZUdlctZFh0aWl3LTNmY1pmMng?oc=5",
+          "author": "",
+          "publishedAt": "2026-06-04T18:09:56Z",
+          "titleEn": "How Trump Was Persuaded to Regulate A.I. - The New York Times",
+          "section": "industry",
+          "sectionTitle": "行业",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "The New York Times"
+          ]
+        },
+        {
           "source": "New York Times",
           "feedSource": "New York Times",
           "sourceUrl": "",
@@ -1994,25 +1964,6 @@
             "SpaceX",
             "artificial intelligence",
             "company"
-          ]
-        },
-        {
-          "source": "The New York Times",
-          "feedSource": "New York Times",
-          "sourceUrl": "https://www.nytimes.com",
-          "title": "How Trump Was Persuaded to Regulate A.I. - The New York Times",
-          "summary": "How Trump Was Persuaded to Regulate A.I. The New York Times",
-          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNQV9DYTRJel9hcUJ0cXR5RGdlT2drZG5FRjQwaG4yWEZodDdyc0d5VllrLUhLZ3pHSUVOZURKMUtkeEtXcjRlcDZLdmdGeHRkNHZjMXp2ZGFJQk5ldHBvbXJhT1VwMlU0RFZ4eFR5aDA0ZTZUdlctZFh0aWl3LTNmY1pmMng?oc=5",
-          "author": "",
-          "publishedAt": "2026-06-04T16:47:26Z",
-          "titleEn": "How Trump Was Persuaded to Regulate A.I. - The New York Times",
-          "section": "industry",
-          "sectionTitle": "行业",
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "tags": [
-            "The New York Times"
           ]
         },
         {
@@ -2102,7 +2053,7 @@
           "summary": "The $135 share price means Elon Musk’s rocket maker is poised to exceed the 2019 initial public offering of Saudi Aramco in both valuation and money raised. Space Exploration Technologies Corp Musk, Elon Initial Public Offerings Satellites Artificial Intelligence Private Spaceflight Space and Astronomy Stocks and Bonds",
           "url": "https://www.nytimes.com/2026/06/03/technology/spacex-ipo-pricing.html",
           "author": "Ryan Mac",
-          "publishedAt": "2026-06-04T14:56:47Z",
+          "publishedAt": "2026-06-04T14:56:48Z",
           "titleEn": "SpaceX IPO to Be Largest Ever at $135 Share Price",
           "section": "industry",
           "sectionTitle": "行业",
@@ -2157,6 +2108,25 @@
           ]
         },
         {
+          "source": "The New York Times",
+          "feedSource": "New York Times",
+          "sourceUrl": "https://www.nytimes.com",
+          "title": "Panini denies using AI to write text on the back of basketball cards - The New York Times",
+          "summary": "Panini denies using AI to write text on the back of basketball cards The New York Times",
+          "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPamVPQklFdWdrc0dXcW4wNVM1bTZEUExGMjhOTXUxeElXYi1ZNlY4UERhZFB0QXlYX0VCellVUGlmTUVXYm9ldmJ6NURDNGczbG9VMGxxaUJoQ3o3SlhsYXRWajgtZDdOOWFvZVRqQlFOVXZkaWxkbnZFWFNsZmg4cw?oc=5",
+          "author": "",
+          "publishedAt": "2026-06-04T14:24:04Z",
+          "titleEn": "Panini denies using AI to write text on the back of basketball cards - The New York Times",
+          "section": "industry",
+          "sectionTitle": "行业",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "The New York Times"
+          ]
+        },
+        {
           "source": "New York Times",
           "feedSource": "New York Times",
           "sourceUrl": "",
@@ -2175,6 +2145,26 @@
             "New York Times",
             "SpaceX",
             "artificial intelligence"
+          ]
+        },
+        {
+          "source": "The New York Times",
+          "feedSource": "New York Times",
+          "sourceUrl": "https://www.nytimes.com",
+          "title": "Space Nerds, Rejoice! SpaceX’s I.P.O. Lifts Dreams of the Cosmos. - The New York Times",
+          "summary": "Space Nerds, Rejoice! SpaceX’s I.P.O. Lifts Dreams of the Cosmos. The New York Times",
+          "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE9xMW93V1NfZ3NIelZxOEtsd2ZBME10d0toVmdVeUlKcExGSF9obFhPa1JvWWY1Y0xvNks5UUx0YkpzdU9hQ2lIME1tOS1WQ0NkR1E5Y1FEUnFyMDZ1UnNQQU5HVVZZM05xZkYzanZoa1Y2NzBIbkt2UFZHaVMzZw?oc=5",
+          "author": "",
+          "publishedAt": "2026-06-04T14:08:43Z",
+          "titleEn": "Space Nerds, Rejoice! SpaceX’s I.P.O. Lifts Dreams of the Cosmos. - The New York Times",
+          "section": "industry",
+          "sectionTitle": "行业",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "SpaceX",
+            "The New York Times"
           ]
         },
         {
@@ -2222,12 +2212,12 @@
           "source": "The New York Times",
           "feedSource": "New York Times",
           "sourceUrl": "https://www.nytimes.com",
-          "title": "Opinion | Trump Is Finally Facing Reality on A.I. - The New York Times",
-          "summary": "Opinion | Trump Is Finally Facing Reality on A.I. The New York Times",
+          "title": "Opinion | The Government Is Finally Taking A.I. Risk Seriously - The New York Times",
+          "summary": "Opinion | The Government Is Finally Taking A.I. Risk Seriously The New York Times",
           "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxPbnVxc2F5dlFYSU9KVWdHa0hma3kxd1JmRmRpTGdDT0RoQ2NEcExCaWd3bUozdy1JRm1QN2FCTU9PRVZRVGZESDdmUmRhSmRZdVpKcGcyQ2tFTS15Y2x4eVlneWJkdVpTVDgtbDByblNXbTBGcHU0dkk2V3VaRGJZSnlveUVQYngwaVRQdWsyRQ?oc=5",
           "author": "",
           "publishedAt": "2026-06-04T09:03:54Z",
-          "titleEn": "Opinion | Trump Is Finally Facing Reality on A.I. - The New York Times",
+          "titleEn": "Opinion | The Government Is Finally Taking A.I. Risk Seriously - The New York Times",
           "section": "industry",
           "sectionTitle": "行业",
           "matchedPortfolios": [
@@ -2388,27 +2378,23 @@
           ]
         },
         {
-          "source": "Wall Street Journal",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://www.wsj.com/tech/ai/meta-keeps-delaying-the-release-of-its-new-ai-model-to-developers-f8569c8c",
-          "via": "Tavily",
+          "source": "WSJ",
+          "feedSource": "Wall Street Journal",
+          "sourceUrl": "https://www.wsj.com",
           "title": "Exclusive | Meta Keeps Delaying the Release of Its New AI Model to Developers - WSJ",
-          "summary": "# Exclusive | Meta Keeps Delaying the Release of Its New AI Model to Developers - WSJ. https://www.wsj.com/tech/ai/meta-keeps-delaying-the-release-of-its-new-ai-model-to-developers-f8569c8c. # Meta Keeps Delaying the Release of Its New AI Model to Developers. ## The shifting timeline is a setback for Meta’s ability to",
-          "url": "https://www.wsj.com/tech/ai/meta-keeps-delaying-the-release-of-its-new-ai-model-to-developers-f8569c8c",
+          "summary": "Exclusive | Meta Keeps Delaying the Release of Its New AI Model to Developers WSJ",
+          "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxNQzFMQXZWZ1pBUXo2V0Z4eXJQdkMwbHVndW9rQjlmdUN5Y2ZLcmRPNUs3VERiaUZpS2VYMU9GN0l5VGxXbnltajlha2EySWRVUnJhSklTcGMyb1piOWFLX3JCdm42UUJPVmJOM1paUjFEREZMR21aRWJ2eWJfaDV0NzR5QmhaWll6b2Q3dTFCUUVGOHRJa0VkQzR5TjRDS2JwZ1JhVg?oc=5",
           "author": "Christopher Mims",
           "publishedAt": "2026-06-04T02:50:00Z",
+          "titleEn": "Exclusive | Meta Keeps Delaying the Release of Its New AI Model to Developers - WSJ",
           "section": "industry",
           "sectionTitle": "行业",
-          "tags": [
-            "Meta",
-            "Tavily",
-            "Wall Street Journal",
-            "artificial intelligence chips data centers frontier models site:wsj.com OR site:"
-          ],
           "matchedPortfolios": [
             "ai-market"
           ],
-          "titleEn": "Exclusive | Meta Keeps Delaying the Release of Its New AI Model to Developers - WSJ"
+          "tags": [
+            "Meta"
+          ]
         },
         {
           "source": "The New York Times",
@@ -2479,7 +2465,7 @@
           "title": "Broadcom Shares Slide Despite Jump in Revenue on AI Chip Demand - WSJ",
           "summary": "Broadcom Shares Slide Despite Jump in Revenue on AI Chip Demand WSJ",
           "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxPMUZyTm54LXhvU1BpcFBOODV5VmJqQXVING8tWVpBemVWRjR4czN2bXBHR3VUWjBnRTNEU3VQZFJwbE4xSnNqYVdEZTR5U2kwZHN0OExIZDFtQWhHY0Y2bTNOckdxRHFLbW9QVmc4WERJSGZCcmZyeVd0UFJVekl3UEp3emZXdzV0Wnl3MDBsbzBYdw?oc=5",
-          "author": "",
+          "author": "Christopher Mims",
           "publishedAt": "2026-06-03T23:38:00Z",
           "titleEn": "Broadcom Shares Slide Despite Jump in Revenue on AI Chip Demand - WSJ",
           "section": "industry",
@@ -2594,347 +2580,39 @@
           "tags": [
             "New York Times"
           ]
-        },
-        {
-          "source": "TechCrunch Startups",
-          "feedSource": "TechCrunch Startups",
-          "sourceUrl": "",
-          "title": "These two founders left Goldman and Meta to build voice AI for markets everyone else overlooked",
-          "summary": "The startup's own stack for Africa and Middle East is now handling more than 17,000 calls per day. AI Fundraising Startups 4DX Ventures Africa Middle East voice AI",
-          "url": "https://techcrunch.com/2026/06/03/these-two-founders-left-goldman-and-meta-to-build-voice-ai-for-markets-everyone-else-overlooked/",
-          "author": "Ivan Mehta",
-          "publishedAt": "2026-06-03T15:00:00Z",
-          "titleEn": "These two founders left Goldman and Meta to build voice AI for markets everyone else overlooked",
-          "section": "industry",
-          "sectionTitle": "行业",
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "tags": [
-            "Meta",
-            "TechCrunch Startups"
-          ]
-        },
-        {
-          "source": "South China Morning Post",
-          "feedSource": "South China Morning Post",
-          "sourceUrl": "",
-          "title": "Want to save the planet? Stop being so polite to AI chatbots",
-          "summary": "Skipping pleasantries like “please” and “thank you” when talking to chatbots could save enough energy to power the annual needs of 760,000 residents in sub-Saharan Africa, highlighting the massive but often hidden environmental toll of artificial intelligence, according to a new UN report. Released by the Institute for",
-          "url": "https://www.scmp.com/tech/article/3355819/want-save-planet-stop-being-so-polite-ai-chatbots?utm_source=rss_feed",
-          "author": "Coco Feng",
-          "publishedAt": "2026-06-03T14:00:09Z",
-          "titleEn": "Want to save the planet? Stop being so polite to AI chatbots",
-          "section": "industry",
-          "sectionTitle": "行业",
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "tags": [
-            "South China Morning Post",
-            "artificial intelligence"
-          ]
         }
       ]
     },
     "person": {
       "title": "Opinion",
       "note": "最近 3 个月：金融派、经济/生产力派、技术派与媒体评论派对 AI 泡沫、资本开支、估值和回报的观点；仅保留正文匹配指定人物且约 90 天内的观点新闻",
-      "items": [
-        {
-          "source": "businessinsider.com",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://www.businessinsider.com/ai-jobs-crisis-no-evidence-apollo-chief-economist-torsten-slok-2026-5",
-          "via": "Tavily",
-          "title": "Apollo's chief economist says he sees 'zero evidence' of AI-related job losses, even as CEOs cite the tech in layoffs - Business Insider",
-          "summary": "# Apollo's chief economist says he sees 'zero evidence' of AI-related job losses, even as CEOs cite the tech in layoffs. In a blog post on Friday, Torsten Sløk said there is \"zero evidence of job losses because of AI,\" citing the ADP National Employment Report. \"Many firms are hiring AI implementation experts, and the",
-          "url": "https://www.businessinsider.com/ai-jobs-crisis-no-evidence-apollo-chief-economist-torsten-slok-2026-5",
-          "author": "Lauren Edmonds",
-          "publishedAt": "2026-05-31T18:25:23Z",
-          "section": "person",
-          "sectionTitle": "Opinion",
-          "tags": [
-            "\"Torsten Slok\" OR \"Torsten Sløk\" \"AI bubble\" OR \"S&P 500\" OR \"Apollo\" OR \"Fortun",
-            "Tavily"
-          ],
-          "matchedPortfolios": [],
-          "titleEn": "Apollo's chief economist says he sees 'zero evidence' of AI-related job losses, even as CEOs cite the tech in layoffs - Business Insider"
-        },
-        {
-          "source": "fortune.com",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://fortune.com/2026/05/26/uber-coo-ai-spending-tokens-claude-code/",
-          "via": "Tavily",
-          "title": "Uber burned through its entire 2026 AI budget in four months. Now its COO is questioning whether it's worth it - Fortune",
-          "summary": "Uber’s business model is one of the most AI-forward in Silicon Valley. But even with these advanced features, an Uber executive is sounding the alarm on the rideshare company’s AI spending. In a recent interview on the *Rapid Response* podcast, Uber president and chief operating officer Andrew Macdonald said it’s hard",
-          "url": "https://fortune.com/2026/05/26/uber-coo-ai-spending-tokens-claude-code/",
-          "author": "",
-          "publishedAt": "2026-05-26T18:03:00Z",
-          "section": "person",
-          "sectionTitle": "Opinion",
-          "tags": [
-            "(\"Andrew Macdonald\" OR \"Andrew G Macdonald\" OR \"Uber COO\" OR \"Uber operations ch",
-            "Tavily",
-            "Uber",
-            "company"
-          ],
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "titleEn": "Uber burned through its entire 2026 AI budget in four months. Now its COO is questioning whether it's worth it - Fortune"
-        },
-        {
-          "source": "theverge.com",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://www.theverge.com/transportation/937116/uber-ai-investment-hard-to-justify",
-          "via": "Tavily",
-          "title": "Uber president says AI spending is getting ‘harder to justify’ - The Verge",
-          "summary": "# Uber president says AI spending is getting ‘harder to justify’. *Uber president Andrew Macdonald (pictured) says its “hard to draw a line” between AI spending and deliverable features.*. In an interview with *Rapid Response*, Uber president and chief operating officer Andrew Macdonald said the company isn’t seeing a",
-          "url": "https://www.theverge.com/transportation/937116/uber-ai-investment-hard-to-justify",
-          "author": "",
-          "publishedAt": "2026-05-26T09:55:09Z",
-          "section": "person",
-          "sectionTitle": "Opinion",
-          "tags": [
-            "(\"Andrew Macdonald\" OR \"Andrew G Macdonald\" OR \"Uber COO\" OR \"Uber operations ch",
-            "Tavily",
-            "Uber",
-            "company"
-          ],
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "titleEn": "Uber president says AI spending is getting ‘harder to justify’ - The Verge"
-        },
-        {
-          "source": "letsdatascience.com",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://letsdatascience.com/news/uber-coo-questions-roi-of-ai-tokenmaxxing-48c36814",
-          "via": "Tavily",
-          "title": "Uber COO Questions ROI of AI Tokenmaxxing - Let's Data Science",
-          "summary": "According to Business Insider, Uber operations chief Andrew Macdonald said in a recent interview that it is becoming harder to justify the money the company is spending on AI \"tokenmaxxing.\" Macdonald told Business Insider that, after conversations with senior engineering leaders, he does not see higher token usage tra",
-          "url": "https://letsdatascience.com/news/uber-coo-questions-roi-of-ai-tokenmaxxing-48c36814",
-          "author": "",
-          "publishedAt": "2026-05-25T05:56:51Z",
-          "section": "person",
-          "sectionTitle": "Opinion",
-          "tags": [
-            "(\"Andrew Macdonald\" OR \"Andrew G Macdonald\" OR \"Uber COO\" OR \"Uber operations ch",
-            "Tavily",
-            "Uber",
-            "company"
-          ],
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "titleEn": "Uber COO Questions ROI of AI Tokenmaxxing - Let's Data Science"
-        },
-        {
-          "source": "businessinsider.com",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://www.businessinsider.com/uber-coo-andrew-macdonald-ai-token-spending-harder-justify-2026-5",
-          "via": "Tavily",
-          "title": "Uber's COO says it's getting harder to justify the money spent on AI tokenmaxxing - Business Insider",
-          "summary": "# Uber's COO says it's getting harder to justify the money spent on AI tokenmaxxing. A top Uber exec said AI is not giving the company bang for its buck. In a Rapid Response interview released on Saturday, Uber's operations chief, Andrew Macdonald, said it was becoming harder to justify AI costs within the company. He",
-          "url": "https://www.businessinsider.com/uber-coo-andrew-macdonald-ai-token-spending-harder-justify-2026-5",
-          "author": "",
-          "publishedAt": "2026-05-25T05:08:41Z",
-          "section": "person",
-          "sectionTitle": "Opinion",
-          "tags": [
-            "(\"Andrew Macdonald\" OR \"Andrew G Macdonald\" OR \"Uber COO\" OR \"Uber operations ch",
-            "Tavily",
-            "Uber",
-            "company"
-          ],
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "titleEn": "Uber's COO says it's getting harder to justify the money spent on AI tokenmaxxing - Business Insider"
-        },
-        {
-          "source": "cnbc.com",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://www.cnbc.com/video/2026/05/15/watch-cnbcs-full-interview-with-apollo-global-managements-torsten-slok.html",
-          "via": "Tavily",
-          "title": "Watch CNBC's full interview with Apollo Global Management's Torsten Slok - CNBC",
-          "summary": "# Watch CNBC's full interview with Apollo Global Management's Torsten Slok. Torsten Slok, chief economist at Apollo Global Management, joins ‘Squawk on the Street’ to discuss why inflation has become a very serious issue, his expectations for the Fed, and more. Watch CNBC's full interview with Jefferies' Jason Greenber",
-          "url": "https://www.cnbc.com/video/2026/05/15/watch-cnbcs-full-interview-with-apollo-global-managements-torsten-slok.html",
-          "author": "Justin Zacks",
-          "publishedAt": "2026-05-15T16:04:40Z",
-          "section": "person",
-          "sectionTitle": "Opinion",
-          "tags": [
-            "\"Torsten Slok\" OR \"Torsten Sløk\" \"AI bubble\" OR \"S&P 500\" OR \"Apollo\" OR \"Fortun",
-            "Tavily"
-          ],
-          "matchedPortfolios": [],
-          "titleEn": "Watch CNBC's full interview with Apollo Global Management's Torsten Slok - CNBC"
-        },
-        {
-          "source": "cnbc.com",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://www.cnbc.com/video/2026/05/15/apolloas-torsten-slok-how-elevated-energy-price-could-impact-consumer-spending.html",
-          "via": "Tavily",
-          "title": "Apollo’s Torsten Slok on how elevated energy prices could impact consumer spending - CNBC",
-          "summary": "# Apollo’s Torsten Slok on how elevated energy prices could impact consumer spending. Torsten Slok, chief economist at Apollo Global Management, joins ‘Squawk on the Street’ to discuss why inflation has become a very serious issue, his expectations for the Fed, and more. President Trump criticizes Iran's latest proposa",
-          "url": "https://www.cnbc.com/video/2026/05/15/apolloas-torsten-slok-how-elevated-energy-price-could-impact-consumer-spending.html",
-          "author": "Jim Cramer",
-          "publishedAt": "2026-05-15T15:16:48Z",
-          "section": "person",
-          "sectionTitle": "Opinion",
-          "tags": [
-            "\"Torsten Slok\" OR \"Torsten Sløk\" \"AI bubble\" OR \"S&P 500\" OR \"Apollo\" OR \"Fortun",
-            "Tavily"
-          ],
-          "matchedPortfolios": [],
-          "titleEn": "Apollo’s Torsten Slok on how elevated energy prices could impact consumer spending - CNBC"
-        },
-        {
-          "source": "businessinsider.com",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://www.businessinsider.com/alexandr-wang-meta-ai-feuds-chill-pill-2026-5",
-          "via": "Tavily",
-          "title": "Alexandr Wang wants AI's feuding leaders to take a chill pill - Business Insider",
-          "summary": "# Alexandr Wang wants AI's feuding leaders to take a chill pill. Unsubscribe via the link in your email. * Alexandr Wang said that tensions between some AI leaders are \"unfortunate.\". \"Maybe it gets worse, then it gets better,\" he said. * Wang, who faced criticism from Meta's former chief AI scientist Yann LeCun, said",
-          "url": "https://www.businessinsider.com/alexandr-wang-meta-ai-feuds-chill-pill-2026-5",
-          "author": "",
-          "publishedAt": "2026-05-13T17:08:48Z",
-          "section": "person",
-          "sectionTitle": "Opinion",
-          "tags": [
-            "\"Yann LeCun\" OR \"Yann Lecun\" \"LLM\" \"AGI\" OR \"world model\" OR \"JEPA\"",
-            "Meta",
-            "Tavily"
-          ],
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "titleEn": "Alexandr Wang wants AI's feuding leaders to take a chill pill - Business Insider"
-        },
-        {
-          "source": "cnbc.com",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://www.cnbc.com/video/2026/05/12/watch-cnbcs-full-interview-with-tekne-capital-management-ceo-beeneet-kothari.html",
-          "via": "Tavily",
-          "title": "Watch CNBC's full interview with Tekne Capital Management CEO Beeneet Kothari - CNBC",
-          "summary": "# Watch CNBC's full interview with Tekne Capital Management CEO Beeneet Kothari. Beeneet Kothari, Tekne Capital Management, joins 'Closing Bell Overtime' to talk the state of the semiconductor supply chain, the current bottlenecks in AI, and more. Watch CNBC's full interview with Chanos and Co. Founder Jim Chanos. Watc",
-          "url": "https://www.cnbc.com/video/2026/05/12/watch-cnbcs-full-interview-with-tekne-capital-management-ceo-beeneet-kothari.html",
-          "author": "",
-          "publishedAt": "2026-05-12T21:10:59Z",
-          "section": "person",
-          "sectionTitle": "Opinion",
-          "tags": [
-            "\"Jeffrey Gundlach\" OR \"Jim Chanos\" OR \"Nate Anderson\" \"AI bubble\" OR \"1999\" OR \"",
-            "Tavily"
-          ],
-          "matchedPortfolios": [],
-          "titleEn": "Watch CNBC's full interview with Tekne Capital Management CEO Beeneet Kothari - CNBC"
-        },
-        {
-          "source": "cnbc.com",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://www.cnbc.com/video/2026/05/12/watch-cnbcs-full-interview-with-chanos-and-co-founder-jim-chanos.html",
-          "via": "Tavily",
-          "title": "Watch CNBC's full interview with Chanos and Co. Founder Jim Chanos - CNBC",
-          "summary": "# Watch CNBC's full interview with Chanos and Co. Founder Jim Chanos. Jim Chanos, Chanos & Co. president and founder, joins 'Closing Bell' to discuss the market for short sellers, the data center plays Chanos is short and much more. Watch CNBC's full interview with the 'Power Lunch' Panel. Watch CNBC's full interview w",
-          "url": "https://www.cnbc.com/video/2026/05/12/watch-cnbcs-full-interview-with-chanos-and-co-founder-jim-chanos.html",
-          "author": "",
-          "publishedAt": "2026-05-12T19:53:04Z",
-          "section": "person",
-          "sectionTitle": "Opinion",
-          "tags": [
-            "\"Jeffrey Gundlach\" OR \"Jim Chanos\" OR \"Nate Anderson\" \"AI bubble\" OR \"1999\" OR \"",
-            "Tavily",
-            "data center"
-          ],
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "titleEn": "Watch CNBC's full interview with Chanos and Co. Founder Jim Chanos - CNBC"
-        },
-        {
-          "source": "fortune.com",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://fortune.com/2026/05/10/ai-boom-china-shock-job-displacement-apollo-economist-torsten-slok-david-autor/",
-          "via": "Tavily",
-          "title": "‘The gains will be substantial’: The AI shock is looking a lot like the China shock, and a top economist says that’s actually good news - Fortune",
-          "summary": "Apollo chief economist Torsten Slok likened today's AI boom to the China shock of the early 2000s.Victor J. While the U.S. reaped the benefits of cheap imports from its new normalized trade partner, the American manufacturing sector took a beating: China’s production explosion accounted for 59.3% of all U.S. manufactur",
-          "url": "https://fortune.com/2026/05/10/ai-boom-china-shock-job-displacement-apollo-economist-torsten-slok-david-autor/",
-          "author": "Sasha Rogelberg",
-          "publishedAt": "2026-05-10T10:30:00Z",
-          "section": "person",
-          "sectionTitle": "Opinion",
-          "tags": [
-            "\"Torsten Slok\" OR \"Torsten Sløk\" \"AI bubble\" OR \"S&P 500\" OR \"Apollo\" OR \"Fortun",
-            "Tavily"
-          ],
-          "matchedPortfolios": [],
-          "titleEn": "‘The gains will be substantial’: The AI shock is looking a lot like the China shock, and a top economist says that’s actually good news - Fortune"
-        },
-        {
-          "source": "cnbc.com",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://www.cnbc.com/video/2026/05/08/tasks-can-be-replaced-by-ai-but-jobs-can-not-be-says-apollos-torsten-slok.html",
-          "via": "Tavily",
-          "title": "Tasks can be replaced by AI, but jobs can not be, says Apollo's Torsten Slok - CNBC",
-          "summary": "# Tasks can be replaced by AI, but jobs can not be, says Apollo's Torsten Slok. Apollo Global Chief Economist Torsten Slok joins 'Closing Bell Overtime' to talk the impact of AI integration on jobs. Strategy CEO on selling bitcoin: When it's better than issuing equity to pay dividends, we'll do it. Underlying jobs mark",
-          "url": "https://www.cnbc.com/video/2026/05/08/tasks-can-be-replaced-by-ai-but-jobs-can-not-be-says-apollos-torsten-slok.html",
-          "author": "Jim Cramer",
-          "publishedAt": "2026-05-08T20:57:57Z",
-          "section": "person",
-          "sectionTitle": "Opinion",
-          "tags": [
-            "\"Torsten Slok\" OR \"Torsten Sløk\" \"AI bubble\" OR \"S&P 500\" OR \"Apollo\" OR \"Fortun",
-            "Tavily"
-          ],
-          "matchedPortfolios": [],
-          "titleEn": "Tasks can be replaced by AI, but jobs can not be, says Apollo's Torsten Slok - CNBC"
-        },
-        {
-          "source": "Bloomberg",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://www.bloomberg.com/news/newsletters/2026-05-08/doubleline-s-jeffrey-gundlach-is-preparing-for-an-extreme-debt-scenario",
-          "via": "Tavily",
-          "title": "DoubleLine’s Jeffrey Gundlach Is Preparing for an Extreme Debt Scenario - Bloomberg",
-          "summary": "# DoubleLine’s Jeffrey Gundlach Is Preparing for an Extreme Debt Scenario. DoubleLine Capital’s Jeffrey Gundlach thinks the US government might restructure its debt. DoubleLine Capital’s Jeffrey Gundlach is repositioning some of his funds for an extreme scenario: He thinks the US government might restructure its debt.",
-          "url": "https://www.bloomberg.com/news/newsletters/2026-05-08/doubleline-s-jeffrey-gundlach-is-preparing-for-an-extreme-debt-scenario",
-          "author": "",
-          "publishedAt": "2026-05-08T10:48:09Z",
-          "section": "person",
-          "sectionTitle": "Opinion",
-          "tags": [
-            "\"Jeffrey Gundlach\" OR \"Jim Chanos\" OR \"Nate Anderson\" \"AI bubble\" OR \"1999\" OR \"",
-            "Tavily"
-          ],
-          "matchedPortfolios": [],
-          "titleEn": "DoubleLine’s Jeffrey Gundlach Is Preparing for an Extreme Debt Scenario - Bloomberg"
-        },
-        {
-          "source": "businessinsider.com",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://www.businessinsider.com/ai-impact-on-job-labor-market-growth-replacement-torsten-slok-2026-5",
-          "via": "Tavily",
-          "title": "The Case for AI As an Engine of Job Growth, Not a Layoff Machine - Business Insider",
-          "summary": "# The case for AI as an engine of job growth, not a layoff machine. You're currently following this author! * A growing chorus of economists led by Torsten Slok is making the case for AI creating job growth. Since AI first emerged as a transformational force, one of the main worries has been the impact on employment. T",
-          "url": "https://www.businessinsider.com/ai-impact-on-job-labor-market-growth-replacement-torsten-slok-2026-5",
-          "author": "Joe Ciolli",
-          "publishedAt": "2026-05-06T09:50:02Z",
-          "section": "person",
-          "sectionTitle": "Opinion",
-          "tags": [
-            "\"Torsten Slok\" OR \"Torsten Sløk\" \"AI bubble\" OR \"S&P 500\" OR \"Apollo\" OR \"Fortun",
-            "Tavily"
-          ],
-          "matchedPortfolios": [],
-          "titleEn": "The Case for AI As an Engine of Job Growth, Not a Layoff Machine - Business Insider"
-        }
-      ]
+      "items": []
     },
     "company": {
       "title": "公司",
       "note": "Bloomberg / Reuters + M&A / financing keywords",
       "items": [
+        {
+          "source": "Bloomberg.com",
+          "feedSource": "Bloomberg · Company Batch 2",
+          "sourceUrl": "https://www.bloomberg.com",
+          "title": "Microsoft’s AI Chief Says Anthropic Models Are Too Expensive - Bloomberg.com",
+          "summary": "Microsoft’s AI Chief Says Anthropic Models Are Too Expensive Bloomberg.com",
+          "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOX1Z5SnN2TXZiQXh3YWd5TXBiRmhmMFlCMlV1TTRnR0lxSzhfdEhGYmVSbmEzVGRJVHNPRHQ0MF8yU3g3VXIyY2lrLXlZRlNoRVBvU2ktUnBETUJrRzNnS04yRVdVRkRyX1IycTlrb0RtV1FzclN3RWNYT0JCNTFyNWRqWWNIMWZXYjNKcnRxS3V5ZzlOVkwxQ3c5TkJQbWpTUy1PLUdR?oc=5",
+          "author": "",
+          "publishedAt": "2026-06-04T18:09:00Z",
+          "titleEn": "Microsoft’s AI Chief Says Anthropic Models Are Too Expensive - Bloomberg.com",
+          "section": "company",
+          "sectionTitle": "公司",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "Anthropic",
+            "Microsoft",
+            "anthropic"
+          ]
+        },
         {
           "source": "Reuters",
           "feedSource": "Reuters · Company Batch 6",
@@ -3012,27 +2690,6 @@
           ]
         },
         {
-          "source": "Bloomberg.com",
-          "feedSource": "Bloomberg · Company Batch 2",
-          "sourceUrl": "https://www.bloomberg.com",
-          "title": "Microsoft’s AI Chief Says Anthropic Models Are Too Expensive - Bloomberg.com",
-          "summary": "Microsoft’s AI Chief Says Anthropic Models Are Too Expensive Bloomberg.com",
-          "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOX1Z5SnN2TXZiQXh3YWd5TXBiRmhmMFlCMlV1TTRnR0lxSzhfdEhGYmVSbmEzVGRJVHNPRHQ0MF8yU3g3VXIyY2lrLXlZRlNoRVBvU2ktUnBETUJrRzNnS04yRVdVRkRyX1IycTlrb0RtV1FzclN3RWNYT0JCNTFyNWRqWWNIMWZXYjNKcnRxS3V5ZzlOVkwxQ3c5TkJQbWpTUy1PLUdR?oc=5",
-          "author": "",
-          "publishedAt": "2026-06-04T15:08:24Z",
-          "titleEn": "Microsoft’s AI Chief Says Anthropic Models Are Too Expensive - Bloomberg.com",
-          "section": "company",
-          "sectionTitle": "公司",
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "tags": [
-            "Anthropic",
-            "Microsoft",
-            "anthropic"
-          ]
-        },
-        {
           "source": "Reuters",
           "feedSource": "Reuters · Company Batch 13",
           "sourceUrl": "https://www.reuters.com",
@@ -3107,6 +2764,26 @@
           "tags": [
             "NVIDIA",
             "Nvidia"
+          ]
+        },
+        {
+          "source": "Bloomberg.com",
+          "feedSource": "Bloomberg · Company Batch 6",
+          "sourceUrl": "https://www.bloomberg.com",
+          "title": "Stock Movers: Broadcom, CrowdStrike, Petco - Bloomberg.com",
+          "summary": "Stock Movers: Broadcom, CrowdStrike, Petco Bloomberg.com",
+          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOSkExZVFDc2JVZXVmNjljNWNhWS1ka1ZMcXVLZWJqVWxiUHpOdFVaT1BjdkxTTjFrLXowYTB3cl8xV3BES21NTFpoTjdRYk82d1dFd25aQl9iaXNuY0ktSDlWVG0tOWRlXzhwRUVuNGUwTDJWR1NDeU9kWDZmYndoM1BvaEJVZW1FUUplTnY2bFJBZDgyanJ3WmtKcw?oc=5",
+          "author": "",
+          "publishedAt": "2026-06-04T11:04:23Z",
+          "titleEn": "Stock Movers: Broadcom, CrowdStrike, Petco - Bloomberg.com",
+          "section": "company",
+          "sectionTitle": "公司",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "Broadcom",
+            "CrowdStrike"
           ]
         },
         {
@@ -3360,7 +3037,7 @@
         },
         {
           "source": "Reuters",
-          "feedSource": "Reuters · Company Batch 6",
+          "feedSource": "Reuters · Company Batch 13",
           "sourceUrl": "https://www.reuters.com",
           "title": "Broadcom's sales and AI chip forecast comes in below expectations, shares tumble - Reuters",
           "summary": "Broadcom's sales and AI chip forecast comes in below expectations, shares tumble Reuters",
@@ -3400,7 +3077,7 @@
         },
         {
           "source": "Bloomberg.com",
-          "feedSource": "Bloomberg · Company Batch 5",
+          "feedSource": "Bloomberg · Company Batch 15",
           "sourceUrl": "https://www.bloomberg.com",
           "title": "Nvidia’s RTX Spark Sets Up Fight Over the Soul of Windows PCs - Bloomberg.com",
           "summary": "Nvidia’s RTX Spark Sets Up Fight Over the Soul of Windows PCs Bloomberg.com",
@@ -3534,21 +3211,6 @@
           "tags": [
             "Alphabet"
           ]
-        },
-        {
-          "source": "Reuters",
-          "feedSource": "Reuters · Company Batch 6",
-          "sourceUrl": "https://www.reuters.com",
-          "title": "High-profile Instagram AI chatbot breach spotlights security risks of automation - Reuters",
-          "summary": "High-profile Instagram AI chatbot breach spotlights security risks of automation Reuters",
-          "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxPTzgxeVlPRDRtUHNfRG10TEVjbU00WUplVzdxRERoWFIwNGJudy00NHJqOUNyY0FNNE9kTUYyTVpqZjZfNHBjQW5EeU5ybFdEaXZoUDc4clpESFJXY3ZQSkZHTnRRd1BIaWFzdlRjalVzbHpqb3MyZTBKTkZCZDlNNzJXeHkyYlBFOU9hcGVBdG1oMEpIbVU1ZEdOU2VKSlNtUXlPUk5UYS1zNFN2bFl0Q0dBMGlJVzJPbUU0NlVkTHRsblk?oc=5",
-          "author": "",
-          "publishedAt": "2026-06-03T10:51:04Z",
-          "titleEn": "High-profile Instagram AI chatbot breach spotlights security risks of automation - Reuters",
-          "section": "company",
-          "sectionTitle": "公司",
-          "matchedPortfolios": [],
-          "tags": []
         }
       ]
     },
@@ -3707,28 +3369,25 @@
         },
         {
           "source": "WIRED",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://www.wired.com/story/amazon-employees-publicly-demand-regulations-on-data-centers/",
-          "via": "Tavily",
-          "title": "Amazon Employees Show Up to City Council Meetings to Demand Limits on Data Centers - WIRED",
-          "summary": "# Amazon Employees Show Up to City Council Meetings to Demand Limits on Data Centers. Activists say it’s the first time Big Tech employees have publicly called for regulations governing data center projects. Three Amazon employees on Wednesday publicly called for regulations on new data centers, telling elected officia",
+          "feedSource": "WIRED",
+          "sourceUrl": "",
+          "title": "Amazon Employees Show Up to City Council Meetings to Demand Limits on Data Centers",
+          "summary": "Activists say it’s the first time Big Tech employees have publicly called for regulations governing data center projects. Business Business / Big Tech",
           "url": "https://www.wired.com/story/amazon-employees-publicly-demand-regulations-on-data-centers/",
           "author": "Paresh Dave",
           "publishedAt": "2026-06-03T18:07:11Z",
+          "image": "https://media.wired.com/photos/6a2061ca0365e80b88634682/master/pass/Amazon-Employees-Publicly-Demand-Regulations-on-Data-Centers-Business-2258343751.jpg",
+          "titleEn": "Amazon Employees Show Up to City Council Meetings to Demand Limits on Data Centers",
           "section": "tech",
           "sectionTitle": "前沿",
-          "tags": [
-            "AI frontier technology robots world models agents chips site:wired.com OR site:t",
-            "Amazon",
-            "Tavily",
-            "WIRED",
-            "data center"
-          ],
-          "image": "https://media.wired.com/photos/69eba788c53bb7315821630f/original/pass/WIR_Cutout_2b_Rollover_600x400_02b.gif?format=original",
           "matchedPortfolios": [
             "ai-market"
           ],
-          "titleEn": "Amazon Employees Show Up to City Council Meetings to Demand Limits on Data Centers - WIRED"
+          "tags": [
+            "Amazon",
+            "WIRED",
+            "data center"
+          ]
         },
         {
           "source": "WIRED",
@@ -3777,53 +3436,47 @@
         },
         {
           "source": "WIRED",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://www.wired.com/story/nvidia-rtx-spark-laptop-disruption/",
-          "via": "Tavily",
+          "feedSource": "Wired",
+          "sourceUrl": "https://www.wired.com",
           "title": "Nvidia’s RTX Spark Laptops Look Hell-Bent on Disruption - WIRED",
-          "summary": "Nvidia has long made graphics cards that powered the Windows PC ecosystem for decades—now it wants to control the whole thing with “superchips,” starting with the RTX Spark. It's just a tease of what's to come right now, but these are the first Windows devices that may actually live up to the overused “AI PC” name. Whi",
-          "url": "https://www.wired.com/story/nvidia-rtx-spark-laptop-disruption/",
+          "summary": "Nvidia’s RTX Spark Laptops Look Hell-Bent on Disruption WIRED",
+          "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9MWkFxYjlhbEMzUEc0ejVQTHV6NWZLcFhZcV9DRGVrNDlIaVFpVnE0WjlGek00MXlnblpOR0tHWWRDa25rbklFLUlHM3ZWTW52bHB3ejAwOEhNNTdJY3ROdEJWUzJKWkJZcWxDcG53QWI?oc=5",
           "author": "Luke Larsen",
           "publishedAt": "2026-06-03T11:00:00Z",
+          "titleEn": "Nvidia’s RTX Spark Laptops Look Hell-Bent on Disruption - WIRED",
           "section": "tech",
           "sectionTitle": "前沿",
-          "tags": [
-            "AI frontier technology robots world models agents chips site:wired.com OR site:t",
-            "NVIDIA",
-            "Nvidia",
-            "Tavily",
-            "WIRED"
-          ],
-          "image": "https://www.wired.com/verso/static/wired-us/assets/wired-featured-logo.svg",
           "matchedPortfolios": [
             "ai-market"
           ],
-          "titleEn": "Nvidia’s RTX Spark Laptops Look Hell-Bent on Disruption - WIRED"
+          "tags": [
+            "NVIDIA",
+            "Nvidia",
+            "WIRED"
+          ]
         },
         {
           "source": "WIRED",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://www.wired.com/story/whats-worth-more-than-san-francisco-real-estate-anthropic-stock/",
-          "via": "Tavily",
-          "title": "What’s Worth More Than Cash in San Francisco Real Estate? Anthropic Stock - WIRED",
-          "summary": "# What’s Worth More Than Cash in San Francisco Real Estate? Several real estate listings in the San Francisco Bay Area are offering to exchange a home for a piece of the AI startup. In San Francisco, the median house price is now over $2 million. Last week, 160 Noe Street, an Edwardian home in San Francisco’s desirable",
+          "feedSource": "WIRED",
+          "sourceUrl": "",
+          "title": "What’s Worth More Than Cash in San Francisco Real Estate? Anthropic Stock",
+          "summary": "Several real estate listings in the San Francisco Bay Area are offering to exchange a home for a piece of the AI startup. Business Business / Artificial Intelligence",
           "url": "https://www.wired.com/story/whats-worth-more-than-san-francisco-real-estate-anthropic-stock/",
           "author": "Arielle Pardes",
           "publishedAt": "2026-06-03T10:00:00Z",
+          "image": "https://media.wired.com/photos/6a1f6880163032d6de40fd16/master/pass/Exchange-Home-for-Anthropic-Stock-Business.jpg",
+          "titleEn": "What’s Worth More Than Cash in San Francisco Real Estate? Anthropic Stock",
           "section": "tech",
           "sectionTitle": "前沿",
-          "tags": [
-            "AI frontier technology robots world models agents chips site:wired.com OR site:t",
-            "Anthropic",
-            "Tavily",
-            "WIRED",
-            "anthropic"
-          ],
-          "image": "https://media.wired.com/photos/69eba788c53bb7315821630f/original/pass/WIR_Cutout_2b_Rollover_600x400_02b.gif?format=original",
           "matchedPortfolios": [
             "ai-market"
           ],
-          "titleEn": "What’s Worth More Than Cash in San Francisco Real Estate? Anthropic Stock - WIRED"
+          "tags": [
+            "Anthropic",
+            "WIRED",
+            "anthropic",
+            "artificial intelligence"
+          ]
         },
         {
           "source": "WIRED",
@@ -3847,73 +3500,44 @@
         },
         {
           "source": "WIRED",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://www.wired.com/story/meet-microsoft-scout-your-ai-coworker-that-never-logs-off/",
-          "via": "Tavily",
+          "feedSource": "Wired",
+          "sourceUrl": "https://www.wired.com",
           "title": "Meet Microsoft Scout, Your AI Coworker That Never Logs Off - WIRED",
-          "summary": "# Meet Microsoft Scout, Your AI Coworker That Never Logs Off. Microsoft’s OpenClaw-style agent appears in Teams, just like a human colleague, and automates your dull office tasks. Scout, an always-on AI agent announced at Microsoft’s Build developer conference on Tuesday, can go through your work messages, calendar, an",
-          "url": "https://www.wired.com/story/meet-microsoft-scout-your-ai-coworker-that-never-logs-off/",
+          "summary": "Meet Microsoft Scout, Your AI Coworker That Never Logs Off WIRED",
+          "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxOckh2UjBQWGM4M0JoOE8xMklxNjBuQ2x4MERRMnNiUGVTOVdyX0VhaVlaUmRtUjFpRnM3NmFxY0ZHZFUzMTVocWlYbnBDN09HanFRbWFCeXpkQk40VzF5UmFuZXZ0bmRmUXVha2RvV0UzMVRBVnJETWtfcW14VERLamY4bXpBcmo0THVkel9PSQ?oc=5",
           "author": "Reece Rogers",
           "publishedAt": "2026-06-02T18:00:00Z",
+          "titleEn": "Meet Microsoft Scout, Your AI Coworker That Never Logs Off - WIRED",
           "section": "tech",
           "sectionTitle": "前沿",
-          "tags": [
-            "AI frontier technology robots world models agents chips site:wired.com OR site:t",
-            "Microsoft",
-            "Tavily",
-            "WIRED"
-          ],
-          "image": "https://media.wired.com/photos/6a1e1d3c70c7c8b915b99802/191:100/w_1280,c_limit/Microsoft-Debuts-Scout-a-Workplace-AI-Agent-Gear.jpg",
           "matchedPortfolios": [
             "ai-market"
           ],
-          "titleEn": "Meet Microsoft Scout, Your AI Coworker That Never Logs Off - WIRED"
+          "tags": [
+            "Microsoft",
+            "WIRED"
+          ]
         },
         {
           "source": "WIRED",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://www.wired.com/story/opal-electronics-openai-investment-ai-powered-audio-gadget/",
-          "via": "Tavily",
+          "feedSource": "Wired",
+          "sourceUrl": "https://www.wired.com",
           "title": "Flush With Cash From OpenAI, Opal Is Making an AI-Powered Audio Gadget - WIRED",
-          "summary": "# Flush With Cash From OpenAI, Opal Is Making an AI-Powered Audio Gadget. Opal, the company famous for making a fancy webcam, has pivoted to making other consumer electronics. Fueled by big investments from OpenAI and Samsung, it’s working on an audio gadget first. The company is changing its name to Opal Electronics.C",
-          "url": "https://www.wired.com/story/opal-electronics-openai-investment-ai-powered-audio-gadget/",
+          "summary": "Flush With Cash From OpenAI, Opal Is Making an AI-Powered Audio Gadget WIRED",
+          "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOTGx5N1JGTmhpWWZ6aGhuUmZac0I2bmJ3dkhkZmpUYWlKTEJhVjhyVFI1MlpTRFdoZWZSeWFScDJteDhZWk1GSkpTakJybmZxdHpQVktYR1Q4U1Zaa203WDVsNjBidXFhNVRQOW42YUpZNlMyaVJlM2dYM3pUUURmektueGE5b2JrMUF5Qjh3dHk?oc=5",
           "author": "Julian Chokkattu",
           "publishedAt": "2026-06-02T15:30:00Z",
+          "titleEn": "Flush With Cash From OpenAI, Opal Is Making an AI-Powered Audio Gadget - WIRED",
           "section": "tech",
           "sectionTitle": "前沿",
-          "tags": [
-            "AI frontier technology robots world models agents chips site:wired.com OR site:t",
-            "OpenAI",
-            "Tavily",
-            "WIRED",
-            "company",
-            "openai"
-          ],
-          "image": "https://media.wired.com/photos/6a1db2153696beebf95db3a0/191:100/w_1280,c_limit/Opal_Tadpole_01.jpg",
           "matchedPortfolios": [
             "ai-market"
           ],
-          "titleEn": "Flush With Cash From OpenAI, Opal Is Making an AI-Powered Audio Gadget - WIRED"
-        },
-        {
-          "source": "WIRED",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://www.wired.com/story/the-white-house-is-at-war-with-itself-over-ai-regulation/",
-          "via": "Tavily",
-          "title": "The Trump Administration Is at War With Itself Over AI Regulation - WIRED",
-          "summary": "# The Trump Administration Is at War With Itself Over AI Regulation. The Trump administration is navigating internal strife as officials try to figure out whether they can resurrect the executive order about AI regulation that President Donald Trump abruptly nixed last month, according to multiple people familiar with",
-          "url": "https://www.wired.com/story/the-white-house-is-at-war-with-itself-over-ai-regulation/",
-          "author": "Hugo Lowell",
-          "publishedAt": "2026-06-02T09:30:00Z",
-          "section": "tech",
-          "sectionTitle": "前沿",
           "tags": [
-            "AI frontier technology robots world models agents chips site:wired.com OR site:t",
-            "Tavily"
-          ],
-          "image": "https://media.wired.com/photos/6a1a11a6b6c847bce706bb1b/191:100/w_1280,c_limit/pol_AI_GettyImages-2277330455.jpg",
-          "matchedPortfolios": [],
-          "titleEn": "The Trump Administration Is at War With Itself Over AI Regulation - WIRED"
+            "OpenAI",
+            "WIRED",
+            "openai"
+          ]
         },
         {
           "source": "WIRED",
@@ -4422,9 +4046,9 @@
           "sourceUrl": "https://www.cell.com",
           "title": "Developing ChemMLLM as a multimodal large language model for chemistry - Cell Press",
           "summary": "Developing ChemMLLM as a multimodal large language model for chemistry Cell Press",
-          "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxORmZPRXRTY3JyWWpmYkc3OEx2MmVVN0hZZ2lKankwdFpmN2ZwaVp5V2UwU2NWeTItR0ttR284NmFJejRlRmlrUWV5QWxXbUNjR2tPQUNmQzNNa2hyN3ZiaTRCZXJYM0pidGUwamtOUmhlNW1mYnQ1UHZGQ2lYNURFYkh0c0tuUGM?oc=5",
+          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNb3hkRjhZNFNYRzhySENxcVhKOE5YQlJ3aHg3MDFCU2VWWk9NeFFZeWZpRzBoQVBLRTFhVVFBX1ZPaVl2ZThOcm50MGotVmg1bDBXaGRPbzdBbEdrRUpOU1NES0VTSkNOWFB6THAyQlY5SWxyRTFndklCd0d0XzlNdk9pbUJvNGxJ?oc=5",
           "author": "",
-          "publishedAt": "2026-03-15T07:00:00Z",
+          "publishedAt": "2026-05-12T07:00:00Z",
           "titleEn": "Developing ChemMLLM as a multimodal large language model for chemistry - Cell Press",
           "section": "papers",
           "sectionTitle": "论文",
@@ -4489,6 +4113,25 @@
           "sectionTitle": "论文",
           "matchedPortfolios": [],
           "tags": []
+        },
+        {
+          "source": "Cell Press",
+          "feedSource": "Cell",
+          "sourceUrl": "https://www.cell.com",
+          "title": "Artificial intelligence for diagnosis and prognosis prediction of natural killer/T cell lymphoma using magnetic resonance imaging - Cell Press",
+          "summary": "Artificial intelligence for diagnosis and prognosis prediction of natural killer/T cell lymphoma using magnetic resonance imaging Cell Press",
+          "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE1vbW5YQ0J6dUhnZUZrVEkyd3RyLVZ3bHNwQ1NUdFZJMjVnOGIxOFN0NWEzem1nUElVN0FOQkw4eTc3eHpIMDZ3M1lzSGQyZXBtMTdUUHViSlBVTkVmQ0k2LU9iTFlNYjBDRjBkaXBUZEpsWjdtSDkxMXpwQm8?oc=5",
+          "author": "",
+          "publishedAt": "2024-05-01T07:00:00Z",
+          "titleEn": "Artificial intelligence for diagnosis and prognosis prediction of natural killer/T cell lymphoma using magnetic resonance imaging - Cell Press",
+          "section": "papers",
+          "sectionTitle": "论文",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "artificial intelligence"
+          ]
         },
         {
           "source": "Cell Press",
@@ -4664,6 +4307,21 @@
           ]
         },
         {
+          "source": "Science | AAAS",
+          "feedSource": "Science",
+          "sourceUrl": "https://www.science.org",
+          "title": "Dissecting racial bias in an algorithm used to manage the health of populations - Science | AAAS",
+          "summary": "Dissecting racial bias in an algorithm used to manage the health of populations Science | AAAS",
+          "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE9SRk5Ra0FZcDQ4OEFNUWtzQXo4Y3ktckdScFlwMmxjWGUtSmxXMlpQeHA0akV0TzNPaTkyUDBJSW16c0p3SGdYX0dFNndFeXZDb3ZVc3laWDJtaDlsY3loUA?oc=5",
+          "author": "",
+          "publishedAt": "2019-10-25T07:00:00Z",
+          "titleEn": "Dissecting racial bias in an algorithm used to manage the health of populations - Science | AAAS",
+          "section": "papers",
+          "sectionTitle": "论文",
+          "matchedPortfolios": [],
+          "tags": []
+        },
+        {
           "source": "Nature",
           "feedSource": "Nature",
           "sourceUrl": "https://www.nature.com",
@@ -4699,149 +4357,6 @@
           "tags": []
         },
         {
-          "source": "instagram.com",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://www.instagram.com/reel/DZGh5IgA4DE",
-          "via": "Tavily",
-          "title": "What JEPA is Why Yann LeCun believes current AI is ... - Instagram",
-          "summary": "By continuing, you agree to Instagram's Terms of Use and Privacy Policy. What if AI could learn how the world actually works instead of simply predicting text? That question led me to discover JEPA (Joint Embedding Predictive Architecture), a fascinating new AI approach proposed by Yann LeCun. And it could represent a",
-          "url": "https://www.instagram.com/reel/DZGh5IgA4DE",
-          "author": "",
-          "publishedAt": null,
-          "section": "papers",
-          "sectionTitle": "论文",
-          "tags": [
-            "\"H-JEPA\" OR \"Hierarchical JEPA\" OR \"Joint-Embedding Predictive Architecture\" arX",
-            "Tavily"
-          ],
-          "image": "https://scontent.cdninstagram.com/v/t51.71878-15/715516541_1543791380493798_5427217560978681584_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=103&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=VI5-J7flDBkQ7kNvwHDiJMh&_nc_oc=AdrtZPHfC4rKVkk5o-kRvytOe",
-          "matchedPortfolios": [],
-          "titleEn": "What JEPA is Why Yann LeCun believes current AI is ... - Instagram"
-        },
-        {
-          "source": "openaccess.thecvf.com",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Zhang_GeoWorld_Geometric_World_Models_CVPR_2026_paper.html",
-          "via": "Tavily",
-          "title": "CVPR 2026 Open Access Repository",
-          "summary": "These CVPR 2026 papers are the Open Access versions, provided by the Computer Vision Foundation. Except for the watermark, they are identical to the accepted versions; the final published version of the proceedings is available on IEEE Xplore. ***Zeyu Zhang, Danning Li, Ian Reid, Richard Hartley***; Proceedings of the",
-          "url": "https://openaccess.thecvf.com/content/CVPR2026/html/Zhang_GeoWorld_Geometric_World_Models_CVPR_2026_paper.html",
-          "author": "Zeyu Zhang",
-          "publishedAt": null,
-          "section": "papers",
-          "sectionTitle": "论文",
-          "tags": [
-            "\"H-JEPA\" OR \"Hierarchical JEPA\" OR \"Joint-Embedding Predictive Architecture\" arX",
-            "Tavily"
-          ],
-          "image": "https://openaccess.thecvf.com/img/CVPR2026_logo.png",
-          "matchedPortfolios": [],
-          "titleEn": "CVPR 2026 Open Access Repository"
-        },
-        {
-          "source": "arXiv",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://arxiv.org/html/2606.02572v1",
-          "via": "Tavily",
-          "title": "Variance-Invariance-Sketching Regularization for JEPA training - arXiv",
-          "summary": "# VISReg: Variance-Invariance-Sketching Regularization for JEPA training. We propose Variance-Invariance-Sketching Regularization (VISReg), which replaces covariance with a Sliced-Wasserstein-based sketching objective that enforces full distributional shape, while retaining a variance term for scale control. By decoupl",
-          "url": "https://arxiv.org/html/2606.02572v1",
-          "author": "Haiyu Wu",
-          "publishedAt": null,
-          "section": "papers",
-          "sectionTitle": "论文",
-          "tags": [
-            "\"H-JEPA\" OR \"Hierarchical JEPA\" OR \"Joint-Embedding Predictive Architecture\" arX",
-            "Tavily"
-          ],
-          "image": "https://arxiv.org/html/2606.02572v1/x2.png",
-          "matchedPortfolios": [],
-          "titleEn": "Variance-Invariance-Sketching Regularization for JEPA training - arXiv"
-        },
-        {
-          "source": "facebook.com",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://www.facebook.com/aliansari0/posts/yann-lecuns-new-paper-asks-when-lejepa-truly-learns-hidden-world-variables-and-f/27288547944118011",
-          "via": "Tavily",
-          "title": "Yann LeCun's new paper asks when LeJEPA truly learns hidden ...",
-          "summary": "## ALi AnsaRi's Post. ### **ALi AnsaRi**. Yann LeCun's new paper asks when LeJEPA truly learns hidden world variables, and finds Gaussian structure is the key. Means LeJEPA can only reliably learn the real hidden causes behind what it sees when those causes are shaped like a balanced Gaussian cloud. The paper proves th",
-          "url": "https://www.facebook.com/aliansari0/posts/yann-lecuns-new-paper-asks-when-lejepa-truly-learns-hidden-world-variables-and-f/27288547944118011",
-          "author": "",
-          "publishedAt": null,
-          "section": "papers",
-          "sectionTitle": "论文",
-          "tags": [
-            "\"H-JEPA\" OR \"Hierarchical JEPA\" OR \"Joint-Embedding Predictive Architecture\" arX",
-            "Tavily"
-          ],
-          "image": "https://scontent-mia3-1.xx.fbcdn.net/v/t39.30808-6/708413941_27288547634118042_8234137708142106683_n.jpg?stp=dst-jpg_tt6&cstp=mx1188x894&ctp=p600x600&_nc_cat=111&ccb=1-7&_nc_sid=b96d88&_nc_ohc=E6VcX04vhT4Q7kNvwEd4W2x&_nc_oc=AdozvR48WWAYDvjAFV_DvjAypach4oRA2_pmiYFxSYYUrM6rTox_AxePkYUCb7snBTQ&_nc_zt=2",
-          "matchedPortfolios": [],
-          "titleEn": "Yann LeCun's new paper asks when LeJEPA truly learns hidden ..."
-        },
-        {
-          "source": "arXiv",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://arxiv.org/html/2604.28173v2",
-          "via": "Tavily",
-          "title": "Action Motifs: Self-Supervised Hierarchical Representation of ... - arXiv",
-          "summary": "# Action Motifs: Self-Supervised Hierarchical Representation of Human Body Movements. We propose a hierarchical representation consisting of Action Atoms that capture the atomic joint movements and Action Motifs that are formed by their temporal compositions and encode similar body movements found across different over",
-          "url": "https://arxiv.org/html/2604.28173v2",
-          "author": "M. Abdelfattah",
-          "publishedAt": null,
-          "section": "papers",
-          "sectionTitle": "论文",
-          "tags": [
-            "\"H-JEPA\" OR \"Hierarchical JEPA\" OR \"Joint-Embedding Predictive Architecture\" arX",
-            "Tavily"
-          ],
-          "image": "https://arxiv.org/html/2604.28173v2/x1.png",
-          "matchedPortfolios": [],
-          "titleEn": "Action Motifs: Self-Supervised Hierarchical Representation of ... - arXiv"
-        },
-        {
-          "source": "github.com",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://github.com/leofan90/Awesome-World-Models/blob/main/README.md",
-          "via": "Tavily",
-          "title": "Awesome-World-Models/README.md at main - GitHub",
-          "summary": "This repository provides a curated list of **papers for World Models for General Video Generation, Embodied AI, and Autonomous Driving**. Template from Awesome-LLM-Robotics and Awesome-World-Model. + World Models for Embodied AI. + World Models for Autonomous Driving. * **`HY-World 2.0`**, HY-World 2.0: A Multi-Modal W",
-          "url": "https://github.com/leofan90/Awesome-World-Models/blob/main/README.md",
-          "author": "Forecasting Vision Foundation Model",
-          "publishedAt": null,
-          "section": "papers",
-          "sectionTitle": "论文",
-          "tags": [
-            "\"H-JEPA\" OR \"Hierarchical JEPA\" OR \"Joint-Embedding Predictive Architecture\" arX",
-            "Tavily"
-          ],
-          "image": "https://opengraph.githubassets.com/bc33cb7d4e28a2bff9438bb7c5a1976b269eaf9ca4f5a9c45739cb214544c4ba/leofan90/Awesome-World-Models",
-          "matchedPortfolios": [],
-          "titleEn": "Awesome-World-Models/README.md at main - GitHub"
-        },
-        {
-          "source": "agents-lab.org",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://agents-lab.org/pub",
-          "via": "Tavily",
-          "title": "Publications - Autonomous Agents Research Group",
-          "summary": "# Autonomous Agents Research Group. Click on topic tags or author names to filter publications. **Abstract:** *Becoming an AI Researcher: Practical Advice for Graduate Students* is a practical guide for current and aspiring graduate students in artificial intelligence and related fields. It provides advice on navigatin",
-          "url": "https://agents-lab.org/pub",
-          "author": "",
-          "publishedAt": null,
-          "section": "papers",
-          "sectionTitle": "论文",
-          "tags": [
-            "AI research paper large language model agents robotics Nature Science Cell arXiv",
-            "Tavily",
-            "artificial intelligence"
-          ],
-          "image": "https://agents-lab.org/icon.png",
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "titleEn": "Publications - Autonomous Agents Research Group"
-        },
-        {
           "source": "Science Robotics",
           "feedSource": "Science Robotics",
           "sourceUrl": "",
@@ -4851,6 +4366,101 @@
           "author": "",
           "publishedAt": null,
           "titleEn": "Autonomous seeking and mapping coral reef biodiversity hotspots with a multimodal AUV",
+          "section": "papers",
+          "sectionTitle": "论文",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "Science Robotics"
+          ]
+        },
+        {
+          "source": "Science Robotics",
+          "feedSource": "Science Robotics",
+          "sourceUrl": "",
+          "title": "Cross-link collective: Entangled robotic matter with cohesive motion",
+          "summary": "Science Robotics, Volume 11, Issue 114 , May 2026.",
+          "url": "https://www.science.org/doi/abs/10.1126/scirobotics.aec6393?af=R",
+          "author": "Danna Ma",
+          "publishedAt": null,
+          "titleEn": "Cross-link collective: Entangled robotic matter with cohesive motion",
+          "section": "papers",
+          "sectionTitle": "论文",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "Science Robotics"
+          ]
+        },
+        {
+          "source": "Science Robotics",
+          "feedSource": "Science Robotics",
+          "sourceUrl": "",
+          "title": "RAPTOR: A foundation policy for quadrotor control",
+          "summary": "Science Robotics, Volume 11, Issue 114 , May 2026.",
+          "url": "https://www.science.org/doi/abs/10.1126/scirobotics.aec1481?af=R",
+          "author": "Jonas Eschmann",
+          "publishedAt": null,
+          "titleEn": "RAPTOR: A foundation policy for quadrotor control",
+          "section": "papers",
+          "sectionTitle": "论文",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "Science Robotics"
+          ]
+        },
+        {
+          "source": "Science Robotics",
+          "feedSource": "Science Robotics",
+          "sourceUrl": "",
+          "title": "A minimally invasive robotic spinal surgical system for anterior lumbar nerve decompression",
+          "summary": "Science Robotics, Volume 11, Issue 114 , May 2026.",
+          "url": "https://www.science.org/doi/abs/10.1126/scirobotics.adu0590?af=R",
+          "author": "Qingxiang Zhao",
+          "publishedAt": null,
+          "titleEn": "A minimally invasive robotic spinal surgical system for anterior lumbar nerve decompression",
+          "section": "papers",
+          "sectionTitle": "论文",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "Science Robotics"
+          ]
+        },
+        {
+          "source": "Science Robotics",
+          "feedSource": "Science Robotics",
+          "sourceUrl": "",
+          "title": "Extreme dynamic symmetry enables omnidirectional and multifunctional robots",
+          "summary": "Science Robotics, Volume 11, Issue 114 , May 2026.",
+          "url": "https://www.science.org/doi/abs/10.1126/scirobotics.aec1725?af=R",
+          "author": "Jiaxun Liu",
+          "publishedAt": null,
+          "titleEn": "Extreme dynamic symmetry enables omnidirectional and multifunctional robots",
+          "section": "papers",
+          "sectionTitle": "论文",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "Science Robotics"
+          ]
+        },
+        {
+          "source": "Science Robotics",
+          "feedSource": "Science Robotics",
+          "sourceUrl": "",
+          "title": "“Humanoids will soon replace most human workers”: A debate",
+          "summary": "Science Robotics, Volume 11, Issue 114 , May 2026.",
+          "url": "https://www.science.org/doi/abs/10.1126/scirobotics.aeh6422?af=R",
+          "author": "Hesheng Wang",
+          "publishedAt": null,
+          "titleEn": "“Humanoids will soon replace most human workers”: A debate",
           "section": "papers",
           "sectionTitle": "论文",
           "matchedPortfolios": [
@@ -5295,136 +4905,6 @@
           "titleEn": "YouTube video"
         },
         {
-          "source": "youtube.com",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://www.youtube.com/watch?v=6aQgG_k-Kmg",
-          "via": "Tavily",
-          "title": "US Seeks To Revive Iran Talks as Israel, Lebanon Reach Ceasefire | Daybreak Europe 06/04/2026",
-          "summary": "Bloomberg Daybreak Europe is your essential morning viewing to stay ahead. Live from London, we set the agenda for your day, catching you up with overnight",
-          "url": "https://www.youtube.com/watch?v=6aQgG_k-Kmg",
-          "author": "",
-          "publishedAt": "2026-06-04T06:46:37Z",
-          "section": "video",
-          "sectionTitle": "视频",
-          "tags": [
-            "Tavily",
-            "site:youtube.com/watch Bloomberg artificial intelligence OR Nvidia OR chips OR d"
-          ],
-          "image": "https://www.youtube.com/watch?v=6aQgG_k-Kmg",
-          "matchedPortfolios": [],
-          "titleEn": "US Seeks To Revive Iran Talks as Israel, Lebanon Reach Ceasefire | Daybreak Europe 06/04/2026"
-        },
-        {
-          "source": "youtube.com",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://www.youtube.com/watch?v=CfSzM6MCjLY",
-          "via": "Tavily",
-          "title": "Broadcom AI Chip Outlook Disappoints Investors",
-          "summary": "Broadcom shares fell in extended trading after the company delivered a disappointing forecast for artificial intelligence chip revenue.",
-          "url": "https://www.youtube.com/watch?v=CfSzM6MCjLY",
-          "author": "",
-          "publishedAt": "2026-06-04T05:46:37Z",
-          "section": "video",
-          "sectionTitle": "视频",
-          "tags": [
-            "AI chip",
-            "Broadcom",
-            "Tavily",
-            "artificial intelligence",
-            "site:youtube.com/watch Bloomberg artificial intelligence OR Nvidia OR chips OR d"
-          ],
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "titleEn": "Broadcom AI Chip Outlook Disappoints Investors"
-        },
-        {
-          "source": "youtube.com",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://www.youtube.com/watch?v=TYQCjFKPxo0",
-          "via": "Tavily",
-          "title": "Iran War: Trump Tries to Stop Israel’s Lebanon Push | The Opening Trade 6/2/2026",
-          "summary": "President Donald Trump is still optimistic the US can reach an interim peace deal with Iran soon, after the Islamic Republic threatened to suspend talks",
-          "url": "https://www.youtube.com/watch?v=TYQCjFKPxo0",
-          "author": "Anna Edwards",
-          "publishedAt": "2026-06-02T17:46:37Z",
-          "section": "video",
-          "sectionTitle": "视频",
-          "tags": [
-            "Tavily",
-            "site:youtube.com/watch Bloomberg artificial intelligence OR Nvidia OR chips OR d"
-          ],
-          "matchedPortfolios": [],
-          "titleEn": "Iran War: Trump Tries to Stop Israel’s Lebanon Push | The Opening Trade 6/2/2026"
-        },
-        {
-          "source": "youtube.com",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://www.youtube.com/watch?v=Z-mDkE1qoyc",
-          "via": "Tavily",
-          "title": "Will France Be a Top European Hub for AI Infrastructure? | The Pulse 6/1",
-          "summary": "SoftBank Group plans to invest as much as €75 billion ($87 billion) to build 5 gigawatts of artificial intelligence data center capacity in France,",
-          "url": "https://www.youtube.com/watch?v=Z-mDkE1qoyc",
-          "author": "",
-          "publishedAt": "2026-06-01T17:46:37Z",
-          "section": "video",
-          "sectionTitle": "视频",
-          "tags": [
-            "Tavily",
-            "ai infrastructure",
-            "artificial intelligence",
-            "data center",
-            "site:youtube.com/watch Bloomberg artificial intelligence OR Nvidia OR chips OR d"
-          ],
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "titleEn": "Will France Be a Top European Hub for AI Infrastructure? | The Pulse 6/1"
-        },
-        {
-          "source": "youtube.com",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://www.youtube.com/watch?v=Qpd8QflJf40",
-          "via": "Tavily",
-          "title": "What's Driving the Rally in AI Stocks?",
-          "summary": "The artificial-intelligence trade locked in fresh gains on Monday, allowing global equities to shrug off a rebound in oil prices as the US and Iran remained",
-          "url": "https://www.youtube.com/watch?v=Qpd8QflJf40",
-          "author": "",
-          "publishedAt": "2026-06-01T17:46:37Z",
-          "section": "video",
-          "sectionTitle": "视频",
-          "tags": [
-            "Tavily",
-            "site:youtube.com/watch Bloomberg artificial intelligence OR Nvidia OR chips OR d"
-          ],
-          "matchedPortfolios": [],
-          "titleEn": "What's Driving the Rally in AI Stocks?"
-        },
-        {
-          "source": "youtube.com",
-          "feedSource": "Tavily Search",
-          "sourceUrl": "https://www.youtube.com/watch?v=q7SMBPN5ZLs",
-          "via": "Tavily",
-          "title": "Cisco Rides AI Boom as Stock Surges Higher",
-          "summary": "Cisco Systems Inc. jumped by the most in more than 14 years after the company delivered a better-than-anticipated sales forecast and announced plans to cut",
-          "url": "https://www.youtube.com/watch?v=q7SMBPN5ZLs",
-          "author": "",
-          "publishedAt": "2026-05-30T17:46:37Z",
-          "section": "video",
-          "sectionTitle": "视频",
-          "tags": [
-            "Cisco",
-            "Tavily",
-            "company",
-            "site:youtube.com/watch Bloomberg artificial intelligence OR Nvidia OR chips OR d"
-          ],
-          "image": "https://www.youtube.com/watch?v=q7SMBPN5ZLs",
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "titleEn": "Cisco Rides AI Boom as Stock Surges Higher"
-        },
-        {
           "source": "YouTube New",
           "feedSource": "YouTube New",
           "sourceUrl": "https://www.youtube.com/watch?v=KZddMHvtvPQ",
@@ -5839,11 +5319,147 @@
           "sectionTitle": "视频",
           "matchedPortfolios": [],
           "tags": []
+        },
+        {
+          "source": "Wall Street Journal YouTube",
+          "feedSource": "Wall Street Journal YouTube",
+          "sourceUrl": "https://www.youtube.com/@wsj",
+          "title": "How Labubu Catapulted China’s Pop Mart to $1.8B in Revenue | The Economics Of",
+          "summary": "How Labubu Catapulted China’s Pop Mart to $1.8B in Revenue | The Economics Of",
+          "url": "https://www.youtube.com/watch?v=0X8KvR82-qw",
+          "author": "",
+          "image": "https://i.ytimg.com/vi/0X8KvR82-qw/hqdefault.jpg",
+          "publishedAt": "",
+          "titleEn": "How Labubu Catapulted China’s Pop Mart to $1.8B in Revenue | The Economics Of",
+          "section": "video",
+          "sectionTitle": "视频",
+          "matchedPortfolios": [],
+          "tags": []
+        },
+        {
+          "source": "Wall Street Journal YouTube",
+          "feedSource": "Wall Street Journal YouTube",
+          "sourceUrl": "https://www.youtube.com/@wsj",
+          "title": "How Live Nation Is Devouring the Live Music Industry | WSJ The Economics Of",
+          "summary": "How Live Nation Is Devouring the Live Music Industry | WSJ The Economics Of",
+          "url": "https://www.youtube.com/watch?v=G0OP525STto",
+          "author": "",
+          "image": "https://i.ytimg.com/vi/G0OP525STto/hqdefault.jpg",
+          "publishedAt": "",
+          "titleEn": "How Live Nation Is Devouring the Live Music Industry | WSJ The Economics Of",
+          "section": "video",
+          "sectionTitle": "视频",
+          "matchedPortfolios": [],
+          "tags": []
+        },
+        {
+          "source": "Wall Street Journal YouTube",
+          "feedSource": "Wall Street Journal YouTube",
+          "sourceUrl": "https://www.youtube.com/@wsj",
+          "title": "How Cruise-Owned Private Islands Are Transforming the Caribbean | WSJ The Economics Of",
+          "summary": "How Cruise-Owned Private Islands Are Transforming the Caribbean | WSJ The Economics Of",
+          "url": "https://www.youtube.com/watch?v=vD2acJ4K4Zk",
+          "author": "",
+          "image": "https://i.ytimg.com/vi/vD2acJ4K4Zk/hqdefault.jpg",
+          "publishedAt": "",
+          "titleEn": "How Cruise-Owned Private Islands Are Transforming the Caribbean | WSJ The Economics Of",
+          "section": "video",
+          "sectionTitle": "视频",
+          "matchedPortfolios": [],
+          "tags": []
+        },
+        {
+          "source": "Wall Street Journal YouTube",
+          "feedSource": "Wall Street Journal YouTube",
+          "sourceUrl": "https://www.youtube.com/@wsj",
+          "title": "How Hilton, Marriott and Others Are Using Timeshares to Make Billions | WSJ The Economics Of",
+          "summary": "How Hilton, Marriott and Others Are Using Timeshares to Make Billions | WSJ The Economics Of",
+          "url": "https://www.youtube.com/watch?v=ncGLBfG-0Vc",
+          "author": "",
+          "image": "https://i.ytimg.com/vi/ncGLBfG-0Vc/hqdefault.jpg",
+          "publishedAt": "",
+          "titleEn": "How Hilton, Marriott and Others Are Using Timeshares to Make Billions | WSJ The Economics Of",
+          "section": "video",
+          "sectionTitle": "视频",
+          "matchedPortfolios": [],
+          "tags": []
+        },
+        {
+          "source": "Wall Street Journal YouTube",
+          "feedSource": "Wall Street Journal YouTube",
+          "sourceUrl": "https://www.youtube.com/@wsj",
+          "title": "The Business Strategies Behind McDonald’s, Aldi, 7-Eleven and More | WSJ The Economics Of",
+          "summary": "The Business Strategies Behind McDonald’s, Aldi, 7-Eleven and More | WSJ The Economics Of",
+          "url": "https://www.youtube.com/watch?v=aatEQRJK6ms",
+          "author": "",
+          "image": "https://i.ytimg.com/vi/aatEQRJK6ms/hqdefault.jpg",
+          "publishedAt": "",
+          "titleEn": "The Business Strategies Behind McDonald’s, Aldi, 7-Eleven and More | WSJ The Economics Of",
+          "section": "video",
+          "sectionTitle": "视频",
+          "matchedPortfolios": [],
+          "tags": []
+        },
+        {
+          "source": "Wall Street Journal YouTube",
+          "feedSource": "Wall Street Journal YouTube",
+          "sourceUrl": "https://www.youtube.com/@wsj",
+          "title": "How OnlyFans Made $6.6B Without Apple’s App Store | WSJ The Economics Of",
+          "summary": "How OnlyFans Made $6.6B Without Apple’s App Store | WSJ The Economics Of",
+          "url": "https://www.youtube.com/watch?v=M4pbQPBo67s",
+          "author": "",
+          "image": "https://i.ytimg.com/vi/M4pbQPBo67s/hqdefault.jpg",
+          "publishedAt": "",
+          "titleEn": "How OnlyFans Made $6.6B Without Apple’s App Store | WSJ The Economics Of",
+          "section": "video",
+          "sectionTitle": "视频",
+          "matchedPortfolios": [],
+          "tags": []
         }
       ]
     }
   },
   "items": [
+    {
+      "source": "The New York Times",
+      "feedSource": "New York Times",
+      "sourceUrl": "https://www.nytimes.com",
+      "title": "How Trump Was Persuaded to Regulate A.I. - The New York Times",
+      "summary": "How Trump Was Persuaded to Regulate A.I. The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNQV9DYTRJel9hcUJ0cXR5RGdlT2drZG5FRjQwaG4yWEZodDdyc0d5VllrLUhLZ3pHSUVOZURKMUtkeEtXcjRlcDZLdmdGeHRkNHZjMXp2ZGFJQk5ldHBvbXJhT1VwMlU0RFZ4eFR5aDA0ZTZUdlctZFh0aWl3LTNmY1pmMng?oc=5",
+      "author": "",
+      "publishedAt": "2026-06-04T18:09:56Z",
+      "titleEn": "How Trump Was Persuaded to Regulate A.I. - The New York Times",
+      "section": "industry",
+      "sectionTitle": "行业",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "The New York Times"
+      ]
+    },
+    {
+      "source": "Bloomberg.com",
+      "feedSource": "Bloomberg · Company Batch 2",
+      "sourceUrl": "https://www.bloomberg.com",
+      "title": "Microsoft’s AI Chief Says Anthropic Models Are Too Expensive - Bloomberg.com",
+      "summary": "Microsoft’s AI Chief Says Anthropic Models Are Too Expensive Bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOX1Z5SnN2TXZiQXh3YWd5TXBiRmhmMFlCMlV1TTRnR0lxSzhfdEhGYmVSbmEzVGRJVHNPRHQ0MF8yU3g3VXIyY2lrLXlZRlNoRVBvU2ktUnBETUJrRzNnS04yRVdVRkRyX1IycTlrb0RtV1FzclN3RWNYT0JCNTFyNWRqWWNIMWZXYjNKcnRxS3V5ZzlOVkwxQ3c5TkJQbWpTUy1PLUdR?oc=5",
+      "author": "",
+      "publishedAt": "2026-06-04T18:09:00Z",
+      "titleEn": "Microsoft’s AI Chief Says Anthropic Models Are Too Expensive - Bloomberg.com",
+      "section": "company",
+      "sectionTitle": "公司",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Anthropic",
+        "Microsoft",
+        "anthropic"
+      ]
+    },
     {
       "source": "New York Times",
       "feedSource": "New York Times",
@@ -5904,25 +5520,6 @@
       ],
       "tags": [
         "Broadcom"
-      ]
-    },
-    {
-      "source": "The New York Times",
-      "feedSource": "New York Times",
-      "sourceUrl": "https://www.nytimes.com",
-      "title": "How Trump Was Persuaded to Regulate A.I. - The New York Times",
-      "summary": "How Trump Was Persuaded to Regulate A.I. The New York Times",
-      "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNQV9DYTRJel9hcUJ0cXR5RGdlT2drZG5FRjQwaG4yWEZodDdyc0d5VllrLUhLZ3pHSUVOZURKMUtkeEtXcjRlcDZLdmdGeHRkNHZjMXp2ZGFJQk5ldHBvbXJhT1VwMlU0RFZ4eFR5aDA0ZTZUdlctZFh0aWl3LTNmY1pmMng?oc=5",
-      "author": "",
-      "publishedAt": "2026-06-04T16:47:26Z",
-      "titleEn": "How Trump Was Persuaded to Regulate A.I. - The New York Times",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "The New York Times"
       ]
     },
     {
@@ -6043,27 +5640,6 @@
       ]
     },
     {
-      "source": "Bloomberg.com",
-      "feedSource": "Bloomberg · Company Batch 2",
-      "sourceUrl": "https://www.bloomberg.com",
-      "title": "Microsoft’s AI Chief Says Anthropic Models Are Too Expensive - Bloomberg.com",
-      "summary": "Microsoft’s AI Chief Says Anthropic Models Are Too Expensive Bloomberg.com",
-      "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOX1Z5SnN2TXZiQXh3YWd5TXBiRmhmMFlCMlV1TTRnR0lxSzhfdEhGYmVSbmEzVGRJVHNPRHQ0MF8yU3g3VXIyY2lrLXlZRlNoRVBvU2ktUnBETUJrRzNnS04yRVdVRkRyX1IycTlrb0RtV1FzclN3RWNYT0JCNTFyNWRqWWNIMWZXYjNKcnRxS3V5ZzlOVkwxQ3c5TkJQbWpTUy1PLUdR?oc=5",
-      "author": "",
-      "publishedAt": "2026-06-04T15:08:24Z",
-      "titleEn": "Microsoft’s AI Chief Says Anthropic Models Are Too Expensive - Bloomberg.com",
-      "section": "company",
-      "sectionTitle": "公司",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "Anthropic",
-        "Microsoft",
-        "anthropic"
-      ]
-    },
-    {
       "source": "TechCrunch Startups",
       "feedSource": "TechCrunch Startups",
       "sourceUrl": "",
@@ -6090,7 +5666,7 @@
       "summary": "The $135 share price means Elon Musk’s rocket maker is poised to exceed the 2019 initial public offering of Saudi Aramco in both valuation and money raised. Space Exploration Technologies Corp Musk, Elon Initial Public Offerings Satellites Artificial Intelligence Private Spaceflight Space and Astronomy Stocks and Bonds",
       "url": "https://www.nytimes.com/2026/06/03/technology/spacex-ipo-pricing.html",
       "author": "Ryan Mac",
-      "publishedAt": "2026-06-04T14:56:47Z",
+      "publishedAt": "2026-06-04T14:56:48Z",
       "titleEn": "SpaceX IPO to Be Largest Ever at $135 Share Price",
       "section": "industry",
       "sectionTitle": "行业",
@@ -6145,6 +5721,25 @@
       ]
     },
     {
+      "source": "The New York Times",
+      "feedSource": "New York Times",
+      "sourceUrl": "https://www.nytimes.com",
+      "title": "Panini denies using AI to write text on the back of basketball cards - The New York Times",
+      "summary": "Panini denies using AI to write text on the back of basketball cards The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPamVPQklFdWdrc0dXcW4wNVM1bTZEUExGMjhOTXUxeElXYi1ZNlY4UERhZFB0QXlYX0VCellVUGlmTUVXYm9ldmJ6NURDNGczbG9VMGxxaUJoQ3o3SlhsYXRWajgtZDdOOWFvZVRqQlFOVXZkaWxkbnZFWFNsZmg4cw?oc=5",
+      "author": "",
+      "publishedAt": "2026-06-04T14:24:04Z",
+      "titleEn": "Panini denies using AI to write text on the back of basketball cards - The New York Times",
+      "section": "industry",
+      "sectionTitle": "行业",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "The New York Times"
+      ]
+    },
+    {
       "source": "New York Times",
       "feedSource": "New York Times",
       "sourceUrl": "",
@@ -6163,6 +5758,26 @@
         "New York Times",
         "SpaceX",
         "artificial intelligence"
+      ]
+    },
+    {
+      "source": "The New York Times",
+      "feedSource": "New York Times",
+      "sourceUrl": "https://www.nytimes.com",
+      "title": "Space Nerds, Rejoice! SpaceX’s I.P.O. Lifts Dreams of the Cosmos. - The New York Times",
+      "summary": "Space Nerds, Rejoice! SpaceX’s I.P.O. Lifts Dreams of the Cosmos. The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE9xMW93V1NfZ3NIelZxOEtsd2ZBME10d0toVmdVeUlKcExGSF9obFhPa1JvWWY1Y0xvNks5UUx0YkpzdU9hQ2lIME1tOS1WQ0NkR1E5Y1FEUnFyMDZ1UnNQQU5HVVZZM05xZkYzanZoa1Y2NzBIbkt2UFZHaVMzZw?oc=5",
+      "author": "",
+      "publishedAt": "2026-06-04T14:08:43Z",
+      "titleEn": "Space Nerds, Rejoice! SpaceX’s I.P.O. Lifts Dreams of the Cosmos. - The New York Times",
+      "section": "industry",
+      "sectionTitle": "行业",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "SpaceX",
+        "The New York Times"
       ]
     },
     {
@@ -6303,6 +5918,26 @@
       ]
     },
     {
+      "source": "Bloomberg.com",
+      "feedSource": "Bloomberg · Company Batch 6",
+      "sourceUrl": "https://www.bloomberg.com",
+      "title": "Stock Movers: Broadcom, CrowdStrike, Petco - Bloomberg.com",
+      "summary": "Stock Movers: Broadcom, CrowdStrike, Petco Bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOSkExZVFDc2JVZXVmNjljNWNhWS1ka1ZMcXVLZWJqVWxiUHpOdFVaT1BjdkxTTjFrLXowYTB3cl8xV3BES21NTFpoTjdRYk82d1dFd25aQl9iaXNuY0ktSDlWVG0tOWRlXzhwRUVuNGUwTDJWR1NDeU9kWDZmYndoM1BvaEJVZW1FUUplTnY2bFJBZDgyanJ3WmtKcw?oc=5",
+      "author": "",
+      "publishedAt": "2026-06-04T11:04:23Z",
+      "titleEn": "Stock Movers: Broadcom, CrowdStrike, Petco - Bloomberg.com",
+      "section": "company",
+      "sectionTitle": "公司",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Broadcom",
+        "CrowdStrike"
+      ]
+    },
+    {
       "source": "WIRED",
       "feedSource": "WIRED",
       "sourceUrl": "",
@@ -6371,12 +6006,12 @@
       "source": "The New York Times",
       "feedSource": "New York Times",
       "sourceUrl": "https://www.nytimes.com",
-      "title": "Opinion | Trump Is Finally Facing Reality on A.I. - The New York Times",
-      "summary": "Opinion | Trump Is Finally Facing Reality on A.I. The New York Times",
+      "title": "Opinion | The Government Is Finally Taking A.I. Risk Seriously - The New York Times",
+      "summary": "Opinion | The Government Is Finally Taking A.I. Risk Seriously The New York Times",
       "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxPbnVxc2F5dlFYSU9KVWdHa0hma3kxd1JmRmRpTGdDT0RoQ2NEcExCaWd3bUozdy1JRm1QN2FCTU9PRVZRVGZESDdmUmRhSmRZdVpKcGcyQ2tFTS15Y2x4eVlneWJkdVpTVDgtbDByblNXbTBGcHU0dkk2V3VaRGJZSnlveUVQYngwaVRQdWsyRQ?oc=5",
       "author": "",
       "publishedAt": "2026-06-04T09:03:54Z",
-      "titleEn": "Opinion | Trump Is Finally Facing Reality on A.I. - The New York Times",
+      "titleEn": "Opinion | The Government Is Finally Taking A.I. Risk Seriously - The New York Times",
       "section": "industry",
       "sectionTitle": "行业",
       "matchedPortfolios": [
@@ -6531,30 +6166,6 @@
       ]
     },
     {
-      "source": "youtube.com",
-      "feedSource": "Tavily Search",
-      "sourceUrl": "https://www.youtube.com/watch?v=CfSzM6MCjLY",
-      "via": "Tavily",
-      "title": "Broadcom AI Chip Outlook Disappoints Investors",
-      "summary": "Broadcom shares fell in extended trading after the company delivered a disappointing forecast for artificial intelligence chip revenue.",
-      "url": "https://www.youtube.com/watch?v=CfSzM6MCjLY",
-      "author": "",
-      "publishedAt": "2026-06-04T05:46:37Z",
-      "section": "video",
-      "sectionTitle": "视频",
-      "tags": [
-        "AI chip",
-        "Broadcom",
-        "Tavily",
-        "artificial intelligence",
-        "site:youtube.com/watch Bloomberg artificial intelligence OR Nvidia OR chips OR d"
-      ],
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "titleEn": "Broadcom AI Chip Outlook Disappoints Investors"
-    },
-    {
       "source": "Bloomberg.com",
       "feedSource": "Bloomberg · Company Batch 15",
       "sourceUrl": "https://www.bloomberg.com",
@@ -6639,27 +6250,23 @@
       ]
     },
     {
-      "source": "Wall Street Journal",
-      "feedSource": "Tavily Search",
-      "sourceUrl": "https://www.wsj.com/tech/ai/meta-keeps-delaying-the-release-of-its-new-ai-model-to-developers-f8569c8c",
-      "via": "Tavily",
+      "source": "WSJ",
+      "feedSource": "Wall Street Journal",
+      "sourceUrl": "https://www.wsj.com",
       "title": "Exclusive | Meta Keeps Delaying the Release of Its New AI Model to Developers - WSJ",
-      "summary": "# Exclusive | Meta Keeps Delaying the Release of Its New AI Model to Developers - WSJ. https://www.wsj.com/tech/ai/meta-keeps-delaying-the-release-of-its-new-ai-model-to-developers-f8569c8c. # Meta Keeps Delaying the Release of Its New AI Model to Developers. ## The shifting timeline is a setback for Meta’s ability to",
-      "url": "https://www.wsj.com/tech/ai/meta-keeps-delaying-the-release-of-its-new-ai-model-to-developers-f8569c8c",
+      "summary": "Exclusive | Meta Keeps Delaying the Release of Its New AI Model to Developers WSJ",
+      "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxNQzFMQXZWZ1pBUXo2V0Z4eXJQdkMwbHVndW9rQjlmdUN5Y2ZLcmRPNUs3VERiaUZpS2VYMU9GN0l5VGxXbnltajlha2EySWRVUnJhSklTcGMyb1piOWFLX3JCdm42UUJPVmJOM1paUjFEREZMR21aRWJ2eWJfaDV0NzR5QmhaWll6b2Q3dTFCUUVGOHRJa0VkQzR5TjRDS2JwZ1JhVg?oc=5",
       "author": "Christopher Mims",
       "publishedAt": "2026-06-04T02:50:00Z",
+      "titleEn": "Exclusive | Meta Keeps Delaying the Release of Its New AI Model to Developers - WSJ",
       "section": "industry",
       "sectionTitle": "行业",
-      "tags": [
-        "Meta",
-        "Tavily",
-        "Wall Street Journal",
-        "artificial intelligence chips data centers frontier models site:wsj.com OR site:"
-      ],
       "matchedPortfolios": [
         "ai-market"
       ],
-      "titleEn": "Exclusive | Meta Keeps Delaying the Release of Its New AI Model to Developers - WSJ"
+      "tags": [
+        "Meta"
+      ]
     },
     {
       "source": "The New York Times",
@@ -6809,7 +6416,7 @@
       "title": "Broadcom Shares Slide Despite Jump in Revenue on AI Chip Demand - WSJ",
       "summary": "Broadcom Shares Slide Despite Jump in Revenue on AI Chip Demand WSJ",
       "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxPMUZyTm54LXhvU1BpcFBOODV5VmJqQXVING8tWVpBemVWRjR4czN2bXBHR3VUWjBnRTNEU3VQZFJwbE4xSnNqYVdEZTR5U2kwZHN0OExIZDFtQWhHY0Y2bTNOckdxRHFLbW9QVmc4WERJSGZCcmZyeVd0UFJVekl3UEp3emZXdzV0Wnl3MDBsbzBYdw?oc=5",
-      "author": "",
+      "author": "Christopher Mims",
       "publishedAt": "2026-06-03T23:38:00Z",
       "titleEn": "Broadcom Shares Slide Despite Jump in Revenue on AI Chip Demand - WSJ",
       "section": "industry",
@@ -6981,7 +6588,7 @@
     },
     {
       "source": "Reuters",
-      "feedSource": "Reuters · Company Batch 6",
+      "feedSource": "Reuters · Company Batch 13",
       "sourceUrl": "https://www.reuters.com",
       "title": "Broadcom's sales and AI chip forecast comes in below expectations, shares tumble - Reuters",
       "summary": "Broadcom's sales and AI chip forecast comes in below expectations, shares tumble Reuters",
@@ -7041,7 +6648,7 @@
     },
     {
       "source": "Bloomberg.com",
-      "feedSource": "Bloomberg · Company Batch 5",
+      "feedSource": "Bloomberg · Company Batch 15",
       "sourceUrl": "https://www.bloomberg.com",
       "title": "Nvidia’s RTX Spark Sets Up Fight Over the Soul of Windows PCs - Bloomberg.com",
       "summary": "Nvidia’s RTX Spark Sets Up Fight Over the Soul of Windows PCs Bloomberg.com",
@@ -7123,28 +6730,25 @@
     },
     {
       "source": "WIRED",
-      "feedSource": "Tavily Search",
-      "sourceUrl": "https://www.wired.com/story/amazon-employees-publicly-demand-regulations-on-data-centers/",
-      "via": "Tavily",
-      "title": "Amazon Employees Show Up to City Council Meetings to Demand Limits on Data Centers - WIRED",
-      "summary": "# Amazon Employees Show Up to City Council Meetings to Demand Limits on Data Centers. Activists say it’s the first time Big Tech employees have publicly called for regulations governing data center projects. Three Amazon employees on Wednesday publicly called for regulations on new data centers, telling elected officia",
+      "feedSource": "WIRED",
+      "sourceUrl": "",
+      "title": "Amazon Employees Show Up to City Council Meetings to Demand Limits on Data Centers",
+      "summary": "Activists say it’s the first time Big Tech employees have publicly called for regulations governing data center projects. Business Business / Big Tech",
       "url": "https://www.wired.com/story/amazon-employees-publicly-demand-regulations-on-data-centers/",
       "author": "Paresh Dave",
       "publishedAt": "2026-06-03T18:07:11Z",
+      "image": "https://media.wired.com/photos/6a2061ca0365e80b88634682/master/pass/Amazon-Employees-Publicly-Demand-Regulations-on-Data-Centers-Business-2258343751.jpg",
+      "titleEn": "Amazon Employees Show Up to City Council Meetings to Demand Limits on Data Centers",
       "section": "tech",
       "sectionTitle": "前沿",
-      "tags": [
-        "AI frontier technology robots world models agents chips site:wired.com OR site:t",
-        "Amazon",
-        "Tavily",
-        "WIRED",
-        "data center"
-      ],
-      "image": "https://media.wired.com/photos/69eba788c53bb7315821630f/original/pass/WIR_Cutout_2b_Rollover_600x400_02b.gif?format=original",
       "matchedPortfolios": [
         "ai-market"
       ],
-      "titleEn": "Amazon Employees Show Up to City Council Meetings to Demand Limits on Data Centers - WIRED"
+      "tags": [
+        "Amazon",
+        "WIRED",
+        "data center"
+      ]
     },
     {
       "source": "New York Times",
@@ -7355,7 +6959,7 @@
       "title": "Mark Zuckerberg Wants Meta’s New AI Agents to Run Your Whole Business - WSJ",
       "summary": "Mark Zuckerberg Wants Meta’s New AI Agents to Run Your Whole Business WSJ",
       "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOTkthUlJlSTFOV29kR1A4S3ZMTmEzMDluY1pIampKY3RZUkxQX1NKajFwaVRnLVkwSzFHdTJ5aERYVWhHNGFOWlNtRWV1SXlpaXVLeXI0c18wcUhBNU1HRzYwRlZDWUhBeGk3S1hmcGV1LTBBS3dmSm1tX2g4eFdvSVJDcHp5QkdSNFZ3Y291MHlZTlN4Qzg5Ty05UEpWYUVPNEcxSQ?oc=5",
-      "author": "",
+      "author": "Christopher Mims",
       "publishedAt": "2026-06-03T13:56:00Z",
       "titleEn": "Mark Zuckerberg Wants Meta’s New AI Agents to Run Your Whole Business - WSJ",
       "section": "industry",
@@ -7415,7 +7019,7 @@
       "title": "Anthropic Bulks Up Its Enterprise Partner Program Amid IPO Plans - WSJ",
       "summary": "Anthropic Bulks Up Its Enterprise Partner Program Amid IPO Plans WSJ",
       "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQd1p2MW5OV3U4TnpVTTVlNkV1ZWFsaE9vbjEzZ1BuRzZqamY2MDdmMnVUNjcxT3JRcmxvOWk0LUN5ZlgzdGlQUERUWm5LZlNVZi11WkFHbm16eDlMX3Y0ZGxQTXhWeWtyeWhVLVcwQmNXRUJGTHJmUkVYM0wwLVF6eXNfOGtDTXYwYmNNTHRSU3dkTlF5R3c2LTlDdHRoM3BldEo1SXhDQUg?oc=5",
-      "author": "",
+      "author": "Christopher Mims",
       "publishedAt": "2026-06-03T13:00:00Z",
       "titleEn": "Anthropic Bulks Up Its Enterprise Partner Program Amid IPO Plans - WSJ",
       "section": "industry",
@@ -7472,28 +7076,24 @@
     },
     {
       "source": "WIRED",
-      "feedSource": "Tavily Search",
-      "sourceUrl": "https://www.wired.com/story/nvidia-rtx-spark-laptop-disruption/",
-      "via": "Tavily",
+      "feedSource": "Wired",
+      "sourceUrl": "https://www.wired.com",
       "title": "Nvidia’s RTX Spark Laptops Look Hell-Bent on Disruption - WIRED",
-      "summary": "Nvidia has long made graphics cards that powered the Windows PC ecosystem for decades—now it wants to control the whole thing with “superchips,” starting with the RTX Spark. It's just a tease of what's to come right now, but these are the first Windows devices that may actually live up to the overused “AI PC” name. Whi",
-      "url": "https://www.wired.com/story/nvidia-rtx-spark-laptop-disruption/",
+      "summary": "Nvidia’s RTX Spark Laptops Look Hell-Bent on Disruption WIRED",
+      "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9MWkFxYjlhbEMzUEc0ejVQTHV6NWZLcFhZcV9DRGVrNDlIaVFpVnE0WjlGek00MXlnblpOR0tHWWRDa25rbklFLUlHM3ZWTW52bHB3ejAwOEhNNTdJY3ROdEJWUzJKWkJZcWxDcG53QWI?oc=5",
       "author": "Luke Larsen",
       "publishedAt": "2026-06-03T11:00:00Z",
+      "titleEn": "Nvidia’s RTX Spark Laptops Look Hell-Bent on Disruption - WIRED",
       "section": "tech",
       "sectionTitle": "前沿",
-      "tags": [
-        "AI frontier technology robots world models agents chips site:wired.com OR site:t",
-        "NVIDIA",
-        "Nvidia",
-        "Tavily",
-        "WIRED"
-      ],
-      "image": "https://www.wired.com/verso/static/wired-us/assets/wired-featured-logo.svg",
       "matchedPortfolios": [
         "ai-market"
       ],
-      "titleEn": "Nvidia’s RTX Spark Laptops Look Hell-Bent on Disruption - WIRED"
+      "tags": [
+        "NVIDIA",
+        "Nvidia",
+        "WIRED"
+      ]
     },
     {
       "source": "Reuters",
@@ -7516,28 +7116,26 @@
     },
     {
       "source": "WIRED",
-      "feedSource": "Tavily Search",
-      "sourceUrl": "https://www.wired.com/story/whats-worth-more-than-san-francisco-real-estate-anthropic-stock/",
-      "via": "Tavily",
-      "title": "What’s Worth More Than Cash in San Francisco Real Estate? Anthropic Stock - WIRED",
-      "summary": "# What’s Worth More Than Cash in San Francisco Real Estate? Several real estate listings in the San Francisco Bay Area are offering to exchange a home for a piece of the AI startup. In San Francisco, the median house price is now over $2 million. Last week, 160 Noe Street, an Edwardian home in San Francisco’s desirable",
+      "feedSource": "WIRED",
+      "sourceUrl": "",
+      "title": "What’s Worth More Than Cash in San Francisco Real Estate? Anthropic Stock",
+      "summary": "Several real estate listings in the San Francisco Bay Area are offering to exchange a home for a piece of the AI startup. Business Business / Artificial Intelligence",
       "url": "https://www.wired.com/story/whats-worth-more-than-san-francisco-real-estate-anthropic-stock/",
       "author": "Arielle Pardes",
       "publishedAt": "2026-06-03T10:00:00Z",
+      "image": "https://media.wired.com/photos/6a1f6880163032d6de40fd16/master/pass/Exchange-Home-for-Anthropic-Stock-Business.jpg",
+      "titleEn": "What’s Worth More Than Cash in San Francisco Real Estate? Anthropic Stock",
       "section": "tech",
       "sectionTitle": "前沿",
-      "tags": [
-        "AI frontier technology robots world models agents chips site:wired.com OR site:t",
-        "Anthropic",
-        "Tavily",
-        "WIRED",
-        "anthropic"
-      ],
-      "image": "https://media.wired.com/photos/69eba788c53bb7315821630f/original/pass/WIR_Cutout_2b_Rollover_600x400_02b.gif?format=original",
       "matchedPortfolios": [
         "ai-market"
       ],
-      "titleEn": "What’s Worth More Than Cash in San Francisco Real Estate? Anthropic Stock - WIRED"
+      "tags": [
+        "Anthropic",
+        "WIRED",
+        "anthropic",
+        "artificial intelligence"
+      ]
     },
     {
       "source": "WIRED",
@@ -7577,28 +7175,6 @@
       "tags": [
         "Apple"
       ]
-    },
-    {
-      "source": "Wall Street Journal",
-      "feedSource": "Tavily Search",
-      "sourceUrl": "https://www.wsj.com/tech/air-liquide-invests-233-million-in-south-korea-to-back-sk-hynixs-ai-chips-production-92fde1f1",
-      "via": "Tavily",
-      "title": "Air Liquide Invests $233 Million in South Korea to Back SK Hynix’s AI Chips Production - WSJ",
-      "summary": "# Air Liquide Invests $233 Million in South Korea to Back SK Hynix’s AI Chips Production - WSJ. SX5P 5172.63 -0.32%. https://www.wsj.com/tech/air-liquide-invests-233-million-in-south-korea-to-back-sk-hynixs-ai-chips-production-92fde1f1. # Air Liquide Invests $233 Million in South Korea to Back SK Hynix’s AI Chips Produ",
-      "url": "https://www.wsj.com/tech/air-liquide-invests-233-million-in-south-korea-to-back-sk-hynixs-ai-chips-production-92fde1f1",
-      "author": "",
-      "publishedAt": "2026-06-03T09:14:00Z",
-      "section": "hot",
-      "sectionTitle": "🔥热点",
-      "tags": [
-        "Tavily",
-        "Wall Street Journal",
-        "site:wsj.com OR site:ft.com OR site:zaobao.com.sg artificial intelligence OR chi"
-      ],
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "titleEn": "Air Liquide Invests $233 Million in South Korea to Back SK Hynix’s AI Chips Production - WSJ"
     },
     {
       "source": "WSJ",
@@ -7700,25 +7276,6 @@
       "tags": [
         "NVIDIA",
         "Nvidia"
-      ]
-    },
-    {
-      "source": "Reuters",
-      "feedSource": "Reuters · Company Batch 22",
-      "sourceUrl": "https://www.reuters.com",
-      "title": "Exclusive: SpaceX plans to set IPO price at $135 per share, targeting record $75 billion raise, source says - Reuters",
-      "summary": "Exclusive: SpaceX plans to set IPO price at $135 per share, targeting record $75 billion raise, source says Reuters",
-      "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxOTGxqbWcwbFNSdnZhNURUaVl6YUhmNzUtbU9vOE5CeU1aejRnMlpxdTRPbm5QY0tUTmp5UWtzZGJ0TTVUTm91cXBBVzVINDZJdjVJLXE0eDQ4TzEtem8xWDdrOVNQeGMyOGRDN3lydHoxdFJZQUpNRWtwWWJidW42VURzMGFpQmV4b3IyTHdNbk9YQ3lSVzY5Tm1rMFAzSnlaUV90VGJRWWZDOUtvX2gtNVJXYVR2eTlfd3c?oc=5",
-      "author": "",
-      "publishedAt": "2026-06-03T06:10:44Z",
-      "titleEn": "Exclusive: SpaceX plans to set IPO price at $135 per share, targeting record $75 billion raise, source says - Reuters",
-      "section": "company",
-      "sectionTitle": "公司",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "SpaceX"
       ]
     },
     {
@@ -7829,7 +7386,7 @@
       "summary": "South Korea secures access to Anthropic's Mythos AI model, Science Ministry says Reuters",
       "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxOa0N6dWF2VkhYTGEzNmZpOGtGTExOQXVvLVhPcG5yWlJyR0pzUVVyY25kR0cwR29XTTJUR1B6TjIxT3piT0ZaMW53VWFlV2VUSWJnczAxY3ZNdWFmT25SNWR6bklWZTZpODE2eXFPVlh6c0FiQ1l3aVB3dlhmLXlrbWtnNmYxUDAzeXNxdm1PUUZZeGdSdzB4ZktPRUpOa2lROVVlTXpYdVhLdG5JZG56MVRES294V3FfelZtVVdIc1E4Z3E5ZTln?oc=5",
       "author": "",
-      "publishedAt": "2026-06-03T00:53:00Z",
+      "publishedAt": "2026-06-03T00:53:53Z",
       "titleEn": "South Korea secures access to Anthropic's Mythos AI model, Science Ministry says - Reuters",
       "section": "company",
       "sectionTitle": "公司",
@@ -7888,6 +7445,25 @@
       "source": "Reuters",
       "feedSource": "Reuters · Company Batch 22",
       "sourceUrl": "https://www.reuters.com",
+      "title": "Exclusive: SpaceX plans to set IPO price at $135 per share, targeting record $75 billion raise, source says - Reuters",
+      "summary": "Exclusive: SpaceX plans to set IPO price at $135 per share, targeting record $75 billion raise, source says Reuters",
+      "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxOTGxqbWcwbFNSdnZhNURUaVl6YUhmNzUtbU9vOE5CeU1aejRnMlpxdTRPbm5QY0tUTmp5UWtzZGJ0TTVUTm91cXBBVzVINDZJdjVJLXE0eDQ4TzEtem8xWDdrOVNQeGMyOGRDN3lydHoxdFJZQUpNRWtwWWJidW42VURzMGFpQmV4b3IyTHdNbk9YQ3lSVzY5Tm1rMFAzSnlaUV90VGJRWWZDOUtvX2gtNVJXYVR2eTlfd3c?oc=5",
+      "author": "",
+      "publishedAt": "2026-06-03T00:26:00Z",
+      "titleEn": "Exclusive: SpaceX plans to set IPO price at $135 per share, targeting record $75 billion raise, source says - Reuters",
+      "section": "company",
+      "sectionTitle": "公司",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "SpaceX"
+      ]
+    },
+    {
+      "source": "Reuters",
+      "feedSource": "Reuters · Company Batch 22",
+      "sourceUrl": "https://www.reuters.com",
       "title": "Exclusive: SpaceX targets $1.75 trillion valuation in all-primary IPO next week, sources say - Reuters",
       "summary": "Exclusive: SpaceX targets $1.75 trillion valuation in all-primary IPO next week, sources say Reuters",
       "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxNVE1GUzd4UEhIYkdoYUhMajB1WlNnWF9YQ1cyQ05PeTlMREJGYmRubmVTcWY5TV90VzA5MlU5bnNuV0NTdUF3elk3Wl9Da1A4S294Ulh6R0RNTG9IcHphRjhCWDd5ZWF4SG82TzBCRTNPN1ktSGc3MGsydDVudjdHekI2NkFFU1h2M094Y1pvaHRCazlFbDczSlZ3eU8xUVVkYlNoMFgtcDVHa2NkXzdTU2U0OWwxWFNYMDZvVVA4THkwS1pnY3ZpY2hKZw?oc=5",
@@ -7929,7 +7505,7 @@
       "title": "GitLab to Cut 14% of Workforce as Part of AI Pivot - WSJ",
       "summary": "GitLab to Cut 14% of Workforce as Part of AI Pivot WSJ",
       "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQTVRvVlhjX1pXSC1ndnJSWDdDZ0NmWnFGT0hMeFI3YVZVd1V1T1AwWEw1YXJUSk1vNGNKSWJCcllyNjZITVFCS1Rqbjk3QS1ENEtUTjdGNVJGVHFESDNEVmYtOE9xZXBwVm83THBoWVhoQTF4bjEwcVhjN3N6V1VESnRHLXgtc2tsaHI0QUNTS1dJRzJoYjA3MnV4MDM?oc=5",
-      "author": "",
+      "author": "Christopher Mims",
       "publishedAt": "2026-06-02T21:09:00Z",
       "titleEn": "GitLab to Cut 14% of Workforce as Part of AI Pivot - WSJ",
       "section": "industry",
@@ -7981,30 +7557,6 @@
         "NVIDIA",
         "Nvidia"
       ]
-    },
-    {
-      "source": "Wall Street Journal",
-      "feedSource": "Tavily Search",
-      "sourceUrl": "https://www.wsj.com/finance/stocks/google-sends-a-clear-signal-3120cd4f",
-      "via": "Tavily",
-      "title": "Google Sends a Clear Signal - WSJ",
-      "summary": "# Google Spends, Chips Win and Victoria’s Secret Shines | Markets P.M. for June 2 - WSJ. S&P 500 7609.78 0.13%. _This is an edition of the Markets P.M. newsletter, a recap of the day’s most important markets moves, delivered after the closing bell. The S&P 500 edged up 0.1% even though four of the five largest companie",
-      "url": "https://www.wsj.com/finance/stocks/google-sends-a-clear-signal-3120cd4f",
-      "author": "",
-      "publishedAt": "2026-06-02T20:24:00Z",
-      "section": "hot",
-      "sectionTitle": "🔥热点",
-      "tags": [
-        "Google",
-        "Tavily",
-        "Wall Street Journal",
-        "google",
-        "site:wsj.com OR site:ft.com OR site:zaobao.com.sg artificial intelligence OR chi"
-      ],
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "titleEn": "Google Sends a Clear Signal - WSJ"
     },
     {
       "source": "Bloomberg.com",
@@ -8165,27 +7717,23 @@
     },
     {
       "source": "WIRED",
-      "feedSource": "Tavily Search",
-      "sourceUrl": "https://www.wired.com/story/meet-microsoft-scout-your-ai-coworker-that-never-logs-off/",
-      "via": "Tavily",
+      "feedSource": "Wired",
+      "sourceUrl": "https://www.wired.com",
       "title": "Meet Microsoft Scout, Your AI Coworker That Never Logs Off - WIRED",
-      "summary": "# Meet Microsoft Scout, Your AI Coworker That Never Logs Off. Microsoft’s OpenClaw-style agent appears in Teams, just like a human colleague, and automates your dull office tasks. Scout, an always-on AI agent announced at Microsoft’s Build developer conference on Tuesday, can go through your work messages, calendar, an",
-      "url": "https://www.wired.com/story/meet-microsoft-scout-your-ai-coworker-that-never-logs-off/",
+      "summary": "Meet Microsoft Scout, Your AI Coworker That Never Logs Off WIRED",
+      "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxOckh2UjBQWGM4M0JoOE8xMklxNjBuQ2x4MERRMnNiUGVTOVdyX0VhaVlaUmRtUjFpRnM3NmFxY0ZHZFUzMTVocWlYbnBDN09HanFRbWFCeXpkQk40VzF5UmFuZXZ0bmRmUXVha2RvV0UzMVRBVnJETWtfcW14VERLamY4bXpBcmo0THVkel9PSQ?oc=5",
       "author": "Reece Rogers",
       "publishedAt": "2026-06-02T18:00:00Z",
+      "titleEn": "Meet Microsoft Scout, Your AI Coworker That Never Logs Off - WIRED",
       "section": "tech",
       "sectionTitle": "前沿",
-      "tags": [
-        "AI frontier technology robots world models agents chips site:wired.com OR site:t",
-        "Microsoft",
-        "Tavily",
-        "WIRED"
-      ],
-      "image": "https://media.wired.com/photos/6a1e1d3c70c7c8b915b99802/191:100/w_1280,c_limit/Microsoft-Debuts-Scout-a-Workplace-AI-Agent-Gear.jpg",
       "matchedPortfolios": [
         "ai-market"
       ],
-      "titleEn": "Meet Microsoft Scout, Your AI Coworker That Never Logs Off - WIRED"
+      "tags": [
+        "Microsoft",
+        "WIRED"
+      ]
     },
     {
       "source": "New York Times",
@@ -8288,26 +7836,6 @@
       ]
     },
     {
-      "source": "WSJ",
-      "feedSource": "Wall Street Journal",
-      "sourceUrl": "https://www.wsj.com",
-      "title": "Google Is Daring Rivals To Keep Up in AI Spending Race - WSJ",
-      "summary": "Google Is Daring Rivals To Keep Up in AI Spending Race WSJ",
-      "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxOQ1I0QmczQ0JxeFJRMFJrRmJKUDJxaEtoY2dKeFBmS1pCOTF6MXVPTDlEWW9acHA1dWpURTRXdm5zUkJoMng5eXByOWduLUZLX1FNN2JZMWZFcWJVRTZLcENSMmIyM0dpYjhvVGhUSE9UYmRaaDV6Uk02aXExYjVmWmJRcW0xb3ZrVWRiZ21sMFN6dlVreFE?oc=5",
-      "author": "",
-      "publishedAt": "2026-06-02T16:00:00Z",
-      "titleEn": "Google Is Daring Rivals To Keep Up in AI Spending Race - WSJ",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "Google",
-        "google"
-      ]
-    },
-    {
       "source": "TechCrunch",
       "feedSource": "TechCrunch Startups",
       "sourceUrl": "https://techcrunch.com",
@@ -8389,29 +7917,24 @@
     },
     {
       "source": "WIRED",
-      "feedSource": "Tavily Search",
-      "sourceUrl": "https://www.wired.com/story/opal-electronics-openai-investment-ai-powered-audio-gadget/",
-      "via": "Tavily",
+      "feedSource": "Wired",
+      "sourceUrl": "https://www.wired.com",
       "title": "Flush With Cash From OpenAI, Opal Is Making an AI-Powered Audio Gadget - WIRED",
-      "summary": "# Flush With Cash From OpenAI, Opal Is Making an AI-Powered Audio Gadget. Opal, the company famous for making a fancy webcam, has pivoted to making other consumer electronics. Fueled by big investments from OpenAI and Samsung, it’s working on an audio gadget first. The company is changing its name to Opal Electronics.C",
-      "url": "https://www.wired.com/story/opal-electronics-openai-investment-ai-powered-audio-gadget/",
+      "summary": "Flush With Cash From OpenAI, Opal Is Making an AI-Powered Audio Gadget WIRED",
+      "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOTGx5N1JGTmhpWWZ6aGhuUmZac0I2bmJ3dkhkZmpUYWlKTEJhVjhyVFI1MlpTRFdoZWZSeWFScDJteDhZWk1GSkpTakJybmZxdHpQVktYR1Q4U1Zaa203WDVsNjBidXFhNVRQOW42YUpZNlMyaVJlM2dYM3pUUURmektueGE5b2JrMUF5Qjh3dHk?oc=5",
       "author": "Julian Chokkattu",
       "publishedAt": "2026-06-02T15:30:00Z",
+      "titleEn": "Flush With Cash From OpenAI, Opal Is Making an AI-Powered Audio Gadget - WIRED",
       "section": "tech",
       "sectionTitle": "前沿",
-      "tags": [
-        "AI frontier technology robots world models agents chips site:wired.com OR site:t",
-        "OpenAI",
-        "Tavily",
-        "WIRED",
-        "company",
-        "openai"
-      ],
-      "image": "https://media.wired.com/photos/6a1db2153696beebf95db3a0/191:100/w_1280,c_limit/Opal_Tadpole_01.jpg",
       "matchedPortfolios": [
         "ai-market"
       ],
-      "titleEn": "Flush With Cash From OpenAI, Opal Is Making an AI-Powered Audio Gadget - WIRED"
+      "tags": [
+        "OpenAI",
+        "WIRED",
+        "openai"
+      ]
     },
     {
       "source": "TechCrunch Startups",
@@ -8632,6 +8155,26 @@
     },
     {
       "source": "Bloomberg.com",
+      "feedSource": "Bloomberg · Company Batch 2",
+      "sourceUrl": "https://www.bloomberg.com",
+      "title": "Anthropic Offers Mythos Model Access to 150 Additional Groups - Bloomberg.com",
+      "summary": "Anthropic Offers Mythos Model Access to 150 Additional Groups Bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQcFFhT09ZQW1IWXBnMWwzTWw4X1BZTUhhRS0tWTQ2YVRxN2YwT09LN0pUbHo1cEw2T243M090ZlpkNk1vX25CbUM5ckZHc1djVThsQVE1X3JxR3RlR0ZUSFgxWFBSdUFYMnFaY190cVJ4UzRWRUNraDJYNFg4dUdoeEpqTnlDWUc2SG9pYjJUTDhBWkpwUEtiaVU1M2h3QmZNV1diX1dIQlg3OFhSSVdRZUN3?oc=5",
+      "author": "",
+      "publishedAt": "2026-06-02T13:00:00Z",
+      "titleEn": "Anthropic Offers Mythos Model Access to 150 Additional Groups - Bloomberg.com",
+      "section": "company",
+      "sectionTitle": "公司",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Anthropic",
+        "anthropic"
+      ]
+    },
+    {
+      "source": "Bloomberg.com",
       "feedSource": "Bloomberg · Company Batch 4",
       "sourceUrl": "https://www.bloomberg.com",
       "title": "NIMBY Pushback to Data Centers a Boon for Bloom Energy, CEO Says - Bloomberg.com",
@@ -8667,31 +8210,6 @@
       "tags": [
         "Tesla"
       ]
-    },
-    {
-      "source": "streetinsider.com",
-      "feedSource": "Tavily Search",
-      "sourceUrl": "https://www.streetinsider.com/PRNewswire/YY+Group+Holding+Accelerates+Vertical+Workforce+AI+Strategy+with+Investment+in+High-Performance+NVIDIA+Blackwell+Architecture+Infrastructure/26587516.html",
-      "via": "Tavily",
-      "title": "YY Group Holding Accelerates Vertical Workforce AI Strategy with Investment in High-Performance NVIDIA Blackwell Architecture Infrastructure - StreetInsider",
-      "summary": "# YY Group Holding Accelerates Vertical Workforce AI Strategy with Investment in High-Performance NVIDIA Blackwell Architecture Infrastructure. FREE Breaking News Alerts from StreetInsider.com! * Alphabet plans $80 billion raise for AI, backed by Buffett’s Berkshire. * After-Hours Stock Movers: HPE, CRDO, FULC, ABVX, M",
-      "url": "https://www.streetinsider.com/PRNewswire/YY+Group+Holding+Accelerates+Vertical+Workforce+AI+Strategy+with+Investment+in+High-Performance+NVIDIA+Blackwell+Architecture+Infrastructure/26587516.html",
-      "author": "",
-      "publishedAt": "2026-06-02T11:37:39Z",
-      "section": "company",
-      "sectionTitle": "公司",
-      "tags": [
-        "(\"Nvidia invested\" OR \"Nvidia investment\" OR \"Nvidia-backed\" OR \"Nvidia portfoli",
-        "Alphabet",
-        "NVIDIA",
-        "Nvidia",
-        "Tavily",
-        "nvidia-investment-list"
-      ],
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "titleEn": "YY Group Holding Accelerates Vertical Workforce AI Strategy with Investment in High-Performance NVIDIA Blackwell Architecture Infrastructure - StreetInsider"
     },
     {
       "source": "Bloomberg.com",
@@ -8813,54 +8331,6 @@
       ]
     },
     {
-      "source": "Wall Street Journal",
-      "feedSource": "Tavily Search",
-      "sourceUrl": "https://www.wsj.com/tech/why-nvidia-inside-can-work-in-the-pc-market-c5ab3111",
-      "via": "Tavily",
-      "title": "Why ‘Nvidia Inside’ Can Work in the PC Market - WSJ",
-      "summary": "# Why ‘Nvidia Inside’ Can Work in the PC Market - WSJ. https://www.wsj.com/tech/why-nvidia-inside-can-work-in-the-pc-market-c5ab3111. # Why ‘Nvidia Inside’ Can Work in the PC Market. That is what NvidiaNVDA 6.26%increase; green up pointing triangle is betting with its new line of PC chips, set to be in Windows-based co",
-      "url": "https://www.wsj.com/tech/why-nvidia-inside-can-work-in-the-pc-market-c5ab3111",
-      "author": "",
-      "publishedAt": "2026-06-02T09:30:00Z",
-      "section": "hot",
-      "sectionTitle": "🔥热点",
-      "tags": [
-        "NVIDIA",
-        "Nvidia",
-        "Tavily",
-        "Wall Street Journal",
-        "site:wsj.com OR site:ft.com OR site:zaobao.com.sg artificial intelligence OR chi"
-      ],
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "titleEn": "Why ‘Nvidia Inside’ Can Work in the PC Market - WSJ"
-    },
-    {
-      "source": "Wall Street Journal",
-      "feedSource": "Tavily Search",
-      "sourceUrl": "https://www.wsj.com/tech/why-nvidia-inside-can-work-in-the-pc-market-c5ab3111",
-      "via": "Tavily",
-      "title": "Why ‘Nvidia Inside’ Can Work in the PC Market - WSJ",
-      "summary": "# Why ‘Nvidia Inside’ Can Work in the PC Market - WSJ. https://www.wsj.com/tech/why-nvidia-inside-can-work-in-the-pc-market-c5ab3111. # Why ‘Nvidia Inside’ Can Work in the PC Market. That is what NvidiaNVDA 6.26%increase; green up pointing triangle is betting with its new line of PC chips, set to be in Windows-based co",
-      "url": "https://www.wsj.com/tech/why-nvidia-inside-can-work-in-the-pc-market-c5ab3111",
-      "author": "Christopher Mims",
-      "publishedAt": "2026-06-02T09:30:00Z",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "tags": [
-        "NVIDIA",
-        "Nvidia",
-        "Tavily",
-        "Wall Street Journal",
-        "artificial intelligence chips data centers frontier models site:wsj.com OR site:"
-      ],
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "titleEn": "Why ‘Nvidia Inside’ Can Work in the PC Market - WSJ"
-    },
-    {
       "source": "The New York Times",
       "feedSource": "New York Times",
       "sourceUrl": "https://www.nytimes.com",
@@ -8918,28 +8388,6 @@
         "artificial intelligence",
         "company"
       ]
-    },
-    {
-      "source": "Reuters",
-      "feedSource": "Tavily Search",
-      "sourceUrl": "https://www.reuters.com/video/watch/idRW523902062026RP1/?chan=technology",
-      "via": "Tavily",
-      "title": "Alphabet seeks $80 billion for AI, Berkshire to invest $10 billion - Reuters",
-      "summary": "# Alphabet seeks $80 billion for AI, Berkshire to invest $10 billion | Reuters. Exclusive news, data and analytics for financial market professionals Learn more about Refinitiv. ## Browse World. * ### Image 2: Alphabet seeks $80 billion for AI, Berkshire to invest $10 billion Now Playing Alphabet seeks $80 billion for",
-      "url": "https://www.reuters.com/video/watch/idRW523902062026RP1/?chan=technology",
-      "author": "",
-      "publishedAt": "2026-06-02T07:47:45Z",
-      "section": "company",
-      "sectionTitle": "公司",
-      "tags": [
-        "Alphabet",
-        "Nvidia OpenAI Anthropic Microsoft Google Meta AI acquisition funding investment ",
-        "Tavily"
-      ],
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "titleEn": "Alphabet seeks $80 billion for AI, Berkshire to invest $10 billion - Reuters"
     },
     {
       "source": "South China Morning Post",
@@ -9059,32 +8507,6 @@
       "tags": [
         "South China Morning Post"
       ]
-    },
-    {
-      "source": "fool.com",
-      "feedSource": "Tavily Search",
-      "sourceUrl": "https://www.fool.com/investing/2026/06/01/nvidias-jensen-huang-just-announced-something-big/",
-      "via": "Tavily",
-      "title": "Nvidia's Jensen Huang Just Announced Something Big - The Motley Fool",
-      "summary": "In recent years, **Nvidia** (NVDA +6.26%) has driven the artificial intelligence (AI) revolution by bringing its graphics processing units (GPUs) to data centers. As mentioned, Nvidia has built its dominance -- and earnings machine -- in recent years by serving the data center market with GPUs. These are the major tech",
-      "url": "https://www.fool.com/investing/2026/06/01/nvidias-jensen-huang-just-announced-something-big/",
-      "author": "",
-      "publishedAt": "2026-06-01T22:10:00Z",
-      "section": "company",
-      "sectionTitle": "公司",
-      "tags": [
-        "(\"Nvidia invested\" OR \"Nvidia investment\" OR \"Nvidia-backed\" OR \"Nvidia portfoli",
-        "NVIDIA",
-        "Nvidia",
-        "Tavily",
-        "artificial intelligence",
-        "nvidia-investment-list"
-      ],
-      "image": "https://g.foolcdn.com/image/?url=https%3A%2F%2Fg.foolcdn.com%2Feditorial%2Fimages%2F872586%2Fgettyimages-2251609328-1201x772-f9fd0c6.jpg&w=1200&op=resize",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "titleEn": "Nvidia's Jensen Huang Just Announced Something Big - The Motley Fool"
     },
     {
       "source": "Bloomberg.com",
@@ -9316,7 +8738,7 @@
       "title": "Anthropic Files to Go Public in Blockbuster Year for IPOs - WSJ",
       "summary": "Anthropic Files to Go Public in Blockbuster Year for IPOs WSJ",
       "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE12a09ueHB6ZlRtS3kxdFpfYzRFM1ZoT1JObWllcHlDWnV3RW5CMFRlY09JUXVDRVBMbmZnQ21UT0lSdlRkRkxUQTV2Qm9Uai1wcHZqYU1DOU5UcUdCak9EaHgwNmFHSXEy?oc=5",
-      "author": "",
+      "author": "Christopher Mims",
       "publishedAt": "2026-06-01T18:42:00Z",
       "titleEn": "Anthropic Files to Go Public in Blockbuster Year for IPOs - WSJ",
       "section": "industry",
@@ -9449,30 +8871,6 @@
       "tags": [
         "Apple"
       ]
-    },
-    {
-      "source": "youtube.com",
-      "feedSource": "Tavily Search",
-      "sourceUrl": "https://www.youtube.com/watch?v=Z-mDkE1qoyc",
-      "via": "Tavily",
-      "title": "Will France Be a Top European Hub for AI Infrastructure? | The Pulse 6/1",
-      "summary": "SoftBank Group plans to invest as much as €75 billion ($87 billion) to build 5 gigawatts of artificial intelligence data center capacity in France,",
-      "url": "https://www.youtube.com/watch?v=Z-mDkE1qoyc",
-      "author": "",
-      "publishedAt": "2026-06-01T17:46:37Z",
-      "section": "video",
-      "sectionTitle": "视频",
-      "tags": [
-        "Tavily",
-        "ai infrastructure",
-        "artificial intelligence",
-        "data center",
-        "site:youtube.com/watch Bloomberg artificial intelligence OR Nvidia OR chips OR d"
-      ],
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "titleEn": "Will France Be a Top European Hub for AI Infrastructure? | The Pulse 6/1"
     },
     {
       "source": "Reuters",
@@ -9746,6 +9144,28 @@
       ]
     },
     {
+      "source": "New York Times",
+      "feedSource": "New York Times",
+      "sourceUrl": "",
+      "title": "Nvidia Has a Plan to Put Its Chips in Personal Computers",
+      "summary": "The world’s most valuable company is chasing Intel and Apple as it tries to bring A.I. agents to laptops and desktops. NVIDIA Corporation Computers and the Internet Computer Chips Laptop Computers Artificial Intelligence Robots and Robotics Unitree Robotics (YuShu Technology Co Ltd) Data Centers",
+      "url": "https://www.nytimes.com/2026/06/01/technology/nvidia-chips-personal-computers.html",
+      "author": "Tripp Mickle",
+      "publishedAt": "2026-06-01T14:01:28Z",
+      "titleEn": "Nvidia Has a Plan to Put Its Chips in Personal Computers",
+      "section": "industry",
+      "sectionTitle": "行业",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Apple",
+        "Intel",
+        "NVIDIA",
+        "New York Times"
+      ]
+    },
+    {
       "source": "Bloomberg.com",
       "feedSource": "Bloomberg · Company Batch 5",
       "sourceUrl": "https://www.bloomberg.com",
@@ -9919,6 +9339,105 @@
       ],
       "tags": [
         "Microsoft"
+      ]
+    },
+    {
+      "source": "Reuters",
+      "feedSource": "Reuters · Company Batch 22",
+      "sourceUrl": "https://www.reuters.com",
+      "title": "Tesla registrations in Sweden rise 71% year-on-year in May - Reuters",
+      "summary": "Tesla registrations in Sweden rise 71% year-on-year in May Reuters",
+      "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxNTU14ODhrZTBiZGdzeGNmTE5qZFdDbE1QaXp6Z3ctRTA1b1dkY3NPSHlhRHlKYm41S3VRQ3JRNlVnaXRIRnRhUlRzaFEweWlpYmJ1Uk5DWnFpMmdJdWdTazZCNkpwdDIxYmhxZEdoT29yUHJfdjg1VlI1dXZYRWM1ZGxubUlFekt5bWx1SUJlTDd0WElpTjMtNHRYdEI?oc=5",
+      "author": "",
+      "publishedAt": "2026-06-01T07:20:37Z",
+      "titleEn": "Tesla registrations in Sweden rise 71% year-on-year in May - Reuters",
+      "section": "company",
+      "sectionTitle": "公司",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Tesla"
+      ]
+    },
+    {
+      "source": "The New York Times",
+      "feedSource": "New York Times",
+      "sourceUrl": "https://www.nytimes.com",
+      "title": "I Profile Celebrities for a Living. Nothing Prepared Me for Tilly Norwood. - The New York Times",
+      "summary": "I Profile Celebrities for a Living. Nothing Prepared Me for Tilly Norwood. The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE5wY3ZQLUFsajEySUd3WklSbjFTeEE0eXk2akdhVG92WG9wbFdfbTE4UWpLQ1lYZG9pSTZzQUR1MVdIUlh6QTY2U3R6SDJnZl9QdTRQbFNJTm9GdXhObmpGU2tGUU1NQjZLYjZhdkZHejZXbDZUYUdUeTV6MGNMQQ?oc=5",
+      "author": "",
+      "publishedAt": "2026-06-01T07:00:00Z",
+      "titleEn": "I Profile Celebrities for a Living. Nothing Prepared Me for Tilly Norwood. - The New York Times",
+      "section": "industry",
+      "sectionTitle": "行业",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "The New York Times"
+      ]
+    },
+    {
+      "source": "Reuters",
+      "feedSource": "Reuters · Company Batch 22",
+      "sourceUrl": "https://www.reuters.com",
+      "title": "Tesla drops threat to scrap graphite supply deal with Australia's Syrah - Reuters",
+      "summary": "Tesla drops threat to scrap graphite supply deal with Australia's Syrah Reuters",
+      "url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxQcFZMTy1wd0lzMFAxR1NLM3gzcjR6XzdDRXdvMFRqdFZsOTBJLXhSbGNwSVUzQmhnOVgxZE1UaGtyVEdUY3lTSXhJbVBQVHRGN3ViZ0VCbEEzVVlBTVhyNF9obnljd0l2bEFzQUZ5a2VJVkVFTlgyYXROVXRLNlRJT1hIbGkzT0JnbjVDMXVmQlpNRURnX0EzR1NXbnpQdHhuSnJGQVEzWm1RUVVnS1lLYnBiN2hPbGt3NkpEWS1IS3lCYzl4LTFjQVloTEZUWUI4eUlVU3Nqb2JUWjQ?oc=5",
+      "author": "",
+      "publishedAt": "2026-06-01T05:47:25Z",
+      "titleEn": "Tesla drops threat to scrap graphite supply deal with Australia's Syrah - Reuters",
+      "section": "company",
+      "sectionTitle": "公司",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Tesla"
+      ]
+    },
+    {
+      "source": "South China Morning Post",
+      "feedSource": "South China Morning Post",
+      "sourceUrl": "https://www.scmp.com",
+      "title": "World of humanoid robots set for new blueprint as Nvidia teams with Asian firms - South China Morning Post",
+      "summary": "World of humanoid robots set for new blueprint as Nvidia teams with Asian firms South China Morning Post",
+      "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxPWVRlemY1VWRPdThJUjA4NFRMNGNxZ2tyVFNULWpkb081TGJ5S21zWDZCY2VvbFBqc3VzUEg2cHlHM1Z1ek1FNFJSQnVINXY1STJPV0RveVVhbUU2VXdUV2N3bmFRVDBDdmJ2VzhoZ0JnM1JldzJyRGV2WUI5azRnX01ycVBfSVZMWERsalZ1alFyLU54SmdVX2otVDM5bmRpNFZ0X1Q4X3JENnU2WjlDLWVkaGJxdUxUWTBjRUVIYmRWNVRU0gHEAUFVX3lxTE84aXFUUTRPZkdJSXFwa3RPcU1vZm85a0tENWl6cDRkZjVQSlhGS2hfWDBfRUZwb2tYT1Y2T0F6X282SE4yYWNCd0tiNkQ1NjZ5S1NQUnhYRXFWcWUwaWwxM19NUTUxLTlqSExQTTl0N1ZxbEt3Y21qMG1qT01XMmF4ZGYyOUdfdXplcnJzV1c1Y0pRazZOMV9PamVkLVh3TkQ0OVYtQVk2bzhaT3VFMDhJYjlsZjk5MVJkTDFjS1RnbWxacDk?oc=5",
+      "author": "",
+      "publishedAt": "2026-06-01T05:30:25Z",
+      "titleEn": "World of humanoid robots set for new blueprint as Nvidia teams with Asian firms - South China Morning Post",
+      "section": "industry",
+      "sectionTitle": "行业",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "NVIDIA",
+        "Nvidia",
+        "South China Morning Post"
+      ]
+    },
+    {
+      "source": "Bloomberg.com",
+      "feedSource": "Bloomberg · Company Batch 2",
+      "sourceUrl": "https://www.bloomberg.com",
+      "title": "Nvidia Says Anthropic, OpenAI Among Users of New Vera Chip - Bloomberg.com",
+      "summary": "Nvidia Says Anthropic, OpenAI Among Users of New Vera Chip Bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNd3ZmeXE5cy0zbU1fZ1dTMjhSZWoxZkVGZHVpbDd0NVAzejJ1Nk9teTZWWExPQ3dkTlNUd2xMQW94djRHOGVta3ByS3ZHMkVxeUZaemFJQmRJa2gxanpySFlxN2l6LWxsZHlacEZmdlZCNVR1RjBmZkx5S0N0OHZRNVA4YjFiWjU4V3dvZDNFbTM4dlRGd2N4YjYzYi1EZ0lGeE45YWgzWGJCWTlKQUdKWEh3?oc=5",
+      "author": "",
+      "publishedAt": "2026-06-01T04:56:00Z",
+      "titleEn": "Nvidia Says Anthropic, OpenAI Among Users of New Vera Chip - Bloomberg.com",
+      "section": "company",
+      "sectionTitle": "公司",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Anthropic",
+        "NVIDIA",
+        "Nvidia"
       ]
     }
   ]
