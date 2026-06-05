@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-05T18:20:06.183236Z",
+  "generatedAt": "2026-06-05T19:05:24.698667Z",
   "source": "Tavily Search",
   "strategy": "Search public news, interviews, speeches, and x.com references for senior AI talent movement among SpaceX, NVIDIA, OpenAI, Anthropic, Meta, and Google.",
   "companies": [
@@ -45,8 +45,8 @@
       "en": "Frontier models / agents / productization",
       "key": "openai",
       "inflow": 8,
-      "outflow": 6,
-      "events": 14
+      "outflow": 4,
+      "events": 12
     },
     {
       "name": "Anthropic",
@@ -77,8 +77,8 @@
       "en": "Llama / FAIR / open models",
       "key": "meta",
       "inflow": 8,
-      "outflow": 2,
-      "events": 10
+      "outflow": 3,
+      "events": 11
     },
     {
       "name": "Google",
@@ -110,9 +110,9 @@
       "zh": "外部公司 / 高校 / 研究机构",
       "en": "Outside companies / universities / research labs",
       "key": "external",
-      "inflow": 6,
+      "inflow": 5,
       "outflow": 8,
-      "events": 14
+      "events": 13
     }
   ],
   "flows": [
@@ -283,79 +283,6 @@
       ]
     },
     {
-      "from": "openai",
-      "to": "external",
-      "count": 4,
-      "label": "OpenAI → External Talent Pool",
-      "events": [
-        {
-          "from": "openai",
-          "to": "external",
-          "title": "China may move toward U.S. path on AI as firms poach employees - CNBC",
-          "summary": "* The U.S. has focused more on artificial general intelligence than China. * Former OpenAI researcher Yao Shunyu, now chief AI scientist at Tencent, said Friday he aims to develop AGI. Tencent's Chief AI Scientist Yao Shunyu (R) discusses the tech outlook with Tencent. BEIJING — ",
-          "url": "https://www.cnbc.com/2026/06/05/china-may-move-toward-us-path-on-ai-as-firms-poach-employees.html",
-          "source": "Cnbc",
-          "publishedAt": "",
-          "people": [
-            "Yao Shunyu",
-            "Scientist Yao Shunyu",
-            "Tencent Chief"
-          ],
-          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-          "confidence": "tavily"
-        },
-        {
-          "from": "openai",
-          "to": "external",
-          "title": "Former OpenAI executive Sutskever discloses nearly $7 billion stake in AI firm - Reuters",
-          "summary": "# Ex-OpenAI exec Sutskever says he spent a year gathering proof of alleged Altman dishonesty | Reuters. ## Browse World. ## Browse Business. Image 2: Trial in Elon Musk's lawsuit over OpenAI for-profit conversion at a federal courthouse in Oakland. Item 1 of 2 OpenAI co-founder I",
-          "url": "https://www.reuters.com/business/former-openai-executive-sutskever-discloses-nearly-7-billion-stake-ai-firm-2026-05-11/",
-          "source": "Reuters",
-          "publishedAt": "",
-          "people": [
-            "Browse World",
-            "Browse Business",
-            "Elon Musk",
-            "Ilya Sutskever"
-          ],
-          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-          "confidence": "tavily"
-        },
-        {
-          "from": "openai",
-          "to": "external",
-          "title": "Ilya Sutskever Stands by His Role in Sam Altman’s OpenAI Ouster: ‘I Didn’t Want It to Be Destroyed’ - WIRED",
-          "summary": "# Ilya Sutskever Stands by His Role in Sam Altman’s OpenAI Ouster: ‘I Didn’t Want It to Be Destroyed’. The former OpenAI chief scientist may be estranged from the company, but he still came to its defense as he testified on Monday. Elon Musk’s trial against OpenAI and Microsoft e",
-          "url": "https://www.wired.com/story/ilya-sutskever-testifies-musk-v-altman-trial/",
-          "source": "Wired",
-          "publishedAt": "",
-          "people": [
-            "Ilya Sutskever Stands",
-            "His Role",
-            "Sam Altman",
-            "Want It"
-          ],
-          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-          "confidence": "tavily"
-        },
-        {
-          "from": "openai",
-          "to": "external",
-          "title": "OpenAI loses its head of private equity to Google - Business Insider",
-          "summary": "# OpenAI loses its head of private equity to Google. * Paul Zimmerman, the AI lab's former head of private equity, announced a move to Google. * OpenAI, Anthropic, and Google are increasingly turning to PE firms for help ramping sales. Two more senior staffers left OpenAI in rece",
-          "url": "https://www.businessinsider.com/openai-loses-head-private-equity-google",
-          "source": "Businessinsider",
-          "publishedAt": "",
-          "people": [
-            "Business Insider",
-            "Paul Zimmerman"
-          ],
-          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
       "from": "spacex",
       "to": "anthropic",
       "count": 3,
@@ -469,6 +396,64 @@
             "Dan Niles"
           ],
           "query": "(\"SpaceX\" OR \"Starlink\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
+      "from": "openai",
+      "to": "external",
+      "count": 3,
+      "label": "OpenAI → External Talent Pool",
+      "events": [
+        {
+          "from": "openai",
+          "to": "external",
+          "title": "OpenAI Founding Member Andrej Karpathy Takes Role at Anthropic - Bloomberg.com",
+          "summary": "# OpenAI Founding Member Andrej Karpathy Takes Role at Anthropic. Provide news feedback or report an error. Send a tip to our reporters. Andrej Karpathy, a founding member of OpenAI who later went to work for Tesla Inc., has joined Anthropic PBC to do research and development foc",
+          "url": "https://www.bloomberg.com/news/articles/2026-05-19/openai-founding-member-andrej-karpathy-takes-role-at-anthropic",
+          "source": "Bloomberg",
+          "publishedAt": "",
+          "people": [
+            "Founding Member Andrej",
+            "Karpathy Takes Role",
+            "Andrej Karpathy",
+            "Tesla Inc"
+          ],
+          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        },
+        {
+          "from": "openai",
+          "to": "external",
+          "title": "China may move toward U.S. path on AI as firms poach employees - CNBC",
+          "summary": "* The U.S. has focused more on artificial general intelligence than China. * Former OpenAI researcher Yao Shunyu, now chief AI scientist at Tencent, said Friday he aims to develop AGI. Tencent's Chief AI Scientist Yao Shunyu (R) discusses the tech outlook with Tencent. BEIJING — ",
+          "url": "https://www.cnbc.com/2026/06/05/china-may-move-toward-us-path-on-ai-as-firms-poach-employees.html",
+          "source": "Cnbc",
+          "publishedAt": "",
+          "people": [
+            "Yao Shunyu",
+            "Scientist Yao Shunyu",
+            "Tencent Chief"
+          ],
+          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        },
+        {
+          "from": "openai",
+          "to": "external",
+          "title": "OpenAI CEO Sam Altman was dishonest, caused 'chaos,' ex-exec Mira Murati says in bombshell testimony - New York Post",
+          "summary": "# OpenAI CEO Sam Altman was dishonest, caused ‘chaos,’ ex-exec Mira Murati says in bombshell testimony. OpenAI’s former head of technology Mira Murati slammed CEO Sam Altman as an untrustworthy leader who fomented strife among the company’s top ranks — stunning testimony that was",
+          "url": "https://nypost.com/2026/05/06/business/openai-ceo-sam-altman-was-dishonest-caused-chaos-ex-exec-mira-murati-says-in-bombshell-testimony/",
+          "source": "Nypost",
+          "publishedAt": "",
+          "people": [
+            "Sam Altman",
+            "Mira Murati",
+            "New York Post",
+            "Elon Musk"
+          ],
+          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
         }
       ]
@@ -738,31 +723,6 @@
       ]
     },
     {
-      "from": "openai",
-      "to": "google",
-      "count": 1,
-      "label": "OpenAI → Google",
-      "events": [
-        {
-          "from": "openai",
-          "to": "google",
-          "title": "Recursive Superintelligence raises $650m at $4.65bn valuation to build self-improving AI - The Next Web",
-          "summary": "Recursive Superintelligence, a startup founded by former leaders from Meta AI, Google DeepMind, OpenAI, and Salesforce AI, has emerged from stealth with $650 million in funding at a $4.65 billion valuation. Led by Richard Socher and co-founded by ex-Meta FAIR director Yuandong Ti",
-          "url": "https://thenextweb.com/news/recursive-superintelligence-self-improving-ai-funding",
-          "source": "Thenextweb",
-          "publishedAt": "",
-          "people": [
-            "Recursive Superintelligence",
-            "The Next Web",
-            "Richard Socher",
-            "Yuandong Tian"
-          ],
-          "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
       "from": "anthropic",
       "to": "meta",
       "count": 1,
@@ -808,6 +768,31 @@
             "Eureka Labs"
           ],
           "query": "(\"OpenAI\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
+      "from": "meta",
+      "to": "google",
+      "count": 1,
+      "label": "Meta → Google",
+      "events": [
+        {
+          "from": "meta",
+          "to": "google",
+          "title": "Recursive Superintelligence raises $650m at $4.65bn valuation to build self-improving AI - The Next Web",
+          "summary": "Recursive Superintelligence, a startup founded by former leaders from Meta AI, Google DeepMind, OpenAI, and Salesforce AI, has emerged from stealth with $650 million in funding at a $4.65 billion valuation. Led by Richard Socher and co-founded by ex-Meta FAIR director Yuandong Ti",
+          "url": "https://thenextweb.com/news/recursive-superintelligence-self-improving-ai-funding",
+          "source": "Thenextweb",
+          "publishedAt": "",
+          "people": [
+            "Recursive Superintelligence",
+            "The Next Web",
+            "Richard Socher",
+            "Yuandong Tian"
+          ],
+          "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
           "confidence": "tavily"
         }
       ]
@@ -1249,23 +1234,6 @@
       "confidence": "tavily"
     },
     {
-      "from": "openai",
-      "to": "google",
-      "title": "Recursive Superintelligence raises $650m at $4.65bn valuation to build self-improving AI - The Next Web",
-      "summary": "Recursive Superintelligence, a startup founded by former leaders from Meta AI, Google DeepMind, OpenAI, and Salesforce AI, has emerged from stealth with $650 million in funding at a $4.65 billion valuation. Led by Richard Socher and co-founded by ex-Meta FAIR director Yuandong Ti",
-      "url": "https://thenextweb.com/news/recursive-superintelligence-self-improving-ai-funding",
-      "source": "Thenextweb",
-      "publishedAt": "",
-      "people": [
-        "Recursive Superintelligence",
-        "The Next Web",
-        "Richard Socher",
-        "Yuandong Tian"
-      ],
-      "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-      "confidence": "tavily"
-    },
-    {
       "from": "anthropic",
       "to": "meta",
       "title": "Anthropic Buys The SDK Pipeline OpenAI And Gemini Depend On - Forbes",
@@ -1297,6 +1265,23 @@
         "Eureka Labs"
       ],
       "query": "(\"OpenAI\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+      "confidence": "tavily"
+    },
+    {
+      "from": "meta",
+      "to": "google",
+      "title": "Recursive Superintelligence raises $650m at $4.65bn valuation to build self-improving AI - The Next Web",
+      "summary": "Recursive Superintelligence, a startup founded by former leaders from Meta AI, Google DeepMind, OpenAI, and Salesforce AI, has emerged from stealth with $650 million in funding at a $4.65 billion valuation. Led by Richard Socher and co-founded by ex-Meta FAIR director Yuandong Ti",
+      "url": "https://thenextweb.com/news/recursive-superintelligence-self-improving-ai-funding",
+      "source": "Thenextweb",
+      "publishedAt": "",
+      "people": [
+        "Recursive Superintelligence",
+        "The Next Web",
+        "Richard Socher",
+        "Yuandong Tian"
+      ],
+      "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "confidence": "tavily"
     },
     {
@@ -1453,6 +1438,23 @@
     {
       "from": "openai",
       "to": "external",
+      "title": "OpenAI Founding Member Andrej Karpathy Takes Role at Anthropic - Bloomberg.com",
+      "summary": "# OpenAI Founding Member Andrej Karpathy Takes Role at Anthropic. Provide news feedback or report an error. Send a tip to our reporters. Andrej Karpathy, a founding member of OpenAI who later went to work for Tesla Inc., has joined Anthropic PBC to do research and development foc",
+      "url": "https://www.bloomberg.com/news/articles/2026-05-19/openai-founding-member-andrej-karpathy-takes-role-at-anthropic",
+      "source": "Bloomberg",
+      "publishedAt": "",
+      "people": [
+        "Founding Member Andrej",
+        "Karpathy Takes Role",
+        "Andrej Karpathy",
+        "Tesla Inc"
+      ],
+      "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+      "confidence": "tavily"
+    },
+    {
+      "from": "openai",
+      "to": "external",
       "title": "China may move toward U.S. path on AI as firms poach employees - CNBC",
       "summary": "* The U.S. has focused more on artificial general intelligence than China. * Former OpenAI researcher Yao Shunyu, now chief AI scientist at Tencent, said Friday he aims to develop AGI. Tencent's Chief AI Scientist Yao Shunyu (R) discusses the tech outlook with Tencent. BEIJING — ",
       "url": "https://www.cnbc.com/2026/06/05/china-may-move-toward-us-path-on-ai-as-firms-poach-employees.html",
@@ -1469,48 +1471,16 @@
     {
       "from": "openai",
       "to": "external",
-      "title": "Former OpenAI executive Sutskever discloses nearly $7 billion stake in AI firm - Reuters",
-      "summary": "# Ex-OpenAI exec Sutskever says he spent a year gathering proof of alleged Altman dishonesty | Reuters. ## Browse World. ## Browse Business. Image 2: Trial in Elon Musk's lawsuit over OpenAI for-profit conversion at a federal courthouse in Oakland. Item 1 of 2 OpenAI co-founder I",
-      "url": "https://www.reuters.com/business/former-openai-executive-sutskever-discloses-nearly-7-billion-stake-ai-firm-2026-05-11/",
-      "source": "Reuters",
+      "title": "OpenAI CEO Sam Altman was dishonest, caused 'chaos,' ex-exec Mira Murati says in bombshell testimony - New York Post",
+      "summary": "# OpenAI CEO Sam Altman was dishonest, caused ‘chaos,’ ex-exec Mira Murati says in bombshell testimony. OpenAI’s former head of technology Mira Murati slammed CEO Sam Altman as an untrustworthy leader who fomented strife among the company’s top ranks — stunning testimony that was",
+      "url": "https://nypost.com/2026/05/06/business/openai-ceo-sam-altman-was-dishonest-caused-chaos-ex-exec-mira-murati-says-in-bombshell-testimony/",
+      "source": "Nypost",
       "publishedAt": "",
       "people": [
-        "Browse World",
-        "Browse Business",
-        "Elon Musk",
-        "Ilya Sutskever"
-      ],
-      "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-      "confidence": "tavily"
-    },
-    {
-      "from": "openai",
-      "to": "external",
-      "title": "Ilya Sutskever Stands by His Role in Sam Altman’s OpenAI Ouster: ‘I Didn’t Want It to Be Destroyed’ - WIRED",
-      "summary": "# Ilya Sutskever Stands by His Role in Sam Altman’s OpenAI Ouster: ‘I Didn’t Want It to Be Destroyed’. The former OpenAI chief scientist may be estranged from the company, but he still came to its defense as he testified on Monday. Elon Musk’s trial against OpenAI and Microsoft e",
-      "url": "https://www.wired.com/story/ilya-sutskever-testifies-musk-v-altman-trial/",
-      "source": "Wired",
-      "publishedAt": "",
-      "people": [
-        "Ilya Sutskever Stands",
-        "His Role",
         "Sam Altman",
-        "Want It"
-      ],
-      "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-      "confidence": "tavily"
-    },
-    {
-      "from": "openai",
-      "to": "external",
-      "title": "OpenAI loses its head of private equity to Google - Business Insider",
-      "summary": "# OpenAI loses its head of private equity to Google. * Paul Zimmerman, the AI lab's former head of private equity, announced a move to Google. * OpenAI, Anthropic, and Google are increasingly turning to PE firms for help ramping sales. Two more senior staffers left OpenAI in rece",
-      "url": "https://www.businessinsider.com/openai-loses-head-private-equity-google",
-      "source": "Businessinsider",
-      "publishedAt": "",
-      "people": [
-        "Business Insider",
-        "Paul Zimmerman"
+        "Mira Murati",
+        "New York Post",
+        "Elon Musk"
       ],
       "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "confidence": "tavily"
