@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-05T12:34:45.069427Z",
+  "generatedAt": "2026-06-05T13:42:43.762514Z",
   "source": "Tavily Search",
   "strategy": "Search public news, interviews, speeches, and x.com references for senior AI talent movement among SpaceX, NVIDIA, OpenAI, Anthropic, Meta, and Google.",
   "companies": [
@@ -14,9 +14,9 @@
       "zh": "航天工程 / Starlink / 自动化制造",
       "en": "Space systems / Starlink / automated manufacturing",
       "key": "spacex",
-      "inflow": 5,
+      "inflow": 4,
       "outflow": 16,
-      "events": 21
+      "events": 20
     },
     {
       "name": "NVIDIA",
@@ -30,9 +30,9 @@
       "zh": "GPU / CUDA / AI 基础设施",
       "en": "GPU / CUDA / AI infrastructure",
       "key": "nvidia",
-      "inflow": 5,
+      "inflow": 6,
       "outflow": 4,
-      "events": 9
+      "events": 10
     },
     {
       "name": "OpenAI",
@@ -44,9 +44,9 @@
       "zh": "前沿模型 / Agent / 产品化",
       "en": "Frontier models / agents / productization",
       "key": "openai",
-      "inflow": 7,
-      "outflow": 7,
-      "events": 14
+      "inflow": 8,
+      "outflow": 5,
+      "events": 13
     },
     {
       "name": "Anthropic",
@@ -76,8 +76,8 @@
       "zh": "Llama / FAIR / 开源模型",
       "en": "Llama / FAIR / open models",
       "key": "meta",
-      "inflow": 9,
-      "outflow": 4,
+      "inflow": 8,
+      "outflow": 5,
       "events": 13
     },
     {
@@ -110,9 +110,9 @@
       "zh": "外部公司 / 高校 / 研究机构",
       "en": "Outside companies / universities / research labs",
       "key": "external",
-      "inflow": 5,
-      "outflow": 6,
-      "events": 11
+      "inflow": 6,
+      "outflow": 8,
+      "events": 14
     }
   ],
   "flows": [
@@ -283,6 +283,79 @@
       ]
     },
     {
+      "from": "openai",
+      "to": "external",
+      "count": 4,
+      "label": "OpenAI → External Talent Pool",
+      "events": [
+        {
+          "from": "openai",
+          "to": "external",
+          "title": "China may move toward U.S. path on AI as firms poach employees - CNBC",
+          "summary": "* The U.S. has focused more on artificial general intelligence than China. * Former OpenAI researcher Yao Shunyu, now chief AI scientist at Tencent, said Friday he aims to develop AGI. Tencent's Chief AI Scientist Yao Shunyu (R) discusses the tech outlook with Tencent. BEIJING — ",
+          "url": "https://www.cnbc.com/2026/06/05/china-may-move-toward-us-path-on-ai-as-firms-poach-employees.html",
+          "source": "Cnbc",
+          "publishedAt": "",
+          "people": [
+            "Yao Shunyu",
+            "Scientist Yao Shunyu",
+            "Tencent Chief"
+          ],
+          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        },
+        {
+          "from": "openai",
+          "to": "external",
+          "title": "Ilya Sutskever Stands by His Role in Sam Altman’s OpenAI Ouster: ‘I Didn’t Want It to Be Destroyed’ - WIRED",
+          "summary": "# Ilya Sutskever Stands by His Role in Sam Altman’s OpenAI Ouster: ‘I Didn’t Want It to Be Destroyed’. The former OpenAI chief scientist may be estranged from the company, but he still came to its defense as he testified on Monday. Elon Musk’s trial against OpenAI and Microsoft e",
+          "url": "https://www.wired.com/story/ilya-sutskever-testifies-musk-v-altman-trial/",
+          "source": "Wired",
+          "publishedAt": "",
+          "people": [
+            "Ilya Sutskever Stands",
+            "His Role",
+            "Sam Altman",
+            "Want It"
+          ],
+          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        },
+        {
+          "from": "openai",
+          "to": "external",
+          "title": "OpenAI loses its head of private equity to Google - Business Insider",
+          "summary": "# OpenAI loses its head of private equity to Google. * Paul Zimmerman, the AI lab's former head of private equity, announced a move to Google. * OpenAI, Anthropic, and Google are increasingly turning to PE firms for help ramping sales. Two more senior staffers left OpenAI in rece",
+          "url": "https://www.businessinsider.com/openai-loses-head-private-equity-google",
+          "source": "Businessinsider",
+          "publishedAt": "",
+          "people": [
+            "Business Insider",
+            "Paul Zimmerman"
+          ],
+          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        },
+        {
+          "from": "openai",
+          "to": "external",
+          "title": "OpenAI Hires ServiceNow CMO Colin Fleming to Lead Business Marketing Push - ADWEEK",
+          "summary": "OpenAI has hired ServiceNow chief marketing officer Colin Fleming as CMO for its business unit, a move that signals the AI company is deepening its enterprise marketing as it looks to expand beyond its core AI products. Fleming announced his departure in a LinkedIn post Tuesday, ",
+          "url": "https://www.adweek.com/media/openai-hires-servicenow-cmo-colin-fleming-to-lead-business-marketing-push/",
+          "source": "Adweek",
+          "publishedAt": "",
+          "people": [
+            "Colin Fleming",
+            "Lead Business Marketing",
+            "Is Hiring",
+            "Top Marketing Exec"
+          ],
+          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
       "from": "spacex",
       "to": "anthropic",
       "count": 3,
@@ -401,64 +474,6 @@
       ]
     },
     {
-      "from": "openai",
-      "to": "external",
-      "count": 3,
-      "label": "OpenAI → External Talent Pool",
-      "events": [
-        {
-          "from": "openai",
-          "to": "external",
-          "title": "OpenAI Founding Member Andrej Karpathy Takes Role at Anthropic - Bloomberg.com",
-          "summary": "# OpenAI Founding Member Andrej Karpathy Takes Role at Anthropic. Provide news feedback or report an error. Send a tip to our reporters. Andrej Karpathy, a founding member of OpenAI who later went to work for Tesla Inc., has joined Anthropic PBC to do research and development foc",
-          "url": "https://www.bloomberg.com/news/articles/2026-05-19/openai-founding-member-andrej-karpathy-takes-role-at-anthropic",
-          "source": "Bloomberg",
-          "publishedAt": "",
-          "people": [
-            "Founding Member Andrej",
-            "Karpathy Takes Role",
-            "Andrej Karpathy",
-            "Tesla Inc"
-          ],
-          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-          "confidence": "tavily"
-        },
-        {
-          "from": "openai",
-          "to": "external",
-          "title": "China may move toward U.S. path on AI as firms poach employees - CNBC",
-          "summary": "* The U.S. has focused more on artificial general intelligence than China. * Former OpenAI researcher Yao Shunyu, now chief AI scientist at Tencent, said Friday he aims to develop AGI. Tencent's Chief AI Scientist Yao Shunyu (R) discusses the tech outlook with Tencent. BEIJING — ",
-          "url": "https://www.cnbc.com/2026/06/05/china-may-move-toward-us-path-on-ai-as-firms-poach-employees.html",
-          "source": "Cnbc",
-          "publishedAt": "",
-          "people": [
-            "Yao Shunyu",
-            "Scientist Yao Shunyu",
-            "Tencent Chief"
-          ],
-          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-          "confidence": "tavily"
-        },
-        {
-          "from": "openai",
-          "to": "external",
-          "title": "OpenAI CEO Sam Altman was dishonest, caused 'chaos,' ex-exec Mira Murati says in bombshell testimony - New York Post",
-          "summary": "# OpenAI CEO Sam Altman was dishonest, caused ‘chaos,’ ex-exec Mira Murati says in bombshell testimony. OpenAI’s former head of technology Mira Murati slammed CEO Sam Altman as an untrustworthy leader who fomented strife among the company’s top ranks — stunning testimony that was",
-          "url": "https://nypost.com/2026/05/06/business/openai-ceo-sam-altman-was-dishonest-caused-chaos-ex-exec-mira-murati-says-in-bombshell-testimony/",
-          "source": "Nypost",
-          "publishedAt": "",
-          "people": [
-            "Sam Altman",
-            "Mira Murati",
-            "New York Post",
-            "Elon Musk"
-          ],
-          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
       "from": "spacex",
       "to": "nvidia",
       "count": 2,
@@ -538,88 +553,6 @@
             "Topics Artificial Intelligence"
           ],
           "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
-      "from": "openai",
-      "to": "spacex",
-      "count": 2,
-      "label": "OpenAI → SpaceX",
-      "events": [
-        {
-          "from": "openai",
-          "to": "spacex",
-          "title": "Elon Musk’s lawsuit is putting OpenAI’s safety record under the microscope - TechCrunch",
-          "summary": "Elon Musk’s legal effort to dismantle OpenAI may hinge on how its for-profit subsidiary enhances or detracts from the frontier lab’s founding mission of ensuring that humanity benefits from artificial general intelligence. On Thursday, a federal court in Oakland heard a former em",
-          "url": "https://techcrunch.com/2026/05/07/elon-musks-lawsuit-is-putting-openais-safety-record-under-the-microscope/",
-          "source": "Techcrunch",
-          "publishedAt": "",
-          "people": [
-            "Elon Musk",
-            "On Thursday"
-          ],
-          "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        },
-        {
-          "from": "openai",
-          "to": "spacex",
-          "title": "OpenAI co-founder and former Tesla AI executive Karpathy joins Anthropic - Reuters",
-          "summary": "# OpenAI co-founder and former Tesla AI executive Karpathy joins Anthropic | Reuters. Exclusive news, data and analytics for financial market professionals Learn more about Refinitiv. ## Browse World. ## Browse Business. ## Browse Legal. # OpenAI co-founder and former Tesla AI ex",
-          "url": "https://www.reuters.com/business/autos-transportation/former-tesla-ai-executive-openai-founding-member-andrej-karpathy-joins-anthropic-2026-05-19/",
-          "source": "Reuters",
-          "publishedAt": "",
-          "people": [
-            "Browse World",
-            "Browse Business",
-            "Browse Legal",
-            "Dado Ruvic"
-          ],
-          "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
-      "from": "openai",
-      "to": "meta",
-      "count": 2,
-      "label": "OpenAI → Meta",
-      "events": [
-        {
-          "from": "openai",
-          "to": "meta",
-          "title": "AI Giants Bet Billions On The Most Expensive Job In Enterprise - Forbes",
-          "summary": "Meta is reportedly launching a new Enterprise Solutions unit that will embed engineers and product managers inside corporate customers to push them toward its AI tools, according to The Information. The unit, led by head of product Naomi Gleit, is the latest sign that the most ex",
-          "url": "https://www.forbes.com/sites/janakirammsv/2026/05/28/ai-giants-bet-billions-on-the-most-expensive-job-in-enterprise/",
-          "source": "Forbes",
-          "publishedAt": "",
-          "people": [
-            "Giants Bet Billions",
-            "On The Most",
-            "Expensive Job In",
-            "Forbes Meta"
-          ],
-          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        },
-        {
-          "from": "openai",
-          "to": "meta",
-          "title": "AI Giants Bet Billions On The Most Expensive Job In Enterprise - Yahoo News Malaysia",
-          "summary": "Meta is reportedly launching a new Enterprise Solutions unit that will embed engineers and product managers inside corporate customers to push them toward its AI tools, according to The Information. The unit, led by head of product Naomi Gleit, is the latest sign that the most ex",
-          "url": "https://malaysia.news.yahoo.com/ai-giants-bet-billions-most-041000568.html",
-          "source": "Yahoo",
-          "publishedAt": "",
-          "people": [
-            "Giants Bet Billions",
-            "On The Most",
-            "Expensive Job In",
-            "Yahoo News Malaysia"
-          ],
-          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
           "confidence": "tavily"
         }
       ]
@@ -709,13 +642,13 @@
       ]
     },
     {
-      "from": "nvidia",
+      "from": "external",
       "to": "openai",
-      "count": 1,
-      "label": "NVIDIA → OpenAI",
+      "count": 2,
+      "label": "External Talent Pool → OpenAI",
       "events": [
         {
-          "from": "nvidia",
+          "from": "external",
           "to": "openai",
           "title": "Sam Altman’s OpenAI just made robotics its next frontier and it’s hiring to prove it - Tech Funding News",
           "summary": "# Sam Altman’s OpenAI just made robotics its next frontier and it’s hiring to prove it. * OpenAI is actively hiring robotics engineers as it revives its robotics ambitions, with an initial focus on robots that can help build data centres, power grids, and other critical infrastru",
@@ -727,6 +660,46 @@
             "Tech Funding News",
             "On May",
             "Greg Brockman"
+          ],
+          "query": "(\"OpenAI\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        },
+        {
+          "from": "external",
+          "to": "openai",
+          "title": "OpenAI hires ServiceNow CMO Fleming for business marketing role - Adweek - Investing.com",
+          "summary": "View all comments (0)0. Investing.com - OpenAI has appointed Colin Fleming as chief marketing officer for its business unit, Adweek reported Tuesday. Fleming previously served as chief marketing officer at ServiceNow. Fleming announced his departure from ServiceNow in a LinkedIn ",
+          "url": "https://www.investing.com/news/stock-market-news/openai-hires-servicenow-cmo-fleming-for-business-marketing-role--adweek-93CH-4710602",
+          "source": "Investing",
+          "publishedAt": "",
+          "people": [
+            "Colin Fleming",
+            "Fusion Media"
+          ],
+          "query": "(\"OpenAI\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
+      "from": "nvidia",
+      "to": "openai",
+      "count": 1,
+      "label": "NVIDIA → OpenAI",
+      "events": [
+        {
+          "from": "nvidia",
+          "to": "openai",
+          "title": "OpenAI co-founder and former Tesla AI executive Karpathy joins Anthropic - Reuters",
+          "summary": "# OpenAI co-founder and former Tesla AI executive Karpathy joins Anthropic | Reuters. Exclusive news, data and analytics for financial market professionals Learn more about Refinitiv. ## Browse World. ## Browse Business. ## Browse Legal. # OpenAI co-founder and former Tesla AI ex",
+          "url": "https://www.reuters.com/business/autos-transportation/former-tesla-ai-executive-openai-founding-member-andrej-karpathy-joins-anthropic-2026-05-19/",
+          "source": "Reuters",
+          "publishedAt": "",
+          "people": [
+            "Browse World",
+            "Browse Business",
+            "Browse Legal",
+            "Dado Ruvic"
           ],
           "query": "(\"OpenAI\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
           "confidence": "tavily"
@@ -784,6 +757,29 @@
       ]
     },
     {
+      "from": "openai",
+      "to": "spacex",
+      "count": 1,
+      "label": "OpenAI → SpaceX",
+      "events": [
+        {
+          "from": "openai",
+          "to": "spacex",
+          "title": "Elon Musk’s lawsuit is putting OpenAI’s safety record under the microscope - TechCrunch",
+          "summary": "Elon Musk’s legal effort to dismantle OpenAI may hinge on how its for-profit subsidiary enhances or detracts from the frontier lab’s founding mission of ensuring that humanity benefits from artificial general intelligence. On Thursday, a federal court in Oakland heard a former em",
+          "url": "https://techcrunch.com/2026/05/07/elon-musks-lawsuit-is-putting-openais-safety-record-under-the-microscope/",
+          "source": "Techcrunch",
+          "publishedAt": "",
+          "people": [
+            "Elon Musk",
+            "On Thursday"
+          ],
+          "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
       "from": "anthropic",
       "to": "meta",
       "count": 1,
@@ -804,6 +800,31 @@
             "Meta Llama"
           ],
           "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Anthropic\" OR \"Claude\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
+      "from": "meta",
+      "to": "nvidia",
+      "count": 1,
+      "label": "Meta → NVIDIA",
+      "events": [
+        {
+          "from": "meta",
+          "to": "nvidia",
+          "title": "Nvidia and Microsoft Researchers Say AI Agents Don't Care About Safety or Reliability - 404 Media",
+          "summary": "# Nvidia and Microsoft Researchers Say AI Agents Don't Care About Safety or Reliability. A new paper from researchers at Microsoft, Nvidia, and University of California Riverside found that AI agents with access to a computer, or computer-use agents (CUAs), will often take weird ",
+          "url": "https://www.404media.co/nvidia-and-microsoft-researchers-say-ai-agents-dont-care-about-safety-or-reliability/",
+          "source": "404Media",
+          "publishedAt": "",
+          "people": [
+            "Microsoft Researchers Say",
+            "Agents Don",
+            "Care About Safety",
+            "California Riverside"
+          ],
+          "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
           "confidence": "tavily"
         }
       ]
@@ -885,23 +906,25 @@
     },
     {
       "from": "external",
-      "to": "openai",
+      "to": "meta",
       "count": 1,
-      "label": "External Talent Pool → OpenAI",
+      "label": "External Talent Pool → Meta",
       "events": [
         {
           "from": "external",
-          "to": "openai",
-          "title": "OpenAI hires ServiceNow CMO Fleming for business marketing role - Adweek - Investing.com",
-          "summary": "View all comments (0)0. Investing.com - OpenAI has appointed Colin Fleming as chief marketing officer for its business unit, Adweek reported Tuesday. Fleming previously served as chief marketing officer at ServiceNow. Fleming announced his departure from ServiceNow in a LinkedIn ",
-          "url": "https://www.investing.com/news/stock-market-news/openai-hires-servicenow-cmo-fleming-for-business-marketing-role--adweek-93CH-4710602",
-          "source": "Investing",
+          "to": "meta",
+          "title": "AI Giants Bet Billions On The Most Expensive Job In Enterprise - Forbes",
+          "summary": "Meta is reportedly launching a new Enterprise Solutions unit that will embed engineers and product managers inside corporate customers to push them toward its AI tools, according to The Information. The unit, led by head of product Naomi Gleit, is the latest sign that the most ex",
+          "url": "https://www.forbes.com/sites/janakirammsv/2026/05/28/ai-giants-bet-billions-on-the-most-expensive-job-in-enterprise/",
+          "source": "Forbes",
           "publishedAt": "",
           "people": [
-            "Colin Fleming",
-            "Fusion Media"
+            "Giants Bet Billions",
+            "On The Most",
+            "Expensive Job In",
+            "Forbes Meta"
           ],
-          "query": "(\"OpenAI\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
         }
       ]
@@ -1204,16 +1227,16 @@
     {
       "from": "nvidia",
       "to": "openai",
-      "title": "Sam Altman’s OpenAI just made robotics its next frontier and it’s hiring to prove it - Tech Funding News",
-      "summary": "# Sam Altman’s OpenAI just made robotics its next frontier and it’s hiring to prove it. * OpenAI is actively hiring robotics engineers as it revives its robotics ambitions, with an initial focus on robots that can help build data centres, power grids, and other critical infrastru",
-      "url": "https://techfundingnews.com/sam-altmans-openai-just-made-robotics-its-next-frontier-and-its-hiring-to-prove-it/",
-      "source": "Techfundingnews",
+      "title": "OpenAI co-founder and former Tesla AI executive Karpathy joins Anthropic - Reuters",
+      "summary": "# OpenAI co-founder and former Tesla AI executive Karpathy joins Anthropic | Reuters. Exclusive news, data and analytics for financial market professionals Learn more about Refinitiv. ## Browse World. ## Browse Business. ## Browse Legal. # OpenAI co-founder and former Tesla AI ex",
+      "url": "https://www.reuters.com/business/autos-transportation/former-tesla-ai-executive-openai-founding-member-andrej-karpathy-joins-anthropic-2026-05-19/",
+      "source": "Reuters",
       "publishedAt": "",
       "people": [
-        "Sam Altman",
-        "Tech Funding News",
-        "On May",
-        "Greg Brockman"
+        "Browse World",
+        "Browse Business",
+        "Browse Legal",
+        "Dado Ruvic"
       ],
       "query": "(\"OpenAI\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "confidence": "tavily"
@@ -1268,57 +1291,6 @@
       "confidence": "tavily"
     },
     {
-      "from": "openai",
-      "to": "spacex",
-      "title": "OpenAI co-founder and former Tesla AI executive Karpathy joins Anthropic - Reuters",
-      "summary": "# OpenAI co-founder and former Tesla AI executive Karpathy joins Anthropic | Reuters. Exclusive news, data and analytics for financial market professionals Learn more about Refinitiv. ## Browse World. ## Browse Business. ## Browse Legal. # OpenAI co-founder and former Tesla AI ex",
-      "url": "https://www.reuters.com/business/autos-transportation/former-tesla-ai-executive-openai-founding-member-andrej-karpathy-joins-anthropic-2026-05-19/",
-      "source": "Reuters",
-      "publishedAt": "",
-      "people": [
-        "Browse World",
-        "Browse Business",
-        "Browse Legal",
-        "Dado Ruvic"
-      ],
-      "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-      "confidence": "tavily"
-    },
-    {
-      "from": "openai",
-      "to": "meta",
-      "title": "AI Giants Bet Billions On The Most Expensive Job In Enterprise - Forbes",
-      "summary": "Meta is reportedly launching a new Enterprise Solutions unit that will embed engineers and product managers inside corporate customers to push them toward its AI tools, according to The Information. The unit, led by head of product Naomi Gleit, is the latest sign that the most ex",
-      "url": "https://www.forbes.com/sites/janakirammsv/2026/05/28/ai-giants-bet-billions-on-the-most-expensive-job-in-enterprise/",
-      "source": "Forbes",
-      "publishedAt": "",
-      "people": [
-        "Giants Bet Billions",
-        "On The Most",
-        "Expensive Job In",
-        "Forbes Meta"
-      ],
-      "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-      "confidence": "tavily"
-    },
-    {
-      "from": "openai",
-      "to": "meta",
-      "title": "AI Giants Bet Billions On The Most Expensive Job In Enterprise - Yahoo News Malaysia",
-      "summary": "Meta is reportedly launching a new Enterprise Solutions unit that will embed engineers and product managers inside corporate customers to push them toward its AI tools, according to The Information. The unit, led by head of product Naomi Gleit, is the latest sign that the most ex",
-      "url": "https://malaysia.news.yahoo.com/ai-giants-bet-billions-most-041000568.html",
-      "source": "Yahoo",
-      "publishedAt": "",
-      "people": [
-        "Giants Bet Billions",
-        "On The Most",
-        "Expensive Job In",
-        "Yahoo News Malaysia"
-      ],
-      "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-      "confidence": "tavily"
-    },
-    {
       "from": "anthropic",
       "to": "meta",
       "title": "Anthropic Buys The SDK Pipeline OpenAI And Gemini Depend On - Forbes",
@@ -1333,6 +1305,23 @@
         "Meta Llama"
       ],
       "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Anthropic\" OR \"Claude\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+      "confidence": "tavily"
+    },
+    {
+      "from": "meta",
+      "to": "nvidia",
+      "title": "Nvidia and Microsoft Researchers Say AI Agents Don't Care About Safety or Reliability - 404 Media",
+      "summary": "# Nvidia and Microsoft Researchers Say AI Agents Don't Care About Safety or Reliability. A new paper from researchers at Microsoft, Nvidia, and University of California Riverside found that AI agents with access to a computer, or computer-use agents (CUAs), will often take weird ",
+      "url": "https://www.404media.co/nvidia-and-microsoft-researchers-say-ai-agents-dont-care-about-safety-or-reliability/",
+      "source": "404Media",
+      "publishedAt": "",
+      "people": [
+        "Microsoft Researchers Say",
+        "Agents Don",
+        "Care About Safety",
+        "California Riverside"
+      ],
+      "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "confidence": "tavily"
     },
     {
@@ -1508,6 +1497,23 @@
     {
       "from": "external",
       "to": "openai",
+      "title": "Sam Altman’s OpenAI just made robotics its next frontier and it’s hiring to prove it - Tech Funding News",
+      "summary": "# Sam Altman’s OpenAI just made robotics its next frontier and it’s hiring to prove it. * OpenAI is actively hiring robotics engineers as it revives its robotics ambitions, with an initial focus on robots that can help build data centres, power grids, and other critical infrastru",
+      "url": "https://techfundingnews.com/sam-altmans-openai-just-made-robotics-its-next-frontier-and-its-hiring-to-prove-it/",
+      "source": "Techfundingnews",
+      "publishedAt": "",
+      "people": [
+        "Sam Altman",
+        "Tech Funding News",
+        "On May",
+        "Greg Brockman"
+      ],
+      "query": "(\"OpenAI\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+      "confidence": "tavily"
+    },
+    {
+      "from": "external",
+      "to": "openai",
       "title": "OpenAI hires ServiceNow CMO Fleming for business marketing role - Adweek - Investing.com",
       "summary": "View all comments (0)0. Investing.com - OpenAI has appointed Colin Fleming as chief marketing officer for its business unit, Adweek reported Tuesday. Fleming previously served as chief marketing officer at ServiceNow. Fleming announced his departure from ServiceNow in a LinkedIn ",
       "url": "https://www.investing.com/news/stock-market-news/openai-hires-servicenow-cmo-fleming-for-business-marketing-role--adweek-93CH-4710602",
@@ -1518,23 +1524,6 @@
         "Fusion Media"
       ],
       "query": "(\"OpenAI\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-      "confidence": "tavily"
-    },
-    {
-      "from": "openai",
-      "to": "external",
-      "title": "OpenAI Founding Member Andrej Karpathy Takes Role at Anthropic - Bloomberg.com",
-      "summary": "# OpenAI Founding Member Andrej Karpathy Takes Role at Anthropic. Provide news feedback or report an error. Send a tip to our reporters. Andrej Karpathy, a founding member of OpenAI who later went to work for Tesla Inc., has joined Anthropic PBC to do research and development foc",
-      "url": "https://www.bloomberg.com/news/articles/2026-05-19/openai-founding-member-andrej-karpathy-takes-role-at-anthropic",
-      "source": "Bloomberg",
-      "publishedAt": "",
-      "people": [
-        "Founding Member Andrej",
-        "Karpathy Takes Role",
-        "Andrej Karpathy",
-        "Tesla Inc"
-      ],
-      "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "confidence": "tavily"
     },
     {
@@ -1556,18 +1545,67 @@
     {
       "from": "openai",
       "to": "external",
-      "title": "OpenAI CEO Sam Altman was dishonest, caused 'chaos,' ex-exec Mira Murati says in bombshell testimony - New York Post",
-      "summary": "# OpenAI CEO Sam Altman was dishonest, caused ‘chaos,’ ex-exec Mira Murati says in bombshell testimony. OpenAI’s former head of technology Mira Murati slammed CEO Sam Altman as an untrustworthy leader who fomented strife among the company’s top ranks — stunning testimony that was",
-      "url": "https://nypost.com/2026/05/06/business/openai-ceo-sam-altman-was-dishonest-caused-chaos-ex-exec-mira-murati-says-in-bombshell-testimony/",
-      "source": "Nypost",
+      "title": "Ilya Sutskever Stands by His Role in Sam Altman’s OpenAI Ouster: ‘I Didn’t Want It to Be Destroyed’ - WIRED",
+      "summary": "# Ilya Sutskever Stands by His Role in Sam Altman’s OpenAI Ouster: ‘I Didn’t Want It to Be Destroyed’. The former OpenAI chief scientist may be estranged from the company, but he still came to its defense as he testified on Monday. Elon Musk’s trial against OpenAI and Microsoft e",
+      "url": "https://www.wired.com/story/ilya-sutskever-testifies-musk-v-altman-trial/",
+      "source": "Wired",
       "publishedAt": "",
       "people": [
+        "Ilya Sutskever Stands",
+        "His Role",
         "Sam Altman",
-        "Mira Murati",
-        "New York Post",
-        "Elon Musk"
+        "Want It"
       ],
       "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+      "confidence": "tavily"
+    },
+    {
+      "from": "openai",
+      "to": "external",
+      "title": "OpenAI loses its head of private equity to Google - Business Insider",
+      "summary": "# OpenAI loses its head of private equity to Google. * Paul Zimmerman, the AI lab's former head of private equity, announced a move to Google. * OpenAI, Anthropic, and Google are increasingly turning to PE firms for help ramping sales. Two more senior staffers left OpenAI in rece",
+      "url": "https://www.businessinsider.com/openai-loses-head-private-equity-google",
+      "source": "Businessinsider",
+      "publishedAt": "",
+      "people": [
+        "Business Insider",
+        "Paul Zimmerman"
+      ],
+      "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+      "confidence": "tavily"
+    },
+    {
+      "from": "openai",
+      "to": "external",
+      "title": "OpenAI Hires ServiceNow CMO Colin Fleming to Lead Business Marketing Push - ADWEEK",
+      "summary": "OpenAI has hired ServiceNow chief marketing officer Colin Fleming as CMO for its business unit, a move that signals the AI company is deepening its enterprise marketing as it looks to expand beyond its core AI products. Fleming announced his departure in a LinkedIn post Tuesday, ",
+      "url": "https://www.adweek.com/media/openai-hires-servicenow-cmo-colin-fleming-to-lead-business-marketing-push/",
+      "source": "Adweek",
+      "publishedAt": "",
+      "people": [
+        "Colin Fleming",
+        "Lead Business Marketing",
+        "Is Hiring",
+        "Top Marketing Exec"
+      ],
+      "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+      "confidence": "tavily"
+    },
+    {
+      "from": "external",
+      "to": "meta",
+      "title": "AI Giants Bet Billions On The Most Expensive Job In Enterprise - Forbes",
+      "summary": "Meta is reportedly launching a new Enterprise Solutions unit that will embed engineers and product managers inside corporate customers to push them toward its AI tools, according to The Information. The unit, led by head of product Naomi Gleit, is the latest sign that the most ex",
+      "url": "https://www.forbes.com/sites/janakirammsv/2026/05/28/ai-giants-bet-billions-on-the-most-expensive-job-in-enterprise/",
+      "source": "Forbes",
+      "publishedAt": "",
+      "people": [
+        "Giants Bet Billions",
+        "On The Most",
+        "Expensive Job In",
+        "Forbes Meta"
+      ],
+      "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "confidence": "tavily"
     },
     {
@@ -1635,7 +1673,7 @@
       "from": "nvidia",
       "to": "openai",
       "status": "ok",
-      "count": 4
+      "count": 5
     },
     {
       "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
@@ -1740,7 +1778,7 @@
       "from": "meta",
       "to": "nvidia",
       "status": "ok",
-      "count": 4
+      "count": 3
     },
     {
       "query": "(\"OpenAI\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
@@ -1845,7 +1883,7 @@
       "from": "external",
       "to": "anthropic",
       "status": "ok",
-      "count": 4
+      "count": 5
     },
     {
       "query": "(\"Anthropic\" OR \"Claude\") (\"left Anthropic\" OR \"leaves Anthropic\" OR \"departed Anthropic\" OR \"resigned from Anthropic\" OR \"former Anthropic\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
