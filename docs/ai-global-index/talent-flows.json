@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-06T09:36:25.420773Z",
+  "generatedAt": "2026-06-06T10:33:53.624197Z",
   "source": "Tavily Search",
   "strategy": "Search public news, interviews, speeches, and x.com references for senior AI talent movement among SpaceX, NVIDIA, OpenAI, Anthropic, Meta, and Google.",
   "companies": [
@@ -45,8 +45,8 @@
       "en": "Frontier models / agents / productization",
       "key": "openai",
       "inflow": 8,
-      "outflow": 4,
-      "events": 12
+      "outflow": 5,
+      "events": 13
     },
     {
       "name": "Anthropic",
@@ -77,8 +77,8 @@
       "en": "Llama / FAIR / open models",
       "key": "meta",
       "inflow": 8,
-      "outflow": 3,
-      "events": 11
+      "outflow": 2,
+      "events": 10
     },
     {
       "name": "Google",
@@ -740,6 +740,31 @@
       ]
     },
     {
+      "from": "openai",
+      "to": "google",
+      "count": 1,
+      "label": "OpenAI → Google",
+      "events": [
+        {
+          "from": "openai",
+          "to": "google",
+          "title": "Recursive Superintelligence raises $650m at $4.65bn valuation to build self-improving AI - The Next Web",
+          "summary": "Recursive Superintelligence, a startup founded by former leaders from Meta AI, Google DeepMind, OpenAI, and Salesforce AI, has emerged from stealth with $650 million in funding at a $4.65 billion valuation. Led by Richard Socher and co-founded by ex-Meta FAIR director Yuandong Ti",
+          "url": "https://thenextweb.com/news/recursive-superintelligence-self-improving-ai-funding",
+          "source": "Thenextweb",
+          "publishedAt": "",
+          "people": [
+            "Recursive Superintelligence",
+            "The Next Web",
+            "Richard Socher",
+            "Yuandong Tian"
+          ],
+          "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
       "from": "anthropic",
       "to": "meta",
       "count": 1,
@@ -785,31 +810,6 @@
             "Eureka Labs"
           ],
           "query": "(\"OpenAI\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
-      "from": "meta",
-      "to": "google",
-      "count": 1,
-      "label": "Meta → Google",
-      "events": [
-        {
-          "from": "meta",
-          "to": "google",
-          "title": "Recursive Superintelligence raises $650m at $4.65bn valuation to build self-improving AI - The Next Web",
-          "summary": "Recursive Superintelligence, a startup founded by former leaders from Meta AI, Google DeepMind, OpenAI, and Salesforce AI, has emerged from stealth with $650 million in funding at a $4.65 billion valuation. Led by Richard Socher and co-founded by ex-Meta FAIR director Yuandong Ti",
-          "url": "https://thenextweb.com/news/recursive-superintelligence-self-improving-ai-funding",
-          "source": "Thenextweb",
-          "publishedAt": "",
-          "people": [
-            "Recursive Superintelligence",
-            "The Next Web",
-            "Richard Socher",
-            "Yuandong Tian"
-          ],
-          "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
           "confidence": "tavily"
         }
       ]
@@ -1268,6 +1268,23 @@
       "confidence": "tavily"
     },
     {
+      "from": "openai",
+      "to": "google",
+      "title": "Recursive Superintelligence raises $650m at $4.65bn valuation to build self-improving AI - The Next Web",
+      "summary": "Recursive Superintelligence, a startup founded by former leaders from Meta AI, Google DeepMind, OpenAI, and Salesforce AI, has emerged from stealth with $650 million in funding at a $4.65 billion valuation. Led by Richard Socher and co-founded by ex-Meta FAIR director Yuandong Ti",
+      "url": "https://thenextweb.com/news/recursive-superintelligence-self-improving-ai-funding",
+      "source": "Thenextweb",
+      "publishedAt": "",
+      "people": [
+        "Recursive Superintelligence",
+        "The Next Web",
+        "Richard Socher",
+        "Yuandong Tian"
+      ],
+      "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+      "confidence": "tavily"
+    },
+    {
       "from": "anthropic",
       "to": "meta",
       "title": "Anthropic Buys The SDK Pipeline OpenAI And Gemini Depend On - Forbes",
@@ -1299,23 +1316,6 @@
         "Eureka Labs"
       ],
       "query": "(\"OpenAI\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-      "confidence": "tavily"
-    },
-    {
-      "from": "meta",
-      "to": "google",
-      "title": "Recursive Superintelligence raises $650m at $4.65bn valuation to build self-improving AI - The Next Web",
-      "summary": "Recursive Superintelligence, a startup founded by former leaders from Meta AI, Google DeepMind, OpenAI, and Salesforce AI, has emerged from stealth with $650 million in funding at a $4.65 billion valuation. Led by Richard Socher and co-founded by ex-Meta FAIR director Yuandong Ti",
-      "url": "https://thenextweb.com/news/recursive-superintelligence-self-improving-ai-funding",
-      "source": "Thenextweb",
-      "publishedAt": "",
-      "people": [
-        "Recursive Superintelligence",
-        "The Next Web",
-        "Richard Socher",
-        "Yuandong Tian"
-      ],
-      "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "confidence": "tavily"
     },
     {
@@ -1706,7 +1706,7 @@
       "from": "meta",
       "to": "nvidia",
       "status": "ok",
-      "count": 4
+      "count": 3
     },
     {
       "query": "(\"OpenAI\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
@@ -1734,7 +1734,7 @@
       "from": "google",
       "to": "spacex",
       "status": "ok",
-      "count": 5
+      "count": 4
     },
     {
       "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
@@ -1811,7 +1811,7 @@
       "from": "external",
       "to": "anthropic",
       "status": "ok",
-      "count": 5
+      "count": 4
     },
     {
       "query": "(\"Anthropic\" OR \"Claude\") (\"left Anthropic\" OR \"leaves Anthropic\" OR \"departed Anthropic\" OR \"resigned from Anthropic\" OR \"former Anthropic\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
