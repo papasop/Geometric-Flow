@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-07T16:41:10.226440Z",
+  "generatedAt": "2026-06-07T17:17:41.649455Z",
   "source": "Tavily Search",
   "strategy": "Search public news, interviews, speeches, and x.com references for senior AI talent movement among SpaceX, NVIDIA, OpenAI, Anthropic, Meta, and Google.",
   "companies": [
@@ -31,8 +31,8 @@
       "en": "GPU / CUDA / AI infrastructure",
       "key": "nvidia",
       "inflow": 5,
-      "outflow": 4,
-      "events": 9
+      "outflow": 3,
+      "events": 8
     },
     {
       "name": "OpenAI",
@@ -45,8 +45,8 @@
       "en": "Frontier models / agents / productization",
       "key": "openai",
       "inflow": 7,
-      "outflow": 4,
-      "events": 11
+      "outflow": 5,
+      "events": 12
     },
     {
       "name": "Anthropic",
@@ -77,8 +77,8 @@
       "en": "Llama / FAIR / open models",
       "key": "meta",
       "inflow": 8,
-      "outflow": 2,
-      "events": 10
+      "outflow": 3,
+      "events": 11
     },
     {
       "name": "Google",
@@ -110,9 +110,9 @@
       "zh": "外部公司 / 高校 / 研究机构",
       "en": "Outside companies / universities / research labs",
       "key": "external",
-      "inflow": 5,
+      "inflow": 6,
       "outflow": 8,
-      "events": 13
+      "events": 14
     }
   ],
   "flows": [
@@ -577,48 +577,6 @@
       ]
     },
     {
-      "from": "nvidia",
-      "to": "anthropic",
-      "count": 2,
-      "label": "NVIDIA → Anthropic",
-      "events": [
-        {
-          "from": "nvidia",
-          "to": "anthropic",
-          "title": "OpenAI co-founder Andrej Karpathy joins Anthropic’s pre-training team - TechCrunch",
-          "summary": "# OpenAI co-founder Andrej Karpathy joins Anthropic’s pre-training team. Andrej Karpathy, the AI researcher who co-founded and formerly worked at OpenAI and previously led AI at Tesla, has joined Anthropic. “I think the next few years at the frontier of LLMs will be especially fo",
-          "url": "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/",
-          "source": "Techcrunch",
-          "publishedAt": "",
-          "people": [
-            "Andrej Karpathy",
-            "Nick Joseph",
-            "An Anthropic",
-            "The Paranoids"
-          ],
-          "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        },
-        {
-          "from": "nvidia",
-          "to": "anthropic",
-          "title": "Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects - OpenTools",
-          "summary": "# Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects. Andrej Karpathy, one of OpenAI original 11 co‑founders and former Tesla AI director, has joined Anthropic pretraining team to lead a new group focused on using Claude to accelerate AI research itself. Andrej ",
-          "url": "https://opentools.ai/news/andrej-karpathy-joins-anthropic-openai-cofounder-defects",
-          "source": "Opentools",
-          "publishedAt": "",
-          "people": [
-            "Andrej Karpathy Joins",
-            "Founding Member Defects",
-            "Andrej Karpathy",
-            "Eureka Labs"
-          ],
-          "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
       "from": "external",
       "to": "nvidia",
       "count": 2,
@@ -701,6 +659,72 @@
       ]
     },
     {
+      "from": "meta",
+      "to": "external",
+      "count": 2,
+      "label": "Meta → External Talent Pool",
+      "events": [
+        {
+          "from": "meta",
+          "to": "external",
+          "title": "Meta is rapidly reorganizing its workers’ jobs around AI: ‘Transfers aren’t optional’ - The Guardian",
+          "summary": "Some employees will be moved to new teams focused on AI agents and cloud infrastructure. As Meta races to recenter itself around artificial intelligence, the tech giant is mandating that more than 7,000 workers must move to new teams, and it’s radically changing some employees’ j",
+          "url": "https://www.theguardian.com/technology/2026/may/19/meta-jobs-ai-transfers",
+          "source": "Theguardian",
+          "publishedAt": "",
+          "people": [
+            "The Guardian Some",
+            "As Meta",
+            "The Guardian",
+            "Peter Hoose"
+          ],
+          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        },
+        {
+          "from": "meta",
+          "to": "external",
+          "title": "Mira Murati's AI dream team got their stock options. Now many are out. - Business Insider",
+          "summary": "* Thinking Machines Lab has lost a third of its founding team to rivals amid fierce AI talent wars. * CEO Mira Murati's startup has also hired top talent and recently unveiled a new type of AI model. Thinking Machines Lab's head count has more than quadrupled to over 150 people s",
+          "url": "https://www.businessinsider.com/thinking-machines-lab-key-talent-meta-openai-xai-2026-5",
+          "source": "Businessinsider",
+          "publishedAt": "",
+          "people": [
+            "Mira Murati",
+            "Business Insider",
+            "Thinking Machines Lab"
+          ],
+          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
+      "from": "nvidia",
+      "to": "anthropic",
+      "count": 1,
+      "label": "NVIDIA → Anthropic",
+      "events": [
+        {
+          "from": "nvidia",
+          "to": "anthropic",
+          "title": "OpenAI co-founder Andrej Karpathy joins Anthropic’s pre-training team - TechCrunch",
+          "summary": "# OpenAI co-founder Andrej Karpathy joins Anthropic’s pre-training team. Andrej Karpathy, the AI researcher who co-founded and formerly worked at OpenAI and previously led AI at Tesla, has joined Anthropic. “I think the next few years at the frontier of LLMs will be especially fo",
+          "url": "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/",
+          "source": "Techcrunch",
+          "publishedAt": "",
+          "people": [
+            "Andrej Karpathy",
+            "Nick Joseph",
+            "An Anthropic",
+            "The Paranoids"
+          ],
+          "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
       "from": "nvidia",
       "to": "meta",
       "count": 1,
@@ -744,6 +768,31 @@
             "On Thursday"
           ],
           "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
+      "from": "openai",
+      "to": "anthropic",
+      "count": 1,
+      "label": "OpenAI → Anthropic",
+      "events": [
+        {
+          "from": "openai",
+          "to": "anthropic",
+          "title": "Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects - OpenTools",
+          "summary": "# Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects. Andrej Karpathy, one of OpenAI original 11 co‑founders and former Tesla AI director, has joined Anthropic pretraining team to lead a new group focused on using Claude to accelerate AI research itself. Andrej ",
+          "url": "https://opentools.ai/news/andrej-karpathy-joins-anthropic-openai-cofounder-defects",
+          "source": "Opentools",
+          "publishedAt": "",
+          "people": [
+            "Andrej Karpathy Joins",
+            "Founding Member Defects",
+            "Andrej Karpathy",
+            "Eureka Labs"
+          ],
+          "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
           "confidence": "tavily"
         }
       ]
@@ -869,30 +918,6 @@
             "Forbes Meta"
           ],
           "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
-      "from": "meta",
-      "to": "external",
-      "count": 1,
-      "label": "Meta → External Talent Pool",
-      "events": [
-        {
-          "from": "meta",
-          "to": "external",
-          "title": "Mira Murati's AI dream team got their stock options. Now many are out. - Business Insider",
-          "summary": "* Thinking Machines Lab has lost a third of its founding team to rivals amid fierce AI talent wars. * CEO Mira Murati's startup has also hired top talent and recently unveiled a new type of AI model. Thinking Machines Lab's head count has more than quadrupled to over 150 people s",
-          "url": "https://www.businessinsider.com/thinking-machines-lab-key-talent-meta-openai-xai-2026-5",
-          "source": "Businessinsider",
-          "publishedAt": "",
-          "people": [
-            "Mira Murati",
-            "Business Insider",
-            "Thinking Machines Lab"
-          ],
-          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
         }
       ]
@@ -1221,23 +1246,6 @@
     },
     {
       "from": "nvidia",
-      "to": "anthropic",
-      "title": "Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects - OpenTools",
-      "summary": "# Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects. Andrej Karpathy, one of OpenAI original 11 co‑founders and former Tesla AI director, has joined Anthropic pretraining team to lead a new group focused on using Claude to accelerate AI research itself. Andrej ",
-      "url": "https://opentools.ai/news/andrej-karpathy-joins-anthropic-openai-cofounder-defects",
-      "source": "Opentools",
-      "publishedAt": "",
-      "people": [
-        "Andrej Karpathy Joins",
-        "Founding Member Defects",
-        "Andrej Karpathy",
-        "Eureka Labs"
-      ],
-      "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-      "confidence": "tavily"
-    },
-    {
-      "from": "nvidia",
       "to": "meta",
       "title": "Ex-Meta Chinese star joins race for self-improving AI with US$4.6b start-up - South China Morning Post",
       "summary": "# Ex-Meta Chinese star researcher joins race for self-improving AI with US$4.6b start-up. The funding round was led by venture capital firms GV and Greycroft, with ‘major participation’ from Nvidia and AMD. A star Chinese researcher laid off by Facebook owner Meta Platforms has c",
@@ -1266,6 +1274,23 @@
         "On Thursday"
       ],
       "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+      "confidence": "tavily"
+    },
+    {
+      "from": "openai",
+      "to": "anthropic",
+      "title": "Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects - OpenTools",
+      "summary": "# Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects. Andrej Karpathy, one of OpenAI original 11 co‑founders and former Tesla AI director, has joined Anthropic pretraining team to lead a new group focused on using Claude to accelerate AI research itself. Andrej ",
+      "url": "https://opentools.ai/news/andrej-karpathy-joins-anthropic-openai-cofounder-defects",
+      "source": "Opentools",
+      "publishedAt": "",
+      "people": [
+        "Andrej Karpathy Joins",
+        "Founding Member Defects",
+        "Andrej Karpathy",
+        "Eureka Labs"
+      ],
+      "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "confidence": "tavily"
     },
     {
@@ -1518,6 +1543,23 @@
         "Forbes Meta"
       ],
       "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+      "confidence": "tavily"
+    },
+    {
+      "from": "meta",
+      "to": "external",
+      "title": "Meta is rapidly reorganizing its workers’ jobs around AI: ‘Transfers aren’t optional’ - The Guardian",
+      "summary": "Some employees will be moved to new teams focused on AI agents and cloud infrastructure. As Meta races to recenter itself around artificial intelligence, the tech giant is mandating that more than 7,000 workers must move to new teams, and it’s radically changing some employees’ j",
+      "url": "https://www.theguardian.com/technology/2026/may/19/meta-jobs-ai-transfers",
+      "source": "Theguardian",
+      "publishedAt": "",
+      "people": [
+        "The Guardian Some",
+        "As Meta",
+        "The Guardian",
+        "Peter Hoose"
+      ],
+      "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "confidence": "tavily"
     },
     {
