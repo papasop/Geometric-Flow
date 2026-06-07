@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-07T15:13:36.466778Z",
+  "generatedAt": "2026-06-07T15:52:06.260028Z",
   "source": "Tavily Search",
   "strategy": "Search public news, interviews, speeches, and x.com references for senior AI talent movement among SpaceX, NVIDIA, OpenAI, Anthropic, Meta, and Google.",
   "companies": [
@@ -30,9 +30,9 @@
       "zh": "GPU / CUDA / AI 基础设施",
       "en": "GPU / CUDA / AI infrastructure",
       "key": "nvidia",
-      "inflow": 5,
+      "inflow": 6,
       "outflow": 3,
-      "events": 8
+      "events": 9
     },
     {
       "name": "OpenAI",
@@ -59,9 +59,9 @@
       "zh": "Claude / 安全对齐 / 企业模型",
       "en": "Claude / safety alignment / enterprise models",
       "key": "anthropic",
-      "inflow": 5,
+      "inflow": 4,
       "outflow": 1,
-      "events": 6
+      "events": 5
     },
     {
       "name": "Meta",
@@ -77,8 +77,8 @@
       "en": "Llama / FAIR / open models",
       "key": "meta",
       "inflow": 8,
-      "outflow": 3,
-      "events": 11
+      "outflow": 4,
+      "events": 12
     },
     {
       "name": "Google",
@@ -110,9 +110,9 @@
       "zh": "外部公司 / 高校 / 研究机构",
       "en": "Outside companies / universities / research labs",
       "key": "external",
-      "inflow": 5,
+      "inflow": 6,
       "outflow": 8,
-      "events": 13
+      "events": 14
     }
   ],
   "flows": [
@@ -300,6 +300,81 @@
       ]
     },
     {
+      "from": "openai",
+      "to": "external",
+      "count": 4,
+      "label": "OpenAI → External Talent Pool",
+      "events": [
+        {
+          "from": "openai",
+          "to": "external",
+          "title": "China may move toward U.S. path on AI as firms poach employees - CNBC",
+          "summary": "* The U.S. has focused more on artificial general intelligence than China. * Former OpenAI researcher Yao Shunyu, now chief AI scientist at Tencent, said Friday he aims to develop AGI. Tencent's Chief AI Scientist Yao Shunyu (R) discusses the tech outlook with Tencent. BEIJING — ",
+          "url": "https://www.cnbc.com/2026/06/05/china-may-move-toward-us-path-on-ai-as-firms-poach-employees.html",
+          "source": "Cnbc",
+          "publishedAt": "",
+          "people": [
+            "Yao Shunyu",
+            "Scientist Yao Shunyu",
+            "Tencent Chief"
+          ],
+          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        },
+        {
+          "from": "openai",
+          "to": "external",
+          "title": "Former OpenAI executive Sutskever discloses nearly $7 billion stake in AI firm - Reuters",
+          "summary": "# Ex-OpenAI exec Sutskever says he spent a year gathering proof of alleged Altman dishonesty | Reuters. ## Browse World. ## Browse Business. Image 2: Trial in Elon Musk's lawsuit over OpenAI for-profit conversion at a federal courthouse in Oakland. Item 1 of 2 OpenAI co-founder I",
+          "url": "https://www.reuters.com/business/former-openai-executive-sutskever-discloses-nearly-7-billion-stake-ai-firm-2026-05-11/",
+          "source": "Reuters",
+          "publishedAt": "",
+          "people": [
+            "Browse World",
+            "Browse Business",
+            "Elon Musk",
+            "Ilya Sutskever"
+          ],
+          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        },
+        {
+          "from": "openai",
+          "to": "external",
+          "title": "Ilya Sutskever Stands by His Role in Sam Altman’s OpenAI Ouster: ‘I Didn’t Want It to Be Destroyed’ - WIRED",
+          "summary": "# Ilya Sutskever Stands by His Role in Sam Altman’s OpenAI Ouster: ‘I Didn’t Want It to Be Destroyed’. The former OpenAI chief scientist may be estranged from the company, but he still came to its defense as he testified on Monday. Elon Musk’s trial against OpenAI and Microsoft e",
+          "url": "https://www.wired.com/story/ilya-sutskever-testifies-musk-v-altman-trial/",
+          "source": "Wired",
+          "publishedAt": "",
+          "people": [
+            "Ilya Sutskever Stands",
+            "His Role",
+            "Sam Altman",
+            "Want It"
+          ],
+          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        },
+        {
+          "from": "openai",
+          "to": "external",
+          "title": "Former OpenAI Researcher Warns 'AI Is Not Loyal to Us' - Business Insider",
+          "summary": "# Former OpenAI researcher warns 'AI is not loyal to us'. Daniel Kokotajlo is the founder of the AI Futures Project and a former OpenAI researcher who worked on forecasting, AI governance, and safety. In this full interview with Business Insider, he explains what AGI and superint",
+          "url": "https://www.businessinsider.com/former-openai-researcher-warns-ai-is-not-loyal-to-us-2026-5",
+          "source": "Businessinsider",
+          "publishedAt": "",
+          "people": [
+            "Researcher Warns",
+            "Is Not Loyal",
+            "Business Insider",
+            "Daniel Kokotajlo"
+          ],
+          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
       "from": "spacex",
       "to": "anthropic",
       "count": 3,
@@ -367,6 +442,23 @@
         {
           "from": "spacex",
           "to": "google",
+          "title": "Google DeepMind and Edison Are Building the AI Scientist - Genetic Engineering and Biotechnology News",
+          "summary": "Home Topics Artificial Intelligence Google DeepMind and Edison Are Building the AI Scientist. # Google DeepMind and Edison Are Building the AI Scientist. Google DeepMind and Edison Scientific are on an ambitious mission to build the AI scientist. In drug discovery, where traditio",
+          "url": "https://www.genengnews.com/topics/artificial-intelligence/google-deepmind-and-edison-are-building-the-ai-scientist/",
+          "source": "Genengnews",
+          "publishedAt": "",
+          "people": [
+            "Edison Are Building",
+            "Genetic Engineering",
+            "Biotechnology News Home",
+            "Topics Artificial Intelligence"
+          ],
+          "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        },
+        {
+          "from": "spacex",
+          "to": "google",
           "title": "Former Apple, Google Researchers Discover AI's Learning Loop 05/29/2026 - MediaPost",
           "summary": "Subscribe today to gain access to every *Research Intelligencer* article we publish as well as the exclusive daily newsletter, full access to *The MediaPost Cases*, first-look research and daily insights from Joe Mandese, Editor in Chief. DeepMind, OpenAI, Meta Superintelligence ",
           "url": "https://www.mediapost.com/publications/article/415412/former-apple-google-researchers-discover-ais-lea.html",
@@ -394,23 +486,6 @@
             "Learning Loop",
             "Research Intelligencer",
             "Joe Mandese"
-          ],
-          "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        },
-        {
-          "from": "spacex",
-          "to": "google",
-          "title": "Google DeepMind and Edison Are Building the AI Scientist - Genetic Engineering and Biotechnology News",
-          "summary": "Home Topics Artificial Intelligence Google DeepMind and Edison Are Building the AI Scientist. # Google DeepMind and Edison Are Building the AI Scientist. Google DeepMind and Edison Scientific are on an ambitious mission to build the AI scientist. In drug discovery, where traditio",
-          "url": "https://www.genengnews.com/topics/artificial-intelligence/google-deepmind-and-edison-are-building-the-ai-scientist/",
-          "source": "Genengnews",
-          "publishedAt": "",
-          "people": [
-            "Edison Are Building",
-            "Genetic Engineering",
-            "Biotechnology News Home",
-            "Topics Artificial Intelligence"
           ],
           "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
           "confidence": "tavily"
@@ -472,64 +547,6 @@
             "Dan Niles"
           ],
           "query": "(\"SpaceX\" OR \"Starlink\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
-      "from": "openai",
-      "to": "external",
-      "count": 3,
-      "label": "OpenAI → External Talent Pool",
-      "events": [
-        {
-          "from": "openai",
-          "to": "external",
-          "title": "OpenAI Founding Member Andrej Karpathy Takes Role at Anthropic - Bloomberg.com",
-          "summary": "# OpenAI Founding Member Andrej Karpathy Takes Role at Anthropic. Provide news feedback or report an error. Send a tip to our reporters. Andrej Karpathy, a founding member of OpenAI who later went to work for Tesla Inc., has joined Anthropic PBC to do research and development foc",
-          "url": "https://www.bloomberg.com/news/articles/2026-05-19/openai-founding-member-andrej-karpathy-takes-role-at-anthropic",
-          "source": "Bloomberg",
-          "publishedAt": "",
-          "people": [
-            "Founding Member Andrej",
-            "Karpathy Takes Role",
-            "Andrej Karpathy",
-            "Tesla Inc"
-          ],
-          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-          "confidence": "tavily"
-        },
-        {
-          "from": "openai",
-          "to": "external",
-          "title": "China may move toward U.S. path on AI as firms poach employees - CNBC",
-          "summary": "* The U.S. has focused more on artificial general intelligence than China. * Former OpenAI researcher Yao Shunyu, now chief AI scientist at Tencent, said Friday he aims to develop AGI. Tencent's Chief AI Scientist Yao Shunyu (R) discusses the tech outlook with Tencent. BEIJING — ",
-          "url": "https://www.cnbc.com/2026/06/05/china-may-move-toward-us-path-on-ai-as-firms-poach-employees.html",
-          "source": "Cnbc",
-          "publishedAt": "",
-          "people": [
-            "Yao Shunyu",
-            "Scientist Yao Shunyu",
-            "Tencent Chief"
-          ],
-          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-          "confidence": "tavily"
-        },
-        {
-          "from": "openai",
-          "to": "external",
-          "title": "Ilya Sutskever Stands by His Role in Sam Altman’s OpenAI Ouster: ‘I Didn’t Want It to Be Destroyed’ - WIRED",
-          "summary": "# Ilya Sutskever Stands by His Role in Sam Altman’s OpenAI Ouster: ‘I Didn’t Want It to Be Destroyed’. The former OpenAI chief scientist may be estranged from the company, but he still came to its defense as he testified on Monday. Elon Musk’s trial against OpenAI and Microsoft e",
-          "url": "https://www.wired.com/story/ilya-sutskever-testifies-musk-v-altman-trial/",
-          "source": "Wired",
-          "publishedAt": "",
-          "people": [
-            "Ilya Sutskever Stands",
-            "His Role",
-            "Sam Altman",
-            "Want It"
-          ],
-          "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
         }
       ]
@@ -692,16 +709,16 @@
         {
           "from": "nvidia",
           "to": "meta",
-          "title": "Ex-Meta Chinese star joins race for self-improving AI with US$4.6b start-up - South China Morning Post",
-          "summary": "# Ex-Meta Chinese star researcher joins race for self-improving AI with US$4.6b start-up. The funding round was led by venture capital firms GV and Greycroft, with ‘major participation’ from Nvidia and AMD. A star Chinese researcher laid off by Facebook owner Meta Platforms has c",
-          "url": "https://www.scmp.com/tech/big-tech/article/3353576/ex-meta-chinese-star-researcher-joins-race-self-improving-ai-us46b-start",
-          "source": "Scmp",
+          "title": "Nvidia and Microsoft Researchers Say AI Agents Don't Care About Safety or Reliability - 404 Media",
+          "summary": "# Nvidia and Microsoft Researchers Say AI Agents Don't Care About Safety or Reliability. A new paper from researchers at Microsoft, Nvidia, and University of California Riverside found that AI agents with access to a computer, or computer-use agents (CUAs), will often take weird ",
+          "url": "https://www.404media.co/nvidia-and-microsoft-researchers-say-ai-agents-dont-care-about-safety-or-reliability/",
+          "source": "404Media",
           "publishedAt": "",
           "people": [
-            "Meta Chinese",
-            "South China Morning",
-            "Meta Platforms",
-            "Advanced Micro Devices"
+            "Microsoft Researchers Say",
+            "Agents Don",
+            "Care About Safety",
+            "California Riverside"
           ],
           "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
           "confidence": "tavily"
@@ -732,31 +749,6 @@
       ]
     },
     {
-      "from": "openai",
-      "to": "anthropic",
-      "count": 1,
-      "label": "OpenAI → Anthropic",
-      "events": [
-        {
-          "from": "openai",
-          "to": "anthropic",
-          "title": "Андреж Карпатҳй Anthropic жамоасига қўшилди - Zamin.uz",
-          "summary": "# Andrej Karpathy joins Anthropic team. Renowned AI researcher and OpenAI co-founder Andrej Karpathy has joined Anthropic. He announced this on his X social media page, emphasizing that the coming years of LLM (Large Language Model) development will be a critical phase. Karpathy ",
-          "url": "https://zamin.uz/en/technology/202039-andrej-karpathy-joins-anthropic-team.html",
-          "source": "Zamin",
-          "publishedAt": "",
-          "people": [
-            "Andrej Karpathy",
-            "Large Language Model",
-            "Nick Joseph",
-            "Full Self"
-          ],
-          "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
       "from": "anthropic",
       "to": "meta",
       "count": 1,
@@ -777,6 +769,31 @@
             "Meta Llama"
           ],
           "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Anthropic\" OR \"Claude\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
+      "from": "meta",
+      "to": "nvidia",
+      "count": 1,
+      "label": "Meta → NVIDIA",
+      "events": [
+        {
+          "from": "meta",
+          "to": "nvidia",
+          "title": "Ex-Meta Chinese star joins race for self-improving AI with US$4.6b start-up - South China Morning Post",
+          "summary": "# Ex-Meta Chinese star researcher joins race for self-improving AI with US$4.6b start-up. The funding round was led by venture capital firms GV and Greycroft, with ‘major participation’ from Nvidia and AMD. A star Chinese researcher laid off by Facebook owner Meta Platforms has c",
+          "url": "https://www.scmp.com/tech/big-tech/article/3353576/ex-meta-chinese-star-researcher-joins-race-self-improving-ai-us46b-start",
+          "source": "Scmp",
+          "publishedAt": "",
+          "people": [
+            "Meta Chinese",
+            "South China Morning",
+            "Meta Platforms",
+            "Advanced Micro Devices"
+          ],
+          "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
           "confidence": "tavily"
         }
       ]
@@ -1187,6 +1204,23 @@
     {
       "from": "spacex",
       "to": "google",
+      "title": "Google DeepMind and Edison Are Building the AI Scientist - Genetic Engineering and Biotechnology News",
+      "summary": "Home Topics Artificial Intelligence Google DeepMind and Edison Are Building the AI Scientist. # Google DeepMind and Edison Are Building the AI Scientist. Google DeepMind and Edison Scientific are on an ambitious mission to build the AI scientist. In drug discovery, where traditio",
+      "url": "https://www.genengnews.com/topics/artificial-intelligence/google-deepmind-and-edison-are-building-the-ai-scientist/",
+      "source": "Genengnews",
+      "publishedAt": "",
+      "people": [
+        "Edison Are Building",
+        "Genetic Engineering",
+        "Biotechnology News Home",
+        "Topics Artificial Intelligence"
+      ],
+      "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+      "confidence": "tavily"
+    },
+    {
+      "from": "spacex",
+      "to": "google",
       "title": "Former Apple, Google Researchers Discover AI's Learning Loop 05/29/2026 - MediaPost",
       "summary": "Subscribe today to gain access to every *Research Intelligencer* article we publish as well as the exclusive daily newsletter, full access to *The MediaPost Cases*, first-look research and daily insights from Joe Mandese, Editor in Chief. DeepMind, OpenAI, Meta Superintelligence ",
       "url": "https://www.mediapost.com/publications/article/415412/former-apple-google-researchers-discover-ais-lea.html",
@@ -1219,23 +1253,6 @@
       "confidence": "tavily"
     },
     {
-      "from": "spacex",
-      "to": "google",
-      "title": "Google DeepMind and Edison Are Building the AI Scientist - Genetic Engineering and Biotechnology News",
-      "summary": "Home Topics Artificial Intelligence Google DeepMind and Edison Are Building the AI Scientist. # Google DeepMind and Edison Are Building the AI Scientist. Google DeepMind and Edison Scientific are on an ambitious mission to build the AI scientist. In drug discovery, where traditio",
-      "url": "https://www.genengnews.com/topics/artificial-intelligence/google-deepmind-and-edison-are-building-the-ai-scientist/",
-      "source": "Genengnews",
-      "publishedAt": "",
-      "people": [
-        "Edison Are Building",
-        "Genetic Engineering",
-        "Biotechnology News Home",
-        "Topics Artificial Intelligence"
-      ],
-      "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-      "confidence": "tavily"
-    },
-    {
       "from": "nvidia",
       "to": "anthropic",
       "title": "OpenAI co-founder Andrej Karpathy joins Anthropic’s pre-training team - TechCrunch",
@@ -1255,16 +1272,16 @@
     {
       "from": "nvidia",
       "to": "meta",
-      "title": "Ex-Meta Chinese star joins race for self-improving AI with US$4.6b start-up - South China Morning Post",
-      "summary": "# Ex-Meta Chinese star researcher joins race for self-improving AI with US$4.6b start-up. The funding round was led by venture capital firms GV and Greycroft, with ‘major participation’ from Nvidia and AMD. A star Chinese researcher laid off by Facebook owner Meta Platforms has c",
-      "url": "https://www.scmp.com/tech/big-tech/article/3353576/ex-meta-chinese-star-researcher-joins-race-self-improving-ai-us46b-start",
-      "source": "Scmp",
+      "title": "Nvidia and Microsoft Researchers Say AI Agents Don't Care About Safety or Reliability - 404 Media",
+      "summary": "# Nvidia and Microsoft Researchers Say AI Agents Don't Care About Safety or Reliability. A new paper from researchers at Microsoft, Nvidia, and University of California Riverside found that AI agents with access to a computer, or computer-use agents (CUAs), will often take weird ",
+      "url": "https://www.404media.co/nvidia-and-microsoft-researchers-say-ai-agents-dont-care-about-safety-or-reliability/",
+      "source": "404Media",
       "publishedAt": "",
       "people": [
-        "Meta Chinese",
-        "South China Morning",
-        "Meta Platforms",
-        "Advanced Micro Devices"
+        "Microsoft Researchers Say",
+        "Agents Don",
+        "Care About Safety",
+        "California Riverside"
       ],
       "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "confidence": "tavily"
@@ -1285,23 +1302,6 @@
       "confidence": "tavily"
     },
     {
-      "from": "openai",
-      "to": "anthropic",
-      "title": "Андреж Карпатҳй Anthropic жамоасига қўшилди - Zamin.uz",
-      "summary": "# Andrej Karpathy joins Anthropic team. Renowned AI researcher and OpenAI co-founder Andrej Karpathy has joined Anthropic. He announced this on his X social media page, emphasizing that the coming years of LLM (Large Language Model) development will be a critical phase. Karpathy ",
-      "url": "https://zamin.uz/en/technology/202039-andrej-karpathy-joins-anthropic-team.html",
-      "source": "Zamin",
-      "publishedAt": "",
-      "people": [
-        "Andrej Karpathy",
-        "Large Language Model",
-        "Nick Joseph",
-        "Full Self"
-      ],
-      "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-      "confidence": "tavily"
-    },
-    {
       "from": "anthropic",
       "to": "meta",
       "title": "Anthropic Buys The SDK Pipeline OpenAI And Gemini Depend On - Forbes",
@@ -1316,6 +1316,23 @@
         "Meta Llama"
       ],
       "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Anthropic\" OR \"Claude\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+      "confidence": "tavily"
+    },
+    {
+      "from": "meta",
+      "to": "nvidia",
+      "title": "Ex-Meta Chinese star joins race for self-improving AI with US$4.6b start-up - South China Morning Post",
+      "summary": "# Ex-Meta Chinese star researcher joins race for self-improving AI with US$4.6b start-up. The funding round was led by venture capital firms GV and Greycroft, with ‘major participation’ from Nvidia and AMD. A star Chinese researcher laid off by Facebook owner Meta Platforms has c",
+      "url": "https://www.scmp.com/tech/big-tech/article/3353576/ex-meta-chinese-star-researcher-joins-race-self-improving-ai-us46b-start",
+      "source": "Scmp",
+      "publishedAt": "",
+      "people": [
+        "Meta Chinese",
+        "South China Morning",
+        "Meta Platforms",
+        "Advanced Micro Devices"
+      ],
+      "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "confidence": "tavily"
     },
     {
@@ -1506,23 +1523,6 @@
     {
       "from": "openai",
       "to": "external",
-      "title": "OpenAI Founding Member Andrej Karpathy Takes Role at Anthropic - Bloomberg.com",
-      "summary": "# OpenAI Founding Member Andrej Karpathy Takes Role at Anthropic. Provide news feedback or report an error. Send a tip to our reporters. Andrej Karpathy, a founding member of OpenAI who later went to work for Tesla Inc., has joined Anthropic PBC to do research and development foc",
-      "url": "https://www.bloomberg.com/news/articles/2026-05-19/openai-founding-member-andrej-karpathy-takes-role-at-anthropic",
-      "source": "Bloomberg",
-      "publishedAt": "",
-      "people": [
-        "Founding Member Andrej",
-        "Karpathy Takes Role",
-        "Andrej Karpathy",
-        "Tesla Inc"
-      ],
-      "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-      "confidence": "tavily"
-    },
-    {
-      "from": "openai",
-      "to": "external",
       "title": "China may move toward U.S. path on AI as firms poach employees - CNBC",
       "summary": "* The U.S. has focused more on artificial general intelligence than China. * Former OpenAI researcher Yao Shunyu, now chief AI scientist at Tencent, said Friday he aims to develop AGI. Tencent's Chief AI Scientist Yao Shunyu (R) discusses the tech outlook with Tencent. BEIJING — ",
       "url": "https://www.cnbc.com/2026/06/05/china-may-move-toward-us-path-on-ai-as-firms-poach-employees.html",
@@ -1532,6 +1532,23 @@
         "Yao Shunyu",
         "Scientist Yao Shunyu",
         "Tencent Chief"
+      ],
+      "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+      "confidence": "tavily"
+    },
+    {
+      "from": "openai",
+      "to": "external",
+      "title": "Former OpenAI executive Sutskever discloses nearly $7 billion stake in AI firm - Reuters",
+      "summary": "# Ex-OpenAI exec Sutskever says he spent a year gathering proof of alleged Altman dishonesty | Reuters. ## Browse World. ## Browse Business. Image 2: Trial in Elon Musk's lawsuit over OpenAI for-profit conversion at a federal courthouse in Oakland. Item 1 of 2 OpenAI co-founder I",
+      "url": "https://www.reuters.com/business/former-openai-executive-sutskever-discloses-nearly-7-billion-stake-ai-firm-2026-05-11/",
+      "source": "Reuters",
+      "publishedAt": "",
+      "people": [
+        "Browse World",
+        "Browse Business",
+        "Elon Musk",
+        "Ilya Sutskever"
       ],
       "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "confidence": "tavily"
@@ -1549,6 +1566,23 @@
         "His Role",
         "Sam Altman",
         "Want It"
+      ],
+      "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+      "confidence": "tavily"
+    },
+    {
+      "from": "openai",
+      "to": "external",
+      "title": "Former OpenAI Researcher Warns 'AI Is Not Loyal to Us' - Business Insider",
+      "summary": "# Former OpenAI researcher warns 'AI is not loyal to us'. Daniel Kokotajlo is the founder of the AI Futures Project and a former OpenAI researcher who worked on forecasting, AI governance, and safety. In this full interview with Business Insider, he explains what AGI and superint",
+      "url": "https://www.businessinsider.com/former-openai-researcher-warns-ai-is-not-loyal-to-us-2026-5",
+      "source": "Businessinsider",
+      "publishedAt": "",
+      "people": [
+        "Researcher Warns",
+        "Is Not Loyal",
+        "Business Insider",
+        "Daniel Kokotajlo"
       ],
       "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "confidence": "tavily"
@@ -1649,7 +1683,7 @@
       "from": "nvidia",
       "to": "meta",
       "status": "ok",
-      "count": 5
+      "count": 2
     },
     {
       "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
