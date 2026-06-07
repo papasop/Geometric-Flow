@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-07T20:46:43.482893Z",
+  "generatedAt": "2026-06-07T21:48:27.006870Z",
   "strategy": {
     "primary": "Tabbed news sections: hot headlines from Wall Street Journal Chinese and Financial Times, industry from WSJ/NYT/FT/SCMP/TechCrunch Startups, statements derived from all sources by named AI figures and speech signals, company from company-name searches plus M&A and financing keywords, frontier technology from Wired/MIT Technology Review/Stanford sources, papers from top AI journals, conferences, proceedings, and preprint sources",
     "primaryEnabled": true,
@@ -28,14 +28,6 @@
     ]
   },
   "sources": [
-    {
-      "section": "hot",
-      "name": "Tavily Search",
-      "query": "site:wsj.com OR site:ft.com OR site:zaobao.com.sg artificial intelligence OR chips OR markets",
-      "status": "error",
-      "error": "HTTP Error 403: Forbidden",
-      "count": 0
-    },
     {
       "section": "hot",
       "name": "YouTube New",
@@ -70,14 +62,6 @@
       "url": "https://www.youtube.com/watch?v=SzqEzVou-sk",
       "status": "ok",
       "count": 1
-    },
-    {
-      "section": "industry",
-      "name": "Tavily Search",
-      "query": "artificial intelligence chips data centers frontier models site:wsj.com OR site:ft.com OR site:nytimes.com OR site:scmp.com OR site:techcrunch.com/2026 OR site:techcrunch.com/2025 -inurl:/page/",
-      "status": "error",
-      "error": "HTTP Error 403: Forbidden",
-      "count": 0
     },
     {
       "section": "industry",
@@ -147,7 +131,7 @@
       "name": "Financial Times",
       "url": "https://news.google.com/rss/search?q=site%3Aft.com%20%28%22artificial%20intelligence%22%20OR%20AI%20OR%20Nvidia%20OR%20OpenAI%20OR%20Anthropic%20OR%20%22AI%20chip%22%20OR%20semiconductor%20OR%20%22data%20center%22%20OR%20%22AI%20cloud%22%20OR%20%22large%20language%20model%22%20OR%20%22machine%20learning%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 5
+      "count": 0
     },
     {
       "section": "industry",
@@ -161,87 +145,7 @@
       "name": "TechCrunch Startups",
       "url": "https://news.google.com/rss/search?q=site%3Atechcrunch.com/2026%20OR%20site%3Atechcrunch.com/2025%20%28%22artificial%20intelligence%22%20OR%20AI%20OR%20Nvidia%20OR%20OpenAI%20OR%20Anthropic%20OR%20%22AI%20chip%22%20OR%20semiconductor%20OR%20%22data%20center%22%20OR%20%22AI%20cloud%22%20OR%20%22large%20language%20model%22%20OR%20%22machine%20learning%22%29%20-inurl%3A/page/&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 13
-    },
-    {
-      "section": "person",
-      "name": "Tavily Search",
-      "query": "\"Jim Covello\" \"AI\" \"Too Much Spend\" OR \"Too Little Benefit\" OR \"cost-effective\" OR \"Goldman Sachs\"",
-      "status": "error",
-      "error": "HTTP Error 403: Forbidden",
-      "count": 0
-    },
-    {
-      "section": "person",
-      "name": "Tavily Search",
-      "query": "\"Torsten Slok\" OR \"Torsten Sløk\" \"AI bubble\" OR \"S&P 500\" OR \"Apollo\" OR \"Fortune\"",
-      "status": "error",
-      "error": "HTTP Error 403: Forbidden",
-      "count": 0
-    },
-    {
-      "section": "person",
-      "name": "Tavily Search",
-      "query": "\"Daron Acemoglu\" \"AI\" productivity automation GDP cost-effective",
-      "status": "error",
-      "error": "HTTP Error 403: Forbidden",
-      "count": 0
-    },
-    {
-      "section": "person",
-      "name": "Tavily Search",
-      "query": "\"David Cahn\" \"AI\" \"600 billion\" OR \"revenue gap\" OR \"Sequoia\"",
-      "status": "error",
-      "error": "HTTP Error 403: Forbidden",
-      "count": 0
-    },
-    {
-      "section": "person",
-      "name": "Tavily Search",
-      "query": "\"Jeffrey Gundlach\" OR \"Jim Chanos\" OR \"Nate Anderson\" \"AI bubble\" OR \"1999\" OR \"Futurism\" OR \"Stockhead\"",
-      "status": "error",
-      "error": "HTTP Error 403: Forbidden",
-      "count": 0
-    },
-    {
-      "section": "person",
-      "name": "Tavily Search",
-      "query": "\"Ed Zitron\" \"AI bubble\" OR \"OpenAI\" OR \"Anthropic\" enterprise spending",
-      "status": "error",
-      "error": "HTTP Error 403: Forbidden",
-      "count": 0
-    },
-    {
-      "section": "person",
-      "name": "Tavily Search",
-      "query": "\"Gary Marcus\" \"AI\" hallucination reasoning \"scaling law\"",
-      "status": "error",
-      "error": "HTTP Error 403: Forbidden",
-      "count": 0
-    },
-    {
-      "section": "person",
-      "name": "Tavily Search",
-      "query": "\"Yann LeCun\" OR \"Yann Lecun\" \"LLM\" \"AGI\" OR \"world model\" OR \"JEPA\"",
-      "status": "error",
-      "error": "HTTP Error 403: Forbidden",
-      "count": 0
-    },
-    {
-      "section": "person",
-      "name": "Tavily Search",
-      "query": "(\"Andrew Macdonald\" OR \"Andrew G Macdonald\" OR \"Uber COO\" OR \"Uber operations chief\") (\"AI spending\" OR \"tokenmaxxing\" OR \"harder to justify\" OR \"Claude Code\" OR \"useful consumer features\")",
-      "status": "error",
-      "error": "HTTP Error 403: Forbidden",
-      "count": 0
-    },
-    {
-      "section": "person",
-      "name": "Tavily Search",
-      "query": "site:x.com (\"Jim Covello\" OR \"Torsten Slok\" OR \"Daron Acemoglu\" OR \"David Cahn\" OR \"Jeffrey Gundlach\" OR \"Jim Chanos\" OR \"Nate Anderson\" OR \"Ed Zitron\" OR \"Gary Marcus\" OR \"Yann LeCun\" OR \"Andrew Macdonald\" OR \"Uber COO\") AI",
-      "status": "error",
-      "error": "HTTP Error 403: Forbidden",
-      "count": 0
+      "count": 12
     },
     {
       "section": "person",
@@ -308,22 +212,6 @@
     },
     {
       "section": "company",
-      "name": "Tavily Search",
-      "query": "Nvidia OpenAI Anthropic Microsoft Google Meta AI acquisition funding investment Reuters Bloomberg",
-      "status": "error",
-      "error": "HTTP Error 403: Forbidden",
-      "count": 0
-    },
-    {
-      "section": "company",
-      "name": "Tavily Search",
-      "query": "(\"Nvidia invested\" OR \"Nvidia investment\" OR \"Nvidia-backed\" OR \"Nvidia portfolio\" OR \"Nvidia stake\" OR \"Nvidia partnership\" OR \"Nvidia collaboration\" OR \"Nvidia strategic partnership\" OR \"Nvidia supply agreement\" OR \"Nvidia works with\" OR \"Nvidia teams with\") AI company news",
-      "status": "error",
-      "error": "HTTP Error 403: Forbidden",
-      "count": 0
-    },
-    {
-      "section": "company",
       "name": "Bloomberg · Company Batch 1",
       "url": "https://news.google.com/rss/search?q=site%3Abloomberg.com%20%28%221X%20Technologies%22%20OR%20%22AAON%22%20OR%20%22Accenture%22%20OR%20%22ACM%20Research%22%20OR%20%22Adobe%22%20OR%20%22Advanced%20Micro%20Devices%22%20OR%20%22Aecon%20Group%22%20OR%20%22Aehr%20Test%20Systems%22%20OR%20%22AeroVironment%22%20OR%20%22AIDC%22%20OR%20%22Akamai%20Technologies%22%20OR%20%22Algorhythm%20Holdings%22%20OR%20%22Allegro%20MicroSystems%22%20OR%20%22Alphabet%22%20OR%20%22Amazon%22%20OR%20%22Ambarella%22%20OR%20%22AMD%22%20OR%20%22American%20Superconductor%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
@@ -355,14 +243,14 @@
       "name": "Bloomberg · Company Batch 5",
       "url": "https://news.google.com/rss/search?q=site%3Abloomberg.com%20%28%22Ceres%20Power%22%20OR%20%22CEVA%22%20OR%20%22change%22%20OR%20%22CIEN%22%20OR%20%22Ciena%22%20OR%20%22Cipher%20Mining%22%20OR%20%22Cisco%22%20OR%20%22CleanSpark%22%20OR%20%22ClickHouse%22%20OR%20%22Cloudflare%22%20OR%20%22Cognex%22%20OR%20%22Cohere%22%20OR%20%22Coherent%22%20OR%20%22Coherent%20Corp.%22%20OR%20%22Cohu%22%20OR%20%22Comfort%20Systems%20USA%22%20OR%20%22company%22%20OR%20%22Confluent%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 7
+      "count": 6
     },
     {
       "section": "company",
       "name": "Bloomberg · Company Batch 6",
       "url": "https://news.google.com/rss/search?q=site%3Abloomberg.com%20%28%22Constellation%20Energy%22%20OR%20%22Core%20Scientific%22%20OR%20%22CoreWeave%22%20OR%20%22Corning%22%20OR%20%22CPO%22%20OR%20%22Credo%20Technology%22%20OR%20%22CrowdStrike%22%20OR%20%22cursor%22%20OR%20%22D-Wave%20Quantum%22%20OR%20%22Databricks%22%20OR%20%22Datadog%22%20OR%20%22DeepSeek%22%20OR%20%22deepseek%22%20OR%20%22del%22%20OR%20%22Dell%20Technologies%22%20OR%20%22Digital%20Realty%22%20OR%20%22DigitalOcean%22%20OR%20%22DISCO%20Corporation%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 16
+      "count": 17
     },
     {
       "section": "company",
@@ -425,7 +313,7 @@
       "name": "Bloomberg · Company Batch 15",
       "url": "https://news.google.com/rss/search?q=site%3Abloomberg.com%20%28%22Nebius%22%20OR%20%22Nebius%20Group%22%20OR%20%22NetApp%22%20OR%20%22New%20Oriental%20Education%22%20OR%20%22NextEra%20Energy%22%20OR%20%22NICE%22%20OR%20%22nLIGHT%22%20OR%20%22Nokia%22%20OR%20%22NuScale%20Power%22%20OR%20%22nVent%22%20OR%20%22Nvidia%22%20OR%20%22NVIDIA%22%20OR%20%22NXP%20Semiconductors%22%20OR%20%22OceanPal%22%20OR%20%22Oklo%22%20OR%20%22Okta%22%20OR%20%22ON%20Semiconductor%22%20OR%20%22Onto%20Innovation%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 15
+      "count": 16
     },
     {
       "section": "company",
@@ -446,7 +334,7 @@
       "name": "Bloomberg · Company Batch 18",
       "url": "https://news.google.com/rss/search?q=site%3Abloomberg.com%20%28%22rank%22%20OR%20%22Raspberry%20Pi%20Holdings%22%20OR%20%22REalloys%22%20OR%20%22Recursion%20Pharmaceuticals%22%20OR%20%22Red%20Cat%22%20OR%20%22Reddit%22%20OR%20%22Redwire%22%20OR%20%22Replit%22%20OR%20%22Resonac%20%28Tokyo%29%22%20OR%20%22Rigetti%20Computing%22%20OR%20%22Riot%20Platforms%22%20OR%20%22Roblox%22%20OR%20%22Rockwell%20Automation%22%20OR%20%22Rolls-Royce%20Holdings%22%20OR%20%22Rubrik%22%20OR%20%22Salesforce%22%20OR%20%22SambaNova%22%20OR%20%22Samsara%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 11
+      "count": 9
     },
     {
       "section": "company",
@@ -474,7 +362,7 @@
       "name": "Bloomberg · Company Batch 22",
       "url": "https://news.google.com/rss/search?q=site%3Abloomberg.com%20%28%22TeraWulf%22%20OR%20%22TerraPower%22%20OR%20%22Tesla%22%20OR%20%22Texas%20Instruments%22%20OR%20%22The%20Metals%20Company%22%20OR%20%22The%20New%20York%20Times%22%20OR%20%22The%20Trade%20Desk%22%20OR%20%22Together%20AI%22%20OR%20%22Tokyo%20Seimitsu%20%28Accretech%29%22%20OR%20%22Toloka%20AI%22%20OR%20%22Top%20Ships%22%20OR%20%22TOWA%20Corporation%22%20OR%20%22Tower%20Semiconductor%22%20OR%20%22Trane%20Technologies%22%20OR%20%22Trimble%22%20OR%20%22Trio-Tech%20International%22%20OR%20%22TSMC%22%20OR%20%22Turing%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 3
+      "count": 4
     },
     {
       "section": "company",
@@ -628,7 +516,7 @@
       "name": "Reuters · Company Batch 14",
       "url": "https://news.google.com/rss/search?q=site%3Areuters.com%20%28%22Mirion%20Technologies%22%20OR%20%22Mistral%20AI%22%20OR%20%22MKS%20Instruments%22%20OR%20%22Mobileye%22%20OR%20%22Modine%22%20OR%20%22Monday.com%22%20OR%20%22MongoDB%22%20OR%20%22Monolithic%20Power%20Systems%22%20OR%20%22moonshot%22%20OR%20%22MOONSHOT.PRE%22%20OR%20%22MP%20Materials%22%20OR%20%22MSSCORPS%20Co.%2C%20Ltd.%22%20OR%20%22MUSQ%20Global%20Music%20Industry%20ETF%22%20OR%20%22MYR%20Group%22%20OR%20%22MySize%22%20OR%20%22Nano%20Nuclear%20Energy%22%20OR%20%22Nanya%20PCB%22%20OR%20%22Navitas%20Semiconductor%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 6
+      "count": 5
     },
     {
       "section": "company",
@@ -656,7 +544,7 @@
       "name": "Reuters · Company Batch 18",
       "url": "https://news.google.com/rss/search?q=site%3Areuters.com%20%28%22rank%22%20OR%20%22Raspberry%20Pi%20Holdings%22%20OR%20%22REalloys%22%20OR%20%22Recursion%20Pharmaceuticals%22%20OR%20%22Red%20Cat%22%20OR%20%22Reddit%22%20OR%20%22Redwire%22%20OR%20%22Replit%22%20OR%20%22Resonac%20%28Tokyo%29%22%20OR%20%22Rigetti%20Computing%22%20OR%20%22Riot%20Platforms%22%20OR%20%22Roblox%22%20OR%20%22Rockwell%20Automation%22%20OR%20%22Rolls-Royce%20Holdings%22%20OR%20%22Rubrik%22%20OR%20%22Salesforce%22%20OR%20%22SambaNova%22%20OR%20%22Samsara%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 1
+      "count": 2
     },
     {
       "section": "company",
@@ -1048,7 +936,7 @@
       "name": "Reuters · M&A Batch 14",
       "url": "https://news.google.com/rss/search?q=site%3Areuters.com%20%28%22Mirion%20Technologies%22%20OR%20%22Mistral%20AI%22%20OR%20%22MKS%20Instruments%22%20OR%20%22Mobileye%22%20OR%20%22Modine%22%20OR%20%22Monday.com%22%20OR%20%22MongoDB%22%20OR%20%22Monolithic%20Power%20Systems%22%20OR%20%22moonshot%22%20OR%20%22MOONSHOT.PRE%22%20OR%20%22MP%20Materials%22%20OR%20%22MSSCORPS%20Co.%2C%20Ltd.%22%20OR%20%22MUSQ%20Global%20Music%20Industry%20ETF%22%20OR%20%22MYR%20Group%22%20OR%20%22MySize%22%20OR%20%22Nano%20Nuclear%20Energy%22%20OR%20%22Nanya%20PCB%22%20OR%20%22Navitas%20Semiconductor%22%29%20%28%22acquires%22%20OR%20%22acquisition%22%20OR%20%22merger%22%20OR%20%22M%26A%22%20OR%20%22buys%20stake%22%20OR%20%22takes%20stake%22%20OR%20%22takes%20a%20stake%22%20OR%20%22invests%20in%22%20OR%20%22investment%20in%22%20OR%20%22stake%20in%22%20OR%20%22to%20buy%22%20OR%20%22buyout%22%20OR%20%22takeover%22%20OR%20%22%E6%94%B6%E8%B4%AD%22%20OR%20%22%E5%B9%B6%E8%B4%AD%22%20OR%20%22%E5%85%A5%E8%82%A1%22%20OR%20%22%E6%8C%81%E8%82%A1%22%20OR%20%22%E8%82%A1%E6%9D%83%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 0
+      "count": 1
     },
     {
       "section": "company",
@@ -1209,7 +1097,7 @@
       "name": "Bloomberg · Equity Batch 5",
       "url": "https://news.google.com/rss/search?q=site%3Abloomberg.com%20%28%22Ceres%20Power%22%20OR%20%22CEVA%22%20OR%20%22change%22%20OR%20%22CIEN%22%20OR%20%22Ciena%22%20OR%20%22Cipher%20Mining%22%20OR%20%22Cisco%22%20OR%20%22CleanSpark%22%20OR%20%22ClickHouse%22%20OR%20%22Cloudflare%22%20OR%20%22Cognex%22%20OR%20%22Cohere%22%20OR%20%22Coherent%22%20OR%20%22Coherent%20Corp.%22%20OR%20%22Cohu%22%20OR%20%22Comfort%20Systems%20USA%22%20OR%20%22company%22%20OR%20%22Confluent%22%29%20%28%22equity%22%20OR%20%22stake%22%20OR%20%22financing%22%20OR%20%22funding%22%20OR%20%22financial%22%20OR%20%22capital%22%20OR%20%22valuation%22%20OR%20%22investment%22%20OR%20%22raises%22%20OR%20%22IPO%22%20OR%20%22private%20placement%22%20OR%20%22venture%20capital%22%20OR%20%22debt%20financing%22%20OR%20%22%E8%82%A1%E6%9D%83%22%20OR%20%22%E8%9E%8D%E8%B5%84%22%20OR%20%22%E9%87%91%E8%9E%8D%22%20OR%20%22%E8%B5%84%E6%9C%AC%22%20OR%20%22%E4%BC%B0%E5%80%BC%22%20OR%20%22%E6%8A%95%E8%B5%84%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 0
+      "count": 1
     },
     {
       "section": "company",
@@ -1307,7 +1195,7 @@
       "name": "Bloomberg · Equity Batch 19",
       "url": "https://news.google.com/rss/search?q=site%3Abloomberg.com%20%28%22Samsung%20Electro-Mechanics%22%20OR%20%22Samsung%20Electronics%20%28Seoul%29%22%20OR%20%22SanDisk%22%20OR%20%22SAP%22%20OR%20%22Scale%20AI%22%20OR%20%22SCALEAI.PRE%22%20OR%20%22Schneider%20Electric%22%20OR%20%22Schrodinger%22%20OR%20%22Seagate%22%20OR%20%22SentinelOne%22%20OR%20%22Serve%20Robotics%22%20OR%20%22ServiceNow%22%20OR%20%22ServiceTitan%22%20OR%20%22Shopify%22%20OR%20%22ShunSin%20Technology%20Holdings%22%20OR%20%22SILICONFLOW.PRE%22%20OR%20%22SiTime%22%20OR%20%22SIVE.ST%22%29%20%28%22equity%22%20OR%20%22stake%22%20OR%20%22financing%22%20OR%20%22funding%22%20OR%20%22financial%22%20OR%20%22capital%22%20OR%20%22valuation%22%20OR%20%22investment%22%20OR%20%22raises%22%20OR%20%22IPO%22%20OR%20%22private%20placement%22%20OR%20%22venture%20capital%22%20OR%20%22debt%20financing%22%20OR%20%22%E8%82%A1%E6%9D%83%22%20OR%20%22%E8%9E%8D%E8%B5%84%22%20OR%20%22%E9%87%91%E8%9E%8D%22%20OR%20%22%E8%B5%84%E6%9C%AC%22%20OR%20%22%E4%BC%B0%E5%80%BC%22%20OR%20%22%E6%8A%95%E8%B5%84%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 0
+      "count": 1
     },
     {
       "section": "company",
@@ -1598,14 +1486,6 @@
     },
     {
       "section": "tech",
-      "name": "Tavily Search",
-      "query": "AI frontier technology robots world models agents chips site:wired.com OR site:technologyreview.com",
-      "status": "error",
-      "error": "HTTP Error 403: Forbidden",
-      "count": 0
-    },
-    {
-      "section": "tech",
       "name": "WIRED",
       "url": "https://www.wired.com/feed/category/business/latest/rss",
       "status": "ok",
@@ -1648,30 +1528,6 @@
     },
     {
       "section": "papers",
-      "name": "Tavily Search",
-      "query": "\"H-JEPA\" OR \"Hierarchical JEPA\" OR \"Joint-Embedding Predictive Architecture\" arXiv paper",
-      "status": "error",
-      "error": "HTTP Error 403: Forbidden",
-      "count": 0
-    },
-    {
-      "section": "papers",
-      "name": "Tavily Search",
-      "query": "JEPA \"Joint-Embedding Predictive Architecture\" AI research paper arXiv Yann LeCun",
-      "status": "error",
-      "error": "HTTP Error 403: Forbidden",
-      "count": 0
-    },
-    {
-      "section": "papers",
-      "name": "Tavily Search",
-      "query": "AI research paper large language model agents robotics Nature Science Cell arXiv",
-      "status": "error",
-      "error": "HTTP Error 403: Forbidden",
-      "count": 0
-    },
-    {
-      "section": "papers",
       "name": "arXiv · JEPA",
       "url": "https://news.google.com/rss/search?q=site%3Aarxiv.org%20%28%22H-JEPA%22%20OR%20%22Hierarchical%20JEPA%22%20OR%20%22Joint-Embedding%20Predictive%20Architecture%22%20OR%20JEPA%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
@@ -1689,7 +1545,7 @@
       "name": "Nature Machine Intelligence",
       "url": "https://news.google.com/rss/search?q=site%3Anature.com/natmachintell%20%28%22artificial%20intelligence%22%20OR%20AI%20OR%20Nvidia%20OR%20OpenAI%20OR%20Anthropic%20OR%20%22AI%20chip%22%20OR%20semiconductor%20OR%20%22data%20center%22%20OR%20%22AI%20cloud%22%20OR%20%22large%20language%20model%22%20OR%20%22machine%20learning%22%29&hl=en-US&gl=US&ceid=US:en",
       "status": "ok",
-      "count": 2
+      "count": 3
     },
     {
       "section": "papers",
@@ -1735,26 +1591,10 @@
     },
     {
       "section": "devops",
-      "name": "Tavily Search",
-      "query": "DevOps most read AI agents developer productivity platform engineering",
-      "status": "error",
-      "error": "HTTP Error 403: Forbidden",
-      "count": 0
-    },
-    {
-      "section": "devops",
       "name": "DevOps Most Read",
       "url": "https://devops.com/most-read/",
       "status": "ok",
       "count": 14
-    },
-    {
-      "section": "video",
-      "name": "Tavily Search",
-      "query": "site:youtube.com/watch Bloomberg artificial intelligence OR Nvidia OR chips OR data centers OR markets",
-      "status": "error",
-      "error": "HTTP Error 403: Forbidden",
-      "count": 0
     },
     {
       "section": "video",
@@ -1891,13 +1731,13 @@
           "source": "YouTube New",
           "feedSource": "YouTube New",
           "sourceUrl": "https://www.youtube.com/watch?v=33hNvOdGUhQ",
-          "title": "109",
-          "summary": "109",
+          "title": "110",
+          "summary": "110",
           "url": "https://www.youtube.com/watch?v=33hNvOdGUhQ",
           "author": "",
           "image": "https://i.ytimg.com/vi/33hNvOdGUhQ/hqdefault.jpg",
           "publishedAt": "",
-          "titleEn": "109",
+          "titleEn": "110",
           "section": "hot",
           "sectionTitle": "🔥热点",
           "matchedPortfolios": [],
@@ -2073,12 +1913,12 @@
           "source": "The New York Times",
           "feedSource": "New York Times",
           "sourceUrl": "https://www.nytimes.com",
-          "title": "Pope Leo, After Taking on Trump and A.I., Prepares for New Duels in Spain - The New York Times",
-          "summary": "Pope Leo, After Taking on Trump and A.I., Prepares for New Duels in Spain The New York Times",
-          "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTFBJMEM3OFNoRTdDQUwtYk9FUlVKcGtGY2N5YmJWYzhMTmtZTHhhQzlYeGpxa255VTFWU1hqeWlNYlJWdllhdTVia0lzVVU2TjBqNU4wRVJVc2gwQW95cFhpRmRMYU1lQmFqX2VaRDBpUEcwemc5QjVR?oc=5",
+          "title": "Opinion | When Is It Wrong to Use A.I.? - The New York Times",
+          "summary": "Opinion | When Is It Wrong to Use A.I.? The New York Times",
+          "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTFBPNFl5bW1XSnV3RzNrU0dfUkdXbEctS0JwVlRDRWtqNXJEa1J4OXlfX0UzcDZzSnZrNEloNVFkU1FsdnhMcXo5ZEk2YUdLV1hWMzkzdFVRMGZfX0M2UWdEYnl3WFQxVEVmSEY5X3BoTlpVd05qaTkyTzZB?oc=5",
           "author": "",
-          "publishedAt": "2026-06-06T14:45:34Z",
-          "titleEn": "Pope Leo, After Taking on Trump and A.I., Prepares for New Duels in Spain - The New York Times",
+          "publishedAt": "2026-06-06T11:00:08Z",
+          "titleEn": "Opinion | When Is It Wrong to Use A.I.? - The New York Times",
           "section": "industry",
           "sectionTitle": "行业",
           "matchedPortfolios": [
@@ -2092,12 +1932,12 @@
           "source": "The New York Times",
           "feedSource": "New York Times",
           "sourceUrl": "https://www.nytimes.com",
-          "title": "Opinion | When Is It Wrong to Use A.I.? - The New York Times",
-          "summary": "Opinion | When Is It Wrong to Use A.I.? The New York Times",
-          "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTFBPNFl5bW1XSnV3RzNrU0dfUkdXbEctS0JwVlRDRWtqNXJEa1J4OXlfX0UzcDZzSnZrNEloNVFkU1FsdnhMcXo5ZEk2YUdLV1hWMzkzdFVRMGZfX0M2UWdEYnl3WFQxVEVmSEY5X3BoTlpVd05qaTkyTzZB?oc=5",
+          "title": "Pope Leo, After Taking on Trump and A.I., Prepares for New Duels in Spain - The New York Times",
+          "summary": "Pope Leo, After Taking on Trump and A.I., Prepares for New Duels in Spain The New York Times",
+          "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTFBJMEM3OFNoRTdDQUwtYk9FUlVKcGtGY2N5YmJWYzhMTmtZTHhhQzlYeGpxa255VTFWU1hqeWlNYlJWdllhdTVia0lzVVU2TjBqNU4wRVJVc2gwQW95cFhpRmRMYU1lQmFqX2VaRDBpUEcwemc5QjVR?oc=5",
           "author": "",
-          "publishedAt": "2026-06-06T11:00:08Z",
-          "titleEn": "Opinion | When Is It Wrong to Use A.I.? - The New York Times",
+          "publishedAt": "2026-06-06T09:01:58Z",
+          "titleEn": "Pope Leo, After Taking on Trump and A.I., Prepares for New Duels in Spain - The New York Times",
           "section": "industry",
           "sectionTitle": "行业",
           "matchedPortfolios": [
@@ -3887,9 +3727,9 @@
           "sourceUrl": "https://www.cell.com",
           "title": "Advancing smart energy management with generative artificial intelligence - Cell Press",
           "summary": "Advancing smart energy management with generative artificial intelligence Cell Press",
-          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPRXRoQnpTQklMMVMwU3hLRHVSMWl3OVNQLWZNbDl5eHdwVWlHcWZHTGN5RG5wUWpHQ3Jsd2lfNmRPd1E5TEJHU2cwekdfbFVGclZ3RVhVb25GQUJuNkU3QXN2ZUV6S1lRVURVdUh0UG1wTFNvcWY0OHZRSkpFRHpuU2txek8tNERn?oc=5",
+          "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxONUJCZW5qRXVaVjdqTXNQOHJTY1RXcXRJN3F1bE43ZUhHamktdHFZSzJVeVNkUlFWdGJ6cFhjcXNuMWs5SVJ5NXZtMDZHcFNZUlNvbDdHX212aXFPcXNQdk9ldEFwNnFMb2ZnRG96NEREeHlCRUplcE01MU5udXJMUldlTDFINjQ?oc=5",
           "author": "",
-          "publishedAt": "2026-05-20T07:00:00Z",
+          "publishedAt": "2026-05-20T15:08:38Z",
           "titleEn": "Advancing smart energy management with generative artificial intelligence - Cell Press",
           "section": "papers",
           "sectionTitle": "论文",
@@ -3917,6 +3757,25 @@
           ],
           "tags": [
             "artificial intelligence"
+          ]
+        },
+        {
+          "source": "Cell Press",
+          "feedSource": "Cell",
+          "sourceUrl": "https://www.cell.com",
+          "title": "Developing ChemMLLM as a multimodal large language model for chemistry - Cell Press",
+          "summary": "Developing ChemMLLM as a multimodal large language model for chemistry Cell Press",
+          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNb3hkRjhZNFNYRzhySENxcVhKOE5YQlJ3aHg3MDFCU2VWWk9NeFFZeWZpRzBoQVBLRTFhVVFBX1ZPaVl2ZThOcm50MGotVmg1bDBXaGRPbzdBbEdrRUpOU1NES0VTSkNOWFB6THAyQlY5SWxyRTFndklCd0d0XzlNdk9pbUJvNGxJ?oc=5",
+          "author": "",
+          "publishedAt": "2026-05-12T07:00:00Z",
+          "titleEn": "Developing ChemMLLM as a multimodal large language model for chemistry - Cell Press",
+          "section": "papers",
+          "sectionTitle": "论文",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "large language model"
           ]
         },
         {
@@ -3988,42 +3847,12 @@
           "source": "Cell Press",
           "feedSource": "Cell",
           "sourceUrl": "https://www.cell.com",
-          "title": "Microbial and antimicrobial resistance diagnostics by gas sensors and machine learning - Cell Press",
-          "summary": "Microbial and antimicrobial resistance diagnostics by gas sensors and machine learning Cell Press",
-          "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTFBybG55b1VNQk5hc2lYSmtnYjFGOVU1YXI5QXhQV1I2Z3p3VGs5eXNna3AxQlE3UVRkUXJMS21mTHdJTVdHT0V4ZmRSU1U4bmFtcGc1NnBCVzIyR1BFVW95S3FRNGVkakZBSmdBM0p0bFFsOTBVQ3piNw?oc=5",
+          "title": "Artificial intelligence for diagnosis and prognosis prediction of natural killer/T cell lymphoma using magnetic resonance imaging - Cell Press",
+          "summary": "Artificial intelligence for diagnosis and prognosis prediction of natural killer/T cell lymphoma using magnetic resonance imaging Cell Press",
+          "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE1vbW5YQ0J6dUhnZUZrVEkyd3RyLVZ3bHNwQ1NUdFZJMjVnOGIxOFN0NWEzem1nUElVN0FOQkw4eTc3eHpIMDZ3M1lzSGQyZXBtMTdUUHViSlBVTkVmQ0k2LU9iTFlNYjBDRjBkaXBUZEpsWjdtSDkxMXpwQm8?oc=5",
           "author": "",
-          "publishedAt": "2025-07-02T07:00:00Z",
-          "titleEn": "Microbial and antimicrobial resistance diagnostics by gas sensors and machine learning - Cell Press",
-          "section": "papers",
-          "sectionTitle": "论文",
-          "matchedPortfolios": [],
-          "tags": []
-        },
-        {
-          "source": "Cell Press",
-          "feedSource": "Cell",
-          "sourceUrl": "https://www.cell.com",
-          "title": "Superior polymeric gas separation membrane designed by explainable graph machine learning - Cell Press",
-          "summary": "Superior polymeric gas separation membrane designed by explainable graph machine learning Cell Press",
-          "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNbElsbUlHdUF5OUVUcjAzMVdhLVdlaW5WRFBNUUl1N1ZhUUpTNk5od1lTanhraXRsWW1qZWp1bTJBMmxObWFHLW9paFZ0bnZPRlFvZDhfOWdrcnJLNUU1UUY1WHV0MmJoSFBiQWxQMndxeVlMUS16RXFuYmU4WC12MjNLQ0FVNTBYSks1SDR3?oc=5",
-          "author": "",
-          "publishedAt": "2024-06-26T07:00:00Z",
-          "titleEn": "Superior polymeric gas separation membrane designed by explainable graph machine learning - Cell Press",
-          "section": "papers",
-          "sectionTitle": "论文",
-          "matchedPortfolios": [],
-          "tags": []
-        },
-        {
-          "source": "Cell Press",
-          "feedSource": "Cell",
-          "sourceUrl": "https://www.cell.com",
-          "title": "Racism is an ethical issue for healthcare artificial intelligence - Cell Press",
-          "summary": "Racism is an ethical issue for healthcare artificial intelligence Cell Press",
-          "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE8yRTNWZ0JUYzl0VjJ4Q3c1Vk16LW85ZV9jb2Q3NVI3bTh4djlRUTZTM01FbkdzSktLelZ6TEJMeFBUbDdfNWxXTkZIbHpEcnp0eFpCN1hra0hjeVN0Z1M5Yl9xcUNRR3NpZENCbjQwNkw2cUR4YUJPQzl0S2paUQ?oc=5",
-          "author": "",
-          "publishedAt": "2024-06-18T07:00:00Z",
-          "titleEn": "Racism is an ethical issue for healthcare artificial intelligence - Cell Press",
+          "publishedAt": "2024-05-01T07:00:00Z",
+          "titleEn": "Artificial intelligence for diagnosis and prognosis prediction of natural killer/T cell lymphoma using magnetic resonance imaging - Cell Press",
           "section": "papers",
           "sectionTitle": "论文",
           "matchedPortfolios": [
@@ -4043,6 +3872,41 @@
           "author": "",
           "publishedAt": "2024-03-25T07:00:00Z",
           "titleEn": "Machine learning-assisted triboelectric nanogenerator-based self-powered sensors - Cell Press",
+          "section": "papers",
+          "sectionTitle": "论文",
+          "matchedPortfolios": [],
+          "tags": []
+        },
+        {
+          "source": "Nature",
+          "feedSource": "Nature Machine Intelligence",
+          "sourceUrl": "https://www.nature.com",
+          "title": "Nature Machine Intelligence - Continual learning in biological and artificial intelligence - Nature",
+          "summary": "Nature Machine Intelligence - Continual learning in biological and artificial intelligence Nature",
+          "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFAzeDdlTTlPOExJZ0lka1EwbEJ6MTdpRTl4eGFna1VOVnNRck5JR1ZTTHM0T1RtNU5NTkw5RS0weERmRmdIczl0YnFUOWZ1WkRZZS1NeHBfMTIyMVBGOUpyUmRFN19pSHc?oc=5",
+          "author": "",
+          "publishedAt": "2023-12-18T08:00:00Z",
+          "titleEn": "Nature Machine Intelligence - Continual learning in biological and artificial intelligence - Nature",
+          "section": "papers",
+          "sectionTitle": "论文",
+          "matchedPortfolios": [
+            "ai-market"
+          ],
+          "tags": [
+            "Nature",
+            "artificial intelligence"
+          ]
+        },
+        {
+          "source": "Cell Press",
+          "feedSource": "Cell",
+          "sourceUrl": "https://www.cell.com",
+          "title": "Molecular de-extinction of ancient antimicrobial peptides enabled by machine learning: Cell Host & Microbe - Cell Press",
+          "summary": "Molecular de-extinction of ancient antimicrobial peptides enabled by machine learning: Cell Host & Microbe Cell Press",
+          "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE5rQzZzUllHRUJ4TERvZHpoRkZvQS1xazltRGdoOUd5WUxfcDJUUS11bVdJVkdNU2NYNDZCM3RDeVZsNmZxUWd2YjU2RWp0SkxCTGs0Slg1OE4wQ3RGbXFUUzBYZTZ2MWxOdGVKVUhPbTZuRW5tbjNYag?oc=5",
+          "author": "",
+          "publishedAt": "2023-07-28T07:00:00Z",
+          "titleEn": "Molecular de-extinction of ancient antimicrobial peptides enabled by machine learning: Cell Host & Microbe - Cell Press",
           "section": "papers",
           "sectionTitle": "论文",
           "matchedPortfolios": [],
@@ -4090,31 +3954,12 @@
           "source": "Cell Press",
           "feedSource": "Cell",
           "sourceUrl": "https://www.cell.com",
-          "title": "Evidence synthesis, digital scribes, and translational challenges for artificial intelligence in healthcare - Cell Press",
-          "summary": "Evidence synthesis, digital scribes, and translational challenges for artificial intelligence in healthcare Cell Press",
-          "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTFAtaGhlSUJ1dUV6RGstLThtWnJSUVZXUm9sXzUycFFsX2JMRk12Y2dGMnROcmtOeTR2TFNqTGJYTHVTU1B3RmlwNmxNSTNSOEdjZHRYMlZobEY4ZU1fYTJRNmFmVjJRRTljYm9CZlVycWw2SzRhSmtzaGlIOXN0UQ?oc=5",
+          "title": "Artificial intelligence in breast cancer diagnostics - Cell Press",
+          "summary": "Artificial intelligence in breast cancer diagnostics Cell Press",
+          "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE1NQkFSUEx5S2RBZ0xBWVBBelozS0ptOTcyV2R5WXBvQkhnNzIzeVRPb0lwYjlxN043TjZ1d3BsLXZjQWZnbGVjTXlqdVZFT0RWTHVGNEdDejkyTUM1d2tOb29vbzVLZzdyV2JkNFk2TGY3ay1YRHlRZ0llWEI?oc=5",
           "author": "",
-          "publishedAt": "2022-12-12T08:00:00Z",
-          "titleEn": "Evidence synthesis, digital scribes, and translational challenges for artificial intelligence in healthcare - Cell Press",
-          "section": "papers",
-          "sectionTitle": "论文",
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "tags": [
-            "artificial intelligence"
-          ]
-        },
-        {
-          "source": "Cell Press",
-          "feedSource": "Cell",
-          "sourceUrl": "https://www.cell.com",
-          "title": "The application of artificial intelligence to biology and neuroscience - Cell Press",
-          "summary": "The application of artificial intelligence to biology and neuroscience Cell Press",
-          "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE1Ucm5qMkI4dXBvNzFrbmc0N1RzZV9IZGFwV25DNl9qTjN1c2ZjLXBQTzdwOHAxLWd6b1hGVVJTdUpoWEVWdzBzU1hjT0JzcUxjbjFKdWZKYUE4dHRwanNrbmNoOTBRZw?oc=5",
-          "author": "",
-          "publishedAt": "2022-07-21T07:00:00Z",
-          "titleEn": "The application of artificial intelligence to biology and neuroscience - Cell Press",
+          "publishedAt": "2022-12-20T08:00:00Z",
+          "titleEn": "Artificial intelligence in breast cancer diagnostics - Cell Press",
           "section": "papers",
           "sectionTitle": "论文",
           "matchedPortfolios": [
@@ -4134,6 +3979,21 @@
           "author": "",
           "publishedAt": "2021-08-11T19:51:32Z",
           "titleEn": "Science Robotics | AAAS - Science | AAAS",
+          "section": "papers",
+          "sectionTitle": "论文",
+          "matchedPortfolios": [],
+          "tags": []
+        },
+        {
+          "source": "Cell Press",
+          "feedSource": "Cell",
+          "sourceUrl": "https://www.cell.com",
+          "title": "Machine learning for perturbational single-cell omics - Cell Press",
+          "summary": "Machine learning for perturbational single-cell omics Cell Press",
+          "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFB0cFM5RUt2cFVnT3pSdURHZlF2Y3RlTXN1TFlJRS1xUlB2Y3JydENrTmpYVTVSYWpVbzB6V2lLUExpUi1SZXZfUnFvOU9BM3N5WDFKcWlKQ3pZZjE3VUg4eDlicVBTNzN6bld5NXJQV3Q?oc=5",
+          "author": "",
+          "publishedAt": "2021-06-16T07:00:00Z",
+          "titleEn": "Machine learning for perturbational single-cell omics - Cell Press",
           "section": "papers",
           "sectionTitle": "论文",
           "matchedPortfolios": [],
@@ -4357,25 +4217,6 @@
           "author": "Connor Esterwood",
           "publishedAt": null,
           "titleEn": "Embodied or virtually represented: Navigating the embodiment debate in human-robot interaction",
-          "section": "papers",
-          "sectionTitle": "论文",
-          "matchedPortfolios": [
-            "ai-market"
-          ],
-          "tags": [
-            "Science Robotics"
-          ]
-        },
-        {
-          "source": "Science Robotics",
-          "feedSource": "Science Robotics",
-          "sourceUrl": "",
-          "title": "The Moon needs robots",
-          "summary": "Science Robotics, Volume 11, Issue 114 , May 2026.",
-          "url": "https://www.science.org/doi/abs/10.1126/scirobotics.aei3965?af=R",
-          "author": "Robin R. Murphy",
-          "publishedAt": null,
-          "titleEn": "The Moon needs robots",
           "section": "papers",
           "sectionTitle": "论文",
           "matchedPortfolios": [
@@ -4871,13 +4712,13 @@
           "source": "YouTube New",
           "feedSource": "YouTube New",
           "sourceUrl": "https://www.youtube.com/watch?v=33hNvOdGUhQ",
-          "title": "109",
-          "summary": "109",
+          "title": "110",
+          "summary": "110",
           "url": "https://www.youtube.com/watch?v=33hNvOdGUhQ",
           "author": "",
           "image": "https://i.ytimg.com/vi/33hNvOdGUhQ/hqdefault.jpg",
           "publishedAt": "",
-          "titleEn": "109",
+          "titleEn": "110",
           "section": "video",
           "sectionTitle": "视频",
           "matchedPortfolios": [],
@@ -4903,13 +4744,13 @@
           "source": "New York Times YouTube",
           "feedSource": "New York Times YouTube",
           "sourceUrl": "https://www.youtube.com/@nytimes",
-          "title": "Inside the Ebola Response in Eastern Congo",
-          "summary": "Inside the Ebola Response in Eastern Congo",
+          "title": "Battling a Deadly Ebola Outbreak in Eastern Congo",
+          "summary": "Battling a Deadly Ebola Outbreak in Eastern Congo",
           "url": "https://www.youtube.com/watch?v=Q__USsv-ayo",
           "author": "",
           "image": "https://i.ytimg.com/vi/Q__USsv-ayo/hqdefault.jpg",
           "publishedAt": "",
-          "titleEn": "Inside the Ebola Response in Eastern Congo",
+          "titleEn": "Battling a Deadly Ebola Outbreak in Eastern Congo",
           "section": "video",
           "sectionTitle": "视频",
           "matchedPortfolios": [],
@@ -5561,12 +5402,12 @@
       "source": "The New York Times",
       "feedSource": "New York Times",
       "sourceUrl": "https://www.nytimes.com",
-      "title": "Pope Leo, After Taking on Trump and A.I., Prepares for New Duels in Spain - The New York Times",
-      "summary": "Pope Leo, After Taking on Trump and A.I., Prepares for New Duels in Spain The New York Times",
-      "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTFBJMEM3OFNoRTdDQUwtYk9FUlVKcGtGY2N5YmJWYzhMTmtZTHhhQzlYeGpxa255VTFWU1hqeWlNYlJWdllhdTVia0lzVVU2TjBqNU4wRVJVc2gwQW95cFhpRmRMYU1lQmFqX2VaRDBpUEcwemc5QjVR?oc=5",
+      "title": "Opinion | When Is It Wrong to Use A.I.? - The New York Times",
+      "summary": "Opinion | When Is It Wrong to Use A.I.? The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTFBPNFl5bW1XSnV3RzNrU0dfUkdXbEctS0JwVlRDRWtqNXJEa1J4OXlfX0UzcDZzSnZrNEloNVFkU1FsdnhMcXo5ZEk2YUdLV1hWMzkzdFVRMGZfX0M2UWdEYnl3WFQxVEVmSEY5X3BoTlpVd05qaTkyTzZB?oc=5",
       "author": "",
-      "publishedAt": "2026-06-06T14:45:34Z",
-      "titleEn": "Pope Leo, After Taking on Trump and A.I., Prepares for New Duels in Spain - The New York Times",
+      "publishedAt": "2026-06-06T11:00:08Z",
+      "titleEn": "Opinion | When Is It Wrong to Use A.I.? - The New York Times",
       "section": "industry",
       "sectionTitle": "行业",
       "matchedPortfolios": [
@@ -5580,12 +5421,12 @@
       "source": "The New York Times",
       "feedSource": "New York Times",
       "sourceUrl": "https://www.nytimes.com",
-      "title": "Opinion | When Is It Wrong to Use A.I.? - The New York Times",
-      "summary": "Opinion | When Is It Wrong to Use A.I.? The New York Times",
-      "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTFBPNFl5bW1XSnV3RzNrU0dfUkdXbEctS0JwVlRDRWtqNXJEa1J4OXlfX0UzcDZzSnZrNEloNVFkU1FsdnhMcXo5ZEk2YUdLV1hWMzkzdFVRMGZfX0M2UWdEYnl3WFQxVEVmSEY5X3BoTlpVd05qaTkyTzZB?oc=5",
+      "title": "Pope Leo, After Taking on Trump and A.I., Prepares for New Duels in Spain - The New York Times",
+      "summary": "Pope Leo, After Taking on Trump and A.I., Prepares for New Duels in Spain The New York Times",
+      "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTFBJMEM3OFNoRTdDQUwtYk9FUlVKcGtGY2N5YmJWYzhMTmtZTHhhQzlYeGpxa255VTFWU1hqeWlNYlJWdllhdTVia0lzVVU2TjBqNU4wRVJVc2gwQW95cFhpRmRMYU1lQmFqX2VaRDBpUEcwemc5QjVR?oc=5",
       "author": "",
-      "publishedAt": "2026-06-06T11:00:08Z",
-      "titleEn": "Opinion | When Is It Wrong to Use A.I.? - The New York Times",
+      "publishedAt": "2026-06-06T09:01:58Z",
+      "titleEn": "Pope Leo, After Taking on Trump and A.I., Prepares for New Duels in Spain - The New York Times",
       "section": "industry",
       "sectionTitle": "行业",
       "matchedPortfolios": [
@@ -7413,48 +7254,6 @@
       ]
     },
     {
-      "source": "Financial Times",
-      "feedSource": "Financial Times",
-      "sourceUrl": "https://www.ft.com",
-      "title": "Anthropic’s relentless race to the top - Financial Times",
-      "summary": "Anthropic’s relentless race to the top Financial Times",
-      "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPMjFfTFFGc3FTc2xFOUpGT2NSSUNPVmVsOFY3TlJxSTBiQnFBSEZWZzBjTEUtLUVJLXZpVHdRY0daaTNKZzhWWmFPMTViek5IaTJzTkJEemYzNEVmRzAxRElZTE9RazZCS3B4blNNYWpnbmhOeWxFQ2NSSjZvcVlwYVk5elo?oc=5",
-      "author": "",
-      "publishedAt": "2026-06-04T04:04:52Z",
-      "titleEn": "Anthropic’s relentless race to the top - Financial Times",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "Anthropic",
-        "Financial Times",
-        "anthropic"
-      ]
-    },
-    {
-      "source": "Financial Times",
-      "feedSource": "Financial Times",
-      "sourceUrl": "https://www.ft.com",
-      "title": "Nvidia takes AI battle from the data centre to the laptop - Financial Times",
-      "summary": "Nvidia takes AI battle from the data centre to the laptop Financial Times",
-      "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxQMG9NeU04ckZoVElwSGpyeTZDTnJMbUVQQ0VCRHR4OFJCdGJFdVBBbHBBZTZ4RDZMVHdsTmt0LXgyancwRG1ENDJYdFNFNXFWSkVFTXpONUloZU1FUjlvMEhuSnctaS1GaDVVYktuVEx0NHp5RVJNNU9qR0xSTFhLOXZHWW0?oc=5",
-      "author": "",
-      "publishedAt": "2026-06-04T04:01:40Z",
-      "titleEn": "Nvidia takes AI battle from the data centre to the laptop - Financial Times",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "Financial Times",
-        "NVIDIA",
-        "Nvidia"
-      ]
-    },
-    {
       "source": "WSJ",
       "feedSource": "Wall Street Journal",
       "sourceUrl": "https://www.wsj.com",
@@ -7711,6 +7510,25 @@
       ],
       "tags": [
         "Broadcom"
+      ]
+    },
+    {
+      "source": "Bloomberg",
+      "feedSource": "Bloomberg · Company Batch 6",
+      "sourceUrl": "https://www.bloomberg.com",
+      "title": "Stock Movers: MiniMed, Ulta, Crowdstrike - Bloomberg",
+      "summary": "Stock Movers: MiniMed, Ulta, Crowdstrike Bloomberg",
+      "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOWEhRSjFZbkJNRDRpQllZZ2FWa3pPQXdNcElDdDc0SHZiWUpEb2YxUk5fUVNHQWQwdFBWMVd5T0lrN3hfZGR4SmY4TVMzV05uTVhSX0tGSHRlZ1J2Q0pGWUxTOG05VTh5NkdhN0RuTlo3Uk9BR2ZzV0JWZFJLUGRDdFhZWXpEejZLZEI0VTlyRzBsLXpnUnBiRg?oc=5",
+      "author": "",
+      "publishedAt": "2026-06-03T20:15:36Z",
+      "titleEn": "Stock Movers: MiniMed, Ulta, Crowdstrike - Bloomberg",
+      "section": "company",
+      "sectionTitle": "公司",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "CrowdStrike"
       ]
     },
     {
@@ -8057,26 +7875,6 @@
       ]
     },
     {
-      "source": "Financial Times",
-      "feedSource": "Financial Times",
-      "sourceUrl": "https://www.ft.com",
-      "title": "Meta bets on AI agents to unlock WhatsApp revenues - Financial Times",
-      "summary": "Meta bets on AI agents to unlock WhatsApp revenues Financial Times",
-      "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPR2hDRjg0bm9GUjQ1SW1VZmg3WHdsZVZrQnhtbkVKX1lmeWlYbTNXb1Y2Z1lMTElMOVoyUUI2cVZoOUFyY3BkQXpKZldMME5Hbzg5dzBnZlNLMHNHb3pEWnQwdVlKWFE1MlNVYkFNQlRfc0hOXzV1emdVRzVrTkJSYTVZazk?oc=5",
-      "author": "",
-      "publishedAt": "2026-06-03T13:41:39Z",
-      "titleEn": "Meta bets on AI agents to unlock WhatsApp revenues - Financial Times",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "Financial Times",
-        "Meta"
-      ]
-    },
-    {
       "source": "TechCrunch",
       "feedSource": "TechCrunch Startups",
       "sourceUrl": "https://techcrunch.com",
@@ -8340,26 +8138,6 @@
       "tags": [
         "South China Morning Post",
         "artificial intelligence"
-      ]
-    },
-    {
-      "source": "Financial Times",
-      "feedSource": "Financial Times",
-      "sourceUrl": "https://www.ft.com",
-      "title": "Inside Alexandr Wang’s bid to revive Meta’s AI edge - Financial Times",
-      "summary": "Inside Alexandr Wang’s bid to revive Meta’s AI edge Financial Times",
-      "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOMWRVR2xnanZYX1YwcFg0cFVDWWZwSE1HVWM2MHJvZDZmLWt1Wm9GQzJvY1ZDUjVKRnlCUEJ1TjRXT3hsSklNS1o0VzNoZHlvWUdSWTczVGZLb1dZWXVCUl9CdGQ0OG5YQW9odHdyVEF2eFJxWDVHbVFnRmNOc1lNUW5BcS0?oc=5",
-      "author": "",
-      "publishedAt": "2026-06-03T04:01:06Z",
-      "titleEn": "Inside Alexandr Wang’s bid to revive Meta’s AI edge - Financial Times",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "Financial Times",
-        "Meta"
       ]
     },
     {
@@ -8699,25 +8477,6 @@
         "New York Times",
         "OpenAI",
         "anthropic"
-      ]
-    },
-    {
-      "source": "TechCrunch",
-      "feedSource": "TechCrunch Startups",
-      "sourceUrl": "https://techcrunch.com",
-      "title": "Amazon faces class action lawsuit over Ring facial-recognition feature - TechCrunch",
-      "summary": "Amazon faces class action lawsuit over Ring facial-recognition feature TechCrunch",
-      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPSFdQU3czaHpWd2hfTDZwLU1TNzA1eVhrUmExQXpXbzZaczcxMkdVSWxrUktBWUxtUFdoc2hCbzJXSWJEcUVPWXI3ZzRUd0hKaGhKMXp3X3YxTEQzSFdyNGc2SmtuNEd0UVctNWlDNDVXdHR0eXJ6SXBIVUJaWmlIN3hIaFRmS3pfeDBtY1JJbHRWcml1a1UzdDY1YTBSR3UzRlZxSVJGQmI?oc=5",
-      "author": "",
-      "publishedAt": "2026-06-02T17:47:28Z",
-      "titleEn": "Amazon faces class action lawsuit over Ring facial-recognition feature - TechCrunch",
-      "section": "industry",
-      "sectionTitle": "行业",
-      "matchedPortfolios": [
-        "ai-market"
-      ],
-      "tags": [
-        "Amazon"
       ]
     },
     {
@@ -9353,6 +9112,87 @@
       ],
       "tags": [
         "SpaceX"
+      ]
+    },
+    {
+      "source": "Bloomberg",
+      "feedSource": "Bloomberg · Company Batch 2",
+      "sourceUrl": "https://www.bloomberg.com",
+      "title": "Apple Readies Feature to Split Bills by Taking Photo of a Receipt - Bloomberg",
+      "summary": "Apple Readies Feature to Split Bills by Taking Photo of a Receipt Bloomberg",
+      "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxQUWNWRnpMMVBidEs2dDhiUHdDdFl2MWVmS3NaYllzOTRtaXRwcHZDUXBFOWdyQWRCMmVXcDdXbXRBRUk0Zk1MUDBEQ09rbmVMajNZazNNQ0hhMURYWWlyMTZFNGRQTng2SGtmUE4wN1FxblU5a08zdDlEWHd2WXpibnM5bnlQT2RFQkNvUWl3RDRaRFpwdm11amJrd2wyNDcwTFZOQk42QTR6dWxOMnNMczZmRjI4NUlkQkRTUEVqMA?oc=5",
+      "author": "",
+      "publishedAt": "2026-06-01T18:09:52Z",
+      "titleEn": "Apple Readies Feature to Split Bills by Taking Photo of a Receipt - Bloomberg",
+      "section": "company",
+      "sectionTitle": "公司",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Apple"
+      ]
+    },
+    {
+      "source": "Reuters",
+      "feedSource": "Reuters · Company Batch 22",
+      "sourceUrl": "https://www.reuters.com",
+      "title": "Tesla May registrations jump in several European markets as recovery continues - Reuters",
+      "summary": "Tesla May registrations jump in several European markets as recovery continues Reuters",
+      "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOVXJ4RVBnZUpOS0h5czRMWk9EZFdVZzlWaTZTVVUyc0Zsc0N2SnJ2SU1zTFZqbmdNdWNWSFpHLWhKZzNvMkxiYVItVkRfbHV0cDlaVUVsMDZlRHBOdEg0bGFDWDU4RVI2UGdYNFd3ZGVhT1VWeHpWamwxOXluWnRmMU9RTk53OThkWVZ2RHJvMHlIM2syYnVBdWdrY21nYmh0QjVsd2JDRWtEYWZ1aHZsVnRNZm5DYWQt?oc=5",
+      "author": "",
+      "publishedAt": "2026-06-01T17:43:33Z",
+      "titleEn": "Tesla May registrations jump in several European markets as recovery continues - Reuters",
+      "section": "company",
+      "sectionTitle": "公司",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Tesla"
+      ]
+    },
+    {
+      "source": "WIRED",
+      "feedSource": "WIRED",
+      "sourceUrl": "",
+      "title": "Anthropic Confidentially Files for What Could Be the Largest IPO Ever",
+      "summary": "The AI giant behind Claude submitted paperwork on Monday that would take it public, just a couple of weeks after SpaceX’s splashy IPO announcement. Business Business / Artificial Intelligence",
+      "url": "https://www.wired.com/story/anthropic-files-s1-ipo-sec/",
+      "author": "Paresh Dave",
+      "publishedAt": "2026-06-01T17:17:58Z",
+      "image": "https://media.wired.com/photos/6a1db04538f4e0fcb2641f17/master/pass/Anthropic-Goes-Public-Business-2274306161.jpg",
+      "titleEn": "Anthropic Confidentially Files for What Could Be the Largest IPO Ever",
+      "section": "tech",
+      "sectionTitle": "前沿",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Anthropic",
+        "SpaceX",
+        "WIRED",
+        "anthropic"
+      ]
+    },
+    {
+      "source": "TechCrunch",
+      "feedSource": "TechCrunch Startups",
+      "sourceUrl": "https://techcrunch.com",
+      "title": "Anthropic files to go public - TechCrunch",
+      "summary": "Anthropic files to go public TechCrunch",
+      "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE5uTlVpVnVmaGV5RkVMUElXX3d1eHR2cHA1YjBlT00tclVZd3N4elVsd2N2R1dERXdUQ18xSUNVSmFLeGlIcmdUMU5vdENIY3JKbFNpQm1EV1g5UHZxbW5uX0plYkhDYUdhNTUzRmw1aE0?oc=5",
+      "author": "",
+      "publishedAt": "2026-06-01T16:36:55Z",
+      "titleEn": "Anthropic files to go public - TechCrunch",
+      "section": "industry",
+      "sectionTitle": "行业",
+      "matchedPortfolios": [
+        "ai-market"
+      ],
+      "tags": [
+        "Anthropic",
+        "anthropic"
       ]
     }
   ]
