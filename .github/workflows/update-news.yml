@@ -30,12 +30,11 @@ jobs:
       - name: Update news feed
         env:
           TRANSLATE_NEWS_TITLES: "0"
-          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
+          TAVILY_MAX_QUERIES: "0"
         run: python docs/fetch_news.py
       - name: Update talent flow graph
-        env:
-          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
-        run: python docs/fetch_talent_flows.py
+        if: false
+        run: echo "Tavily-backed talent flow updates are disabled."
       - name: Generate Mandarin video voiceovers
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
