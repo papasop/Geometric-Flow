@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-07T11:28:06.316248Z",
+  "generatedAt": "2026-06-07T12:11:14.264253Z",
   "source": "Tavily Search",
   "strategy": "Search public news, interviews, speeches, and x.com references for senior AI talent movement among SpaceX, NVIDIA, OpenAI, Anthropic, Meta, and Google.",
   "companies": [
@@ -30,9 +30,9 @@
       "zh": "GPU / CUDA / AI 基础设施",
       "en": "GPU / CUDA / AI infrastructure",
       "key": "nvidia",
-      "inflow": 6,
+      "inflow": 5,
       "outflow": 3,
-      "events": 9
+      "events": 8
     },
     {
       "name": "OpenAI",
@@ -44,9 +44,9 @@
       "zh": "前沿模型 / Agent / 产品化",
       "en": "Frontier models / agents / productization",
       "key": "openai",
-      "inflow": 8,
+      "inflow": 7,
       "outflow": 5,
-      "events": 13
+      "events": 12
     },
     {
       "name": "Anthropic",
@@ -59,9 +59,9 @@
       "zh": "Claude / 安全对齐 / 企业模型",
       "en": "Claude / safety alignment / enterprise models",
       "key": "anthropic",
-      "inflow": 4,
+      "inflow": 5,
       "outflow": 1,
-      "events": 5
+      "events": 6
     },
     {
       "name": "Meta",
@@ -77,8 +77,8 @@
       "en": "Llama / FAIR / open models",
       "key": "meta",
       "inflow": 8,
-      "outflow": 3,
-      "events": 11
+      "outflow": 2,
+      "events": 10
     },
     {
       "name": "Google",
@@ -367,23 +367,6 @@
         {
           "from": "spacex",
           "to": "google",
-          "title": "Google DeepMind and Edison Are Building the AI Scientist - Genetic Engineering and Biotechnology News",
-          "summary": "Home Topics Artificial Intelligence Google DeepMind and Edison Are Building the AI Scientist. # Google DeepMind and Edison Are Building the AI Scientist. Google DeepMind and Edison Scientific are on an ambitious mission to build the AI scientist. In drug discovery, where traditio",
-          "url": "https://www.genengnews.com/topics/artificial-intelligence/google-deepmind-and-edison-are-building-the-ai-scientist/",
-          "source": "Genengnews",
-          "publishedAt": "",
-          "people": [
-            "Edison Are Building",
-            "Genetic Engineering",
-            "Biotechnology News Home",
-            "Topics Artificial Intelligence"
-          ],
-          "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        },
-        {
-          "from": "spacex",
-          "to": "google",
           "title": "Former Apple, Google Researchers Discover AI's Learning Loop 05/29/2026 - MediaPost",
           "summary": "Subscribe today to gain access to every *Research Intelligencer* article we publish as well as the exclusive daily newsletter, full access to *The MediaPost Cases*, first-look research and daily insights from Joe Mandese, Editor in Chief. DeepMind, OpenAI, Meta Superintelligence ",
           "url": "https://www.mediapost.com/publications/article/415412/former-apple-google-researchers-discover-ais-lea.html",
@@ -414,63 +397,81 @@
           ],
           "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
           "confidence": "tavily"
+        },
+        {
+          "from": "spacex",
+          "to": "google",
+          "title": "Google DeepMind and Edison Are Building the AI Scientist - Genetic Engineering and Biotechnology News",
+          "summary": "Home Topics Artificial Intelligence Google DeepMind and Edison Are Building the AI Scientist. # Google DeepMind and Edison Are Building the AI Scientist. Google DeepMind and Edison Scientific are on an ambitious mission to build the AI scientist. In drug discovery, where traditio",
+          "url": "https://www.genengnews.com/topics/artificial-intelligence/google-deepmind-and-edison-are-building-the-ai-scientist/",
+          "source": "Genengnews",
+          "publishedAt": "",
+          "people": [
+            "Edison Are Building",
+            "Genetic Engineering",
+            "Biotechnology News Home",
+            "Topics Artificial Intelligence"
+          ],
+          "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
         }
       ]
     },
     {
       "from": "external",
-      "to": "nvidia",
+      "to": "spacex",
       "count": 3,
-      "label": "External Talent Pool → NVIDIA",
+      "label": "External Talent Pool → SpaceX",
       "events": [
         {
           "from": "external",
-          "to": "nvidia",
-          "title": "Jensen Huang Frames AI as Career Opportunity - Let's Data Science",
-          "summary": "Per Carnegie Mellon University, NVIDIA founder and CEO Jensen Huang delivered the keynote at CMU's 128th Commencement on May 10 and received an honorary Doctor of Science and Technology degree. In his address, Huang said, \"You are entering the world at an extraordinary moment,\" a",
-          "url": "https://letsdatascience.com/news/jensen-huang-frames-ai-as-career-opportunity-4027a3a8",
-          "source": "Letsdatascience",
+          "to": "spacex",
+          "title": "Wild card for SpaceX is the AI business, says NYU finance professor Damodaran - CNBC",
+          "summary": "# Wild card for SpaceX is the AI business, says NYU finance professor Damodaran. Aswath Damodaran, NYU School of Business, joins 'Closing Bell' to talk SpaceX IPO valuation. Flutter CEO on betting activity around the NBA Finals. Dan Niles: Semiconductor bulls should be ecstatic w",
+          "url": "https://www.cnbc.com/video/2026/06/04/wild-card-for-spacex-is-the-ai-business-says-nyu-finance-professor-damodaran.html",
+          "source": "Cnbc",
           "publishedAt": "",
           "people": [
-            "Jensen Huang Frames",
-            "Career Opportunity",
-            "Data Science Per",
-            "Carnegie Mellon University"
+            "Aswath Damodaran",
+            "Closing Bell",
+            "Dan Niles",
+            "Andrew Yang"
           ],
-          "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "query": "(\"SpaceX\" OR \"Starlink\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
         },
         {
           "from": "external",
-          "to": "nvidia",
-          "title": "Nvidia salary data reveals AI algorithm engineers can make over $471,000 in base pay - Business Insider",
-          "summary": "# Nvidia salaries revealed: How much the AI giant pays software engineers and researchers as it ramps up H-1B hiring. Federal filings suggest Nvidia is spending aggressively to maintain its lead in the AI race, hiring across both hardware and software roles while also staffing up",
-          "url": "https://www.businessinsider.com/nvidia-salaries-revealed-how-much-engineers-researchers-make-in-2026-2026-6",
-          "source": "Businessinsider",
+          "to": "spacex",
+          "title": "Constellation's Ray Wang on SpaceX IPO: I'd wait for the first dip and then come in - CNBC",
+          "summary": "# Constellation's Ray Wang on SpaceX IPO: I'd wait for the first dip and then come in. Ray Wang, Constellation Research chairman and AI Forum co-founder, joins 'Squawk Box' to discuss the latest market trends, state of the tech sector, upcoming tech IPOs, and more. Flutter CEO on",
+          "url": "https://www.cnbc.com/video/2026/06/05/constellations-ray-wang-on-spacex-ipo-id-wait-for-the-first-dip-and-then-come-in.html",
+          "source": "Cnbc",
           "publishedAt": "",
           "people": [
-            "Business Insider",
-            "Senior Architect",
-            "Principal Systems Software",
-            "Senior Software Engineer"
+            "Ray Wang",
+            "Constellation Research",
+            "Squawk Box",
+            "Dan Niles"
           ],
-          "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "query": "(\"SpaceX\" OR \"Starlink\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
         },
         {
           "from": "external",
-          "to": "nvidia",
-          "title": "Mira Murati's AI dream team got their stock options. Now many are out. - Business Insider",
-          "summary": "* Thinking Machines Lab has lost a third of its founding team to rivals amid fierce AI talent wars. * CEO Mira Murati's startup has also hired top talent and recently unveiled a new type of AI model. Thinking Machines Lab's head count has more than quadrupled to over 150 people s",
-          "url": "https://www.businessinsider.com/thinking-machines-lab-key-talent-meta-openai-xai-2026-5",
-          "source": "Businessinsider",
+          "to": "spacex",
+          "title": "Pantheon's Ian Shepherdson on jobs data: Could see a more meaningful slowdown in the next few months - CNBC",
+          "summary": "# Pantheon's Ian Shepherdson on jobs data: Could see a more meaningful slowdown in the next few months. Ian Shepherdson, Pantheon Macroeconomics chairman and editor-in-chief, joins 'Squawk Box' to discuss his expectations for the May jobs report, state of the economy, impact of h",
+          "url": "https://www.cnbc.com/video/2026/06/05/pantheons-ian-shepherdson-on-jobs-data-could-see-a-more-meaningful-slowdown-in-the-next-few-months.html",
+          "source": "Cnbc",
           "publishedAt": "",
           "people": [
-            "Mira Murati",
-            "Business Insider",
-            "Thinking Machines Lab"
+            "Ian Shepherdson",
+            "Pantheon Macroeconomics",
+            "Squawk Box",
+            "Dan Niles"
           ],
-          "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "query": "(\"SpaceX\" OR \"Starlink\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
         }
       ]
@@ -576,83 +577,43 @@
       ]
     },
     {
-      "from": "openai",
-      "to": "spacex",
-      "count": 2,
-      "label": "OpenAI → SpaceX",
-      "events": [
-        {
-          "from": "openai",
-          "to": "spacex",
-          "title": "Constellation's Ray Wang on SpaceX IPO: I'd wait for the first dip and then come in - CNBC",
-          "summary": "# Constellation's Ray Wang on SpaceX IPO: I'd wait for the first dip and then come in. Ray Wang, Constellation Research chairman and AI Forum co-founder, joins 'Squawk Box' to discuss the latest market trends, state of the tech sector, upcoming tech IPOs, and more. Flutter CEO on",
-          "url": "https://www.cnbc.com/video/2026/06/05/constellations-ray-wang-on-spacex-ipo-id-wait-for-the-first-dip-and-then-come-in.html",
-          "source": "Cnbc",
-          "publishedAt": "",
-          "people": [
-            "Ray Wang",
-            "Constellation Research",
-            "Squawk Box",
-            "Dan Niles"
-          ],
-          "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        },
-        {
-          "from": "openai",
-          "to": "spacex",
-          "title": "Job postings for this tech role have grown more than 700% in the last year - AOL.com",
-          "summary": "# Job postings for this tech role have grown more than 700% in the last year. * Forward-deployed engineers are one of tech's buzziest jobs. * Salaries can range from $170,000 to over $200,000, according to Indeed data. Despite the wave of layoffs that have battered the tech indus",
-          "url": "https://www.aol.com/articles/job-postings-tech-role-grown-185134480.html",
-          "source": "Aol",
-          "publishedAt": "",
-          "people": [
-            "In April",
-            "Business Insider"
-          ],
-          "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
       "from": "external",
-      "to": "spacex",
+      "to": "nvidia",
       "count": 2,
-      "label": "External Talent Pool → SpaceX",
+      "label": "External Talent Pool → NVIDIA",
       "events": [
         {
           "from": "external",
-          "to": "spacex",
-          "title": "Wild card for SpaceX is the AI business, says NYU finance professor Damodaran - CNBC",
-          "summary": "# Wild card for SpaceX is the AI business, says NYU finance professor Damodaran. Aswath Damodaran, NYU School of Business, joins 'Closing Bell' to talk SpaceX IPO valuation. Flutter CEO on betting activity around the NBA Finals. Dan Niles: Semiconductor bulls should be ecstatic w",
-          "url": "https://www.cnbc.com/video/2026/06/04/wild-card-for-spacex-is-the-ai-business-says-nyu-finance-professor-damodaran.html",
-          "source": "Cnbc",
+          "to": "nvidia",
+          "title": "Nvidia salary data reveals AI algorithm engineers can make over $471,000 in base pay - Business Insider",
+          "summary": "# Nvidia salaries revealed: How much the AI giant pays software engineers and researchers as it ramps up H-1B hiring. Federal filings suggest Nvidia is spending aggressively to maintain its lead in the AI race, hiring across both hardware and software roles while also staffing up",
+          "url": "https://www.businessinsider.com/nvidia-salaries-revealed-how-much-engineers-researchers-make-in-2026-2026-6",
+          "source": "Businessinsider",
           "publishedAt": "",
           "people": [
-            "Aswath Damodaran",
-            "Closing Bell",
-            "Dan Niles",
-            "Andrew Yang"
+            "Business Insider",
+            "Senior Architect",
+            "Principal Systems Software",
+            "Senior Software Engineer"
           ],
-          "query": "(\"SpaceX\" OR \"Starlink\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
         },
         {
           "from": "external",
-          "to": "spacex",
-          "title": "Pantheon's Ian Shepherdson on jobs data: Could see a more meaningful slowdown in the next few months - CNBC",
-          "summary": "# Pantheon's Ian Shepherdson on jobs data: Could see a more meaningful slowdown in the next few months. Ian Shepherdson, Pantheon Macroeconomics chairman and editor-in-chief, joins 'Squawk Box' to discuss his expectations for the May jobs report, state of the economy, impact of h",
-          "url": "https://www.cnbc.com/video/2026/06/05/pantheons-ian-shepherdson-on-jobs-data-could-see-a-more-meaningful-slowdown-in-the-next-few-months.html",
-          "source": "Cnbc",
+          "to": "nvidia",
+          "title": "Jensen Huang Frames AI as Career Opportunity - Let's Data Science",
+          "summary": "Per Carnegie Mellon University, NVIDIA founder and CEO Jensen Huang delivered the keynote at CMU's 128th Commencement on May 10 and received an honorary Doctor of Science and Technology degree. In his address, Huang said, \"You are entering the world at an extraordinary moment,\" a",
+          "url": "https://letsdatascience.com/news/jensen-huang-frames-ai-as-career-opportunity-4027a3a8",
+          "source": "Letsdatascience",
           "publishedAt": "",
           "people": [
-            "Ian Shepherdson",
-            "Pantheon Macroeconomics",
-            "Squawk Box",
-            "Dan Niles"
+            "Jensen Huang Frames",
+            "Career Opportunity",
+            "Data Science Per",
+            "Carnegie Mellon University"
           ],
-          "query": "(\"SpaceX\" OR \"Starlink\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
         }
       ]
@@ -748,6 +709,54 @@
       ]
     },
     {
+      "from": "openai",
+      "to": "spacex",
+      "count": 1,
+      "label": "OpenAI → SpaceX",
+      "events": [
+        {
+          "from": "openai",
+          "to": "spacex",
+          "title": "Elon Musk’s lawsuit is putting OpenAI’s safety record under the microscope - TechCrunch",
+          "summary": "Elon Musk’s legal effort to dismantle OpenAI may hinge on how its for-profit subsidiary enhances or detracts from the frontier lab’s founding mission of ensuring that humanity benefits from artificial general intelligence. On Thursday, a federal court in Oakland heard a former em",
+          "url": "https://techcrunch.com/2026/05/07/elon-musks-lawsuit-is-putting-openais-safety-record-under-the-microscope/",
+          "source": "Techcrunch",
+          "publishedAt": "",
+          "people": [
+            "Elon Musk",
+            "On Thursday"
+          ],
+          "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
+      "from": "openai",
+      "to": "anthropic",
+      "count": 1,
+      "label": "OpenAI → Anthropic",
+      "events": [
+        {
+          "from": "openai",
+          "to": "anthropic",
+          "title": "Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects - OpenTools",
+          "summary": "# Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects. Andrej Karpathy, one of OpenAI original 11 co‑founders and former Tesla AI director, has joined Anthropic pretraining team to lead a new group focused on using Claude to accelerate AI research itself. Andrej ",
+          "url": "https://opentools.ai/news/andrej-karpathy-joins-anthropic-openai-cofounder-defects",
+          "source": "Opentools",
+          "publishedAt": "",
+          "people": [
+            "Andrej Karpathy Joins",
+            "Founding Member Defects",
+            "Andrej Karpathy",
+            "Eureka Labs"
+          ],
+          "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
       "from": "anthropic",
       "to": "meta",
       "count": 1,
@@ -768,31 +777,6 @@
             "Meta Llama"
           ],
           "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Anthropic\" OR \"Claude\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
-      "from": "meta",
-      "to": "openai",
-      "count": 1,
-      "label": "Meta → OpenAI",
-      "events": [
-        {
-          "from": "meta",
-          "to": "openai",
-          "title": "Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects - OpenTools",
-          "summary": "# Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects. Andrej Karpathy, one of OpenAI original 11 co‑founders and former Tesla AI director, has joined Anthropic pretraining team to lead a new group focused on using Claude to accelerate AI research itself. Andrej ",
-          "url": "https://opentools.ai/news/andrej-karpathy-joins-anthropic-openai-cofounder-defects",
-          "source": "Opentools",
-          "publishedAt": "",
-          "people": [
-            "Andrej Karpathy Joins",
-            "Founding Member Defects",
-            "Andrej Karpathy",
-            "Eureka Labs"
-          ],
-          "query": "(\"OpenAI\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
           "confidence": "tavily"
         }
       ]
@@ -906,15 +890,15 @@
         {
           "from": "meta",
           "to": "external",
-          "title": "Nearly 30,000 tech workers laid off this month so far, tracker says - PennLive.com",
-          "summary": "Meta is laying off thousands of employees, The Verge reports, as a means to offset artificial intelligence (AI) investments. But according to a career website for tech talent, these Meta layoffs are just the latest that’ve plagued the industry in roughly the past year. TrueUp dat",
-          "url": "https://www.pennlive.com/life/2026/05/nearly-30000-tech-workers-laid-off-this-month-so-far-tracker-asys.html",
-          "source": "Pennlive",
+          "title": "Mira Murati's AI dream team got their stock options. Now many are out. - Business Insider",
+          "summary": "* Thinking Machines Lab has lost a third of its founding team to rivals amid fierce AI talent wars. * CEO Mira Murati's startup has also hired top talent and recently unveiled a new type of AI model. Thinking Machines Lab's head count has more than quadrupled to over 150 people s",
+          "url": "https://www.businessinsider.com/thinking-machines-lab-key-talent-meta-openai-xai-2026-5",
+          "source": "Businessinsider",
           "publishedAt": "",
           "people": [
-            "The Verge",
-            "Fox Business",
-            "Business Insider"
+            "Mira Murati",
+            "Business Insider",
+            "Thinking Machines Lab"
           ],
           "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
@@ -1178,23 +1162,6 @@
     {
       "from": "spacex",
       "to": "google",
-      "title": "Google DeepMind and Edison Are Building the AI Scientist - Genetic Engineering and Biotechnology News",
-      "summary": "Home Topics Artificial Intelligence Google DeepMind and Edison Are Building the AI Scientist. # Google DeepMind and Edison Are Building the AI Scientist. Google DeepMind and Edison Scientific are on an ambitious mission to build the AI scientist. In drug discovery, where traditio",
-      "url": "https://www.genengnews.com/topics/artificial-intelligence/google-deepmind-and-edison-are-building-the-ai-scientist/",
-      "source": "Genengnews",
-      "publishedAt": "",
-      "people": [
-        "Edison Are Building",
-        "Genetic Engineering",
-        "Biotechnology News Home",
-        "Topics Artificial Intelligence"
-      ],
-      "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-      "confidence": "tavily"
-    },
-    {
-      "from": "spacex",
-      "to": "google",
       "title": "Former Apple, Google Researchers Discover AI's Learning Loop 05/29/2026 - MediaPost",
       "summary": "Subscribe today to gain access to every *Research Intelligencer* article we publish as well as the exclusive daily newsletter, full access to *The MediaPost Cases*, first-look research and daily insights from Joe Mandese, Editor in Chief. DeepMind, OpenAI, Meta Superintelligence ",
       "url": "https://www.mediapost.com/publications/article/415412/former-apple-google-researchers-discover-ais-lea.html",
@@ -1222,6 +1189,23 @@
         "Learning Loop",
         "Research Intelligencer",
         "Joe Mandese"
+      ],
+      "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+      "confidence": "tavily"
+    },
+    {
+      "from": "spacex",
+      "to": "google",
+      "title": "Google DeepMind and Edison Are Building the AI Scientist - Genetic Engineering and Biotechnology News",
+      "summary": "Home Topics Artificial Intelligence Google DeepMind and Edison Are Building the AI Scientist. # Google DeepMind and Edison Are Building the AI Scientist. Google DeepMind and Edison Scientific are on an ambitious mission to build the AI scientist. In drug discovery, where traditio",
+      "url": "https://www.genengnews.com/topics/artificial-intelligence/google-deepmind-and-edison-are-building-the-ai-scientist/",
+      "source": "Genengnews",
+      "publishedAt": "",
+      "people": [
+        "Edison Are Building",
+        "Genetic Engineering",
+        "Biotechnology News Home",
+        "Topics Artificial Intelligence"
       ],
       "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "confidence": "tavily"
@@ -1263,33 +1247,33 @@
     {
       "from": "openai",
       "to": "spacex",
-      "title": "Constellation's Ray Wang on SpaceX IPO: I'd wait for the first dip and then come in - CNBC",
-      "summary": "# Constellation's Ray Wang on SpaceX IPO: I'd wait for the first dip and then come in. Ray Wang, Constellation Research chairman and AI Forum co-founder, joins 'Squawk Box' to discuss the latest market trends, state of the tech sector, upcoming tech IPOs, and more. Flutter CEO on",
-      "url": "https://www.cnbc.com/video/2026/06/05/constellations-ray-wang-on-spacex-ipo-id-wait-for-the-first-dip-and-then-come-in.html",
-      "source": "Cnbc",
+      "title": "Elon Musk’s lawsuit is putting OpenAI’s safety record under the microscope - TechCrunch",
+      "summary": "Elon Musk’s legal effort to dismantle OpenAI may hinge on how its for-profit subsidiary enhances or detracts from the frontier lab’s founding mission of ensuring that humanity benefits from artificial general intelligence. On Thursday, a federal court in Oakland heard a former em",
+      "url": "https://techcrunch.com/2026/05/07/elon-musks-lawsuit-is-putting-openais-safety-record-under-the-microscope/",
+      "source": "Techcrunch",
       "publishedAt": "",
       "people": [
-        "Ray Wang",
-        "Constellation Research",
-        "Squawk Box",
-        "Dan Niles"
+        "Elon Musk",
+        "On Thursday"
       ],
       "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "confidence": "tavily"
     },
     {
       "from": "openai",
-      "to": "spacex",
-      "title": "Job postings for this tech role have grown more than 700% in the last year - AOL.com",
-      "summary": "# Job postings for this tech role have grown more than 700% in the last year. * Forward-deployed engineers are one of tech's buzziest jobs. * Salaries can range from $170,000 to over $200,000, according to Indeed data. Despite the wave of layoffs that have battered the tech indus",
-      "url": "https://www.aol.com/articles/job-postings-tech-role-grown-185134480.html",
-      "source": "Aol",
+      "to": "anthropic",
+      "title": "Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects - OpenTools",
+      "summary": "# Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects. Andrej Karpathy, one of OpenAI original 11 co‑founders and former Tesla AI director, has joined Anthropic pretraining team to lead a new group focused on using Claude to accelerate AI research itself. Andrej ",
+      "url": "https://opentools.ai/news/andrej-karpathy-joins-anthropic-openai-cofounder-defects",
+      "source": "Opentools",
       "publishedAt": "",
       "people": [
-        "In April",
-        "Business Insider"
+        "Andrej Karpathy Joins",
+        "Founding Member Defects",
+        "Andrej Karpathy",
+        "Eureka Labs"
       ],
-      "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+      "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "confidence": "tavily"
     },
     {
@@ -1307,23 +1291,6 @@
         "Meta Llama"
       ],
       "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Anthropic\" OR \"Claude\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-      "confidence": "tavily"
-    },
-    {
-      "from": "meta",
-      "to": "openai",
-      "title": "Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects - OpenTools",
-      "summary": "# Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects. Andrej Karpathy, one of OpenAI original 11 co‑founders and former Tesla AI director, has joined Anthropic pretraining team to lead a new group focused on using Claude to accelerate AI research itself. Andrej ",
-      "url": "https://opentools.ai/news/andrej-karpathy-joins-anthropic-openai-cofounder-defects",
-      "source": "Opentools",
-      "publishedAt": "",
-      "people": [
-        "Andrej Karpathy Joins",
-        "Founding Member Defects",
-        "Andrej Karpathy",
-        "Eureka Labs"
-      ],
-      "query": "(\"OpenAI\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "confidence": "tavily"
     },
     {
@@ -1380,6 +1347,23 @@
     {
       "from": "external",
       "to": "spacex",
+      "title": "Constellation's Ray Wang on SpaceX IPO: I'd wait for the first dip and then come in - CNBC",
+      "summary": "# Constellation's Ray Wang on SpaceX IPO: I'd wait for the first dip and then come in. Ray Wang, Constellation Research chairman and AI Forum co-founder, joins 'Squawk Box' to discuss the latest market trends, state of the tech sector, upcoming tech IPOs, and more. Flutter CEO on",
+      "url": "https://www.cnbc.com/video/2026/06/05/constellations-ray-wang-on-spacex-ipo-id-wait-for-the-first-dip-and-then-come-in.html",
+      "source": "Cnbc",
+      "publishedAt": "",
+      "people": [
+        "Ray Wang",
+        "Constellation Research",
+        "Squawk Box",
+        "Dan Niles"
+      ],
+      "query": "(\"SpaceX\" OR \"Starlink\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+      "confidence": "tavily"
+    },
+    {
+      "from": "external",
+      "to": "spacex",
       "title": "Pantheon's Ian Shepherdson on jobs data: Could see a more meaningful slowdown in the next few months - CNBC",
       "summary": "# Pantheon's Ian Shepherdson on jobs data: Could see a more meaningful slowdown in the next few months. Ian Shepherdson, Pantheon Macroeconomics chairman and editor-in-chief, joins 'Squawk Box' to discuss his expectations for the May jobs report, state of the economy, impact of h",
       "url": "https://www.cnbc.com/video/2026/06/05/pantheons-ian-shepherdson-on-jobs-data-could-see-a-more-meaningful-slowdown-in-the-next-few-months.html",
@@ -1392,23 +1376,6 @@
         "Dan Niles"
       ],
       "query": "(\"SpaceX\" OR \"Starlink\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-      "confidence": "tavily"
-    },
-    {
-      "from": "external",
-      "to": "nvidia",
-      "title": "Jensen Huang Frames AI as Career Opportunity - Let's Data Science",
-      "summary": "Per Carnegie Mellon University, NVIDIA founder and CEO Jensen Huang delivered the keynote at CMU's 128th Commencement on May 10 and received an honorary Doctor of Science and Technology degree. In his address, Huang said, \"You are entering the world at an extraordinary moment,\" a",
-      "url": "https://letsdatascience.com/news/jensen-huang-frames-ai-as-career-opportunity-4027a3a8",
-      "source": "Letsdatascience",
-      "publishedAt": "",
-      "people": [
-        "Jensen Huang Frames",
-        "Career Opportunity",
-        "Data Science Per",
-        "Carnegie Mellon University"
-      ],
-      "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "confidence": "tavily"
     },
     {
@@ -1431,15 +1398,16 @@
     {
       "from": "external",
       "to": "nvidia",
-      "title": "Mira Murati's AI dream team got their stock options. Now many are out. - Business Insider",
-      "summary": "* Thinking Machines Lab has lost a third of its founding team to rivals amid fierce AI talent wars. * CEO Mira Murati's startup has also hired top talent and recently unveiled a new type of AI model. Thinking Machines Lab's head count has more than quadrupled to over 150 people s",
-      "url": "https://www.businessinsider.com/thinking-machines-lab-key-talent-meta-openai-xai-2026-5",
-      "source": "Businessinsider",
+      "title": "Jensen Huang Frames AI as Career Opportunity - Let's Data Science",
+      "summary": "Per Carnegie Mellon University, NVIDIA founder and CEO Jensen Huang delivered the keynote at CMU's 128th Commencement on May 10 and received an honorary Doctor of Science and Technology degree. In his address, Huang said, \"You are entering the world at an extraordinary moment,\" a",
+      "url": "https://letsdatascience.com/news/jensen-huang-frames-ai-as-career-opportunity-4027a3a8",
+      "source": "Letsdatascience",
       "publishedAt": "",
       "people": [
-        "Mira Murati",
-        "Business Insider",
-        "Thinking Machines Lab"
+        "Jensen Huang Frames",
+        "Career Opportunity",
+        "Data Science Per",
+        "Carnegie Mellon University"
       ],
       "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "confidence": "tavily"
@@ -1563,15 +1531,15 @@
     {
       "from": "meta",
       "to": "external",
-      "title": "Nearly 30,000 tech workers laid off this month so far, tracker says - PennLive.com",
-      "summary": "Meta is laying off thousands of employees, The Verge reports, as a means to offset artificial intelligence (AI) investments. But according to a career website for tech talent, these Meta layoffs are just the latest that’ve plagued the industry in roughly the past year. TrueUp dat",
-      "url": "https://www.pennlive.com/life/2026/05/nearly-30000-tech-workers-laid-off-this-month-so-far-tracker-asys.html",
-      "source": "Pennlive",
+      "title": "Mira Murati's AI dream team got their stock options. Now many are out. - Business Insider",
+      "summary": "* Thinking Machines Lab has lost a third of its founding team to rivals amid fierce AI talent wars. * CEO Mira Murati's startup has also hired top talent and recently unveiled a new type of AI model. Thinking Machines Lab's head count has more than quadrupled to over 150 people s",
+      "url": "https://www.businessinsider.com/thinking-machines-lab-key-talent-meta-openai-xai-2026-5",
+      "source": "Businessinsider",
       "publishedAt": "",
       "people": [
-        "The Verge",
-        "Fox Business",
-        "Business Insider"
+        "Mira Murati",
+        "Business Insider",
+        "Thinking Machines Lab"
       ],
       "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "confidence": "tavily"
@@ -1695,7 +1663,7 @@
       "from": "anthropic",
       "to": "nvidia",
       "status": "ok",
-      "count": 4
+      "count": 5
     },
     {
       "query": "(\"OpenAI\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Anthropic\" OR \"Claude\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
@@ -1807,7 +1775,7 @@
       "from": "external",
       "to": "nvidia",
       "status": "ok",
-      "count": 4
+      "count": 2
     },
     {
       "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"left NVIDIA\" OR \"leaves NVIDIA\" OR \"departed NVIDIA\" OR \"resigned from NVIDIA\" OR \"former NVIDIA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
@@ -1835,7 +1803,7 @@
       "from": "external",
       "to": "anthropic",
       "status": "ok",
-      "count": 4
+      "count": 5
     },
     {
       "query": "(\"Anthropic\" OR \"Claude\") (\"left Anthropic\" OR \"leaves Anthropic\" OR \"departed Anthropic\" OR \"resigned from Anthropic\" OR \"former Anthropic\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
