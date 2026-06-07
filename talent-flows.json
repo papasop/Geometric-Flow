@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-07T12:55:27.894799Z",
+  "generatedAt": "2026-06-07T13:43:15.247102Z",
   "source": "Tavily Search",
   "strategy": "Search public news, interviews, speeches, and x.com references for senior AI talent movement among SpaceX, NVIDIA, OpenAI, Anthropic, Meta, and Google.",
   "companies": [
@@ -44,8 +44,8 @@
       "zh": "前沿模型 / Agent / 产品化",
       "en": "Frontier models / agents / productization",
       "key": "openai",
-      "inflow": 8,
-      "outflow": 4,
+      "inflow": 7,
+      "outflow": 5,
       "events": 12
     },
     {
@@ -59,9 +59,9 @@
       "zh": "Claude / 安全对齐 / 企业模型",
       "en": "Claude / safety alignment / enterprise models",
       "key": "anthropic",
-      "inflow": 4,
+      "inflow": 5,
       "outflow": 1,
-      "events": 5
+      "events": 6
     },
     {
       "name": "Meta",
@@ -77,8 +77,8 @@
       "en": "Llama / FAIR / open models",
       "key": "meta",
       "inflow": 8,
-      "outflow": 4,
-      "events": 12
+      "outflow": 3,
+      "events": 11
     },
     {
       "name": "Google",
@@ -367,6 +367,23 @@
         {
           "from": "spacex",
           "to": "google",
+          "title": "Google DeepMind and Edison Are Building the AI Scientist - Genetic Engineering and Biotechnology News",
+          "summary": "Home Topics Artificial Intelligence Google DeepMind and Edison Are Building the AI Scientist. # Google DeepMind and Edison Are Building the AI Scientist. Google DeepMind and Edison Scientific are on an ambitious mission to build the AI scientist. In drug discovery, where traditio",
+          "url": "https://www.genengnews.com/topics/artificial-intelligence/google-deepmind-and-edison-are-building-the-ai-scientist/",
+          "source": "Genengnews",
+          "publishedAt": "",
+          "people": [
+            "Edison Are Building",
+            "Genetic Engineering",
+            "Biotechnology News Home",
+            "Topics Artificial Intelligence"
+          ],
+          "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        },
+        {
+          "from": "spacex",
+          "to": "google",
           "title": "Former Apple, Google Researchers Discover AI's Learning Loop 05/29/2026 - MediaPost",
           "summary": "Subscribe today to gain access to every *Research Intelligencer* article we publish as well as the exclusive daily newsletter, full access to *The MediaPost Cases*, first-look research and daily insights from Joe Mandese, Editor in Chief. DeepMind, OpenAI, Meta Superintelligence ",
           "url": "https://www.mediapost.com/publications/article/415412/former-apple-google-researchers-discover-ais-lea.html",
@@ -394,23 +411,6 @@
             "Learning Loop",
             "Research Intelligencer",
             "Joe Mandese"
-          ],
-          "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        },
-        {
-          "from": "spacex",
-          "to": "google",
-          "title": "Google DeepMind and Edison Are Building the AI Scientist - Genetic Engineering and Biotechnology News",
-          "summary": "Home Topics Artificial Intelligence Google DeepMind and Edison Are Building the AI Scientist. # Google DeepMind and Edison Are Building the AI Scientist. Google DeepMind and Edison Scientific are on an ambitious mission to build the AI scientist. In drug discovery, where traditio",
-          "url": "https://www.genengnews.com/topics/artificial-intelligence/google-deepmind-and-edison-are-building-the-ai-scientist/",
-          "source": "Genengnews",
-          "publishedAt": "",
-          "people": [
-            "Edison Are Building",
-            "Genetic Engineering",
-            "Biotechnology News Home",
-            "Topics Artificial Intelligence"
           ],
           "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
           "confidence": "tavily"
@@ -667,16 +667,16 @@
         {
           "from": "meta",
           "to": "external",
-          "title": "AI Giants Bet Billions On The Most Expensive Job In Enterprise - Yahoo News Malaysia",
-          "summary": "Meta is reportedly launching a new Enterprise Solutions unit that will embed engineers and product managers inside corporate customers to push them toward its AI tools, according to The Information. The unit, led by head of product Naomi Gleit, is the latest sign that the most ex",
-          "url": "https://malaysia.news.yahoo.com/ai-giants-bet-billions-most-041000568.html",
-          "source": "Yahoo",
+          "title": "Meta is rapidly reorganizing its workers’ jobs around AI: ‘Transfers aren’t optional’ - The Guardian",
+          "summary": "Some employees will be moved to new teams focused on AI agents and cloud infrastructure. As Meta races to recenter itself around artificial intelligence, the tech giant is mandating that more than 7,000 workers must move to new teams, and it’s radically changing some employees’ j",
+          "url": "https://www.theguardian.com/technology/2026/may/19/meta-jobs-ai-transfers",
+          "source": "Theguardian",
           "publishedAt": "",
           "people": [
-            "Giants Bet Billions",
-            "On The Most",
-            "Expensive Job In",
-            "Yahoo News Malaysia"
+            "The Guardian Some",
+            "As Meta",
+            "The Guardian",
+            "Peter Hoose"
           ],
           "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
@@ -684,15 +684,16 @@
         {
           "from": "meta",
           "to": "external",
-          "title": "Nearly 30,000 tech workers laid off this month so far, tracker says - PennLive.com",
-          "summary": "Meta is laying off thousands of employees, The Verge reports, as a means to offset artificial intelligence (AI) investments. But according to a career website for tech talent, these Meta layoffs are just the latest that’ve plagued the industry in roughly the past year. TrueUp dat",
-          "url": "https://www.pennlive.com/life/2026/05/nearly-30000-tech-workers-laid-off-this-month-so-far-tracker-asys.html",
-          "source": "Pennlive",
+          "title": "Technology News | ⚡Layoffs: Meta Workforce Faces Anxiety as Large-Scale Layoffs Approach - LatestLY",
+          "summary": "## Technology. # ⚡Layoffs: Meta Workforce Faces Anxiety as Large-Scale Layoffs Approach. A former Meta employee has described a \"doomsday\" atmosphere at the company ahead of a planned 8,000-person layoff on May 20. Staff morale is reportedly at an all-time low as Meta redirects r",
+          "url": "https://www.latestly.com/quickly/technology/layoffs-meta-workforce-faces-anxiety-as-large-scale-layoffs-approach-7433611.html",
+          "source": "Latestly",
           "publishedAt": "",
           "people": [
-            "The Verge",
-            "Fox Business",
-            "Business Insider"
+            "Technology News",
+            "Meta Workforce Faces",
+            "Scale Layoffs Approach",
+            "Owned Professional Network"
           ],
           "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
@@ -773,6 +774,31 @@
       ]
     },
     {
+      "from": "openai",
+      "to": "anthropic",
+      "count": 1,
+      "label": "OpenAI → Anthropic",
+      "events": [
+        {
+          "from": "openai",
+          "to": "anthropic",
+          "title": "Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects - OpenTools",
+          "summary": "# Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects. Andrej Karpathy, one of OpenAI original 11 co‑founders and former Tesla AI director, has joined Anthropic pretraining team to lead a new group focused on using Claude to accelerate AI research itself. Andrej ",
+          "url": "https://opentools.ai/news/andrej-karpathy-joins-anthropic-openai-cofounder-defects",
+          "source": "Opentools",
+          "publishedAt": "",
+          "people": [
+            "Andrej Karpathy Joins",
+            "Founding Member Defects",
+            "Andrej Karpathy",
+            "Eureka Labs"
+          ],
+          "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
       "from": "anthropic",
       "to": "meta",
       "count": 1,
@@ -793,31 +819,6 @@
             "Meta Llama"
           ],
           "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Anthropic\" OR \"Claude\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
-      "from": "meta",
-      "to": "openai",
-      "count": 1,
-      "label": "Meta → OpenAI",
-      "events": [
-        {
-          "from": "meta",
-          "to": "openai",
-          "title": "Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects - OpenTools",
-          "summary": "# Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects. Andrej Karpathy, one of OpenAI original 11 co‑founders and former Tesla AI director, has joined Anthropic pretraining team to lead a new group focused on using Claude to accelerate AI research itself. Andrej ",
-          "url": "https://opentools.ai/news/andrej-karpathy-joins-anthropic-openai-cofounder-defects",
-          "source": "Opentools",
-          "publishedAt": "",
-          "people": [
-            "Andrej Karpathy Joins",
-            "Founding Member Defects",
-            "Andrej Karpathy",
-            "Eureka Labs"
-          ],
-          "query": "(\"OpenAI\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
           "confidence": "tavily"
         }
       ]
@@ -1179,6 +1180,23 @@
     {
       "from": "spacex",
       "to": "google",
+      "title": "Google DeepMind and Edison Are Building the AI Scientist - Genetic Engineering and Biotechnology News",
+      "summary": "Home Topics Artificial Intelligence Google DeepMind and Edison Are Building the AI Scientist. # Google DeepMind and Edison Are Building the AI Scientist. Google DeepMind and Edison Scientific are on an ambitious mission to build the AI scientist. In drug discovery, where traditio",
+      "url": "https://www.genengnews.com/topics/artificial-intelligence/google-deepmind-and-edison-are-building-the-ai-scientist/",
+      "source": "Genengnews",
+      "publishedAt": "",
+      "people": [
+        "Edison Are Building",
+        "Genetic Engineering",
+        "Biotechnology News Home",
+        "Topics Artificial Intelligence"
+      ],
+      "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+      "confidence": "tavily"
+    },
+    {
+      "from": "spacex",
+      "to": "google",
       "title": "Former Apple, Google Researchers Discover AI's Learning Loop 05/29/2026 - MediaPost",
       "summary": "Subscribe today to gain access to every *Research Intelligencer* article we publish as well as the exclusive daily newsletter, full access to *The MediaPost Cases*, first-look research and daily insights from Joe Mandese, Editor in Chief. DeepMind, OpenAI, Meta Superintelligence ",
       "url": "https://www.mediapost.com/publications/article/415412/former-apple-google-researchers-discover-ais-lea.html",
@@ -1206,23 +1224,6 @@
         "Learning Loop",
         "Research Intelligencer",
         "Joe Mandese"
-      ],
-      "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-      "confidence": "tavily"
-    },
-    {
-      "from": "spacex",
-      "to": "google",
-      "title": "Google DeepMind and Edison Are Building the AI Scientist - Genetic Engineering and Biotechnology News",
-      "summary": "Home Topics Artificial Intelligence Google DeepMind and Edison Are Building the AI Scientist. # Google DeepMind and Edison Are Building the AI Scientist. Google DeepMind and Edison Scientific are on an ambitious mission to build the AI scientist. In drug discovery, where traditio",
-      "url": "https://www.genengnews.com/topics/artificial-intelligence/google-deepmind-and-edison-are-building-the-ai-scientist/",
-      "source": "Genengnews",
-      "publishedAt": "",
-      "people": [
-        "Edison Are Building",
-        "Genetic Engineering",
-        "Biotechnology News Home",
-        "Topics Artificial Intelligence"
       ],
       "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "confidence": "tavily"
@@ -1277,6 +1278,23 @@
       "confidence": "tavily"
     },
     {
+      "from": "openai",
+      "to": "anthropic",
+      "title": "Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects - OpenTools",
+      "summary": "# Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects. Andrej Karpathy, one of OpenAI original 11 co‑founders and former Tesla AI director, has joined Anthropic pretraining team to lead a new group focused on using Claude to accelerate AI research itself. Andrej ",
+      "url": "https://opentools.ai/news/andrej-karpathy-joins-anthropic-openai-cofounder-defects",
+      "source": "Opentools",
+      "publishedAt": "",
+      "people": [
+        "Andrej Karpathy Joins",
+        "Founding Member Defects",
+        "Andrej Karpathy",
+        "Eureka Labs"
+      ],
+      "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+      "confidence": "tavily"
+    },
+    {
       "from": "anthropic",
       "to": "meta",
       "title": "Anthropic Buys The SDK Pipeline OpenAI And Gemini Depend On - Forbes",
@@ -1291,23 +1309,6 @@
         "Meta Llama"
       ],
       "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Anthropic\" OR \"Claude\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-      "confidence": "tavily"
-    },
-    {
-      "from": "meta",
-      "to": "openai",
-      "title": "Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects - OpenTools",
-      "summary": "# Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects. Andrej Karpathy, one of OpenAI original 11 co‑founders and former Tesla AI director, has joined Anthropic pretraining team to lead a new group focused on using Claude to accelerate AI research itself. Andrej ",
-      "url": "https://opentools.ai/news/andrej-karpathy-joins-anthropic-openai-cofounder-defects",
-      "source": "Opentools",
-      "publishedAt": "",
-      "people": [
-        "Andrej Karpathy Joins",
-        "Founding Member Defects",
-        "Andrej Karpathy",
-        "Eureka Labs"
-      ],
-      "query": "(\"OpenAI\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "confidence": "tavily"
     },
     {
@@ -1548,16 +1549,16 @@
     {
       "from": "meta",
       "to": "external",
-      "title": "AI Giants Bet Billions On The Most Expensive Job In Enterprise - Yahoo News Malaysia",
-      "summary": "Meta is reportedly launching a new Enterprise Solutions unit that will embed engineers and product managers inside corporate customers to push them toward its AI tools, according to The Information. The unit, led by head of product Naomi Gleit, is the latest sign that the most ex",
-      "url": "https://malaysia.news.yahoo.com/ai-giants-bet-billions-most-041000568.html",
-      "source": "Yahoo",
+      "title": "Meta is rapidly reorganizing its workers’ jobs around AI: ‘Transfers aren’t optional’ - The Guardian",
+      "summary": "Some employees will be moved to new teams focused on AI agents and cloud infrastructure. As Meta races to recenter itself around artificial intelligence, the tech giant is mandating that more than 7,000 workers must move to new teams, and it’s radically changing some employees’ j",
+      "url": "https://www.theguardian.com/technology/2026/may/19/meta-jobs-ai-transfers",
+      "source": "Theguardian",
       "publishedAt": "",
       "people": [
-        "Giants Bet Billions",
-        "On The Most",
-        "Expensive Job In",
-        "Yahoo News Malaysia"
+        "The Guardian Some",
+        "As Meta",
+        "The Guardian",
+        "Peter Hoose"
       ],
       "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "confidence": "tavily"
@@ -1565,15 +1566,16 @@
     {
       "from": "meta",
       "to": "external",
-      "title": "Nearly 30,000 tech workers laid off this month so far, tracker says - PennLive.com",
-      "summary": "Meta is laying off thousands of employees, The Verge reports, as a means to offset artificial intelligence (AI) investments. But according to a career website for tech talent, these Meta layoffs are just the latest that’ve plagued the industry in roughly the past year. TrueUp dat",
-      "url": "https://www.pennlive.com/life/2026/05/nearly-30000-tech-workers-laid-off-this-month-so-far-tracker-asys.html",
-      "source": "Pennlive",
+      "title": "Technology News | ⚡Layoffs: Meta Workforce Faces Anxiety as Large-Scale Layoffs Approach - LatestLY",
+      "summary": "## Technology. # ⚡Layoffs: Meta Workforce Faces Anxiety as Large-Scale Layoffs Approach. A former Meta employee has described a \"doomsday\" atmosphere at the company ahead of a planned 8,000-person layoff on May 20. Staff morale is reportedly at an all-time low as Meta redirects r",
+      "url": "https://www.latestly.com/quickly/technology/layoffs-meta-workforce-faces-anxiety-as-large-scale-layoffs-approach-7433611.html",
+      "source": "Latestly",
       "publishedAt": "",
       "people": [
-        "The Verge",
-        "Fox Business",
-        "Business Insider"
+        "Technology News",
+        "Meta Workforce Faces",
+        "Scale Layoffs Approach",
+        "Owned Professional Network"
       ],
       "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "confidence": "tavily"
@@ -1662,7 +1664,7 @@
       "from": "openai",
       "to": "nvidia",
       "status": "ok",
-      "count": 4
+      "count": 5
     },
     {
       "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
@@ -1718,7 +1720,7 @@
       "from": "anthropic",
       "to": "google",
       "status": "ok",
-      "count": 4
+      "count": 5
     },
     {
       "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
