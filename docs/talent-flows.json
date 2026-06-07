@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-07T01:32:37.219575Z",
+  "generatedAt": "2026-06-07T02:30:08.676994Z",
   "source": "Tavily Search",
   "strategy": "Search public news, interviews, speeches, and x.com references for senior AI talent movement among SpaceX, NVIDIA, OpenAI, Anthropic, Meta, and Google.",
   "companies": [
@@ -14,8 +14,8 @@
       "zh": "航天工程 / Starlink / 自动化制造",
       "en": "Space systems / Starlink / automated manufacturing",
       "key": "spacex",
-      "inflow": 4,
-      "outflow": 18,
+      "inflow": 5,
+      "outflow": 17,
       "events": 22
     },
     {
@@ -31,8 +31,8 @@
       "en": "GPU / CUDA / AI infrastructure",
       "key": "nvidia",
       "inflow": 5,
-      "outflow": 3,
-      "events": 8
+      "outflow": 4,
+      "events": 9
     },
     {
       "name": "OpenAI",
@@ -76,9 +76,9 @@
       "zh": "Llama / FAIR / 开源模型",
       "en": "Llama / FAIR / open models",
       "key": "meta",
-      "inflow": 8,
+      "inflow": 7,
       "outflow": 3,
-      "events": 11
+      "events": 10
     },
     {
       "name": "Google",
@@ -210,26 +210,9 @@
     {
       "from": "spacex",
       "to": "meta",
-      "count": 5,
+      "count": 4,
       "label": "SpaceX → Meta",
       "events": [
-        {
-          "from": "spacex",
-          "to": "meta",
-          "title": "Elon Musk’s SpaceXAI has been bleeding staff since its merger - TechCrunch",
-          "summary": "# Elon Musk’s SpaceXAI has been bleeding staff since its merger. Elon Musk’s newly rebranded SpaceXAI is reportedly losing top talent, with more than 50 researchers and engineers departing since February, according to The Information. Rivals like Meta and Thinking Machine Labs ar",
-          "url": "https://techcrunch.com/2026/05/14/elon-musks-spacexai-has-been-bleeding-staff-since-its-merger/",
-          "source": "Techcrunch",
-          "publishedAt": "",
-          "people": [
-            "Elon Musk",
-            "The Information",
-            "Thinking Machine Labs",
-            "Since February"
-          ],
-          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        },
         {
           "from": "spacex",
           "to": "meta",
@@ -367,6 +350,23 @@
         {
           "from": "spacex",
           "to": "google",
+          "title": "Google DeepMind and Edison Are Building the AI Scientist - Genetic Engineering and Biotechnology News",
+          "summary": "Home Topics Artificial Intelligence Google DeepMind and Edison Are Building the AI Scientist. # Google DeepMind and Edison Are Building the AI Scientist. Google DeepMind and Edison Scientific are on an ambitious mission to build the AI scientist. In drug discovery, where traditio",
+          "url": "https://www.genengnews.com/topics/artificial-intelligence/google-deepmind-and-edison-are-building-the-ai-scientist/",
+          "source": "Genengnews",
+          "publishedAt": "",
+          "people": [
+            "Edison Are Building",
+            "Genetic Engineering",
+            "Biotechnology News Home",
+            "Topics Artificial Intelligence"
+          ],
+          "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        },
+        {
+          "from": "spacex",
+          "to": "google",
           "title": "Former Apple, Google Researchers Discover AI's Learning Loop 05/29/2026 - MediaPost",
           "summary": "Subscribe today to gain access to every *Research Intelligencer* article we publish as well as the exclusive daily newsletter, full access to *The MediaPost Cases*, first-look research and daily insights from Joe Mandese, Editor in Chief. DeepMind, OpenAI, Meta Superintelligence ",
           "url": "https://www.mediapost.com/publications/article/415412/former-apple-google-researchers-discover-ais-lea.html",
@@ -394,23 +394,6 @@
             "Learning Loop",
             "Research Intelligencer",
             "Joe Mandese"
-          ],
-          "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        },
-        {
-          "from": "spacex",
-          "to": "google",
-          "title": "Google DeepMind and Edison Are Building the AI Scientist - Genetic Engineering and Biotechnology News",
-          "summary": "Home Topics Artificial Intelligence Google DeepMind and Edison Are Building the AI Scientist. # Google DeepMind and Edison Are Building the AI Scientist. Google DeepMind and Edison Scientific are on an ambitious mission to build the AI scientist. In drug discovery, where traditio",
-          "url": "https://www.genengnews.com/topics/artificial-intelligence/google-deepmind-and-edison-are-building-the-ai-scientist/",
-          "source": "Genengnews",
-          "publishedAt": "",
-          "people": [
-            "Edison Are Building",
-            "Genetic Engineering",
-            "Biotechnology News Home",
-            "Topics Artificial Intelligence"
           ],
           "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
           "confidence": "tavily"
@@ -543,23 +526,6 @@
         {
           "from": "spacex",
           "to": "nvidia",
-          "title": "Nvidia Says Anthropic, OpenAI Among Users of New Vera Chip - Bloomberg.com",
-          "summary": "# Nvidia Says Anthropic, OpenAI Among Users of New Vera Chip. Provide news feedback or report an error. Send a tip to our reporters. said Anthropic PBC, OpenAI and SpaceX are among the first big users of its upcoming microprocessor, securing key customers for its latest attempt t",
-          "url": "https://www.bloomberg.com/news/articles/2026-06-01/nvidia-says-anthropic-openai-among-big-users-of-new-vera-chip",
-          "source": "Bloomberg",
-          "publishedAt": "",
-          "people": [
-            "Among Users",
-            "New Vera Chip",
-            "Chief Executive Officer",
-            "Jensen Huang"
-          ],
-          "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        },
-        {
-          "from": "spacex",
-          "to": "nvidia",
           "title": "SpaceX Is Hiring — and Elon Musk Says He'll Read Your Application - Business Insider",
           "summary": "# Elon Musk says he's personally reviewing job applications as SpaceX ramps up hiring. * Elon Musk will personally review the emails of applicants for new roles at SpaceXAI. * Amid the tech talent wars, SpaceX's hiring push comes as the company gears up for its historic IPO. Elon",
           "url": "https://www.businessinsider.com/elon-musk-spacex-ai-hiring-personally-reviews-applications-2026-5",
@@ -570,6 +536,23 @@
             "Elon Musk Says",
             "Read Your Application",
             "Business Insider"
+          ],
+          "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        },
+        {
+          "from": "spacex",
+          "to": "nvidia",
+          "title": "Elon Musk’s SpaceXAI has been bleeding staff since its merger - TechCrunch",
+          "summary": "# Elon Musk’s SpaceXAI has been bleeding staff since its merger. Elon Musk’s newly rebranded SpaceXAI is reportedly losing top talent, with more than 50 researchers and engineers departing since February, according to The Information. Rivals like Meta and Thinking Machine Labs ar",
+          "url": "https://techcrunch.com/2026/05/14/elon-musks-spacexai-has-been-bleeding-staff-since-its-merger/",
+          "source": "Techcrunch",
+          "publishedAt": "",
+          "people": [
+            "Elon Musk",
+            "The Information",
+            "Thinking Machine Labs",
+            "Since February"
           ],
           "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
           "confidence": "tavily"
@@ -654,6 +637,31 @@
             "Fusion Media"
           ],
           "query": "(\"OpenAI\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
+      "from": "nvidia",
+      "to": "spacex",
+      "count": 1,
+      "label": "NVIDIA → SpaceX",
+      "events": [
+        {
+          "from": "nvidia",
+          "to": "spacex",
+          "title": "Nvidia Says Anthropic, OpenAI Among Users of New Vera Chip - Bloomberg.com",
+          "summary": "# Nvidia Says Anthropic, OpenAI Among Users of New Vera Chip. Provide news feedback or report an error. Send a tip to our reporters. said Anthropic PBC, OpenAI and SpaceX are among the first big users of its upcoming microprocessor, securing key customers for its latest attempt t",
+          "url": "https://www.bloomberg.com/news/articles/2026-06-01/nvidia-says-anthropic-openai-among-big-users-of-new-vera-chip",
+          "source": "Bloomberg",
+          "publishedAt": "",
+          "people": [
+            "Among Users",
+            "New Vera Chip",
+            "Chief Executive Officer",
+            "Jensen Huang"
+          ],
+          "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
           "confidence": "tavily"
         }
       ]
@@ -910,23 +918,6 @@
     {
       "from": "spacex",
       "to": "nvidia",
-      "title": "Nvidia Says Anthropic, OpenAI Among Users of New Vera Chip - Bloomberg.com",
-      "summary": "# Nvidia Says Anthropic, OpenAI Among Users of New Vera Chip. Provide news feedback or report an error. Send a tip to our reporters. said Anthropic PBC, OpenAI and SpaceX are among the first big users of its upcoming microprocessor, securing key customers for its latest attempt t",
-      "url": "https://www.bloomberg.com/news/articles/2026-06-01/nvidia-says-anthropic-openai-among-big-users-of-new-vera-chip",
-      "source": "Bloomberg",
-      "publishedAt": "",
-      "people": [
-        "Among Users",
-        "New Vera Chip",
-        "Chief Executive Officer",
-        "Jensen Huang"
-      ],
-      "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-      "confidence": "tavily"
-    },
-    {
-      "from": "spacex",
-      "to": "nvidia",
       "title": "SpaceX Is Hiring — and Elon Musk Says He'll Read Your Application - Business Insider",
       "summary": "# Elon Musk says he's personally reviewing job applications as SpaceX ramps up hiring. * Elon Musk will personally review the emails of applicants for new roles at SpaceXAI. * Amid the tech talent wars, SpaceX's hiring push comes as the company gears up for its historic IPO. Elon",
       "url": "https://www.businessinsider.com/elon-musk-spacex-ai-hiring-personally-reviews-applications-2026-5",
@@ -937,6 +928,23 @@
         "Elon Musk Says",
         "Read Your Application",
         "Business Insider"
+      ],
+      "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+      "confidence": "tavily"
+    },
+    {
+      "from": "spacex",
+      "to": "nvidia",
+      "title": "Elon Musk’s SpaceXAI has been bleeding staff since its merger - TechCrunch",
+      "summary": "# Elon Musk’s SpaceXAI has been bleeding staff since its merger. Elon Musk’s newly rebranded SpaceXAI is reportedly losing top talent, with more than 50 researchers and engineers departing since February, according to The Information. Rivals like Meta and Thinking Machine Labs ar",
+      "url": "https://techcrunch.com/2026/05/14/elon-musks-spacexai-has-been-bleeding-staff-since-its-merger/",
+      "source": "Techcrunch",
+      "publishedAt": "",
+      "people": [
+        "Elon Musk",
+        "The Information",
+        "Thinking Machine Labs",
+        "Since February"
       ],
       "query": "(\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "confidence": "tavily"
@@ -1078,23 +1086,6 @@
     {
       "from": "spacex",
       "to": "meta",
-      "title": "Elon Musk’s SpaceXAI has been bleeding staff since its merger - TechCrunch",
-      "summary": "# Elon Musk’s SpaceXAI has been bleeding staff since its merger. Elon Musk’s newly rebranded SpaceXAI is reportedly losing top talent, with more than 50 researchers and engineers departing since February, according to The Information. Rivals like Meta and Thinking Machine Labs ar",
-      "url": "https://techcrunch.com/2026/05/14/elon-musks-spacexai-has-been-bleeding-staff-since-its-merger/",
-      "source": "Techcrunch",
-      "publishedAt": "",
-      "people": [
-        "Elon Musk",
-        "The Information",
-        "Thinking Machine Labs",
-        "Since February"
-      ],
-      "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-      "confidence": "tavily"
-    },
-    {
-      "from": "spacex",
-      "to": "meta",
       "title": "Alexandr Wang says it's 'unfair' to say Meta's AI researchers are just there for the money - Business Insider",
       "summary": "# Alexandr Wang says it's 'unfair' to say Meta's AI researchers are just there for the money. * Meta AI chief Alexandr Wang said his team isn't just in it for the money. Meta made some big splashes in the AI talent war, but the tech giant's AI chief isn't thrilled by the narrativ",
       "url": "https://www.businessinsider.com/alexandr-wang-meta-ai-superintelligence-talent-war-pay-packages-compute-2026-5",
@@ -1162,6 +1153,23 @@
     {
       "from": "spacex",
       "to": "google",
+      "title": "Google DeepMind and Edison Are Building the AI Scientist - Genetic Engineering and Biotechnology News",
+      "summary": "Home Topics Artificial Intelligence Google DeepMind and Edison Are Building the AI Scientist. # Google DeepMind and Edison Are Building the AI Scientist. Google DeepMind and Edison Scientific are on an ambitious mission to build the AI scientist. In drug discovery, where traditio",
+      "url": "https://www.genengnews.com/topics/artificial-intelligence/google-deepmind-and-edison-are-building-the-ai-scientist/",
+      "source": "Genengnews",
+      "publishedAt": "",
+      "people": [
+        "Edison Are Building",
+        "Genetic Engineering",
+        "Biotechnology News Home",
+        "Topics Artificial Intelligence"
+      ],
+      "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+      "confidence": "tavily"
+    },
+    {
+      "from": "spacex",
+      "to": "google",
       "title": "Former Apple, Google Researchers Discover AI's Learning Loop 05/29/2026 - MediaPost",
       "summary": "Subscribe today to gain access to every *Research Intelligencer* article we publish as well as the exclusive daily newsletter, full access to *The MediaPost Cases*, first-look research and daily insights from Joe Mandese, Editor in Chief. DeepMind, OpenAI, Meta Superintelligence ",
       "url": "https://www.mediapost.com/publications/article/415412/former-apple-google-researchers-discover-ais-lea.html",
@@ -1194,20 +1202,20 @@
       "confidence": "tavily"
     },
     {
-      "from": "spacex",
-      "to": "google",
-      "title": "Google DeepMind and Edison Are Building the AI Scientist - Genetic Engineering and Biotechnology News",
-      "summary": "Home Topics Artificial Intelligence Google DeepMind and Edison Are Building the AI Scientist. # Google DeepMind and Edison Are Building the AI Scientist. Google DeepMind and Edison Scientific are on an ambitious mission to build the AI scientist. In drug discovery, where traditio",
-      "url": "https://www.genengnews.com/topics/artificial-intelligence/google-deepmind-and-edison-are-building-the-ai-scientist/",
-      "source": "Genengnews",
+      "from": "nvidia",
+      "to": "spacex",
+      "title": "Nvidia Says Anthropic, OpenAI Among Users of New Vera Chip - Bloomberg.com",
+      "summary": "# Nvidia Says Anthropic, OpenAI Among Users of New Vera Chip. Provide news feedback or report an error. Send a tip to our reporters. said Anthropic PBC, OpenAI and SpaceX are among the first big users of its upcoming microprocessor, securing key customers for its latest attempt t",
+      "url": "https://www.bloomberg.com/news/articles/2026-06-01/nvidia-says-anthropic-openai-among-big-users-of-new-vera-chip",
+      "source": "Bloomberg",
       "publishedAt": "",
       "people": [
-        "Edison Are Building",
-        "Genetic Engineering",
-        "Biotechnology News Home",
-        "Topics Artificial Intelligence"
+        "Among Users",
+        "New Vera Chip",
+        "Chief Executive Officer",
+        "Jensen Huang"
       ],
-      "query": "(\"Google\" OR \"DeepMind\" OR \"Google DeepMind\" OR \"Google Brain\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"SpaceX\" OR \"Starlink\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+      "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"NVIDIA\" OR \"Nvidia\" OR \"NVDA\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "confidence": "tavily"
     },
     {
