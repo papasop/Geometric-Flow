@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-07T19:40:18.954189Z",
+  "generatedAt": "2026-06-07T20:17:02.582659Z",
   "source": "Tavily Search",
   "strategy": "Search public news, interviews, speeches, and x.com references for senior AI talent movement among SpaceX, NVIDIA, OpenAI, Anthropic, Meta, and Google.",
   "companies": [
@@ -77,8 +77,8 @@
       "en": "Llama / FAIR / open models",
       "key": "meta",
       "inflow": 8,
-      "outflow": 4,
-      "events": 12
+      "outflow": 3,
+      "events": 11
     },
     {
       "name": "Google",
@@ -110,9 +110,9 @@
       "zh": "外部公司 / 高校 / 研究机构",
       "en": "Outside companies / universities / research labs",
       "key": "external",
-      "inflow": 7,
+      "inflow": 6,
       "outflow": 8,
-      "events": 15
+      "events": 14
     }
   ],
   "flows": [
@@ -358,16 +358,16 @@
         {
           "from": "openai",
           "to": "external",
-          "title": "OpenAI Hires ServiceNow CMO Colin Fleming to Lead Business Marketing Push - ADWEEK",
-          "summary": "OpenAI has hired ServiceNow chief marketing officer Colin Fleming as CMO for its business unit, a move that signals the AI company is deepening its enterprise marketing as it looks to expand beyond its core AI products. Fleming announced his departure in a LinkedIn post Tuesday, ",
-          "url": "https://www.adweek.com/media/openai-hires-servicenow-cmo-colin-fleming-to-lead-business-marketing-push/",
-          "source": "Adweek",
+          "title": "Former OpenAI Researcher Warns 'AI Is Not Loyal to Us' - Business Insider",
+          "summary": "# Former OpenAI researcher warns 'AI is not loyal to us'. Daniel Kokotajlo is the founder of the AI Futures Project and a former OpenAI researcher who worked on forecasting, AI governance, and safety. In this full interview with Business Insider, he explains what AGI and superint",
+          "url": "https://www.businessinsider.com/former-openai-researcher-warns-ai-is-not-loyal-to-us-2026-5",
+          "source": "Businessinsider",
           "publishedAt": "",
           "people": [
-            "Colin Fleming",
-            "Lead Business Marketing",
-            "Is Hiring",
-            "Top Marketing Exec"
+            "Researcher Warns",
+            "Is Not Loyal",
+            "Business Insider",
+            "Daniel Kokotajlo"
           ],
           "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
@@ -676,46 +676,6 @@
       ]
     },
     {
-      "from": "meta",
-      "to": "external",
-      "count": 2,
-      "label": "Meta → External Talent Pool",
-      "events": [
-        {
-          "from": "meta",
-          "to": "external",
-          "title": "Mira Murati's AI dream team got their stock options. Now many are out. - Business Insider",
-          "summary": "* Thinking Machines Lab has lost a third of its founding team to rivals amid fierce AI talent wars. * CEO Mira Murati's startup has also hired top talent and recently unveiled a new type of AI model. Thinking Machines Lab's head count has more than quadrupled to over 150 people s",
-          "url": "https://www.businessinsider.com/thinking-machines-lab-key-talent-meta-openai-xai-2026-5",
-          "source": "Businessinsider",
-          "publishedAt": "",
-          "people": [
-            "Mira Murati",
-            "Business Insider",
-            "Thinking Machines Lab"
-          ],
-          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-          "confidence": "tavily"
-        },
-        {
-          "from": "meta",
-          "to": "external",
-          "title": "Nearly 30,000 tech workers laid off this month so far, tracker says - PennLive.com",
-          "summary": "Meta is laying off thousands of employees, The Verge reports, as a means to offset artificial intelligence (AI) investments. But according to a career website for tech talent, these Meta layoffs are just the latest that’ve plagued the industry in roughly the past year. TrueUp dat",
-          "url": "https://www.pennlive.com/life/2026/05/nearly-30000-tech-workers-laid-off-this-month-so-far-tracker-asys.html",
-          "source": "Pennlive",
-          "publishedAt": "",
-          "people": [
-            "The Verge",
-            "Fox Business",
-            "Business Insider"
-          ],
-          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
       "from": "nvidia",
       "to": "anthropic",
       "count": 1,
@@ -911,6 +871,30 @@
             "Forbes Meta"
           ],
           "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
+      "from": "meta",
+      "to": "external",
+      "count": 1,
+      "label": "Meta → External Talent Pool",
+      "events": [
+        {
+          "from": "meta",
+          "to": "external",
+          "title": "Mira Murati's AI dream team got their stock options. Now many are out. - Business Insider",
+          "summary": "* Thinking Machines Lab has lost a third of its founding team to rivals amid fierce AI talent wars. * CEO Mira Murati's startup has also hired top talent and recently unveiled a new type of AI model. Thinking Machines Lab's head count has more than quadrupled to over 150 people s",
+          "url": "https://www.businessinsider.com/thinking-machines-lab-key-talent-meta-openai-xai-2026-5",
+          "source": "Businessinsider",
+          "publishedAt": "",
+          "people": [
+            "Mira Murati",
+            "Business Insider",
+            "Thinking Machines Lab"
+          ],
+          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
         }
       ]
@@ -1509,16 +1493,16 @@
     {
       "from": "openai",
       "to": "external",
-      "title": "OpenAI Hires ServiceNow CMO Colin Fleming to Lead Business Marketing Push - ADWEEK",
-      "summary": "OpenAI has hired ServiceNow chief marketing officer Colin Fleming as CMO for its business unit, a move that signals the AI company is deepening its enterprise marketing as it looks to expand beyond its core AI products. Fleming announced his departure in a LinkedIn post Tuesday, ",
-      "url": "https://www.adweek.com/media/openai-hires-servicenow-cmo-colin-fleming-to-lead-business-marketing-push/",
-      "source": "Adweek",
+      "title": "Former OpenAI Researcher Warns 'AI Is Not Loyal to Us' - Business Insider",
+      "summary": "# Former OpenAI researcher warns 'AI is not loyal to us'. Daniel Kokotajlo is the founder of the AI Futures Project and a former OpenAI researcher who worked on forecasting, AI governance, and safety. In this full interview with Business Insider, he explains what AGI and superint",
+      "url": "https://www.businessinsider.com/former-openai-researcher-warns-ai-is-not-loyal-to-us-2026-5",
+      "source": "Businessinsider",
       "publishedAt": "",
       "people": [
-        "Colin Fleming",
-        "Lead Business Marketing",
-        "Is Hiring",
-        "Top Marketing Exec"
+        "Researcher Warns",
+        "Is Not Loyal",
+        "Business Insider",
+        "Daniel Kokotajlo"
       ],
       "query": "(\"OpenAI\") (\"left OpenAI\" OR \"leaves OpenAI\" OR \"departed OpenAI\" OR \"resigned from OpenAI\" OR \"former OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "confidence": "tavily"
@@ -1552,22 +1536,6 @@
         "Mira Murati",
         "Business Insider",
         "Thinking Machines Lab"
-      ],
-      "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-      "confidence": "tavily"
-    },
-    {
-      "from": "meta",
-      "to": "external",
-      "title": "Nearly 30,000 tech workers laid off this month so far, tracker says - PennLive.com",
-      "summary": "Meta is laying off thousands of employees, The Verge reports, as a means to offset artificial intelligence (AI) investments. But according to a career website for tech talent, these Meta layoffs are just the latest that’ve plagued the industry in roughly the past year. TrueUp dat",
-      "url": "https://www.pennlive.com/life/2026/05/nearly-30000-tech-workers-laid-off-this-month-so-far-tracker-asys.html",
-      "source": "Pennlive",
-      "publishedAt": "",
-      "people": [
-        "The Verge",
-        "Fox Business",
-        "Business Insider"
       ],
       "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "confidence": "tavily"
