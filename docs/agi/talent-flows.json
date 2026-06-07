@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-07T12:11:14.264253Z",
+  "generatedAt": "2026-06-07T12:55:27.894799Z",
   "source": "Tavily Search",
   "strategy": "Search public news, interviews, speeches, and x.com references for senior AI talent movement among SpaceX, NVIDIA, OpenAI, Anthropic, Meta, and Google.",
   "companies": [
@@ -44,8 +44,8 @@
       "zh": "前沿模型 / Agent / 产品化",
       "en": "Frontier models / agents / productization",
       "key": "openai",
-      "inflow": 7,
-      "outflow": 5,
+      "inflow": 8,
+      "outflow": 4,
       "events": 12
     },
     {
@@ -59,9 +59,9 @@
       "zh": "Claude / 安全对齐 / 企业模型",
       "en": "Claude / safety alignment / enterprise models",
       "key": "anthropic",
-      "inflow": 5,
+      "inflow": 4,
       "outflow": 1,
-      "events": 6
+      "events": 5
     },
     {
       "name": "Meta",
@@ -77,8 +77,8 @@
       "en": "Llama / FAIR / open models",
       "key": "meta",
       "inflow": 8,
-      "outflow": 2,
-      "events": 10
+      "outflow": 4,
+      "events": 12
     },
     {
       "name": "Google",
@@ -110,9 +110,9 @@
       "zh": "外部公司 / 高校 / 研究机构",
       "en": "Outside companies / universities / research labs",
       "key": "external",
-      "inflow": 5,
+      "inflow": 6,
       "outflow": 8,
-      "events": 13
+      "events": 14
     }
   ],
   "flows": [
@@ -659,6 +659,47 @@
       ]
     },
     {
+      "from": "meta",
+      "to": "external",
+      "count": 2,
+      "label": "Meta → External Talent Pool",
+      "events": [
+        {
+          "from": "meta",
+          "to": "external",
+          "title": "AI Giants Bet Billions On The Most Expensive Job In Enterprise - Yahoo News Malaysia",
+          "summary": "Meta is reportedly launching a new Enterprise Solutions unit that will embed engineers and product managers inside corporate customers to push them toward its AI tools, according to The Information. The unit, led by head of product Naomi Gleit, is the latest sign that the most ex",
+          "url": "https://malaysia.news.yahoo.com/ai-giants-bet-billions-most-041000568.html",
+          "source": "Yahoo",
+          "publishedAt": "",
+          "people": [
+            "Giants Bet Billions",
+            "On The Most",
+            "Expensive Job In",
+            "Yahoo News Malaysia"
+          ],
+          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        },
+        {
+          "from": "meta",
+          "to": "external",
+          "title": "Nearly 30,000 tech workers laid off this month so far, tracker says - PennLive.com",
+          "summary": "Meta is laying off thousands of employees, The Verge reports, as a means to offset artificial intelligence (AI) investments. But according to a career website for tech talent, these Meta layoffs are just the latest that’ve plagued the industry in roughly the past year. TrueUp dat",
+          "url": "https://www.pennlive.com/life/2026/05/nearly-30000-tech-workers-laid-off-this-month-so-far-tracker-asys.html",
+          "source": "Pennlive",
+          "publishedAt": "",
+          "people": [
+            "The Verge",
+            "Fox Business",
+            "Business Insider"
+          ],
+          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
       "from": "nvidia",
       "to": "anthropic",
       "count": 1,
@@ -732,31 +773,6 @@
       ]
     },
     {
-      "from": "openai",
-      "to": "anthropic",
-      "count": 1,
-      "label": "OpenAI → Anthropic",
-      "events": [
-        {
-          "from": "openai",
-          "to": "anthropic",
-          "title": "Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects - OpenTools",
-          "summary": "# Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects. Andrej Karpathy, one of OpenAI original 11 co‑founders and former Tesla AI director, has joined Anthropic pretraining team to lead a new group focused on using Claude to accelerate AI research itself. Andrej ",
-          "url": "https://opentools.ai/news/andrej-karpathy-joins-anthropic-openai-cofounder-defects",
-          "source": "Opentools",
-          "publishedAt": "",
-          "people": [
-            "Andrej Karpathy Joins",
-            "Founding Member Defects",
-            "Andrej Karpathy",
-            "Eureka Labs"
-          ],
-          "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
       "from": "anthropic",
       "to": "meta",
       "count": 1,
@@ -777,6 +793,31 @@
             "Meta Llama"
           ],
           "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Anthropic\" OR \"Claude\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+          "confidence": "tavily"
+        }
+      ]
+    },
+    {
+      "from": "meta",
+      "to": "openai",
+      "count": 1,
+      "label": "Meta → OpenAI",
+      "events": [
+        {
+          "from": "meta",
+          "to": "openai",
+          "title": "Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects - OpenTools",
+          "summary": "# Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects. Andrej Karpathy, one of OpenAI original 11 co‑founders and former Tesla AI director, has joined Anthropic pretraining team to lead a new group focused on using Claude to accelerate AI research itself. Andrej ",
+          "url": "https://opentools.ai/news/andrej-karpathy-joins-anthropic-openai-cofounder-defects",
+          "source": "Opentools",
+          "publishedAt": "",
+          "people": [
+            "Andrej Karpathy Joins",
+            "Founding Member Defects",
+            "Andrej Karpathy",
+            "Eureka Labs"
+          ],
+          "query": "(\"OpenAI\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
           "confidence": "tavily"
         }
       ]
@@ -877,30 +918,6 @@
             "Forbes Meta"
           ],
           "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"hired\" OR \"appointed\" OR \"named\" OR \"joins\" OR \"joined\" OR \"recruited\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
-          "confidence": "tavily"
-        }
-      ]
-    },
-    {
-      "from": "meta",
-      "to": "external",
-      "count": 1,
-      "label": "Meta → External Talent Pool",
-      "events": [
-        {
-          "from": "meta",
-          "to": "external",
-          "title": "Mira Murati's AI dream team got their stock options. Now many are out. - Business Insider",
-          "summary": "* Thinking Machines Lab has lost a third of its founding team to rivals amid fierce AI talent wars. * CEO Mira Murati's startup has also hired top talent and recently unveiled a new type of AI model. Thinking Machines Lab's head count has more than quadrupled to over 150 people s",
-          "url": "https://www.businessinsider.com/thinking-machines-lab-key-talent-meta-openai-xai-2026-5",
-          "source": "Businessinsider",
-          "publishedAt": "",
-          "people": [
-            "Mira Murati",
-            "Business Insider",
-            "Thinking Machines Lab"
-          ],
-          "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
           "confidence": "tavily"
         }
       ]
@@ -1260,23 +1277,6 @@
       "confidence": "tavily"
     },
     {
-      "from": "openai",
-      "to": "anthropic",
-      "title": "Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects - OpenTools",
-      "summary": "# Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects. Andrej Karpathy, one of OpenAI original 11 co‑founders and former Tesla AI director, has joined Anthropic pretraining team to lead a new group focused on using Claude to accelerate AI research itself. Andrej ",
-      "url": "https://opentools.ai/news/andrej-karpathy-joins-anthropic-openai-cofounder-defects",
-      "source": "Opentools",
-      "publishedAt": "",
-      "people": [
-        "Andrej Karpathy Joins",
-        "Founding Member Defects",
-        "Andrej Karpathy",
-        "Eureka Labs"
-      ],
-      "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
-      "confidence": "tavily"
-    },
-    {
       "from": "anthropic",
       "to": "meta",
       "title": "Anthropic Buys The SDK Pipeline OpenAI And Gemini Depend On - Forbes",
@@ -1291,6 +1291,23 @@
         "Meta Llama"
       ],
       "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Anthropic\" OR \"Claude\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
+      "confidence": "tavily"
+    },
+    {
+      "from": "meta",
+      "to": "openai",
+      "title": "Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects - OpenTools",
+      "summary": "# Andrej Karpathy Joins Anthropic as OpenAI Co-Founding Member Defects. Andrej Karpathy, one of OpenAI original 11 co‑founders and former Tesla AI director, has joined Anthropic pretraining team to lead a new group focused on using Claude to accelerate AI research itself. Andrej ",
+      "url": "https://opentools.ai/news/andrej-karpathy-joins-anthropic-openai-cofounder-defects",
+      "source": "Opentools",
+      "publishedAt": "",
+      "people": [
+        "Andrej Karpathy Joins",
+        "Founding Member Defects",
+        "Andrej Karpathy",
+        "Eureka Labs"
+      ],
+      "query": "(\"OpenAI\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
       "confidence": "tavily"
     },
     {
@@ -1531,15 +1548,32 @@
     {
       "from": "meta",
       "to": "external",
-      "title": "Mira Murati's AI dream team got their stock options. Now many are out. - Business Insider",
-      "summary": "* Thinking Machines Lab has lost a third of its founding team to rivals amid fierce AI talent wars. * CEO Mira Murati's startup has also hired top talent and recently unveiled a new type of AI model. Thinking Machines Lab's head count has more than quadrupled to over 150 people s",
-      "url": "https://www.businessinsider.com/thinking-machines-lab-key-talent-meta-openai-xai-2026-5",
-      "source": "Businessinsider",
+      "title": "AI Giants Bet Billions On The Most Expensive Job In Enterprise - Yahoo News Malaysia",
+      "summary": "Meta is reportedly launching a new Enterprise Solutions unit that will embed engineers and product managers inside corporate customers to push them toward its AI tools, according to The Information. The unit, led by head of product Naomi Gleit, is the latest sign that the most ex",
+      "url": "https://malaysia.news.yahoo.com/ai-giants-bet-billions-most-041000568.html",
+      "source": "Yahoo",
       "publishedAt": "",
       "people": [
-        "Mira Murati",
-        "Business Insider",
-        "Thinking Machines Lab"
+        "Giants Bet Billions",
+        "On The Most",
+        "Expensive Job In",
+        "Yahoo News Malaysia"
+      ],
+      "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
+      "confidence": "tavily"
+    },
+    {
+      "from": "meta",
+      "to": "external",
+      "title": "Nearly 30,000 tech workers laid off this month so far, tracker says - PennLive.com",
+      "summary": "Meta is laying off thousands of employees, The Verge reports, as a means to offset artificial intelligence (AI) investments. But according to a career website for tech talent, these Meta layoffs are just the latest that’ve plagued the industry in roughly the past year. TrueUp dat",
+      "url": "https://www.pennlive.com/life/2026/05/nearly-30000-tech-workers-laid-off-this-month-so-far-tracker-asys.html",
+      "source": "Pennlive",
+      "publishedAt": "",
+      "people": [
+        "The Verge",
+        "Fox Business",
+        "Business Insider"
       ],
       "query": "(\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"left Meta\" OR \"leaves Meta\" OR \"departed Meta\" OR \"resigned from Meta\" OR \"former Meta\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder) -jobs",
       "confidence": "tavily"
@@ -1628,7 +1662,7 @@
       "from": "openai",
       "to": "nvidia",
       "status": "ok",
-      "count": 5
+      "count": 4
     },
     {
       "query": "(\"Anthropic\" OR \"Claude\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"OpenAI\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
@@ -1684,7 +1718,7 @@
       "from": "anthropic",
       "to": "google",
       "status": "ok",
-      "count": 5
+      "count": 4
     },
     {
       "query": "(\"SpaceX\" OR \"Starlink\") (\"joined from\" OR \"hired from\" OR \"recruited from\" OR \"former\" OR \"alumni\") (\"Meta\" OR \"Meta AI\" OR \"FAIR\" OR \"Llama\") (\"AI researcher\" OR engineer OR executive OR scientist OR talent OR founder)",
