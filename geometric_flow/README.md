@@ -96,6 +96,7 @@ GeoCNN CIFAR-style baseline:
 python experiments/train_cifar10_geo.py --dataset synthetic
 python experiments/train_cifar10_geo.py --dataset synthetic --use-fisher --preconditioner diagonal
 python experiments/train_cifar10_geo.py --dataset synthetic --mode all --trials 3 --use-fisher --preconditioner diagonal
+python experiments/train_cifar10_geo.py --dataset synthetic --mode all --trials 1 --steps 50 --adam-warmup-steps 48 --seed 32 --use-fisher --preconditioner diagonal --precond-scale 0.5 --max-grad-norm 2.0 --grad-smoothing 0.0
 python experiments/train_cifar10_geo.py --dataset synthetic --mode hybrid --adam-warmup-steps 30 --use-fisher --preconditioner diagonal --precond-scale 0.5 --max-grad-norm 2.0 --grad-smoothing 0.0
 python experiments/train_cifar10_geo.py --dataset cifar10 --data-root ./data
 ```
