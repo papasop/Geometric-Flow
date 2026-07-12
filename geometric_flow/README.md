@@ -33,3 +33,13 @@ ill-conditioned, or too expensive to trust.
 Each optimizer step records a topography row with `trace_estimate`,
 `rayleigh_grad`, `update_norm`, and cumulative `geodesic_distance`, which acts as
 the model's geometric mileage through parameter space.
+
+Scale-curve experiment:
+
+```bash
+python experiments/scale_curve.py --widths 64,128,256,512
+```
+
+The script trains Adam and `GeometricOptimizer` to a shared target accuracy,
+then writes CSV/JSON metrics plus SVG plots under `artifacts/scale_curve/`,
+including `geometric_speedup.svg`.
