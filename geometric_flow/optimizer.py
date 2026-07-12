@@ -57,6 +57,10 @@ class GeometricOptimizer(Optimizer):
         grad_smoothing: float = 0.9,
         preconditioner_scale: float = 0.5,
         curvature_scale: float = 1.0,
+        preconditioner: str = "cg",
+        diagonal_beta1: float = 0.9,
+        diagonal_beta2: float = 0.999,
+        diagonal_eps: float = 1e-8,
         verbose: bool = False,
         diagnostic_log_interval: int = 10,
         diagnostic_log_path: str | Path = "geometric_optimizer_diagnostics.csv",
@@ -91,6 +95,12 @@ class GeometricOptimizer(Optimizer):
             raise ValueError("preconditioner_scale must be positive")
         if curvature_scale <= 0:
             raise ValueError("curvature_scale must be positive")
+        if preconditioner not in {"cg", "diagonal"}:
+            raise ValueError("preconditioner must be 'cg' or 'diagonal'")
+        if not 0 <= diagonal_beta1 < 1 or not 0 <= diagonal_beta2 < 1:
+            raise ValueError("diagonal betas must be in [0, 1)")
+        if diagonal_eps <= 0:
+            raise ValueError("diagonal_eps must be positive")
         if diagnostic_log_interval < 1:
             raise ValueError("diagnostic_log_interval must be >= 1")
         defaults = dict(lr=lr)
@@ -127,6 +137,10 @@ class GeometricOptimizer(Optimizer):
         self.grad_smoothing = grad_smoothing
         self.preconditioner_scale = preconditioner_scale
         self.curvature_scale = curvature_scale
+        self.preconditioner = preconditioner
+        self.diagonal_beta1 = diagonal_beta1
+        self.diagonal_beta2 = diagonal_beta2
+        self.diagonal_eps = diagonal_eps
         self.verbose = verbose
         self.diagnostic_log_interval = diagnostic_log_interval
         self.diagnostic_log_path = Path(diagnostic_log_path)
@@ -139,6 +153,9 @@ class GeometricOptimizer(Optimizer):
         self._last_preconditioned_grad_norm = None
         self._previous_preconditioned_grad_norm = None
         self._ema_grad = None
+        self._diag_m = None
+        self._diag_v = None
+        self._diag_step = 0
 
     @property
     def _params(self):
@@ -161,7 +178,11 @@ class GeometricOptimizer(Optimizer):
             or geometric_step % self.curvature_reuse == 0
             or not self._has_preconditioner
         )
-        use_curvature = refresh_curvature and self._step_index % self.curvature_interval == 0
+        use_curvature = (
+            refresh_curvature
+            and self._step_index % self.curvature_interval == 0
+            and self.preconditioner == "cg"
+        )
         params = self._params
 
         with torch.enable_grad():
@@ -197,7 +218,11 @@ class GeometricOptimizer(Optimizer):
         rayleigh = None
         trace = None
 
-        if use_curvature and curvature is not None and grad.numel() > 0 and grad_norm > 0:
+        if self.preconditioner == "diagonal" and grad.numel() > 0 and grad_norm > 0:
+            direction = self._diagonal_precondition(grad)
+            mode = "diagonal"
+            self._cache_preconditioner(direction, grad_norm)
+        elif use_curvature and curvature is not None and grad.numel() > 0 and grad_norm > 0:
             rayleigh = curvature.rayleigh(grad)
             trace = hutchinson_trace(curvature, self.trace_samples) if self.trace_samples else None
             condition_proxy = abs(trace / rayleigh) if trace is not None and abs(rayleigh) > 1e-30 else 1.0
@@ -209,14 +234,13 @@ class GeometricOptimizer(Optimizer):
                     tolerance=self.cg_tolerance,
                 )
                 if cg.converged or torch.isfinite(cg.solution).all():
-                    direction = cg.solution
-                    direction = direction * self.preconditioner_scale
+                    direction = self._scale_preconditioned_direction(cg.solution, grad_norm)
                     mode = "geometric"
                     cg_iters = cg.iterations
                     residual_norm = cg.residual_norm
                     self._cache_preconditioner(direction, grad_norm)
         elif grad.numel() > 0 and grad_norm > 0 and self._has_preconditioner:
-            direction = -grad * self._last_preconditioner_gain * self.preconditioner_scale
+            direction = -grad * self._last_preconditioner_gain
             mode = "geometric_reuse"
 
         direction = self._smooth_direction(direction)
@@ -232,7 +256,7 @@ class GeometricOptimizer(Optimizer):
             direction = direction * (self.max_update_norm / update_norm.clamp_min(1e-30))
             update_norm = torch.linalg.vector_norm(direction)
 
-        if mode in {"geometric", "geometric_reuse"}:
+        if mode in {"geometric", "geometric_reuse", "diagonal"}:
             lr = self.param_groups[0]["lr"] * self.lr_scale
         else:
             lr = self.fallback_lr
@@ -349,6 +373,26 @@ class GeometricOptimizer(Optimizer):
         direction_norm = float(torch.linalg.vector_norm(direction))
         self._last_preconditioner_gain = direction_norm / max(float(grad_norm), 1e-30)
         self._has_preconditioner = True
+
+    def _diagonal_precondition(self, grad: torch.Tensor) -> torch.Tensor:
+        if self._diag_m is None or self._diag_m.numel() != grad.numel():
+            self._diag_m = torch.zeros_like(grad)
+            self._diag_v = torch.zeros_like(grad)
+            self._diag_step = 0
+        self._diag_step += 1
+        self._diag_m = self.diagonal_beta1 * self._diag_m + (1.0 - self.diagonal_beta1) * grad.detach()
+        self._diag_v = self.diagonal_beta2 * self._diag_v + (1.0 - self.diagonal_beta2) * grad.detach().pow(2)
+        m_hat = self._diag_m / (1.0 - self.diagonal_beta1 ** self._diag_step)
+        v_hat = self._diag_v / (1.0 - self.diagonal_beta2 ** self._diag_step)
+        diag = torch.sqrt(v_hat + self._damping + self.regularization).add(self.diagonal_eps)
+        return self._scale_preconditioned_direction(-m_hat / diag, float(torch.linalg.vector_norm(grad)))
+
+    def _scale_preconditioned_direction(self, direction: torch.Tensor, grad_norm: float) -> torch.Tensor:
+        direction_norm = torch.linalg.vector_norm(direction)
+        if float(direction_norm) <= 1e-30:
+            return direction
+        target_norm = max(float(grad_norm), 1e-30) * self.preconditioner_scale
+        return direction * (target_norm / direction_norm.clamp_min(1e-30))
 
     def _smooth_direction(self, direction: torch.Tensor) -> torch.Tensor:
         if direction.numel() == 0 or self.grad_smoothing == 0:

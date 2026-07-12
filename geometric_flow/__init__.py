@@ -19,7 +19,7 @@ from .phase import (
     write_phase_diagram_csv,
 )
 from .layers import GeometricRotation
-from .models import GeoCNN, GeoConv2D, GeoMLP
+from .models import ChannelGeometricRotation, GeoCNN, GeoConv2D, GeoMLP
 from . import geo
 
 __all__ = [
@@ -29,6 +29,7 @@ __all__ = [
     "GeoMLP",
     "GeoCNN",
     "GeoConv2D",
+    "ChannelGeometricRotation",
     "PhaseGridPoint",
     "PhasePoint",
     "geo",

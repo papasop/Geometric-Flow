@@ -54,6 +54,8 @@ Geometric steps use `lr_scale` to exploit the preconditioned direction, while
 `grad_smoothing` applies EMA smoothing to the preconditioned update.
 For small CNNs or noisy batches, lower `preconditioner_scale` to keep the
 preconditioned/raw gradient ratio in a stable range.
+For classification, try `curvature_kind="fisher"` or `preconditioner="diagonal"`
+when Hessian-CG directions are noisy.
 
 Each optimizer step records a topography row with `trace_estimate`,
 `rayleigh_grad`, `update_norm`, and cumulative `geodesic_distance`, which acts as
@@ -79,6 +81,7 @@ GeoCNN CIFAR-style baseline:
 
 ```bash
 python experiments/train_cifar10_geo.py --dataset synthetic
+python experiments/train_cifar10_geo.py --dataset synthetic --use-fisher --preconditioner diagonal
 python experiments/train_cifar10_geo.py --dataset cifar10 --data-root ./data
 ```
 

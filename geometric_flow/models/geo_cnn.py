@@ -31,6 +31,19 @@ class GeoConv2D(nn.Module):
         return x.permute(0, 3, 1, 2).contiguous()
 
 
+class ChannelGeometricRotation(nn.Module):
+    """Apply GeometricRotation to the channel dimension of NCHW tensors."""
+
+    def __init__(self, channels: int, learnable_rotation: bool = True) -> None:
+        super().__init__()
+        self.rotation = GeometricRotation(channels, learnable=learnable_rotation)
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        x = x.permute(0, 2, 3, 1)
+        x = self.rotation(x)
+        return x.permute(0, 3, 1, 2).contiguous()
+
+
 class GeoCNN(nn.Module):
     """Compact CIFAR-style CNN with geometry-aware convolutional blocks."""
 
@@ -39,17 +52,21 @@ class GeoCNN(nn.Module):
         channels: int = 32,
         num_classes: int = 10,
         learnable_rotation: bool = True,
+        block_rotation: bool = True,
     ) -> None:
         super().__init__()
         self.features = nn.Sequential(
             GeoConv2D(3, channels, learnable_rotation=learnable_rotation),
             nn.GELU(),
+            ChannelGeometricRotation(channels, learnable_rotation=learnable_rotation) if block_rotation else nn.Identity(),
             nn.MaxPool2d(2),
             GeoConv2D(channels, channels * 2, learnable_rotation=learnable_rotation),
             nn.GELU(),
+            ChannelGeometricRotation(channels * 2, learnable_rotation=learnable_rotation) if block_rotation else nn.Identity(),
             nn.MaxPool2d(2),
             GeoConv2D(channels * 2, channels * 2, learnable_rotation=learnable_rotation),
             nn.GELU(),
+            ChannelGeometricRotation(channels * 2, learnable_rotation=learnable_rotation) if block_rotation else nn.Identity(),
             nn.AdaptiveAvgPool2d((1, 1)),
         )
         self.classifier = nn.Linear(channels * 2, num_classes)

@@ -161,6 +161,24 @@ class GeometricFlowTests(unittest.TestCase):
         self.assertFalse(second["curvature_refreshed"])
         self.assertGreater(second["preconditioned_grad_norm"], 0.0)
 
+    def test_optimizer_diagonal_preconditioner_runs_without_cg(self):
+        weight = torch.nn.Parameter(torch.tensor([2.0]))
+        optimizer = GeometricOptimizer(
+            [weight],
+            lr=0.1,
+            warmup_steps=0,
+            preconditioner="diagonal",
+            preconditioner_scale=0.5,
+            curvature_kind="fisher",
+            trace_samples=0,
+        )
+
+        optimizer.step(lambda: 0.5 * (weight - 1.0).pow(2).sum())
+        entry = optimizer.topography_log[-1]
+        self.assertEqual(entry["mode"], "diagonal")
+        self.assertEqual(entry["cg_iterations"], 0)
+        self.assertGreater(entry["preconditioned_to_raw_ratio"], 0.0)
+
     def test_optimizer_preconditioner_scale_damps_geometric_direction(self):
         def run(scale):
             weight = torch.nn.Parameter(torch.tensor([2.0]))
@@ -270,7 +288,7 @@ class GeometricFlowTests(unittest.TestCase):
         x = torch.randn(2, 3, 32, 32)
         y = model(x)
         self.assertEqual(y.shape, (2, 3))
-        self.assertEqual(len(model.geometric_parameters()), 3)
+        self.assertEqual(len(model.geometric_parameters()), 6)
 
     def test_phase_diagram_scanner_2d_writes_csv(self):
         torch.manual_seed(9)
