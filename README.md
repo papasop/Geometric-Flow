@@ -24,6 +24,21 @@ Reference synthetic CIFAR-10 smoke milestone from a late-switch hybrid run:
 `ratio` is `mean_preconditioned_to_raw_ratio`, a diagnostic for how strongly the
 geometric direction is being used.
 
+## Why Geometric Flow?
+
+Most deep learning optimizers, including SGD and Adam, navigate parameter space
+using gradients alone. They know which way is downhill, but they do not directly
+measure how the terrain bends.
+
+Geometric flow also measures local curvature with Hessian/Fisher information.
+Like a hiker who can see both slope and terrain shape, a geometric optimizer can
+precondition its steps and choose a more informed path through the loss
+landscape.
+
+The idea comes from quantum-control experiments, where geometry-aware updates
+reduced evaluations by 56% and saved 30% of physical qubits. This repository
+brings that geometry-first philosophy into PyTorch deep learning.
+
 ## One-Command Quickstart
 
 ### Run In Google Colab
