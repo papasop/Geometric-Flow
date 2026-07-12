@@ -29,6 +29,8 @@ opt = GeometricOptimizer(
     lr_scale=3.0,
     grad_smoothing=0.9,
     preconditioner_scale=0.5,
+    mode="hybrid",
+    adam_warmup_steps=25,
 )
 
 def closure(backward=False):
@@ -52,6 +54,15 @@ Curvature is refreshed every `curvature_reuse` steps and reused between refreshe
 to keep HVP overhead under control.
 Geometric steps use `lr_scale` to exploit the preconditioned direction, while
 `grad_smoothing` applies EMA smoothing to the preconditioned update.
+Use `mode="hybrid"` to run Adam for `adam_warmup_steps` steps before switching
+to CG or diagonal geometric updates. This is the recommended starting point for
+small CNN classification tasks because Adam quickly finds a stable early basin
+and the geometric phase then takes over with curvature-aware steps. For short
+CIFAR-style smoke tests, late switches such as 48 Adam steps in a 50-step run are
+more stable than early switches while the geometric CNN direction is still being
+tuned. Use
+`mode="adam"` for a pure Adam baseline and `mode="geometric"` for pure
+geometry-first training with the SGD warm-up path.
 For small CNNs or noisy batches, lower `preconditioner_scale` to keep the
 preconditioned/raw gradient ratio in a stable range.
 For classification, try `curvature_kind="fisher"` or `preconditioner="diagonal"`
@@ -82,6 +93,7 @@ GeoCNN CIFAR-style baseline:
 ```bash
 python experiments/train_cifar10_geo.py --dataset synthetic
 python experiments/train_cifar10_geo.py --dataset synthetic --use-fisher --preconditioner diagonal
+python experiments/train_cifar10_geo.py --dataset synthetic --mode hybrid --adam-warmup-steps 48 --use-fisher --preconditioner diagonal --precond-scale 0.5 --max-grad-norm 2.0 --grad-smoothing 0.0
 python experiments/train_cifar10_geo.py --dataset cifar10 --data-root ./data
 ```
 

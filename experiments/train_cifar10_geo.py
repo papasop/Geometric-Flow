@@ -126,6 +126,8 @@ def train_one(args, optimizer_name: str, train_loader: DataLoader, eval_loader: 
             curvature_scale=args.curvature_scale,
             curvature_kind="fisher" if args.use_fisher else "hessian",
             preconditioner=args.preconditioner,
+            mode=args.mode,
+            adam_warmup_steps=args.adam_warmup_steps,
             cg_max_iter=args.cg_max_iter,
             trace_samples=args.trace_samples,
             diagnostic_log_path=args.diagnostic_log,
@@ -153,7 +155,12 @@ def train_one(args, optimizer_name: str, train_loader: DataLoader, eval_loader: 
     loss, accuracy = evaluate(model, eval_loader, device)
     ratios = []
     if isinstance(optimizer, GeometricOptimizer):
-        ratios = [row["preconditioned_to_raw_ratio"] for row in optimizer.topography_log if row["raw_grad_norm"] > 0]
+        geometric_modes = {"geometric", "geometric_reuse", "diagonal"}
+        ratios = [
+            row["preconditioned_to_raw_ratio"]
+            for row in optimizer.topography_log
+            if row["raw_grad_norm"] > 0 and row["mode"] in geometric_modes
+        ]
     return TrainResult(
         optimizer=optimizer_name,
         final_loss=loss,
@@ -182,12 +189,14 @@ def main() -> None:
     parser.add_argument("--regularization", type=float, default=1e-3)
     parser.add_argument("--warmup-steps", type=int, default=10)
     parser.add_argument("--max-update-norm", type=float, default=1.0)
-    parser.add_argument("--max-grad-norm", type=float, default=1.0)
-    parser.add_argument("--grad-smoothing", type=float, default=0.9)
+    parser.add_argument("--max-grad-norm", type=float, default=2.0)
+    parser.add_argument("--grad-smoothing", type=float, default=0.0)
     parser.add_argument("--precond-scale", type=float, default=0.5)
     parser.add_argument("--curvature-scale", type=float, default=1.0)
     parser.add_argument("--use-fisher", action="store_true")
     parser.add_argument("--preconditioner", choices=["cg", "diagonal"], default="cg")
+    parser.add_argument("--mode", choices=["geometric", "adam", "hybrid"], default="geometric")
+    parser.add_argument("--adam-warmup-steps", type=int, default=48)
     parser.add_argument("--cg-max-iter", type=int, default=8)
     parser.add_argument("--trace-samples", type=int, default=0)
     parser.add_argument("--seed", type=int, default=31)
@@ -199,7 +208,13 @@ def main() -> None:
 
     set_seed(args.seed)
     train_loader, eval_loader = make_loaders(args)
-    rows = [train_one(args, name, train_loader, eval_loader) for name in ("adam", "geometric")]
+    if args.mode == "adam":
+        rows = [train_one(args, "adam", train_loader, eval_loader)]
+    else:
+        rows = [
+            train_one(args, "adam", train_loader, eval_loader),
+            train_one(args, args.mode, train_loader, eval_loader),
+        ]
     path = Path(args.out)
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="", encoding="utf-8") as handle:

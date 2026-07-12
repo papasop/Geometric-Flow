@@ -10,7 +10,7 @@ from typing import Callable, Optional
 import torch
 from torch.optim import Optimizer
 
-from ._tensor import assign_flat_update, trainable_params
+from ._tensor import assign_flat_update, get_flat_params, trainable_params
 from .curvature import CurvatureKind, compute_curvature, hutchinson_trace
 from .navigation import conjugate_gradient
 
@@ -58,6 +58,8 @@ class GeometricOptimizer(Optimizer):
         preconditioner_scale: float = 0.5,
         curvature_scale: float = 1.0,
         preconditioner: str = "cg",
+        mode: str = "geometric",
+        adam_warmup_steps: int = 0,
         diagonal_beta1: float = 0.9,
         diagonal_beta2: float = 0.999,
         diagonal_eps: float = 1e-8,
@@ -97,6 +99,10 @@ class GeometricOptimizer(Optimizer):
             raise ValueError("curvature_scale must be positive")
         if preconditioner not in {"cg", "diagonal"}:
             raise ValueError("preconditioner must be 'cg' or 'diagonal'")
+        if mode not in {"geometric", "adam", "hybrid"}:
+            raise ValueError("mode must be 'geometric', 'adam', or 'hybrid'")
+        if adam_warmup_steps < 0:
+            raise ValueError("adam_warmup_steps must be non-negative")
         if not 0 <= diagonal_beta1 < 1 or not 0 <= diagonal_beta2 < 1:
             raise ValueError("diagonal betas must be in [0, 1)")
         if diagonal_eps <= 0:
@@ -138,6 +144,8 @@ class GeometricOptimizer(Optimizer):
         self.preconditioner_scale = preconditioner_scale
         self.curvature_scale = curvature_scale
         self.preconditioner = preconditioner
+        self.mode = mode
+        self.adam_warmup_steps = adam_warmup_steps
         self.diagonal_beta1 = diagonal_beta1
         self.diagonal_beta2 = diagonal_beta2
         self.diagonal_eps = diagonal_eps
@@ -156,6 +164,7 @@ class GeometricOptimizer(Optimizer):
         self._diag_m = None
         self._diag_v = None
         self._diag_step = 0
+        self._adam_optimizer = None
 
     @property
     def _params(self):
@@ -169,10 +178,18 @@ class GeometricOptimizer(Optimizer):
             raise RuntimeError("GeometricOptimizer requires a closure returning the loss")
 
         self._step_index += 1
-        if self._step_index <= self.warmup_steps:
+        if self.mode == "adam":
+            return self._adam_step(closure, mode="adam", verbose=verbose)
+        if self.mode == "hybrid" and self._step_index <= self.adam_warmup_steps:
+            return self._adam_step(closure, mode="adam_warmup", verbose=verbose)
+        if self.mode == "geometric" and self._step_index <= self.warmup_steps:
             return self._warmup_step(closure, verbose=verbose)
 
-        geometric_step = self._step_index - self.warmup_steps
+        geometric_step = self._step_index
+        if self.mode == "geometric":
+            geometric_step -= self.warmup_steps
+        elif self.mode == "hybrid":
+            geometric_step -= self.adam_warmup_steps
         refresh_curvature = (
             geometric_step == 1
             or geometric_step % self.curvature_reuse == 0
@@ -285,6 +302,61 @@ class GeometricOptimizer(Optimizer):
             "trace_estimate": trace,
             "cg_iterations": cg_iters,
             "residual_norm": residual_norm,
+        }
+        self.topography_log.append(entry)
+        self._maybe_emit_diagnostics(entry, verbose=verbose)
+        return loss
+
+    def _adam_step(
+        self,
+        closure: Callable[..., torch.Tensor],
+        mode: str,
+        verbose: Optional[bool] = None,
+    ) -> torch.Tensor:
+        params = self._params
+        before = get_flat_params(params)
+        if self._adam_optimizer is None:
+            self._adam_optimizer = torch.optim.Adam(params, lr=self.param_groups[0]["lr"])
+
+        with torch.enable_grad():
+            self.zero_grad(set_to_none=True)
+            self._adam_optimizer.zero_grad(set_to_none=True)
+            loss = self._call_loss_closure(closure)
+            if not torch.is_tensor(loss) or loss.ndim != 0:
+                raise RuntimeError("closure must return a scalar loss tensor")
+            loss.backward()
+
+        raw_grad = self._flat_current_grad(params)
+        raw_grad_norm = float(torch.linalg.vector_norm(raw_grad))
+        clipped_grad_norm = self._clip_gradients(params)
+        grad = self._flat_current_grad(params, fallback=raw_grad)
+        grad_norm = float(torch.linalg.vector_norm(grad))
+        self._adam_optimizer.step()
+        after = get_flat_params(params)
+        update_norm = float(torch.linalg.vector_norm(after - before)) if before.numel() else 0.0
+        self.geodesic_distance += update_norm
+        self._adapt_damping(clipped_grad_norm)
+
+        entry = {
+            "step": self._step_index,
+            "mode": mode,
+            "loss": float(loss.detach()),
+            "raw_grad_norm": raw_grad_norm,
+            "grad_norm": grad_norm,
+            "clipped_grad_norm": clipped_grad_norm,
+            "current_damping": self._damping,
+            "curvature_refreshed": False,
+            "curvature_reuse": self.curvature_reuse,
+            "reuse_change_rate": None,
+            "preconditioned_grad_norm": grad_norm,
+            "preconditioned_to_raw_ratio": grad_norm / max(raw_grad_norm, 1e-30),
+            "direction_norm": grad_norm,
+            "update_norm": update_norm,
+            "geodesic_distance": self.geodesic_distance,
+            "rayleigh_grad": None,
+            "trace_estimate": None,
+            "cg_iterations": 0,
+            "residual_norm": grad_norm,
         }
         self.topography_log.append(entry)
         self._maybe_emit_diagnostics(entry, verbose=verbose)

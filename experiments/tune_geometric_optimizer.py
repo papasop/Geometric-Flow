@@ -25,6 +25,7 @@ from geometric_flow import GeoMLP, GeometricOptimizer
 
 @dataclass
 class TuneResult:
+    mode: str
     lr: float
     damping: float
     lr_scale: float
@@ -121,24 +122,29 @@ def run_trial(args, train_loader, eval_loader, lr, damping, lr_scale, curvature_
     set_seed(args.seed)
     device = torch.device(args.device)
     model = GeoMLP(hidden_dim=args.hidden_dim, output_dim=10).to(device)
-    optimizer = GeometricOptimizer(
-        model.parameters(),
-        lr=lr,
-        damping=damping,
-        lr_scale=lr_scale,
-        curvature_reuse=curvature_reuse,
-        warmup_steps=args.warmup_steps,
-        regularization=args.regularization,
-        cg_max_iter=args.cg_max_iter,
-        trace_samples=args.trace_samples,
-        max_update_norm=args.max_update_norm,
-        max_grad_norm=args.max_grad_norm,
-        grad_smoothing=args.grad_smoothing,
-        preconditioner_scale=args.precond_scale,
-        curvature_scale=args.curvature_scale,
-        curvature_kind="fisher" if args.use_fisher else "hessian",
-        preconditioner=args.preconditioner,
-    )
+    if args.mode == "adam":
+        optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+    else:
+        optimizer = GeometricOptimizer(
+            model.parameters(),
+            lr=lr,
+            damping=damping,
+            lr_scale=lr_scale,
+            curvature_reuse=curvature_reuse,
+            warmup_steps=args.warmup_steps,
+            regularization=args.regularization,
+            cg_max_iter=args.cg_max_iter,
+            trace_samples=args.trace_samples,
+            max_update_norm=args.max_update_norm,
+            max_grad_norm=args.max_grad_norm,
+            grad_smoothing=args.grad_smoothing,
+            preconditioner_scale=args.precond_scale,
+            curvature_scale=args.curvature_scale,
+            curvature_kind="fisher" if args.use_fisher else "hessian",
+            preconditioner=args.preconditioner,
+            mode=args.mode,
+            adam_warmup_steps=args.adam_warmup_steps,
+        )
     iterator = iter(train_loader)
     best_loss = float("inf")
     start = time.perf_counter()
@@ -152,14 +158,29 @@ def run_trial(args, train_loader, eval_loader, lr, damping, lr_scale, curvature_
             x, y = next(iterator)
         x = x.to(device)
         y = y.to(device)
-        last_loss = optimizer.step(lambda: F.cross_entropy(model(x), y), verbose=args.verbose)
+        if args.mode == "adam":
+            optimizer.zero_grad(set_to_none=True)
+            last_loss = F.cross_entropy(model(x), y)
+            last_loss.backward()
+            optimizer.step()
+        else:
+            last_loss = optimizer.step(lambda: F.cross_entropy(model(x), y), verbose=args.verbose)
         best_loss = min(best_loss, float(last_loss.detach()))
 
     seconds = time.perf_counter() - start
     final_loss, final_accuracy = evaluate(model, eval_loader, device)
-    ratios = [row["preconditioned_to_raw_ratio"] for row in optimizer.topography_log if row["raw_grad_norm"] > 0]
+    if isinstance(optimizer, GeometricOptimizer):
+        geometric_modes = {"geometric", "geometric_reuse", "diagonal"}
+        ratios = [
+            row["preconditioned_to_raw_ratio"]
+            for row in optimizer.topography_log
+            if row["raw_grad_norm"] > 0 and row["mode"] in geometric_modes
+        ]
+    else:
+        ratios = []
     avg_ratio = sum(ratios) / max(len(ratios), 1)
     return TuneResult(
+        mode=args.mode,
         lr=lr,
         damping=damping,
         lr_scale=lr_scale,
@@ -197,6 +218,8 @@ def main() -> None:
     parser.add_argument("--curvature-scale", type=float, default=1.0)
     parser.add_argument("--use-fisher", action="store_true")
     parser.add_argument("--preconditioner", choices=["cg", "diagonal"], default="cg")
+    parser.add_argument("--mode", choices=["geometric", "adam", "hybrid"], default="geometric")
+    parser.add_argument("--adam-warmup-steps", type=int, default=25)
     parser.add_argument("--seed", type=int, default=23)
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     parser.add_argument("--out", default="artifacts/tune_geometric_optimizer.csv")
@@ -215,7 +238,7 @@ def main() -> None:
         result = run_trial(args, train_loader, eval_loader, lr, damping, lr_scale, reuse)
         rows.append(result)
         print(
-            f"lr={lr:g} damping={damping:g} lr_scale={lr_scale:g} reuse={reuse} "
+            f"mode={args.mode} lr={lr:g} damping={damping:g} lr_scale={lr_scale:g} reuse={reuse} "
             f"loss={result.final_loss:.4f} acc={result.final_accuracy:.3f} seconds={result.train_seconds:.2f}"
         )
 

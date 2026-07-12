@@ -179,6 +179,38 @@ class GeometricFlowTests(unittest.TestCase):
         self.assertEqual(entry["cg_iterations"], 0)
         self.assertGreater(entry["preconditioned_to_raw_ratio"], 0.0)
 
+    def test_optimizer_adam_mode_logs_adam_steps(self):
+        weight = torch.nn.Parameter(torch.tensor([2.0]))
+        optimizer = GeometricOptimizer([weight], lr=0.05, mode="adam", warmup_steps=0)
+
+        optimizer.step(lambda: 0.5 * (weight - 1.0).pow(2).sum())
+        entry = optimizer.topography_log[-1]
+        self.assertEqual(entry["mode"], "adam")
+        self.assertFalse(entry["curvature_refreshed"])
+        self.assertGreater(entry["update_norm"], 0.0)
+
+    def test_optimizer_hybrid_uses_adam_then_geometric(self):
+        weight = torch.nn.Parameter(torch.tensor([2.0]))
+        optimizer = GeometricOptimizer(
+            [weight],
+            lr=0.05,
+            mode="hybrid",
+            adam_warmup_steps=2,
+            warmup_steps=0,
+            preconditioner="diagonal",
+            grad_smoothing=0.0,
+        )
+
+        def closure():
+            return 0.5 * (weight - 1.0).pow(2).sum()
+
+        optimizer.step(closure)
+        optimizer.step(closure)
+        optimizer.step(closure)
+        modes = [row["mode"] for row in optimizer.topography_log]
+        self.assertEqual(modes[:2], ["adam_warmup", "adam_warmup"])
+        self.assertEqual(modes[2], "diagonal")
+
     def test_optimizer_preconditioner_scale_damps_geometric_direction(self):
         def run(scale):
             weight = torch.nn.Parameter(torch.tensor([2.0]))
