@@ -9,7 +9,8 @@ import sys
 import time
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Tuple
+from statistics import mean, stdev
+from typing import List, Tuple
 
 import torch
 import torch.nn.functional as F
@@ -30,6 +31,20 @@ class TrainResult:
     train_seconds: float
     steps: int
     avg_preconditioned_to_raw_ratio: float
+
+
+@dataclass
+class SummaryResult:
+    optimizer: str
+    trials: int
+    mean_accuracy: float
+    std_accuracy: float
+    mean_loss: float
+    std_loss: float
+    mean_seconds: float
+    std_seconds: float
+    mean_preconditioned_to_raw_ratio: float
+    steps: int
 
 
 def set_seed(seed: int) -> None:
@@ -126,7 +141,7 @@ def train_one(args, optimizer_name: str, train_loader: DataLoader, eval_loader: 
             curvature_scale=args.curvature_scale,
             curvature_kind="fisher" if args.use_fisher else "hessian",
             preconditioner=args.preconditioner,
-            mode=args.mode,
+            mode=optimizer_name,
             adam_warmup_steps=args.adam_warmup_steps,
             cg_max_iter=args.cg_max_iter,
             trace_samples=args.trace_samples,
@@ -171,11 +186,68 @@ def train_one(args, optimizer_name: str, train_loader: DataLoader, eval_loader: 
     )
 
 
+def optimizer_names(mode: str) -> List[str]:
+    if mode == "all":
+        return ["adam", "geometric", "hybrid"]
+    return [mode]
+
+
+def summarize(name: str, results: List[TrainResult]) -> SummaryResult:
+    accuracies = [row.final_accuracy for row in results]
+    losses = [row.final_loss for row in results]
+    seconds = [row.train_seconds for row in results]
+    ratios = [row.avg_preconditioned_to_raw_ratio for row in results]
+    return SummaryResult(
+        optimizer=name,
+        trials=len(results),
+        mean_accuracy=mean(accuracies),
+        std_accuracy=stdev(accuracies) if len(accuracies) > 1 else 0.0,
+        mean_loss=mean(losses),
+        std_loss=stdev(losses) if len(losses) > 1 else 0.0,
+        mean_seconds=mean(seconds),
+        std_seconds=stdev(seconds) if len(seconds) > 1 else 0.0,
+        mean_preconditioned_to_raw_ratio=mean(ratios),
+        steps=results[0].steps if results else 0,
+    )
+
+
+def run_trials(args) -> List[SummaryResult]:
+    summaries = []
+    for name in optimizer_names(args.mode):
+        trial_results = []
+        for trial in range(args.trials):
+            trial_args = argparse.Namespace(**vars(args))
+            trial_args.seed = args.seed + trial
+            set_seed(trial_args.seed)
+            train_loader, eval_loader = make_loaders(trial_args)
+            result = train_one(trial_args, name, train_loader, eval_loader)
+            trial_results.append(result)
+            print(
+                f"{name} trial={trial + 1}/{args.trials}: loss={result.final_loss:.4f} "
+                f"acc={result.final_accuracy:.3f} seconds={result.train_seconds:.2f} "
+                f"ratio={result.avg_preconditioned_to_raw_ratio:.3f}"
+            )
+        summaries.append(summarize(name, trial_results))
+    return summaries
+
+
+def print_comparison_table(rows: List[SummaryResult]) -> None:
+    print("\noptimizer  mean_acc  std_acc  mean_loss  std_loss  mean_sec  ratio")
+    print("---------  --------  -------  ---------  --------  --------  -----")
+    for row in rows:
+        print(
+            f"{row.optimizer:<9}  {row.mean_accuracy:>8.3f}  {row.std_accuracy:>7.3f}  "
+            f"{row.mean_loss:>9.4f}  {row.std_loss:>8.4f}  {row.mean_seconds:>8.2f}  "
+            f"{row.mean_preconditioned_to_raw_ratio:>5.3f}"
+        )
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dataset", choices=["synthetic", "cifar10"], default="synthetic")
     parser.add_argument("--data-root", default="./data")
     parser.add_argument("--download", action="store_true")
+    parser.add_argument("--trials", type=int, default=3)
     parser.add_argument("--steps", type=int, default=200)
     parser.add_argument("--channels", type=int, default=32)
     parser.add_argument("--batch-size", type=int, default=64)
@@ -195,8 +267,8 @@ def main() -> None:
     parser.add_argument("--curvature-scale", type=float, default=1.0)
     parser.add_argument("--use-fisher", action="store_true")
     parser.add_argument("--preconditioner", choices=["cg", "diagonal"], default="cg")
-    parser.add_argument("--mode", choices=["geometric", "adam", "hybrid"], default="geometric")
-    parser.add_argument("--adam-warmup-steps", type=int, default=48)
+    parser.add_argument("--mode", choices=["adam", "geometric", "hybrid", "all"], default="all")
+    parser.add_argument("--adam-warmup-steps", type=int, default=30)
     parser.add_argument("--cg-max-iter", type=int, default=8)
     parser.add_argument("--trace-samples", type=int, default=0)
     parser.add_argument("--seed", type=int, default=31)
@@ -205,16 +277,11 @@ def main() -> None:
     parser.add_argument("--diagnostic-log", default="artifacts/cifar10_geo_diagnostics.csv")
     parser.add_argument("--verbose", action="store_true")
     args = parser.parse_args()
+    if args.trials < 1:
+        raise ValueError("--trials must be >= 1")
 
-    set_seed(args.seed)
-    train_loader, eval_loader = make_loaders(args)
-    if args.mode == "adam":
-        rows = [train_one(args, "adam", train_loader, eval_loader)]
-    else:
-        rows = [
-            train_one(args, "adam", train_loader, eval_loader),
-            train_one(args, args.mode, train_loader, eval_loader),
-        ]
+    rows = run_trials(args)
+    print_comparison_table(rows)
     path = Path(args.out)
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="", encoding="utf-8") as handle:
@@ -222,10 +289,6 @@ def main() -> None:
         writer.writeheader()
         for row in rows:
             writer.writerow(asdict(row))
-            print(
-                f"{row.optimizer}: loss={row.final_loss:.4f} acc={row.final_accuracy:.3f} "
-                f"seconds={row.train_seconds:.2f} ratio={row.avg_preconditioned_to_raw_ratio:.3f}"
-            )
     print(f"wrote {path}")
 
 

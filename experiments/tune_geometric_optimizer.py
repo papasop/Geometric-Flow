@@ -26,6 +26,7 @@ from geometric_flow import GeoMLP, GeometricOptimizer
 @dataclass
 class TuneResult:
     mode: str
+    adam_warmup_steps: int
     lr: float
     damping: float
     lr_scale: float
@@ -44,6 +45,15 @@ def parse_floats(value: str) -> List[float]:
 
 def parse_ints(value: str) -> List[int]:
     return [int(part.strip()) for part in value.split(",") if part.strip()]
+
+
+def parse_modes(value: str) -> List[str]:
+    modes = [part.strip() for part in value.split(",") if part.strip()]
+    allowed = {"geometric", "adam", "hybrid"}
+    unknown = sorted(set(modes) - allowed)
+    if unknown:
+        raise argparse.ArgumentTypeError(f"unknown modes: {', '.join(unknown)}")
+    return modes
 
 
 def set_seed(seed: int) -> None:
@@ -118,11 +128,21 @@ def evaluate(model: torch.nn.Module, loader: DataLoader, device: torch.device) -
     return sum(losses) / max(len(losses), 1), correct / max(total, 1)
 
 
-def run_trial(args, train_loader, eval_loader, lr, damping, lr_scale, curvature_reuse) -> TuneResult:
+def run_trial(
+    args,
+    train_loader,
+    eval_loader,
+    mode,
+    adam_warmup_steps,
+    lr,
+    damping,
+    lr_scale,
+    curvature_reuse,
+) -> TuneResult:
     set_seed(args.seed)
     device = torch.device(args.device)
     model = GeoMLP(hidden_dim=args.hidden_dim, output_dim=10).to(device)
-    if args.mode == "adam":
+    if mode == "adam":
         optimizer = torch.optim.Adam(model.parameters(), lr=lr)
     else:
         optimizer = GeometricOptimizer(
@@ -142,8 +162,8 @@ def run_trial(args, train_loader, eval_loader, lr, damping, lr_scale, curvature_
             curvature_scale=args.curvature_scale,
             curvature_kind="fisher" if args.use_fisher else "hessian",
             preconditioner=args.preconditioner,
-            mode=args.mode,
-            adam_warmup_steps=args.adam_warmup_steps,
+            mode=mode,
+            adam_warmup_steps=adam_warmup_steps,
         )
     iterator = iter(train_loader)
     best_loss = float("inf")
@@ -158,7 +178,7 @@ def run_trial(args, train_loader, eval_loader, lr, damping, lr_scale, curvature_
             x, y = next(iterator)
         x = x.to(device)
         y = y.to(device)
-        if args.mode == "adam":
+        if mode == "adam":
             optimizer.zero_grad(set_to_none=True)
             last_loss = F.cross_entropy(model(x), y)
             last_loss.backward()
@@ -180,7 +200,8 @@ def run_trial(args, train_loader, eval_loader, lr, damping, lr_scale, curvature_
         ratios = []
     avg_ratio = sum(ratios) / max(len(ratios), 1)
     return TuneResult(
-        mode=args.mode,
+        mode=mode,
+        adam_warmup_steps=adam_warmup_steps,
         lr=lr,
         damping=damping,
         lr_scale=lr_scale,
@@ -218,8 +239,10 @@ def main() -> None:
     parser.add_argument("--curvature-scale", type=float, default=1.0)
     parser.add_argument("--use-fisher", action="store_true")
     parser.add_argument("--preconditioner", choices=["cg", "diagonal"], default="cg")
-    parser.add_argument("--mode", choices=["geometric", "adam", "hybrid"], default="geometric")
-    parser.add_argument("--adam-warmup-steps", type=int, default=25)
+    parser.add_argument("--mode", choices=["geometric", "adam", "hybrid"], default=None)
+    parser.add_argument("--modes", type=parse_modes, default=parse_modes("geometric,adam,hybrid"))
+    parser.add_argument("--adam-warmup-steps", type=int, default=None)
+    parser.add_argument("--adam-warmup-steps-list", type=parse_ints, default=parse_ints("10,30,50,80"))
     parser.add_argument("--seed", type=int, default=23)
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     parser.add_argument("--out", default="artifacts/tune_geometric_optimizer.csv")
@@ -229,18 +252,24 @@ def main() -> None:
     set_seed(args.seed)
     train_loader, eval_loader = make_loaders(args)
     rows = []
-    for lr, damping, lr_scale, reuse in itertools.product(
-        args.lrs,
-        args.dampings,
-        args.lr_scales,
-        args.curvature_reuses,
-    ):
-        result = run_trial(args, train_loader, eval_loader, lr, damping, lr_scale, reuse)
-        rows.append(result)
-        print(
-            f"mode={args.mode} lr={lr:g} damping={damping:g} lr_scale={lr_scale:g} reuse={reuse} "
-            f"loss={result.final_loss:.4f} acc={result.final_accuracy:.3f} seconds={result.train_seconds:.2f}"
-        )
+    modes = [args.mode] if args.mode is not None else args.modes
+    warmup_list = [args.adam_warmup_steps] if args.adam_warmup_steps is not None else args.adam_warmup_steps_list
+    for mode in modes:
+        mode_warmups = warmup_list if mode == "hybrid" else [0]
+        for adam_warmup_steps, lr, damping, lr_scale, reuse in itertools.product(
+            mode_warmups,
+            args.lrs,
+            args.dampings,
+            args.lr_scales,
+            args.curvature_reuses,
+        ):
+            result = run_trial(args, train_loader, eval_loader, mode, adam_warmup_steps, lr, damping, lr_scale, reuse)
+            rows.append(result)
+            print(
+                f"mode={mode} adam_warmup={adam_warmup_steps} lr={lr:g} damping={damping:g} "
+                f"lr_scale={lr_scale:g} reuse={reuse} loss={result.final_loss:.4f} "
+                f"acc={result.final_accuracy:.3f} seconds={result.train_seconds:.2f}"
+            )
 
     path = Path(args.out)
     path.parent.mkdir(parents=True, exist_ok=True)
