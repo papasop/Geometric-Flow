@@ -1,0 +1,1149 @@
+\documentclass[11pt]{article}
+
+% ---- Engine: pdfLaTeX ----
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+\usepackage[a4paper,margin=2.3cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+
+\definecolor{accent}{HTML}{1F4E79}
+\definecolor{soft}{HTML}{5B6B7A}
+\definecolor{boxbg}{HTML}{F2F5F8}
+\definecolor{rule}{HTML}{C9D3DC}
+\hypersetup{colorlinks=true,linkcolor=accent,urlcolor=accent,citecolor=accent}
+
+\titleformat{\section}{\Large\bfseries\color{accent}}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\large\bfseries\color{accent!85!black}}{\thesubsection}{0.5em}{}
+\titlespacing*{\section}{0pt}{1.4ex plus .3ex}{0.7ex}
+\setlist[itemize]{leftmargin=1.4em,itemsep=1.5pt,topsep=2pt}
+\newcommand{\code}[1]{\texttt{#1}}
+\providecommand{\ket}[1]{\lvert #1 \rangle}
+\emergencystretch=3em
+\sloppy
+
+\title{\vspace{-1.2cm}
+{\color{accent}\Large\bfseries Computation as Geometric Flow}\\[0.55em]
+{\color{soft}\large\itshape Stable--Neutral Implementation Manifolds,\\[0.15em]
+Response Prediction, and Geometric Preconditioning}\\[0.4em]
+{\color{rule}\rule{0.55\linewidth}{0.6pt}}}
+\author{Y.\,Y.\,N.\,Li}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+A fixed quantum task may admit continuous families of physically distinct
+implementations with the same ideal endpoint. We formulate a local
+\emph{stable--neutral} geometry in which endpoint-preserving tangent directions are
+neutral, while transverse directions are governed by a positive-definite normal Hessian operator $A$.
+In an exact density-matrix Qiskit/Aer construction, the normal operator is
+anisotropic and non-axis-aligned. Its eigenvalues agree with impulse-decay rates to
+within $1.6\%$, and an impulse-frozen operator predicts held-out sustained loads with
+$0.82\%$ mean vector error, whereas scalar, diagonal, and eigendirection-scrambled
+reductions fail by factors of $61$--$164$. An eigendirection-unseeded identification from
+random-direction trajectory data, within the same constructed loss model, recovers the
+operator's spectrum and eigendirections ($2.29\%$ Frobenius; eigendirection alignment
+$>0.99999999$), and under isotropic driving the operator reproduces the stationary
+covariance to $1.93\%$. We then use
+$A^{-1}$ as a geometric preconditioner: across twenty random starts it reaches the
+same local optimum with $286.2$ mean function evaluations, versus $545.4$--$651.3$ for
+the simplified flows. Under an equal $180$-evaluation budget it gives the lowest
+training and held-out loss for all ten starts and leaves a residual normal
+displacement $38$--$62$ times smaller. These results establish a constructive
+implementation-space proof of principle: the full normal operator, rather than a
+scalar robustness score, can serve both as a predictive response object and as an
+optimization preconditioner. Supporting robustness-landscape and cloud-emulation
+evidence includes a continuous $\alpha$-basin with null controls, a PASQAL Cloud
+\code{EMU\_FREE} area-matched ablation, a seven-point response sweep (correlation
+$0.9924$), a discrete pure search, and a GHZ$_3$ recovery benchmark. No physical-QPU or
+universal geometric-computation claim is made.
+\end{abstract}
+
+% =====================================================================
+\section{Introduction}
+
+Quantum computation is almost always specified as a discrete sequence of gates.
+This description, however indispensable, can be incomplete: the same ideal
+computation can admit continuously parameterized families of physically distinct
+implementations. In the families studied here, robustness is organized across
+this implementation geometry rather than by gate count alone.
+
+We therefore take the family of task-endpoint-equivalent implementations, rather
+than a single circuit or pulse sequence, as the central object. A point in this
+implementation space labels one physical realization (a control trajectory); a
+curve in it is a continuous deformation or search between implementations,
+distinct from physical time evolution; and noise induces a robustness landscape
+over this geometry. In this view, a discrete circuit is not rejected, but is
+viewed as a sampled realization or coordinate representation within a larger
+implementation geometry. In the NISQ setting, where coherent and stochastic
+errors both matter, such implementation-level robustness is an operationally
+relevant question~\cite{preskill2018}.
+
+This is not a paper about a new composite pulse. The \textsc{bb1} sequence is used only as a known robustness landmark~\cite{wimperis1994}, not as a pulse-design contribution. Our question is how robustness is organized across the endpoint-equivalent implementation families that realize the same ideal endpoint, rather than how to design a single robust gate.
+
+Two paths are \emph{task-endpoint-equivalent} if their ideal noiseless output distributions coincide within tolerance for the fixed input and measurement; under noise they need not be equally accurate. Under coherent drift and stochastic exposure, endpoint-equivalent paths exhibit a U-shaped error profile: short paths under-correct the drift, focused $X$-echo paths cancel it~\cite{hahn1950,meiboom1958,viola1999}, and overlong paths accumulate stochastic noise, so the best noisy implementation is typically \emph{not} the shortest. We test whether this focused optimum can be discovered by a pure search that is never handed the known good path.
+
+The central hypothesis is that this U-shape is the projection of a deeper
+geometric structure: task-endpoint-equivalent implementations of a fixed ideal task endpoint
+are modeled, within locally smooth, constant-rank regions, as implementation
+manifolds. Within the continuous family tested here, the measured error landscape carries an attracting focused basin. Robust implementation is then a path-geometry property, not merely a
+gate-count property.
+
+\paragraph{Claim hierarchy.}
+The principal claim is the local identification, prediction, and inversion of
+the full normal operator in a constructed exact-Aer realization. The
+path-landscape, GHZ$_3$, and PASQAL EMU studies provide supporting operational
+evidence. A universal ``computation is geometric flow'' interpretation remains
+a hypothesis.
+
+\paragraph{The spine of this paper: identify $\to$ predict $\to$ compute.} The
+central new contribution is not that a search finds an echo path, but that in a
+controlled constructed realization a full non-diagonal normal operator $A$ can be
+\emph{identified} from local curvature, \emph{used predictively} on a held-out
+protocol, and \emph{inverted algorithmically} as an optimization preconditioner:
+\[
+  \text{identify } A \;\to\; \text{predict with } A \;\to\; \text{compute with } A^{-1}.
+\]
+The robustness-landscape layers (discrete search, continuous basin, null controls,
+GHZ$_3$ recovery, and the PASQAL ablation) are \emph{supporting} evidence for the
+landscape picture; the operator identification, prediction, and preconditioning
+results (Sections~\ref{sec:construct}--\ref{sec:compute}) carry the principal claim.
+Table~\ref{tab:evidence-ledger} summarizes the full evidence structure.
+
+\paragraph{Two distinct objectives.} We use two different loss functions and never
+conflate them. The \emph{path} objective $J_{\mathrm{path}}=\mathrm{TVD}_{\mathrm{mit}}+\lambda_{\mathrm{cost}}\hat c+\Pi_{\mathrm{end}}$ scores whole implementation paths in the
+discrete/continuous/PASQAL benchmarks (Section~\ref{sec:support}).
+The \emph{local} objective $J_{\mathrm{loc}}$ (e.g.\ a single-qubit noisy loss
+$1-P(0)$) is the loss whose local Hessian defines the normal operator in the
+constructed realization of Sections~\ref{sec:geom} and~\ref{sec:construct}.
+The normal-operator experiment is a separate constructed local realization of the
+abstract framework; it is \emph{not} the Hessian of the earlier $54$-case
+path-search objective.
+
+The paper develops the local geometry, identifies and validates $A$, uses $A^{-1}$ for preconditioning, and then presents the supporting landscape and cloud-emulation evidence.
+
+% =====================================================================
+
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{@{}p{2.6cm}p{2.0cm}p{7.9cm}@{}}
+\toprule
+Result & Role & Headline \\
+\midrule
+Identify $A$ & \textbf{core} & non-diagonal normal operator; off-diagonal $0.500$; eigenvalues match impulse rates ($0.51\%$/$1.55\%$); random-direction ID recovers spectrum \& axes ($2.29\%$ Frob., alignment $>0.99999999$) \\
+Predict with $A$ & \textbf{core} & frozen $A$ predicts held-out sustained load ($0.82\%$); beats scalar/diagonal/rotated by $61$--$164\times$ \\
+Compute with $A^{-1}$ & \textbf{core} & $56\%$ fewer evaluations to same optimum (V3); $38$--$62\times$ closer to $\mathcal M_{\mathrm{eq}}$ at fixed budget (V4) \\
+Covariance closure & secondary & correlated-$Q$ consistency $1.09\%$; isotropic-$Q$ ($Q_{12}{=}0$) $1.93\%$ with $\Sigma_{12}\neq0$ attributed to $A$ \\
+Supporting evidence & support & continuous $\alpha$-basin and null controls; discrete pure search; GHZ$_3$ recovery; PASQAL EMU ablation and response sweep \\
+\bottomrule
+\end{tabular}
+\caption{Evidence ledger, organized by the paper spine
+\emph{identify $A\to$ predict with $A\to$ compute with $A^{-1}$}. The three \textbf{core}
+rows carry the principal claim (Sections~\ref{sec:construct}--\ref{sec:compute}); the covariance closure is a
+secondary internal-consistency check; the remaining rows are supporting
+robustness-landscape evidence. Detailed results appear in the corresponding
+subsections and supplement.}
+\label{tab:evidence-ledger}
+\end{table}
+
+\section{Geometric Formulation}\label{sec:geom}
+
+We first formulate the local, direction-resolved geometry needed for the principal
+normal-operator claim. Rather than a single scalar robustness score, we separate three
+notions that such a score would conflate---\emph{endpoint equivalence}, \emph{tangent
+neutrality}, and \emph{normal robustness}---and replace the qualitative
+``attracting-basin'' picture by an operator that predicts rates and directions of
+restoration. The complementary path-landscape framework, which scores whole
+implementation paths, is introduced later with the supporting evidence
+(Section~\ref{sec:framework}).
+
+
+\subsection{Endpoint-equivalent implementation sets}
+Let $E:\Theta\to\mathcal P$ be the ideal (noiseless) task-endpoint map, sending an
+implementation parameter $\theta$ to its ideal output distribution. For a fixed
+target $E_\star$ the endpoint-equivalent set is
+\[
+  \mathcal M_{\mathrm{eq}}=\{\theta:\ E(\theta)=E_\star\}.
+\]
+Within a locally smooth, constant-rank neighborhood $\mathcal M_{\mathrm{eq}}$ is
+modeled as a manifold whose tangent space is the kernel of the endpoint differential,
+\[
+  T_\theta\mathcal M_{\mathrm{eq}}=\ker DE(\theta),
+\]
+with $N_\theta\mathcal M_{\mathrm{eq}}$ the complementary normal space. No global
+smoothness, connectedness, or single-manifold structure is assumed;
+$\mathcal M_{\mathrm{eq}}$ may be disconnected, bounded, or stratified.
+
+
+\subsection{Stable--neutral decomposition}
+Endpoint equivalence alone does \emph{not} imply that the noisy loss is flat along
+$\mathcal M_{\mathrm{eq}}$: $E(\theta)=E_\star$ is a noiseless identity, whereas the
+noisy loss $J_{\mathrm{loc}}$ is a distinct object. We therefore do not call the whole
+endpoint-equivalent set stable--neutral. Instead, writing $P_T,P_N$ for the
+orthogonal projectors onto $T_\theta\mathcal M_{\mathrm{eq}}$ and
+$N_\theta\mathcal M_{\mathrm{eq}}$, we define a \emph{stable--neutral} point locally.
+
+\begin{quote}
+An endpoint-equivalent family is called \emph{locally stable--neutral} at
+$\bar\theta\in\mathcal M_{\mathrm{eq}}$ when, to leading order in the loss
+$J_{\mathrm{loc}}$,
+\[
+  P_T\,\nabla J_{\mathrm{loc}}(\bar\theta)\approx 0,\qquad
+  P_T\,H_{J_{\mathrm{loc}}}(\bar\theta)\,P_T\approx 0,\qquad
+  P_N\,H_{J_{\mathrm{loc}}}(\bar\theta)\,P_N\ \succ\ 0 .
+\]
+The stable--neutral subset $\mathcal M_{\mathrm{sn}}\subseteq\mathcal M_{\mathrm{eq}}$
+is the locus of such points, and
+$A_{\bar\theta}:=P_N H_{J_{\mathrm{loc}}}(\bar\theta)P_N$ is the \emph{normal response
+operator}.
+\end{quote}
+
+These conditions are logically distinct: endpoint equivalence is noiseless, whereas
+tangent neutrality and normal robustness concern $J_{\mathrm{loc}}$. Neither property is
+assumed globally; both are tested only in the constructed local realization
+(Section~\ref{sec:construct}).
+
+
+\subsection{Two objectives: $J_{\mathrm{path}}$ and $J_{\mathrm{loc}}$}\label{sec:twoobj}
+We use two distinct objectives. The path objective
+$J_{\mathrm{path}}=\mathrm{TVD}_{\mathrm{mit}}+\lambda_{\mathrm{cost}}\hat c+\Pi_{\mathrm{end}}$
+scores whole implementation paths in the supporting benchmarks (Section~\ref{sec:support}),
+whereas the local objective $J_{\mathrm{loc}}$ (a single-qubit noisy loss $1-P(0)$)
+defines the local normal Hessian in the constructed realization of
+Sections~\ref{sec:construct}--\ref{sec:compute}. Accordingly $A\neq\nabla^2 J_{\mathrm{path}}$:
+the normal operator is not the Hessian of the $54$-case path-search objective.
+
+
+\subsection{Linear normal-response model}
+Write the normal-space displacement as $n\in N_\theta\mathcal M_{\mathrm{eq}}$.
+Linearizing implementation-space descent about $\mathcal M_{\mathrm{eq}}$ gives an
+overdamped local response
+\begin{equation}
+  \dot n=-A\,n+f+\eta,\qquad \operatorname{Cov}(\eta\,ds)=Q\,ds,
+  \label{eq:normal-linear}
+\end{equation}
+where $A=P_N H_{J_{\mathrm{loc}}}P_N$ is the normal response operator, $f$ a sustained
+forcing (a transverse ``load''), and $\eta$ a driving fluctuation with a
+\emph{prescribed} covariance $Q=BB^\top$ that is in general anisotropic and
+correlated (it is not assumed isotropic). The evolution variable is an
+\emph{implementation-space flow parameter} $s$, not physical time:
+\[
+  s\neq t_{\mathrm{hardware}},\qquad s\neq d\tau,\qquad s\neq dt_{\mathrm{info}}.
+\]
+The flow is an optimization flow defined by the chosen descent rule
+$\dot n=-\nabla J_{\mathrm{loc}}$, linearized about the manifold; it is \emph{not} an
+independently observed physical relaxation process, and $A$ is a curvature operator on
+parameter space, not a Hamiltonian or Lindbladian generator. The linear model
+\eqref{eq:normal-linear} has three consequences that we test \emph{separately} (and
+at different evidence strength) in Section~\ref{sec:predict}:
+\begin{align}
+  \text{transient restoration:}\quad & n(s)=e^{-As}\,n(0),\\
+  \text{static susceptibility:}\quad & n_\infty=A^{-1}f,\\
+  \text{stationary fluctuations:}\quad & A\Sigma+\Sigma A^\top=Q .
+\end{align}
+
+\paragraph{Choice of parameter metric.} Treating the Hessian as an \emph{operator}
+$A=P_N H_{J_{\mathrm{loc}}}P_N$ and forming $A^{-1}$ implicitly uses an inner product on
+parameter space: under a general coordinate change a Hessian transforms as a bilinear
+form, and raising it to a linear operator requires a metric. Throughout the local
+construction the normal coordinates are equipped with the Euclidean parameter metric
+$g=I$; accordingly, $A$ denotes the metric-raised normal Hessian in this chosen
+coordinate chart. The preconditioning advantage below is therefore established for this
+explicit parameterization and metric; coordinate-invariant or natural-metric
+generalizations are left for future work. (The full/diagonal/rotated ablations already
+show that \emph{direction} information matters beyond a global rescaling, but the
+coordinate dependence of $A$ itself is stated here explicitly.)
+
+% =====================================================================
+
+\section{Constructed Local Realization and Identification of $A$}\label{sec:construct}
+
+This section constructs the local exact-Aer (V2--V5.1) realization of the stable--neutral
+geometry of Section~\ref{sec:geom} and identifies the normal response operator $A$.
+Prediction and preconditioning are treated in Sections~\ref{sec:predict}
+and~\ref{sec:compute}. Throughout, $J_{\mathrm{loc}}$ is the local noisy loss of this
+constructed realization, not the $54$-case path objective $J_{\mathrm{path}}$. The
+numerical values reported in this and the next two sections are from the author's
+original exact-Aer run; an independent, self-contained reimplementation
+(\code{geometric\_flow\_master.py}, cross-checked against Qiskit/Aer) reproduces the
+operator, its off-diagonal structure, the decay rates, the held-out ablation ordering,
+the isotropic-driving cross-covariance attribution, and the V3/V4 trends from scratch
+(Supplement). Figure~\ref{fig:spine}
+previews the whole spine $\text{identify }A\to\text{predict with }A\to\text{compute with }A^{-1}$.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{fig6_identify_predict_compute.pdf}
+\caption{The identify--predict--compute spine. The fitted normal operator recovers the
+local eigendirections, predicts held-out sustained loads, and, when inverted, accelerates
+convergence and reduces residual normal displacement. All results are from the constructed
+exact-Aer realization.}
+\label{fig:spine}
+\end{figure}
+
+
+\subsection{Circuit and local loss}
+The normal-operator results (Section~\ref{sec:construct}) use a separate constructed
+local realization with its own loss $J_{\mathrm{loc}}$, distinct from the path
+benchmarks above. We summarize the protocol so it is reproducible; exact seeds, grids,
+and per-optimizer settings accompany the reproduction bundle.
+
+A single-qubit exact density-matrix construction defines $J_{\mathrm{loc}}=1-P(0)$ on a
+two-dimensional normal space. We estimate $A$ both from a local quadratic fit and,
+independently, from random-direction descent trajectories. The frozen operator is then
+tested on impulse decay, held-out forcing, covariance closure, and four preconditioned
+optimization flows. Complete numerical settings are listed in the Supplement
+(Table~\ref{tab:supp-hparams}).
+
+% =====================================================================
+
+\subsection{Tangent neutrality}
+Sampling endpoint-equivalent deformations \emph{along} $\mathcal M_{\mathrm{eq}}$,
+both the ideal endpoint and the local noisy loss are numerically invariant:
+\[
+  \max_{\tau\in\mathcal M_{\mathrm{eq}}}\mathrm{TVD}_{\mathrm{ideal}}=1.110\times10^{-16},
+  \qquad
+  \operatorname{range}_{\tau\in\mathcal M_{\mathrm{eq}}}J_{\mathrm{loc}}=1.110\times10^{-16}.
+\]
+Tangent deformations therefore leave both the ideal task endpoint and the local
+noisy loss unchanged to machine precision, witnessing
+$P_T\nabla J_{\mathrm{loc}}\approx0$ with $T_\theta\mathcal M_{\mathrm{eq}}$ in the
+near-kernel of $H_{J_{\mathrm{loc}}}$. This is \emph{tangent neutrality}, distinct
+from endpoint equivalence (a noiseless identity) and from normal robustness
+(established next); we keep the three concepts separate rather than merging them into
+one ``robustness'' number.
+
+
+\subsection{Quadratic normal operator}
+A local quadratic fit of $J_{\mathrm{loc}}$ on the two-dimensional normal space yields
+\[
+  A_{\mathrm{quad}}=
+  \begin{pmatrix}
+    0.68897411 & 0.44832330\\[2pt]
+    0.44832330 & 1.16572957
+  \end{pmatrix},
+\]
+with eigenvalues and eigenvectors
+\[
+  \lambda_1=0.41959430,\quad \lambda_2=1.43510939,\qquad
+  e_1=\begin{pmatrix}-0.8571673\\[1pt] 0.5150381\end{pmatrix},\quad
+  e_2=\begin{pmatrix}0.5150381\\[1pt] 0.8571673\end{pmatrix},
+\]
+and off-diagonal strength
+\[
+  \frac{\lvert A_{12}\rvert}{\sqrt{A_{11}A_{22}}}=0.500 .
+\]
+The restoring eigendirections do \emph{not} coincide with the parameter coordinate
+axes. Robustness is therefore not a collection of per-parameter local
+sensitivities but a genuinely coupled normal operator: the transverse response mixes
+parameters, and the natural stiff and soft directions are rotated relative to the
+coordinate frame (Figure~\ref{fig:normal-operator}a).
+
+
+\subsection{Random-direction dynamic identification}\label{sec:indep}
+To identify the operator without using Hessian eigendirections as initialization
+directions, we launch transverse perturbations from random normal-space directions and
+evolve them using finite-difference gradients of the Qiskit/Aer loss itself. The full
+linear propagator is then fitted from the resulting trajectories, and its matrix
+logarithm gives the continuous generator. This yields
+\[
+  A_{\mathrm{dyn}}=
+  \begin{pmatrix}
+    0.69990571 & 0.46230010\\[2pt]
+    0.46230010 & 1.19135467
+  \end{pmatrix},
+  \qquad\text{compared with}\qquad
+  A_{\mathrm{Hess}}=
+  \begin{pmatrix}
+    0.68891712 & 0.44827840\\[2pt]
+    0.44827840 & 1.16562483
+  \end{pmatrix}.
+\]
+The relative Frobenius error is $2.29\%$. The dynamically recovered eigenvalues differ
+from the Hessian eigenvalues by $0.60\%$ and $2.38\%$, while the absolute
+eigendirection alignments are $0.999999997$ for both modes. Random-direction
+trajectory data therefore recover, within the same constructed loss model, both the
+spectrum and the principal axes of the local normal geometry---the eigendirection
+agreement is a genuine prediction, not an artifact of directional initialization.
+
+
+\section{Predicting Response with $A$}\label{sec:predict}
+
+\subsection{Impulse-decay rates}
+An impulse-recovery experiment---displacing the implementation transverse to
+$\mathcal M_{\mathrm{eq}}$ along the fitted Hessian eigendirections and measuring the
+return under implementation-space flow---fits decay rates
+\[
+  \hat\lambda_1=0.421723,\qquad \hat\lambda_2=1.457319,
+\]
+along $n_i(s)\approx n_i(0)\,e^{-\lambda_i s}$, where $s$ is the implementation-space
+flow parameter ($s\neq t_{\mathrm{hardware}}$, $s\neq d\tau$, $s\neq dt_{\mathrm{info}}$).
+These match the normal-Hessian eigenvalues to relative errors
+\[
+  0.507\%\ (\lambda_1),\qquad 1.548\%\ (\lambda_2)
+\]
+(Figure~\ref{fig:normal-operator}b). The curvature operator therefore predicts the
+\emph{rates} of restoration. Because these impulses are initialized along the Hessian
+eigendirections, this test validates the decay rates rather than independently identifying
+the axes; the latter is supplied by the random-direction reconstruction of
+Section~\ref{sec:indep} (eigendirection alignment $>0.99999999$).
+
+
+\subsection{Held-out sustained-load prediction}
+We now \emph{freeze} the impulse-identified operator
+\[
+  A_{\mathrm{frozen}}=
+  \begin{pmatrix}
+    0.69642936 & 0.45718847\\[2pt]
+    0.45718847 & 1.18261221
+  \end{pmatrix},
+\]
+and, without any refitting, predict the steady displacement under \emph{held-out}
+sustained forcing directions $f$ that did not enter the identification, via
+$n_\infty^{\mathrm{pred}}=A_{\mathrm{frozen}}^{-1}f$. On the held-out load set the
+full-operator vector error is
+\[
+  \mathrm{mean}=0.008208,\qquad \mathrm{median}=0.007192,\qquad \mathrm{max}=0.012826,
+\]
+i.e.\ about $0.82\%$ mean and $1.28\%$ maximum error. This is the \emph{primary
+cross-protocol prediction} of the paper: the operator identified on impulse recovery
+generalizes to a held-out sustained-load protocol it was never fitted on, rather than
+fitting the same data twice. It is stronger than basin attraction, which only asserts
+descent toward a minimum.
+
+
+\subsection{Scalar, diagonal, and rotated ablations}
+To show the full operator---both eigenvalues \emph{and} eigendirections---is doing the
+work, we replace it by three matched simplifications and re-score the same held-out
+loads. $E_{\mathrm{scalar}}$ replaces $A$ by a single robustness rate,
+$E_{\mathrm{diagonal}}$ keeps only the coordinate-axis entries, and
+$E_{\mathrm{rotated}}$ preserves the eigenvalue spectrum but scrambles the
+eigendirections:
+\[
+  E_{\mathrm{full}}=0.008208,\quad
+  E_{\mathrm{diagonal}}=0.501611,\quad
+  E_{\mathrm{scalar}}=0.545478,\quad
+  E_{\mathrm{rotated}}=1.348466,
+\]
+with relative disadvantages
+\[
+  \frac{E_{\mathrm{diagonal}}}{E_{\mathrm{full}}}\approx 61,\qquad
+  \frac{E_{\mathrm{scalar}}}{E_{\mathrm{full}}}\approx 66,\qquad
+  \frac{E_{\mathrm{rotated}}}{E_{\mathrm{full}}}\approx 164
+\]
+(Figure~\ref{fig:normal-operator}c). The conclusion is one of the least trivial new
+results of the paper:
+\begin{quote}\itshape
+Neither a scalar robustness rate, a coordinate-diagonal approximation, nor a
+spectrum-preserving but eigendirection-scrambled control can reproduce the held-out
+response. Predictive power resides in the full operator, including both eigenvalues
+and eigendirections.
+\end{quote}
+
+
+\subsection{Stationary covariance and attribution}\label{sec:covclosure}
+As a secondary internal-consistency check---not an independent cross-protocol
+prediction---we ask whether the same frozen operator reproduces the stationary
+covariance of a linear stochastic closure $A\Sigma+\Sigma A^\top=Q$ under a prescribed
+driving $Q$. With a fixed anisotropic, correlated $Q$ ($\sigma_1{=}0.095$,
+$\sigma_2{=}0.135$, $\rho{=}0.28$) the full operator reconstructs the covariance to
+$1.09\%$, versus $48.27\%$, $53.74\%$, and $137.42\%$ for the scalar, diagonal, and
+rotated controls (Figure~\ref{fig:normal-operator}d); but because $Q_{12}\neq0$ this
+does not attribute the cross-covariance to $A$ alone.
+
+\paragraph{Isotropic-forcing attribution.} The attribution is settled with \emph{isotropic} forcing
+$Q=\sigma^2 I$: solving $A\Sigma+\Sigma A^\top=\sigma^2 I$ reproduces the exact-discrete
+Ornstein--Uhlenbeck covariance to $1.93\%$, and because $Q_{12}=0$ the observed nonzero
+cross-covariance $\Sigma_{12}\neq0$ is generated by the non-axis-aligned operator rather
+than by correlated driving (scalar/diagonal/rotated controls fail by $48.55\%$,
+$55.49\%$, $69.34\%$). The predicted and observed covariance matrices for both drivings
+are listed in the Supplement. This is a constructed exact-Aer/OU result that establishes
+attribution within the model, not evidence that hardware noise obeys the closure; the
+held-out load remains the primary cross-protocol prediction.
+
+
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}l c c c@{}}
+\toprule
+Model & Held-out load error & $\times$ vs.\ full & Covariance error \\
+\midrule
+Full operator $A$                 & $0.008208$ & $1$        & $1.087\%$ \\
+Diagonal (axis-only)              & $0.501611$ & $\approx 61$  & $48.27\%$ \\
+Scalar (single rate)              & $0.545478$ & $\approx 66$  & $53.74\%$ \\
+Rotated (spectrum kept, dirs scrambled) & $1.348466$ & $\approx 164$ & $137.42\%$ \\
+\bottomrule
+\end{tabular}
+\caption{Frozen normal operator versus matched reductions. The full operator predicts
+the held-out sustained load (primary cross-protocol prediction; $0.82\%$ mean error)
+and reconstructs the covariance of the prescribed linear closure (secondary
+internal-consistency check; $1.09\%$) an order of magnitude or more better than any
+scalar, coordinate-diagonal, or eigendirection-scrambled control. Held-out load error
+is the $\ell_2$ vector error; covariance error is the relative Frobenius error at
+fixed driving $Q$.}
+\label{tab:normalop}
+\end{table}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.96\linewidth]{fig5_normal_operator.pdf}
+\caption{Direction-resolved normal response operator (exact Aer, V2).
+(a) The restoring eigendirections $e_1,e_2$ are rotated relative to the parameter
+coordinate axes (dashed), with off-diagonal strength $0.500$; the stiff direction
+$e_2$ ($\lambda_2$) and soft direction $e_1$ ($\lambda_1$) are anisotropic.
+(b) Impulses initialized along the Hessian eigendirections decay at fitted rates
+$\hat\lambda_i$ (solid) that match the normal-Hessian eigenvalues (dashed) to $0.51\%$
+and $1.55\%$; $s$ is the implementation-space flow parameter, not physical hardware
+time.
+(c) Held-out sustained-load error: the full frozen operator beats scalar, diagonal,
+and eigendirection-scrambled controls by $\approx 61$--$164\times$ (log scale).
+(d) Predicted (frozen $A$, dashed) versus observed (solid) stationary covariance at a
+prescribed anisotropic correlated driving $Q$, matched to $1.09\%$; the tilt reflects
+the combined effect of $A$ and $Q$ and is not attributed to $A$ alone.}
+\label{fig:normal-operator}
+\end{figure}
+
+\section{Computing with $A^{-1}$}\label{sec:compute}
+
+\subsection{Multistart convergence experiment}
+The identified operator is not only predictive but algorithmically useful. We compare
+four descent updates on the same constructed landscape,
+\[
+\begin{aligned}
+  \Delta n_{\mathrm{ordinary}}&=-\eta\,\nabla J_{\mathrm{loc}}, &
+  \Delta n_{\mathrm{scalar}}&=-\eta\,A_{\mathrm{scalar}}^{-1}\nabla J_{\mathrm{loc}},\\
+  \Delta n_{\mathrm{diag}}&=-\eta\,A_{\mathrm{diag}}^{-1}\nabla J_{\mathrm{loc}}, &
+  \Delta n_{\mathrm{full}}&=-\eta\,A^{-1}\nabla J_{\mathrm{loc}},
+\end{aligned}
+\]
+where $A_{\mathrm{scalar}}$ and $A_{\mathrm{diag}}$ are the scalar and coordinate-diagonal
+reductions of the full operator $A$. Across twenty random starts to a fixed
+convergence tolerance, the full-operator preconditioner reaches the \emph{same} local
+optimum with far fewer objective evaluations:
+\begin{center}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{@{}l cccc@{}}
+\toprule
+Method & full-$A$ & diagonal & scalar & ordinary \\
+\midrule
+Mean evaluations  & $286.2$  & $545.4$  & $603.3$  & $651.3$  \\
+\bottomrule
+\end{tabular}
+\end{center}
+Evaluation counts include the initial objective call (the zero-based optimizer-history
+index is incremented by one; raw indices in the Supplement). The full-operator flow uses
+$56.1\%$ fewer evaluations than ordinary gradient, while all four methods converge to the
+\emph{same} local optimum ($J_{\mathrm{loc}}^{\mathrm{train}}\simeq0.014397$,
+$J_{\mathrm{loc}}^{\mathrm{heldout}}\simeq0.020287$). The V3 result is therefore a
+\emph{convergence-efficiency advantage under the constructed landscape}---fewer objective
+evaluations to the same optimum, not a lower asymptotic loss or higher asymptotic success.
+Even charging the one-time identification cost ($N_{\mathrm{geometry}}=65$) entirely to a
+single run leaves it $46.1\%$ below ordinary gradient, and it amortizes across starts (Supplement).
+
+
+\subsection{Equal-budget held-out experiment}\label{sec:v4}
+Under an equal budget of exactly $180$ evaluations ($30$ steps) for every optimizer,
+the four flows reach:
+\begin{center}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{@{}l cccc@{}}
+\toprule
+Method & full-$A$ & diagonal & scalar & ordinary \\
+\midrule
+$J_{\mathrm{loc}}^{\mathrm{train}}$   & $0.014397$ & $0.014403$ & $0.014406$ & $0.014411$ \\
+$J_{\mathrm{loc}}^{\mathrm{heldout}}$ & $0.020287$ & $0.020293$ & $0.020296$ & $0.020302$ \\
+$\lVert n_{\mathrm{final}}\rVert$     & $1.22\times10^{-4}$ & $4.624\times10^{-3}$ & $5.987\times10^{-3}$ & $7.562\times10^{-3}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+Absolute train and held-out loss differences are small because all methods share the
+same local noise floor (so we report excess loss $J-J_{\mathrm{floor}}$; Supplement).
+
+\subsection{Residual normal displacement and scope}
+The clearer separation is the residual \emph{normal distance} to the stable--neutral
+manifold, for which full-$A$ is $38$--$62\times$ smaller
+($\lVert n_{\mathrm{ordinary}}\rVert/\lVert n_{\mathrm{full}}\rVert\approx62$,
+scalar $\approx49$, diagonal $\approx38$). Thus under an equal budget the full-$A$ flow
+returns implementations tens of times closer to the manifold and the lowest training and
+held-out loss for all ten starts, though it does not materially raise success (held-out
+success changes by only $\sim1.5\times10^{-5}$). A post-drift recovery diagnostic was
+mixed (per-start win rates $0.5$/$0.4$/$1.0$ against ordinary/scalar/diagonal) and is
+reported in the Supplement. Thus the demonstrated advantage is convergence efficiency and
+manifold proximity in the constructed landscape, not lower asymptotic loss or hardware
+robustness.
+
+
+\section{Supporting Robustness-Landscape Evidence}\label{sec:support}
+
+We next report supporting exact-Aer evidence from path search, continuous basins, null
+controls, and GHZ$_3$ recovery, on the path families of Section~\ref{sec:twoobj}.
+
+\subsection{Path objective, framework, and protocols}\label{sec:framework}
+The supporting benchmarks use endpoint-equivalent Bell and GHZ$_3$ path families under
+coherent drift, depolarizing noise, and readout noise. A path objective combines a
+mitigated total-variation term with a normalized implementation cost, subject to a hard
+endpoint-equivalence constraint. Full simulation, objective, and search details---the
+active-time cost ledger, the $R$ diagnostic, the geometric-flow relations, candidate
+generation, and ablation policies---are given in the Supplement
+(Section~\ref{sec:supp-framework}).
+
+\subsection{Discrete pure search}
+On a $54$-case grid (Bell and GHZ$_3$ under varied noise and drift; full settings in the
+Supplement), a single-file validator returned \code{OVERALL\_PASS} (8/8). The pure search
+selected non-shortest focused endpoint-equivalent paths in \emph{all} $54/54$ cases,
+beating the shortest, long, and cost-only references, with the exact focus-echo path
+recovered in $52/54$ and never handed the known references
+(\code{observed\_exact\_reference}$=0/54$). The median TVD gain over the shortest
+reference is $0.768$, endpoint equivalence holds to machine precision (max endpoint TVD
+$=2.22\times10^{-16}$), and the per-flag counts and full policy table are in the
+Supplement. Because $\lambda_R=0$ here, this experiment supports discovery of a
+non-shortest focused endpoint-equivalent path, not an independent contribution from the
+$R$/$K{=}1$ term.
+
+
+\subsection{Continuous basin and null controls}
+The discrete selection extends to a continuous one-parameter family: an endpoint-equivalent
+implementation is parameterized by an echo angle $\alpha$ (physical circuit
+$\text{prep}\to R_z(\phi/2)\to R_x(\alpha)\to R_z(\phi/2)\to R_x(-\alpha)\to\text{prep}^{-1}$),
+so every $\alpha$ shares the same ideal endpoint, with $\alpha\approx\pi$ the $X$-echo that
+refocuses the coherent $Z$ drift. Across the tested families the minimum lay a median
+$0.043$\,rad from $\pi$, and deterministic gradient~\cite{khaneja2005} and noisy
+Langevin-type flows concentrated toward this basin (validator \code{OVERALL\_PASS}, 8/8).
+The basin disappeared or reversed under no-drift, reverse-flow, and shuffled-landscape
+controls (no-drift median gain falling from $0.769$ to $0.010$, focused fraction $2/18$);
+full statistics and flow details are in the Supplement. Thus the focused basin is induced by
+coherent-drift refocusing and the measured geometry of $J(\alpha)$
+(Figure~\ref{fig:landscape}), not by the flow algorithm alone.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.98\linewidth]{fig2_landscape.pdf}
+\caption{Measured robustness landscape and null-control collapse (bell, noise
+scale $1.0$). (a) Under positive coherent drift, $J(\alpha)$ develops a focused basin near
+$\alpha=\pi$. (b) Under the no-drift null control, the basin collapses and the landscape is
+nearly flat on the same vertical scale, supporting a drift-induced basin rather than a flow
+artifact.}
+\label{fig:landscape}
+\end{figure}
+
+
+\subsection{GHZ$_3$ geometric error suppression}
+The picture extends to an explicit-error recovery benchmark. On GHZ$_3$ under a known
+coherent $Z$ phase error, a resource-matched geometric recovery path is compared against a
+flat matched-recovery control, a random-phase ensemble, and a no-recovery baseline over
+$6{,}300$ simulated circuit instances (paths $\times$ depths $\times$ noise levels $\times$
+error angles $\times$ repeats; breakdown in the Supplement) at $4096$ shots each, with
+endpoint equivalence audited on the matched recovery rows (error $\le 6.4\times10^{-14}$).
+
+On the held-out test split the geometric recovery path attains mean success $0.7515$, versus
+$0.3964$ for flat matched recovery, $0.4451$ for the random-phase median, and $0.4227$ for
+no recovery (Figure~\ref{fig:error-suppression}); it also exceeds the best single random path
+($0.6745$) and, on a hard subset, beats no-recovery by $+0.1432$. An audit over the raw
+per-circuit outputs returns a full pass. This is recovery-like \emph{geometric
+error-suppression}, \emph{not} logical quantum error correction: no syndrome, decoder,
+code-distance scaling, or threshold.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.80\linewidth]{fig4_error_suppression.pdf}
+\caption{Audited explicit GHZ$_3$ phase-error recovery ($6{,}300$ circuit instances,
+test split). The geometric recovery path ($0.7515$) outperforms the
+resource-matched flat ($0.3964$) and random-phase ($0.4451$ median) recovery
+controls and the separately reported no-recovery baseline ($0.4227$); endpoint
+equivalence is audited on the matched recovery rows. This is recovery-like geometric error
+suppression, not logical quantum error correction.}
+\label{fig:error-suppression}
+\end{figure}
+
+% =====================================================================
+
+\section{PASQAL Cloud EMU Evidence}\label{sec:pasqal}
+
+\subsection{Area-matched BB1 ablation}\label{sec:pasqal-bb1}
+
+We compared a BB1-type phase path with a nominally endpoint-equivalent flat control and
+six resource-matched random-phase paths on PASQAL Cloud \code{EMU\_FREE}. All protocols
+shared the pulse-area template $(\pi,\pi,2\pi,\pi)$, pulse number, duration
+($1000$\,ns/pulse), backend, shot count ($500$), and measurement basis; only the phase
+path differed, across four stress scales $\{0.6,0.8,1.0,1.2\}$. The random controls were
+not assumed endpoint-equivalent.
+
+The BB1-type and flat paths are nominally endpoint-equivalent up to a global phase (the
+explicit unitary reduction is in the Supplement), so the BB1--flat comparison is the
+primary endpoint-matched robustness test; the random-phase ensemble, whose ideal endpoint
+is not generally matched, is a broader resource-matched negative control.
+
+All $32/32$ jobs completed (no NaN, no error rows). Mean success was $0.9930$ for BB1,
+$0.5000$ for the flat control, $0.5158$ for the random median, and $0.6725$ for the best
+sampled random path (Figure~\ref{fig:pasqal}). Since the BB1 and flat paths are matched in
+pulse number, area template, duration, backend, shots, and measurement basis, their
+nearly twofold difference in mean success cannot be attributed to pulse area, duration,
+backend, shot count, or measurement basis within the matched benchmark; the observed
+difference is associated with the phase-path choice under these matched emulator
+conditions. This is cloud-emulator evidence, not a physical-QPU run.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.82\linewidth]{fig3_pasqal.pdf}
+\caption{PASQAL Cloud \code{EMU\_FREE} full measured area- and duration-matched
+phase-path ablation ($32/32$ cases). Flat control $0.5000$, random-phase median $0.5158$
+and best $0.6725$, BB1-type geometric path $0.9930$. The BB1--flat comparison is the
+nominally endpoint-equivalent robustness test; random-phase paths are resource-matched
+negative controls. Cloud-emulator evidence, not a physical-QPU run.}
+\label{fig:pasqal}
+\end{figure}
+
+\subsection{Single-atom amplitude-response sweep}
+As a separate cloud-stack response test, we executed a seven-point single-atom amplitude
+sweep on PASQAL Cloud \code{EMU\_FREE}, with $200$ final bitstrings sampled per amplitude.
+The measured excited-state response agreed with the analytic prediction
+$p_1(A)=\sin^2(AT/2)$ with Pearson correlation $0.9924$, mean absolute error $0.0200$,
+root-mean-square error $0.0264$, and matching sign of the local response slope. This experiment
+is distinct from the area-matched BB1 ablation of Section~\ref{sec:pasqal-bb1} and does not
+constitute physical-QPU validation.
+
+
+\section{Discussion and Limitations}\label{sec:discussion}
+
+\subsection*{Interpretation}
+The main insight is that executed path geometry matters even when ideal endpoints are
+identical: two implementations that agree exactly in the noiseless limit can differ by an
+order of magnitude in noisy TVD, and---more strongly---the transverse response of an
+endpoint-equivalent family is organized by a full normal operator $A$ whose eigenvalues
+\emph{and} eigendirections, not any scalar robustness score, carry the predictive and
+algorithmic content. This shifts the object of study from ``how to build one good
+circuit'' to ``how robustness is organized across the implementations that realize the
+same ideal endpoint,'' and is complementary to gate-level optimization and quantum error
+correction~\cite{shor1995,fowler2012} rather than a replacement. Whether this local
+structure reflects a deeper geometric-flow paradigm remains a hypothesis; the contribution
+here is to make that hypothesis operational and testable.
+
+\subsection*{Scope and limitations}
+\noindent\colorbox{boxbg}{\begin{minipage}{0.97\linewidth}
+\vspace{2pt}
+\textbf{Supported} (constructed exact-Aer landscape): \emph{identify}---an
+eigendirection-unseeded random-direction identification recovers the normal operator
+($2.29\%$ Frobenius; alignment $>0.99999999$); \emph{predict}---a frozen $A$ predicts
+held-out sustained load ($0.82\%$), beating scalar/diagonal/rotated reductions by
+$61$--$164\times$; \emph{compute}---as $A^{-1}$ it is a more efficient preconditioner
+($56\%$ fewer evaluations; $38$--$62\times$ closer to the manifold at fixed budget). The
+isotropic-driving covariance check ($1.93\%$) is secondary.
+\textbf{Not supported (open):} the same advantages on a physical QPU; large
+multi-qubit algorithms; any global-basin or global-manifold guarantee; that \emph{all}
+endpoint-equivalent families are stable--neutral; that hardware time is generated by $A$
+or that hardware noise obeys the OU/$Q$ closure; and any universal ``computation is
+geometric flow'' or Born/Lorentzian claim.
+\vspace{2pt}
+\end{minipage}}
+
+\medskip
+Several limitations bound these claims.
+\begin{enumerate}
+\item \emph{Exact simulation, no QPU.} All results are exact density-matrix Qiskit/Aer evidence, not physical-QPU measurements; all PASQAL results are author-run Cloud \code{EMU\_FREE} results, not physical-QPU measurements or independent third-party replications, and the reported normal operator and covariance are computed from Aer densities, not hardware tomography.
+\item \emph{Small, low-dimensional systems.} Only Bell/GHZ$_3$ landscape families and a two-dimensional normal space (single working qubit) are tested; the V5.1 identification statistics are reported at a fixed random seed.
+\item \emph{Constructed local loss.} The normal-operator results use a separate constructed loss $J_{\mathrm{loc}}$ (Section~\ref{sec:construct}), not the $54$-case path objective $J_{\mathrm{path}}$; $A$ is the metric-raised normal Hessian in the Euclidean chart $g=I$, so the preconditioning advantage is stated for this parameterization.
+\item \emph{Local, not global, geometry.} Stable--neutrality is verified locally for one family and is not asserted for all endpoint-equivalent families; the global topology and smoothness of $\mathcal M_{\mathrm{eq}}$---whether a single smooth component or a stratified manifold---are not established, and a supplementary output-QFI study confirms local geometry does not by itself fix global basin topology (Supplement).
+\item \emph{Prescribed OU closure.} The stationary covariance uses a prescribed driving $Q$ (correlated, then isotropic $Q=\sigma^2 I$); attribution of $\Sigma_{12}\neq0$ to the operator holds \emph{within the model}. The V3/V4 advantage is convergence efficiency and manifold proximity, not lower asymptotic loss or robust drift-recovery dominance (per-start win rates $0.5$/$0.4$/$1.0$).
+\item \emph{No QEC, threshold, or universal ontology.} The GHZ$_3$ benchmark is recovery-like suppression of explicit coherent errors, not logical quantum error correction; BB1 is a robustness landmark, not a new pulse; and the $K{=}1$/Lorentzian/Born/OU motivation (Supplement) and the ``computation is geometric flow'' reading are hypotheses, not results.
+\end{enumerate}
+
+\subsection*{Outlook}
+Natural next steps are validation on a physical PASQAL \textsc{FRESNEL} QPU, extension to
+higher-dimensional normal spaces and multi-qubit families, hardware-estimated Hessians, and
+broader independent-driving covariance sweeps across multiple amplitudes and normal-space
+dimensions.
+The most accurate summary is that the full normal operator is measurable, cross-protocol
+predictive, and algorithmically useful in a controlled implementation-space realization;
+whether this extends to hardware and to a universal geometric-flow paradigm is open.
+
+% =====================================================================
+
+\section{Conclusion}\label{sec:conclusion}
+We constructed a local stable--neutral implementation geometry whose transverse response
+is governed by a full normal operator $A$. In exact density-matrix simulation, $A$ was
+recovered independently from random-direction trajectories and predicted held-out
+sustained response substantially better than scalar, diagonal, and eigendirection-scrambled
+reductions.
+
+Using $A^{-1}$ as a preconditioner reduced the evaluation count to the same local optimum
+by $56.1\%$ and left a residual normal displacement $38$--$62$ times smaller under a fixed
+budget. Thus the same operator can be identified, used predictively, and inverted
+computationally:
+\[
+  \text{identify }A\ \to\ \text{predict with }A\ \to\ \text{compute with }A^{-1}.
+\]
+
+These results establish a local constructive proof of principle, supported by
+robustness-landscape and PASQAL Cloud EMU evidence. They do not constitute physical-QPU
+validation or a universal claim that computation is geometric flow.
+
+% =====================================================================
+
+\section*{Data and code availability}
+The complete reproduction bundle accompanies the submission and includes all
+scripts, parameter files, random seeds, raw outputs, processed tables, figures,
+validation reports, and SHA256 manifests used in this work. It also contains the
+Qiskit/Aer normal-operator experiments, supporting path-landscape benchmarks,
+GHZ$_3$ audit, PASQAL Cloud \code{EMU\_FREE} outputs, and supplementary QFI
+analysis. The PASQAL results are cloud-emulator data, not physical-QPU
+measurements.
+
+% =====================================================================
+\bigskip
+\section*{Supplementary Material}
+\setcounter{table}{0}
+\renewcommand{\thetable}{S\arabic{table}}
+
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}ll@{}}
+\toprule
+Parameter & Value \\
+\midrule
+\multicolumn{2}{@{}l}{\emph{Local construction (V2/V5.1)}}\\
+Gate sequence & $R_z(\tau)\to R_y(k_1 q_1)\to R_x(k_2 q_2)$, $\mathbf q=R\mathbf n$ \\
+Drive $\tau_0$ & $0.73$ \\
+Frame angle $\theta_R$ & $31^\circ$ \\
+Gains $k_1,k_2$ & $0.93,\ 1.72$ \\
+Depolarizing rates $p_{R_z},p_{R_y},p_{R_x}$ & $0.002,\ 0.008,\ 0.019$ \\
+Finite-difference probe $h$ & $4\times10^{-4}$ \\
+Flow step $\Delta s$ & $0.035$ \\
+Random trajectories / flow steps (V5.1) & $12$ / $20$ \\
+Hessian eigenvalue floor & $10^{-9}$ \\
+Hessian sampling radii & $0.03,\ 0.06,\ 0.09$ \\
+Hessian angular sample count & $24$ \\
+\midrule
+\multicolumn{2}{@{}l}{\emph{Driving covariance}}\\
+Correlated $Q$: $\sigma_1,\sigma_2,\rho$ & $0.095,\ 0.135,\ 0.28$ \\
+Isotropic $Q=\sigma^2 I$: $\sigma^2$ & $0.0144$ \\
+\midrule
+\multicolumn{2}{@{}l}{\emph{Preconditioned optimization (V3/V4)}}\\
+Learning rate $\eta$ & $0.55$ \\
+Trust radius $r_{\mathrm{trust}}$ & $0.20$ \\
+Stopping tolerance $\epsilon_{\mathrm{stop}}$ & $10^{-6}$ \\
+Maximum steps (V3) & $400$ \\
+Fixed budget (V4) & $180$ evaluations ($30$ steps) \\
+Random starts (V3 / V4) & $20$ / $10$ \\
+Random-start range & $[-0.15,\ 0.15]^2$ \\
+Held-out noise rates & $0.003,\ 0.011,\ 0.022$ \\
+Rotated-control angle $\phi$ & $0.6$ rad \\
+\bottomrule
+\end{tabular}
+\caption{Numerical settings for the local normal-operator construction and the V3--V5.1
+experiments, as used by the accompanying reproduction script \code{geometric\_flow\_master.py}.
+That script implements the full V2--V5.1 pipeline with an exact single-qubit density-matrix
+propagator cross-checked against Qiskit/Aer ($\max|\Delta\rho_{00}|=4.4\times10^{-16}$) and
+reproduces the reported operator, off-diagonal strength, decay rates, held-out ablation
+ordering, isotropic-driving cross-covariance attribution, and V3/V4 preconditioning trends
+(all structural checks pass).}
+\label{tab:supp-hparams}
+\end{table}
+
+\noindent\emph{Reproduction of the normal-operator experiments.} The values reported in
+Sections~\ref{sec:construct}--\ref{sec:compute} are from the author's original exact-Aer
+V2--V5.1 run. The accompanying self-contained script \code{geometric\_flow\_master.py}
+independently re-runs the full pipeline from scratch, using an exact single-qubit
+density-matrix propagator cross-checked against Qiskit/Aer to
+$\max|\Delta\rho_{00}|=4.4\times10^{-16}$ and the settings of Table~\ref{tab:supp-hparams}.
+It reproduces every structural feature carrying a claim---tangent neutrality to machine
+precision, the non-diagonal operator (off-diagonal strength $0.500$), the impulse-rate/eigenvalue
+match, the held-out ablation ordering, the isotropic-driving covariance attribution
+($\Sigma_{12}\neq0$ with $Q_{12}=0$; $1.1\%$), and the V3/V4 trends---with all eleven
+structural checks passing (\code{normal\_operator\_results.json}). Exact decimals differ
+from the original run, as expected for an independent from-scratch reimplementation.
+
+\medskip\noindent\emph{Stationary covariance (Section~\ref{sec:covclosure}).} The
+attribution-carrying isotropic case $Q=\sigma^2 I$ gives
+\[
+  \Sigma_{\mathrm{pred}}=\begin{pmatrix}0.01393951 & -0.00536089\\ -0.00536089 & 0.00823865\end{pmatrix},\quad
+  \Sigma_{\mathrm{obs}}=\begin{pmatrix}0.01427277 & -0.00543594\\ -0.00543594 & 0.00820605\end{pmatrix}\ (1.93\%),
+\]
+with $\Sigma_{12}\neq0$ although $Q_{12}=0$. For correlated driving the relative covariance
+error was $1.09\%$; the full matrices are included in the data bundle.
+
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}l r r@{}}
+\toprule
+Policy class & median TVD & median cost \\
+\midrule
+Best focused search & $0.0922$ & $24.45$ \\
+Random search       & $0.1587$ & $26.20$ \\
+Long reference      & $0.2664$ & $142.0$ \\
+Shortest reference  & $0.8861$ & $14.875$ \\
+\bottomrule
+\end{tabular}
+\caption{Representative policy summary over the $54$-case grid (Evidence~I), sorted by
+median noisy TVD (lower is better). The full nine-policy table---including the tightly
+clustered \code{tvd\_only} and \code{k1\_score} policies ($\lambda_R=0$)---is in the data
+bundle.}
+\label{tab:supp-policy}
+\end{table}
+
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}l c c@{}}
+\toprule
+Quantity & Positive & No-drift null \\
+\midrule
+Median TVD gain & 0.769 & 0.010 \\
+Focused-basin fraction & 54/54 & 2/18 \\
+Overall case pass & 53/54 & 0/18 \\
+Reverse-flow focus fraction & 0.000 & --- \\
+Shuffled median focus fraction & 0.164 & --- \\
+Shuffled max focus fraction & 0.604 & --- \\
+\bottomrule
+\end{tabular}
+\caption{Null-controlled geometric-flow validation (Evidence~III; $54$ positive cases, $18$ no-drift controls; reverse-flow and shuffled controls computed on the positive grid).}
+\label{tab:supp-null}
+\end{table}
+
+% =====================================================================
+
+\subsection*{Path-landscape framework and protocols (details)}\label{sec:supp-framework}
+\paragraph{Implementation-manifold flow.}
+For a fixed ideal task endpoint we study explicitly parameterized families of
+task-endpoint-equivalent implementations (Figure~\ref{fig:paradigm}). Two
+implementations are called \emph{task-endpoint-equivalent} when, for the fixed
+input state and measurement used in the benchmark, their ideal noiseless output
+distributions coincide within the prescribed tolerance; this is weaker than
+equality of the implemented unitary or quantum channel. Let $\Theta$ denote a
+chosen parameter space of physical implementations, and define the admissible
+endpoint-equivalent set
+\[
+  \Theta_{p_\star}^{(\varepsilon)}
+  =
+  \left\{
+  \theta\in\Theta:\
+  \mathrm{TVD}\!\left(p_{\mathrm{ideal}}(\theta),p_\star\right)
+  \le \varepsilon_{\mathrm{end}}
+  \right\}.
+\]
+Within locally smooth, constant-rank regions this set is modeled as an
+implementation manifold; globally it may be disconnected, bounded, singular, or
+stratified, and we do not assume it forms a single smooth manifold. A point
+$\theta$ labels one physical realization, represented by a control trajectory
+$\Gamma_\theta$; a curve $s\mapsto\theta_s$ describes a continuous deformation or
+search between implementations, and is distinct from the physical time evolution
+along $\Gamma_\theta$. Noise induces a measured robustness landscape
+\[
+  J:\Theta_{p_\star}^{(\varepsilon)}\to\mathbb{R},
+\]
+where lower $J$ means lower noisy error at the fixed ideal task endpoint. The
+geometric-flow hypothesis is that robust implementations are organized by descent
+and noisy concentration in \emph{implementation space},
+\[
+  d\theta_s
+  =
+  -\operatorname{grad}_{g}J(\theta_s)\,ds
+  +
+  \sqrt{2D}\,dB_s^{g},
+\]
+a flow over implementation parameters, not the physical time evolution of the
+hardware. In the present experiments, $\theta$ is instantiated by discrete echo
+paths, by the continuous coordinate $\alpha$, and by area- and duration-matched
+phase paths in the PASQAL Cloud EMU ablation. The tests below ask whether $J$
+contains a focused basin, whether flow concentrates toward it, and whether the
+basin collapses under null controls.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.92\linewidth]{fig1_paradigm.pdf}
+\caption{Implementation-manifold formulation of geometric flow. Instead of
+optimizing one fixed circuit, the framework treats the task-endpoint-equivalent
+implementations of a fixed ideal task endpoint as an admissible set
+$\Theta_{p_\star}^{(\varepsilon)}$, modeled as a manifold within locally smooth
+regions.
+Noise induces a measured robustness landscape $J$ on this manifold, and robust
+realizations appear as attracting basins of the corresponding descent/noisy flow.}
+\label{fig:paradigm}
+\end{figure}
+
+
+\paragraph{Endpoint-equivalent paths.}
+Each candidate path is realized as two circuits over the same qubits: a \emph{control-endpoint} circuit that fixes the ideal endpoint, and a \emph{physical} circuit that additionally contains the drift and echo blocks. An exact statevector simulation of the control-endpoint circuit gives the ideal target; the endpoint TVD between a candidate's control-endpoint distribution and the target measures deviation from endpoint equivalence. Here the modeled coherent drift, stochastic gate noise, and readout noise are treated as error mechanisms and are set to zero in the definition of $p_{\mathrm{ideal}}$. Task-endpoint equivalence is therefore audited on the corresponding error-free control circuit, whereas the physical circuit reinstates these error mechanisms to measure robustness.
+
+
+\paragraph{Active-time cost ledger.}
+Each executed physical circuit is scored by a fixed per-gate ledger (e.g.\ single-qubit gates $1.0$, \code{rz} $0.35$, \code{id} $0.25$, \code{cx} $4.0$). The summed weight is the executed cost; it is normalized by the long-reference cost. This ledger is an accounting device for path length, not a physical time measurement.
+
+
+\paragraph{Objective and $R$ diagnostic.}
+For probability distributions $p,q$ we write the total-variation distance
+\[
+  \mathrm{TVD}(p,q)=\tfrac12\sum_x\lvert p_x-q_x\rvert .
+\]
+Tensored-inverse readout mitigation can return a quasi-distribution with negative
+entries or unit-sum violations; the mitigated vector is therefore clipped to
+nonnegative entries and renormalized,
+\[
+  \tilde p_x=\frac{\max(\hat p_x,0)}{\sum_y\max(\hat p_y,0)},
+\]
+and all reported mitigated TVDs are computed from $\tilde p$, so
+$\mathrm{TVD}_{\text{mit}}$ is always a distance between genuine distributions.
+(This clip-and-renormalize map is not the Euclidean projection onto the simplex,
+and is not described as such.) Candidates are scored by
+\[
+  J = \mathrm{TVD}_{\text{mit}} + \lambda_{\text{cost}}\cdot\text{cost}_{\text{norm}}
+      + \lambda_R\,|R-1| + \text{endpoint\_penalty},
+\]
+where $\mathrm{TVD}_{\text{mit}}$ is the total-variation distance to the target~\cite{nielsen2010} after readout mitigation, $\text{cost}_{\text{norm}}$ is the normalized executed cost, and the endpoint term enforces endpoint equivalence as a hard admissibility constraint,
+\[
+  \Pi_{\text{end}}(\theta)=
+  \begin{cases}
+    0, & d_{\text{end}}(\theta)\le\varepsilon_{\text{end}},\\
+    +\infty, & d_{\text{end}}(\theta)>\varepsilon_{\text{end}},
+  \end{cases}
+  \qquad
+  d_{\text{end}}(\theta)=\mathrm{TVD}\!\left(p_{\text{ideal}}(\theta),p_\star\right),
+  \quad \varepsilon_{\text{end}}=10^{-10}.
+\]
+In the numerical implementation this constraint is realized as an admissibility gate---a candidate whose endpoint TVD exceeds $\varepsilon_{\text{end}}$ is discarded rather than penalized---so no finite penalty constant enters the reported $J$. The ratio $R$ is a bookkeeping diagnostic: $R_{\text{matched}}=1$ when the executed ledger matches the reference scale and $R_{\text{wrong}}=1.25$ under a deliberately mismatched scale. In this study $\lambda_R=0$, so $R$ is reported as a diagnostic only and does not drive selection.
+
+
+\paragraph{Geometric-flow framework: four defining relations.}
+The framework is defined by four relations that together characterize the geometry of the implementation manifold. Let $p^{(\alpha)}_{\text{ideal}}$ be the ideal (noiseless) endpoint distribution of the implementation with echo coordinate $\alpha$, $p_{\star}$ the reference endpoint, $\hat p^{(\alpha)}$ the raw readout-mitigated quasi-distribution, and $\tilde p^{(\alpha)}$ its clipped and renormalized probability distribution.
+
+\emph{Relation 1 (Endpoint equivalence).} Every implementation shares the same ideal endpoint,
+\begin{equation}
+  \mathrm{TVD}\!\left(p^{(\alpha)}_{\text{ideal}},\, p_{\star}\right) \;\le\; \varepsilon_{\text{end}}, \qquad \varepsilon_{\text{end}} = 10^{-10},
+\end{equation}
+witnessed here at machine precision ($\le 4.44\times10^{-16}$).
+
+\emph{Relation 2 (Selection objective).} Implementations are ranked by
+\begin{equation}
+  J(\alpha) \;=\; \mathrm{TVD}\!\left(\tilde p^{(\alpha)},\, p_{\star}\right) + \lambda_{\text{cost}}\,\hat c(\alpha) + \lambda_R\,\lvert R-1\rvert + \Pi_{\text{end}}(\alpha),
+\end{equation}
+with $\hat c$ the normalized executed cost, $R$ the ledger diagnostic, and $\Pi_{\text{end}}$ the endpoint penalty ($\Pi_{\text{end}}=0$ when Relation~1 holds).
+
+\emph{Relation 3 (Focused basin).} The measured landscape is non-monotone in $\alpha$. Writing the periodic distance on the echo circle $S^1$ as $d_{S^1}(\alpha,\beta)=\min_{k\in\mathbb Z}\lvert\alpha-\beta+2\pi k\rvert$, the objective attains a minimizer
+\begin{equation}
+  \alpha^{\star}\in\operatorname*{arg\,min}_{\alpha\in\mathcal A}\, J(\alpha),
+  \qquad d_{S^1}(\alpha^{\star},\pi)\ll 1 ,
+  \label{eq:focused-basin}
+\end{equation}
+i.e.\ the minimizer sits near $\alpha=\pi$ (measured median $d_{S^1}(\alpha^{\star},\pi)=0.043$ rad). The landscape is non-monotone because the coherent residual depends nonlinearly on the echo angle: the focused value $\alpha\approx\pi$ approximately cancels the two drift halves, whereas $\alpha\approx0$ leaves the drift unrefocused. The location and shape of the minimum are therefore reported as properties of the measured landscape rather than derived from an angle-dependent exposure model. Equation~\eqref{eq:focused-basin} is an operational description of the measured $J(\alpha)$, not a derived closed form.
+
+\emph{Relation 4 (Robustness gain).} For a comparator $c$, define the absolute
+success gain
+\begin{equation}
+  \Delta S_c \;=\; S_{\text{geo}} - S_c .
+\end{equation}
+When $S_c>0$, the corresponding relative gain is
+\begin{equation}
+  G_c \;=\; \frac{S_{\text{geo}} - S_c}{S_c}.
+\end{equation}
+The endpoint-matched quantity $\Delta S_{\text{flat}}$ is the primary robustness
+diagnostic---absolute gain is used because some matched flat controls can
+collapse to zero success at individual stress points. Gains relative to the
+random-phase controls are reported as descriptive resource-matched comparisons,
+because those controls are not generally task-endpoint-equivalent. The absolute
+gain is the primary reported diagnostic; the relative gain is defined for
+completeness (Section~\ref{sec:pasqal}).
+
+% =====================================================================
+
+\paragraph{Simulation methods.}\label{sec:methods}
+Simulations use Qiskit/Aer~\cite{qiskit} with a depolarizing plus readout noise model ($p_1=0.0015$, $p_2=0.012$, $p_{\text{id}}=0.001$, $p_{\text{readout}}=0.025$, scaled by a per-case noise factor). Test families are Bell (2 qubits, success $\ket{00}$) and GHZ$_3$ (3 qubits, success $\ket{000}$)~\cite{bell1964,ghsz1990}. Each physical circuit prepares the state, applies a coherent global $Z$ drift over \code{drift\_blocks}$=12$ blocks with optional $X$-echo focusing/overexposure, then applies the inverse preparation and measures. Readout error is corrected by an independent tensored-inverse mitigation~\cite{temme2017,kandala2019}. Reference paths are: shortest (no echo), focused (one echo cycle), and long-overexposed (eight echo cycles, $32$ idle identities). All randomness is seeded ($\text{seed}=260709$).
+
+
+\paragraph{Candidate generation.}
+A candidate is specified by: \code{family} (Bell or GHZ$_3$), \code{echo\_mode} $\in\{$\code{none}, \code{focus\_echo}, \code{over\_echo}$\}$, \code{placement} $\in\{$\code{after\_entangle}, \code{before\_uncompute}, \code{interleaved}$\}$, \code{echo\_cycles}, \code{idle\_ids} (idle-identity count), and a phase \code{theta}. Proposals are drawn from a biased-but-non-forced distribution that favors low echo/idle exposure but keeps enough focus candidates for discovery.
+
+
+\paragraph{Objective and pure-search protocol.}
+Each pooled candidate is evaluated once (calibration shots) and scored by $J$. Under the \emph{pure-search} protocol the shortest, focused-medium, and long reference paths are \textbf{not} inserted into the pool; they are constructed and measured only in the validation phase for comparison. We record whether each exact reference was ever proposed by the search (\code{observed\_exact\_*\_reference}).
+
+
+\paragraph{Ablation policies.}
+From the observed calibration pool we select one candidate per policy and re-measure it at higher validation shots. The policies are: \code{k1\_score} (minimize $J$), \code{tvd\_only\_mitigated}, \code{tvd\_only\_noisy}, \code{cost\_only}, \code{random\_observed}, \code{oracle\_observed}, plus the three fixed references \code{shortest\_reference}, \code{medium\_reference}, \code{long\_reference}.
+
+Crucially, the search protocol is not the claim. The claim is about the discovered path: a path with non-trivial phase geometry that maintains robustness under stress, which the area-matched flat and random-phase controls do not. The search algorithm is a tool, not the message. We include it to demonstrate that such robust paths are discoverable in the landscape without prior knowledge; the robustness of the discovered path is then verified by direct measurement (the ablation policies and null controls in Section~\ref{sec:support}, and the area-matched controls of Section~\ref{sec:pasqal}). This discoverability statement applies to the Qiskit/Aer pure-search benchmark. In the PASQAL Cloud EMU study, the BB1-type path is not discovered by the random-phase search; it is inserted as a known robustness landmark and compared against flat and random area-matched phase controls.
+
+\subsection*{PASQAL BB1: endpoint equivalence and gains}
+At unit stress the flat sequence has all rotation axes aligned, so
+$U_{\mathrm{flat}}=R_x(5\pi)\sim R_x(\pi)$; for the BB1-type sequence the three-pulse
+correction block satisfies $R_{\varphi}(\pi)\,R_{3\varphi}(2\pi)\,R_{\varphi}(\pi)\sim I$
+with $\varphi=\arccos(-1/4)$, so $U_{\mathrm{BB1}}\sim R_x(\pi)$ as well, though the
+intermediate phase paths differ. In the absolute-gain diagnostic (Relation~4) the success
+gains are $\Delta S_{\mathrm{flat}}=0.4930$ (endpoint-matched primary),
+$\Delta S_{\mathrm{rand,med}}=0.4773$, and $\Delta S_{\mathrm{rand,best}}=0.3205$; the two
+random-phase gains are descriptive resource-matched comparisons, since those controls are
+not generally task-endpoint-equivalent. Part of the low random-path success may reflect a
+different ideal target rather than robustness alone.
+
+\subsection*{Boundary test: local geometry does not fix global basin structure}
+A supplementary four-dimensional output-QFI study (across $1{,}920$ matched simulator
+runs) supports the importance of directional alignment---output-QFI flow improves
+held-out cost and convergence over Euclidean and spectrum-matched scrambled-QFI
+controls---but also shows that local geometry does not determine global basin topology or
+guarantee uniform convergence: QFI failure rates under a matched paired-regret criterion
+range up to $8.33\%$ across noise regimes, with no single local diagnostic predicting the
+residual failures. The full matched-run table, confidence intervals, regime-normalized
+failure rates, and diagnostic correlations accompany the reproduction bundle.
+
+\subsection*{Interpretive motivation, not tested here}
+The design was originally motivated by a $K{=}1$ Lorentzian ``active-time'' picture with a
+Born-type fixed point and an Ornstein--Uhlenbeck~\cite{uhlenbeck1930} view of residual
+flow, and by the geometric quantum computation tradition~\cite{zanardi1999}. That language
+is used only as a scoring intuition for active-time path ledgers and belongs to the
+paradigm-level reading this paper treats as a hypothesis. \textbf{The present experiments
+do not show that hardware dynamics are Lorentzian, nor do they prove Born fixed-point
+convergence or OU residual-flow theory.} No quantitative result in this paper depends on
+that interpretation; it is recorded only to document the origin of the scoring intuition.
+
+% =====================================================================
+
+\begin{thebibliography}{99}
+
+\bibitem{preskill2018} J.~Preskill, ``Quantum computing in the NISQ era and beyond,'' \emph{Quantum} \textbf{2}, 79 (2018).
+
+\bibitem{hahn1950} E.~L.~Hahn, ``Spin echoes,'' \emph{Phys. Rev.} \textbf{80}, 580 (1950).
+
+\bibitem{meiboom1958} S.~Meiboom and D.~Gill, ``Modified spin-echo method for measuring nuclear relaxation times,'' \emph{Rev. Sci. Instrum.} \textbf{29}, 688 (1958).
+
+\bibitem{viola1999} L.~Viola, E.~Knill, and S.~Lloyd, ``Dynamical decoupling of open quantum systems,'' \emph{Phys. Rev. Lett.} \textbf{82}, 2417 (1999).
+
+\bibitem{wimperis1994} S.~Wimperis, ``Broadband, narrowband, and passband composite pulses for use in advanced NMR experiments,'' \emph{J. Magn. Reson. A} \textbf{109}, 221 (1994).
+
+\bibitem{temme2017} K.~Temme, S.~Bravyi, and J.~M.~Gambetta, ``Error mitigation for short-depth quantum circuits,'' \emph{Phys. Rev. Lett.} \textbf{119}, 180509 (2017).
+
+\bibitem{kandala2019} A.~Kandala, K.~Temme, A.~D.~C\'orcoles, A.~Mezzacapo, J.~M.~Chow, and J.~M.~Gambetta, ``Error mitigation extends the computational reach of a noisy quantum processor,'' \emph{Nature} \textbf{567}, 491 (2019).
+
+\bibitem{shor1995} P.~W.~Shor, ``Scheme for reducing decoherence in quantum computer memory,'' \emph{Phys. Rev. A} \textbf{52}, R2493 (1995).
+
+\bibitem{fowler2012} A.~G.~Fowler, M.~Mariantoni, J.~M.~Martinis, and A.~N.~Cleland, ``Surface codes: Towards practical large-scale quantum computation,'' \emph{Phys. Rev. A} \textbf{86}, 032324 (2012).
+
+\bibitem{khaneja2005} N.~Khaneja, T.~Reiss, C.~Kehlet, T.~Schulte-Herbr\"uggen, and S.~J.~Glaser, ``Optimal control of coupled spin dynamics: design of NMR pulse sequences by gradient ascent algorithms,'' \emph{J. Magn. Reson.} \textbf{172}, 296 (2005).
+
+\bibitem{zanardi1999} P.~Zanardi and M.~Rasetti, ``Holonomic quantum computation,'' \emph{Phys. Lett. A} \textbf{264}, 94 (1999).
+
+\bibitem{uhlenbeck1930} G.~E.~Uhlenbeck and L.~S.~Ornstein, ``On the theory of the Brownian motion,'' \emph{Phys. Rev.} \textbf{36}, 823 (1930).
+
+\bibitem{bell1964} J.~S.~Bell, ``On the Einstein Podolsky Rosen paradox,'' \emph{Physics Physique Fizika} \textbf{1}, 195 (1964).
+
+\bibitem{ghsz1990} D.~M.~Greenberger, M.~A.~Horne, A.~Shimony, and A.~Zeilinger, ``Bell's theorem without inequalities,'' \emph{Am. J. Phys.} \textbf{58}, 1131 (1990).
+
+\bibitem{nielsen2010} M.~A.~Nielsen and I.~L.~Chuang, \emph{Quantum Computation and Quantum Information}, 10th Anniversary Edition (Cambridge University Press, 2010).
+
+\bibitem{qiskit} Qiskit contributors, ``Qiskit: An open-source framework for quantum computing'' (2024).
+
+\end{thebibliography}
+
+\end{document}
