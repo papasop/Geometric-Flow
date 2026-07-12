@@ -28,6 +28,7 @@ opt = GeometricOptimizer(
     curvature_reuse=5,
     lr_scale=3.0,
     grad_smoothing=0.9,
+    preconditioner_scale=0.5,
 )
 
 def closure(backward=False):
@@ -51,6 +52,8 @@ Curvature is refreshed every `curvature_reuse` steps and reused between refreshe
 to keep HVP overhead under control.
 Geometric steps use `lr_scale` to exploit the preconditioned direction, while
 `grad_smoothing` applies EMA smoothing to the preconditioned update.
+For small CNNs or noisy batches, lower `preconditioner_scale` to keep the
+preconditioned/raw gradient ratio in a stable range.
 
 Each optimizer step records a topography row with `trace_estimate`,
 `rayleigh_grad`, `update_norm`, and cumulative `geodesic_distance`, which acts as

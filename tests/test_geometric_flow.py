@@ -37,6 +37,20 @@ class GeometricFlowTests(unittest.TestCase):
         op.regularize(alpha=0.4)
         self.assertTrue(torch.allclose(op.matvec(vector), matrix @ vector + 0.4 * vector, atol=1e-5))
 
+    def test_curvature_scale_controls_hessian_strength(self):
+        w = torch.nn.Parameter(torch.tensor([1.0, -2.0]))
+        matrix = torch.tensor([[4.0, 1.0], [1.0, 3.0]])
+        loss = 0.5 * w @ matrix @ w
+        op = compute_curvature(
+            torch.nn.ParameterList([w]),
+            loss,
+            damping=0.0,
+            regularization=0.0,
+            scale=0.25,
+        )
+        vector = torch.tensor([0.25, -0.5])
+        self.assertTrue(torch.allclose(op.matvec(vector), 0.25 * (matrix @ vector), atol=1e-5))
+
     def test_conjugate_gradient_solves_spd_system(self):
         matrix = torch.tensor([[5.0, 1.0], [1.0, 2.0]])
         rhs = torch.tensor([1.0, -3.0])
@@ -146,6 +160,25 @@ class GeometricFlowTests(unittest.TestCase):
         self.assertEqual(second["mode"], "geometric_reuse")
         self.assertFalse(second["curvature_refreshed"])
         self.assertGreater(second["preconditioned_grad_norm"], 0.0)
+
+    def test_optimizer_preconditioner_scale_damps_geometric_direction(self):
+        def run(scale):
+            weight = torch.nn.Parameter(torch.tensor([2.0]))
+            optimizer = GeometricOptimizer(
+                [weight],
+                lr=0.1,
+                damping=1e-3,
+                regularization=1e-3,
+                warmup_steps=0,
+                preconditioner_scale=scale,
+                grad_smoothing=0.0,
+                cg_max_iter=4,
+                trace_samples=0,
+            )
+            optimizer.step(lambda: 0.5 * (weight - 1.0).pow(2).sum())
+            return optimizer.topography_log[-1]["preconditioned_grad_norm"]
+
+        self.assertLess(run(0.5), run(1.0))
 
     def test_optimizer_lr_scale_grad_smoothing_and_adaptive_reuse(self):
         weight = torch.nn.Parameter(torch.tensor([2.0]))

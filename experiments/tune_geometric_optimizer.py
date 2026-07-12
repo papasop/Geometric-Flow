@@ -134,6 +134,8 @@ def run_trial(args, train_loader, eval_loader, lr, damping, lr_scale, curvature_
         max_update_norm=args.max_update_norm,
         max_grad_norm=args.max_grad_norm,
         grad_smoothing=args.grad_smoothing,
+        preconditioner_scale=args.precond_scale,
+        curvature_scale=args.curvature_scale,
     )
     iterator = iter(train_loader)
     best_loss = float("inf")
@@ -189,6 +191,8 @@ def main() -> None:
     parser.add_argument("--max-update-norm", type=float, default=1.0)
     parser.add_argument("--max-grad-norm", type=float, default=1.0)
     parser.add_argument("--grad-smoothing", type=float, default=0.9)
+    parser.add_argument("--precond-scale", type=float, default=0.5)
+    parser.add_argument("--curvature-scale", type=float, default=1.0)
     parser.add_argument("--seed", type=int, default=23)
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     parser.add_argument("--out", default="artifacts/tune_geometric_optimizer.csv")

@@ -122,6 +122,8 @@ def train_one(args, optimizer_name: str, train_loader: DataLoader, eval_loader: 
             max_update_norm=args.max_update_norm,
             max_grad_norm=args.max_grad_norm,
             grad_smoothing=args.grad_smoothing,
+            preconditioner_scale=args.precond_scale,
+            curvature_scale=args.curvature_scale,
             cg_max_iter=args.cg_max_iter,
             trace_samples=args.trace_samples,
             diagnostic_log_path=args.diagnostic_log,
@@ -180,6 +182,8 @@ def main() -> None:
     parser.add_argument("--max-update-norm", type=float, default=1.0)
     parser.add_argument("--max-grad-norm", type=float, default=1.0)
     parser.add_argument("--grad-smoothing", type=float, default=0.9)
+    parser.add_argument("--precond-scale", type=float, default=0.5)
+    parser.add_argument("--curvature-scale", type=float, default=1.0)
     parser.add_argument("--cg-max-iter", type=int, default=8)
     parser.add_argument("--trace-samples", type=int, default=0)
     parser.add_argument("--seed", type=int, default=31)

@@ -28,6 +28,7 @@ def measure(
     damping: float = 1e-3,
     kind: CurvatureKind = "hessian",
     regularization: float = 1e-3,
+    scale: float = 1.0,
 ) -> CurvatureOperator:
     return compute_curvature(
         model,
@@ -36,6 +37,7 @@ def measure(
         damping=damping,
         kind=kind,
         regularization=regularization,
+        scale=scale,
     )
 
 

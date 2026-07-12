@@ -55,6 +55,8 @@ class GeometricOptimizer(Optimizer):
         reuse_flat_threshold: float = 0.05,
         reuse_steep_threshold: float = 0.25,
         grad_smoothing: float = 0.9,
+        preconditioner_scale: float = 0.5,
+        curvature_scale: float = 1.0,
         verbose: bool = False,
         diagnostic_log_interval: int = 10,
         diagnostic_log_path: str | Path = "geometric_optimizer_diagnostics.csv",
@@ -85,6 +87,10 @@ class GeometricOptimizer(Optimizer):
             raise ValueError("reuse growth/decay must be non-negative")
         if not 0 <= grad_smoothing < 1:
             raise ValueError("grad_smoothing must be in [0, 1)")
+        if preconditioner_scale <= 0:
+            raise ValueError("preconditioner_scale must be positive")
+        if curvature_scale <= 0:
+            raise ValueError("curvature_scale must be positive")
         if diagnostic_log_interval < 1:
             raise ValueError("diagnostic_log_interval must be >= 1")
         defaults = dict(lr=lr)
@@ -119,6 +125,8 @@ class GeometricOptimizer(Optimizer):
         self.reuse_flat_threshold = reuse_flat_threshold
         self.reuse_steep_threshold = reuse_steep_threshold
         self.grad_smoothing = grad_smoothing
+        self.preconditioner_scale = preconditioner_scale
+        self.curvature_scale = curvature_scale
         self.verbose = verbose
         self.diagnostic_log_interval = diagnostic_log_interval
         self.diagnostic_log_path = Path(diagnostic_log_path)
@@ -170,6 +178,7 @@ class GeometricOptimizer(Optimizer):
                     damping=self._damping,
                     kind=self.curvature_kind,
                     regularization=self.regularization,
+                    scale=self.curvature_scale,
                 )
             loss.backward(retain_graph=use_curvature and self.curvature_kind == "hessian")
 
@@ -201,12 +210,13 @@ class GeometricOptimizer(Optimizer):
                 )
                 if cg.converged or torch.isfinite(cg.solution).all():
                     direction = cg.solution
+                    direction = direction * self.preconditioner_scale
                     mode = "geometric"
                     cg_iters = cg.iterations
                     residual_norm = cg.residual_norm
                     self._cache_preconditioner(direction, grad_norm)
         elif grad.numel() > 0 and grad_norm > 0 and self._has_preconditioner:
-            direction = -grad * self._last_preconditioner_gain
+            direction = -grad * self._last_preconditioner_gain * self.preconditioner_scale
             mode = "geometric_reuse"
 
         direction = self._smooth_direction(direction)
