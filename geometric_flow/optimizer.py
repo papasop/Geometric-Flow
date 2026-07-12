@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import inspect
 from typing import Callable, Optional
 
 import torch
@@ -64,7 +65,7 @@ class GeometricOptimizer(Optimizer):
             params.extend(group["params"])
         return trainable_params(params)
 
-    def step(self, closure: Optional[Callable[[], torch.Tensor]] = None):
+    def step(self, closure: Optional[Callable[..., torch.Tensor]] = None):
         if closure is None:
             raise RuntimeError("GeometricOptimizer requires a closure returning the loss")
 
@@ -74,7 +75,7 @@ class GeometricOptimizer(Optimizer):
 
         with torch.enable_grad():
             self.zero_grad(set_to_none=True)
-            loss = closure()
+            loss = self._call_loss_closure(closure)
             if not torch.is_tensor(loss) or loss.ndim != 0:
                 raise RuntimeError("closure must return a scalar loss tensor")
 
@@ -84,6 +85,7 @@ class GeometricOptimizer(Optimizer):
                 damping=self.damping,
                 kind=self.curvature_kind,
             )
+            loss.backward(retain_graph=use_curvature and self.curvature_kind == "hessian")
 
         grad = curvature.gradient
         grad_norm = float(torch.linalg.vector_norm(grad))
@@ -142,6 +144,23 @@ class GeometricOptimizer(Optimizer):
             }
         )
         return loss
+
+    def _call_loss_closure(self, closure: Callable[..., torch.Tensor]) -> torch.Tensor:
+        """Call closure in loss-only mode when it supports ``backward=False``."""
+
+        try:
+            signature = inspect.signature(closure)
+        except (TypeError, ValueError):
+            return closure()
+
+        parameters = signature.parameters.values()
+        accepts_backward = any(
+            parameter.kind == inspect.Parameter.VAR_KEYWORD or parameter.name == "backward"
+            for parameter in parameters
+        )
+        if accepts_backward:
+            return closure(backward=False)
+        return closure()
 
 
 class _ParameterView(torch.nn.Module):

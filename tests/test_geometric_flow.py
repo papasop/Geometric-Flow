@@ -60,6 +60,33 @@ class GeometricFlowTests(unittest.TestCase):
         self.assertIn("geodesic_distance", optimizer.topography_log[-1])
         self.assertGreaterEqual(optimizer.geodesic_distance, 0.0)
 
+    def test_optimizer_calls_backward_false_closure_and_keeps_graph(self):
+        torch.manual_seed(4)
+        model = GeoMLP(input_dim=4, hidden_dim=5, output_dim=2)
+        x = torch.randn(10, 4)
+        y = (x[:, 0] > 0).long()
+        optimizer = GeometricOptimizer(
+            model.parameters(),
+            lr=0.1,
+            damping=1e-2,
+            cg_max_iter=3,
+            trace_samples=1,
+            max_update_norm=0.25,
+        )
+        calls = []
+
+        def closure(backward=True):
+            calls.append(backward)
+            loss = F.cross_entropy(model(x), y)
+            if backward:
+                loss.backward()
+            return loss
+
+        loss = optimizer.step(closure)
+        self.assertTrue(torch.isfinite(loss.detach()))
+        self.assertEqual(calls, [False])
+        self.assertTrue(any(param.grad is not None for param in model.parameters()))
+
     def test_phase_scanner_restores_parameters(self):
         torch.manual_seed(5)
         model = GeoMLP(input_dim=3, hidden_dim=4, output_dim=2)

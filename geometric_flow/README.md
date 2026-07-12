@@ -20,8 +20,11 @@ from geometric_flow import GeoMLP, GeometricOptimizer
 model = GeoMLP(output_dim=10)
 opt = GeometricOptimizer(model.parameters(), lr=0.3, damping=1e-2)
 
-def closure():
-    return F.cross_entropy(model(x), y)
+def closure(backward=False):
+    loss = F.cross_entropy(model(x), y)
+    if backward:
+        loss.backward()
+    return loss
 
 loss = opt.step(closure)
 print(opt.topography_log[-1])
@@ -29,6 +32,9 @@ print(opt.topography_log[-1])
 
 The optimizer falls back to SGD when local curvature is non-positive,
 ill-conditioned, or too expensive to trust.
+`GeometricOptimizer` calls `closure(backward=False)` when supported and owns the
+single `loss.backward()` call internally, so HVP curvature probes and ordinary
+gradients share one retained computation graph safely.
 
 Each optimizer step records a topography row with `trace_estimate`,
 `rayleigh_grad`, `update_norm`, and cumulative `geodesic_distance`, which acts as
