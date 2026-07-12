@@ -11,7 +11,14 @@ from torch import nn
 from .curvature import CurvatureKind, CurvatureOperator, compute_curvature
 from .layers import GeometricRotation
 from .navigation import CGResult, geometric_step
-from .phase import PhasePoint, phase_diagram_scanner, write_phase_diagram
+from .phase import (
+    PhaseGridPoint,
+    PhasePoint,
+    phase_diagram_scanner,
+    phase_diagram_scanner_2d,
+    write_phase_diagram,
+    write_phase_diagram_csv,
+)
 
 
 def measure(
@@ -54,8 +61,28 @@ def plot_boundary(
     return points
 
 
+def plot_boundary_2d(
+    model_factory,
+    loss_factory,
+    param1_range: Iterable[float],
+    param2_range: Iterable[float],
+    output_path: Optional[str | Path] = None,
+    **kwargs,
+) -> list[PhaseGridPoint]:
+    points = phase_diagram_scanner_2d(
+        model_factory,
+        loss_factory,
+        param1_range=param1_range,
+        param2_range=param2_range,
+        **kwargs,
+    )
+    if output_path is not None:
+        write_phase_diagram_csv(points, output_path)
+    return points
+
+
 def embed(module: nn.Module, angle: float = 0.125) -> nn.Module:
-    """Insert parameter-free geometric rotations after Linear layers in Sequentials."""
+    """Insert learnable geometric rotations after Linear layers in Sequentials."""
 
     for name, child in list(module.named_children()):
         if isinstance(child, nn.Sequential):

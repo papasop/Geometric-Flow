@@ -53,6 +53,7 @@ class GeometricOptimizer(Optimizer):
         self.fallback_lr = lr if fallback_lr is None else fallback_lr
         self.curvature_kind = curvature_kind
         self.topography_log = []
+        self.geodesic_distance = 0.0
         self._step_index = 0
         self._previous_direction = None
 
@@ -120,6 +121,8 @@ class GeometricOptimizer(Optimizer):
             update_norm = torch.linalg.vector_norm(direction)
 
         lr = self.param_groups[0]["lr"] if mode == "geometric" else self.fallback_lr
+        actual_update_norm = float(torch.linalg.vector_norm(direction * lr))
+        self.geodesic_distance += actual_update_norm
         assign_flat_update(params, direction, scale=lr)
         self._previous_direction = direction.detach()
 
@@ -129,7 +132,9 @@ class GeometricOptimizer(Optimizer):
                 "mode": mode,
                 "loss": float(loss.detach()),
                 "grad_norm": grad_norm,
-                "update_norm": float(update_norm),
+                "direction_norm": float(update_norm),
+                "update_norm": actual_update_norm,
+                "geodesic_distance": self.geodesic_distance,
                 "rayleigh_grad": rayleigh,
                 "trace_estimate": trace,
                 "cg_iterations": cg_iters,

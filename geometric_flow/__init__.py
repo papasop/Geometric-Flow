@@ -10,7 +10,14 @@ The package exposes three layers:
 from .curvature import CurvatureOperator, compute_curvature, hutchinson_trace
 from .navigation import conjugate_gradient, geometric_step
 from .optimizer import GeometricOptimizer
-from .phase import PhasePoint, phase_diagram_scanner, write_phase_diagram
+from .phase import (
+    PhaseGridPoint,
+    PhasePoint,
+    phase_diagram_scanner,
+    phase_diagram_scanner_2d,
+    write_phase_diagram,
+    write_phase_diagram_csv,
+)
 from .layers import GeometricRotation
 from .models import GeoMLP
 from . import geo
@@ -20,6 +27,7 @@ __all__ = [
     "GeometricOptimizer",
     "GeometricRotation",
     "GeoMLP",
+    "PhaseGridPoint",
     "PhasePoint",
     "geo",
     "compute_curvature",
@@ -27,5 +35,7 @@ __all__ = [
     "geometric_step",
     "hutchinson_trace",
     "phase_diagram_scanner",
+    "phase_diagram_scanner_2d",
     "write_phase_diagram",
+    "write_phase_diagram_csv",
 ]

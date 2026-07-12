@@ -1,9 +1,20 @@
 import unittest
+import tempfile
+from pathlib import Path
 
 import torch
 import torch.nn.functional as F
 
-from geometric_flow import GeoMLP, GeometricOptimizer, compute_curvature, conjugate_gradient, geo, phase_diagram_scanner
+from geometric_flow import (
+    GeoMLP,
+    GeometricOptimizer,
+    compute_curvature,
+    conjugate_gradient,
+    geo,
+    phase_diagram_scanner,
+    phase_diagram_scanner_2d,
+    write_phase_diagram_csv,
+)
 
 
 class GeometricFlowTests(unittest.TestCase):
@@ -46,6 +57,8 @@ class GeometricFlowTests(unittest.TestCase):
         self.assertLessEqual(after.item(), before.item() + 1.0)
         self.assertEqual(len(optimizer.topography_log), 1)
         self.assertIn(optimizer.topography_log[-1]["mode"], {"geometric", "sgd"})
+        self.assertIn("geodesic_distance", optimizer.topography_log[-1])
+        self.assertGreaterEqual(optimizer.geodesic_distance, 0.0)
 
     def test_phase_scanner_restores_parameters(self):
         torch.manual_seed(5)
@@ -63,15 +76,49 @@ class GeometricFlowTests(unittest.TestCase):
         for param, original in zip(model.parameters(), before):
             self.assertTrue(torch.allclose(param, original))
 
-    def test_geo_embed_adds_parameter_free_rotation(self):
+    def test_geo_embed_adds_learnable_rotation_without_changing_feature_dim(self):
         model = torch.nn.Sequential(torch.nn.Linear(3, 4), torch.nn.ReLU())
-        before = sum(p.numel() for p in model.parameters())
         wrapped = torch.nn.Module()
         wrapped.net = model
         geo.embed(wrapped)
-        after = sum(p.numel() for p in wrapped.parameters())
-        self.assertEqual(before, after)
         self.assertEqual(wrapped.net[1].__class__.__name__, "GeometricRotation")
+        self.assertTrue(wrapped.net[1].angle.requires_grad)
+        x = torch.randn(2, 3)
+        self.assertEqual(wrapped.net(x).shape, (2, 4))
+
+    def test_geomlp_exposes_trainable_phase_parameters(self):
+        model = GeoMLP(input_dim=3, hidden_dim=4, output_dim=2)
+        phases = model.geometric_parameters()
+        self.assertEqual(len(phases), 1)
+        self.assertTrue(phases[0].requires_grad)
+
+    def test_phase_diagram_scanner_2d_writes_csv(self):
+        torch.manual_seed(9)
+        x = torch.randn(8, 3)
+        y = (x[:, 0] > 0).long()
+
+        def model_factory():
+            return GeoMLP(input_dim=3, hidden_dim=4, output_dim=2)
+
+        def loss_factory(model):
+            return F.cross_entropy(model(x), y)
+
+        points = phase_diagram_scanner_2d(
+            model_factory,
+            loss_factory,
+            param1_range=[0.05, 0.1],
+            param2_range=[1e-2],
+            steps=1,
+            optimizer_kwargs={"cg_max_iter": 2, "trace_samples": 1, "max_update_norm": 0.2},
+        )
+        self.assertEqual(len(points), 2)
+        self.assertTrue(all(point.final_loss == point.final_loss for point in points))
+
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "break_even_boundary.csv"
+            write_phase_diagram_csv(points, path)
+            text = path.read_text(encoding="utf-8")
+        self.assertIn("param1,param2,final_loss,avg_trace,geodesic_distance,final_mode", text)
 
 
 if __name__ == "__main__":

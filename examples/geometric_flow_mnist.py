@@ -11,7 +11,14 @@ import torch
 import torch.nn.functional as F
 from torch.utils.data import DataLoader, TensorDataset
 
-from geometric_flow import GeoMLP, GeometricOptimizer, phase_diagram_scanner, write_phase_diagram
+from geometric_flow import (
+    GeoMLP,
+    GeometricOptimizer,
+    phase_diagram_scanner,
+    phase_diagram_scanner_2d,
+    write_phase_diagram,
+    write_phase_diagram_csv,
+)
 
 
 def make_synthetic_mnist(n: int = 256):
@@ -55,6 +62,17 @@ def main() -> None:
     )
     write_phase_diagram(points, "geometric_phase_diagram.json")
     print("wrote geometric_phase_diagram.json")
+
+    grid = phase_diagram_scanner_2d(
+        lambda: GeoMLP(hidden_dim=32, output_dim=2),
+        lambda m: F.cross_entropy(m(x), y),
+        param1_range=[0.1, 0.3],
+        param2_range=[1e-3, 1e-2],
+        steps=2,
+        optimizer_kwargs={"cg_max_iter": 4, "trace_samples": 1, "max_update_norm": 1.0},
+    )
+    write_phase_diagram_csv(grid, "break_even_boundary.csv")
+    print("wrote break_even_boundary.csv")
 
 
 if __name__ == "__main__":
