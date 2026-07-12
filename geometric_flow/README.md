@@ -21,10 +21,11 @@ model = GeoMLP(output_dim=10)
 opt = GeometricOptimizer(
     model.parameters(),
     lr=3e-3,
-    damping=5e-2,
+    damping=1e-3,
     max_grad_norm=1.0,
-    regularization=0.1,
+    regularization=1e-3,
     warmup_steps=10,
+    curvature_reuse=5,
 )
 
 def closure(backward=False):
@@ -44,6 +45,8 @@ single `loss.backward()` call internally, so HVP curvature probes and ordinary
 gradients share one retained computation graph safely.
 Early steps run in SGD warm-up mode, gradients are clipped, and damping adapts
 inside `[1e-3, 1.0]` to reduce trust in noisy curvature when gradients are large.
+Curvature is refreshed every `curvature_reuse` steps and reused between refreshes
+to keep HVP overhead under control.
 
 Each optimizer step records a topography row with `trace_estimate`,
 `rayleigh_grad`, `update_norm`, and cumulative `geodesic_distance`, which acts as

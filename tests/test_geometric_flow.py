@@ -120,6 +120,31 @@ class GeometricFlowTests(unittest.TestCase):
         self.assertLessEqual(entry["clipped_grad_norm"], 0.1001)
         self.assertGreaterEqual(entry["current_damping"], 0.05)
 
+    def test_optimizer_reuses_curvature_between_refreshes(self):
+        weight = torch.nn.Parameter(torch.tensor([2.0]))
+        optimizer = GeometricOptimizer(
+            [weight],
+            lr=0.1,
+            damping=1e-3,
+            regularization=1e-3,
+            warmup_steps=0,
+            curvature_reuse=3,
+            cg_max_iter=4,
+            trace_samples=0,
+        )
+
+        def closure():
+            return 0.5 * (weight - 1.0).pow(2).sum()
+
+        optimizer.step(closure)
+        optimizer.step(closure)
+        first, second = optimizer.topography_log[-2:]
+        self.assertEqual(first["mode"], "geometric")
+        self.assertTrue(first["curvature_refreshed"])
+        self.assertEqual(second["mode"], "geometric_reuse")
+        self.assertFalse(second["curvature_refreshed"])
+        self.assertGreater(second["preconditioned_grad_norm"], 0.0)
+
     def test_phase_scanner_restores_parameters(self):
         torch.manual_seed(5)
         model = GeoMLP(input_dim=3, hidden_dim=4, output_dim=2)

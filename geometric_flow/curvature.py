@@ -25,7 +25,7 @@ class CurvatureOperator:
     params: list[torch.nn.Parameter]
     damping: float = 1e-3
     kind: CurvatureKind = "hessian"
-    regularization: float = 0.1
+    regularization: float = 1e-3
 
     def __post_init__(self) -> None:
         if self.kind not in {"hessian", "fisher"}:
@@ -46,7 +46,7 @@ class CurvatureOperator:
             self._fisher_diag = None
         self._regularization = float(self.regularization)
 
-    def regularize(self, method: Literal["tikhonov", "identity"] = "tikhonov", alpha: float = 0.1):
+    def regularize(self, method: Literal["tikhonov", "identity"] = "tikhonov", alpha: float = 1e-3):
         """Add an implicit identity regularizer to every curvature matvec."""
 
         if method not in {"tikhonov", "identity"}:
@@ -84,7 +84,7 @@ def compute_curvature(
     data=None,
     damping: float = 1e-3,
     kind: CurvatureKind = "hessian",
-    regularization: float = 0.1,
+    regularization: float = 1e-3,
 ) -> CurvatureOperator:
     """Return an implicit local curvature operator for ``model``.
 

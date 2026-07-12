@@ -40,9 +40,10 @@ class GeometricOptimizer(Optimizer):
         damping_decay: float = 0.95,
         min_damping: float = 1e-3,
         max_damping: float = 1.0,
-        regularization: float = 0.1,
+        regularization: float = 1e-3,
         warmup_steps: int = 10,
         warmup_lr_scale: float = 0.5,
+        curvature_reuse: int = 5,
     ) -> None:
         if lr <= 0:
             raise ValueError("lr must be positive")
@@ -60,6 +61,8 @@ class GeometricOptimizer(Optimizer):
             raise ValueError("warmup_steps must be non-negative")
         if warmup_lr_scale <= 0:
             raise ValueError("warmup_lr_scale must be positive")
+        if curvature_reuse < 1:
+            raise ValueError("curvature_reuse must be >= 1")
         defaults = dict(lr=lr)
         super().__init__(params, defaults)
         self.damping = damping
@@ -82,10 +85,13 @@ class GeometricOptimizer(Optimizer):
         self.regularization = regularization
         self.warmup_steps = warmup_steps
         self.warmup_lr_scale = warmup_lr_scale
+        self.curvature_reuse = curvature_reuse
         self.topography_log = []
         self.geodesic_distance = 0.0
         self._step_index = 0
         self._previous_direction = None
+        self._last_preconditioner_gain = 1.0
+        self._last_preconditioned_grad_norm = None
 
     @property
     def _params(self):
@@ -102,7 +108,13 @@ class GeometricOptimizer(Optimizer):
         if self._step_index <= self.warmup_steps:
             return self._warmup_step(closure)
 
-        use_curvature = self._step_index % self.curvature_interval == 0
+        geometric_step = self._step_index - self.warmup_steps
+        refresh_curvature = (
+            geometric_step == 1
+            or geometric_step % self.curvature_reuse == 0
+            or self._last_preconditioned_grad_norm is None
+        )
+        use_curvature = refresh_curvature and self._step_index % self.curvature_interval == 0
         params = self._params
 
         with torch.enable_grad():
@@ -111,20 +123,24 @@ class GeometricOptimizer(Optimizer):
             if not torch.is_tensor(loss) or loss.ndim != 0:
                 raise RuntimeError("closure must return a scalar loss tensor")
 
-            curvature = compute_curvature(
-                _ParameterView(params),
-                loss,
-                damping=self._damping,
-                kind=self.curvature_kind,
-                regularization=self.regularization,
-            )
+            curvature = None
+            if use_curvature:
+                curvature = compute_curvature(
+                    _ParameterView(params),
+                    loss,
+                    damping=self._damping,
+                    kind=self.curvature_kind,
+                    regularization=self.regularization,
+                )
             loss.backward(retain_graph=use_curvature and self.curvature_kind == "hessian")
 
-        raw_grad_norm = float(torch.linalg.vector_norm(curvature.gradient))
+        raw_grad = self._flat_current_grad(params)
+        raw_grad_norm = float(torch.linalg.vector_norm(raw_grad))
         clipped_grad_norm = self._clip_gradients(params)
         self._adapt_damping(clipped_grad_norm)
-        curvature.damping = self._damping
-        grad = self._flat_current_grad(params, fallback=curvature.gradient)
+        if curvature is not None:
+            curvature.damping = self._damping
+        grad = self._flat_current_grad(params, fallback=raw_grad)
         grad_norm = float(torch.linalg.vector_norm(grad))
         direction = -grad
         mode = "sgd"
@@ -133,7 +149,7 @@ class GeometricOptimizer(Optimizer):
         rayleigh = None
         trace = None
 
-        if use_curvature and grad.numel() > 0 and grad_norm > 0:
+        if use_curvature and curvature is not None and grad.numel() > 0 and grad_norm > 0:
             rayleigh = curvature.rayleigh(grad)
             trace = hutchinson_trace(curvature, self.trace_samples) if self.trace_samples else None
             condition_proxy = abs(trace / rayleigh) if trace is not None and abs(rayleigh) > 1e-30 else 1.0
@@ -149,6 +165,12 @@ class GeometricOptimizer(Optimizer):
                     mode = "geometric"
                     cg_iters = cg.iterations
                     residual_norm = cg.residual_norm
+                    self._cache_preconditioner(direction, grad_norm)
+        elif grad.numel() > 0 and grad_norm > 0 and self._last_preconditioned_grad_norm is not None:
+            direction = -grad * self._last_preconditioner_gain
+            mode = "geometric_reuse"
+
+        preconditioned_grad_norm = float(torch.linalg.vector_norm(direction))
 
         if self._previous_direction is not None and self.path_smoothing > 0:
             if self._previous_direction.numel() == direction.numel():
@@ -174,6 +196,8 @@ class GeometricOptimizer(Optimizer):
                 "grad_norm": grad_norm,
                 "clipped_grad_norm": clipped_grad_norm,
                 "current_damping": self._damping,
+                "curvature_refreshed": use_curvature,
+                "preconditioned_grad_norm": preconditioned_grad_norm,
                 "direction_norm": float(update_norm),
                 "update_norm": actual_update_norm,
                 "geodesic_distance": self.geodesic_distance,
@@ -214,6 +238,8 @@ class GeometricOptimizer(Optimizer):
                 "grad_norm": float(torch.linalg.vector_norm(grad)),
                 "clipped_grad_norm": clipped_grad_norm,
                 "current_damping": self._damping,
+                "curvature_refreshed": False,
+                "preconditioned_grad_norm": float(torch.linalg.vector_norm(direction)),
                 "direction_norm": float(torch.linalg.vector_norm(direction)),
                 "update_norm": actual_update_norm,
                 "geodesic_distance": self.geodesic_distance,
@@ -224,6 +250,11 @@ class GeometricOptimizer(Optimizer):
             }
         )
         return loss
+
+    def _cache_preconditioner(self, direction: torch.Tensor, grad_norm: float) -> None:
+        direction_norm = float(torch.linalg.vector_norm(direction))
+        self._last_preconditioned_grad_norm = direction_norm
+        self._last_preconditioner_gain = direction_norm / max(float(grad_norm), 1e-30)
 
     def _clip_gradients(self, params) -> float:
         if not params:
