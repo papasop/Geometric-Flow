@@ -18,7 +18,14 @@ import torch.nn.functional as F
 from geometric_flow import GeoMLP, GeometricOptimizer
 
 model = GeoMLP(output_dim=10)
-opt = GeometricOptimizer(model.parameters(), lr=0.3, damping=1e-2)
+opt = GeometricOptimizer(
+    model.parameters(),
+    lr=3e-3,
+    damping=5e-2,
+    max_grad_norm=1.0,
+    regularization=0.1,
+    warmup_steps=10,
+)
 
 def closure(backward=False):
     loss = F.cross_entropy(model(x), y)
@@ -35,6 +42,8 @@ ill-conditioned, or too expensive to trust.
 `GeometricOptimizer` calls `closure(backward=False)` when supported and owns the
 single `loss.backward()` call internally, so HVP curvature probes and ordinary
 gradients share one retained computation graph safely.
+Early steps run in SGD warm-up mode, gradients are clipped, and damping adapts
+inside `[1e-3, 1.0]` to reduce trust in noisy curvature when gradients are large.
 
 Each optimizer step records a topography row with `trace_estimate`,
 `rayleigh_grad`, `update_norm`, and cumulative `geodesic_distance`, which acts as

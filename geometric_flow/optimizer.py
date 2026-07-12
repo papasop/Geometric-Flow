@@ -34,6 +34,15 @@ class GeometricOptimizer(Optimizer):
         max_update_norm: Optional[float] = None,
         fallback_lr: Optional[float] = None,
         curvature_kind: CurvatureKind = "hessian",
+        max_grad_norm: float = 1.0,
+        adaptive_damping: bool = True,
+        damping_growth: float = 1.05,
+        damping_decay: float = 0.95,
+        min_damping: float = 1e-3,
+        max_damping: float = 1.0,
+        regularization: float = 0.1,
+        warmup_steps: int = 10,
+        warmup_lr_scale: float = 0.5,
     ) -> None:
         if lr <= 0:
             raise ValueError("lr must be positive")
@@ -41,9 +50,20 @@ class GeometricOptimizer(Optimizer):
             raise ValueError("damping must be non-negative")
         if curvature_interval < 1:
             raise ValueError("curvature_interval must be >= 1")
+        if max_grad_norm < 0:
+            raise ValueError("max_grad_norm must be non-negative")
+        if min_damping <= 0 or max_damping < min_damping:
+            raise ValueError("damping bounds must satisfy 0 < min_damping <= max_damping")
+        if regularization < 0:
+            raise ValueError("regularization must be non-negative")
+        if warmup_steps < 0:
+            raise ValueError("warmup_steps must be non-negative")
+        if warmup_lr_scale <= 0:
+            raise ValueError("warmup_lr_scale must be positive")
         defaults = dict(lr=lr)
         super().__init__(params, defaults)
         self.damping = damping
+        self._damping = damping
         self.curvature_interval = curvature_interval
         self.cg_max_iter = cg_max_iter
         self.cg_tolerance = cg_tolerance
@@ -53,6 +73,15 @@ class GeometricOptimizer(Optimizer):
         self.max_update_norm = max_update_norm
         self.fallback_lr = lr if fallback_lr is None else fallback_lr
         self.curvature_kind = curvature_kind
+        self.max_grad_norm = max_grad_norm
+        self.adaptive_damping = adaptive_damping
+        self.damping_growth = damping_growth
+        self.damping_decay = damping_decay
+        self.min_damping = min_damping
+        self.max_damping = max_damping
+        self.regularization = regularization
+        self.warmup_steps = warmup_steps
+        self.warmup_lr_scale = warmup_lr_scale
         self.topography_log = []
         self.geodesic_distance = 0.0
         self._step_index = 0
@@ -70,6 +99,9 @@ class GeometricOptimizer(Optimizer):
             raise RuntimeError("GeometricOptimizer requires a closure returning the loss")
 
         self._step_index += 1
+        if self._step_index <= self.warmup_steps:
+            return self._warmup_step(closure)
+
         use_curvature = self._step_index % self.curvature_interval == 0
         params = self._params
 
@@ -82,12 +114,17 @@ class GeometricOptimizer(Optimizer):
             curvature = compute_curvature(
                 _ParameterView(params),
                 loss,
-                damping=self.damping,
+                damping=self._damping,
                 kind=self.curvature_kind,
+                regularization=self.regularization,
             )
             loss.backward(retain_graph=use_curvature and self.curvature_kind == "hessian")
 
-        grad = curvature.gradient
+        raw_grad_norm = float(torch.linalg.vector_norm(curvature.gradient))
+        clipped_grad_norm = self._clip_gradients(params)
+        self._adapt_damping(clipped_grad_norm)
+        curvature.damping = self._damping
+        grad = self._flat_current_grad(params, fallback=curvature.gradient)
         grad_norm = float(torch.linalg.vector_norm(grad))
         direction = -grad
         mode = "sgd"
@@ -133,7 +170,10 @@ class GeometricOptimizer(Optimizer):
                 "step": self._step_index,
                 "mode": mode,
                 "loss": float(loss.detach()),
+                "raw_grad_norm": raw_grad_norm,
                 "grad_norm": grad_norm,
+                "clipped_grad_norm": clipped_grad_norm,
+                "current_damping": self._damping,
                 "direction_norm": float(update_norm),
                 "update_norm": actual_update_norm,
                 "geodesic_distance": self.geodesic_distance,
@@ -144,6 +184,76 @@ class GeometricOptimizer(Optimizer):
             }
         )
         return loss
+
+    def _warmup_step(self, closure: Callable[..., torch.Tensor]) -> torch.Tensor:
+        params = self._params
+        lr = self.param_groups[0]["lr"] * self.warmup_lr_scale
+        with torch.enable_grad():
+            self.zero_grad(set_to_none=True)
+            loss = self._call_loss_closure(closure)
+            if not torch.is_tensor(loss) or loss.ndim != 0:
+                raise RuntimeError("closure must return a scalar loss tensor")
+            loss.backward()
+
+        raw_grad = self._flat_current_grad(params)
+        raw_grad_norm = float(torch.linalg.vector_norm(raw_grad))
+        clipped_grad_norm = self._clip_gradients(params)
+        self._adapt_damping(clipped_grad_norm)
+        grad = self._flat_current_grad(params, fallback=raw_grad)
+        direction = -grad
+        actual_update_norm = float(torch.linalg.vector_norm(direction * lr))
+        self.geodesic_distance += actual_update_norm
+        assign_flat_update(params, direction, scale=lr)
+        self._previous_direction = direction.detach()
+        self.topography_log.append(
+            {
+                "step": self._step_index,
+                "mode": "warmup",
+                "loss": float(loss.detach()),
+                "raw_grad_norm": raw_grad_norm,
+                "grad_norm": float(torch.linalg.vector_norm(grad)),
+                "clipped_grad_norm": clipped_grad_norm,
+                "current_damping": self._damping,
+                "direction_norm": float(torch.linalg.vector_norm(direction)),
+                "update_norm": actual_update_norm,
+                "geodesic_distance": self.geodesic_distance,
+                "rayleigh_grad": None,
+                "trace_estimate": None,
+                "cg_iterations": 0,
+                "residual_norm": float(torch.linalg.vector_norm(grad)),
+            }
+        )
+        return loss
+
+    def _clip_gradients(self, params) -> float:
+        if not params:
+            return 0.0
+        if self.max_grad_norm > 0:
+            torch.nn.utils.clip_grad_norm_(params, self.max_grad_norm)
+        grad = self._flat_current_grad(params)
+        return float(torch.linalg.vector_norm(grad))
+
+    def _adapt_damping(self, grad_norm: float) -> None:
+        if not self.adaptive_damping:
+            return
+        if grad_norm > 1.0:
+            self._damping *= self.damping_growth
+        elif grad_norm < 0.01:
+            self._damping *= self.damping_decay
+        self._damping = max(self.min_damping, min(self.max_damping, self._damping))
+
+    def _flat_current_grad(self, params, fallback: Optional[torch.Tensor] = None) -> torch.Tensor:
+        if not params:
+            if fallback is not None:
+                return torch.zeros_like(fallback)
+            return torch.empty(0)
+        chunks = []
+        for param in params:
+            if param.grad is None:
+                chunks.append(torch.zeros_like(param).reshape(-1))
+            else:
+                chunks.append(param.grad.detach().reshape(-1))
+        return torch.cat(chunks)
 
     def _call_loss_closure(self, closure: Callable[..., torch.Tensor]) -> torch.Tensor:
         """Call closure in loss-only mode when it supports ``backward=False``."""

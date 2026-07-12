@@ -22,9 +22,19 @@ class GeometricFlowTests(unittest.TestCase):
         w = torch.nn.Parameter(torch.tensor([1.0, -2.0]))
         matrix = torch.tensor([[4.0, 1.0], [1.0, 3.0]])
         loss = 0.5 * w @ matrix @ w
-        op = compute_curvature(torch.nn.ParameterList([w]), loss, damping=0.0)
+        op = compute_curvature(torch.nn.ParameterList([w]), loss, damping=0.0, regularization=0.0)
         vector = torch.tensor([0.25, -0.5])
         self.assertTrue(torch.allclose(op.matvec(vector), matrix @ vector, atol=1e-5))
+
+    def test_curvature_regularization_adds_identity_term(self):
+        w = torch.nn.Parameter(torch.tensor([1.0, -2.0]))
+        matrix = torch.tensor([[4.0, 1.0], [1.0, 3.0]])
+        loss = 0.5 * w @ matrix @ w
+        op = compute_curvature(torch.nn.ParameterList([w]), loss, damping=0.0, regularization=0.2)
+        vector = torch.tensor([0.25, -0.5])
+        self.assertTrue(torch.allclose(op.matvec(vector), matrix @ vector + 0.2 * vector, atol=1e-5))
+        op.regularize(alpha=0.4)
+        self.assertTrue(torch.allclose(op.matvec(vector), matrix @ vector + 0.4 * vector, atol=1e-5))
 
     def test_conjugate_gradient_solves_spd_system(self):
         matrix = torch.tensor([[5.0, 1.0], [1.0, 2.0]])
@@ -44,6 +54,7 @@ class GeometricFlowTests(unittest.TestCase):
             cg_max_iter=4,
             trace_samples=1,
             max_update_norm=0.5,
+            warmup_steps=0,
         )
 
         before = F.cross_entropy(model(x), y)
@@ -72,6 +83,7 @@ class GeometricFlowTests(unittest.TestCase):
             cg_max_iter=3,
             trace_samples=1,
             max_update_norm=0.25,
+            warmup_steps=0,
         )
         calls = []
 
@@ -86,6 +98,27 @@ class GeometricFlowTests(unittest.TestCase):
         self.assertTrue(torch.isfinite(loss.detach()))
         self.assertEqual(calls, [False])
         self.assertTrue(any(param.grad is not None for param in model.parameters()))
+
+    def test_optimizer_warmup_clips_gradients_and_adapts_damping(self):
+        torch.manual_seed(6)
+        model = GeoMLP(input_dim=4, hidden_dim=5, output_dim=2)
+        x = 100.0 * torch.randn(10, 4)
+        y = (x[:, 0] > 0).long()
+        optimizer = GeometricOptimizer(
+            model.parameters(),
+            lr=0.1,
+            damping=0.05,
+            max_grad_norm=0.1,
+            warmup_steps=2,
+            warmup_lr_scale=0.5,
+        )
+
+        loss = optimizer.step(lambda: F.cross_entropy(model(x), y))
+        entry = optimizer.topography_log[-1]
+        self.assertTrue(torch.isfinite(loss.detach()))
+        self.assertEqual(entry["mode"], "warmup")
+        self.assertLessEqual(entry["clipped_grad_norm"], 0.1001)
+        self.assertGreaterEqual(entry["current_damping"], 0.05)
 
     def test_phase_scanner_restores_parameters(self):
         torch.manual_seed(5)

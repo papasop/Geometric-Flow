@@ -27,8 +27,16 @@ def measure(
     data=None,
     damping: float = 1e-3,
     kind: CurvatureKind = "hessian",
+    regularization: float = 0.1,
 ) -> CurvatureOperator:
-    return compute_curvature(model, loss, data=data, damping=damping, kind=kind)
+    return compute_curvature(
+        model,
+        loss,
+        data=data,
+        damping=damping,
+        kind=kind,
+        regularization=regularization,
+    )
 
 
 def navigate(

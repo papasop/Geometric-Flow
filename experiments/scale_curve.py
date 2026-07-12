@@ -191,6 +191,10 @@ def train_one(
     cg_max_iter: int,
     trace_samples: int,
     max_update_norm: float,
+    max_grad_norm: float,
+    regularization: float,
+    warmup_steps: int,
+    warmup_lr_scale: float,
     seed: int,
 ) -> RunResult:
     set_seed(seed)
@@ -208,6 +212,10 @@ def train_one(
             cg_max_iter=cg_max_iter,
             trace_samples=trace_samples,
             max_update_norm=max_update_norm,
+            max_grad_norm=max_grad_norm,
+            regularization=regularization,
+            warmup_steps=warmup_steps,
+            warmup_lr_scale=warmup_lr_scale,
         )
     else:
         raise ValueError(f"unknown optimizer: {optimizer_name}")
@@ -435,6 +443,10 @@ def main() -> None:
     parser.add_argument("--cg-max-iter", type=int, default=8)
     parser.add_argument("--trace-samples", type=int, default=1)
     parser.add_argument("--max-update-norm", type=float, default=1.0)
+    parser.add_argument("--max-grad-norm", type=float, default=1.0)
+    parser.add_argument("--regularization", type=float, default=0.1)
+    parser.add_argument("--warmup-steps", type=int, default=10)
+    parser.add_argument("--warmup-lr-scale", type=float, default=0.5)
     parser.add_argument("--seed", type=int, default=17)
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     parser.add_argument("--out-dir", default="artifacts/scale_curve")
@@ -475,6 +487,10 @@ def main() -> None:
                 cg_max_iter=args.cg_max_iter,
                 trace_samples=args.trace_samples,
                 max_update_norm=args.max_update_norm,
+                max_grad_norm=args.max_grad_norm,
+                regularization=args.regularization,
+                warmup_steps=args.warmup_steps,
+                warmup_lr_scale=args.warmup_lr_scale,
                 seed=args.seed + width,
             )
             results.append(result)
