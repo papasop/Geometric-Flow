@@ -1,4 +1,4 @@
-# Geometric Flow for PyTorch
+# GeoFlow for PyTorch
 
 A geometry-first optimization toolkit for PyTorch, inspired by quantum-control
 manifolds. This library implements curvature-aware preconditioning with
@@ -24,13 +24,13 @@ Reference synthetic CIFAR-10 smoke milestone from a late-switch hybrid run:
 `ratio` is `mean_preconditioned_to_raw_ratio`, a diagnostic for how strongly the
 geometric direction is being used.
 
-## Why Geometric Flow?
+## Why GeoFlow?
 
 Most deep learning optimizers, including SGD and Adam, navigate parameter space
 using gradients alone. They know which way is downhill, but they do not directly
 measure how the terrain bends.
 
-Geometric flow also measures local curvature with Hessian/Fisher information.
+GeoFlow also measures local curvature with Hessian/Fisher information.
 Like a hiker who can see both slope and terrain shape, a geometric optimizer can
 precondition its steps and choose a more informed path through the loss
 landscape.
@@ -163,5 +163,5 @@ python experiments/run_cifar10_benchmark.py \
 ## Further Reading
 
 - Package details: [`geometric_flow/README.md`](geometric_flow/README.md)
-- Theory direction: *Computation as Geometric Flow*, a local
+- Theory direction: *Computation as GeoFlow*, a local
   stable-neutral formulation of implementation manifolds.

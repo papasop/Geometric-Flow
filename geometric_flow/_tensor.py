@@ -1,4 +1,4 @@
-"""Flat parameter helpers used by the geometric flow modules."""
+"""Flat parameter helpers used by GeoFlow modules."""
 
 from __future__ import annotations
 

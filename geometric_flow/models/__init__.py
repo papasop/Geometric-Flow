@@ -1,4 +1,4 @@
-"""Neural network building blocks for geometric-flow experiments."""
+"""Neural network building blocks for GeoFlow experiments."""
 
 from .mlp import GeoMLP
 from .geo_cnn import ChannelGeometricRotation, GeoCNN, GeoConv2D

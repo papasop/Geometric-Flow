@@ -1,6 +1,7 @@
-# Geometric Flow Codex
+# GeoFlow Codex
 
-`geometric_flow` is a geometry-first PyTorch optimization layer. It treats the
+`geometric_flow` is the import-compatible Python package for GeoFlow, a
+geometry-first PyTorch optimization layer. It treats the
 loss landscape as a local differentiable manifold:
 
 - `geo.measure()` builds an implicit Hessian/Fisher curvature operator with HVP.
