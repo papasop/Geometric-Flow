@@ -195,6 +195,9 @@ def train_one(
     regularization: float,
     warmup_steps: int,
     warmup_lr_scale: float,
+    lr_scale: float,
+    curvature_reuse: int,
+    grad_smoothing: float,
     seed: int,
 ) -> RunResult:
     set_seed(seed)
@@ -216,6 +219,9 @@ def train_one(
             regularization=regularization,
             warmup_steps=warmup_steps,
             warmup_lr_scale=warmup_lr_scale,
+            lr_scale=lr_scale,
+            curvature_reuse=curvature_reuse,
+            grad_smoothing=grad_smoothing,
         )
     else:
         raise ValueError(f"unknown optimizer: {optimizer_name}")
@@ -447,6 +453,9 @@ def main() -> None:
     parser.add_argument("--regularization", type=float, default=1e-3)
     parser.add_argument("--warmup-steps", type=int, default=10)
     parser.add_argument("--warmup-lr-scale", type=float, default=0.5)
+    parser.add_argument("--lr-scale", type=float, default=3.0)
+    parser.add_argument("--curvature-reuse", type=int, default=5)
+    parser.add_argument("--grad-smoothing", type=float, default=0.9)
     parser.add_argument("--seed", type=int, default=17)
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     parser.add_argument("--out-dir", default="artifacts/scale_curve")
@@ -491,6 +500,9 @@ def main() -> None:
                 regularization=args.regularization,
                 warmup_steps=args.warmup_steps,
                 warmup_lr_scale=args.warmup_lr_scale,
+                lr_scale=args.lr_scale,
+                curvature_reuse=args.curvature_reuse,
+                grad_smoothing=args.grad_smoothing,
                 seed=args.seed + width,
             )
             results.append(result)

@@ -44,6 +44,15 @@ class GeometricOptimizer(Optimizer):
         warmup_steps: int = 10,
         warmup_lr_scale: float = 0.5,
         curvature_reuse: int = 5,
+        lr_scale: float = 3.0,
+        adaptive_curvature_reuse: bool = True,
+        min_curvature_reuse: int = 1,
+        max_curvature_reuse: int = 20,
+        reuse_growth: int = 1,
+        reuse_decay: int = 1,
+        reuse_flat_threshold: float = 0.05,
+        reuse_steep_threshold: float = 0.25,
+        grad_smoothing: float = 0.9,
     ) -> None:
         if lr <= 0:
             raise ValueError("lr must be positive")
@@ -63,6 +72,14 @@ class GeometricOptimizer(Optimizer):
             raise ValueError("warmup_lr_scale must be positive")
         if curvature_reuse < 1:
             raise ValueError("curvature_reuse must be >= 1")
+        if lr_scale <= 0:
+            raise ValueError("lr_scale must be positive")
+        if min_curvature_reuse < 1 or max_curvature_reuse < min_curvature_reuse:
+            raise ValueError("reuse bounds must satisfy 1 <= min_curvature_reuse <= max_curvature_reuse")
+        if reuse_growth < 0 or reuse_decay < 0:
+            raise ValueError("reuse growth/decay must be non-negative")
+        if not 0 <= grad_smoothing < 1:
+            raise ValueError("grad_smoothing must be in [0, 1)")
         defaults = dict(lr=lr)
         super().__init__(params, defaults)
         self.damping = damping
@@ -86,12 +103,24 @@ class GeometricOptimizer(Optimizer):
         self.warmup_steps = warmup_steps
         self.warmup_lr_scale = warmup_lr_scale
         self.curvature_reuse = curvature_reuse
+        self.lr_scale = lr_scale
+        self.adaptive_curvature_reuse = adaptive_curvature_reuse
+        self.min_curvature_reuse = min_curvature_reuse
+        self.max_curvature_reuse = max_curvature_reuse
+        self.reuse_growth = reuse_growth
+        self.reuse_decay = reuse_decay
+        self.reuse_flat_threshold = reuse_flat_threshold
+        self.reuse_steep_threshold = reuse_steep_threshold
+        self.grad_smoothing = grad_smoothing
         self.topography_log = []
         self.geodesic_distance = 0.0
         self._step_index = 0
         self._previous_direction = None
         self._last_preconditioner_gain = 1.0
+        self._has_preconditioner = False
         self._last_preconditioned_grad_norm = None
+        self._previous_preconditioned_grad_norm = None
+        self._ema_grad = None
 
     @property
     def _params(self):
@@ -112,7 +141,7 @@ class GeometricOptimizer(Optimizer):
         refresh_curvature = (
             geometric_step == 1
             or geometric_step % self.curvature_reuse == 0
-            or self._last_preconditioned_grad_norm is None
+            or not self._has_preconditioner
         )
         use_curvature = refresh_curvature and self._step_index % self.curvature_interval == 0
         params = self._params
@@ -166,11 +195,13 @@ class GeometricOptimizer(Optimizer):
                     cg_iters = cg.iterations
                     residual_norm = cg.residual_norm
                     self._cache_preconditioner(direction, grad_norm)
-        elif grad.numel() > 0 and grad_norm > 0 and self._last_preconditioned_grad_norm is not None:
+        elif grad.numel() > 0 and grad_norm > 0 and self._has_preconditioner:
             direction = -grad * self._last_preconditioner_gain
             mode = "geometric_reuse"
 
+        direction = self._smooth_direction(direction)
         preconditioned_grad_norm = float(torch.linalg.vector_norm(direction))
+        reuse_change_rate = self._update_curvature_reuse(preconditioned_grad_norm)
 
         if self._previous_direction is not None and self.path_smoothing > 0:
             if self._previous_direction.numel() == direction.numel():
@@ -181,7 +212,10 @@ class GeometricOptimizer(Optimizer):
             direction = direction * (self.max_update_norm / update_norm.clamp_min(1e-30))
             update_norm = torch.linalg.vector_norm(direction)
 
-        lr = self.param_groups[0]["lr"] if mode == "geometric" else self.fallback_lr
+        if mode in {"geometric", "geometric_reuse"}:
+            lr = self.param_groups[0]["lr"] * self.lr_scale
+        else:
+            lr = self.fallback_lr
         actual_update_norm = float(torch.linalg.vector_norm(direction * lr))
         self.geodesic_distance += actual_update_norm
         assign_flat_update(params, direction, scale=lr)
@@ -197,6 +231,8 @@ class GeometricOptimizer(Optimizer):
                 "clipped_grad_norm": clipped_grad_norm,
                 "current_damping": self._damping,
                 "curvature_refreshed": use_curvature,
+                "curvature_reuse": self.curvature_reuse,
+                "reuse_change_rate": reuse_change_rate,
                 "preconditioned_grad_norm": preconditioned_grad_norm,
                 "direction_norm": float(update_norm),
                 "update_norm": actual_update_norm,
@@ -239,6 +275,8 @@ class GeometricOptimizer(Optimizer):
                 "clipped_grad_norm": clipped_grad_norm,
                 "current_damping": self._damping,
                 "curvature_refreshed": False,
+                "curvature_reuse": self.curvature_reuse,
+                "reuse_change_rate": None,
                 "preconditioned_grad_norm": float(torch.linalg.vector_norm(direction)),
                 "direction_norm": float(torch.linalg.vector_norm(direction)),
                 "update_norm": actual_update_norm,
@@ -253,8 +291,35 @@ class GeometricOptimizer(Optimizer):
 
     def _cache_preconditioner(self, direction: torch.Tensor, grad_norm: float) -> None:
         direction_norm = float(torch.linalg.vector_norm(direction))
-        self._last_preconditioned_grad_norm = direction_norm
         self._last_preconditioner_gain = direction_norm / max(float(grad_norm), 1e-30)
+        self._has_preconditioner = True
+
+    def _smooth_direction(self, direction: torch.Tensor) -> torch.Tensor:
+        if direction.numel() == 0 or self.grad_smoothing == 0:
+            self._ema_grad = direction.detach()
+            return direction
+        if self._ema_grad is None or self._ema_grad.numel() != direction.numel():
+            self._ema_grad = direction.detach().clone()
+            return direction
+        self._ema_grad = self._ema_grad.to(device=direction.device, dtype=direction.dtype)
+        self._ema_grad = self.grad_smoothing * self._ema_grad + (1.0 - self.grad_smoothing) * direction.detach()
+        return self._ema_grad.clone()
+
+    def _update_curvature_reuse(self, preconditioned_grad_norm: float) -> Optional[float]:
+        if self._last_preconditioned_grad_norm is not None:
+            self._previous_preconditioned_grad_norm = self._last_preconditioned_grad_norm
+        self._last_preconditioned_grad_norm = preconditioned_grad_norm
+        if self._previous_preconditioned_grad_norm is None:
+            return None
+
+        denom = max(abs(self._previous_preconditioned_grad_norm), 1e-30)
+        change_rate = abs(preconditioned_grad_norm - self._previous_preconditioned_grad_norm) / denom
+        if self.adaptive_curvature_reuse:
+            if change_rate < self.reuse_flat_threshold and self.reuse_growth:
+                self.curvature_reuse = min(self.max_curvature_reuse, self.curvature_reuse + self.reuse_growth)
+            elif change_rate > self.reuse_steep_threshold and self.reuse_decay:
+                self.curvature_reuse = max(self.min_curvature_reuse, self.curvature_reuse - self.reuse_decay)
+        return float(change_rate)
 
     def _clip_gradients(self, params) -> float:
         if not params:

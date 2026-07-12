@@ -129,6 +129,7 @@ class GeometricFlowTests(unittest.TestCase):
             regularization=1e-3,
             warmup_steps=0,
             curvature_reuse=3,
+            grad_smoothing=0.0,
             cg_max_iter=4,
             trace_samples=0,
         )
@@ -144,6 +145,42 @@ class GeometricFlowTests(unittest.TestCase):
         self.assertEqual(second["mode"], "geometric_reuse")
         self.assertFalse(second["curvature_refreshed"])
         self.assertGreater(second["preconditioned_grad_norm"], 0.0)
+
+    def test_optimizer_lr_scale_grad_smoothing_and_adaptive_reuse(self):
+        weight = torch.nn.Parameter(torch.tensor([2.0]))
+        optimizer = GeometricOptimizer(
+            [weight],
+            lr=0.1,
+            damping=1e-3,
+            regularization=1e-3,
+            warmup_steps=0,
+            curvature_reuse=3,
+            lr_scale=3.0,
+            grad_smoothing=0.5,
+            reuse_flat_threshold=1.0,
+            reuse_steep_threshold=10.0,
+            max_curvature_reuse=4,
+            cg_max_iter=4,
+            trace_samples=0,
+        )
+
+        def closure():
+            return 0.5 * (weight - 1.0).pow(2).sum()
+
+        optimizer.step(closure)
+        first = optimizer.topography_log[-1]
+        self.assertGreater(first["preconditioned_grad_norm"], 0.0)
+        self.assertAlmostEqual(
+            first["update_norm"],
+            first["direction_norm"] * 0.1 * 3.0,
+            places=5,
+        )
+        optimizer.step(closure)
+        second = optimizer.topography_log[-1]
+        self.assertEqual(second["mode"], "geometric_reuse")
+        self.assertIsNotNone(second["reuse_change_rate"])
+        self.assertGreaterEqual(second["curvature_reuse"], 3)
+        self.assertIsNotNone(optimizer._ema_grad)
 
     def test_phase_scanner_restores_parameters(self):
         torch.manual_seed(5)

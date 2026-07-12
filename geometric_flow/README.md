@@ -26,6 +26,8 @@ opt = GeometricOptimizer(
     regularization=1e-3,
     warmup_steps=10,
     curvature_reuse=5,
+    lr_scale=3.0,
+    grad_smoothing=0.9,
 )
 
 def closure(backward=False):
@@ -47,6 +49,8 @@ Early steps run in SGD warm-up mode, gradients are clipped, and damping adapts
 inside `[1e-3, 1.0]` to reduce trust in noisy curvature when gradients are large.
 Curvature is refreshed every `curvature_reuse` steps and reused between refreshes
 to keep HVP overhead under control.
+Geometric steps use `lr_scale` to exploit the preconditioned direction, while
+`grad_smoothing` applies EMA smoothing to the preconditioned update.
 
 Each optimizer step records a topography row with `trace_estimate`,
 `rayleigh_grad`, `update_norm`, and cumulative `geodesic_distance`, which acts as
