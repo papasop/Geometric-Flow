@@ -5,11 +5,11 @@ from __future__ import annotations
 import torch
 from torch import nn
 
-from .layers import GeometricRotation
+from ..layers import GeometricRotation
 
 
 class GeoMLP(nn.Module):
-    """Minimal MLP with an optional parameter-free geometric rotation."""
+    """Minimal MLP with an optional learnable geometric rotation."""
 
     def __init__(
         self,

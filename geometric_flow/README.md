@@ -65,3 +65,20 @@ python experiments/scale_curve.py --widths 64,128,256,512
 The script trains Adam and `GeometricOptimizer` to a shared target accuracy,
 then writes CSV/JSON metrics plus SVG plots under `artifacts/scale_curve/`,
 including `geometric_speedup.svg`.
+
+Hyperparameter tuning:
+
+```bash
+python experiments/tune_geometric_optimizer.py --steps 200
+```
+
+GeoCNN CIFAR-style baseline:
+
+```bash
+python experiments/train_cifar10_geo.py --dataset synthetic
+python experiments/train_cifar10_geo.py --dataset cifar10 --data-root ./data
+```
+
+Pass `verbose=True` to `GeometricOptimizer.step(...)` or construct the optimizer
+with `verbose=True` to print per-step mode/reuse diagnostics and write a CSV row
+every 10 steps.

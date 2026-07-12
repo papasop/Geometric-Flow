@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import csv
 import inspect
+from pathlib import Path
 from typing import Callable, Optional
 
 import torch
@@ -53,6 +55,9 @@ class GeometricOptimizer(Optimizer):
         reuse_flat_threshold: float = 0.05,
         reuse_steep_threshold: float = 0.25,
         grad_smoothing: float = 0.9,
+        verbose: bool = False,
+        diagnostic_log_interval: int = 10,
+        diagnostic_log_path: str | Path = "geometric_optimizer_diagnostics.csv",
     ) -> None:
         if lr <= 0:
             raise ValueError("lr must be positive")
@@ -80,6 +85,8 @@ class GeometricOptimizer(Optimizer):
             raise ValueError("reuse growth/decay must be non-negative")
         if not 0 <= grad_smoothing < 1:
             raise ValueError("grad_smoothing must be in [0, 1)")
+        if diagnostic_log_interval < 1:
+            raise ValueError("diagnostic_log_interval must be >= 1")
         defaults = dict(lr=lr)
         super().__init__(params, defaults)
         self.damping = damping
@@ -112,6 +119,9 @@ class GeometricOptimizer(Optimizer):
         self.reuse_flat_threshold = reuse_flat_threshold
         self.reuse_steep_threshold = reuse_steep_threshold
         self.grad_smoothing = grad_smoothing
+        self.verbose = verbose
+        self.diagnostic_log_interval = diagnostic_log_interval
+        self.diagnostic_log_path = Path(diagnostic_log_path)
         self.topography_log = []
         self.geodesic_distance = 0.0
         self._step_index = 0
@@ -129,13 +139,13 @@ class GeometricOptimizer(Optimizer):
             params.extend(group["params"])
         return trainable_params(params)
 
-    def step(self, closure: Optional[Callable[..., torch.Tensor]] = None):
+    def step(self, closure: Optional[Callable[..., torch.Tensor]] = None, verbose: Optional[bool] = None):
         if closure is None:
             raise RuntimeError("GeometricOptimizer requires a closure returning the loss")
 
         self._step_index += 1
         if self._step_index <= self.warmup_steps:
-            return self._warmup_step(closure)
+            return self._warmup_step(closure, verbose=verbose)
 
         geometric_step = self._step_index - self.warmup_steps
         refresh_curvature = (
@@ -221,31 +231,32 @@ class GeometricOptimizer(Optimizer):
         assign_flat_update(params, direction, scale=lr)
         self._previous_direction = direction.detach()
 
-        self.topography_log.append(
-            {
-                "step": self._step_index,
-                "mode": mode,
-                "loss": float(loss.detach()),
-                "raw_grad_norm": raw_grad_norm,
-                "grad_norm": grad_norm,
-                "clipped_grad_norm": clipped_grad_norm,
-                "current_damping": self._damping,
-                "curvature_refreshed": use_curvature,
-                "curvature_reuse": self.curvature_reuse,
-                "reuse_change_rate": reuse_change_rate,
-                "preconditioned_grad_norm": preconditioned_grad_norm,
-                "direction_norm": float(update_norm),
-                "update_norm": actual_update_norm,
-                "geodesic_distance": self.geodesic_distance,
-                "rayleigh_grad": rayleigh,
-                "trace_estimate": trace,
-                "cg_iterations": cg_iters,
-                "residual_norm": residual_norm,
-            }
-        )
+        entry = {
+            "step": self._step_index,
+            "mode": mode,
+            "loss": float(loss.detach()),
+            "raw_grad_norm": raw_grad_norm,
+            "grad_norm": grad_norm,
+            "clipped_grad_norm": clipped_grad_norm,
+            "current_damping": self._damping,
+            "curvature_refreshed": use_curvature,
+            "curvature_reuse": self.curvature_reuse,
+            "reuse_change_rate": reuse_change_rate,
+            "preconditioned_grad_norm": preconditioned_grad_norm,
+            "preconditioned_to_raw_ratio": preconditioned_grad_norm / max(raw_grad_norm, 1e-30),
+            "direction_norm": float(update_norm),
+            "update_norm": actual_update_norm,
+            "geodesic_distance": self.geodesic_distance,
+            "rayleigh_grad": rayleigh,
+            "trace_estimate": trace,
+            "cg_iterations": cg_iters,
+            "residual_norm": residual_norm,
+        }
+        self.topography_log.append(entry)
+        self._maybe_emit_diagnostics(entry, verbose=verbose)
         return loss
 
-    def _warmup_step(self, closure: Callable[..., torch.Tensor]) -> torch.Tensor:
+    def _warmup_step(self, closure: Callable[..., torch.Tensor], verbose: Optional[bool] = None) -> torch.Tensor:
         params = self._params
         lr = self.param_groups[0]["lr"] * self.warmup_lr_scale
         with torch.enable_grad():
@@ -265,29 +276,64 @@ class GeometricOptimizer(Optimizer):
         self.geodesic_distance += actual_update_norm
         assign_flat_update(params, direction, scale=lr)
         self._previous_direction = direction.detach()
-        self.topography_log.append(
-            {
-                "step": self._step_index,
-                "mode": "warmup",
-                "loss": float(loss.detach()),
-                "raw_grad_norm": raw_grad_norm,
-                "grad_norm": float(torch.linalg.vector_norm(grad)),
-                "clipped_grad_norm": clipped_grad_norm,
-                "current_damping": self._damping,
-                "curvature_refreshed": False,
-                "curvature_reuse": self.curvature_reuse,
-                "reuse_change_rate": None,
-                "preconditioned_grad_norm": float(torch.linalg.vector_norm(direction)),
-                "direction_norm": float(torch.linalg.vector_norm(direction)),
-                "update_norm": actual_update_norm,
-                "geodesic_distance": self.geodesic_distance,
-                "rayleigh_grad": None,
-                "trace_estimate": None,
-                "cg_iterations": 0,
-                "residual_norm": float(torch.linalg.vector_norm(grad)),
-            }
-        )
+        preconditioned_grad_norm = float(torch.linalg.vector_norm(direction))
+        entry = {
+            "step": self._step_index,
+            "mode": "warmup",
+            "loss": float(loss.detach()),
+            "raw_grad_norm": raw_grad_norm,
+            "grad_norm": float(torch.linalg.vector_norm(grad)),
+            "clipped_grad_norm": clipped_grad_norm,
+            "current_damping": self._damping,
+            "curvature_refreshed": False,
+            "curvature_reuse": self.curvature_reuse,
+            "reuse_change_rate": None,
+            "preconditioned_grad_norm": preconditioned_grad_norm,
+            "preconditioned_to_raw_ratio": preconditioned_grad_norm / max(raw_grad_norm, 1e-30),
+            "direction_norm": preconditioned_grad_norm,
+            "update_norm": actual_update_norm,
+            "geodesic_distance": self.geodesic_distance,
+            "rayleigh_grad": None,
+            "trace_estimate": None,
+            "cg_iterations": 0,
+            "residual_norm": float(torch.linalg.vector_norm(grad)),
+        }
+        self.topography_log.append(entry)
+        self._maybe_emit_diagnostics(entry, verbose=verbose)
         return loss
+
+    def _maybe_emit_diagnostics(self, entry: dict, verbose: Optional[bool] = None) -> None:
+        active = self.verbose if verbose is None else verbose
+        if not active:
+            return
+
+        ratio = entry["preconditioned_to_raw_ratio"]
+        print(
+            "GeometricOptimizer "
+            f"step={entry['step']} mode={entry['mode']} loss={entry['loss']:.6g} "
+            f"grad_norm={entry['grad_norm']:.6g} precond/raw={ratio:.6g} "
+            f"curvature_reuse={entry['curvature_reuse']}"
+        )
+        if entry["step"] % self.diagnostic_log_interval != 0:
+            return
+
+        fields = [
+            "step",
+            "loss",
+            "grad_norm",
+            "raw_grad_norm",
+            "preconditioned_grad_norm",
+            "preconditioned_to_raw_ratio",
+            "mode",
+            "curvature_reuse",
+        ]
+        write_header = not self.diagnostic_log_path.exists()
+        self.diagnostic_log_path.parent.mkdir(parents=True, exist_ok=True)
+        with self.diagnostic_log_path.open("a", newline="", encoding="utf-8") as handle:
+            writer = csv.DictWriter(handle, fieldnames=fields)
+            if write_header:
+                writer.writeheader()
+            writer.writerow({field: entry[field] for field in fields})
 
     def _cache_preconditioner(self, direction: torch.Tensor, grad_norm: float) -> None:
         direction_norm = float(torch.linalg.vector_norm(direction))

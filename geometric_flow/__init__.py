@@ -19,7 +19,7 @@ from .phase import (
     write_phase_diagram_csv,
 )
 from .layers import GeometricRotation
-from .models import GeoMLP
+from .models import GeoCNN, GeoConv2D, GeoMLP
 from . import geo
 
 __all__ = [
@@ -27,6 +27,8 @@ __all__ = [
     "GeometricOptimizer",
     "GeometricRotation",
     "GeoMLP",
+    "GeoCNN",
+    "GeoConv2D",
     "PhaseGridPoint",
     "PhasePoint",
     "geo",

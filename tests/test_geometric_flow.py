@@ -6,6 +6,7 @@ import torch
 import torch.nn.functional as F
 
 from geometric_flow import (
+    GeoCNN,
     GeoMLP,
     GeometricOptimizer,
     compute_curvature,
@@ -182,6 +183,23 @@ class GeometricFlowTests(unittest.TestCase):
         self.assertGreaterEqual(second["curvature_reuse"], 3)
         self.assertIsNotNone(optimizer._ema_grad)
 
+    def test_optimizer_verbose_writes_diagnostic_log(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "diagnostics.csv"
+            weight = torch.nn.Parameter(torch.tensor([2.0]))
+            optimizer = GeometricOptimizer(
+                [weight],
+                lr=0.1,
+                warmup_steps=1,
+                diagnostic_log_interval=1,
+                diagnostic_log_path=path,
+            )
+
+            optimizer.step(lambda: 0.5 * (weight - 1.0).pow(2).sum(), verbose=True)
+            text = path.read_text(encoding="utf-8")
+        self.assertIn("preconditioned_to_raw_ratio", text)
+        self.assertIn("warmup", text)
+
     def test_phase_scanner_restores_parameters(self):
         torch.manual_seed(5)
         model = GeoMLP(input_dim=3, hidden_dim=4, output_dim=2)
@@ -213,6 +231,13 @@ class GeometricFlowTests(unittest.TestCase):
         phases = model.geometric_parameters()
         self.assertEqual(len(phases), 1)
         self.assertTrue(phases[0].requires_grad)
+
+    def test_geocnn_forward_and_geometric_parameters(self):
+        model = GeoCNN(channels=4, num_classes=3)
+        x = torch.randn(2, 3, 32, 32)
+        y = model(x)
+        self.assertEqual(y.shape, (2, 3))
+        self.assertEqual(len(model.geometric_parameters()), 3)
 
     def test_phase_diagram_scanner_2d_writes_csv(self):
         torch.manual_seed(9)
