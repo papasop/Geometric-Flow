@@ -162,6 +162,6 @@ python experiments/run_cifar10_benchmark.py \
 
 ## Further Reading
 
-- Package details: https://zenodo.org/records/21329073
+- https://zenodo.org/records/21329073 Computation as Geometric Flow
 - Theory direction: *Computation as GeoFlow*, a local
   stable-neutral formulation of implementation manifolds.
