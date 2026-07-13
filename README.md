@@ -21,6 +21,57 @@ The idea comes from quantum-control experiments, where geometry-aware updates
 reduced evaluations by 56% and saved 30% of physical qubits. This repository
 brings that geometry-first philosophy into PyTorch deep learning.
 
+## Core Principle: Optimizer Outputs Are Proposals
+
+Conventional optimizers treat their parameter-space output as the final
+executable update. GeoFlow treats that output as a **proposal** that should be
+interpreted through the geometry of functional equivalence classes before it is
+applied.
+
+For LoRA fine-tuning, multiple parameter pairs `(A, B)` may represent the same
+functional update matrix:
+
+```text
+M = B A
+```
+
+Infinitesimal motions along the reparameterization orbit,
+
+```text
+delta A = Omega A
+delta B = -B Omega
+```
+
+change the parameter representation without changing `M`, and therefore do not
+change the represented model function.
+
+A geometry-aware optimizer should therefore:
+
+1. Generate a candidate direction using a conventional optimizer.
+2. Identify components associated with functionally equivalent
+   reparameterizations.
+3. Remove, quotient out, or avoid those ineffective directions.
+4. Apply an update defined in the transverse functional space.
+
+The methodological shift is:
+
+> The optimizer output is not assumed to be the final update. It is a proposal
+> that must be filtered, projected, or lifted through the geometry of functional
+> equivalence classes.
+
+### Important Distinction
+
+A simple Euclidean projection of an Adam update can remove an explicit
+tangential component, but it does **not** in general make Adam gauge-invariant.
+Adam itself is coordinate-dependent, and the Euclidean normal space also changes
+under non-orthogonal LoRA reparameterizations.
+
+For exact LoRA gauge invariance, the preferred formulations operate directly on
+the invariant product `M = B A`, or use a gauge-invariant quotient metric.
+
+In short: traditional optimizers update parameters; this framework seeks to
+update the function represented by those parameters.
+
 ## Recommended Practice: Euclidean Projected Adam [Status: Recommended for Use]
 
 The current practical path is:
@@ -32,7 +83,8 @@ euclidean_projected_adam
 For LoRA fine-tuning, apply the usual Adam update, then project each LoRA-layer
 update out of tangent, gauge-equivalent directions. The resulting update stays
 in the normal, functional space while preserving the familiar Adam training
-loop.
+loop. This is the current practical recipe, not a claim of exact gauge
+invariance.
 
 | feature | benefit |
 | :--- | :--- |
