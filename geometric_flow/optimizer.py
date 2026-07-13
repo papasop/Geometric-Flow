@@ -65,6 +65,7 @@ class GeometricOptimizer(Optimizer):
         functional_model: Optional[torch.nn.Module] = None,
         functional_probe: Optional[torch.Tensor] = None,
         functional_representation: str = "logits",
+        functional_representation_fn: Optional[Callable] = None,
         response_kind: str = "gauss_newton",
         response_solver: str = "dense",
         functional_rank: Optional[int] = None,
@@ -189,6 +190,7 @@ class GeometricOptimizer(Optimizer):
         self.functional_model = functional_model
         self.functional_probe = functional_probe
         self.functional_representation = functional_representation
+        self.functional_representation_fn = functional_representation_fn
         self.response_kind = response_kind
         self.response_solver = response_solver
         self.functional_rank = functional_rank
@@ -403,12 +405,14 @@ class GeometricOptimizer(Optimizer):
                 and self._functional_basis_cache is not None
                 and (self._step_index - self._functional_basis_step) < self.refresh_interval
             )
+            cache_age = self._step_index - self._functional_basis_step if use_cached_basis else 0
             result = projected_functional_geoflow_direction(
                 self.functional_model,
                 loss,
                 self.functional_probe.to(device=loss.device),
                 params=params,
                 representation=self.functional_representation,
+                representation_fn=self.functional_representation_fn,
                 response_kind=self.response_kind,
                 damping=self._damping + self.regularization,
                 max_update_norm=self.max_update_norm,
@@ -468,7 +472,7 @@ class GeometricOptimizer(Optimizer):
             "trace_estimate": float(torch.trace(result.projected_response))
             if result.projected_response.ndim == 2 and result.projected_response.numel()
             else None,
-            "cg_iterations": 0,
+            "cg_iterations": result.cg_iterations,
             "residual_norm": float(torch.linalg.vector_norm(result.projected_gradient)),
             "grad_direction_dot": result.g_dot_d,
             "descent_gate_passed": result.descent_gate_passed,
@@ -493,6 +497,8 @@ class GeometricOptimizer(Optimizer):
             "vjp_count": result.vjp_count,
             "null_leakage": result.null_leakage,
             "basis_from_cache": result.basis_from_cache,
+            "cache_hit": result.basis_from_cache,
+            "cache_age": cache_age,
             "production_mode": self.production_mode,
         }
         self.topography_log.append(entry)

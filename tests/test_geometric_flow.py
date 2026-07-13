@@ -4,6 +4,7 @@ from pathlib import Path
 
 import torch
 import torch.nn.functional as F
+from geometric_flow._tensor import assign_flat_update
 
 from geometric_flow import (
     GeoCNN,
@@ -37,6 +38,15 @@ from experiments.reparameterization_stress_test import (
     orthogonal_rotation,
 )
 from experiments.lora_reparameterization_benchmark import SmallLoRAMLP, make_transform, run_lora_benchmark
+from experiments.lora_matched_step_benchmark import (
+    calibrate_scale,
+    configure_train_scope,
+    functional_step_norm_for,
+    make_fmap as make_lora_fmap,
+    reference_functional_step,
+    representation_fn_for,
+    run_config as run_lora_matched_config,
+)
 
 
 class GeometricFlowTests(unittest.TestCase):
@@ -749,6 +759,215 @@ class GeometricFlowTests(unittest.TestCase):
         self.assertEqual(len(rows), 6)
         self.assertEqual({row.optimizer for row in rows}, {"adamw", "diagonal_grad_square", "functional_geoflow"})
         self.assertIn("reparameterization_sensitivity", aggregates[0])
+
+    def _phase_g_args(self):
+        args = type("Args", (), {})()
+        args.seed = 41
+        args.trials = 1
+        args.steps = 2
+        args.representations = 2
+        args.samples = 28
+        args.probe_size = 4
+        args.batch_size = 7
+        args.input_dim = 4
+        args.hidden_dim = 5
+        args.output_dim = 2
+        args.lora_rank = 2
+        args.train_scope = "lora_only"
+        args.functional_map = "hidden"
+        args.lr = 1e-2
+        args.damping = 1e-3
+        args.max_update_norm = 0.1
+        args.refresh_interval = 4
+        args.max_basis_rank = 6
+        args.max_vjp_probes = 8
+        args.vjp_probe_batch_size = 4
+        args.cg_max_iter = 8
+        args.cg_tol = 1e-5
+        args.calibration_reference = "diagonal_grad_square"
+        args.calibration_steps = 2
+        args.target_functional_step = None
+        args.functional_step_tolerance = 0.10
+        args.lr_scale_min = 1e-3
+        args.lr_scale_max = 1e3
+        args.calibration_max_iters = 8
+        args.loss_parity_margin = 0.02
+        args.optimizers = ["adamw", "diagonal_grad_square", "functional_geoflow_fixed_lr", "functional_geoflow_matched_step"]
+        return args
+
+    def test_lora_only_freezes_head(self):
+        torch.manual_seed(32)
+        model = SmallLoRAMLP(input_dim=4, hidden_dim=5, output_dim=2, rank=2)
+        configure_train_scope(model, "lora_only")
+        x = torch.randn(10, 4)
+        y = (x[:, 0] > 0).long()
+        before = [model.head.weight.detach().clone(), model.head.bias.detach().clone()]
+        optimizer = torch.optim.AdamW([p for p in model.parameters() if p.requires_grad], lr=1e-2)
+        loss = F.cross_entropy(model(x), y)
+        loss.backward()
+        optimizer.step()
+        self.assertTrue(torch.allclose(model.head.weight, before[0]))
+        self.assertTrue(torch.allclose(model.head.bias, before[1]))
+        fmap = make_lora_fmap(model, x[:3], "hidden")
+        self.assertEqual(fmap.param_names, ["lora.a", "lora.b"])
+
+    def test_lora_and_head_updates_head(self):
+        torch.manual_seed(33)
+        model = SmallLoRAMLP(input_dim=4, hidden_dim=5, output_dim=2, rank=2)
+        configure_train_scope(model, "lora_and_head")
+        x = torch.randn(10, 4)
+        y = (x[:, 0] > 0).long()
+        before = model.head.weight.detach().clone()
+        optimizer = torch.optim.AdamW([p for p in model.parameters() if p.requires_grad], lr=1e-2)
+        loss = F.cross_entropy(model(x), y)
+        loss.backward()
+        optimizer.step()
+        self.assertFalse(torch.allclose(model.head.weight, before))
+
+    def test_functional_map_logits_shape(self):
+        model = SmallLoRAMLP(input_dim=4, hidden_dim=5, output_dim=2, rank=2)
+        x = torch.randn(3, 4)
+        self.assertEqual(make_lora_fmap(model, x, "logits").evaluate().numel(), 3 * 2)
+
+    def test_functional_map_hidden_shape(self):
+        model = SmallLoRAMLP(input_dim=4, hidden_dim=5, output_dim=2, rank=2)
+        x = torch.randn(3, 4)
+        self.assertEqual(make_lora_fmap(model, x, "hidden").evaluate().numel(), 3 * 5)
+
+    def test_functional_map_lora_output_shape(self):
+        model = SmallLoRAMLP(input_dim=4, hidden_dim=5, output_dim=2, rank=2)
+        x = torch.randn(3, 4)
+        self.assertEqual(make_lora_fmap(model, x, "lora_output").evaluate().numel(), 3 * 5)
+
+    def test_functional_map_logits_hidden_shape(self):
+        model = SmallLoRAMLP(input_dim=4, hidden_dim=5, output_dim=2, rank=2)
+        x = torch.randn(3, 4)
+        self.assertEqual(make_lora_fmap(model, x, "logits_hidden").evaluate().numel(), 3 * (2 + 5))
+
+    def test_lora_functional_maps_jacobian_and_implicit_solver_run(self):
+        torch.manual_seed(34)
+        for mode in ["logits", "lora_output", "hidden", "logits_hidden"]:
+            model = SmallLoRAMLP(input_dim=4, hidden_dim=5, output_dim=2, rank=2)
+            configure_train_scope(model, "lora_only")
+            x = torch.randn(6, 4)
+            y = (x[:, 0] > 0).long()
+            fmap = make_lora_fmap(model, x[:3], mode)
+            fjac = fmap.jacobian()
+            self.assertEqual(fjac.jacobian.shape[1], model.lora.a.numel() + model.lora.b.numel())
+            loss = F.cross_entropy(model(x), y)
+            result = projected_functional_geoflow_direction(
+                model,
+                loss,
+                x[:3],
+                params=[p for p in model.parameters() if p.requires_grad],
+                representation_fn=representation_fn_for(mode),
+                response_solver="implicit_cg",
+                production_mode=True,
+                max_basis_rank=6,
+                max_vjp_probes=8,
+                cg_max_iter=8,
+            )
+            self.assertLess(result.g_dot_d, 0.0)
+            self.assertTrue(torch.isfinite(torch.tensor(result.null_leakage)))
+
+    def test_functional_step_measurement_matches_direct_evaluation(self):
+        torch.manual_seed(35)
+        model = SmallLoRAMLP(input_dim=4, hidden_dim=5, output_dim=2, rank=2)
+        configure_train_scope(model, "lora_only")
+        params = [p for p in model.parameters() if p.requires_grad]
+        x = torch.randn(6, 4)
+        direction = torch.randn(sum(p.numel() for p in params)) * 0.01
+        before = model.functional_representation(x, "hidden").reshape(-1).detach()
+        measured = functional_step_norm_for(model, x, "hidden", params, direction, 0.5)
+        assign_flat_update(params, direction, scale=0.5)
+        direct = float(torch.linalg.vector_norm(model.functional_representation(x, "hidden").reshape(-1).detach() - before))
+        self.assertAlmostEqual(measured, direct, places=6)
+
+    def test_matched_step_calibration_reaches_target(self):
+        torch.manual_seed(36)
+        args = self._phase_g_args()
+        model = SmallLoRAMLP(input_dim=4, hidden_dim=5, output_dim=2, rank=2)
+        configure_train_scope(model, "lora_only")
+        params = [p for p in model.parameters() if p.requires_grad]
+        x = torch.randn(8, 4)
+        y = (x[:, 0] > 0).long()
+        loss = F.cross_entropy(model(x), y)
+        result = projected_functional_geoflow_direction(
+            model,
+            loss,
+            x[:4],
+            params=params,
+            representation_fn=representation_fn_for("hidden"),
+            response_solver="implicit_cg",
+            production_mode=True,
+            max_basis_rank=6,
+            max_vjp_probes=8,
+            cg_max_iter=8,
+        )
+        target = 1e-3
+        _, achieved, error = calibrate_scale(model, x[:4], "hidden", params, result.direction, args.lr, target, args)
+        self.assertLess(error, 0.10)
+        self.assertGreater(achieved, 0.0)
+
+    def test_calibration_does_not_mutate_reference_model(self):
+        torch.manual_seed(37)
+        model = SmallLoRAMLP(input_dim=4, hidden_dim=5, output_dim=2, rank=2)
+        configure_train_scope(model, "lora_only")
+        state = {key: value.detach().clone() for key, value in model.state_dict().items()}
+        x = torch.randn(8, 4)
+        y = (x[:, 0] > 0).long()
+        delta = reference_functional_step(model, x, y, x[:4], "hidden", "lora_only", "diagonal_grad_square", 1e-2, 0.1)
+        self.assertGreaterEqual(delta, 0.0)
+        for key, value in model.state_dict().items():
+            self.assertTrue(torch.allclose(value, state[key]))
+
+    def test_matched_step_preserves_descent_and_null_leakage_small(self):
+        args = self._phase_g_args()
+        args.steps = 1
+        rows, step_rows, aggregates, gates = run_lora_matched_config(args)
+        matched = [row for row in step_rows if row.optimizer == "functional_geoflow_matched_step"]
+        self.assertTrue(all(row.descent_gate_passed for row in matched))
+        self.assertLess(max(row.null_leakage for row in matched), 1e-4)
+        self.assertIn("TASK_GAP_REDUCED_PASS", gates)
+        self.assertTrue(any(row["optimizer"] == "functional_geoflow_matched_step" for row in aggregates))
+        self.assertEqual(len(rows), 8)
+
+    def test_trajectory_logging_contains_required_fields_and_cache_age(self):
+        args = self._phase_g_args()
+        args.steps = 2
+        _, step_rows, _, _ = run_lora_matched_config(args)
+        row = [item for item in step_rows if item.optimizer == "functional_geoflow_matched_step"][0]
+        self.assertIn("functional_step_norm", row.__dataclass_fields__)
+        self.assertIn("cache_age", row.__dataclass_fields__)
+        self.assertIn("basis_rank", row.__dataclass_fields__)
+        cached_rows = [item for item in step_rows if item.optimizer.startswith("functional_geoflow") and item.step == 2]
+        self.assertTrue(any(item.cache_hit for item in cached_rows))
+
+    def test_old_lora_benchmark_still_runs_after_phase_g(self):
+        args = type("Args", (), {})()
+        args.seed = 44
+        args.trials = 1
+        args.steps = 1
+        args.representations = 1
+        args.samples = 16
+        args.probe_size = 4
+        args.batch_size = 4
+        args.input_dim = 4
+        args.hidden_dim = 5
+        args.output_dim = 2
+        args.lora_rank = 2
+        args.lr = 1e-2
+        args.damping = 1e-3
+        args.max_update_norm = 0.1
+        args.refresh_interval = 4
+        args.max_basis_rank = 4
+        args.max_vjp_probes = 6
+        args.vjp_probe_batch_size = 3
+        args.cg_max_iter = 8
+        args.cg_tol = 1e-5
+        args.optimizers = "functional_geoflow"
+        rows, _ = run_lora_benchmark(args)
+        self.assertEqual(len(rows), 1)
 
     def test_phase_diagram_scanner_2d_writes_csv(self):
         torch.manual_seed(9)

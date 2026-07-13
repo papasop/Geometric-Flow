@@ -53,7 +53,24 @@ class SmallLoRAMLP(nn.Module):
         self.head = nn.Linear(hidden_dim, output_dim)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        return self.head(torch.tanh(self.lora(x)))
+        return self.head(self.forward_features(x))
+
+    def forward_features(self, x: torch.Tensor) -> torch.Tensor:
+        return torch.tanh(self.lora(x))
+
+    def functional_representation(self, x: torch.Tensor, mode: str = "logits") -> torch.Tensor:
+        lora_output = self.lora(x)
+        hidden = torch.tanh(lora_output)
+        logits = self.head(hidden)
+        if mode == "logits":
+            return logits
+        if mode == "lora_output":
+            return lora_output
+        if mode == "hidden":
+            return hidden
+        if mode == "logits_hidden":
+            return torch.cat([logits.reshape(-1), hidden.reshape(-1)])
+        raise ValueError(f"unknown functional representation mode: {mode}")
 
 
 @dataclass

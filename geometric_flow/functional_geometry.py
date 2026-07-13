@@ -94,6 +94,7 @@ class FunctionalGeoFlowResult:
     cg_initial_guess: Optional[torch.Tensor] = None
     peak_memory_bytes: int = 0
     basis_from_cache: bool = False
+    cg_iterations: int = 0
 
 
 class FunctionalMap:
@@ -110,6 +111,7 @@ class FunctionalMap:
         x_probe: torch.Tensor,
         representation: FunctionalRepresentation = "logits",
         hidden_getter: Optional[Callable[[torch.nn.Module, torch.Tensor], torch.Tensor]] = None,
+        representation_fn: Optional[Callable] = None,
     ) -> None:
         if representation == "hidden" and hidden_getter is None:
             raise ValueError("hidden representation requires hidden_getter")
@@ -117,6 +119,7 @@ class FunctionalMap:
         self.x_probe = x_probe.detach()
         self.representation = representation
         self.hidden_getter = hidden_getter
+        self.representation_fn = representation_fn
         self.named_params = [(name, param) for name, param in model.named_parameters() if param.requires_grad]
         self.param_names = [name for name, _ in self.named_params]
         self.param_shapes = [tuple(param.shape) for _, param in self.named_params]
@@ -167,6 +170,12 @@ class FunctionalMap:
         )
 
     def _evaluate_functional(self, params: dict[str, torch.Tensor]) -> torch.Tensor:
+        if self.representation_fn is not None:
+            try:
+                return self.representation_fn(self.model, self.x_probe, params)
+            except TypeError:
+                shadow = _FunctionalModelView(self.model, params)
+                return self.representation_fn(shadow, self.x_probe)
         if self.representation == "hidden":
             shadow = _FunctionalModelView(self.model, params)
             return self.hidden_getter(shadow, self.x_probe)
@@ -176,6 +185,11 @@ class FunctionalMap:
         return output
 
     def _evaluate_model(self, model: torch.nn.Module, x: torch.Tensor) -> torch.Tensor:
+        if self.representation_fn is not None:
+            try:
+                return self.representation_fn(model, x, None)
+            except TypeError:
+                return self.representation_fn(model, x)
         if self.representation == "hidden":
             return self.hidden_getter(model, x)
         output = model(x)
@@ -584,6 +598,7 @@ def implicit_cg_response_direction(
             "cg_initial_guess": None,
             "peak_memory_bytes": 0.0,
             "basis_from_cache": float(basis_from_cache),
+            "cg_iterations": 0.0,
         }
     q = q.to(device=gradient.device, dtype=gradient.dtype)
     q_grad = q.T @ gradient
@@ -621,6 +636,7 @@ def implicit_cg_response_direction(
         "cg_initial_guess": direction.detach(),
         "peak_memory_bytes": memory_estimate,
         "basis_from_cache": float(basis_from_cache),
+        "cg_iterations": float(result.iterations),
     }
 
 
@@ -630,6 +646,7 @@ def projected_functional_geoflow_direction(
     x_probe: torch.Tensor,
     params: Optional[Iterable[torch.nn.Parameter]] = None,
     representation: FunctionalRepresentation = "logits",
+    representation_fn: Optional[Callable] = None,
     response_kind: ResponseKind = "gauss_newton",
     damping: float = 1e-3,
     max_update_norm: Optional[float] = None,
@@ -656,7 +673,7 @@ def projected_functional_geoflow_direction(
         params = trainable_params(model.parameters())
     else:
         params = trainable_params(params)
-    fmap = FunctionalMap(model, x_probe, representation=representation)
+    fmap = FunctionalMap(model, x_probe, representation=representation, representation_fn=representation_fn)
     grads = torch.autograd.grad(loss, params, retain_graph=True, allow_unused=True)
     gradient = flatten_grads(grads, params).detach()
     if response_solver == "implicit_cg":
@@ -721,6 +738,7 @@ def projected_functional_geoflow_direction(
             cg_initial_guess=solver_info.get("cg_initial_guess"),
             peak_memory_bytes=int(solver_info.get("peak_memory_bytes", solver_info["memory_estimate_bytes"])),
             basis_from_cache=bool(solver_info.get("basis_from_cache", 0.0)),
+            cg_iterations=int(solver_info.get("cg_iterations", 0.0)),
         )
 
     fjac = fmap.jacobian()
@@ -803,4 +821,5 @@ def projected_functional_geoflow_direction(
         vjp_count=int(solver_info.get("vjp_count", 0.0)),
         null_leakage=float(solver_info.get("null_leakage", 0.0)),
         peak_memory_bytes=int(solver_info.get("memory_estimate_bytes", 0.0)),
+        cg_iterations=int(solver_info.get("cg_iterations", 0.0)),
     )

@@ -268,6 +268,95 @@ python experiments/lora_reparameterization_benchmark.py \
   --out artifacts/lora_reparameterization.csv
 ```
 
+Run the Phase G matched functional-step benchmark. This keeps the Phase F
+benchmark intact and asks whether equalizing observed functional displacement
+shrinks the task gap while preserving LoRA gauge stability:
+
+```bash
+python experiments/lora_matched_step_benchmark.py \
+  --trials 5 \
+  --steps 200 \
+  --representations 5 \
+  --train-scope lora_only \
+  --functional-map hidden \
+  --out artifacts/lora_matched_step.csv
+```
+
+## Phase F: LoRA Gauge Stability
+
+Phase F tested functional quotient geometry on small LoRA adapters with exact
+gauge-equivalent initializations:
+
+```text
+A -> S A
+B -> B S^{-1}
+```
+
+Observed structural results from the Phase F sweep:
+
+- 12 targeted configurations.
+- 5 seeds and 5 gauge-equivalent representations.
+- 900 total runs.
+- Initial functional equivalence residuals were below the `1e-7` scale.
+- Config-level functional/diagonal sensitivity ratio mean was about `0.863`.
+- Matched per-seed functional/diagonal sensitivity ratio was about `0.536`.
+- The matched 95% confidence interval was entirely below `1`.
+- Tangent drift ratio was about `0.316`.
+- Near-null amplification ratio was about `0.361`.
+- Every tested configuration had config-level sensitivity ratio below `1`.
+
+These are two different statistics and should not be mixed: the first is the
+ratio of aggregated sensitivities, while the second is the mean of matched
+per-seed sensitivity ratios.
+
+Negative result, stated plainly: Phase F did not establish task superiority.
+Functional loss was higher than the diagonal baseline, functional accuracy was
+lower than the diagonal baseline, and wall-clock cost was roughly tens of times
+higher. Phase F establishes LoRA gauge stability, tangent suppression, and
+near-null suppression, not a generally better optimizer.
+
+## Phase G: Matched Functional-Step Calibration
+
+Equal parameter-space learning rates are not equal functional-space step sizes.
+Phase G compares actual movement in function space:
+
+```text
+functional_step_norm = ||Phi(theta_after) - Phi(theta_before)||_2
+```
+
+The matched-step benchmark calibrates the functional GeoFlow update so its
+initial observed functional displacement matches a reference optimizer
+(`diagonal_grad_square` by default, or `adamw`). Calibration is done only on
+training batches and the probe batch; it never uses test loss.
+
+Phase G separately evaluates `lora_only`, `head_only`, and `lora_and_head`
+training scopes. The primary configuration is `lora_only`, because the LoRA
+gauge symmetry belongs to `A/B`, not the dense head. It also compares functional
+maps over logits, LoRA output, hidden features, and logits+hidden.
+
+The relevant question is not whether accuracy can be tuned upward in one run.
+It is whether the task gap shrinks after functional-step calibration while LoRA
+gauge stability, low tangent drift, and low null leakage survive.
+
+## Claims Boundary
+
+Established so far:
+
+- Matrix-free functional quotient directions with dense small-toy regression.
+- LoRA gauge sensitivity reduction.
+- Tangent and near-null suppression in controlled settings.
+
+Not established:
+
+- General task superiority.
+- AdamW competitiveness.
+- Large-model scalability.
+- GPT-2 or other language-model results.
+
+Avoid interpreting these experiments as a universally better optimizer,
+production-ready large-model optimizer, proven generalization improvement, or
+quantum advantage claim.
+
 ## Output CSV Format
 
 `experiments/run_cifar10_benchmark.py` writes:
