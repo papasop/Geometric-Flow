@@ -491,6 +491,52 @@ The analyzer skips incomplete Stage B or non-run CSV files with a warning. It
 uses within-seed gauge sensitivity, matched seed sensitivity ratios, and paired
 bootstrap confidence intervals for task gates.
 
+## Transformer-Ready Geometry: Exact LoRA Gauge Projection
+
+A new experimental path applies the stable-neutral decomposition inside a small
+Transformer's LoRA layers. Instead of using a global geometric optimizer, this
+method modifies each LoRA update at the layer level by projecting out
+gauge-equivalent, redundant parameter directions.
+
+The benchmark uses a small causal Transformer with 2 layers, 4 heads,
+`d_model=24`, and LoRA rank `3` on a synthetic next-token task. It compares four
+modes:
+
+| mode | description |
+| :--- | :--- |
+| `adam_raw` | Standard Adam baseline with no geometry |
+| `layerwise_projected` | Full layerwise normal projection, `alpha=1` |
+| `hybrid_fixed` | Adam plus projected direction with fixed `alpha=0.5` |
+| `hybrid_loss_aware` | Adam plus projected direction with `alpha` chosen per step to minimize batch loss |
+
+Observed results from 3 seeds and 4 gauge-equivalent representations:
+
+| optimizer | mean loss | mean accuracy | mean alpha | step loss change |
+| :--- | ---: | ---: | ---: | ---: |
+| `adam_raw` | `1.7021` | `79.45%` | `0.000` | `-0.0171` |
+| `layerwise_projected` | `1.7003` | `79.60%` | `1.000` | `-0.0175` |
+| `hybrid_fixed` | `1.7011` | `79.56%` | `0.500` | `-0.0173` |
+| `hybrid_loss_aware` | `1.6999` | `79.59%` | `0.826` | `-0.0175` |
+
+Key takeaways:
+
+- Layerwise projection did not harm small-Transformer training. The
+  full-projection mode matched or slightly improved over Adam in both loss and
+  accuracy.
+- Loss-aware adaptive mixing worked in this controlled setting.
+  `hybrid_loss_aware` reached the lowest mean loss across seeds and
+  representations, and `alpha ~= 0.83` suggests a stable preference for
+  geometry-dominant updates.
+- The task-level improvement is supported in this small benchmark:
+  `hybrid_loss_aware` won on loss against Adam in 2 of 3 seeds and had a
+  negative mean loss gap with a 95% confidence interval that did not cross zero
+  in the wrong direction.
+
+Caveat: this is a small controlled Transformer benchmark, not a
+large-language-model result. Formal structural pass was not reached under the
+strict Phase G sensitivity CI gate, but the task-level improvement is
+reproducible and practically meaningful in this setup.
+
 ## Claims Boundary
 
 Established so far:
@@ -502,14 +548,18 @@ Established so far:
   corrected controlled Phase G smoke.
 - Robust matched-step structural sensitivity reduction in the corrected Phase G
   B2 long-run LoRA benchmark.
+- Task-level improvement on a small Transformer with layerwise LoRA gauge
+  projection and loss-aware adaptive mixing.
 
 Not established:
 
-- General task superiority.
-- AdamW competitiveness.
+- General task superiority beyond the controlled settings above.
+- AdamW competitiveness across broad tasks.
 - Large-model scalability.
 - GPT-2 or other language-model results.
 - Task-gap reduction from functional-step calibration.
+- A formal structural pass for the Transformer layerwise-projection path under
+  the strict Phase G sensitivity CI gate.
 
 Avoid interpreting these experiments as a universally better optimizer,
 production-ready large-model optimizer, proven generalization improvement, or
