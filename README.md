@@ -238,6 +238,15 @@ GeoFlow:
 python experiments/run_functional_switch_validation.py --trials 5 --steps 200
 ```
 
+Run structural pressure tests. These are designed to separate parameterization
+invariance from final accuracy:
+
+```bash
+python experiments/reparameterization_stress_test.py
+python experiments/noisy_redundancy_validation.py
+python experiments/near_null_stress_test.py
+```
+
 ## Output CSV Format
 
 `experiments/run_cifar10_benchmark.py` writes:
@@ -271,6 +280,16 @@ python experiments/run_functional_switch_validation.py --trials 5 --steps 200
   reports win rate, gate accept rate, fallback rate, functional drift, update
   norm, and wall-clock time. Current output should be read as diagnostics, not a
   success claim.
+- `experiments/reparameterization_stress_test.py` generates functionally
+  equivalent hidden-basis representations and reports
+  `reparameterization_sensitivity`; lower values mean the optimizer is less
+  dependent on arbitrary parameterization.
+- `experiments/noisy_redundancy_validation.py` decomposes injected gradient and
+  parameter noise into tangent/normal components and records how much tangent
+  noise remains after updates.
+- `experiments/near_null_stress_test.py` appends an epsilon-weighted auxiliary
+  parameter observable to create weakly broken null directions and stress-test
+  threshold selection. This is for structural diagnostics, not accuracy claims.
 
 ## Further Reading
 

@@ -440,6 +440,19 @@ class GeometricFlowTests(unittest.TestCase):
         self.assertTrue(torch.allclose(projectors.tangent + projectors.normal, identity, atol=1e-5))
         self.assertEqual(projectors.tangent_rank + projectors.normal_rank, identity.shape[0])
 
+    def test_functional_projectors_adaptive_threshold_diagnostics(self):
+        jacobian = torch.diag(torch.tensor([10.0, 1.0, 1e-4, 1e-8]))
+        spectral = functional_projectors(jacobian, null_threshold_mode="spectral_gap", null_tol=1e-6)
+        absolute = functional_projectors(jacobian, null_threshold_mode="absolute", null_tol=1e-7)
+        energy = functional_projectors(jacobian, null_threshold_mode="energy_fraction", null_tol=1e-6)
+        self.assertIn("j_pt", spectral.residuals)
+        self.assertGreaterEqual(spectral.selected_threshold, 0.0)
+        self.assertGreaterEqual(spectral.spectral_gap_index, 0)
+        self.assertGreater(spectral.condition_number_normal, 0.0)
+        self.assertGreater(spectral.retained_energy_fraction, 0.0)
+        self.assertGreaterEqual(absolute.normal_rank, spectral.normal_rank)
+        self.assertLessEqual(energy.tangent_rank, jacobian.shape[1])
+
     def test_functional_geoflow_direction_is_normal_descent_and_lowers_loss(self):
         torch.manual_seed(14)
         model = TwoLayerLinear(input_dim=2, hidden_dim=2, output_dim=1)

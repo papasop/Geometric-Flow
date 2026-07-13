@@ -22,6 +22,17 @@ from ._tensor import flatten_grads, flatten_tensors, trainable_params
 
 FunctionalRepresentation = Literal["logits", "probabilities", "hidden"]
 ResponseKind = Literal["gauss_newton", "empirical_response"]
+NullThresholdMode = Literal["absolute", "relative", "spectral_gap", "energy_fraction"]
+
+
+@dataclass
+class FunctionalGeometry:
+    """Configuration for dense functional stable-neutral geometry."""
+
+    null_threshold_mode: NullThresholdMode = "relative"
+    null_tol: float = 1e-6
+    max_tangent_fraction: float = 0.9
+    energy_fraction: float = 0.999
 
 
 @dataclass
@@ -47,6 +58,10 @@ class FunctionalProjectors:
     tangent_rank: int
     normal_rank: int
     residuals: dict[str, float]
+    selected_threshold: float = 0.0
+    spectral_gap_index: int = -1
+    condition_number_normal: float = 0.0
+    retained_energy_fraction: float = 0.0
 
 
 @dataclass
@@ -174,7 +189,88 @@ def svd_rank(singular_values: torch.Tensor, tolerance: Optional[float] = None) -
     return int((singular_values > tolerance).sum().item())
 
 
-def functional_projectors(jacobian: torch.Tensor, tolerance: Optional[float] = None) -> FunctionalProjectors:
+def select_svd_rank(
+    singular_values: torch.Tensor,
+    n_params: int,
+    mode: NullThresholdMode = "relative",
+    null_tol: float = 1e-6,
+    max_tangent_fraction: float = 0.9,
+    energy_fraction: float = 0.999,
+    tolerance: Optional[float] = None,
+) -> tuple[int, dict[str, float]]:
+    """Select functional rank and expose threshold diagnostics."""
+
+    if singular_values.numel() == 0:
+        return 0, {
+            "selected_threshold": 0.0,
+            "spectral_gap_index": -1,
+            "condition_number_normal": 0.0,
+            "retained_energy_fraction": 0.0,
+        }
+    max_tangent_rank = int(max(0, min(n_params - 1, round(max_tangent_fraction * n_params))))
+    min_rank = max(0, n_params - max_tangent_rank)
+    s0 = float(singular_values.max())
+    if tolerance is not None:
+        threshold = float(tolerance)
+        rank = int((singular_values > threshold).sum().item())
+        gap_index = -1
+    elif mode == "absolute":
+        threshold = float(null_tol)
+        rank = int((singular_values > threshold).sum().item())
+        gap_index = -1
+    elif mode == "relative":
+        threshold = float(null_tol * max(s0, 1e-30))
+        rank = int((singular_values > threshold).sum().item())
+        gap_index = -1
+    elif mode == "spectral_gap":
+        if singular_values.numel() == 1:
+            gap_index = 0
+            threshold = float(null_tol * max(s0, 1e-30))
+            rank = int((singular_values > threshold).sum().item())
+        else:
+            denom = singular_values[1:].clamp_min(torch.finfo(singular_values.dtype).tiny)
+            gaps = singular_values[:-1] / denom
+            gap_index = int(torch.argmax(gaps).item())
+            candidate_rank = gap_index + 1
+            relative_floor = singular_values > (null_tol * max(s0, 1e-30))
+            rank = max(candidate_rank, int(relative_floor.sum().item()), min_rank)
+            threshold = float(0.5 * (singular_values[rank - 1] + singular_values[rank])) if rank < singular_values.numel() and rank > 0 else float(null_tol * max(s0, 1e-30))
+    elif mode == "energy_fraction":
+        energy = singular_values.pow(2)
+        total = float(energy.sum())
+        if total <= 1e-30:
+            rank = min_rank
+        else:
+            cumulative = torch.cumsum(energy, dim=0) / total
+            rank = int((cumulative < energy_fraction).sum().item() + 1)
+        threshold = float(singular_values[rank - 1]) if rank > 0 and rank <= singular_values.numel() else 0.0
+        gap_index = -1
+    else:
+        raise ValueError(f"unknown null_threshold_mode: {mode}")
+    rank = max(min_rank, min(int(rank), min(n_params, singular_values.numel())))
+    if rank > 0:
+        normal_values = singular_values[:rank].clamp_min(torch.finfo(singular_values.dtype).tiny)
+        condition = float(normal_values.max() / normal_values.min())
+    else:
+        condition = 0.0
+    total_energy = float(singular_values.pow(2).sum())
+    retained = float(singular_values[:rank].pow(2).sum() / max(total_energy, 1e-30))
+    return rank, {
+        "selected_threshold": threshold,
+        "spectral_gap_index": float(gap_index),
+        "condition_number_normal": condition,
+        "retained_energy_fraction": retained,
+    }
+
+
+def functional_projectors(
+    jacobian: torch.Tensor,
+    tolerance: Optional[float] = None,
+    null_threshold_mode: NullThresholdMode = "relative",
+    null_tol: float = 1e-6,
+    max_tangent_fraction: float = 0.9,
+    energy_fraction: float = 0.999,
+) -> FunctionalProjectors:
     """Construct P_T onto ker(J_phi) and P_N = I - P_T."""
 
     if jacobian.ndim != 2:
@@ -185,7 +281,15 @@ def functional_projectors(jacobian: torch.Tensor, tolerance: Optional[float] = N
         return FunctionalProjectors(identity, identity, torch.empty(0), 0, 0, 0, {})
 
     _, singular_values, vh = torch.linalg.svd(jacobian, full_matrices=True)
-    rank = svd_rank(singular_values, tolerance=tolerance)
+    rank, diagnostics = select_svd_rank(
+        singular_values,
+        n_params,
+        mode=null_threshold_mode,
+        null_tol=null_tol,
+        max_tangent_fraction=max_tangent_fraction,
+        energy_fraction=energy_fraction,
+        tolerance=tolerance,
+    )
     tangent_basis = vh[rank:].T
     if tangent_basis.numel() == 0:
         p_tangent = torch.zeros_like(identity)
@@ -201,6 +305,10 @@ def functional_projectors(jacobian: torch.Tensor, tolerance: Optional[float] = N
         tangent_rank=int(torch.linalg.matrix_rank(p_tangent)),
         normal_rank=int(torch.linalg.matrix_rank(p_normal)),
         residuals=residuals,
+        selected_threshold=diagnostics["selected_threshold"],
+        spectral_gap_index=int(diagnostics["spectral_gap_index"]),
+        condition_number_normal=diagnostics["condition_number_normal"],
+        retained_energy_fraction=diagnostics["retained_energy_fraction"],
     )
 
 
@@ -251,6 +359,10 @@ def projected_functional_geoflow_direction(
     damping: float = 1e-3,
     max_update_norm: Optional[float] = None,
     descent_gate: bool = True,
+    null_threshold_mode: NullThresholdMode = "relative",
+    null_tol: float = 1e-6,
+    max_tangent_fraction: float = 0.9,
+    energy_fraction: float = 0.999,
 ) -> FunctionalGeoFlowResult:
     """Compute d = -pinv(P_N A_resp P_N + damping P_N) P_N g."""
 
@@ -260,7 +372,13 @@ def projected_functional_geoflow_direction(
         params = trainable_params(params)
     fmap = FunctionalMap(model, x_probe, representation=representation)
     fjac = fmap.jacobian()
-    projectors = functional_projectors(fjac.jacobian)
+    projectors = functional_projectors(
+        fjac.jacobian,
+        null_threshold_mode=null_threshold_mode,
+        null_tol=null_tol,
+        max_tangent_fraction=max_tangent_fraction,
+        energy_fraction=energy_fraction,
+    )
     grads = torch.autograd.grad(loss, params, retain_graph=True, allow_unused=True)
     gradient = flatten_grads(grads, params).detach()
     p_normal = projectors.normal.to(device=gradient.device, dtype=gradient.dtype)

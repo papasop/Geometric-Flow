@@ -10,6 +10,7 @@ The package exposes three layers:
 from .curvature import CurvatureOperator, compute_curvature, hutchinson_trace
 from .functional_geometry import (
     FunctionalMap,
+    FunctionalGeometry,
     functional_projectors,
     functional_response_operator,
     projected_functional_geoflow_direction,
@@ -33,6 +34,7 @@ __all__ = [
     "GeometricOptimizer",
     "GeometricRotation",
     "FunctionalMap",
+    "FunctionalGeometry",
     "GeoMLP",
     "GeoCNN",
     "GeoConv2D",

@@ -66,6 +66,10 @@ class GeometricOptimizer(Optimizer):
         functional_probe: Optional[torch.Tensor] = None,
         functional_representation: str = "logits",
         response_kind: str = "gauss_newton",
+        null_threshold_mode: str = "relative",
+        null_tol: float = 1e-6,
+        max_tangent_fraction: float = 0.9,
+        energy_fraction: float = 0.999,
         diagonal_beta1: float = 0.9,
         diagonal_beta2: float = 0.999,
         diagonal_eps: float = 1e-8,
@@ -169,6 +173,10 @@ class GeometricOptimizer(Optimizer):
         self.functional_probe = functional_probe
         self.functional_representation = functional_representation
         self.response_kind = response_kind
+        self.null_threshold_mode = null_threshold_mode
+        self.null_tol = null_tol
+        self.max_tangent_fraction = max_tangent_fraction
+        self.energy_fraction = energy_fraction
         self.diagonal_beta1 = diagonal_beta1
         self.diagonal_beta2 = diagonal_beta2
         self.diagonal_eps = diagonal_eps
@@ -370,6 +378,10 @@ class GeometricOptimizer(Optimizer):
                 damping=self._damping + self.regularization,
                 max_update_norm=self.max_update_norm,
                 descent_gate=self.descent_gate,
+                null_threshold_mode=self.null_threshold_mode,
+                null_tol=self.null_tol,
+                max_tangent_fraction=self.max_tangent_fraction,
+                energy_fraction=self.energy_fraction,
             )
         self._assign_flat_grad(params, result.gradient)
         raw_grad_norm = float(torch.linalg.vector_norm(result.gradient))
@@ -413,6 +425,10 @@ class GeometricOptimizer(Optimizer):
             "projected_gradient_tangent_norm": result.projected_gradient_tangent_norm,
             "response_min_eigenvalue": float(eigvals.min()) if eigvals.numel() else 0.0,
             "response_max_eigenvalue": float(eigvals.max()) if eigvals.numel() else 0.0,
+            "selected_threshold": result.projectors.selected_threshold,
+            "spectral_gap_index": result.projectors.spectral_gap_index,
+            "condition_number_normal": result.projectors.condition_number_normal,
+            "retained_energy_fraction": result.projectors.retained_energy_fraction,
         }
         self.topography_log.append(entry)
         self._maybe_emit_diagnostics(entry, verbose=verbose)

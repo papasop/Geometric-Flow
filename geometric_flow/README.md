@@ -84,6 +84,9 @@ implementation constructs `Phi(theta)=vec(model(X_probe))`, `J_phi`, `P_T` onto
 `ker(J_phi)`, `P_N=I-P_T`, and the Gauss-Newton response `J_phi^T J_phi`.
 It is intended for small MLP/toy validation and is not yet an efficiency
 replacement for Adam.
+Null-space selection supports `absolute`, `relative`, `spectral_gap`, and
+`energy_fraction` modes, with diagnostics for selected threshold, spectral-gap
+index, normal condition number, and retained energy fraction.
 
 Each optimizer step records a topography row with `trace_estimate`,
 `rayleigh_grad`, `update_norm`, and cumulative `geodesic_distance`, which acts as
@@ -130,6 +133,9 @@ python experiments/plot_comparison.py artifacts/cifar10_geo_diagnostics.csv --ra
 python experiments/normal_projection_toy.py --out artifacts/normal_projection_toy.csv
 python experiments/functional_projection_toy.py
 python experiments/run_functional_switch_validation.py --trials 5 --steps 200
+python experiments/reparameterization_stress_test.py
+python experiments/noisy_redundancy_validation.py
+python experiments/near_null_stress_test.py
 ```
 
 Pass `verbose=True` to `GeometricOptimizer.step(...)` or construct the optimizer
