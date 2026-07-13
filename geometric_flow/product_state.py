@@ -115,14 +115,28 @@ class ProductState:
         if isinstance(steps, dict):
             step_by_name = steps
         else:
-            step_by_name = {product.name: step for product, step in zip(self.products, steps)}
+            step_list = list(steps)
+            if len(step_list) > len(self.products):
+                raise ValueError("received more steps than registered products")
+            step_by_name = {product.name: step for product, step in zip(self.products, step_list)}
+        known_names = {product.name for product in self.products}
+        unknown = set(step_by_name) - known_names
+        if unknown:
+            raise ValueError(f"unknown product step names: {sorted(unknown)}")
         diagnostics: dict[str, FixedRankDiagnostics] = {}
         with torch.no_grad():
             for product in self.products:
                 if product.name not in step_by_name:
-                    raise ValueError(f"missing step for product {product.name!r}")
+                    continue
+                step = step_by_name[product.name]
+                if step.shape != product.tensor.shape:
+                    raise ValueError(f"step shape mismatch for product {product.name!r}")
+                if step.device != product.tensor.device:
+                    raise ValueError(f"step device mismatch for product {product.name!r}")
+                if step.dtype != product.tensor.dtype:
+                    raise ValueError(f"step dtype mismatch for product {product.name!r}")
                 manifold = manifolds[product.name] if manifolds and product.name in manifolds else FixedRankManifold(product.rank)
-                tangent = manifold.project_tangent(product.tensor, step_by_name[product.name].to(product.tensor) * scale)
+                tangent = manifold.project_tangent(product.tensor, step * scale)
                 new_tensor, diag = manifold.retract(product.tensor, tangent)
                 product.tensor.copy_(new_tensor)
                 diagnostics[product.name] = diag

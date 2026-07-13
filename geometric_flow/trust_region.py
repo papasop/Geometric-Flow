@@ -45,6 +45,7 @@ class HeldOutTrustRegion:
         product_state: ProductState,
         base_steps: dict[str, torch.Tensor],
         calibration_closure: Callable[[], torch.Tensor],
+        candidate_transform: Callable[[ProductState, dict[str, torch.Tensor], float], dict[str, torch.Tensor]] | None = None,
     ) -> TrustRegionResult:
         """Select a scale without leaving candidate states applied."""
 
@@ -58,7 +59,15 @@ class HeldOutTrustRegion:
             for scale in self.scale_grid:
                 product_state.restore_(snapshot)
                 if scale != 0.0:
-                    product_state.project_and_retract_(base_steps, scale=scale)
+                    candidate_steps = (
+                        candidate_transform(product_state, base_steps, scale)
+                        if candidate_transform is not None
+                        else base_steps
+                    )
+                    product_state.project_and_retract_(
+                        candidate_steps,
+                        scale=1.0 if candidate_transform is not None else scale,
+                    )
                 with torch.no_grad():
                     candidate_loss = float(calibration_closure().detach().cpu())
                 if scale != 0.0 and candidate_loss < best_loss:

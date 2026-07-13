@@ -89,10 +89,6 @@ class FixedRankFunctionalAdam(Optimizer):
             manifold = self._manifold(product.rank)
             tangent = manifold.project_tangent(param, ambient)
             tangent_residual = manifold.tangent_residual(param, tangent)
-            if max_update_norm is not None:
-                norm = tangent.norm()
-                if float(norm.detach().cpu()) > max_update_norm:
-                    tangent = tangent * (max_update_norm / norm.clamp_min(torch.finfo(tangent.dtype).tiny))
             base_steps[product.name] = tangent.detach().clone()
             pre_diagnostics[product.name] = {
                 "ambient_proposal_norm": float(ambient.norm().detach().cpu()),
@@ -100,13 +96,26 @@ class FixedRankFunctionalAdam(Optimizer):
                 "tangent_residual": float(tangent_residual),
             }
 
+        if not base_steps:
+            self.last_diagnostics = {
+                "products": {},
+                "aggregate": {},
+                "trust_region": TrustRegionResult(0.0, False, False, float("nan"), float("nan")),
+            }
+            return loss
+
         selected_scale = 1.0
         accepted = True
         hit_max_scale = False
         if self.trust_region is not None:
             if calibration_closure is None:
                 raise RuntimeError("calibration_closure is required when trust_region is enabled")
-            trust_result = self.trust_region.select(self.product_state, base_steps, calibration_closure)
+            trust_result = self.trust_region.select(
+                self.product_state,
+                base_steps,
+                calibration_closure,
+                candidate_transform=self._finalize_candidate_steps,
+            )
             selected_scale = trust_result.selected_scale
             accepted = trust_result.accepted
             hit_max_scale = trust_result.hit_max_scale
@@ -115,20 +124,22 @@ class FixedRankFunctionalAdam(Optimizer):
 
         diagnostics: dict[str, dict[str, float | bool]] = {}
         if base_steps and selected_scale != 0.0:
+            final_steps = self._finalize_candidate_steps(self.product_state, base_steps, selected_scale)
             with torch.no_grad():
                 for product in self.product_state.products:
-                    if product.name not in base_steps:
+                    if product.name not in final_steps:
                         continue
                     param = product.tensor
                     before = param.detach().clone()
                     manifold = self._manifold(product.rank)
-                    tangent = manifold.project_tangent(param, base_steps[product.name] * selected_scale)
-                    new_param, diag = manifold.retract(param, tangent)
+                    final_step = final_steps[product.name]
+                    new_param, diag = manifold.retract(param, final_step)
                     param.copy_(new_param)
                     realized = param - before
                     entry = dict(pre_diagnostics[product.name])
                     entry.update(
                         {
+                            "final_candidate_norm": float(final_step.norm().detach().cpu()),
                             "realized_update_norm": float(realized.norm().detach().cpu()),
                             "retraction_relative_error": diag.retraction_relative_error,
                             "numerical_rank": diag.numerical_rank,
@@ -165,6 +176,29 @@ class FixedRankFunctionalAdam(Optimizer):
     def _manifold(self, rank: int) -> FixedRankManifold:
         return FixedRankManifold(rank, svd_floor=self.svd_floor, rank_tolerance=self.rank_tolerance)
 
+    def _finalize_candidate_steps(
+        self,
+        product_state: ProductState,
+        base_steps: dict[str, torch.Tensor],
+        scale: float,
+    ) -> dict[str, torch.Tensor]:
+        """Apply the shared final-candidate rule: scale, project, then clip."""
+
+        max_update_norm = self.param_groups[0]["max_update_norm"]
+        finalized: dict[str, torch.Tensor] = {}
+        for product in product_state.products:
+            if product.name not in base_steps:
+                continue
+            manifold = self._manifold(product.rank)
+            scaled = base_steps[product.name] * scale
+            tangent = manifold.project_tangent(product.tensor, scaled)
+            if max_update_norm is not None:
+                norm = tangent.norm()
+                if float(norm.detach().cpu()) > max_update_norm:
+                    tangent = tangent * (max_update_norm / norm.clamp_min(torch.finfo(tangent.dtype).tiny))
+            finalized[product.name] = tangent.detach().clone()
+        return finalized
+
     def _rank_for_name(self, name: str) -> int:
         for product in self.product_state.products:
             if product.name == name:
@@ -178,6 +212,7 @@ class FixedRankFunctionalAdam(Optimizer):
             "ambient_proposal_norm",
             "tangent_proposal_norm",
             "tangent_residual",
+            "final_candidate_norm",
             "realized_update_norm",
             "retraction_relative_error",
             "numerical_rank",
