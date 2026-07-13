@@ -445,6 +445,9 @@ class GeometricOptimizer(Optimizer):
             "retained_spectral_energy": result.retained_spectral_energy,
             "solver_residual": result.solver_residual,
             "memory_estimate_bytes": result.memory_estimate_bytes,
+            "jvp_count": result.jvp_count,
+            "vjp_count": result.vjp_count,
+            "null_leakage": result.null_leakage,
         }
         self.topography_log.append(entry)
         self._maybe_emit_diagnostics(entry, verbose=verbose)

@@ -280,9 +280,11 @@ python experiments/near_null_stress_test.py
   direction `d = -pinv(P_N A_resp P_N + damping P_N) P_N g`.
 - `response_solver="low_rank"` uses a truncated SVD of dense `J_phi` and solves
   in retained right-singular directions without constructing full `A_resp`.
-- `response_solver="implicit_cg"` is a small-model JVP/VJP operator prototype for
-  `v -> J^T(Jv) + damping * P_N v`; it still uses dense projectors in this
-  repository and should not be read as full large-model support.
+- `response_solver="implicit_cg"` uses VJP probes to estimate
+  `range(J_phi^T)` and solves with JVP/VJP matvecs inside that matrix-free
+  normal subspace. It no longer depends on dense `J_phi` or dense `P_N` for the
+  solve, but it remains a small-model prototype rather than full large-model
+  support.
 - `experiments/run_functional_switch_validation.py` saves raw per-seed rows and
   reports win rate, gate accept rate, fallback rate, functional drift, update
   norm, and wall-clock time. Current output should be read as diagnostics, not a

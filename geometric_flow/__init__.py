@@ -12,11 +12,13 @@ from .functional_geometry import (
     FunctionalMap,
     FunctionalGeometry,
     FunctionalJTJOperator,
+    MatrixFreeFunctionalJTJOperator,
     functional_projectors,
     functional_response_operator,
     implicit_cg_response_direction,
     low_rank_response_direction,
     projected_functional_geoflow_direction,
+    randomized_normal_basis,
 )
 from .navigation import conjugate_gradient, geometric_step
 from .optimizer import GeometricOptimizer
@@ -39,6 +41,7 @@ __all__ = [
     "FunctionalMap",
     "FunctionalGeometry",
     "FunctionalJTJOperator",
+    "MatrixFreeFunctionalJTJOperator",
     "GeoMLP",
     "GeoCNN",
     "GeoConv2D",
@@ -55,6 +58,7 @@ __all__ = [
     "implicit_cg_response_direction",
     "low_rank_response_direction",
     "projected_functional_geoflow_direction",
+    "randomized_normal_basis",
     "phase_diagram_scanner",
     "phase_diagram_scanner_2d",
     "write_phase_diagram",

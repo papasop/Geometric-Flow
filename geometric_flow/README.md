@@ -89,8 +89,10 @@ Null-space selection supports `absolute`, `relative`, `spectral_gap`, and
 index, normal condition number, and retained energy fraction.
 Functional response solving supports `dense`, `low_rank`, and `implicit_cg`.
 The low-rank path uses truncated SVD of dense `J_phi` as a first prototype and
-avoids materializing full `A_resp`; the implicit path is a toy JVP/VJP CG
-operator that still relies on dense projectors for `P_N`.
+avoids materializing full `A_resp`; the implicit path uses VJP probes to build a
+matrix-free normal basis and JVP/VJP matvecs for the constrained solve. It does
+not use dense `J_phi` or dense `P_N` in the solve, but remains a small-model
+prototype.
 
 Each optimizer step records a topography row with `trace_estimate`,
 `rayleigh_grad`, `update_norm`, and cumulative `geodesic_distance`, which acts as

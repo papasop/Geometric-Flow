@@ -11,11 +11,13 @@ from geometric_flow import (
     GeometricOptimizer,
     FunctionalMap,
     FunctionalJTJOperator,
+    MatrixFreeFunctionalJTJOperator,
     compute_curvature,
     conjugate_gradient,
     functional_projectors,
     functional_response_operator,
     projected_functional_geoflow_direction,
+    randomized_normal_basis,
     geo,
     phase_diagram_scanner,
     phase_diagram_scanner_2d,
@@ -544,6 +546,48 @@ class GeometricFlowTests(unittest.TestCase):
         v = torch.randn(fjac.theta.numel())
         dense_matvec = projectors.normal @ (fjac.jacobian.T @ (fjac.jacobian @ (projectors.normal @ v))) + damping * (projectors.normal @ v)
         self.assertTrue(torch.allclose(operator.matvec(v), dense_matvec, atol=1e-5))
+
+    def test_matrix_free_operator_and_range_finder_match_dense_jtj(self):
+        torch.manual_seed(20)
+        model = TwoLayerLinear(input_dim=2, hidden_dim=2, output_dim=1)
+        x = torch.randn(4, 2)
+        fmap = FunctionalMap(model, x)
+        fjac = fmap.jacobian()
+        operator = MatrixFreeFunctionalJTJOperator(fmap)
+        v = torch.randn(fjac.theta.numel())
+        self.assertTrue(torch.allclose(operator.jtj(v), fjac.jacobian.T @ (fjac.jacobian @ v), atol=1e-5))
+        q, info = randomized_normal_basis(fmap, energy_fraction=1.0)
+        self.assertGreaterEqual(q.shape[1], fjac.rank)
+        leakage = torch.linalg.vector_norm((torch.eye(q.shape[0]) - q @ q.T) @ (fjac.jacobian.T @ torch.randn(fjac.jacobian.shape[0])))
+        self.assertLess(float(leakage), 1e-5)
+        self.assertGreater(info["vjp_count"], 0)
+
+    def test_matrix_free_implicit_reports_counts_without_dense_projector(self):
+        torch.manual_seed(22)
+        model = TwoLayerLinear(input_dim=2, hidden_dim=2, output_dim=1)
+        x = torch.randn(5, 2)
+        y = torch.randn(5, 1)
+        loss = F.mse_loss(model(x), y)
+        dense = projected_functional_geoflow_direction(model, loss, x, damping=1e-3, response_solver="dense")
+        implicit = projected_functional_geoflow_direction(
+            model,
+            loss,
+            x,
+            damping=1e-3,
+            response_solver="implicit_cg",
+            functional_energy_fraction=1.0,
+            cg_max_iter=64,
+            cg_tolerance=1e-8,
+        )
+        cosine = torch.dot(implicit.direction, dense.direction) / (
+            torch.linalg.vector_norm(implicit.direction) * torch.linalg.vector_norm(dense.direction)
+        ).clamp_min(1e-30)
+        self.assertGreater(float(cosine), 0.99)
+        self.assertLess(implicit.solver_residual, 1e-4)
+        self.assertLess(implicit.null_leakage, 1e-5)
+        self.assertGreater(implicit.jvp_count, 0)
+        self.assertGreater(implicit.vjp_count, 0)
+        self.assertEqual(implicit.projectors.normal.numel(), 0)
 
     def test_functional_optimizer_mode_logs_projection(self):
         torch.manual_seed(15)

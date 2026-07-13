@@ -60,7 +60,7 @@ def run_toy(
     damping: float = 1e-3,
     response_solver: str = "dense",
     functional_rank: int | None = None,
-    functional_energy_fraction: float = 0.99,
+    functional_energy_fraction: float = 1.0,
 ):
     torch.manual_seed(seed)
     x = torch.randn(samples, input_dim)
@@ -146,6 +146,9 @@ def run_toy(
         "retained_rank": result.retained_rank,
         "retained_spectral_energy": result.retained_spectral_energy,
         "memory_estimate_bytes": result.memory_estimate_bytes,
+        "jvp_count": result.jvp_count,
+        "vjp_count": result.vjp_count,
+        "null_leakage": result.null_leakage,
         "dense_seconds": dense_seconds,
         "solver_seconds": solver_seconds,
         "speedup_vs_dense": dense_seconds / max(solver_seconds, 1e-30),
@@ -165,7 +168,7 @@ def main() -> None:
     parser.add_argument("--damping", type=float, default=1e-3)
     parser.add_argument("--response-solver", choices=["dense", "low_rank", "implicit_cg"], default="dense")
     parser.add_argument("--functional-rank", type=int, default=None)
-    parser.add_argument("--functional-energy-fraction", type=float, default=0.99)
+    parser.add_argument("--functional-energy-fraction", type=float, default=1.0)
     parser.add_argument("--out", type=Path, default=Path("artifacts/functional_projection_toy.csv"))
     args = parser.parse_args()
 

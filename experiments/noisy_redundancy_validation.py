@@ -19,7 +19,7 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from geometric_flow import FunctionalMap, GeometricOptimizer, functional_projectors
-from geometric_flow._tensor import assign_flat_update, flatten_tensors
+from geometric_flow._tensor import flatten_tensors, get_flat_params
 from experiments.reparameterization_stress_test import (
     RedundantLinearNet,
     collect_batches,
@@ -44,6 +44,12 @@ class NoiseRun:
     injected_normal_norm: float
     post_projection_tangent_norm: float
     post_projection_normal_norm: float
+    raw_update_tangent_norm: float
+    raw_update_normal_norm: float
+    projected_update_tangent_norm: float
+    projected_update_normal_norm: float
+    final_update_tangent_norm: float
+    final_update_normal_norm: float
     tangent_component_retained: float
     gate_accept_rate: float
     fallback_rate: float
@@ -70,7 +76,7 @@ def decompose(model, probe_x: torch.Tensor, vector: torch.Tensor, null_threshold
     )
     tangent = projectors.tangent @ vector
     normal = projectors.normal @ vector
-    return float(torch.linalg.vector_norm(tangent)), float(torch.linalg.vector_norm(normal))
+    return float(torch.linalg.vector_norm(tangent)), float(torch.linalg.vector_norm(normal)), projectors
 
 
 def run_branch(args, optimizer_name: str, sigma_g: float, sigma_theta: float, seed: int) -> NoiseRun:
@@ -118,15 +124,22 @@ def run_branch(args, optimizer_name: str, sigma_g: float, sigma_theta: float, se
     injected_normal = []
     post_tangent = []
     post_normal = []
+    raw_update_tangent = []
+    raw_update_normal = []
+    projected_update_tangent = []
+    projected_update_normal = []
+    final_update_tangent = []
+    final_update_normal = []
     phi_errors = []
     start = time.perf_counter()
     generator = torch.Generator().manual_seed(seed + 9000)
     for step, (x, y) in enumerate(batches, start=1):
         grad_noise = sigma_g * torch.randn(n_params, generator=generator) if sigma_g else None
         if grad_noise is not None:
-            t_norm, n_norm = decompose(model, probe_x, grad_noise, args.null_threshold_mode, args.null_tol)
+            t_norm, n_norm, _ = decompose(model, probe_x, grad_noise, args.null_threshold_mode, args.null_tol)
             injected_tangent.append(t_norm)
             injected_normal.append(n_norm)
+        before = get_flat_params(params)
         if optimizer_name == "adam":
             optimizer.zero_grad(set_to_none=True)
             loss = noisy_loss(model, x, y, grad_noise)
@@ -134,13 +147,24 @@ def run_branch(args, optimizer_name: str, sigma_g: float, sigma_theta: float, se
             optimizer.step()
         else:
             optimizer.step(lambda x=x, y=y, grad_noise=grad_noise: noisy_loss(model, x, y, grad_noise))
+        final_update = get_flat_params(params) - before
         if sigma_theta and step % args.parameter_noise_interval == 0:
             noise = sigma_theta * torch.randn(n_params, generator=generator)
-            t_norm, n_norm = decompose(model, probe_x, noise, args.null_threshold_mode, args.null_tol)
+            t_norm, n_norm, projectors = decompose(model, probe_x, noise, args.null_threshold_mode, args.null_tol)
             injected_tangent.append(t_norm)
             injected_normal.append(n_norm)
-            assign_flat_update(params, noise, scale=1.0)
-            post_t, post_n = decompose(model, probe_x, noise, args.null_threshold_mode, args.null_tol)
+            d_raw = final_update + noise
+            p_raw = projectors.normal @ d_raw
+            raw_t, raw_n, _ = decompose(model, probe_x, d_raw, args.null_threshold_mode, args.null_tol)
+            proj_t, proj_n, _ = decompose(model, probe_x, p_raw, args.null_threshold_mode, args.null_tol)
+            final_t, final_n, _ = decompose(model, probe_x, final_update, args.null_threshold_mode, args.null_tol)
+            raw_update_tangent.append(raw_t)
+            raw_update_normal.append(raw_n)
+            projected_update_tangent.append(proj_t)
+            projected_update_normal.append(proj_n)
+            final_update_tangent.append(final_t)
+            final_update_normal.append(final_n)
+            post_t, post_n = proj_t, proj_n
             post_tangent.append(post_t)
             post_normal.append(post_n)
         phi_errors.append(float(torch.linalg.vector_norm(FunctionalMap(model, probe_x).evaluate().detach() - initial_phi)))
@@ -166,6 +190,12 @@ def run_branch(args, optimizer_name: str, sigma_g: float, sigma_theta: float, se
         injected_normal_norm=statistics.mean(injected_normal) if injected_normal else 0.0,
         post_projection_tangent_norm=mean_post_tangent,
         post_projection_normal_norm=statistics.mean(post_normal) if post_normal else 0.0,
+        raw_update_tangent_norm=statistics.mean(raw_update_tangent) if raw_update_tangent else 0.0,
+        raw_update_normal_norm=statistics.mean(raw_update_normal) if raw_update_normal else 0.0,
+        projected_update_tangent_norm=statistics.mean(projected_update_tangent) if projected_update_tangent else 0.0,
+        projected_update_normal_norm=statistics.mean(projected_update_normal) if projected_update_normal else 0.0,
+        final_update_tangent_norm=statistics.mean(final_update_tangent) if final_update_tangent else 0.0,
+        final_update_normal_norm=statistics.mean(final_update_normal) if final_update_normal else 0.0,
         tangent_component_retained=mean_post_tangent / max(mean_injected_tangent, 1e-30),
         gate_accept_rate=gate,
         fallback_rate=fallback,
