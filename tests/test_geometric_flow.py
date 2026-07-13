@@ -1,5 +1,6 @@
 import unittest
 import tempfile
+import csv
 from pathlib import Path
 
 import torch
@@ -40,13 +41,20 @@ from experiments.reparameterization_stress_test import (
 from experiments.lora_reparameterization_benchmark import SmallLoRAMLP, make_transform, run_lora_benchmark
 from experiments.lora_matched_step_benchmark import (
     calibrate_scale,
+    compute_gates_from_statistics,
     configure_train_scope,
+    cross_seed_mixed_pairwise_distance,
     functional_step_norm_for,
+    gate_rows_for_config,
     make_fmap as make_lora_fmap,
+    paired_task_differences,
+    phase_g_statistics,
     reference_functional_step,
     representation_fn_for,
     run_config as run_lora_matched_config,
+    within_seed_pairwise_sensitivity,
 )
+from experiments.analyze_phase_g_results import analyze_rows, candidate_run_csvs
 
 
 class GeometricFlowTests(unittest.TestCase):
@@ -968,6 +976,130 @@ class GeometricFlowTests(unittest.TestCase):
         args.optimizers = "functional_geoflow"
         rows, _ = run_lora_benchmark(args)
         self.assertEqual(len(rows), 1)
+
+    def _fake_phase_g_rows(self):
+        rows = []
+        phis = {
+            ("diagonal_grad_square", 1): ["0;0", "2;0"],
+            ("functional_geoflow_matched_step", 1): ["0;0", "1;0"],
+            ("functional_geoflow_fixed_lr", 1): ["0;0", "3;0"],
+            ("diagonal_grad_square", 2): ["10;0", "12;0"],
+            ("functional_geoflow_matched_step", 2): ["10;0", "11;0"],
+            ("functional_geoflow_fixed_lr", 2): ["10;0", "14;0"],
+        }
+        losses = {
+            "diagonal_grad_square": 1.0,
+            "functional_geoflow_matched_step": 1.2,
+            "functional_geoflow_fixed_lr": 1.4,
+        }
+        for (optimizer, seed), values in phis.items():
+            for rep, final_phi in enumerate(values):
+                rows.append(
+                    {
+                        "seed": seed,
+                        "optimizer": optimizer,
+                        "representation": rep,
+                        "train_scope": "lora_only",
+                        "functional_map": "hidden",
+                        "lora_rank": 2,
+                        "probe_size": 4,
+                        "calibration_reference": "diagonal_grad_square",
+                        "initial_equivalence_residual": 0.0,
+                        "final_loss": losses[optimizer] + 0.01 * rep,
+                        "final_accuracy": 0.5,
+                        "final_phi": final_phi,
+                        "mean_functional_step": 0.1,
+                        "median_functional_step": 0.1,
+                        "mean_parameter_step": 0.1,
+                        "mean_tangent_step": 0.01,
+                        "mean_normal_step": 0.1,
+                        "mean_calibration_error": 0.001 if optimizer == "functional_geoflow_matched_step" else 0.0,
+                        "mean_null_leakage": 1e-8 if optimizer == "functional_geoflow_matched_step" else 0.0,
+                        "total_jvp": 1,
+                        "total_vjp": 1,
+                        "mean_wall_clock": 0.01,
+                        "peak_memory_bytes": 0,
+                        "tangent_drift": 0.5 if optimizer == "diagonal_grad_square" else 0.25,
+                        "near_null_amplification": 0.5,
+                        "seconds": 0.02 if optimizer == "functional_geoflow_matched_step" else 0.01,
+                    }
+                )
+        return rows
+
+    def test_sensitivity_never_pairs_different_seeds(self):
+        rows = self._fake_phase_g_rows()
+        within = within_seed_pairwise_sensitivity(rows, "diagonal_grad_square", 1)
+        mixed = cross_seed_mixed_pairwise_distance(rows, "diagonal_grad_square")
+        self.assertAlmostEqual(within, 2.0)
+        self.assertGreater(mixed, within)
+
+    def test_within_seed_sensitivity_matches_manual_value(self):
+        rows = self._fake_phase_g_rows()
+        self.assertAlmostEqual(within_seed_pairwise_sensitivity(rows, "functional_geoflow_matched_step", 2), 1.0)
+
+    def test_structural_win_rate_uses_sensitivity_not_loss(self):
+        rows = self._fake_phase_g_rows()
+        aggregates, gates = phase_g_statistics(rows)
+        self.assertTrue(gates["STRUCTURAL_WIN_RATE_PASS"])
+        self.assertEqual(gates["structural_win_rate"], 1.0)
+        self.assertGreater(gates["matched_step_loss"], gates["diagonal_loss"])
+        self.assertIn("mean_within_seed_sensitivity", aggregates[0])
+
+    def test_task_loss_win_rate_is_separate(self):
+        rows = self._fake_phase_g_rows()
+        _, gates = phase_g_statistics(rows)
+        self.assertFalse(gates["TASK_LOSS_WIN_RATE_PASS"])
+        self.assertEqual(gates["task_loss_win_rate"], 0.0)
+
+    def test_task_advantage_gate_uses_ci(self):
+        rows = self._fake_phase_g_rows()
+        _, gates = phase_g_statistics(rows)
+        self.assertGreater(gates["matched_minus_diagonal_loss_ci_high"], 0.0)
+        self.assertFalse(gates["TASK_ADVANTAGE_PASS"])
+
+    def test_task_gap_reduced_gate_uses_paired_ci(self):
+        rows = self._fake_phase_g_rows()
+        _, gates = phase_g_statistics(rows)
+        self.assertGreater(gates["calibration_improvement_ci_low"], 0.0)
+        self.assertTrue(gates["TASK_GAP_REDUCED_PASS"])
+        diffs = paired_task_differences(rows)
+        self.assertEqual(len(diffs["calibration_improvement"]), 2)
+
+    def test_cross_seed_metric_is_not_primary_sensitivity(self):
+        rows = self._fake_phase_g_rows()
+        aggregates, _ = phase_g_statistics(rows)
+        diag = [row for row in aggregates if row["optimizer"] == "diagonal_grad_square"][0]
+        self.assertIn("cross_seed_mixed_pairwise_distance", diag)
+        self.assertIn("mean_within_seed_sensitivity", diag)
+        self.assertNotIn("reparameterization_sensitivity", diag)
+
+    def test_offline_analyzer_reads_existing_csv(self):
+        rows = self._fake_phase_g_rows()
+        aggregates, gates = analyze_rows(rows, loss_parity_margin=0.02, functional_step_tolerance=0.10)
+        self.assertTrue(gates["STRUCTURAL_WIN_RATE_PASS"])
+        self.assertTrue(any(row["optimizer"] == "functional_geoflow_matched_step" for row in aggregates))
+
+    def test_incomplete_stage_b_is_skipped_with_warning(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            complete = tmp_path / "run.csv"
+            incomplete = tmp_path / "stage_b_partial.csv"
+            rows = self._fake_phase_g_rows()
+            with complete.open("w", newline="", encoding="utf-8") as handle:
+                writer = csv.DictWriter(handle, fieldnames=list(rows[0].keys()))
+                writer.writeheader()
+                writer.writerows(rows)
+            incomplete.write_text("seed,optimizer\n1,diagonal_grad_square\n", encoding="utf-8")
+            candidates, warnings = candidate_run_csvs(tmp_path)
+        self.assertEqual(len(candidates), 1)
+        self.assertTrue(any("skipped" in warning for warning in warnings))
+
+    def test_sweep_writes_per_configuration_gates(self):
+        gates = {"STRUCTURAL_WIN_RATE_PASS": True, "TASK_GAP_REDUCED_PASS": False}
+        rows = gate_rows_for_config(gates, "hidden", "lora_only", 2, 4, "diagonal_grad_square")
+        self.assertEqual(len(rows), 2)
+        self.assertEqual(rows[0]["functional_map"], "hidden")
+        self.assertIn("calibration_reference", rows[0])
 
     def test_phase_diagram_scanner_2d_writes_csv(self):
         torch.manual_seed(9)

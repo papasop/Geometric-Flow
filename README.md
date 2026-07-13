@@ -379,9 +379,33 @@ training scopes. The primary configuration is `lora_only`, because the LoRA
 gauge symmetry belongs to `A/B`, not the dense head. It also compares functional
 maps over logits, LoRA output, hidden features, and logits+hidden.
 
+Phase G gauge sensitivity is computed strictly within each seed across
+gauge-equivalent representations. Cross-seed function distances are reported
+only as `cross_seed_mixed_pairwise_distance`; they are not used as gauge
+sensitivity and should not support gauge-invariance claims.
+
 The relevant question is not whether accuracy can be tuned upward in one run.
 It is whether the task gap shrinks after functional-step calibration while LoRA
 gauge stability, low tangent drift, and low null leakage survive.
+
+Current Stage A observation: the calibration mechanism works, but task behavior
+has not improved yet. Functional-step calibration error was about `1e-3` or
+lower, null leakage remained small, and fixed-lr and matched-step results were
+close. In the current `lora_only` Stage A sweep, matched calibration did not
+improve the fixed-lr task gap. Formal long-run claims await corrected
+within-seed reanalysis and Stage B runs.
+
+Existing Phase G artifacts can be reanalyzed without retraining:
+
+```bash
+python experiments/analyze_phase_g_results.py \
+  --artifact-dir artifacts/phase_g_formal \
+  --out artifacts/phase_g_formal/reanalysis
+```
+
+The analyzer skips incomplete Stage B or non-run CSV files with a warning. It
+uses within-seed gauge sensitivity, matched seed sensitivity ratios, and paired
+bootstrap confidence intervals for task gates.
 
 ## Claims Boundary
 

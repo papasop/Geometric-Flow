@@ -39,6 +39,18 @@ OPTIMIZERS = [
 ]
 
 
+def parse_bool(value) -> bool:
+    if isinstance(value, bool):
+        return value
+    return str(value).strip().lower() in {"1", "true", "yes", "y"}
+
+
+def phi_from_string(value: str) -> torch.Tensor:
+    if value is None or value == "":
+        return torch.empty(0)
+    return torch.tensor([float(item) for item in str(value).split(";") if item != ""])
+
+
 @dataclass
 class StepRow:
     seed: int
@@ -80,6 +92,9 @@ class RunRow:
     representation: int
     train_scope: str
     functional_map: str
+    lora_rank: int
+    probe_size: int
+    calibration_reference: str
     initial_equivalence_residual: float
     final_loss: float
     final_accuracy: float
@@ -248,13 +263,144 @@ def median_or_zero(values: Iterable[float]) -> float:
     return float(statistics.median(values)) if values else 0.0
 
 
-def pairwise_sensitivity(rows: list[RunRow], optimizer: str) -> float:
-    selected = [row for row in rows if row.optimizer == optimizer]
+def row_get(row, field: str, default=None):
+    if isinstance(row, dict):
+        return row.get(field, default)
+    return getattr(row, field, default)
+
+
+def cross_seed_mixed_pairwise_distance(rows, optimizer: str) -> float:
+    """Legacy all-pairs distance. Do not use this as gauge sensitivity."""
+
+    selected = [row for row in rows if row_get(row, "optimizer") == optimizer]
     if len(selected) < 2:
         return 0.0
-    phis = [torch.tensor([float(value) for value in row.final_phi.split(";")]) for row in selected]
+    phis = [phi_from_string(row_get(row, "final_phi")) for row in selected]
     distances = [float(torch.linalg.vector_norm(left - right)) for left, right in itertools.combinations(phis, 2)]
     return summarize(distances)
+
+
+def within_seed_pairwise_sensitivity(rows, optimizer: str, seed: int) -> float:
+    """Mean pairwise final-phi distance across representations for one seed."""
+
+    selected = [
+        row
+        for row in rows
+        if row_get(row, "optimizer") == optimizer and int(row_get(row, "seed")) == int(seed)
+    ]
+    if len(selected) < 2:
+        return 0.0
+    phis = [phi_from_string(row_get(row, "final_phi")) for row in selected]
+    distances = [float(torch.linalg.vector_norm(left - right)) for left, right in itertools.combinations(phis, 2)]
+    return summarize(distances)
+
+
+def bootstrap_ci(values: Iterable[float], samples: int = 400, seed: int = 1234) -> tuple[float, float]:
+    values = [float(value) for value in values]
+    if not values:
+        return 0.0, 0.0
+    if len(values) == 1:
+        return values[0], values[0]
+    generator = torch.Generator().manual_seed(seed)
+    estimates = []
+    tensor = torch.tensor(values, dtype=torch.float64)
+    for _ in range(samples):
+        indices = torch.randint(0, len(values), (len(values),), generator=generator)
+        estimates.append(float(tensor[indices].mean()))
+    estimates.sort()
+    lo = estimates[int(0.025 * (len(estimates) - 1))]
+    hi = estimates[int(0.975 * (len(estimates) - 1))]
+    return lo, hi
+
+
+def seed_mean(rows, optimizer: str, seed: int, field: str) -> float:
+    values = [
+        float(row_get(row, field))
+        for row in rows
+        if row_get(row, "optimizer") == optimizer and int(row_get(row, "seed")) == int(seed)
+    ]
+    return summarize(values)
+
+
+def per_seed_sensitivity_map(rows, optimizer: str) -> dict[int, float]:
+    seeds = sorted({int(row_get(row, "seed")) for row in rows if row_get(row, "optimizer") == optimizer})
+    return {seed: within_seed_pairwise_sensitivity(rows, optimizer, seed) for seed in seeds}
+
+
+def ratio_summary(numerators: dict[int, float], denominators: dict[int, float]) -> dict[str, float]:
+    ratios = []
+    for seed, numerator in numerators.items():
+        denom = denominators.get(seed, 0.0)
+        if denom > 1e-30:
+            ratios.append(float(numerator / denom))
+    lo, hi = bootstrap_ci(ratios)
+    return {
+        "mean": summarize(ratios),
+        "median": median_or_zero(ratios),
+        "ci_low": lo,
+        "ci_high": hi,
+        "fraction_lt_1": summarize(1.0 if value < 1.0 else 0.0 for value in ratios),
+        "fraction_lt_0_9": summarize(1.0 if value < 0.9 else 0.0 for value in ratios),
+    }
+
+
+def paired_task_differences(rows) -> dict[str, list[float]]:
+    seeds = sorted({int(row_get(row, "seed")) for row in rows})
+    matched_minus_diag = []
+    fixed_minus_diag = []
+    improvement = []
+    matched_wins = []
+    for seed in seeds:
+        diag = seed_mean(rows, "diagonal_grad_square", seed, "final_loss")
+        fixed = seed_mean(rows, "functional_geoflow_fixed_lr", seed, "final_loss")
+        matched = seed_mean(rows, "functional_geoflow_matched_step", seed, "final_loss")
+        if diag == 0.0 and fixed == 0.0 and matched == 0.0:
+            continue
+        matched_minus_diag.append(matched - diag)
+        fixed_minus_diag.append(fixed - diag)
+        improvement.append(fixed - matched)
+        matched_wins.append(1.0 if matched <= diag else 0.0)
+    return {
+        "matched_minus_diagonal": matched_minus_diag,
+        "fixed_minus_diagonal": fixed_minus_diag,
+        "calibration_improvement": improvement,
+        "task_loss_wins": matched_wins,
+    }
+
+
+def phase_g_statistics(rows, loss_parity_margin: float = 0.02, functional_step_tolerance: float = 0.10) -> tuple[list[dict], dict]:
+    optimizers = sorted({row_get(row, "optimizer") for row in rows})
+    aggregates = []
+    per_optimizer_sens = {optimizer: per_seed_sensitivity_map(rows, optimizer) for optimizer in optimizers}
+    for optimizer in optimizers:
+        selected = [row for row in rows if row_get(row, "optimizer") == optimizer]
+        sensitivities = list(per_optimizer_sens[optimizer].values())
+        sens_lo, sens_hi = bootstrap_ci(sensitivities)
+        aggregates.append(
+            {
+                "optimizer": optimizer,
+                "mean_loss": summarize(float(row_get(row, "final_loss")) for row in selected),
+                "mean_accuracy": summarize(float(row_get(row, "final_accuracy")) for row in selected),
+                "cross_seed_mixed_pairwise_distance": cross_seed_mixed_pairwise_distance(rows, optimizer),
+                "mean_within_seed_sensitivity": summarize(sensitivities),
+                "median_within_seed_sensitivity": median_or_zero(sensitivities),
+                "std_within_seed_sensitivity": statistics.pstdev(sensitivities) if len(sensitivities) > 1 else 0.0,
+                "within_seed_sensitivity_ci_low": sens_lo,
+                "within_seed_sensitivity_ci_high": sens_hi,
+                "per_seed_sensitivity": ";".join(f"{seed}:{value:.9g}" for seed, value in sorted(per_optimizer_sens[optimizer].items())),
+                "mean_functional_step": summarize(float(row_get(row, "mean_functional_step")) for row in selected),
+                "functional_step_dispersion_across_representations": statistics.pstdev([float(row_get(row, "mean_functional_step")) for row in selected])
+                if len(selected) > 1
+                else 0.0,
+                "mean_tangent_drift": summarize(float(row_get(row, "tangent_drift")) for row in selected),
+                "mean_near_null_amplification": summarize(float(row_get(row, "near_null_amplification")) for row in selected),
+                "mean_calibration_error": summarize(float(row_get(row, "mean_calibration_error")) for row in selected),
+                "mean_null_leakage": summarize(float(row_get(row, "mean_null_leakage")) for row in selected),
+                "mean_seconds": summarize(float(row_get(row, "seconds")) for row in selected),
+            }
+        )
+    gates = compute_gates_from_statistics(rows, aggregates, loss_parity_margin, functional_step_tolerance)
+    return aggregates, gates
 
 
 def train_run(
@@ -455,6 +601,9 @@ def train_run(
         representation=representation,
         train_scope=args.train_scope,
         functional_map=args.functional_map,
+        lora_rank=args.lora_rank,
+        probe_size=args.probe_size,
+        calibration_reference=args.calibration_reference,
         initial_equivalence_residual=0.0,
         final_loss=final_loss,
         final_accuracy=final_accuracy,
@@ -503,27 +652,11 @@ def run_config(args) -> tuple[list[RunRow], list[StepRow], list[dict], dict]:
                 run_rows.append(run_row)
                 step_rows.extend(rows)
 
-    aggregates = []
-    for optimizer_name in sorted({row.optimizer for row in run_rows}):
-        selected = [row for row in run_rows if row.optimizer == optimizer_name]
-        aggregates.append(
-            {
-                "optimizer": optimizer_name,
-                "mean_loss": summarize(row.final_loss for row in selected),
-                "mean_accuracy": summarize(row.final_accuracy for row in selected),
-                "reparameterization_sensitivity": pairwise_sensitivity(run_rows, optimizer_name),
-                "mean_functional_step": summarize(row.mean_functional_step for row in selected),
-                "functional_step_dispersion_across_representations": statistics.pstdev([row.mean_functional_step for row in selected])
-                if len(selected) > 1
-                else 0.0,
-                "mean_tangent_drift": summarize(row.tangent_drift for row in selected),
-                "mean_near_null_amplification": summarize(row.near_null_amplification for row in selected),
-                "mean_calibration_error": summarize(row.mean_calibration_error for row in selected),
-                "mean_null_leakage": summarize(row.mean_null_leakage for row in selected),
-                "mean_seconds": summarize(row.seconds for row in selected),
-            }
-        )
-    gates = compute_gates(run_rows, aggregates, args)
+    aggregates, gates = phase_g_statistics(
+        run_rows,
+        loss_parity_margin=args.loss_parity_margin,
+        functional_step_tolerance=args.functional_step_tolerance,
+    )
     return run_rows, step_rows, aggregates, gates
 
 
@@ -534,11 +667,16 @@ def aggregate_lookup(aggregates: list[dict], optimizer: str, field: str) -> floa
     return 0.0
 
 
-def compute_gates(run_rows: list[RunRow], aggregates: list[dict], args) -> dict:
-    max_initial = max([row.initial_equivalence_residual for row in run_rows] or [0.0])
-    diag_sens = aggregate_lookup(aggregates, "diagonal_grad_square", "reparameterization_sensitivity")
-    fixed_sens = aggregate_lookup(aggregates, "functional_geoflow_fixed_lr", "reparameterization_sensitivity")
-    matched_sens = aggregate_lookup(aggregates, "functional_geoflow_matched_step", "reparameterization_sensitivity")
+def compute_gates_from_statistics(
+    run_rows,
+    aggregates: list[dict],
+    loss_parity_margin: float = 0.02,
+    functional_step_tolerance: float = 0.10,
+) -> dict:
+    max_initial = max([float(row_get(row, "initial_equivalence_residual")) for row in run_rows] or [0.0])
+    diag_sens = aggregate_lookup(aggregates, "diagonal_grad_square", "mean_within_seed_sensitivity")
+    fixed_sens = aggregate_lookup(aggregates, "functional_geoflow_fixed_lr", "mean_within_seed_sensitivity")
+    matched_sens = aggregate_lookup(aggregates, "functional_geoflow_matched_step", "mean_within_seed_sensitivity")
     diag_loss = aggregate_lookup(aggregates, "diagonal_grad_square", "mean_loss")
     fixed_loss = aggregate_lookup(aggregates, "functional_geoflow_fixed_lr", "mean_loss")
     matched_loss = aggregate_lookup(aggregates, "functional_geoflow_matched_step", "mean_loss")
@@ -550,30 +688,44 @@ def compute_gates(run_rows: list[RunRow], aggregates: list[dict], args) -> dict:
     matched_seconds = aggregate_lookup(aggregates, "functional_geoflow_matched_step", "mean_seconds")
     fixed_gap = fixed_loss - diag_loss
     matched_gap = matched_loss - diag_loss
-    by_seed_wins = 0
-    by_seed_total = 0
-    for seed in sorted({row.seed for row in run_rows}):
-        diag = [row.final_loss for row in run_rows if row.seed == seed and row.optimizer == "diagonal_grad_square"]
-        matched = [row.final_loss for row in run_rows if row.seed == seed and row.optimizer == "functional_geoflow_matched_step"]
-        if diag and matched:
-            by_seed_wins += int(summarize(matched) <= summarize(diag))
-            by_seed_total += 1
-    win_rate = by_seed_wins / max(by_seed_total, 1)
+    diag_seed_sens = per_seed_sensitivity_map(run_rows, "diagonal_grad_square")
+    fixed_seed_sens = per_seed_sensitivity_map(run_rows, "functional_geoflow_fixed_lr")
+    matched_seed_sens = per_seed_sensitivity_map(run_rows, "functional_geoflow_matched_step")
+    matched_ratio = ratio_summary(matched_seed_sens, diag_seed_sens)
+    fixed_ratio = ratio_summary(fixed_seed_sens, diag_seed_sens)
+    task_diffs = paired_task_differences(run_rows)
+    matched_diff_lo, matched_diff_hi = bootstrap_ci(task_diffs["matched_minus_diagonal"])
+    fixed_diff_lo, fixed_diff_hi = bootstrap_ci(task_diffs["fixed_minus_diagonal"])
+    improvement_lo, improvement_hi = bootstrap_ci(task_diffs["calibration_improvement"])
+    task_loss_win_rate = summarize(task_diffs["task_loss_wins"])
     return {
         "SOFTWARE_PASS": True,
         "INITIAL_EQUIVALENCE_PASS": max_initial < 1e-5,
-        "FUNCTIONAL_STEP_MATCH_PASS": matched_cal < args.functional_step_tolerance,
+        "FUNCTIONAL_STEP_MATCH_PASS": matched_cal < functional_step_tolerance,
         "STRUCTURAL_SENSITIVITY_PASS": matched_sens < diag_sens if diag_sens > 0 else False,
-        "STRUCTURAL_WIN_RATE_PASS": win_rate >= 0.70,
+        "STRUCTURAL_WIN_RATE_PASS": matched_ratio["fraction_lt_1"] >= 0.70,
         "NULL_LEAKAGE_PASS": matched_null < 1e-4,
         "TANGENT_SUPPRESSION_PASS": matched_tangent < diag_tangent if diag_tangent > 0 else False,
-        "TASK_GAP_REDUCED_PASS": matched_gap < fixed_gap,
-        "TASK_PARITY_PASS": matched_gap <= args.loss_parity_margin,
-        "TASK_ADVANTAGE_PASS": matched_gap < 0.0,
+        "TASK_GAP_REDUCED_PASS": improvement_lo > 0.0,
+        "TASK_PARITY_PASS": matched_diff_hi <= loss_parity_margin,
+        "TASK_ADVANTAGE_PASS": matched_diff_hi < 0.0,
+        "TASK_LOSS_WIN_RATE_PASS": task_loss_win_rate >= 0.70,
         "COMPUTE_WARNING": (matched_seconds / max(diag_seconds, 1e-30)) > 10.0,
         "fixed_lr_sensitivity": fixed_sens,
         "matched_step_sensitivity": matched_sens,
         "diagonal_sensitivity": diag_sens,
+        "fixed_vs_diagonal_sensitivity_ratio_mean": fixed_ratio["mean"],
+        "fixed_vs_diagonal_sensitivity_ratio_median": fixed_ratio["median"],
+        "fixed_vs_diagonal_sensitivity_ratio_ci_low": fixed_ratio["ci_low"],
+        "fixed_vs_diagonal_sensitivity_ratio_ci_high": fixed_ratio["ci_high"],
+        "fixed_vs_diagonal_sensitivity_ratio_fraction_lt_1": fixed_ratio["fraction_lt_1"],
+        "fixed_vs_diagonal_sensitivity_ratio_fraction_lt_0_9": fixed_ratio["fraction_lt_0_9"],
+        "matched_vs_diagonal_sensitivity_ratio_mean": matched_ratio["mean"],
+        "matched_vs_diagonal_sensitivity_ratio_median": matched_ratio["median"],
+        "matched_vs_diagonal_sensitivity_ratio_ci_low": matched_ratio["ci_low"],
+        "matched_vs_diagonal_sensitivity_ratio_ci_high": matched_ratio["ci_high"],
+        "matched_vs_diagonal_sensitivity_ratio_fraction_lt_1": matched_ratio["fraction_lt_1"],
+        "matched_vs_diagonal_sensitivity_ratio_fraction_lt_0_9": matched_ratio["fraction_lt_0_9"],
         "fixed_lr_loss": fixed_loss,
         "matched_step_loss": matched_loss,
         "diagonal_loss": diag_loss,
@@ -582,12 +734,43 @@ def compute_gates(run_rows: list[RunRow], aggregates: list[dict], args) -> dict:
         "matched_null_leakage": matched_null,
         "matched_vs_diagonal_loss_gap": matched_gap,
         "fixed_vs_diagonal_loss_gap": fixed_gap,
-        "structural_win_rate": win_rate,
+        "matched_minus_diagonal_loss_ci_low": matched_diff_lo,
+        "matched_minus_diagonal_loss_ci_high": matched_diff_hi,
+        "fixed_minus_diagonal_loss_ci_low": fixed_diff_lo,
+        "fixed_minus_diagonal_loss_ci_high": fixed_diff_hi,
+        "calibration_improvement_ci_low": improvement_lo,
+        "calibration_improvement_ci_high": improvement_hi,
+        "task_loss_win_rate": task_loss_win_rate,
+        "structural_win_rate": matched_ratio["fraction_lt_1"],
         "wall_clock_ratio_matched_vs_diagonal": matched_seconds / max(diag_seconds, 1e-30),
     }
 
 
-def write_outputs(run_rows: list[RunRow], step_rows: list[StepRow], aggregates: list[dict], gates: dict, out: Path) -> None:
+def compute_gates(run_rows: list[RunRow], aggregates: list[dict], args) -> dict:
+    return compute_gates_from_statistics(
+        run_rows,
+        aggregates,
+        loss_parity_margin=args.loss_parity_margin,
+        functional_step_tolerance=args.functional_step_tolerance,
+    )
+
+
+def gate_rows_for_config(gates: dict, functional_map: str, train_scope: str, lora_rank: int, probe_size: int, calibration_reference: str) -> list[dict]:
+    return [
+        {
+            "functional_map": functional_map,
+            "train_scope": train_scope,
+            "lora_rank": lora_rank,
+            "probe_size": probe_size,
+            "calibration_reference": calibration_reference,
+            "metric": key,
+            "value": value,
+        }
+        for key, value in gates.items()
+    ]
+
+
+def write_outputs(run_rows: list[RunRow], step_rows: list[StepRow], aggregates: list[dict], gate_rows: list[dict], out: Path) -> None:
     out.parent.mkdir(parents=True, exist_ok=True)
     with out.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(handle, fieldnames=list(asdict(run_rows[0]).keys()))
@@ -607,10 +790,12 @@ def write_outputs(run_rows: list[RunRow], step_rows: list[StepRow], aggregates: 
         writer.writerows(aggregates)
     gates_path = out.with_name(out.stem + "_gates.csv")
     with gates_path.open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=["metric", "value"])
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=["functional_map", "train_scope", "lora_rank", "probe_size", "calibration_reference", "metric", "value"],
+        )
         writer.writeheader()
-        for key, value in gates.items():
-            writer.writerow({"metric": key, "value": value})
+        writer.writerows(gate_rows)
 
 
 def parse_args() -> argparse.Namespace:
@@ -666,6 +851,7 @@ def main() -> None:
     all_run_rows: list[RunRow] = []
     all_step_rows: list[StepRow] = []
     all_aggregates: list[dict] = []
+    all_gate_rows: list[dict] = []
     last_gates: dict = {}
     for fmap, scope, rank, probe_size, ref in itertools.product(maps, scopes, ranks, probes, refs):
         local_args = copy.copy(args)
@@ -680,8 +866,9 @@ def main() -> None:
         all_run_rows.extend(run_rows)
         all_step_rows.extend(step_rows)
         all_aggregates.extend(aggregates)
+        all_gate_rows.extend(gate_rows_for_config(gates, fmap, scope, rank, probe_size, ref))
         last_gates = gates
-    write_outputs(all_run_rows, all_step_rows, all_aggregates, last_gates, args.out)
+    write_outputs(all_run_rows, all_step_rows, all_aggregates, all_gate_rows, args.out)
     for key, value in last_gates.items():
         print(f"{key}={value}")
     print(f"wrote {args.out}")
