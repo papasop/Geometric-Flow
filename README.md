@@ -5,26 +5,6 @@ manifolds. The repository now separates an older diagonal gradient-square
 heuristic from a theory-aligned functional GeoFlow path that explicitly builds a
 stable/neutral decomposition in function space.
 
-## Core Experiment: CIFAR-10 Benchmark
-
-We compare three training modes:
-
-| mode | description |
-| --- | --- |
-| `adam` | Standard Adam baseline |
-| `geometric` | Pure geometric preconditioning |
-| `hybrid` | Adam warm-up, then geometric updates |
-
-Reference synthetic CIFAR-10 smoke milestone from a late-switch hybrid run:
-
-| optimizer | accuracy | loss | ratio |
-| --- | ---: | ---: | ---: |
-| Adam | 51.6% | 1.8246 | - |
-| Hybrid | 52.3% | 1.8397 | 0.458 |
-
-`ratio` is `mean_preconditioned_to_raw_ratio`, a diagnostic for how strongly the
-geometric direction is being used.
-
 ## Why GeoFlow?
 
 Most deep learning optimizers, including SGD and Adam, navigate parameter space
@@ -41,7 +21,132 @@ The idea comes from quantum-control experiments, where geometry-aware updates
 reduced evaluations by 56% and saved 30% of physical qubits. This repository
 brings that geometry-first philosophy into PyTorch deep learning.
 
+## Recommended Practice: Euclidean Projected Adam [Status: Recommended for Use]
+
+The current practical path is:
+
+```text
+euclidean_projected_adam
+```
+
+For LoRA fine-tuning, apply the usual Adam update, then project each LoRA-layer
+update out of tangent, gauge-equivalent directions. The resulting update stays
+in the normal, functional space while preserving the familiar Adam training
+loop.
+
+| feature | benefit |
+| :--- | :--- |
+| Higher task performance | Lower loss and slightly higher accuracy than the small-Transformer Adam baseline. |
+| Improved stability | Suppresses redundant LoRA gauge motion before it pollutes the update. |
+| Structural robustness | Reduces sensitivity to equivalent LoRA factorizations. |
+| Practical efficiency | Moderate overhead, much lighter than global quotient-space solvers. |
+
+| method | structural advantage | task advantage | speed | verdict |
+| :--- | :--- | :--- | :--- | :--- |
+| `factor_adam` / `adam_raw` | No | Baseline | Fastest | Good control baseline. |
+| `euclidean_projected_adam` | Yes | Yes in the small Transformer benchmark | Moderate | Recommended starting point. |
+| Quotient-space methods | Strong | Not yet | Slower | Research reference, not the current practical default. |
+
+Conceptual sketch:
+
+```python
+# Conceptual example: API names may differ from the current experimental code.
+from geometric_flow import project_lora_update
+
+# inside a training loop
+adam_update = adam.direction()
+normal_update, tangent_fraction = project_lora_update(module, adam_update)
+apply_update(normal_update)
+```
+
+The practical lesson is intentionally modest: start with layerwise Euclidean
+projection of Adam updates before trying heavier quotient-space solvers.
+
+## Transformer-Ready Geometry [Status: Current Best Evidence]
+
+A new experimental path applies the stable-neutral decomposition inside a small
+Transformer's LoRA layers. Instead of using a global geometric optimizer, this
+method modifies each LoRA update at the layer level by projecting out
+gauge-equivalent, redundant parameter directions.
+
+The benchmark uses a small causal Transformer with 2 layers, 4 heads,
+`d_model=24`, and LoRA rank `3` on a synthetic next-token task.
+
+| mode | description |
+| :--- | :--- |
+| `adam_raw` | Standard Adam baseline with no geometry |
+| `layerwise_projected` | Full layerwise normal projection, `alpha=1` |
+| `hybrid_fixed` | Adam plus projected direction with fixed `alpha=0.5` |
+| `hybrid_loss_aware` | Adam plus projected direction with `alpha` chosen per step to minimize batch loss |
+
+Observed results from 3 seeds and 4 gauge-equivalent representations:
+
+| optimizer | mean loss | mean accuracy | mean alpha | step loss change |
+| :--- | ---: | ---: | ---: | ---: |
+| `adam_raw` | `1.7021` | `79.45%` | `0.000` | `-0.0171` |
+| `layerwise_projected` | `1.7003` | `79.60%` | `1.000` | `-0.0175` |
+| `hybrid_fixed` | `1.7011` | `79.56%` | `0.500` | `-0.0173` |
+| `hybrid_loss_aware` | `1.6999` | `79.59%` | `0.826` | `-0.0175` |
+
+Key takeaways:
+
+- **Layerwise projection did not harm training.** Full projection matched or
+  slightly improved over Adam in both loss and accuracy.
+- **Loss-aware adaptive mixing worked in this controlled setting.**
+  `hybrid_loss_aware` reached the lowest mean loss, and `alpha ~= 0.83`
+  suggests a stable preference for geometry-dominant updates.
+- **The claim is still bounded.** This is a small controlled Transformer result,
+  not a large-language-model or broad optimizer-superiority claim.
+
+## Claims Boundary
+
+**Established so far:**
+
+- **Practical LoRA path:** layerwise Euclidean projection of Adam updates is the
+  recommended starting point for controlled LoRA experiments.
+- **Small Transformer task result:** layerwise LoRA gauge projection with
+  loss-aware mixing improved mean loss in the controlled synthetic
+  next-token benchmark.
+- **Structural result:** functional quotient methods reduce LoRA gauge
+  sensitivity and suppress tangent / near-null motion in controlled settings.
+- **Solver result:** matrix-free functional quotient directions match dense
+  small-toy references under regression tests.
+
+**Not established:**
+
+- **General task superiority:** results do not prove a universally better
+  optimizer.
+- **Broad AdamW competitiveness:** broad task and hyperparameter comparisons are
+  still missing.
+- **Large-model scalability:** no GPT-2, LLM, or production large-model claim is
+  made here.
+- **Functional-step task improvement:** corrected Phase G matched-step
+  calibration improved structure but did not reduce the task gap.
+- **Strict Transformer structural pass:** the Transformer layerwise projection
+  path has task evidence, but not a strict Phase G structural CI pass.
+
+Avoid interpreting these experiments as a production-ready large-model
+optimizer, a proven generalization improvement, or a quantum advantage claim.
+
 ## One-Command Quickstart
+
+### Recommended Path: Layerwise LoRA Projection
+
+For new geometry-aware LoRA experiments, start from the recommended
+`euclidean_projected_adam` pattern above. The repository still includes older
+CIFAR and quotient-space experiments, but the current success path is layerwise
+projection of Adam updates in LoRA layers.
+
+```python
+# Conceptual training-loop shape.
+loss.backward()
+adam_update = collect_adam_update(lora_layer)
+normal_update, tangent_fraction = project_lora_update(lora_layer, adam_update)
+apply_update(lora_layer, normal_update)
+```
+
+Use the historical scripts below when you want to reproduce the research trail,
+diagnostics, or legacy baselines.
 
 ### Run In Google Colab
 
@@ -105,6 +210,27 @@ hardware.
 reference for small MLPs and toy networks. The implicit solver is the
 production-oriented path, but it should be treated as a controlled prototype
 until LoRA and larger-model benchmarks support broader claims.
+
+## Legacy CIFAR Smoke Benchmark [Status: Historical Baseline]
+
+The older CIFAR experiments compare three training modes:
+
+| mode | description |
+| --- | --- |
+| `adam` | Standard Adam baseline |
+| `geometric` | Pure geometric preconditioning |
+| `hybrid` | Adam warm-up, then geometric updates |
+
+Reference synthetic CIFAR-10 smoke milestone from a late-switch hybrid run:
+
+| optimizer | accuracy | loss | ratio |
+| --- | ---: | ---: | ---: |
+| Adam | 51.6% | 1.8246 | - |
+| Hybrid | 52.3% | 1.8397 | 0.458 |
+
+`ratio` is `mean_preconditioned_to_raw_ratio`, a diagnostic for how strongly the
+geometric direction is being used. This result is retained as a historical
+baseline; it is not the current recommended path.
 
 ## Full CIFAR-10 Benchmark
 
@@ -282,335 +408,6 @@ python experiments/lora_matched_step_benchmark.py \
   --out artifacts/lora_matched_step.csv
 ```
 
-### Statistical Convention For Gauge Sensitivity
-
-For a fixed seed and optimizer, gauge sensitivity is the mean pairwise distance
-between final functional representations produced from gauge-equivalent
-parameterizations:
-
-```text
-S(seed, optimizer)
-  = mean_{i < j} ||Phi(seed, optimizer, representation_i)
-                  - Phi(seed, optimizer, representation_j)||_2
-```
-
-Ratios are formed within seed and then summarized across seeds. Function
-distances between different seeds are not gauge sensitivity, because those runs
-may differ in model initialization, data, and task realization.
-
-## Phase F: LoRA Gauge Stability
-
-Phase F tested functional quotient geometry on small LoRA adapters with exact
-gauge-equivalent initializations:
-
-```text
-A -> S A
-B -> B S^{-1}
-```
-
-Observed structural results from the Phase F sweep:
-
-- 12 targeted configurations.
-- 5 seeds and 5 gauge-equivalent representations.
-- 900 total runs.
-- Initial functional equivalence residuals were below the `1e-7` scale.
-- The primary gauge metric is computed within each seed across
-  gauge-equivalent representations.
-- Matched per-seed functional/diagonal sensitivity ratio was about `0.536`.
-- Its matched 95% confidence interval was entirely below `1`.
-- Tangent drift ratio was about `0.316`.
-- Near-null amplification ratio was about `0.361`.
-- An earlier aggregate-all-pairs summary produced a ratio near `0.863`, but
-  that quantity mixed cross-seed function distances and is retained only as a
-  historical diagnostic, not as evidence for gauge invariance.
-
-Negative result, stated plainly: Phase F did not establish task superiority.
-Functional loss was higher than the diagonal baseline, functional accuracy was
-lower than the diagonal baseline, and wall-clock cost was roughly tens of times
-higher. Phase F establishes LoRA gauge stability, tangent suppression, and
-near-null suppression, not a generally better optimizer.
-
-## Controlled LoRA Architecture
-
-The controlled LoRA experiments use a deliberately small network:
-
-```text
-z(x) = (W0 + B A) x
-h(x) = tanh(z(x))
-f_theta(x) = W_head h(x) + b_head
-```
-
-Here `W0` is a frozen base weight. `A` has shape
-`rank x input_dim`, and `B` has shape `hidden_dim x rank`; these are the
-trainable LoRA factors. The dense output head is `W_head, b_head`. The LoRA
-product `B A` is invariant under the gauge transform:
-
-```text
-A -> S A
-B -> B S^{-1}
-```
-
-for any invertible `S`.
-
-The benchmark supports three training scopes:
-
-| scope | trainable parameters |
-| --- | --- |
-| `lora_only` | `A, B` only |
-| `head_only` | output head only |
-| `lora_and_head` | both LoRA factors and head |
-
-Phase G uses `lora_only` as the primary setting because the gauge symmetry
-belongs to the factorization `B A`, not to the dense output head.
-
-The functional map `Phi` may be chosen at different network levels:
-
-| functional map | definition |
-| --- | --- |
-| `lora_output` | `z(x)` |
-| `hidden` | `h(x)` |
-| `logits` | `f_theta(x)` |
-| `logits_hidden` | concatenation of logits and hidden features |
-
-Changing the functional map changes the Jacobian `J_Phi`, and therefore changes
-which parameter directions are classified as neutral or functional.
-
-## Phase G: Matched Functional-Step Calibration
-
-Equal parameter-space learning rates are not equal functional-space step sizes.
-Phase G compares actual movement in function space:
-
-```text
-functional_step_norm = ||Phi(theta_after) - Phi(theta_before)||_2
-```
-
-The matched-step benchmark calibrates the functional GeoFlow update so its
-initial observed functional displacement matches a reference optimizer
-(`diagonal_grad_square` by default, or `adamw`). Calibration is done only on
-training batches and the probe batch; it never uses test loss.
-
-Phase G separately evaluates `lora_only`, `head_only`, and `lora_and_head`
-training scopes. The primary configuration is `lora_only`, because the LoRA
-gauge symmetry belongs to `A/B`, not the dense head. It also compares functional
-maps over logits, LoRA output, hidden features, and logits+hidden.
-
-Phase G gauge sensitivity is computed strictly within each seed across
-gauge-equivalent representations. Cross-seed function distances are reported
-only as `cross_seed_mixed_pairwise_distance`; they are not used as gauge
-sensitivity and should not support gauge-invariance claims.
-
-The relevant question is not whether accuracy can be tuned upward in one run.
-It is whether the task gap shrinks after functional-step calibration while LoRA
-gauge stability, low tangent drift, and low null leakage survive.
-
-Current Stage A observation: the calibration mechanism works, but task behavior
-has not improved yet. Functional-step calibration error was about `1e-3` or
-lower, null leakage remained small, and fixed-lr and matched-step results were
-close. In the current `lora_only` Stage A sweep, matched calibration did not
-improve the fixed-lr task gap.
-
-### Corrected Phase G Smoke Result
-
-A corrected within-seed reanalysis of the controlled smoke run found:
-
-| metric | value |
-| --- | ---: |
-| matched-step within-seed sensitivity | `0.00399` |
-| diagonal within-seed sensitivity | `0.00459` |
-| mean matched/diagonal sensitivity ratio | `0.939` |
-| structural seed win rate | `0.50` |
-| mean functional-step calibration error | `0.000727` |
-| mean null leakage | `2.0e-08` |
-
-The corrected smoke supports the calibration and null-control mechanisms:
-
-- `FUNCTIONAL_STEP_MATCH_PASS=True`
-- `NULL_LEAKAGE_PASS=True`
-
-It does not establish a robust structural or task advantage:
-
-- `STRUCTURAL_WIN_RATE_PASS=False`
-- `TASK_GAP_REDUCED_PASS=False`
-- `TASK_ADVANTAGE_PASS=False`
-
-The smoke result is diagnostic only.
-
-### Corrected Phase G B2 Long-Run Result
-
-The long-run confirmation used:
-
-- 8 independent seeds.
-- 600 training steps.
-- 5 gauge-equivalent representations per seed.
-- `train_scope=lora_only`.
-- `functional_map=logits_hidden`.
-
-| metric | result |
-| --- | ---: |
-| matched-step sensitivity | `0.2772` |
-| diagonal sensitivity | `0.8154` |
-| mean matched/diagonal ratio | `0.3385` |
-| 95% CI | `[0.2760, 0.4329]` |
-| structural seed win rate | `1.00` |
-| tangent suppression | passed |
-| calibration error | `0.000848` |
-| null leakage | `1.68e-08` |
-| matched/diagonal wall-clock ratio | `1.38` |
-
-The corrected long-run structural gates passed:
-
-- `STRUCTURAL_SENSITIVITY_PASS=True`
-- `STRUCTURAL_WIN_RATE_PASS=True`
-- `STRICT_STRUCTURAL_CI_PASS=True`
-- `TANGENT_SUPPRESSION_PASS=True`
-
-Task-level gates failed:
-
-- `TASK_GAP_REDUCED_PASS=False`
-- `TASK_PARITY_PASS=False`
-- `TASK_ADVANTAGE_PASS=False`
-
-The matched-step loss exceeded both the fixed-lr functional path and the
-diagonal baseline. The calibration-improvement confidence interval was
-`[-0.0416, -0.0126]`, indicating that matched functional-step calibration
-worsened the task gap in this controlled setting.
-
-The supported conclusion is structural: matched-step GeoFlow substantially
-reduces sensitivity to LoRA gauge parameterization, but this structural
-robustness does not translate into better task optimization here.
-
-Existing Phase G artifacts can be reanalyzed without retraining:
-
-```bash
-python experiments/analyze_phase_g_results.py \
-  --artifact-dir artifacts/phase_g_formal \
-  --out artifacts/phase_g_formal/reanalysis
-```
-
-The analyzer skips incomplete Stage B or non-run CSV files with a warning. It
-uses within-seed gauge sensitivity, matched seed sensitivity ratios, and paired
-bootstrap confidence intervals for task gates.
-
-## Transformer-Ready Geometry: Exact LoRA Gauge Projection
-
-A new experimental path applies the stable-neutral decomposition inside a small
-Transformer's LoRA layers. Instead of using a global geometric optimizer, this
-method modifies each LoRA update at the layer level by projecting out
-gauge-equivalent, redundant parameter directions.
-
-The benchmark uses a small causal Transformer with 2 layers, 4 heads,
-`d_model=24`, and LoRA rank `3` on a synthetic next-token task. It compares four
-modes:
-
-| mode | description |
-| :--- | :--- |
-| `adam_raw` | Standard Adam baseline with no geometry |
-| `layerwise_projected` | Full layerwise normal projection, `alpha=1` |
-| `hybrid_fixed` | Adam plus projected direction with fixed `alpha=0.5` |
-| `hybrid_loss_aware` | Adam plus projected direction with `alpha` chosen per step to minimize batch loss |
-
-Observed results from 3 seeds and 4 gauge-equivalent representations:
-
-| optimizer | mean loss | mean accuracy | mean alpha | step loss change |
-| :--- | ---: | ---: | ---: | ---: |
-| `adam_raw` | `1.7021` | `79.45%` | `0.000` | `-0.0171` |
-| `layerwise_projected` | `1.7003` | `79.60%` | `1.000` | `-0.0175` |
-| `hybrid_fixed` | `1.7011` | `79.56%` | `0.500` | `-0.0173` |
-| `hybrid_loss_aware` | `1.6999` | `79.59%` | `0.826` | `-0.0175` |
-
-Key takeaways:
-
-- Layerwise projection did not harm small-Transformer training. The
-  full-projection mode matched or slightly improved over Adam in both loss and
-  accuracy.
-- Loss-aware adaptive mixing worked in this controlled setting.
-  `hybrid_loss_aware` reached the lowest mean loss across seeds and
-  representations, and `alpha ~= 0.83` suggests a stable preference for
-  geometry-dominant updates.
-- The task-level improvement is supported in this small benchmark:
-  `hybrid_loss_aware` won on loss against Adam in 2 of 3 seeds and had a
-  negative mean loss gap with a 95% confidence interval that did not cross zero
-  in the wrong direction.
-
-Caveat: this is a small controlled Transformer benchmark, not a
-large-language-model result. Formal structural pass was not reached under the
-strict Phase G sensitivity CI gate, but the task-level improvement is
-reproducible and practically meaningful in this setup.
-
-## Recommended Practice: Euclidean Projected Adam
-
-Based on controlled small-Transformer LoRA experiments, the most practical
-geometry-aware recipe is:
-
-```text
-euclidean_projected_adam
-```
-
-This method applies a simple geometric correction to the standard Adam update.
-Before updating each LoRA layer, it projects out tangent, gauge-equivalent
-directions so the update lies in the normal, functional space.
-
-Why it is recommended:
-
-| feature | benefit |
-| :--- | :--- |
-| Higher task performance | Consistently reached lower loss and higher accuracy than the small-Transformer Adam baseline. |
-| Improved stability | Projection suppresses redundant LoRA gauge updates, producing smoother training behavior. |
-| Structural robustness | Reduces sensitivity to LoRA reparameterization, making fine-tuning less brittle. |
-| Practical efficiency | Offers a favorable trade-off between moderate overhead and performance gain in the controlled benchmark. |
-
-How it compares:
-
-| method | structural advantage | task advantage | speed | verdict |
-| :--- | :--- | :--- | :--- | :--- |
-| `factor_adam` / `adam_raw` baseline | No | Baseline | Fastest | Good baseline, but no geometric correction. |
-| `euclidean_projected_adam` | Yes | Yes in the small Transformer benchmark | Moderate | Recommended starting point for controlled LoRA fine-tuning experiments. |
-| Quotient-space methods | Strong | Not yet | Slower | Excellent theory, but not yet practical for general use. |
-
-Conceptual sketch:
-
-```python
-# Conceptual example: API names may differ from the current experimental code.
-from geometric_flow import project_lora_update
-
-# inside a training loop
-adam_update = adam.direction()
-normal_update, tangent_fraction = project_lora_update(module, adam_update)
-apply_update(normal_update)
-```
-
-The practical lesson is intentionally modest: when applying geometry to LoRA
-fine-tuning, start with layerwise Euclidean projection of Adam updates before
-trying heavier quotient-space solvers.
-
-## Claims Boundary
-
-Established so far:
-
-- Matrix-free functional quotient directions with dense small-toy regression.
-- LoRA gauge sensitivity reduction.
-- Tangent and near-null suppression in controlled settings.
-- Accurate matched functional-step calibration and low null leakage in the
-  corrected controlled Phase G smoke.
-- Robust matched-step structural sensitivity reduction in the corrected Phase G
-  B2 long-run LoRA benchmark.
-- Task-level improvement on a small Transformer with layerwise LoRA gauge
-  projection and loss-aware adaptive mixing.
-
-Not established:
-
-- General task superiority beyond the controlled settings above.
-- AdamW competitiveness across broad tasks.
-- Large-model scalability.
-- GPT-2 or other language-model results.
-- Task-gap reduction from functional-step calibration.
-- A formal structural pass for the Transformer layerwise-projection path under
-  the strict Phase G sensitivity CI gate.
-
-Avoid interpreting these experiments as a universally better optimizer,
-production-ready large-model optimizer, proven generalization improvement, or
-quantum advantage claim.
-
 ## Output CSV Format
 
 `experiments/run_cifar10_benchmark.py` writes:
@@ -667,6 +464,221 @@ quantum advantage claim.
 - `experiments/lora_reparameterization_benchmark.py` is the next bridge from
   hand-built linear redundancy to modern low-rank adapter structure. Its primary
   metric is reparameterization sensitivity, not final accuracy.
+
+## Historical Experiment Log [Status: Historical / Structural Only]
+
+The following sections preserve the research trail. They are useful for
+auditing how the current recommendation emerged, but they are not the fastest
+path for new users.
+
+### Statistical Convention For Gauge Sensitivity
+
+For a fixed seed and optimizer, gauge sensitivity is the mean pairwise distance
+between final functional representations produced from gauge-equivalent
+parameterizations:
+
+```text
+S(seed, optimizer)
+  = mean_{i < j} ||Phi(seed, optimizer, representation_i)
+                  - Phi(seed, optimizer, representation_j)||_2
+```
+
+Ratios are formed within seed and then summarized across seeds. Function
+distances between different seeds are not gauge sensitivity, because those runs
+may differ in model initialization, data, and task realization.
+
+### Phase F: LoRA Gauge Stability [Status: Historical / Structural Only]
+
+Phase F tested functional quotient geometry on small LoRA adapters with exact
+gauge-equivalent initializations:
+
+```text
+A -> S A
+B -> B S^{-1}
+```
+
+Observed structural results from the Phase F sweep:
+
+- 12 targeted configurations.
+- 5 seeds and 5 gauge-equivalent representations.
+- 900 total runs.
+- Initial functional equivalence residuals were below the `1e-7` scale.
+- The primary gauge metric is computed within each seed across
+  gauge-equivalent representations.
+- Matched per-seed functional/diagonal sensitivity ratio was about `0.536`.
+- Its matched 95% confidence interval was entirely below `1`.
+- Tangent drift ratio was about `0.316`.
+- Near-null amplification ratio was about `0.361`.
+- An earlier aggregate-all-pairs summary produced a ratio near `0.863`, but
+  that quantity mixed cross-seed function distances and is retained only as a
+  historical diagnostic, not as evidence for gauge invariance.
+
+Negative result, stated plainly: Phase F did not establish task superiority.
+Functional loss was higher than the diagonal baseline, functional accuracy was
+lower than the diagonal baseline, and wall-clock cost was roughly tens of times
+higher. Phase F establishes LoRA gauge stability, tangent suppression, and
+near-null suppression, not a generally better optimizer.
+
+### Controlled LoRA Architecture [Status: Reference]
+
+The controlled LoRA experiments use a deliberately small network:
+
+```text
+z(x) = (W0 + B A) x
+h(x) = tanh(z(x))
+f_theta(x) = W_head h(x) + b_head
+```
+
+Here `W0` is a frozen base weight. `A` has shape
+`rank x input_dim`, and `B` has shape `hidden_dim x rank`; these are the
+trainable LoRA factors. The dense output head is `W_head, b_head`. The LoRA
+product `B A` is invariant under the gauge transform:
+
+```text
+A -> S A
+B -> B S^{-1}
+```
+
+for any invertible `S`.
+
+The benchmark supports three training scopes:
+
+| scope | trainable parameters |
+| --- | --- |
+| `lora_only` | `A, B` only |
+| `head_only` | output head only |
+| `lora_and_head` | both LoRA factors and head |
+
+Phase G uses `lora_only` as the primary setting because the gauge symmetry
+belongs to the factorization `B A`, not to the dense output head.
+
+The functional map `Phi` may be chosen at different network levels:
+
+| functional map | definition |
+| --- | --- |
+| `lora_output` | `z(x)` |
+| `hidden` | `h(x)` |
+| `logits` | `f_theta(x)` |
+| `logits_hidden` | concatenation of logits and hidden features |
+
+Changing the functional map changes the Jacobian `J_Phi`, and therefore changes
+which parameter directions are classified as neutral or functional.
+
+### Phase G: Matched Functional-Step Calibration [Status: Historical / Structural Only]
+
+Equal parameter-space learning rates are not equal functional-space step sizes.
+Phase G compares actual movement in function space:
+
+```text
+functional_step_norm = ||Phi(theta_after) - Phi(theta_before)||_2
+```
+
+The matched-step benchmark calibrates the functional GeoFlow update so its
+initial observed functional displacement matches a reference optimizer
+(`diagonal_grad_square` by default, or `adamw`). Calibration is done only on
+training batches and the probe batch; it never uses test loss.
+
+Phase G separately evaluates `lora_only`, `head_only`, and `lora_and_head`
+training scopes. The primary configuration is `lora_only`, because the LoRA
+gauge symmetry belongs to `A/B`, not the dense head. It also compares functional
+maps over logits, LoRA output, hidden features, and logits+hidden.
+
+Phase G gauge sensitivity is computed strictly within each seed across
+gauge-equivalent representations. Cross-seed function distances are reported
+only as `cross_seed_mixed_pairwise_distance`; they are not used as gauge
+sensitivity and should not support gauge-invariance claims.
+
+The relevant question is not whether accuracy can be tuned upward in one run.
+It is whether the task gap shrinks after functional-step calibration while LoRA
+gauge stability, low tangent drift, and low null leakage survive.
+
+Current Stage A observation: the calibration mechanism works, but task behavior
+has not improved yet. Functional-step calibration error was about `1e-3` or
+lower, null leakage remained small, and fixed-lr and matched-step results were
+close. In the current `lora_only` Stage A sweep, matched calibration did not
+improve the fixed-lr task gap.
+
+#### Corrected Phase G Smoke Result
+
+A corrected within-seed reanalysis of the controlled smoke run found:
+
+| metric | value |
+| --- | ---: |
+| matched-step within-seed sensitivity | `0.00399` |
+| diagonal within-seed sensitivity | `0.00459` |
+| mean matched/diagonal sensitivity ratio | `0.939` |
+| structural seed win rate | `0.50` |
+| mean functional-step calibration error | `0.000727` |
+| mean null leakage | `2.0e-08` |
+
+The corrected smoke supports the calibration and null-control mechanisms:
+
+- `FUNCTIONAL_STEP_MATCH_PASS=True`
+- `NULL_LEAKAGE_PASS=True`
+
+It does not establish a robust structural or task advantage:
+
+- `STRUCTURAL_WIN_RATE_PASS=False`
+- `TASK_GAP_REDUCED_PASS=False`
+- `TASK_ADVANTAGE_PASS=False`
+
+The smoke result is diagnostic only.
+
+#### Corrected Phase G B2 Long-Run Result
+
+The long-run confirmation used:
+
+- 8 independent seeds.
+- 600 training steps.
+- 5 gauge-equivalent representations per seed.
+- `train_scope=lora_only`.
+- `functional_map=logits_hidden`.
+
+| metric | result |
+| --- | ---: |
+| matched-step sensitivity | `0.2772` |
+| diagonal sensitivity | `0.8154` |
+| mean matched/diagonal ratio | `0.3385` |
+| 95% CI | `[0.2760, 0.4329]` |
+| structural seed win rate | `1.00` |
+| tangent suppression | passed |
+| calibration error | `0.000848` |
+| null leakage | `1.68e-08` |
+| matched/diagonal wall-clock ratio | `1.38` |
+
+The corrected long-run structural gates passed:
+
+- `STRUCTURAL_SENSITIVITY_PASS=True`
+- `STRUCTURAL_WIN_RATE_PASS=True`
+- `STRICT_STRUCTURAL_CI_PASS=True`
+- `TANGENT_SUPPRESSION_PASS=True`
+
+Task-level gates failed:
+
+- `TASK_GAP_REDUCED_PASS=False`
+- `TASK_PARITY_PASS=False`
+- `TASK_ADVANTAGE_PASS=False`
+
+The matched-step loss exceeded both the fixed-lr functional path and the
+diagonal baseline. The calibration-improvement confidence interval was
+`[-0.0416, -0.0126]`, indicating that matched functional-step calibration
+worsened the task gap in this controlled setting.
+
+The supported conclusion is structural: matched-step GeoFlow substantially
+reduces sensitivity to LoRA gauge parameterization, but this structural
+robustness does not translate into better task optimization here.
+
+Existing Phase G artifacts can be reanalyzed without retraining:
+
+```bash
+python experiments/analyze_phase_g_results.py \
+  --artifact-dir artifacts/phase_g_formal \
+  --out artifacts/phase_g_formal/reanalysis
+```
+
+The analyzer skips incomplete Stage B or non-run CSV files with a warning. It
+uses within-seed gauge sensitivity, matched seed sensitivity ratios, and paired
+bootstrap confidence intervals for task gates.
 
 ## Further Reading
 
