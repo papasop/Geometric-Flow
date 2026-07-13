@@ -16,6 +16,7 @@ from geometric_flow import (
     phase_diagram_scanner_2d,
     write_phase_diagram_csv,
 )
+from experiments.train_cifar10_geo import experiment_names, parse_ints
 
 
 class GeometricFlowTests(unittest.TestCase):
@@ -321,6 +322,23 @@ class GeometricFlowTests(unittest.TestCase):
         y = model(x)
         self.assertEqual(y.shape, (2, 3))
         self.assertEqual(len(model.geometric_parameters()), 6)
+
+    def test_deep_geocnn_adds_rotation_after_each_conv_layer(self):
+        model = GeoCNN(channels=4, num_classes=3, conv_layers=6)
+        x = torch.randn(2, 3, 32, 32)
+        y = model(x)
+        self.assertEqual(y.shape, (2, 3))
+        self.assertEqual(len(model.geometric_parameters()), 12)
+
+    def test_train_script_auto_warmup_expands_hybrid_modes(self):
+        args = type("Args", (), {})()
+        args.mode = "all"
+        args.auto_warmup = True
+        args.auto_warmup_steps = parse_ints("30,50,80")
+        self.assertEqual(
+            experiment_names(args),
+            ["adam", "geometric", "hybrid_30", "hybrid_50", "hybrid_80"],
+        )
 
     def test_phase_diagram_scanner_2d_writes_csv(self):
         torch.manual_seed(9)

@@ -28,6 +28,10 @@ class TrainResult:
     optimizer: str
     final_loss: float
     final_accuracy: float
+    train_loss: float
+    train_accuracy: float
+    generalization_loss_gap: float
+    generalization_accuracy_gap: float
     train_seconds: float
     steps: int
     avg_preconditioned_to_raw_ratio: float
@@ -41,6 +45,10 @@ class SummaryResult:
     std_accuracy: float
     mean_loss: float
     std_loss: float
+    mean_generalization_loss_gap: float
+    std_generalization_loss_gap: float
+    mean_generalization_accuracy_gap: float
+    std_generalization_accuracy_gap: float
     mean_seconds: float
     std_seconds: float
     mean_preconditioned_to_raw_ratio: float
@@ -122,8 +130,9 @@ def evaluate(model: torch.nn.Module, loader: DataLoader, device: torch.device) -
 def train_one(args, optimizer_name: str, train_loader: DataLoader, eval_loader: DataLoader) -> TrainResult:
     set_seed(args.seed)
     device = torch.device(args.device)
-    model = GeoCNN(channels=args.channels).to(device)
-    if optimizer_name == "adam":
+    model = GeoCNN(channels=args.channels, conv_layers=args.conv_layers).to(device)
+    optimizer_mode, adam_warmup_steps = resolve_optimizer_config(optimizer_name, args.adam_warmup_steps)
+    if optimizer_mode == "adam":
         optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
     else:
         optimizer = GeometricOptimizer(
@@ -141,8 +150,8 @@ def train_one(args, optimizer_name: str, train_loader: DataLoader, eval_loader: 
             curvature_scale=args.curvature_scale,
             curvature_kind="fisher" if args.use_fisher else "hessian",
             preconditioner=args.preconditioner,
-            mode=optimizer_name,
-            adam_warmup_steps=args.adam_warmup_steps,
+            mode=optimizer_mode,
+            adam_warmup_steps=adam_warmup_steps,
             cg_max_iter=args.cg_max_iter,
             trace_samples=args.trace_samples,
             diagnostic_log_path=args.diagnostic_log,
@@ -158,7 +167,7 @@ def train_one(args, optimizer_name: str, train_loader: DataLoader, eval_loader: 
             x, y = next(iterator)
         x = x.to(device)
         y = y.to(device)
-        if optimizer_name == "adam":
+        if optimizer_mode == "adam":
             optimizer.zero_grad(set_to_none=True)
             loss = F.cross_entropy(model(x), y)
             loss.backward()
@@ -167,6 +176,7 @@ def train_one(args, optimizer_name: str, train_loader: DataLoader, eval_loader: 
             optimizer.step(lambda: F.cross_entropy(model(x), y), verbose=args.verbose)
 
     seconds = time.perf_counter() - start
+    train_loss, train_accuracy = evaluate(model, train_loader, device)
     loss, accuracy = evaluate(model, eval_loader, device)
     ratios = []
     if isinstance(optimizer, GeometricOptimizer):
@@ -180,10 +190,31 @@ def train_one(args, optimizer_name: str, train_loader: DataLoader, eval_loader: 
         optimizer=optimizer_name,
         final_loss=loss,
         final_accuracy=accuracy,
+        train_loss=train_loss,
+        train_accuracy=train_accuracy,
+        generalization_loss_gap=loss - train_loss,
+        generalization_accuracy_gap=train_accuracy - accuracy,
         train_seconds=seconds,
         steps=args.steps,
         avg_preconditioned_to_raw_ratio=sum(ratios) / max(len(ratios), 1),
     )
+
+
+def parse_warmup_label(label: str):
+    if label.startswith("hybrid_"):
+        return int(label.rsplit("_", 1)[1])
+    return None
+
+
+def resolve_optimizer_config(optimizer_name: str, default_adam_warmup_steps: int):
+    warmup = parse_warmup_label(optimizer_name)
+    if warmup is not None:
+        return "hybrid", warmup
+    return optimizer_name, default_adam_warmup_steps
+
+
+def parse_ints(value: str) -> List[int]:
+    return [int(part.strip()) for part in value.split(",") if part.strip()]
 
 
 def optimizer_names(mode: str) -> List[str]:
@@ -192,9 +223,24 @@ def optimizer_names(mode: str) -> List[str]:
     return [mode]
 
 
+def experiment_names(args) -> List[str]:
+    names = optimizer_names(args.mode)
+    if not args.auto_warmup:
+        return names
+    expanded = []
+    for name in names:
+        if name == "hybrid":
+            expanded.extend(f"hybrid_{steps}" for steps in args.auto_warmup_steps)
+        else:
+            expanded.append(name)
+    return expanded
+
+
 def summarize(name: str, results: List[TrainResult]) -> SummaryResult:
     accuracies = [row.final_accuracy for row in results]
     losses = [row.final_loss for row in results]
+    loss_gaps = [row.generalization_loss_gap for row in results]
+    accuracy_gaps = [row.generalization_accuracy_gap for row in results]
     seconds = [row.train_seconds for row in results]
     ratios = [row.avg_preconditioned_to_raw_ratio for row in results]
     return SummaryResult(
@@ -204,6 +250,10 @@ def summarize(name: str, results: List[TrainResult]) -> SummaryResult:
         std_accuracy=stdev(accuracies) if len(accuracies) > 1 else 0.0,
         mean_loss=mean(losses),
         std_loss=stdev(losses) if len(losses) > 1 else 0.0,
+        mean_generalization_loss_gap=mean(loss_gaps),
+        std_generalization_loss_gap=stdev(loss_gaps) if len(loss_gaps) > 1 else 0.0,
+        mean_generalization_accuracy_gap=mean(accuracy_gaps),
+        std_generalization_accuracy_gap=stdev(accuracy_gaps) if len(accuracy_gaps) > 1 else 0.0,
         mean_seconds=mean(seconds),
         std_seconds=stdev(seconds) if len(seconds) > 1 else 0.0,
         mean_preconditioned_to_raw_ratio=mean(ratios),
@@ -213,7 +263,7 @@ def summarize(name: str, results: List[TrainResult]) -> SummaryResult:
 
 def run_trials(args) -> List[SummaryResult]:
     summaries = []
-    for name in optimizer_names(args.mode):
+    for name in experiment_names(args):
         trial_results = []
         for trial in range(args.trials):
             trial_args = argparse.Namespace(**vars(args))
@@ -232,14 +282,25 @@ def run_trials(args) -> List[SummaryResult]:
 
 
 def print_comparison_table(rows: List[SummaryResult]) -> None:
-    print("\noptimizer  mean_acc  std_acc  mean_loss  std_loss  mean_sec  ratio")
-    print("---------  --------  -------  ---------  --------  --------  -----")
+    print("\noptimizer  mean_acc  std_acc  mean_loss  gen_gap  mean_sec  ratio")
+    print("---------  --------  -------  ---------  -------  --------  -----")
     for row in rows:
         print(
             f"{row.optimizer:<9}  {row.mean_accuracy:>8.3f}  {row.std_accuracy:>7.3f}  "
-            f"{row.mean_loss:>9.4f}  {row.std_loss:>8.4f}  {row.mean_seconds:>8.2f}  "
+            f"{row.mean_loss:>9.4f}  {row.mean_generalization_loss_gap:>7.4f}  {row.mean_seconds:>8.2f}  "
             f"{row.mean_preconditioned_to_raw_ratio:>5.3f}"
         )
+
+
+def print_best_auto_warmup(rows: List[SummaryResult]) -> None:
+    hybrids = [row for row in rows if row.optimizer.startswith("hybrid_")]
+    if not hybrids:
+        return
+    best = max(hybrids, key=lambda row: row.mean_accuracy)
+    print(
+        f"\nbest_auto_warmup={best.optimizer} mean_acc={best.mean_accuracy:.3f} "
+        f"mean_loss={best.mean_loss:.4f} gen_gap={best.mean_generalization_loss_gap:.4f}"
+    )
 
 
 def main() -> None:
@@ -250,6 +311,7 @@ def main() -> None:
     parser.add_argument("--trials", type=int, default=3)
     parser.add_argument("--steps", type=int, default=200)
     parser.add_argument("--channels", type=int, default=32)
+    parser.add_argument("--conv-layers", type=int, default=3)
     parser.add_argument("--batch-size", type=int, default=64)
     parser.add_argument("--train-samples", type=int, default=1024)
     parser.add_argument("--eval-samples", type=int, default=256)
@@ -269,6 +331,8 @@ def main() -> None:
     parser.add_argument("--preconditioner", choices=["cg", "diagonal"], default="cg")
     parser.add_argument("--mode", choices=["adam", "geometric", "hybrid", "all"], default="all")
     parser.add_argument("--adam-warmup-steps", type=int, default=30)
+    parser.add_argument("--auto-warmup", action="store_true")
+    parser.add_argument("--auto-warmup-steps", type=parse_ints, default=parse_ints("30,50,80"))
     parser.add_argument("--cg-max-iter", type=int, default=8)
     parser.add_argument("--trace-samples", type=int, default=0)
     parser.add_argument("--seed", type=int, default=31)
@@ -279,9 +343,15 @@ def main() -> None:
     args = parser.parse_args()
     if args.trials < 1:
         raise ValueError("--trials must be >= 1")
+    if args.conv_layers < 1:
+        raise ValueError("--conv-layers must be >= 1")
+    if args.auto_warmup and not args.auto_warmup_steps:
+        raise ValueError("--auto-warmup-steps must not be empty")
 
     rows = run_trials(args)
     print_comparison_table(rows)
+    if args.auto_warmup:
+        print_best_auto_warmup(rows)
     path = Path(args.out)
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="", encoding="utf-8") as handle:

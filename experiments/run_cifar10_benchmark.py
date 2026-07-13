@@ -55,6 +55,7 @@ def main() -> None:
     parser.add_argument("--steps", type=int, default=500)
     parser.add_argument("--hybrid-warmup-steps", type=parse_ints, default=parse_ints("10,30,50,80"))
     parser.add_argument("--channels", type=int, default=32)
+    parser.add_argument("--conv-layers", type=int, default=3)
     parser.add_argument("--batch-size", type=int, default=64)
     parser.add_argument("--train-samples", type=int, default=50000)
     parser.add_argument("--eval-samples", type=int, default=10000)
@@ -83,6 +84,8 @@ def main() -> None:
     args = parser.parse_args()
     if args.trials < 1:
         raise ValueError("--trials must be >= 1")
+    if args.conv_layers < 1:
+        raise ValueError("--conv-layers must be >= 1")
 
     rows = []
     for label, warmup in benchmark_configs(args.hybrid_warmup_steps):

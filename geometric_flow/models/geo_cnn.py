@@ -53,23 +53,45 @@ class GeoCNN(nn.Module):
         num_classes: int = 10,
         learnable_rotation: bool = True,
         block_rotation: bool = True,
+        conv_layers: int = 3,
     ) -> None:
         super().__init__()
-        self.features = nn.Sequential(
-            GeoConv2D(3, channels, learnable_rotation=learnable_rotation),
-            nn.GELU(),
-            ChannelGeometricRotation(channels, learnable_rotation=learnable_rotation) if block_rotation else nn.Identity(),
-            nn.MaxPool2d(2),
-            GeoConv2D(channels, channels * 2, learnable_rotation=learnable_rotation),
-            nn.GELU(),
-            ChannelGeometricRotation(channels * 2, learnable_rotation=learnable_rotation) if block_rotation else nn.Identity(),
-            nn.MaxPool2d(2),
-            GeoConv2D(channels * 2, channels * 2, learnable_rotation=learnable_rotation),
-            nn.GELU(),
-            ChannelGeometricRotation(channels * 2, learnable_rotation=learnable_rotation) if block_rotation else nn.Identity(),
-            nn.AdaptiveAvgPool2d((1, 1)),
-        )
-        self.classifier = nn.Linear(channels * 2, num_classes)
+        if conv_layers < 1:
+            raise ValueError("conv_layers must be >= 1")
+        self.conv_layers = conv_layers
+        channel_schedule = self._channel_schedule(channels, conv_layers)
+        layers = []
+        in_channels = 3
+        for index, out_channels in enumerate(channel_schedule):
+            layers.extend(
+                [
+                    GeoConv2D(in_channels, out_channels, learnable_rotation=learnable_rotation),
+                    nn.GELU(),
+                    ChannelGeometricRotation(out_channels, learnable_rotation=learnable_rotation)
+                    if block_rotation
+                    else nn.Identity(),
+                ]
+            )
+            if index in self._pool_after_indices(conv_layers):
+                layers.append(nn.MaxPool2d(2))
+            in_channels = out_channels
+        layers.append(nn.AdaptiveAvgPool2d((1, 1)))
+        self.features = nn.Sequential(*layers)
+        self.classifier = nn.Linear(channel_schedule[-1], num_classes)
+
+    @staticmethod
+    def _channel_schedule(channels: int, conv_layers: int):
+        if conv_layers == 3:
+            return [channels, channels * 2, channels * 2]
+        return [channels * min(2 ** (index // 2), 4) for index in range(conv_layers)]
+
+    @staticmethod
+    def _pool_after_indices(conv_layers: int):
+        if conv_layers == 1:
+            return set()
+        if conv_layers == 3:
+            return {0, 1}
+        return {index for index in range(1, conv_layers - 1, 2)}
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         x = self.features(x)

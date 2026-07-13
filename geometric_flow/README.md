@@ -99,6 +99,7 @@ python experiments/train_cifar10_geo.py --dataset synthetic --use-fisher --preco
 python experiments/train_cifar10_geo.py --dataset synthetic --mode all --trials 3 --use-fisher --preconditioner diagonal
 python experiments/train_cifar10_geo.py --dataset synthetic --mode all --trials 1 --steps 50 --adam-warmup-steps 48 --seed 32 --use-fisher --preconditioner diagonal --precond-scale 0.5 --max-grad-norm 2.0 --grad-smoothing 0.0
 python experiments/train_cifar10_geo.py --dataset synthetic --mode hybrid --adam-warmup-steps 30 --use-fisher --preconditioner diagonal --precond-scale 0.5 --max-grad-norm 2.0 --grad-smoothing 0.0
+python experiments/train_cifar10_geo.py --dataset synthetic --mode hybrid --auto-warmup --auto-warmup-steps 30,50,80 --conv-layers 6 --use-fisher --preconditioner diagonal
 python experiments/train_cifar10_geo.py --dataset cifar10 --data-root ./data
 ```
 
@@ -106,6 +107,7 @@ Full CIFAR-10 benchmark:
 
 ```bash
 python experiments/run_cifar10_benchmark.py --download --steps 500 --trials 3 --hybrid-warmup-steps 10,30,50,80
+python experiments/plot_comparison.py artifacts/cifar10_benchmark.csv --out artifacts/adam_vs_hybrid.svg
 ```
 
 Pass `verbose=True` to `GeometricOptimizer.step(...)` or construct the optimizer

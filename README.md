@@ -101,6 +101,7 @@ python experiments/run_cifar10_benchmark.py \
   --download \
   --steps 500 \
   --trials 3 \
+  --conv-layers 6 \
   --hybrid-warmup-steps "10,30,50,80" \
   --out artifacts/cifar10_benchmark_results.csv
 ```
@@ -122,11 +123,13 @@ unchanged.
 | --- | --- | --- |
 | `--steps` | Training steps per trial | `500` |
 | `--trials` | Number of independent runs | `3` |
+| `--conv-layers` | Number of GeoCNN convolution layers | `3` |
 | `--hybrid-warmup-steps` | Warm-up steps for hybrid mode | `10,30,50,80` |
+| `--auto-warmup` | Try several hybrid warm-up settings in `train_cifar10_geo.py` | off |
 | `--preconditioner` | `cg` or `diagonal` | `diagonal` |
 | `--use-fisher` / `--no-fisher` | Use Fisher instead of Hessian | Fisher on |
 
-Scan different warm-up steps:
+Scan different warm-up steps in the tuning script:
 
 ```bash
 python experiments/tune_geometric_optimizer.py \
@@ -134,6 +137,20 @@ python experiments/tune_geometric_optimizer.py \
   --adam-warmup-steps-list "10,30,50,80" \
   --use-fisher \
   --preconditioner diagonal
+```
+
+Auto-scan warm-up steps in the CIFAR trainer and keep all rows in one CSV:
+
+```bash
+python experiments/train_cifar10_geo.py \
+  --dataset synthetic \
+  --mode hybrid \
+  --auto-warmup \
+  --auto-warmup-steps "30,50,80" \
+  --conv-layers 6 \
+  --use-fisher \
+  --preconditioner diagonal \
+  --out artifacts/auto_warmup.csv
 ```
 
 Run a longer benchmark with more trials:
@@ -146,6 +163,14 @@ python experiments/run_cifar10_benchmark.py \
   --hybrid-warmup-steps "30,80,150"
 ```
 
+Generate an SVG comparison chart from any benchmark CSV:
+
+```bash
+python experiments/plot_comparison.py \
+  artifacts/cifar10_benchmark_results.csv \
+  --out artifacts/adam_vs_hybrid.svg
+```
+
 ## Output CSV Format
 
 `experiments/run_cifar10_benchmark.py` writes:
@@ -156,6 +181,8 @@ python experiments/run_cifar10_benchmark.py \
 | `trials` | Number of independent runs |
 | `mean_accuracy` / `std_accuracy` | Accuracy mean and standard deviation |
 | `mean_loss` / `std_loss` | Loss mean and standard deviation |
+| `mean_generalization_loss_gap` | Test loss minus train loss |
+| `mean_generalization_accuracy_gap` | Train accuracy minus test accuracy |
 | `mean_seconds` / `std_seconds` | Training time mean and standard deviation |
 | `mean_preconditioned_to_raw_ratio` | Geometric direction strength diagnostic |
 | `steps` | Training steps per trial |
