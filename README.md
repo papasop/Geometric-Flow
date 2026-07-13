@@ -537,6 +537,52 @@ large-language-model result. Formal structural pass was not reached under the
 strict Phase G sensitivity CI gate, but the task-level improvement is
 reproducible and practically meaningful in this setup.
 
+## Recommended Practice: Euclidean Projected Adam
+
+Based on controlled small-Transformer LoRA experiments, the most practical
+geometry-aware recipe is:
+
+```text
+euclidean_projected_adam
+```
+
+This method applies a simple geometric correction to the standard Adam update.
+Before updating each LoRA layer, it projects out tangent, gauge-equivalent
+directions so the update lies in the normal, functional space.
+
+Why it is recommended:
+
+| feature | benefit |
+| :--- | :--- |
+| Higher task performance | Consistently reached lower loss and higher accuracy than the small-Transformer Adam baseline. |
+| Improved stability | Projection suppresses redundant LoRA gauge updates, producing smoother training behavior. |
+| Structural robustness | Reduces sensitivity to LoRA reparameterization, making fine-tuning less brittle. |
+| Practical efficiency | Offers a favorable trade-off between moderate overhead and performance gain in the controlled benchmark. |
+
+How it compares:
+
+| method | structural advantage | task advantage | speed | verdict |
+| :--- | :--- | :--- | :--- | :--- |
+| `factor_adam` / `adam_raw` baseline | No | Baseline | Fastest | Good baseline, but no geometric correction. |
+| `euclidean_projected_adam` | Yes | Yes in the small Transformer benchmark | Moderate | Recommended starting point for controlled LoRA fine-tuning experiments. |
+| Quotient-space methods | Strong | Not yet | Slower | Excellent theory, but not yet practical for general use. |
+
+Conceptual sketch:
+
+```python
+# Conceptual example: API names may differ from the current experimental code.
+from geometric_flow import project_lora_update
+
+# inside a training loop
+adam_update = adam.direction()
+normal_update, tangent_fraction = project_lora_update(module, adam_update)
+apply_update(normal_update)
+```
+
+The practical lesson is intentionally modest: when applying geometry to LoRA
+fine-tuning, start with layerwise Euclidean projection of Adam updates before
+trying heavier quotient-space solvers.
+
 ## Claims Boundary
 
 Established so far:
