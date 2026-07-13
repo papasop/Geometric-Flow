@@ -4,8 +4,12 @@
 geometry-first PyTorch optimization layer. It treats the
 loss landscape as a local differentiable manifold:
 
-- `geo.measure()` builds an implicit Hessian/grad-square curvature operator with HVP.
+- Legacy `geo.measure()` builds an implicit Hessian/grad-square curvature operator with HVP.
 - `geo.navigate()` solves `A * step = -grad` with conjugate gradients.
+- `functional_geometry.FunctionalMap` builds `Phi(theta; X_probe)` and its
+  dense Jacobian for small theory tests.
+- `mode="functional_geoflow"` uses SVD projectors `P_T/P_N` and a functional
+  response operator instead of the diagonal grad-square heuristic.
 - `geo.plot_boundary()` probes curvature regimes and emits phase-map JSON.
 - `geo.plot_boundary_2d()` runs a learning-rate/damping style grid scan and
   writes `param1,param2,final_loss,avg_trace` CSV data.
@@ -60,7 +64,8 @@ to CG or diagonal geometric updates. This is the recommended starting point for
 small CNN classification tasks because Adam quickly finds a stable early basin
 and the geometric phase then takes over with curvature-aware steps. A practical
 starting configuration is `mode="hybrid", adam_warmup_steps=30` with grad-square
-diagonal preconditioning. In a 50-step synthetic CIFAR smoke test, a late-switch
+diagonal preconditioning. This is a legacy heuristic baseline, exposed as
+`preconditioner="diagonal_grad_square"` for clarity. In a 50-step synthetic CIFAR smoke test, a late-switch
 hybrid configuration reached 52.3% accuracy versus Adam's 51.6%, with a
 preconditioned/raw ratio of 0.458. Use
 `mode="adam"` for a pure Adam baseline and `mode="geometric"` for pure
@@ -72,6 +77,13 @@ For classification, try `curvature_kind="grad_square"` or
 `curvature_kind="fisher"` spelling is accepted as a compatibility alias, but the
 current implementation is a batch gradient-square diagonal rather than a true
 empirical Fisher.
+
+For the theory-aligned path, use `mode="functional_geoflow"` with
+`functional_model=model` and a fixed `functional_probe` tensor. The first dense
+implementation constructs `Phi(theta)=vec(model(X_probe))`, `J_phi`, `P_T` onto
+`ker(J_phi)`, `P_N=I-P_T`, and the Gauss-Newton response `J_phi^T J_phi`.
+It is intended for small MLP/toy validation and is not yet an efficiency
+replacement for Adam.
 
 Each optimizer step records a topography row with `trace_estimate`,
 `rayleigh_grad`, `update_norm`, and cumulative `geodesic_distance`, which acts as
@@ -116,6 +128,8 @@ python experiments/run_cifar10_benchmark.py --download --precond-scales 0.35,0.5
 python experiments/plot_comparison.py artifacts/cifar10_benchmark.csv --out artifacts/adam_vs_hybrid.svg
 python experiments/plot_comparison.py artifacts/cifar10_geo_diagnostics.csv --ratio-out artifacts/ratio_over_time.svg
 python experiments/normal_projection_toy.py --out artifacts/normal_projection_toy.csv
+python experiments/functional_projection_toy.py
+python experiments/run_functional_switch_validation.py --trials 5 --steps 200
 ```
 
 Pass `verbose=True` to `GeometricOptimizer.step(...)` or construct the optimizer

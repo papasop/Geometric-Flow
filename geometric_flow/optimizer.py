@@ -12,6 +12,7 @@ from torch.optim import Optimizer
 
 from ._tensor import assign_flat_update, get_flat_params, trainable_params
 from .curvature import CurvatureKind, compute_curvature, hutchinson_trace
+from .functional_geometry import projected_functional_geoflow_direction
 from .navigation import conjugate_gradient
 
 
@@ -61,6 +62,10 @@ class GeometricOptimizer(Optimizer):
         mode: str = "geometric",
         adam_warmup_steps: int = 0,
         descent_gate: bool = True,
+        functional_model: Optional[torch.nn.Module] = None,
+        functional_probe: Optional[torch.Tensor] = None,
+        functional_representation: str = "logits",
+        response_kind: str = "gauss_newton",
         diagonal_beta1: float = 0.9,
         diagonal_beta2: float = 0.999,
         diagonal_eps: float = 1e-8,
@@ -98,10 +103,20 @@ class GeometricOptimizer(Optimizer):
             raise ValueError("preconditioner_scale must be positive")
         if curvature_scale <= 0:
             raise ValueError("curvature_scale must be positive")
-        if preconditioner not in {"cg", "diagonal"}:
+        if preconditioner not in {"cg", "diagonal", "diagonal_grad_square"}:
             raise ValueError("preconditioner must be 'cg' or 'diagonal'")
-        if mode not in {"geometric", "adam", "hybrid", "adam_continue", "hybrid_geometric"}:
-            raise ValueError("mode must be 'geometric', 'adam', 'hybrid', 'adam_continue', or 'hybrid_geometric'")
+        if mode not in {
+            "geometric",
+            "adam",
+            "hybrid",
+            "adam_continue",
+            "hybrid_geometric",
+            "functional_geoflow",
+        }:
+            raise ValueError(
+                "mode must be 'geometric', 'adam', 'hybrid', 'adam_continue', 'hybrid_geometric', "
+                "or 'functional_geoflow'"
+            )
         if adam_warmup_steps < 0:
             raise ValueError("adam_warmup_steps must be non-negative")
         if not 0 <= diagonal_beta1 < 1 or not 0 <= diagonal_beta2 < 1:
@@ -144,10 +159,16 @@ class GeometricOptimizer(Optimizer):
         self.grad_smoothing = grad_smoothing
         self.preconditioner_scale = preconditioner_scale
         self.curvature_scale = curvature_scale
-        self.preconditioner = preconditioner
+        self.preconditioner = "diagonal" if preconditioner == "diagonal_grad_square" else preconditioner
+        if preconditioner == "diagonal_grad_square":
+            self.curvature_kind = "grad_square"
         self.mode = self._normalize_mode(mode)
         self.adam_warmup_steps = adam_warmup_steps
         self.descent_gate = descent_gate
+        self.functional_model = functional_model
+        self.functional_probe = functional_probe
+        self.functional_representation = functional_representation
+        self.response_kind = response_kind
         self.diagonal_beta1 = diagonal_beta1
         self.diagonal_beta2 = diagonal_beta2
         self.diagonal_eps = diagonal_eps
@@ -192,6 +213,8 @@ class GeometricOptimizer(Optimizer):
             return self._adam_step(closure, mode="adam", verbose=verbose)
         if self.mode == "hybrid" and self._step_index <= self.adam_warmup_steps:
             return self._adam_step(closure, mode="adam_warmup", verbose=verbose)
+        if self.mode == "functional_geoflow":
+            return self._functional_step(closure, verbose=verbose)
         if self.mode == "geometric" and self._step_index <= self.warmup_steps:
             return self._warmup_step(closure, verbose=verbose)
 
@@ -323,6 +346,73 @@ class GeometricOptimizer(Optimizer):
             "residual_norm": residual_norm,
             "grad_direction_dot": grad_direction_dot,
             "descent_gate_passed": descent_gate_passed,
+        }
+        self.topography_log.append(entry)
+        self._maybe_emit_diagnostics(entry, verbose=verbose)
+        return loss
+
+    def _functional_step(self, closure: Callable[..., torch.Tensor], verbose: Optional[bool] = None) -> torch.Tensor:
+        if self.functional_model is None or self.functional_probe is None:
+            raise RuntimeError("functional_geoflow requires functional_model and functional_probe")
+        params = self._params
+        with torch.enable_grad():
+            self.zero_grad(set_to_none=True)
+            loss = self._call_loss_closure(closure)
+            if not torch.is_tensor(loss) or loss.ndim != 0:
+                raise RuntimeError("closure must return a scalar loss tensor")
+            result = projected_functional_geoflow_direction(
+                self.functional_model,
+                loss,
+                self.functional_probe.to(device=loss.device),
+                params=params,
+                representation=self.functional_representation,
+                response_kind=self.response_kind,
+                damping=self._damping + self.regularization,
+                max_update_norm=self.max_update_norm,
+                descent_gate=self.descent_gate,
+            )
+        self._assign_flat_grad(params, result.gradient)
+        raw_grad_norm = float(torch.linalg.vector_norm(result.gradient))
+        clipped_grad_norm = raw_grad_norm
+        self._adapt_damping(clipped_grad_norm)
+        direction = result.direction
+        direction_norm = float(torch.linalg.vector_norm(direction))
+        actual_update_norm = float(torch.linalg.vector_norm(direction * self.param_groups[0]["lr"] * self.lr_scale))
+        self.geodesic_distance += actual_update_norm
+        assign_flat_update(params, direction, scale=self.param_groups[0]["lr"] * self.lr_scale)
+        self._previous_direction = direction.detach()
+        self._has_preconditioner = True
+
+        eigvals = result.response_eigenvalues
+        entry = {
+            "step": self._step_index,
+            "mode": "functional_geoflow_fallback" if result.fallback else "functional_geoflow",
+            "loss": float(loss.detach()),
+            "raw_grad_norm": raw_grad_norm,
+            "grad_norm": raw_grad_norm,
+            "clipped_grad_norm": clipped_grad_norm,
+            "current_damping": self._damping,
+            "curvature_refreshed": True,
+            "curvature_reuse": 1,
+            "reuse_change_rate": None,
+            "preconditioned_grad_norm": direction_norm,
+            "preconditioned_to_raw_ratio": direction_norm / max(raw_grad_norm, 1e-30),
+            "direction_norm": direction_norm,
+            "update_norm": actual_update_norm,
+            "geodesic_distance": self.geodesic_distance,
+            "rayleigh_grad": None,
+            "trace_estimate": float(torch.trace(result.projected_response)),
+            "cg_iterations": 0,
+            "residual_norm": float(torch.linalg.vector_norm(result.projected_gradient)),
+            "grad_direction_dot": result.g_dot_d,
+            "descent_gate_passed": result.descent_gate_passed,
+            "functional_rank": result.projectors.rank,
+            "tangent_rank": result.projectors.tangent_rank,
+            "normal_rank": result.projectors.normal_rank,
+            "functional_tangent_norm": result.tangent_norm,
+            "projected_gradient_tangent_norm": result.projected_gradient_tangent_norm,
+            "response_min_eigenvalue": float(eigvals.min()) if eigvals.numel() else 0.0,
+            "response_max_eigenvalue": float(eigvals.max()) if eigvals.numel() else 0.0,
         }
         self.topography_log.append(entry)
         self._maybe_emit_diagnostics(entry, verbose=verbose)
@@ -547,6 +637,14 @@ class GeometricOptimizer(Optimizer):
             else:
                 chunks.append(param.grad.detach().reshape(-1))
         return torch.cat(chunks)
+
+    def _assign_flat_grad(self, params, flat_grad: torch.Tensor) -> None:
+        offset = 0
+        for param in params:
+            n = param.numel()
+            grad = flat_grad[offset : offset + n].view_as(param).detach().clone()
+            param.grad = grad
+            offset += n
 
     def _call_loss_closure(self, closure: Callable[..., torch.Tensor]) -> torch.Tensor:
         """Call closure in loss-only mode when it supports ``backward=False``."""

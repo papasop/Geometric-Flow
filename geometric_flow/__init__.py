@@ -8,6 +8,12 @@ The package exposes three layers:
 """
 
 from .curvature import CurvatureOperator, compute_curvature, hutchinson_trace
+from .functional_geometry import (
+    FunctionalMap,
+    functional_projectors,
+    functional_response_operator,
+    projected_functional_geoflow_direction,
+)
 from .navigation import conjugate_gradient, geometric_step
 from .optimizer import GeometricOptimizer
 from .phase import (
@@ -26,6 +32,7 @@ __all__ = [
     "CurvatureOperator",
     "GeometricOptimizer",
     "GeometricRotation",
+    "FunctionalMap",
     "GeoMLP",
     "GeoCNN",
     "GeoConv2D",
@@ -37,6 +44,9 @@ __all__ = [
     "conjugate_gradient",
     "geometric_step",
     "hutchinson_trace",
+    "functional_projectors",
+    "functional_response_operator",
+    "projected_functional_geoflow_direction",
     "phase_diagram_scanner",
     "phase_diagram_scanner_2d",
     "write_phase_diagram",

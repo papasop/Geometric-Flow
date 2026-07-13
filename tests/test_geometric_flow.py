@@ -9,8 +9,12 @@ from geometric_flow import (
     GeoCNN,
     GeoMLP,
     GeometricOptimizer,
+    FunctionalMap,
     compute_curvature,
     conjugate_gradient,
+    functional_projectors,
+    functional_response_operator,
+    projected_functional_geoflow_direction,
     geo,
     phase_diagram_scanner,
     phase_diagram_scanner_2d,
@@ -20,6 +24,7 @@ from experiments.train_cifar10_geo import experiment_names, parse_ints
 from experiments.cifar10_configs import get_config
 from experiments.plot_comparison import ratio_time_rows
 from experiments.normal_projection_toy import run_toy
+from experiments.functional_projection_toy import TwoLayerLinear, known_tangent_vector, run_toy as run_functional_toy
 
 
 class GeometricFlowTests(unittest.TestCase):
@@ -192,6 +197,19 @@ class GeometricFlowTests(unittest.TestCase):
         self.assertGreater(entry["preconditioned_to_raw_ratio"], 0.0)
         self.assertLess(entry["grad_direction_dot"], 0.0)
         self.assertTrue(entry["descent_gate_passed"])
+
+    def test_legacy_diagonal_grad_square_alias_runs(self):
+        weight = torch.nn.Parameter(torch.tensor([2.0]))
+        optimizer = GeometricOptimizer(
+            [weight],
+            lr=0.1,
+            warmup_steps=0,
+            preconditioner="diagonal_grad_square",
+            trace_samples=0,
+        )
+        optimizer.step(lambda: 0.5 * (weight - 1.0).pow(2).sum())
+        self.assertEqual(optimizer.topography_log[-1]["mode"], "diagonal")
+        self.assertEqual(optimizer.curvature_kind, "grad_square")
 
     def test_optimizer_adam_mode_logs_adam_steps(self):
         weight = torch.nn.Parameter(torch.tensor([2.0]))
@@ -396,6 +414,95 @@ class GeometricFlowTests(unittest.TestCase):
         self.assertGreater(row["params"], 0)
         self.assertGreaterEqual(row["normal_rank"], 1)
         self.assertIn("normal_projected_trace", row)
+
+    def test_functional_jacobian_shape_and_response_psd(self):
+        torch.manual_seed(12)
+        model = TwoLayerLinear(input_dim=2, hidden_dim=2, output_dim=1)
+        x = torch.randn(3, 2)
+        fmap = FunctionalMap(model, x)
+        fjac = fmap.jacobian()
+        n_params = sum(param.numel() for param in model.parameters())
+        self.assertEqual(tuple(fjac.jacobian.shape), (3, n_params))
+        response = functional_response_operator(fjac.jacobian)
+        self.assertTrue(torch.allclose(response, response.T, atol=1e-6))
+        self.assertGreaterEqual(float(torch.linalg.eigvalsh(response).min()), -1e-6)
+
+    def test_functional_projectors_capture_known_tangent(self):
+        torch.manual_seed(13)
+        model = TwoLayerLinear(input_dim=2, hidden_dim=2, output_dim=1)
+        x = torch.randn(4, 2)
+        fjac = FunctionalMap(model, x).jacobian()
+        projectors = functional_projectors(fjac.jacobian)
+        tangent = known_tangent_vector(model)
+        identity = torch.eye(projectors.tangent.shape[0])
+        self.assertLess(float(torch.linalg.vector_norm(fjac.jacobian @ tangent)), 1e-5)
+        self.assertLess(projectors.residuals["j_pt"], 1e-5)
+        self.assertTrue(torch.allclose(projectors.tangent + projectors.normal, identity, atol=1e-5))
+        self.assertEqual(projectors.tangent_rank + projectors.normal_rank, identity.shape[0])
+
+    def test_functional_geoflow_direction_is_normal_descent_and_lowers_loss(self):
+        torch.manual_seed(14)
+        model = TwoLayerLinear(input_dim=2, hidden_dim=2, output_dim=1)
+        x = torch.randn(5, 2)
+        y = torch.randn(5, 1)
+        loss = F.mse_loss(model(x), y)
+        result = projected_functional_geoflow_direction(model, loss, x, damping=1e-3, max_update_norm=0.2)
+        self.assertLess(result.tangent_norm, 1e-5)
+        self.assertLess(result.g_dot_d, 0.0)
+        params = [param for param in model.parameters() if param.requires_grad]
+        before = float(loss.detach())
+        from geometric_flow._tensor import assign_flat_update
+
+        assign_flat_update(params, result.direction, scale=0.05)
+        after = float(F.mse_loss(model(x), y).detach())
+        self.assertLessEqual(after, before + 1e-6)
+
+    def test_functional_optimizer_mode_logs_projection(self):
+        torch.manual_seed(15)
+        model = TwoLayerLinear(input_dim=2, hidden_dim=2, output_dim=1)
+        x = torch.randn(5, 2)
+        y = torch.randn(5, 1)
+        optimizer = GeometricOptimizer(
+            model.parameters(),
+            lr=0.05,
+            lr_scale=1.0,
+            mode="functional_geoflow",
+            functional_model=model,
+            functional_probe=x,
+            max_update_norm=0.2,
+            warmup_steps=0,
+        )
+        before = float(F.mse_loss(model(x), y).detach())
+        optimizer.step(lambda: F.mse_loss(model(x), y))
+        entry = optimizer.topography_log[-1]
+        after = float(F.mse_loss(model(x), y).detach())
+        self.assertEqual(entry["mode"], "functional_geoflow")
+        self.assertLess(entry["functional_tangent_norm"], 1e-5)
+        self.assertLess(entry["grad_direction_dot"], 0.0)
+        self.assertLessEqual(after, before + 1e-6)
+
+    def test_functional_projection_toy_reports_required_fields(self):
+        row = run_functional_toy(seed=3, input_dim=2, hidden_dim=2, output_dim=1, samples=4)
+        self.assertIn("known_tangent_residual", row)
+        self.assertLess(row["functional_geoflow_tangent_norm"], 1e-5)
+        self.assertLess(row["g_dot_d"], 0.0)
+
+    def test_matched_warmup_state_can_be_shared_before_branching(self):
+        torch.manual_seed(16)
+        model = TwoLayerLinear(input_dim=2, hidden_dim=2, output_dim=1)
+        x = torch.randn(4, 2)
+        y = torch.randn(4, 1)
+        optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+        loss = F.mse_loss(model(x), y)
+        loss.backward()
+        optimizer.step()
+        state = {key: value.detach().clone() for key, value in model.state_dict().items()}
+        left = TwoLayerLinear(input_dim=2, hidden_dim=2, output_dim=1)
+        right = TwoLayerLinear(input_dim=2, hidden_dim=2, output_dim=1)
+        left.load_state_dict(state)
+        right.load_state_dict(state)
+        for left_value, right_value in zip(left.state_dict().values(), right.state_dict().values()):
+            self.assertTrue(torch.allclose(left_value, right_value))
 
     def test_phase_diagram_scanner_2d_writes_csv(self):
         torch.manual_seed(9)

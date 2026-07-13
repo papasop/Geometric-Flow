@@ -1,8 +1,9 @@
 # GeoFlow for PyTorch
 
 A geometry-first optimization toolkit for PyTorch, inspired by quantum-control
-manifolds. This library implements curvature-aware preconditioning with
-Hessian/grad-square information, moving beyond pure gradient descent.
+manifolds. The repository now separates an older diagonal gradient-square
+heuristic from a theory-aligned functional GeoFlow path that explicitly builds a
+stable/neutral decomposition in function space.
 
 ## Core Experiment: CIFAR-10 Benchmark
 
@@ -30,10 +31,11 @@ Most deep learning optimizers, including SGD and Adam, navigate parameter space
 using gradients alone. They know which way is downhill, but they do not directly
 measure how the terrain bends.
 
-GeoFlow also measures local curvature with Hessian/grad-square information.
-Like a hiker who can see both slope and terrain shape, a geometric optimizer can
-precondition its steps and choose a more informed path through the loss
-landscape.
+The legacy optimizer measures local curvature with Hessian or gradient-square
+approximations. The theory-aligned path instead builds a functional map
+`Phi(theta; X_probe) = vec(model(X_probe))`, computes its Jacobian, separates
+neutral reparameterization directions from normal functional directions, and
+updates only through the normal response operator.
 
 The idea comes from quantum-control experiments, where geometry-aware updates
 reduced evaluations by 56% and saved 30% of physical qubits. This repository
@@ -43,7 +45,7 @@ brings that geometry-first philosophy into PyTorch deep learning.
 
 ### Run In Google Colab
 
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/papasop/AGI/blob/main/notebooks/run_cifar10_benchmark.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/papasop/Geometric-Flow/blob/main/notebooks/run_cifar10_benchmark.ipynb)
 
 Open the notebook and run the first cell. It clones the repository, installs
 dependencies, downloads CIFAR-10, and writes benchmark results to
@@ -54,8 +56,8 @@ dependencies, downloads CIFAR-10, and writes benchmark results to
 Fast 50-step synthetic CIFAR-10 smoke test, with no dataset download:
 
 ```bash
-git clone https://github.com/papasop/AGI.git
-cd AGI
+git clone https://github.com/papasop/Geometric-Flow.git
+cd Geometric-Flow
 pip install -e .
 python experiments/train_cifar10_geo.py \
   --dataset synthetic \
@@ -89,6 +91,18 @@ wrote artifacts/synthetic_cifar_milestone.csv
 With the fixed seed above, the smoke test should visibly exercise the hybrid
 path and show Hybrid above Adam. Exact numbers can vary by PyTorch version and
 hardware.
+
+## Implementation Tiers
+
+| tier | name | status |
+| --- | --- | --- |
+| Baseline | `adam` | First-order optimizer control |
+| Legacy heuristic | `diagonal_grad_square` | Stable diagnostic baseline, not full stable-neutral GeoFlow |
+| Theory-aligned | `functional_geoflow` | Dense small-model implementation of `J_phi`, `P_T/P_N`, and `P_N A_resp P_N` |
+
+`functional_geoflow` is experimental and intentionally dense. It is meant for
+small MLPs and toy networks first. Do not treat it as proven better than Adam
+until matched multi-seed results show a durable edge.
 
 ## Full CIFAR-10 Benchmark
 
@@ -210,6 +224,20 @@ Run the two-layer linear normal-projection toy benchmark:
 python experiments/normal_projection_toy.py --out artifacts/normal_projection_toy.csv
 ```
 
+Run the functional stable-neutral toy benchmark:
+
+```bash
+python experiments/functional_projection_toy.py
+```
+
+Run a matched small-MLP validation that forks from the same Adam warm-up state
+and compares Adam continuation, the legacy diagonal heuristic, and functional
+GeoFlow:
+
+```bash
+python experiments/run_functional_switch_validation.py --trials 5 --steps 200
+```
+
 ## Output CSV Format
 
 `experiments/run_cifar10_benchmark.py` writes:
@@ -236,6 +264,13 @@ python experiments/normal_projection_toy.py --out artifacts/normal_projection_to
 - `experiments/normal_projection_toy.py` constructs the tangent space of the
   two-layer linear reparameterization symmetry and reports `P_N H P_N` normal
   curvature diagnostics.
+- `geometric_flow.functional_geometry` constructs `J_phi`, SVD projectors
+  `P_T/P_N`, the Gauss-Newton response `J_phi^T J_phi`, and the projected
+  direction `d = -pinv(P_N A_resp P_N + damping P_N) P_N g`.
+- `experiments/run_functional_switch_validation.py` saves raw per-seed rows and
+  reports win rate, gate accept rate, fallback rate, functional drift, update
+  norm, and wall-clock time. Current output should be read as diagnostics, not a
+  success claim.
 
 ## Further Reading
 
