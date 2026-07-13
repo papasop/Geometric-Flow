@@ -4,7 +4,7 @@ from __future__ import annotations
 
 RECOMMENDED_CIFAR10_CONFIGS = {
     "hybrid_diagonal_500": {
-        "description": "Default real CIFAR-10 benchmark: Adam warm-up plus Fisher diagonal GeoFlow.",
+        "description": "Default real CIFAR-10 benchmark: Adam warm-up plus grad-square diagonal GeoFlow.",
         "steps": 500,
         "trials": 3,
         "channels": 32,

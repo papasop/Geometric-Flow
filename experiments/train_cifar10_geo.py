@@ -7,6 +7,7 @@ import csv
 import random
 import sys
 import time
+import copy
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from statistics import mean, stdev
@@ -148,7 +149,7 @@ def train_one(args, optimizer_name: str, train_loader: DataLoader, eval_loader: 
             grad_smoothing=args.grad_smoothing,
             preconditioner_scale=args.precond_scale,
             curvature_scale=args.curvature_scale,
-            curvature_kind="fisher" if args.use_fisher else "hessian",
+            curvature_kind="grad_square" if args.use_fisher else "hessian",
             preconditioner=args.preconditioner,
             mode=optimizer_mode,
             adam_warmup_steps=adam_warmup_steps,
@@ -200,6 +201,131 @@ def train_one(args, optimizer_name: str, train_loader: DataLoader, eval_loader: 
     )
 
 
+def collect_batches(loader: DataLoader, steps: int):
+    iterator = iter(loader)
+    batches = []
+    for _ in range(steps):
+        try:
+            batch = next(iterator)
+        except StopIteration:
+            iterator = iter(loader)
+            batch = next(iterator)
+        batches.append(batch)
+    return batches
+
+
+def run_batch_sequence(model, optimizer, batches, device, geometric: bool, verbose: bool = False):
+    for x, y in batches:
+        x = x.to(device)
+        y = y.to(device)
+        if geometric:
+            optimizer.step(lambda: F.cross_entropy(model(x), y), verbose=verbose)
+        else:
+            optimizer.zero_grad(set_to_none=True)
+            loss = F.cross_entropy(model(x), y)
+            loss.backward()
+            optimizer.step()
+
+
+def result_from_model(
+    args,
+    optimizer_name: str,
+    model: torch.nn.Module,
+    optimizer,
+    train_loader: DataLoader,
+    eval_loader: DataLoader,
+    train_seconds: float,
+) -> TrainResult:
+    device = torch.device(args.device)
+    train_loss, train_accuracy = evaluate(model, train_loader, device)
+    loss, accuracy = evaluate(model, eval_loader, device)
+    ratios = []
+    if isinstance(optimizer, GeometricOptimizer):
+        geometric_modes = {"geometric", "geometric_reuse", "diagonal"}
+        ratios = [
+            row["preconditioned_to_raw_ratio"]
+            for row in optimizer.topography_log
+            if row["raw_grad_norm"] > 0 and row["mode"] in geometric_modes
+        ]
+    return TrainResult(
+        optimizer=optimizer_name,
+        final_loss=loss,
+        final_accuracy=accuracy,
+        train_loss=train_loss,
+        train_accuracy=train_accuracy,
+        generalization_loss_gap=loss - train_loss,
+        generalization_accuracy_gap=train_accuracy - accuracy,
+        train_seconds=train_seconds,
+        steps=args.steps,
+        avg_preconditioned_to_raw_ratio=sum(ratios) / max(len(ratios), 1),
+    )
+
+
+def train_switch_pair(args, train_loader: DataLoader, eval_loader: DataLoader) -> List[TrainResult]:
+    set_seed(args.seed)
+    device = torch.device(args.device)
+    warmup_steps = min(args.adam_warmup_steps, args.steps)
+    batches = collect_batches(train_loader, args.steps)
+
+    base_model = GeoCNN(channels=args.channels, conv_layers=args.conv_layers).to(device)
+    warmup_optimizer = torch.optim.Adam(base_model.parameters(), lr=args.lr)
+    start = time.perf_counter()
+    run_batch_sequence(base_model, warmup_optimizer, batches[:warmup_steps], device, geometric=False)
+    warmup_seconds = time.perf_counter() - start
+
+    model_state = copy.deepcopy(base_model.state_dict())
+    adam_state = copy.deepcopy(warmup_optimizer.state_dict())
+    remaining = batches[warmup_steps:]
+
+    adam_model = GeoCNN(channels=args.channels, conv_layers=args.conv_layers).to(device)
+    adam_model.load_state_dict(model_state)
+    adam_optimizer = torch.optim.Adam(adam_model.parameters(), lr=args.lr)
+    adam_optimizer.load_state_dict(adam_state)
+    adam_start = time.perf_counter()
+    run_batch_sequence(adam_model, adam_optimizer, remaining, device, geometric=False)
+    adam_seconds = warmup_seconds + (time.perf_counter() - adam_start)
+
+    geo_model = GeoCNN(channels=args.channels, conv_layers=args.conv_layers).to(device)
+    geo_model.load_state_dict(model_state)
+    geo_optimizer = GeometricOptimizer(
+        geo_model.parameters(),
+        lr=args.geo_lr or args.lr,
+        damping=args.damping,
+        lr_scale=args.lr_scale,
+        curvature_reuse=args.curvature_reuse,
+        warmup_steps=0,
+        regularization=args.regularization,
+        max_update_norm=args.max_update_norm,
+        max_grad_norm=args.max_grad_norm,
+        grad_smoothing=args.grad_smoothing,
+        preconditioner_scale=args.precond_scale,
+        curvature_scale=args.curvature_scale,
+        curvature_kind="grad_square" if args.use_fisher else "hessian",
+        preconditioner=args.preconditioner,
+        mode="geometric",
+        adam_warmup_steps=0,
+        cg_max_iter=args.cg_max_iter,
+        trace_samples=args.trace_samples,
+        diagnostic_log_path=args.diagnostic_log,
+    )
+    geo_start = time.perf_counter()
+    run_batch_sequence(geo_model, geo_optimizer, remaining, device, geometric=True, verbose=args.verbose)
+    geo_seconds = warmup_seconds + (time.perf_counter() - geo_start)
+
+    return [
+        result_from_model(args, "adam_continue", adam_model, adam_optimizer, train_loader, eval_loader, adam_seconds),
+        result_from_model(
+            args,
+            "hybrid_geometric",
+            geo_model,
+            geo_optimizer,
+            train_loader,
+            eval_loader,
+            geo_seconds,
+        ),
+    ]
+
+
 def parse_warmup_label(label: str):
     if label.startswith("hybrid_"):
         return int(label.rsplit("_", 1)[1])
@@ -207,6 +333,10 @@ def parse_warmup_label(label: str):
 
 
 def resolve_optimizer_config(optimizer_name: str, default_adam_warmup_steps: int):
+    if optimizer_name == "adam_continue":
+        return "adam", default_adam_warmup_steps
+    if optimizer_name == "hybrid_geometric":
+        return "hybrid", default_adam_warmup_steps
     warmup = parse_warmup_label(optimizer_name)
     if warmup is not None:
         return "hybrid", warmup
@@ -220,6 +350,8 @@ def parse_ints(value: str) -> List[int]:
 def optimizer_names(mode: str) -> List[str]:
     if mode == "all":
         return ["adam", "geometric", "hybrid"]
+    if mode == "switch_compare":
+        return ["adam_continue", "hybrid_geometric"]
     return [mode]
 
 
@@ -262,6 +394,22 @@ def summarize(name: str, results: List[TrainResult]) -> SummaryResult:
 
 
 def run_trials(args) -> List[SummaryResult]:
+    if args.mode == "switch_compare":
+        grouped = {"adam_continue": [], "hybrid_geometric": []}
+        for trial in range(args.trials):
+            trial_args = argparse.Namespace(**vars(args))
+            trial_args.seed = args.seed + trial
+            set_seed(trial_args.seed)
+            train_loader, eval_loader = make_loaders(trial_args)
+            for result in train_switch_pair(trial_args, train_loader, eval_loader):
+                grouped[result.optimizer].append(result)
+                print(
+                    f"{result.optimizer} trial={trial + 1}/{args.trials}: loss={result.final_loss:.4f} "
+                    f"acc={result.final_accuracy:.3f} seconds={result.train_seconds:.2f} "
+                    f"ratio={result.avg_preconditioned_to_raw_ratio:.3f}"
+                )
+        return [summarize(name, results) for name, results in grouped.items()]
+
     summaries = []
     for name in experiment_names(args):
         trial_results = []
@@ -328,9 +476,13 @@ def main() -> None:
     parser.add_argument("--grad-smoothing", type=float, default=0.0)
     parser.add_argument("--precond-scale", type=float, default=0.5)
     parser.add_argument("--curvature-scale", type=float, default=1.0)
-    parser.add_argument("--use-fisher", action="store_true")
+    parser.add_argument("--use-grad-square", "--use-fisher", action="store_true", dest="use_fisher")
     parser.add_argument("--preconditioner", choices=["cg", "diagonal"], default="cg")
-    parser.add_argument("--mode", choices=["adam", "geometric", "hybrid", "all"], default="all")
+    parser.add_argument(
+        "--mode",
+        choices=["adam", "geometric", "hybrid", "adam_continue", "hybrid_geometric", "switch_compare", "all"],
+        default="all",
+    )
     parser.add_argument("--adam-warmup-steps", type=int, default=30)
     parser.add_argument("--auto-warmup", action="store_true")
     parser.add_argument("--auto-warmup-steps", type=parse_ints, default=parse_ints("30,50,80"))

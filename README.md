@@ -2,7 +2,7 @@
 
 A geometry-first optimization toolkit for PyTorch, inspired by quantum-control
 manifolds. This library implements curvature-aware preconditioning with
-Hessian/Fisher information, moving beyond pure gradient descent.
+Hessian/grad-square information, moving beyond pure gradient descent.
 
 ## Core Experiment: CIFAR-10 Benchmark
 
@@ -30,7 +30,7 @@ Most deep learning optimizers, including SGD and Adam, navigate parameter space
 using gradients alone. They know which way is downhill, but they do not directly
 measure how the terrain bends.
 
-GeoFlow also measures local curvature with Hessian/Fisher information.
+GeoFlow also measures local curvature with Hessian/grad-square information.
 Like a hiker who can see both slope and terrain shape, a geometric optimizer can
 precondition its steps and choose a more informed path through the loss
 landscape.
@@ -68,7 +68,7 @@ python experiments/train_cifar10_geo.py \
   --eval-samples 128 \
   --batch-size 32 \
   --channels 16 \
-  --use-fisher \
+  --use-grad-square \
   --preconditioner diagonal \
   --precond-scale 0.5 \
   --max-grad-norm 2.0 \
@@ -124,7 +124,7 @@ unchanged.
 | `--hybrid-warmup-steps` | Warm-up steps for hybrid mode | `10,30,50,80` |
 | `--auto-warmup` | Try several hybrid warm-up settings in `train_cifar10_geo.py` | off |
 | `--preconditioner` | `cg` or `diagonal` | `diagonal` |
-| `--use-fisher` / `--no-fisher` | Use Fisher instead of Hessian | Fisher on |
+| `--use-grad-square` / `--no-grad-square` | Use `grad_square` diagonal instead of Hessian | grad-square on |
 | `--config` | Load a recommended CIFAR-10 config from `experiments/cifar10_configs.py` | none |
 | `--precond-scales` | Optional sensitivity scan over preconditioner scale values | current value |
 | `--grad-smoothing-values` | Optional sensitivity scan over smoothing values | current value |
@@ -135,7 +135,7 @@ Scan different warm-up steps in the tuning script:
 python experiments/tune_geometric_optimizer.py \
   --modes geometric,adam,hybrid \
   --adam-warmup-steps-list "10,30,50,80" \
-  --use-fisher \
+  --use-grad-square \
   --preconditioner diagonal
 ```
 
@@ -148,9 +148,23 @@ python experiments/train_cifar10_geo.py \
   --auto-warmup \
   --auto-warmup-steps "30,50,80" \
   --conv-layers 6 \
-  --use-fisher \
+  --use-grad-square \
   --preconditioner diagonal \
   --out artifacts/auto_warmup.csv
+```
+
+Run the matched switch-control experiment. Both branches share the same Adam
+warm-up state and batch sequence before splitting into `adam_continue` and
+`hybrid_geometric`:
+
+```bash
+python experiments/train_cifar10_geo.py \
+  --dataset synthetic \
+  --mode switch_compare \
+  --adam-warmup-steps 50 \
+  --use-grad-square \
+  --preconditioner diagonal \
+  --out artifacts/switch_compare.csv
 ```
 
 Run a longer benchmark with more trials:
@@ -190,6 +204,12 @@ python experiments/plot_comparison.py \
   --ratio-out artifacts/ratio_over_time.svg
 ```
 
+Run the two-layer linear normal-projection toy benchmark:
+
+```bash
+python experiments/normal_projection_toy.py --out artifacts/normal_projection_toy.csv
+```
+
 ## Output CSV Format
 
 `experiments/run_cifar10_benchmark.py` writes:
@@ -205,6 +225,17 @@ python experiments/plot_comparison.py \
 | `mean_seconds` / `std_seconds` | Training time mean and standard deviation |
 | `mean_preconditioned_to_raw_ratio` | Geometric direction strength diagnostic |
 | `steps` | Training steps per trial |
+
+## Theory-First Safety Checks
+
+- Geometric updates are gated by the descent condition `g^T d < 0`; otherwise
+  the optimizer falls back to a gradient step.
+- The old `fisher` name is treated as a compatibility alias. The current
+  positive diagonal approximation is named `grad_square`; true empirical Fisher
+  remains a future extension.
+- `experiments/normal_projection_toy.py` constructs the tangent space of the
+  two-layer linear reparameterization symmetry and reports `P_N H P_N` normal
+  curvature diagnostics.
 
 ## Further Reading
 

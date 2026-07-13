@@ -4,7 +4,7 @@
 geometry-first PyTorch optimization layer. It treats the
 loss landscape as a local differentiable manifold:
 
-- `geo.measure()` builds an implicit Hessian/Fisher curvature operator with HVP.
+- `geo.measure()` builds an implicit Hessian/grad-square curvature operator with HVP.
 - `geo.navigate()` solves `A * step = -grad` with conjugate gradients.
 - `geo.plot_boundary()` probes curvature regimes and emits phase-map JSON.
 - `geo.plot_boundary_2d()` runs a learning-rate/damping style grid scan and
@@ -59,7 +59,7 @@ Use `mode="hybrid"` to run Adam for `adam_warmup_steps` steps before switching
 to CG or diagonal geometric updates. This is the recommended starting point for
 small CNN classification tasks because Adam quickly finds a stable early basin
 and the geometric phase then takes over with curvature-aware steps. A practical
-starting configuration is `mode="hybrid", adam_warmup_steps=30` with Fisher
+starting configuration is `mode="hybrid", adam_warmup_steps=30` with grad-square
 diagonal preconditioning. In a 50-step synthetic CIFAR smoke test, a late-switch
 hybrid configuration reached 52.3% accuracy versus Adam's 51.6%, with a
 preconditioned/raw ratio of 0.458. Use
@@ -67,8 +67,11 @@ preconditioned/raw ratio of 0.458. Use
 geometry-first training with the SGD warm-up path.
 For small CNNs or noisy batches, lower `preconditioner_scale` to keep the
 preconditioned/raw gradient ratio in a stable range.
-For classification, try `curvature_kind="fisher"` or `preconditioner="diagonal"`
-when Hessian-CG directions are noisy.
+For classification, try `curvature_kind="grad_square"` or
+`preconditioner="diagonal"` when Hessian-CG directions are noisy. The legacy
+`curvature_kind="fisher"` spelling is accepted as a compatibility alias, but the
+current implementation is a batch gradient-square diagonal rather than a true
+empirical Fisher.
 
 Each optimizer step records a topography row with `trace_estimate`,
 `rayleigh_grad`, `update_norm`, and cumulative `geodesic_distance`, which acts as
@@ -95,11 +98,12 @@ GeoCNN CIFAR-style baseline:
 
 ```bash
 python experiments/train_cifar10_geo.py --dataset synthetic
-python experiments/train_cifar10_geo.py --dataset synthetic --use-fisher --preconditioner diagonal
-python experiments/train_cifar10_geo.py --dataset synthetic --mode all --trials 3 --use-fisher --preconditioner diagonal
-python experiments/train_cifar10_geo.py --dataset synthetic --mode all --trials 1 --steps 50 --adam-warmup-steps 48 --seed 32 --use-fisher --preconditioner diagonal --precond-scale 0.5 --max-grad-norm 2.0 --grad-smoothing 0.0
-python experiments/train_cifar10_geo.py --dataset synthetic --mode hybrid --adam-warmup-steps 30 --use-fisher --preconditioner diagonal --precond-scale 0.5 --max-grad-norm 2.0 --grad-smoothing 0.0
-python experiments/train_cifar10_geo.py --dataset synthetic --mode hybrid --auto-warmup --auto-warmup-steps 30,50,80 --conv-layers 6 --use-fisher --preconditioner diagonal
+python experiments/train_cifar10_geo.py --dataset synthetic --use-grad-square --preconditioner diagonal
+python experiments/train_cifar10_geo.py --dataset synthetic --mode all --trials 3 --use-grad-square --preconditioner diagonal
+python experiments/train_cifar10_geo.py --dataset synthetic --mode all --trials 1 --steps 50 --adam-warmup-steps 48 --seed 32 --use-grad-square --preconditioner diagonal --precond-scale 0.5 --max-grad-norm 2.0 --grad-smoothing 0.0
+python experiments/train_cifar10_geo.py --dataset synthetic --mode hybrid --adam-warmup-steps 30 --use-grad-square --preconditioner diagonal --precond-scale 0.5 --max-grad-norm 2.0 --grad-smoothing 0.0
+python experiments/train_cifar10_geo.py --dataset synthetic --mode hybrid --auto-warmup --auto-warmup-steps 30,50,80 --conv-layers 6 --use-grad-square --preconditioner diagonal
+python experiments/train_cifar10_geo.py --dataset synthetic --mode switch_compare --adam-warmup-steps 50 --use-grad-square --preconditioner diagonal
 python experiments/train_cifar10_geo.py --dataset cifar10 --data-root ./data
 ```
 
@@ -111,6 +115,7 @@ python experiments/run_cifar10_benchmark.py --config hybrid_diagonal_500 --downl
 python experiments/run_cifar10_benchmark.py --download --precond-scales 0.35,0.5,0.75 --grad-smoothing-values 0.0,0.5
 python experiments/plot_comparison.py artifacts/cifar10_benchmark.csv --out artifacts/adam_vs_hybrid.svg
 python experiments/plot_comparison.py artifacts/cifar10_geo_diagnostics.csv --ratio-out artifacts/ratio_over_time.svg
+python experiments/normal_projection_toy.py --out artifacts/normal_projection_toy.csv
 ```
 
 Pass `verbose=True` to `GeometricOptimizer.step(...)` or construct the optimizer

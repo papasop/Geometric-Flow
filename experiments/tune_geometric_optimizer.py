@@ -160,7 +160,7 @@ def run_trial(
             grad_smoothing=args.grad_smoothing,
             preconditioner_scale=args.precond_scale,
             curvature_scale=args.curvature_scale,
-            curvature_kind="fisher" if args.use_fisher else "hessian",
+            curvature_kind="grad_square" if args.use_fisher else "hessian",
             preconditioner=args.preconditioner,
             mode=mode,
             adam_warmup_steps=adam_warmup_steps,
@@ -237,7 +237,7 @@ def main() -> None:
     parser.add_argument("--grad-smoothing", type=float, default=0.9)
     parser.add_argument("--precond-scale", type=float, default=0.5)
     parser.add_argument("--curvature-scale", type=float, default=1.0)
-    parser.add_argument("--use-fisher", action="store_true")
+    parser.add_argument("--use-grad-square", "--use-fisher", action="store_true", dest="use_fisher")
     parser.add_argument("--preconditioner", choices=["cg", "diagonal"], default="cg")
     parser.add_argument("--mode", choices=["geometric", "adam", "hybrid"], default=None)
     parser.add_argument("--modes", type=parse_modes, default=parse_modes("geometric,adam,hybrid"))

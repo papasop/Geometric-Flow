@@ -19,6 +19,7 @@ from geometric_flow import (
 from experiments.train_cifar10_geo import experiment_names, parse_ints
 from experiments.cifar10_configs import get_config
 from experiments.plot_comparison import ratio_time_rows
+from experiments.normal_projection_toy import run_toy
 
 
 class GeometricFlowTests(unittest.TestCase):
@@ -53,6 +54,14 @@ class GeometricFlowTests(unittest.TestCase):
         )
         vector = torch.tensor([0.25, -0.5])
         self.assertTrue(torch.allclose(op.matvec(vector), 0.25 * (matrix @ vector), atol=1e-5))
+
+    def test_grad_square_curvature_replaces_fisher_name(self):
+        w = torch.nn.Parameter(torch.tensor([1.0, -2.0]))
+        loss = (w.pow(2).sum())
+        op = compute_curvature(torch.nn.ParameterList([w]), loss, damping=0.0, regularization=0.0, kind="grad_square")
+        vector = torch.tensor([0.25, -0.5])
+        expected = torch.tensor([4.0, 16.0]) * vector
+        self.assertTrue(torch.allclose(op.matvec(vector), expected, atol=1e-5))
 
     def test_conjugate_gradient_solves_spd_system(self):
         matrix = torch.tensor([[5.0, 1.0], [1.0, 2.0]])
@@ -172,7 +181,7 @@ class GeometricFlowTests(unittest.TestCase):
             warmup_steps=0,
             preconditioner="diagonal",
             preconditioner_scale=0.5,
-            curvature_kind="fisher",
+            curvature_kind="grad_square",
             trace_samples=0,
         )
 
@@ -181,6 +190,8 @@ class GeometricFlowTests(unittest.TestCase):
         self.assertEqual(entry["mode"], "diagonal")
         self.assertEqual(entry["cg_iterations"], 0)
         self.assertGreater(entry["preconditioned_to_raw_ratio"], 0.0)
+        self.assertLess(entry["grad_direction_dot"], 0.0)
+        self.assertTrue(entry["descent_gate_passed"])
 
     def test_optimizer_adam_mode_logs_adam_steps(self):
         weight = torch.nn.Parameter(torch.tensor([2.0]))
@@ -232,6 +243,29 @@ class GeometricFlowTests(unittest.TestCase):
             return optimizer.topography_log[-1]["preconditioned_grad_norm"]
 
         self.assertLess(run(0.5), run(1.0))
+
+    def test_optimizer_descent_gate_rejects_uphill_reused_direction(self):
+        weight = torch.nn.Parameter(torch.tensor([2.0]))
+        optimizer = GeometricOptimizer(
+            [weight],
+            lr=0.1,
+            warmup_steps=0,
+            curvature_reuse=100,
+            grad_smoothing=0.0,
+            trace_samples=0,
+        )
+
+        def closure():
+            return 0.5 * (weight - 1.0).pow(2).sum()
+
+        optimizer.step(closure)
+        optimizer._last_preconditioner_gain = -1.0
+        optimizer._has_preconditioner = True
+        optimizer.step(closure)
+        entry = optimizer.topography_log[-1]
+        self.assertEqual(entry["mode"], "descent_gate_fallback")
+        self.assertLess(entry["grad_direction_dot"], 0.0)
+        self.assertTrue(entry["descent_gate_passed"])
 
     def test_optimizer_lr_scale_grad_smoothing_and_adaptive_reuse(self):
         weight = torch.nn.Parameter(torch.tensor([2.0]))
@@ -342,6 +376,12 @@ class GeometricFlowTests(unittest.TestCase):
             ["adam", "geometric", "hybrid_30", "hybrid_50", "hybrid_80"],
         )
 
+    def test_train_script_switch_compare_expands_matched_modes(self):
+        args = type("Args", (), {})()
+        args.mode = "switch_compare"
+        args.auto_warmup = False
+        self.assertEqual(experiment_names(args), ["adam_continue", "hybrid_geometric"])
+
     def test_cifar10_config_and_ratio_rows_are_available(self):
         config = get_config("hybrid_diagonal_500")
         self.assertEqual(config["conv_layers"], 6)
@@ -350,6 +390,12 @@ class GeometricFlowTests(unittest.TestCase):
             {"optimizer": "adam", "mean_accuracy": "0.1"},
         ]
         self.assertEqual(len(ratio_time_rows(rows)), 1)
+
+    def test_normal_projection_toy_reports_normal_projected_hessian(self):
+        row = run_toy(seed=3, input_dim=2, hidden_dim=2, output_dim=1, samples=4)
+        self.assertGreater(row["params"], 0)
+        self.assertGreaterEqual(row["normal_rank"], 1)
+        self.assertIn("normal_projected_trace", row)
 
     def test_phase_diagram_scanner_2d_writes_csv(self):
         torch.manual_seed(9)

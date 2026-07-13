@@ -2,7 +2,7 @@
 
 The package exposes three layers:
 
-* measure: build an implicit Hessian/Fisher-like curvature operator.
+* measure: build an implicit Hessian/grad-square-like curvature operator.
 * navigate: solve A * step = -grad with conjugate gradients.
 * scan: probe a parameter ray and emit a phase/topography map.
 """

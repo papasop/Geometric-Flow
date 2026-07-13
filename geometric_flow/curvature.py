@@ -9,16 +9,16 @@ import torch
 
 from ._tensor import flatten_grads, trainable_params
 
-CurvatureKind = Literal["hessian", "fisher"]
+CurvatureKind = Literal["hessian", "grad_square", "fisher"]
 
 
 @dataclass
 class CurvatureOperator:
     """Implicit local curvature operator A(v).
 
-    The default implementation is Hessian-vector product based. The ``fisher``
-    kind currently uses the empirical gradient outer-product diagonal as a
-    stable approximation, which is useful as a positive fallback for classifiers.
+    The default implementation is Hessian-vector product based. The
+    ``grad_square`` kind uses the batch gradient square diagonal as a stable
+    positive approximation. It is not a true empirical Fisher.
     """
 
     loss: torch.Tensor
@@ -29,7 +29,9 @@ class CurvatureOperator:
     scale: float = 1.0
 
     def __post_init__(self) -> None:
-        if self.kind not in {"hessian", "fisher"}:
+        if self.kind == "fisher":
+            self.kind = "grad_square"
+        if self.kind not in {"hessian", "grad_square"}:
             raise ValueError(f"unknown curvature kind: {self.kind}")
         self.params = trainable_params(self.params)
         self._grads = torch.autograd.grad(
@@ -41,10 +43,10 @@ class CurvatureOperator:
         )
         self.gradient = flatten_grads(self._grads, self.params).detach()
         self.size = int(self.gradient.numel())
-        if self.kind == "fisher":
-            self._fisher_diag = self.gradient.pow(2).detach().clamp_min(self.damping)
+        if self.kind == "grad_square":
+            self._grad_square_diag = self.gradient.pow(2).detach().clamp_min(self.damping)
         else:
-            self._fisher_diag = None
+            self._grad_square_diag = None
         self._regularization = float(self.regularization)
         self._scale = float(self.scale)
 
@@ -62,8 +64,8 @@ class CurvatureOperator:
         """Apply the damped curvature operator to a flat vector."""
 
         vector = vector.to(device=self.gradient.device, dtype=self.gradient.dtype)
-        if self.kind == "fisher":
-            return self._scale * self._fisher_diag * vector + self._regularization * vector
+        if self.kind == "grad_square":
+            return self._scale * self._grad_square_diag * vector + self._regularization * vector
 
         grad_dot_vec = torch.dot(flatten_grads(self._grads, self.params), vector)
         hvp = torch.autograd.grad(

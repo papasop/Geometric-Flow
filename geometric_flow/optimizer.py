@@ -60,6 +60,7 @@ class GeometricOptimizer(Optimizer):
         preconditioner: str = "cg",
         mode: str = "geometric",
         adam_warmup_steps: int = 0,
+        descent_gate: bool = True,
         diagonal_beta1: float = 0.9,
         diagonal_beta2: float = 0.999,
         diagonal_eps: float = 1e-8,
@@ -99,8 +100,8 @@ class GeometricOptimizer(Optimizer):
             raise ValueError("curvature_scale must be positive")
         if preconditioner not in {"cg", "diagonal"}:
             raise ValueError("preconditioner must be 'cg' or 'diagonal'")
-        if mode not in {"geometric", "adam", "hybrid"}:
-            raise ValueError("mode must be 'geometric', 'adam', or 'hybrid'")
+        if mode not in {"geometric", "adam", "hybrid", "adam_continue", "hybrid_geometric"}:
+            raise ValueError("mode must be 'geometric', 'adam', 'hybrid', 'adam_continue', or 'hybrid_geometric'")
         if adam_warmup_steps < 0:
             raise ValueError("adam_warmup_steps must be non-negative")
         if not 0 <= diagonal_beta1 < 1 or not 0 <= diagonal_beta2 < 1:
@@ -144,8 +145,9 @@ class GeometricOptimizer(Optimizer):
         self.preconditioner_scale = preconditioner_scale
         self.curvature_scale = curvature_scale
         self.preconditioner = preconditioner
-        self.mode = mode
+        self.mode = self._normalize_mode(mode)
         self.adam_warmup_steps = adam_warmup_steps
+        self.descent_gate = descent_gate
         self.diagonal_beta1 = diagonal_beta1
         self.diagonal_beta2 = diagonal_beta2
         self.diagonal_eps = diagonal_eps
@@ -165,6 +167,14 @@ class GeometricOptimizer(Optimizer):
         self._diag_v = None
         self._diag_step = 0
         self._adam_optimizer = None
+
+    @staticmethod
+    def _normalize_mode(mode: str) -> str:
+        if mode == "adam_continue":
+            return "adam"
+        if mode == "hybrid_geometric":
+            return "hybrid"
+        return mode
 
     @property
     def _params(self):
@@ -261,12 +271,21 @@ class GeometricOptimizer(Optimizer):
             mode = "geometric_reuse"
 
         direction = self._smooth_direction(direction)
-        preconditioned_grad_norm = float(torch.linalg.vector_norm(direction))
-        reuse_change_rate = self._update_curvature_reuse(preconditioned_grad_norm)
 
         if self._previous_direction is not None and self.path_smoothing > 0:
             if self._previous_direction.numel() == direction.numel():
                 direction = (1.0 - self.path_smoothing) * direction + self.path_smoothing * self._previous_direction
+
+        grad_direction_dot = float(torch.dot(grad, direction)) if grad.numel() and direction.numel() else 0.0
+        descent_gate_passed = grad_direction_dot < 0.0
+        if self.descent_gate and mode in {"geometric", "geometric_reuse", "diagonal"} and not descent_gate_passed:
+            direction = -grad
+            mode = "descent_gate_fallback"
+            self._has_preconditioner = False
+            grad_direction_dot = float(torch.dot(grad, direction)) if grad.numel() else 0.0
+            descent_gate_passed = grad_direction_dot < 0.0
+        preconditioned_grad_norm = float(torch.linalg.vector_norm(direction))
+        reuse_change_rate = self._update_curvature_reuse(preconditioned_grad_norm)
 
         update_norm = torch.linalg.vector_norm(direction)
         if self.max_update_norm is not None and float(update_norm) > self.max_update_norm:
@@ -302,6 +321,8 @@ class GeometricOptimizer(Optimizer):
             "trace_estimate": trace,
             "cg_iterations": cg_iters,
             "residual_norm": residual_norm,
+            "grad_direction_dot": grad_direction_dot,
+            "descent_gate_passed": descent_gate_passed,
         }
         self.topography_log.append(entry)
         self._maybe_emit_diagnostics(entry, verbose=verbose)
@@ -357,6 +378,8 @@ class GeometricOptimizer(Optimizer):
             "trace_estimate": None,
             "cg_iterations": 0,
             "residual_norm": grad_norm,
+            "grad_direction_dot": -grad_norm * grad_norm,
+            "descent_gate_passed": True,
         }
         self.topography_log.append(entry)
         self._maybe_emit_diagnostics(entry, verbose=verbose)
@@ -403,6 +426,8 @@ class GeometricOptimizer(Optimizer):
             "trace_estimate": None,
             "cg_iterations": 0,
             "residual_norm": float(torch.linalg.vector_norm(grad)),
+            "grad_direction_dot": -float(torch.dot(grad, grad)) if grad.numel() else 0.0,
+            "descent_gate_passed": True,
         }
         self.topography_log.append(entry)
         self._maybe_emit_diagnostics(entry, verbose=verbose)
