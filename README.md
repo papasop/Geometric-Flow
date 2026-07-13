@@ -282,6 +282,22 @@ python experiments/lora_matched_step_benchmark.py \
   --out artifacts/lora_matched_step.csv
 ```
 
+### Statistical Convention For Gauge Sensitivity
+
+For a fixed seed and optimizer, gauge sensitivity is the mean pairwise distance
+between final functional representations produced from gauge-equivalent
+parameterizations:
+
+```text
+S(seed, optimizer)
+  = mean_{i < j} ||Phi(seed, optimizer, representation_i)
+                  - Phi(seed, optimizer, representation_j)||_2
+```
+
+Ratios are formed within seed and then summarized across seeds. Function
+distances between different seeds are not gauge sensitivity, because those runs
+may differ in model initialization, data, and task realization.
+
 ## Phase F: LoRA Gauge Stability
 
 Phase F tested functional quotient geometry on small LoRA adapters with exact
@@ -298,16 +314,15 @@ Observed structural results from the Phase F sweep:
 - 5 seeds and 5 gauge-equivalent representations.
 - 900 total runs.
 - Initial functional equivalence residuals were below the `1e-7` scale.
-- Config-level functional/diagonal sensitivity ratio mean was about `0.863`.
+- The primary gauge metric is computed within each seed across
+  gauge-equivalent representations.
 - Matched per-seed functional/diagonal sensitivity ratio was about `0.536`.
-- The matched 95% confidence interval was entirely below `1`.
+- Its matched 95% confidence interval was entirely below `1`.
 - Tangent drift ratio was about `0.316`.
 - Near-null amplification ratio was about `0.361`.
-- Every tested configuration had config-level sensitivity ratio below `1`.
-
-These are two different statistics and should not be mixed: the first is the
-ratio of aggregated sensitivities, while the second is the mean of matched
-per-seed sensitivity ratios.
+- An earlier aggregate-all-pairs summary produced a ratio near `0.863`, but
+  that quantity mixed cross-seed function distances and is retained only as a
+  historical diagnostic, not as evidence for gauge invariance.
 
 Negative result, stated plainly: Phase F did not establish task superiority.
 Functional loss was higher than the diagonal baseline, functional accuracy was
@@ -395,6 +410,33 @@ close. In the current `lora_only` Stage A sweep, matched calibration did not
 improve the fixed-lr task gap. Formal long-run claims await corrected
 within-seed reanalysis and Stage B runs.
 
+### Corrected Phase G Smoke Result
+
+A corrected within-seed reanalysis of the controlled smoke run found:
+
+| metric | value |
+| --- | ---: |
+| matched-step within-seed sensitivity | `0.00399` |
+| diagonal within-seed sensitivity | `0.00459` |
+| mean matched/diagonal sensitivity ratio | `0.939` |
+| structural seed win rate | `0.50` |
+| mean functional-step calibration error | `0.000727` |
+| mean null leakage | `2.0e-08` |
+
+The corrected smoke supports the calibration and null-control mechanisms:
+
+- `FUNCTIONAL_STEP_MATCH_PASS=True`
+- `NULL_LEAKAGE_PASS=True`
+
+It does not establish a robust structural or task advantage:
+
+- `STRUCTURAL_WIN_RATE_PASS=False`
+- `TASK_GAP_REDUCED_PASS=False`
+- `TASK_ADVANTAGE_PASS=False`
+
+The smoke result is diagnostic only. Formal conclusions require the corrected
+multi-seed Stage B benchmark.
+
 Existing Phase G artifacts can be reanalyzed without retraining:
 
 ```bash
@@ -414,6 +456,8 @@ Established so far:
 - Matrix-free functional quotient directions with dense small-toy regression.
 - LoRA gauge sensitivity reduction.
 - Tangent and near-null suppression in controlled settings.
+- Accurate matched functional-step calibration and low null leakage in the
+  corrected controlled Phase G smoke.
 
 Not established:
 
@@ -421,6 +465,9 @@ Not established:
 - AdamW competitiveness.
 - Large-model scalability.
 - GPT-2 or other language-model results.
+- A robust matched-step structural win rate under corrected within-seed
+  analysis.
+- Task-gap reduction from functional-step calibration.
 
 Avoid interpreting these experiments as a universally better optimizer,
 production-ready large-model optimizer, proven generalization improvement, or
