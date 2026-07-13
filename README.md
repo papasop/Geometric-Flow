@@ -315,6 +315,51 @@ lower than the diagonal baseline, and wall-clock cost was roughly tens of times
 higher. Phase F establishes LoRA gauge stability, tangent suppression, and
 near-null suppression, not a generally better optimizer.
 
+## Controlled LoRA Architecture
+
+The controlled LoRA experiments use a deliberately small network:
+
+```text
+z(x) = (W0 + B A) x
+h(x) = tanh(z(x))
+f_theta(x) = W_head h(x) + b_head
+```
+
+Here `W0` is a frozen base weight. `A` has shape
+`rank x input_dim`, and `B` has shape `hidden_dim x rank`; these are the
+trainable LoRA factors. The dense output head is `W_head, b_head`. The LoRA
+product `B A` is invariant under the gauge transform:
+
+```text
+A -> S A
+B -> B S^{-1}
+```
+
+for any invertible `S`.
+
+The benchmark supports three training scopes:
+
+| scope | trainable parameters |
+| --- | --- |
+| `lora_only` | `A, B` only |
+| `head_only` | output head only |
+| `lora_and_head` | both LoRA factors and head |
+
+Phase G uses `lora_only` as the primary setting because the gauge symmetry
+belongs to the factorization `B A`, not to the dense output head.
+
+The functional map `Phi` may be chosen at different network levels:
+
+| functional map | definition |
+| --- | --- |
+| `lora_output` | `z(x)` |
+| `hidden` | `h(x)` |
+| `logits` | `f_theta(x)` |
+| `logits_hidden` | concatenation of logits and hidden features |
+
+Changing the functional map changes the Jacobian `J_Phi`, and therefore changes
+which parameter directions are classified as neutral or functional.
+
 ## Phase G: Matched Functional-Step Calibration
 
 Equal parameter-space learning rates are not equal functional-space step sizes.
