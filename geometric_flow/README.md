@@ -107,7 +107,10 @@ Full CIFAR-10 benchmark:
 
 ```bash
 python experiments/run_cifar10_benchmark.py --download --steps 500 --trials 3 --hybrid-warmup-steps 10,30,50,80
+python experiments/run_cifar10_benchmark.py --config hybrid_diagonal_500 --download
+python experiments/run_cifar10_benchmark.py --download --precond-scales 0.35,0.5,0.75 --grad-smoothing-values 0.0,0.5
 python experiments/plot_comparison.py artifacts/cifar10_benchmark.csv --out artifacts/adam_vs_hybrid.svg
+python experiments/plot_comparison.py artifacts/cifar10_geo_diagnostics.csv --ratio-out artifacts/ratio_over_time.svg
 ```
 
 Pass `verbose=True` to `GeometricOptimizer.step(...)` or construct the optimizer

@@ -17,6 +17,8 @@ from geometric_flow import (
     write_phase_diagram_csv,
 )
 from experiments.train_cifar10_geo import experiment_names, parse_ints
+from experiments.cifar10_configs import get_config
+from experiments.plot_comparison import ratio_time_rows
 
 
 class GeometricFlowTests(unittest.TestCase):
@@ -339,6 +341,15 @@ class GeometricFlowTests(unittest.TestCase):
             experiment_names(args),
             ["adam", "geometric", "hybrid_30", "hybrid_50", "hybrid_80"],
         )
+
+    def test_cifar10_config_and_ratio_rows_are_available(self):
+        config = get_config("hybrid_diagonal_500")
+        self.assertEqual(config["conv_layers"], 6)
+        rows = [
+            {"step": "1", "preconditioned_to_raw_ratio": "0.5"},
+            {"optimizer": "adam", "mean_accuracy": "0.1"},
+        ]
+        self.assertEqual(len(ratio_time_rows(rows)), 1)
 
     def test_phase_diagram_scanner_2d_writes_csv(self):
         torch.manual_seed(9)

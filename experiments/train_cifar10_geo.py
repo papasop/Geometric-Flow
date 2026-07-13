@@ -299,7 +299,8 @@ def print_best_auto_warmup(rows: List[SummaryResult]) -> None:
     best = max(hybrids, key=lambda row: row.mean_accuracy)
     print(
         f"\nbest_auto_warmup={best.optimizer} mean_acc={best.mean_accuracy:.3f} "
-        f"mean_loss={best.mean_loss:.4f} gen_gap={best.mean_generalization_loss_gap:.4f}"
+        f"mean_loss={best.mean_loss:.4f} ratio={best.mean_preconditioned_to_raw_ratio:.3f} "
+        f"gen_gap={best.mean_generalization_loss_gap:.4f}"
     )
 
 

@@ -116,17 +116,71 @@ def render_svg(rows: List[Dict[str, str]], out: Path) -> None:
     out.write_text("\n".join(parts), encoding="utf-8")
 
 
+def ratio_time_rows(rows: List[Dict[str, str]]) -> List[Dict[str, str]]:
+    return [
+        row
+        for row in rows
+        if row.get("step") not in (None, "") and row.get("preconditioned_to_raw_ratio") not in (None, "")
+    ]
+
+
+def render_ratio_svg(rows: List[Dict[str, str]], out: Path) -> None:
+    width = 860
+    height = 360
+    left = 58
+    top = 42
+    chart_width = 750
+    chart_height = 240
+    points = sorted(
+        [(int(float(row["step"])), float(row["preconditioned_to_raw_ratio"])) for row in rows],
+        key=lambda item: item[0],
+    )
+    max_step = max([step for step, _ in points] + [1])
+    max_ratio = max([ratio for _, ratio in points] + [1.0])
+
+    def x_of(step: int) -> float:
+        return left + (step / max(max_step, 1)) * chart_width
+
+    def y_of(ratio: float) -> float:
+        return top + chart_height - (ratio / max(max_ratio, 1e-9)) * chart_height
+
+    polyline = " ".join(f"{x_of(step):.2f},{y_of(ratio):.2f}" for step, ratio in points)
+    parts = [
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
+        '<rect width="100%" height="100%" fill="#ffffff"/>',
+        '<text x="24" y="28" font-family="Arial" font-size="20" font-weight="700">GeoFlow Ratio Over Time</text>',
+        f'<line x1="{left}" y1="{top}" x2="{left}" y2="{top + chart_height}" stroke="#dddddd"/>',
+        f'<line x1="{left}" y1="{top + chart_height}" x2="{left + chart_width}" y2="{top + chart_height}" stroke="#dddddd"/>',
+        f'<polyline points="{polyline}" fill="none" stroke="#12a37f" stroke-width="3"/>',
+        f'<text x="{left}" y="{top + chart_height + 34}" font-family="Arial" font-size="12">step</text>',
+        f'<text x="18" y="{top + 12}" font-family="Arial" font-size="12">ratio</text>',
+        f'<text x="{left + chart_width - 80}" y="{top + chart_height + 34}" font-family="Arial" font-size="12">{max_step} steps</text>',
+        f'<text x="{left + 8}" y="{top + 16}" font-family="Arial" font-size="12">max {max_ratio:.3f}</text>',
+        "</svg>",
+    ]
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text("\n".join(parts), encoding="utf-8")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("csv", nargs="+", type=Path, help="Benchmark CSV files to plot")
     parser.add_argument("--out", type=Path, default=Path("artifacts/comparison.svg"))
+    parser.add_argument("--ratio-out", type=Path, default=None)
     args = parser.parse_args()
 
-    rows = select_rows(read_rows(args.csv))
-    if not rows:
-        raise RuntimeError("no Adam, geometric, or hybrid rows found")
-    render_svg(rows, args.out)
-    print(f"wrote {args.out}")
+    all_rows = read_rows(args.csv)
+    rows = select_rows(all_rows)
+    ratio_rows = ratio_time_rows(all_rows)
+    if not rows and not ratio_rows:
+        raise RuntimeError("no comparison rows or ratio time-series rows found")
+    if rows:
+        render_svg(rows, args.out)
+        print(f"wrote {args.out}")
+    if ratio_rows:
+        ratio_out = args.ratio_out or args.out.with_name(f"{args.out.stem}_ratio.svg")
+        render_ratio_svg(ratio_rows, ratio_out)
+        print(f"wrote {ratio_out}")
 
 
 if __name__ == "__main__":

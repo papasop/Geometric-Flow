@@ -98,11 +98,8 @@ dataset is downloaded automatically:
 ```bash
 pip install -e . torchvision
 python experiments/run_cifar10_benchmark.py \
+  --config hybrid_diagonal_500 \
   --download \
-  --steps 500 \
-  --trials 3 \
-  --conv-layers 6 \
-  --hybrid-warmup-steps "10,30,50,80" \
   --out artifacts/cifar10_benchmark_results.csv
 ```
 
@@ -128,6 +125,9 @@ unchanged.
 | `--auto-warmup` | Try several hybrid warm-up settings in `train_cifar10_geo.py` | off |
 | `--preconditioner` | `cg` or `diagonal` | `diagonal` |
 | `--use-fisher` / `--no-fisher` | Use Fisher instead of Hessian | Fisher on |
+| `--config` | Load a recommended CIFAR-10 config from `experiments/cifar10_configs.py` | none |
+| `--precond-scales` | Optional sensitivity scan over preconditioner scale values | current value |
+| `--grad-smoothing-values` | Optional sensitivity scan over smoothing values | current value |
 
 Scan different warm-up steps in the tuning script:
 
@@ -163,12 +163,31 @@ python experiments/run_cifar10_benchmark.py \
   --hybrid-warmup-steps "30,80,150"
 ```
 
+Run a small sensitivity scan:
+
+```bash
+python experiments/run_cifar10_benchmark.py \
+  --download \
+  --steps 500 \
+  --trials 3 \
+  --precond-scales "0.35,0.5,0.75" \
+  --grad-smoothing-values "0.0,0.5"
+```
+
 Generate an SVG comparison chart from any benchmark CSV:
 
 ```bash
 python experiments/plot_comparison.py \
   artifacts/cifar10_benchmark_results.csv \
   --out artifacts/adam_vs_hybrid.svg
+```
+
+Generate a ratio-over-time SVG from a diagnostic CSV:
+
+```bash
+python experiments/plot_comparison.py \
+  artifacts/cifar10_geo_diagnostics.csv \
+  --ratio-out artifacts/ratio_over_time.svg
 ```
 
 ## Output CSV Format

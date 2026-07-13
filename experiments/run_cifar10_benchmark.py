@@ -15,11 +15,16 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
+from cifar10_configs import config_names, get_config
 from train_cifar10_geo import make_loaders, print_comparison_table, summarize, train_one
 
 
 def parse_ints(value: str) -> List[int]:
     return [int(part.strip()) for part in value.split(",") if part.strip()]
+
+
+def parse_floats(value: str) -> List[float]:
+    return [float(part.strip()) for part in value.split(",") if part.strip()]
 
 
 def benchmark_configs(warmup_steps: List[int]) -> List[Tuple[str, int]]:
@@ -47,8 +52,47 @@ def run_config(args, label: str, mode: str, adam_warmup_steps: int):
     return summarize(label, trial_results)
 
 
+def apply_recommended_config(args) -> None:
+    if args.config is None:
+        return
+    config = get_config(args.config)
+    mapping = {
+        "hybrid_warmup_steps": "hybrid_warmup_steps",
+    }
+    for key, value in config.items():
+        if key == "description":
+            continue
+        setattr(args, mapping.get(key, key), value)
+
+
+def sensitivity_values(args):
+    precond_scales = args.precond_scales or [args.precond_scale]
+    grad_smoothing_values = args.grad_smoothing_values or [args.grad_smoothing]
+    values = []
+    multi = len(precond_scales) * len(grad_smoothing_values) > 1
+    for precond_scale in precond_scales:
+        for grad_smoothing in grad_smoothing_values:
+            suffix = f"_p{precond_scale:g}_gs{grad_smoothing:g}" if multi else ""
+            values.append((suffix, precond_scale, grad_smoothing))
+    return values
+
+
+def print_sensitivity_report(rows) -> None:
+    if not rows:
+        return
+    print("\nparameter_sensitivity")
+    print("optimizer                 mean_acc  mean_loss  seconds  ratio")
+    print("------------------------  --------  ---------  -------  -----")
+    for row in sorted(rows, key=lambda item: item.mean_accuracy, reverse=True):
+        print(
+            f"{row.optimizer:<24}  {row.mean_accuracy:>8.3f}  {row.mean_loss:>9.4f}  "
+            f"{row.mean_seconds:>7.2f}  {row.mean_preconditioned_to_raw_ratio:>5.3f}"
+        )
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--config", choices=config_names(), default=None)
     parser.add_argument("--data-root", default="./data")
     parser.add_argument("--download", action="store_true")
     parser.add_argument("--trials", type=int, default=3)
@@ -69,7 +113,9 @@ def main() -> None:
     parser.add_argument("--max-update-norm", type=float, default=1.0)
     parser.add_argument("--max-grad-norm", type=float, default=2.0)
     parser.add_argument("--grad-smoothing", type=float, default=0.0)
+    parser.add_argument("--grad-smoothing-values", type=parse_floats, default=None)
     parser.add_argument("--precond-scale", type=float, default=0.5)
+    parser.add_argument("--precond-scales", type=parse_floats, default=None)
     parser.add_argument("--curvature-scale", type=float, default=1.0)
     parser.add_argument("--use-fisher", action="store_true", default=True)
     parser.add_argument("--no-fisher", action="store_false", dest="use_fisher")
@@ -82,17 +128,23 @@ def main() -> None:
     parser.add_argument("--out", default="artifacts/cifar10_benchmark.csv")
     parser.add_argument("--verbose", action="store_true")
     args = parser.parse_args()
+    apply_recommended_config(args)
     if args.trials < 1:
         raise ValueError("--trials must be >= 1")
     if args.conv_layers < 1:
         raise ValueError("--conv-layers must be >= 1")
 
     rows = []
-    for label, warmup in benchmark_configs(args.hybrid_warmup_steps):
-        mode = "hybrid" if label.startswith("hybrid_") else label
-        rows.append(run_config(args, label, mode, warmup))
+    for suffix, precond_scale, grad_smoothing in sensitivity_values(args):
+        args.precond_scale = precond_scale
+        args.grad_smoothing = grad_smoothing
+        for label, warmup in benchmark_configs(args.hybrid_warmup_steps):
+            mode = "hybrid" if label.startswith("hybrid_") else label
+            rows.append(run_config(args, f"{label}{suffix}", mode, warmup))
 
     print_comparison_table(rows)
+    if args.precond_scales or args.grad_smoothing_values:
+        print_sensitivity_report(rows)
     best = max(rows, key=lambda row: row.mean_accuracy)
     adam = next((row for row in rows if row.optimizer == "adam"), None)
     if adam is not None:
