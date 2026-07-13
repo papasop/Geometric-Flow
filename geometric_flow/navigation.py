@@ -23,10 +23,11 @@ def conjugate_gradient(
     rhs: torch.Tensor,
     max_iter: int = 20,
     tolerance: float = 1e-6,
+    initial_guess: torch.Tensor | None = None,
 ) -> CGResult:
     """Solve A x = rhs for symmetric positive-definite A."""
 
-    x = torch.zeros_like(rhs)
+    x = torch.zeros_like(rhs) if initial_guess is None else initial_guess.detach().clone().to(rhs)
     residual = rhs - matvec(x)
     direction = residual.clone()
     residual_sq = torch.dot(residual, residual)

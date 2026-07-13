@@ -98,11 +98,13 @@ hardware.
 | --- | --- | --- |
 | Baseline | `adam` | First-order optimizer control |
 | Legacy heuristic | `diagonal_grad_square` | Stable diagnostic baseline, not full stable-neutral GeoFlow |
-| Theory-aligned | `functional_geoflow` | Dense small-model implementation of `J_phi`, `P_T/P_N`, and `P_N A_resp P_N` |
+| Theory-aligned reference | `functional_geoflow` + `response_solver="dense"` | Dense small-model implementation of `J_phi`, `P_T/P_N`, and `P_N A_resp P_N` |
+| Matrix-free prototype | `functional_geoflow` + `response_solver="implicit_cg"` | JVP/VJP normal-space solve with randomized VJP basis, Q cache, warm-start CG, and explicit per-step budgets |
 
-`functional_geoflow` is experimental and intentionally dense. It is meant for
-small MLPs and toy networks first. Do not treat it as proven better than Adam
-until matched multi-seed results show a durable edge.
+`functional_geoflow` is experimental. The dense solver is the correctness
+reference for small MLPs and toy networks. The implicit solver is the
+production-oriented path, but it should be treated as a controlled prototype
+until LoRA and larger-model benchmarks support broader claims.
 
 ## Full CIFAR-10 Benchmark
 
@@ -230,6 +232,11 @@ Run the functional stable-neutral toy benchmark:
 python experiments/functional_projection_toy.py --response-solver dense
 python experiments/functional_projection_toy.py --response-solver low_rank
 python experiments/functional_projection_toy.py --response-solver implicit_cg
+python experiments/functional_projection_toy.py \
+  --response-solver implicit_cg \
+  --production-mode \
+  --max-basis-rank 16 \
+  --max-vjp-probes 24
 ```
 
 Run a matched small-MLP validation that forks from the same Adam warm-up state
@@ -247,6 +254,18 @@ invariance from final accuracy:
 python experiments/reparameterization_stress_test.py
 python experiments/noisy_redundancy_validation.py
 python experiments/near_null_stress_test.py
+```
+
+Run the small controlled LoRA bridge benchmark. It tests the LoRA
+reparameterization symmetry `A -> S A, B -> B S^{-1}` before attempting larger
+language-model adapters:
+
+```bash
+python experiments/lora_reparameterization_benchmark.py \
+  --trials 3 \
+  --steps 80 \
+  --representations 4 \
+  --out artifacts/lora_reparameterization.csv
 ```
 
 ## Output CSV Format
@@ -283,8 +302,11 @@ python experiments/near_null_stress_test.py
 - `response_solver="implicit_cg"` uses VJP probes to estimate
   `range(J_phi^T)` and solves with JVP/VJP matvecs inside that matrix-free
   normal subspace. It no longer depends on dense `J_phi` or dense `P_N` for the
-  solve, but it remains a small-model prototype rather than full large-model
-  support.
+  solve. In production mode it uses randomized VJP probes, caches the normal
+  basis for `refresh_interval` steps, warm-starts CG from the previous
+  direction, and reports `jvp_count`, `vjp_count`, `peak_memory_bytes`,
+  `null_leakage`, and wall-clock diagnostics. This is not yet a claim of
+  large-model scalability.
 - `experiments/run_functional_switch_validation.py` saves raw per-seed rows and
   reports win rate, gate accept rate, fallback rate, functional drift, update
   norm, and wall-clock time. Current output should be read as diagnostics, not a
@@ -299,6 +321,9 @@ python experiments/near_null_stress_test.py
 - `experiments/near_null_stress_test.py` appends an epsilon-weighted auxiliary
   parameter observable to create weakly broken null directions and stress-test
   threshold selection. This is for structural diagnostics, not accuracy claims.
+- `experiments/lora_reparameterization_benchmark.py` is the next bridge from
+  hand-built linear redundancy to modern low-rank adapter structure. Its primary
+  metric is reparameterization sensitivity, not final accuracy.
 
 ## Further Reading
 

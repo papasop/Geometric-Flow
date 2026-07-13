@@ -61,6 +61,10 @@ def run_toy(
     response_solver: str = "dense",
     functional_rank: int | None = None,
     functional_energy_fraction: float = 1.0,
+    production_mode: bool = False,
+    max_basis_rank: int | None = None,
+    max_vjp_probes: int | None = None,
+    vjp_probe_batch_size: int = 8,
 ):
     torch.manual_seed(seed)
     x = torch.randn(samples, input_dim)
@@ -103,6 +107,10 @@ def run_toy(
         response_solver=response_solver,
         functional_rank=functional_rank,
         functional_energy_fraction=functional_energy_fraction,
+        production_mode=production_mode,
+        max_basis_rank=max_basis_rank,
+        max_vjp_probes=max_vjp_probes,
+        vjp_probe_batch_size=vjp_probe_batch_size,
     )
     solver_seconds = time.perf_counter() - start
     params = [param for param in model.parameters() if param.requires_grad]
@@ -169,6 +177,10 @@ def main() -> None:
     parser.add_argument("--response-solver", choices=["dense", "low_rank", "implicit_cg"], default="dense")
     parser.add_argument("--functional-rank", type=int, default=None)
     parser.add_argument("--functional-energy-fraction", type=float, default=1.0)
+    parser.add_argument("--production-mode", action="store_true")
+    parser.add_argument("--max-basis-rank", type=int, default=None)
+    parser.add_argument("--max-vjp-probes", type=int, default=None)
+    parser.add_argument("--vjp-probe-batch-size", type=int, default=8)
     parser.add_argument("--out", type=Path, default=Path("artifacts/functional_projection_toy.csv"))
     args = parser.parse_args()
 
@@ -183,6 +195,10 @@ def main() -> None:
         response_solver=args.response_solver,
         functional_rank=args.functional_rank,
         functional_energy_fraction=args.functional_energy_fraction,
+        production_mode=args.production_mode,
+        max_basis_rank=args.max_basis_rank,
+        max_vjp_probes=args.max_vjp_probes,
+        vjp_probe_batch_size=args.vjp_probe_batch_size,
     )
     args.out.parent.mkdir(parents=True, exist_ok=True)
     with args.out.open("w", newline="", encoding="utf-8") as handle:

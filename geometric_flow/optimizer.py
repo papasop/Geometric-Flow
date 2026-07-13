@@ -69,6 +69,12 @@ class GeometricOptimizer(Optimizer):
         response_solver: str = "dense",
         functional_rank: Optional[int] = None,
         functional_energy_fraction: float = 0.99,
+        production_mode: bool = False,
+        refresh_interval: int = 5,
+        max_basis_rank: Optional[int] = None,
+        max_vjp_probes: Optional[int] = None,
+        vjp_probe_batch_size: int = 8,
+        warm_start_cg: bool = True,
         null_threshold_mode: str = "relative",
         null_tol: float = 1e-6,
         max_tangent_fraction: float = 0.9,
@@ -132,6 +138,14 @@ class GeometricOptimizer(Optimizer):
             raise ValueError("diagonal_eps must be positive")
         if diagnostic_log_interval < 1:
             raise ValueError("diagnostic_log_interval must be >= 1")
+        if refresh_interval < 1:
+            raise ValueError("refresh_interval must be >= 1")
+        if max_basis_rank is not None and max_basis_rank < 1:
+            raise ValueError("max_basis_rank must be positive when set")
+        if max_vjp_probes is not None and max_vjp_probes < 1:
+            raise ValueError("max_vjp_probes must be positive when set")
+        if vjp_probe_batch_size < 1:
+            raise ValueError("vjp_probe_batch_size must be >= 1")
         defaults = dict(lr=lr)
         super().__init__(params, defaults)
         self.damping = damping
@@ -179,6 +193,12 @@ class GeometricOptimizer(Optimizer):
         self.response_solver = response_solver
         self.functional_rank = functional_rank
         self.functional_energy_fraction = functional_energy_fraction
+        self.production_mode = production_mode
+        self.refresh_interval = refresh_interval
+        self.max_basis_rank = max_basis_rank
+        self.max_vjp_probes = max_vjp_probes
+        self.vjp_probe_batch_size = vjp_probe_batch_size
+        self.warm_start_cg = warm_start_cg
         self.null_threshold_mode = null_threshold_mode
         self.null_tol = null_tol
         self.max_tangent_fraction = max_tangent_fraction
@@ -202,6 +222,9 @@ class GeometricOptimizer(Optimizer):
         self._diag_v = None
         self._diag_step = 0
         self._adam_optimizer = None
+        self._functional_basis_cache = None
+        self._functional_basis_step = 0
+        self._functional_warm_start = None
 
     @staticmethod
     def _normalize_mode(mode: str) -> str:
@@ -374,6 +397,12 @@ class GeometricOptimizer(Optimizer):
             loss = self._call_loss_closure(closure)
             if not torch.is_tensor(loss) or loss.ndim != 0:
                 raise RuntimeError("closure must return a scalar loss tensor")
+            use_cached_basis = (
+                self.production_mode
+                and self.response_solver == "implicit_cg"
+                and self._functional_basis_cache is not None
+                and (self._step_index - self._functional_basis_step) < self.refresh_interval
+            )
             result = projected_functional_geoflow_direction(
                 self.functional_model,
                 loss,
@@ -393,7 +422,19 @@ class GeometricOptimizer(Optimizer):
                 functional_energy_fraction=self.functional_energy_fraction,
                 cg_max_iter=self.cg_max_iter,
                 cg_tolerance=self.cg_tolerance,
+                production_mode=self.production_mode,
+                normal_basis=self._functional_basis_cache if use_cached_basis else None,
+                warm_start=self._functional_warm_start if self.warm_start_cg else None,
+                max_basis_rank=self.max_basis_rank,
+                max_vjp_probes=self.max_vjp_probes,
+                vjp_probe_batch_size=self.vjp_probe_batch_size,
             )
+        if self.production_mode and self.response_solver == "implicit_cg":
+            if result.normal_basis is not None and not result.basis_from_cache:
+                self._functional_basis_cache = result.normal_basis.detach()
+                self._functional_basis_step = self._step_index
+            if result.cg_initial_guess is not None:
+                self._functional_warm_start = result.cg_initial_guess.detach()
         self._assign_flat_grad(params, result.gradient)
         raw_grad_norm = float(torch.linalg.vector_norm(result.gradient))
         clipped_grad_norm = raw_grad_norm
@@ -415,8 +456,8 @@ class GeometricOptimizer(Optimizer):
             "grad_norm": raw_grad_norm,
             "clipped_grad_norm": clipped_grad_norm,
             "current_damping": self._damping,
-            "curvature_refreshed": True,
-            "curvature_reuse": 1,
+            "curvature_refreshed": not result.basis_from_cache,
+            "curvature_reuse": self.refresh_interval if self.production_mode and self.response_solver == "implicit_cg" else 1,
             "reuse_change_rate": None,
             "preconditioned_grad_norm": direction_norm,
             "preconditioned_to_raw_ratio": direction_norm / max(raw_grad_norm, 1e-30),
@@ -424,7 +465,9 @@ class GeometricOptimizer(Optimizer):
             "update_norm": actual_update_norm,
             "geodesic_distance": self.geodesic_distance,
             "rayleigh_grad": None,
-            "trace_estimate": float(torch.trace(result.projected_response)),
+            "trace_estimate": float(torch.trace(result.projected_response))
+            if result.projected_response.ndim == 2 and result.projected_response.numel()
+            else None,
             "cg_iterations": 0,
             "residual_norm": float(torch.linalg.vector_norm(result.projected_gradient)),
             "grad_direction_dot": result.g_dot_d,
@@ -445,9 +488,12 @@ class GeometricOptimizer(Optimizer):
             "retained_spectral_energy": result.retained_spectral_energy,
             "solver_residual": result.solver_residual,
             "memory_estimate_bytes": result.memory_estimate_bytes,
+            "peak_memory_bytes": result.peak_memory_bytes,
             "jvp_count": result.jvp_count,
             "vjp_count": result.vjp_count,
             "null_leakage": result.null_leakage,
+            "basis_from_cache": result.basis_from_cache,
+            "production_mode": self.production_mode,
         }
         self.topography_log.append(entry)
         self._maybe_emit_diagnostics(entry, verbose=verbose)

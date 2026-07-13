@@ -90,6 +90,10 @@ class FunctionalGeoFlowResult:
     jvp_count: int = 0
     vjp_count: int = 0
     null_leakage: float = 0.0
+    normal_basis: Optional[torch.Tensor] = None
+    cg_initial_guess: Optional[torch.Tensor] = None
+    peak_memory_bytes: int = 0
+    basis_from_cache: bool = False
 
 
 class FunctionalMap:
@@ -472,6 +476,10 @@ def randomized_normal_basis(
     energy_fraction: float = 0.99,
     oversample: int = 4,
     seed: int = 1234,
+    production_mode: bool = False,
+    max_basis_rank: Optional[int] = None,
+    max_vjp_probes: Optional[int] = None,
+    vjp_probe_batch_size: int = 8,
 ) -> tuple[torch.Tensor, dict[str, float]]:
     """Estimate range(J^T) with VJP probes without building J or P_N."""
 
@@ -487,14 +495,23 @@ def randomized_normal_basis(
             "vjp_count": float(operator.vjp_count),
             "memory_estimate_bytes": 0.0,
         }
-    if rank is None:
+    if rank is None and not production_mode and max_basis_rank is None and max_vjp_probes is None:
         probe_count = output_dim
         probes = torch.eye(output_dim, dtype=phi.dtype, device=phi.device)
     else:
-        probe_count = min(output_dim, max(1, int(rank) + int(oversample)))
+        target_rank = rank if rank is not None else max_basis_rank
+        if target_rank is None:
+            target_rank = min(output_dim, 16)
+        probe_count = min(output_dim, max(1, int(target_rank) + int(oversample)))
+        if max_vjp_probes is not None:
+            probe_count = min(probe_count, max(1, int(max_vjp_probes)))
         generator = torch.Generator(device=phi.device).manual_seed(seed) if phi.device.type != "cpu" else torch.Generator().manual_seed(seed)
         probes = torch.randn(probe_count, output_dim, dtype=phi.dtype, device=phi.device, generator=generator)
-    columns = [operator.vjp(probe).detach() for probe in probes]
+    columns = []
+    batch_size = max(1, int(vjp_probe_batch_size))
+    for start in range(0, probes.shape[0], batch_size):
+        for probe in probes[start : start + batch_size]:
+            columns.append(operator.vjp(probe).detach())
     sample = torch.stack(columns, dim=1)
     q, r = torch.linalg.qr(sample, mode="reduced")
     diag = torch.abs(torch.diag(r))
@@ -526,12 +543,33 @@ def implicit_cg_response_direction(
     functional_energy_fraction: float = 0.99,
     cg_max_iter: int = 64,
     cg_tolerance: float = 1e-6,
+    normal_basis: Optional[torch.Tensor] = None,
+    warm_start: Optional[torch.Tensor] = None,
+    production_mode: bool = False,
+    max_basis_rank: Optional[int] = None,
+    max_vjp_probes: Optional[int] = None,
+    vjp_probe_batch_size: int = 8,
 ) -> tuple[torch.Tensor, dict[str, float]]:
-    q, basis_info = randomized_normal_basis(
-        functional_map,
-        rank=functional_rank,
-        energy_fraction=functional_energy_fraction,
-    )
+    basis_from_cache = normal_basis is not None
+    if normal_basis is None:
+        q, basis_info = randomized_normal_basis(
+            functional_map,
+            rank=functional_rank,
+            energy_fraction=functional_energy_fraction,
+            production_mode=production_mode,
+            max_basis_rank=max_basis_rank,
+            max_vjp_probes=max_vjp_probes,
+            vjp_probe_batch_size=vjp_probe_batch_size,
+        )
+    else:
+        q = normal_basis.detach()
+        basis_info = {
+            "retained_rank": float(q.shape[1]),
+            "retained_spectral_energy": 1.0,
+            "jvp_count": 0.0,
+            "vjp_count": 0.0,
+            "memory_estimate_bytes": float(q.numel() * q.element_size()),
+        }
     operator = MatrixFreeFunctionalJTJOperator(functional_map)
     if q.numel() == 0:
         return torch.zeros_like(gradient), {
@@ -542,6 +580,10 @@ def implicit_cg_response_direction(
             "jvp_count": basis_info["jvp_count"],
             "vjp_count": basis_info["vjp_count"],
             "null_leakage": 0.0,
+            "normal_basis": q,
+            "cg_initial_guess": None,
+            "peak_memory_bytes": 0.0,
+            "basis_from_cache": float(basis_from_cache),
         }
     q = q.to(device=gradient.device, dtype=gradient.dtype)
     q_grad = q.T @ gradient
@@ -550,19 +592,35 @@ def implicit_cg_response_direction(
         vector = q @ coeff
         return q.T @ operator.jtj(vector) + damping * coeff
 
-    result = conjugate_gradient(coeff_matvec, -q_grad, max_iter=cg_max_iter, tolerance=cg_tolerance)
+    initial_coeff = None
+    if warm_start is not None and warm_start.numel() == gradient.numel():
+        initial_coeff = q.T @ warm_start.to(device=gradient.device, dtype=gradient.dtype)
+    result = conjugate_gradient(
+        coeff_matvec,
+        -q_grad,
+        max_iter=cg_max_iter,
+        tolerance=cg_tolerance,
+        initial_guess=initial_coeff,
+    )
     direction = q @ result.solution
     projected = q @ (q.T @ direction)
     null_leakage = float(torch.linalg.vector_norm(direction - projected))
     residual = float(torch.linalg.vector_norm(coeff_matvec(result.solution) + q_grad))
+    memory_estimate = basis_info["memory_estimate_bytes"] + float((q.numel() + result.solution.numel()) * gradient.element_size())
+    if gradient.device.type == "cuda":
+        memory_estimate = max(memory_estimate, float(torch.cuda.max_memory_allocated(gradient.device)))
     return direction, {
         "retained_rank": basis_info["retained_rank"],
         "retained_spectral_energy": basis_info["retained_spectral_energy"],
         "solver_residual": residual,
-        "memory_estimate_bytes": basis_info["memory_estimate_bytes"] + float(q.numel() * gradient.element_size()),
+        "memory_estimate_bytes": memory_estimate,
         "jvp_count": basis_info["jvp_count"] + float(operator.jvp_count),
         "vjp_count": basis_info["vjp_count"] + float(operator.vjp_count),
         "null_leakage": null_leakage,
+        "normal_basis": q.detach(),
+        "cg_initial_guess": direction.detach(),
+        "peak_memory_bytes": memory_estimate,
+        "basis_from_cache": float(basis_from_cache),
     }
 
 
@@ -585,6 +643,12 @@ def projected_functional_geoflow_direction(
     functional_energy_fraction: float = 0.99,
     cg_max_iter: int = 64,
     cg_tolerance: float = 1e-6,
+    production_mode: bool = False,
+    normal_basis: Optional[torch.Tensor] = None,
+    warm_start: Optional[torch.Tensor] = None,
+    max_basis_rank: Optional[int] = None,
+    max_vjp_probes: Optional[int] = None,
+    vjp_probe_batch_size: int = 8,
 ) -> FunctionalGeoFlowResult:
     """Compute d = -pinv(P_N A_resp P_N + damping P_N) P_N g."""
 
@@ -604,6 +668,12 @@ def projected_functional_geoflow_direction(
             functional_energy_fraction=functional_energy_fraction,
             cg_max_iter=cg_max_iter,
             cg_tolerance=cg_tolerance,
+            normal_basis=normal_basis,
+            warm_start=warm_start,
+            production_mode=production_mode,
+            max_basis_rank=max_basis_rank,
+            max_vjp_probes=max_vjp_probes,
+            vjp_probe_batch_size=vjp_probe_batch_size,
         )
         if max_update_norm is not None:
             norm = torch.linalg.vector_norm(direction)
@@ -647,6 +717,10 @@ def projected_functional_geoflow_direction(
             jvp_count=int(solver_info["jvp_count"]),
             vjp_count=int(solver_info["vjp_count"]),
             null_leakage=float(solver_info["null_leakage"]),
+            normal_basis=solver_info.get("normal_basis"),
+            cg_initial_guess=solver_info.get("cg_initial_guess"),
+            peak_memory_bytes=int(solver_info.get("peak_memory_bytes", solver_info["memory_estimate_bytes"])),
+            basis_from_cache=bool(solver_info.get("basis_from_cache", 0.0)),
         )
 
     fjac = fmap.jacobian()
@@ -728,4 +802,5 @@ def projected_functional_geoflow_direction(
         jvp_count=int(solver_info.get("jvp_count", 0.0)),
         vjp_count=int(solver_info.get("vjp_count", 0.0)),
         null_leakage=float(solver_info.get("null_leakage", 0.0)),
+        peak_memory_bytes=int(solver_info.get("memory_estimate_bytes", 0.0)),
     )

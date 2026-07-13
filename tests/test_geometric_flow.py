@@ -36,6 +36,7 @@ from experiments.reparameterization_stress_test import (
     run as run_reparameterization_stress,
     orthogonal_rotation,
 )
+from experiments.lora_reparameterization_benchmark import SmallLoRAMLP, make_transform, run_lora_benchmark
 
 
 class GeometricFlowTests(unittest.TestCase):
@@ -589,6 +590,58 @@ class GeometricFlowTests(unittest.TestCase):
         self.assertGreater(implicit.vjp_count, 0)
         self.assertEqual(implicit.projectors.normal.numel(), 0)
 
+    def test_production_matrix_free_uses_cached_basis_and_warm_start(self):
+        torch.manual_seed(23)
+        model = TwoLayerLinear(input_dim=3, hidden_dim=4, output_dim=2)
+        x = torch.randn(7, 3)
+        y = torch.randn(7, 2)
+        dense_loss = F.mse_loss(model(x), y)
+        dense = projected_functional_geoflow_direction(model, dense_loss, x, damping=1e-3, response_solver="dense")
+        prod = projected_functional_geoflow_direction(
+            model,
+            dense_loss,
+            x,
+            damping=1e-3,
+            response_solver="implicit_cg",
+            production_mode=True,
+            max_basis_rank=16,
+            max_vjp_probes=20,
+            functional_energy_fraction=1.0,
+            cg_max_iter=64,
+            cg_tolerance=1e-8,
+        )
+        cosine = torch.dot(prod.direction, dense.direction) / (
+            torch.linalg.vector_norm(prod.direction) * torch.linalg.vector_norm(dense.direction)
+        ).clamp_min(1e-30)
+        self.assertGreater(float(cosine), 0.99)
+        self.assertLess(prod.null_leakage, 1e-5)
+
+        optimizer = GeometricOptimizer(
+            model.parameters(),
+            lr=1e-3,
+            lr_scale=1.0,
+            mode="functional_geoflow",
+            functional_model=model,
+            functional_probe=x,
+            response_solver="implicit_cg",
+            production_mode=True,
+            refresh_interval=4,
+            max_basis_rank=16,
+            max_vjp_probes=20,
+            cg_max_iter=16,
+            cg_tolerance=1e-5,
+            adaptive_damping=False,
+            max_update_norm=0.1,
+        )
+        optimizer.step(lambda: F.mse_loss(model(x), y))
+        first = optimizer.topography_log[-1]
+        optimizer.step(lambda: F.mse_loss(model(x), y))
+        second = optimizer.topography_log[-1]
+        self.assertFalse(first["basis_from_cache"])
+        self.assertTrue(second["basis_from_cache"])
+        self.assertLess(second["vjp_count"], first["vjp_count"])
+        self.assertGreaterEqual(second["jvp_count"], 1)
+
     def test_functional_optimizer_mode_logs_projection(self):
         torch.manual_seed(15)
         model = TwoLayerLinear(input_dim=2, hidden_dim=2, output_dim=1)
@@ -660,6 +713,42 @@ class GeometricFlowTests(unittest.TestCase):
         self.assertTrue(all(row.seed == 21 for row in rows))
         self.assertIn("final_phi", rows[0].__dataclass_fields__)
         self.assertIn("loss_win_rate_vs_adam", aggregates[0])
+
+    def test_lora_reparameterization_equivalence_and_benchmark_rows(self):
+        torch.manual_seed(24)
+        model = SmallLoRAMLP(input_dim=4, hidden_dim=5, output_dim=2, rank=2)
+        x = torch.randn(6, 4)
+        before = model(x).detach()
+        model.lora.reparameterize(make_transform(rank=2, representation=2))
+        after = model(x).detach()
+        self.assertTrue(torch.allclose(before, after, atol=1e-6))
+
+        args = type("Args", (), {})()
+        args.seed = 31
+        args.trials = 1
+        args.steps = 1
+        args.representations = 2
+        args.samples = 24
+        args.probe_size = 4
+        args.batch_size = 8
+        args.input_dim = 4
+        args.hidden_dim = 5
+        args.output_dim = 2
+        args.lora_rank = 2
+        args.lr = 1e-2
+        args.damping = 1e-3
+        args.max_update_norm = 0.1
+        args.refresh_interval = 4
+        args.max_basis_rank = 4
+        args.max_vjp_probes = 6
+        args.vjp_probe_batch_size = 3
+        args.cg_max_iter = 8
+        args.cg_tol = 1e-5
+        args.optimizers = "adamw,diagonal_grad_square,functional_geoflow"
+        rows, aggregates = run_lora_benchmark(args)
+        self.assertEqual(len(rows), 6)
+        self.assertEqual({row.optimizer for row in rows}, {"adamw", "diagonal_grad_square", "functional_geoflow"})
+        self.assertIn("reparameterization_sensitivity", aggregates[0])
 
     def test_phase_diagram_scanner_2d_writes_csv(self):
         torch.manual_seed(9)
