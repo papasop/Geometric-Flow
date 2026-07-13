@@ -1,9 +1,22 @@
 # GeoFlow for PyTorch
 
-A geometry-first optimization toolkit for PyTorch, inspired by quantum-control
-manifolds. The repository now separates an older diagonal gradient-square
-heuristic from a theory-aligned functional GeoFlow path that explicitly builds a
-stable/neutral decomposition in function space.
+GeoFlow is a research toolkit for geometry-aware optimization under redundant
+neural-network parameterizations.
+
+Its central principle is that an optimizer output is a proposal, not
+automatically an admissible functional update. The library contains:
+
+- functional stable-neutral geometry based on the Jacobian of a configurable
+  function-space representation;
+- matrix-free research solvers for projected response directions;
+- an opt-in fixed-rank backend that performs Adam updates in invariant product
+  coordinates, projects them into the fixed-rank tangent space, and applies
+  rank-preserving retraction.
+
+The fixed-rank backend has demonstrated near-exact LoRA gauge invariance and
+task parity in a small synthetic Transformer benchmark. It is experimental, not
+a production large-model optimizer, and not evidence of universal superiority
+over Adam.
 
 ## Why GeoFlow?
 
@@ -17,9 +30,9 @@ approximations. The theory-aligned path instead builds a functional map
 neutral reparameterization directions from normal functional directions, and
 updates only through the normal response operator.
 
-The idea comes from quantum-control experiments, where geometry-aware updates
-reduced evaluations by 56% and saved 30% of physical qubits. This repository
-brings that geometry-first philosophy into PyTorch deep learning.
+The project was motivated in part by geometry-aware methods in quantum control,
+but the PyTorch results in this repository are evaluated independently and
+should not be interpreted as quantum-computing performance claims.
 
 ## Core Principle: Optimizer Outputs Are Proposals, Not Final Updates
 
@@ -96,27 +109,16 @@ returned to rank `r` by a rank-preserving SVD retraction.
 | method | structural advantage | task advantage | speed | verdict |
 | :--- | :--- | :--- | :--- | :--- |
 | `factor_adam` / `adam_raw` | No | Baseline | Fastest | Good control baseline. |
-| Euclidean factor-space projection | Partial | Yes in the small Transformer benchmark | Moderate | Useful baseline, not exact gauge invariance. |
+| Euclidean factor-space projection | Removes an explicit tangent component but is not gauge invariant | Slight mean task improvement in one controlled benchmark; not established as a general advantage | Moderate | Historical baseline. |
 | `FixedRankFunctionalAdam` | Stronger by construction | D7 showed task parity only in a small synthetic Transformer benchmark | Experimental | Opt-in backend for fixed-rank product-coordinate experiments. |
 | Full quotient-space methods | Strong | Not yet | Slower | Research reference, not a production default. |
 
-Conceptual sketch:
-
-```python
-from geometric_flow import FixedRankFunctionalAdam, ProductParameter, ProductState
-
-product_state = ProductState([
-    ProductParameter("adapter", product_matrix_parameter, rank=rank),
-])
-optimizer = FixedRankFunctionalAdam(product_state, lr=1e-2)
-
-loss.backward()  # must populate product_matrix_parameter.grad
-optimizer.step()
-```
-
 This path is experimental and opt-in. It does not change the default behavior
 of `GeometricOptimizer`, and it does not automatically rewrite arbitrary LoRA
-factor modules to consume explicit product states.
+factor modules to consume explicit product states. The model forward pass must
+explicitly consume the same product tensor `M` whose gradient is passed to the
+optimizer. See `experiments/d7_fixed_rank_tangent_benchmark.py` for a complete
+runnable example.
 
 ## Transformer-Ready Geometry [Status: Small Controlled Evidence]
 
@@ -193,18 +195,18 @@ optimizer, a proven generalization improvement, or a quantum advantage claim.
 
 For new fixed-rank experiments, start from explicit product-coordinate state.
 The optimizer expects gradients on product matrices `M`, not hidden gradients on
-factor tensors `A` and `B`.
+factor tensors `A` and `B`. The model forward pass must explicitly consume the
+same product tensor `M`; `ProductState.from_lora_modules()` can create product
+variables, but it does not automatically rewire third-party LoRA modules.
 
-```python
-from geometric_flow import FixedRankFunctionalAdam, ProductParameter, ProductState
+Run the complete fixed-rank example:
 
-product_state = ProductState([
-    ProductParameter("adapter", product_matrix_parameter, rank=rank),
-])
-optimizer = FixedRankFunctionalAdam(product_state, lr=1e-2)
-
-loss.backward()
-optimizer.step()
+```bash
+python experiments/d7_fixed_rank_tangent_benchmark.py \
+  --seeds 101 \
+  --representations 2 \
+  --steps 5 \
+  --out-dir artifacts/d7_smoke
 ```
 
 Use the historical scripts below when you want to reproduce the research trail,
@@ -267,11 +269,16 @@ hardware.
 | Legacy heuristic | `diagonal_grad_square` | Stable diagnostic baseline, not full stable-neutral GeoFlow |
 | Theory-aligned reference | `functional_geoflow` + `response_solver="dense"` | Dense small-model implementation of `J_phi`, `P_T/P_N`, and `P_N A_resp P_N` |
 | Matrix-free prototype | `functional_geoflow` + `response_solver="implicit_cg"` | JVP/VJP normal-space solve with randomized VJP basis, Q cache, warm-start CG, and explicit per-step budgets |
+| Experimental invariant backend | `FixedRankFunctionalAdam` | Adam moments in explicit product coordinates, followed by fixed-rank tangent projection, final candidate bounding, and rank-preserving retraction |
 
 `functional_geoflow` is experimental. The dense solver is the correctness
 reference for small MLPs and toy networks. The implicit solver is the
-production-oriented path, but it should be treated as a controlled prototype
-until LoRA and larger-model benchmarks support broader claims.
+scaling-oriented matrix-free prototype, but it should be treated as a
+controlled research path until LoRA and larger-model benchmarks support broader
+claims.
+
+`FixedRankFunctionalAdam` is a validated research backend. It is opt-in and is
+not a default production optimizer.
 
 ## Legacy CIFAR Smoke Benchmark [Status: Historical Baseline]
 
@@ -760,6 +767,22 @@ library. Its role is to reproduce the D7 milestone, provide a scientific
 regression target, and guard against future implementations drifting away from
 the fixed-rank tangent mechanism.
 
+Reference D7 result:
+
+| metric | D7 result |
+| --- | ---: |
+| `rank_tangent_trust` mean loss | `1.710495` |
+| factor Adam mean loss | `1.711612` |
+| paired loss gap | `-0.001117` |
+| 95% CI | `[-0.003562, 0.000925]` |
+| logit sensitivity ratio | `7.3e-5` |
+| structural win rate | `1.0` |
+| tangent residual | `~3e-6` |
+| rank violations | `0` |
+
+These values establish task parity and structural invariance in this benchmark,
+not universal task superiority.
+
 Quick smoke:
 
 ```bash
@@ -784,6 +807,28 @@ The report includes gates such as `D7_TANGENT_RESIDUAL_PASS`,
 `D7_RANK_PRESERVATION_PASS`, `D7_NEAR_EXACT_GAUGE_INVARIANCE`, and
 `D7_TANGENT_TRUST_TASK_PARITY_PASS`. These gates are regression diagnostics, not
 claims of universal optimizer superiority.
+
+## Testing
+
+```bash
+python -m pytest -q
+python -m pytest -q tests/test_d7_core_audit.py
+python -m compileall -q geometric_flow experiments tests
+```
+
+The clean-clone audit at commit `cd81224f` passed the complete test suite, the
+D7 core audit, the D7 smoke benchmark, and bytecode compilation.
+
+## Documentation Index
+
+- `experiments/d7_fixed_rank_tangent_benchmark.py`: full D7 reproduction and
+  scientific regression benchmark.
+- `experiments/lora_matched_step_benchmark.py`: Phase G matched functional-step
+  calibration.
+- `experiments/lora_reparameterization_benchmark.py`: controlled LoRA gauge
+  sensitivity benchmark.
+- `experiments/run_cifar10_benchmark.py`: legacy CIFAR benchmark harness.
+- Historical Phase F/G notes remain below as archived context.
 
 ## Further Reading
 
