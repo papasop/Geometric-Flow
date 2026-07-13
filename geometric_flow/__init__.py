@@ -8,6 +8,8 @@ The package exposes three layers:
 """
 
 from .curvature import CurvatureOperator, compute_curvature, hutchinson_trace
+from .fixed_rank import FixedRankDiagnostics, FixedRankManifold
+from .fixed_rank_optimizer import FixedRankFunctionalAdam
 from .functional_geometry import (
     FunctionalMap,
     FunctionalGeometry,
@@ -22,6 +24,8 @@ from .functional_geometry import (
 )
 from .navigation import conjugate_gradient, geometric_step
 from .optimizer import GeometricOptimizer
+from .product_state import ProductParameter, ProductState
+from .trust_region import HeldOutTrustRegion, TrustRegionResult
 from .phase import (
     PhaseGridPoint,
     PhasePoint,
@@ -36,18 +40,25 @@ from . import geo
 
 __all__ = [
     "CurvatureOperator",
+    "FixedRankDiagnostics",
+    "FixedRankFunctionalAdam",
+    "FixedRankManifold",
     "GeometricOptimizer",
     "GeometricRotation",
     "FunctionalMap",
     "FunctionalGeometry",
     "FunctionalJTJOperator",
     "MatrixFreeFunctionalJTJOperator",
+    "HeldOutTrustRegion",
     "GeoMLP",
     "GeoCNN",
     "GeoConv2D",
     "ChannelGeometricRotation",
     "PhaseGridPoint",
     "PhasePoint",
+    "ProductParameter",
+    "ProductState",
+    "TrustRegionResult",
     "geo",
     "compute_curvature",
     "conjugate_gradient",

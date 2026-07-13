@@ -21,7 +21,7 @@ The idea comes from quantum-control experiments, where geometry-aware updates
 reduced evaluations by 56% and saved 30% of physical qubits. This repository
 brings that geometry-first philosophy into PyTorch deep learning.
 
-## Core Principle: Optimizer Outputs Are Proposals
+## Core Principle: Optimizer Outputs Are Proposals, Not Final Updates
 
 Conventional optimizers treat their parameter-space output as the final
 executable update. GeoFlow treats that output as a **proposal** that should be
@@ -72,49 +72,53 @@ the invariant product `M = B A`, or use a gauge-invariant quotient metric.
 In short: traditional optimizers update parameters; this framework seeks to
 update the function represented by those parameters.
 
-## Recommended Practice: Euclidean Projected Adam [Status: Recommended for Use]
+## Experimental Backend: Fixed-Rank Functional Adam [Status: Opt-In]
 
-The current practical path is:
+The D7 kernel adds an experimental optimizer backend for LoRA-style fixed-rank
+product states:
 
 ```text
-euclidean_projected_adam
+FixedRankFunctionalAdam
 ```
 
-For LoRA fine-tuning, apply the usual Adam update, then project each LoRA-layer
-update out of tangent, gauge-equivalent directions. The resulting update stays
-in the normal, functional space while preserving the familiar Adam training
-loop. This is the current practical recipe, not a claim of exact gauge
-invariance.
+Instead of optimizing factor coordinates directly, this backend treats the
+invariant product `M = B A` as the optimizer state. Each product-space Adam
+proposal is projected into the tangent space of the fixed-rank manifold and then
+returned to rank `r` by a rank-preserving SVD retraction.
 
 | feature | benefit |
 | :--- | :--- |
-| Higher task performance | Lower loss and slightly higher accuracy than the small-Transformer Adam baseline. |
-| Improved stability | Suppresses redundant LoRA gauge motion before it pollutes the update. |
-| Structural robustness | Reduces sensitivity to equivalent LoRA factorizations. |
-| Practical efficiency | Moderate overhead, much lighter than global quotient-space solvers. |
+| Invariant product state | Optimizer moments live in `M = B A` coordinates, not gauge-dependent factor coordinates. |
+| Fixed-rank tangent projection | Ambient proposals are filtered before they become executable updates. |
+| Rank-preserving retraction | `M + D_tangent` is returned to rank `r` with best-rank SVD truncation. |
+| Held-out trust calibration | Optional scale selection evaluates candidate product updates on caller-supplied calibration data. |
 
 | method | structural advantage | task advantage | speed | verdict |
 | :--- | :--- | :--- | :--- | :--- |
 | `factor_adam` / `adam_raw` | No | Baseline | Fastest | Good control baseline. |
-| `euclidean_projected_adam` | Yes | Yes in the small Transformer benchmark | Moderate | Recommended starting point. |
-| Quotient-space methods | Strong | Not yet | Slower | Research reference, not the current practical default. |
+| Euclidean factor-space projection | Partial | Yes in the small Transformer benchmark | Moderate | Useful baseline, not exact gauge invariance. |
+| `FixedRankFunctionalAdam` | Stronger by construction | D7 showed task parity only in a small synthetic Transformer benchmark | Experimental | Opt-in backend for fixed-rank product-coordinate experiments. |
+| Full quotient-space methods | Strong | Not yet | Slower | Research reference, not a production default. |
 
 Conceptual sketch:
 
 ```python
-# Conceptual example: API names may differ from the current experimental code.
-from geometric_flow import project_lora_update
+from geometric_flow import FixedRankFunctionalAdam, ProductParameter, ProductState
 
-# inside a training loop
-adam_update = adam.direction()
-normal_update, tangent_fraction = project_lora_update(module, adam_update)
-apply_update(normal_update)
+product_state = ProductState([
+    ProductParameter("adapter", product_matrix_parameter, rank=rank),
+])
+optimizer = FixedRankFunctionalAdam(product_state, lr=1e-2)
+
+loss.backward()  # must populate product_matrix_parameter.grad
+optimizer.step()
 ```
 
-The practical lesson is intentionally modest: start with layerwise Euclidean
-projection of Adam updates before trying heavier quotient-space solvers.
+This path is experimental and opt-in. It does not change the default behavior
+of `GeometricOptimizer`, and it does not automatically rewrite arbitrary LoRA
+factor modules to consume explicit product states.
 
-## Transformer-Ready Geometry [Status: Current Best Evidence]
+## Transformer-Ready Geometry [Status: Small Controlled Evidence]
 
 A new experimental path applies the stable-neutral decomposition inside a small
 Transformer's LoRA layers. Instead of using a global geometric optimizer, this
@@ -154,8 +158,8 @@ Key takeaways:
 
 **Established so far:**
 
-- **Practical LoRA path:** layerwise Euclidean projection of Adam updates is the
-  recommended starting point for controlled LoRA experiments.
+- **Fixed-rank kernel:** product-coordinate tangent projection and
+  rank-preserving retraction are available as an experimental backend.
 - **Small Transformer task result:** layerwise LoRA gauge projection with
   loss-aware mixing improved mean loss in the controlled synthetic
   next-token benchmark.
@@ -174,6 +178,9 @@ Key takeaways:
   made here.
 - **Functional-step task improvement:** corrected Phase G matched-step
   calibration improved structure but did not reduce the task gap.
+- **D7 general task superiority:** the fixed-rank backend has not established
+  universal superiority; D7 demonstrated task parity only in a small synthetic
+  Transformer benchmark.
 - **Strict Transformer structural pass:** the Transformer layerwise projection
   path has task evidence, but not a strict Phase G structural CI pass.
 
@@ -182,19 +189,22 @@ optimizer, a proven generalization improvement, or a quantum advantage claim.
 
 ## One-Command Quickstart
 
-### Recommended Path: Layerwise LoRA Projection
+### Experimental Path: Fixed-Rank Product Updates
 
-For new geometry-aware LoRA experiments, start from the recommended
-`euclidean_projected_adam` pattern above. The repository still includes older
-CIFAR and quotient-space experiments, but the current success path is layerwise
-projection of Adam updates in LoRA layers.
+For new fixed-rank experiments, start from explicit product-coordinate state.
+The optimizer expects gradients on product matrices `M`, not hidden gradients on
+factor tensors `A` and `B`.
 
 ```python
-# Conceptual training-loop shape.
+from geometric_flow import FixedRankFunctionalAdam, ProductParameter, ProductState
+
+product_state = ProductState([
+    ProductParameter("adapter", product_matrix_parameter, rank=rank),
+])
+optimizer = FixedRankFunctionalAdam(product_state, lr=1e-2)
+
 loss.backward()
-adam_update = collect_adam_update(lora_layer)
-normal_update, tangent_fraction = project_lora_update(lora_layer, adam_update)
-apply_update(lora_layer, normal_update)
+optimizer.step()
 ```
 
 Use the historical scripts below when you want to reproduce the research trail,
