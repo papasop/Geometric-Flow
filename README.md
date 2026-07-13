@@ -407,8 +407,7 @@ Current Stage A observation: the calibration mechanism works, but task behavior
 has not improved yet. Functional-step calibration error was about `1e-3` or
 lower, null leakage remained small, and fixed-lr and matched-step results were
 close. In the current `lora_only` Stage A sweep, matched calibration did not
-improve the fixed-lr task gap. Formal long-run claims await corrected
-within-seed reanalysis and Stage B runs.
+improve the fixed-lr task gap.
 
 ### Corrected Phase G Smoke Result
 
@@ -434,8 +433,51 @@ It does not establish a robust structural or task advantage:
 - `TASK_GAP_REDUCED_PASS=False`
 - `TASK_ADVANTAGE_PASS=False`
 
-The smoke result is diagnostic only. Formal conclusions require the corrected
-multi-seed Stage B benchmark.
+The smoke result is diagnostic only.
+
+### Corrected Phase G B2 Long-Run Result
+
+The long-run confirmation used:
+
+- 8 independent seeds.
+- 600 training steps.
+- 5 gauge-equivalent representations per seed.
+- `train_scope=lora_only`.
+- `functional_map=logits_hidden`.
+
+| metric | result |
+| --- | ---: |
+| matched-step sensitivity | `0.2772` |
+| diagonal sensitivity | `0.8154` |
+| mean matched/diagonal ratio | `0.3385` |
+| 95% CI | `[0.2760, 0.4329]` |
+| structural seed win rate | `1.00` |
+| tangent suppression | passed |
+| calibration error | `0.000848` |
+| null leakage | `1.68e-08` |
+| matched/diagonal wall-clock ratio | `1.38` |
+
+The corrected long-run structural gates passed:
+
+- `STRUCTURAL_SENSITIVITY_PASS=True`
+- `STRUCTURAL_WIN_RATE_PASS=True`
+- `STRICT_STRUCTURAL_CI_PASS=True`
+- `TANGENT_SUPPRESSION_PASS=True`
+
+Task-level gates failed:
+
+- `TASK_GAP_REDUCED_PASS=False`
+- `TASK_PARITY_PASS=False`
+- `TASK_ADVANTAGE_PASS=False`
+
+The matched-step loss exceeded both the fixed-lr functional path and the
+diagonal baseline. The calibration-improvement confidence interval was
+`[-0.0416, -0.0126]`, indicating that matched functional-step calibration
+worsened the task gap in this controlled setting.
+
+The supported conclusion is structural: matched-step GeoFlow substantially
+reduces sensitivity to LoRA gauge parameterization, but this structural
+robustness does not translate into better task optimization here.
 
 Existing Phase G artifacts can be reanalyzed without retraining:
 
@@ -458,6 +500,8 @@ Established so far:
 - Tangent and near-null suppression in controlled settings.
 - Accurate matched functional-step calibration and low null leakage in the
   corrected controlled Phase G smoke.
+- Robust matched-step structural sensitivity reduction in the corrected Phase G
+  B2 long-run LoRA benchmark.
 
 Not established:
 
@@ -465,8 +509,6 @@ Not established:
 - AdamW competitiveness.
 - Large-model scalability.
 - GPT-2 or other language-model results.
-- A robust matched-step structural win rate under corrected within-seed
-  analysis.
 - Task-gap reduction from functional-step calibration.
 
 Avoid interpreting these experiments as a universally better optimizer,
