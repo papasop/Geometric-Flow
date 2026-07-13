@@ -742,6 +742,49 @@ The analyzer skips incomplete Stage B or non-run CSV files with a warning. It
 uses within-seed gauge sensitivity, matched seed sensitivity ratios, and paired
 bootstrap confidence intervals for task gates.
 
+## Reproducibility
+
+The benchmark used to validate the experimental fixed-rank tangent optimizer is
+available at:
+
+```text
+experiments/d7_fixed_rank_tangent_benchmark.py
+```
+
+It compares `factor_adam`, `explicit_product_adam`, `rank_tangent_sgd`,
+`rank_tangent_adam`, and `rank_tangent_trust` across gauge-equivalent LoRA
+representations in a small synthetic Transformer task.
+
+The benchmark is intentionally kept in `experiments/`, not imported by the core
+library. Its role is to reproduce the D7 milestone, provide a scientific
+regression target, and guard against future implementations drifting away from
+the fixed-rank tangent mechanism.
+
+Quick smoke:
+
+```bash
+python experiments/d7_fixed_rank_tangent_benchmark.py \
+  --seeds 101 \
+  --representations 2 \
+  --steps 5 \
+  --out-dir artifacts/d7_smoke
+```
+
+Full D7-style run:
+
+```bash
+python experiments/d7_fixed_rank_tangent_benchmark.py \
+  --seeds 101,211,307 \
+  --representations 4 \
+  --steps 80 \
+  --out-dir artifacts/d7_fixed_rank
+```
+
+The report includes gates such as `D7_TANGENT_RESIDUAL_PASS`,
+`D7_RANK_PRESERVATION_PASS`, `D7_NEAR_EXACT_GAUGE_INVARIANCE`, and
+`D7_TANGENT_TRUST_TASK_PARITY_PASS`. These gates are regression diagnostics, not
+claims of universal optimizer superiority.
+
 ## Further Reading
 
 - https://zenodo.org/records/21329073 Computation as Geometric Flow
