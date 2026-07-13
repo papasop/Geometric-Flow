@@ -11,8 +11,11 @@ from .curvature import CurvatureOperator, compute_curvature, hutchinson_trace
 from .functional_geometry import (
     FunctionalMap,
     FunctionalGeometry,
+    FunctionalJTJOperator,
     functional_projectors,
     functional_response_operator,
+    implicit_cg_response_direction,
+    low_rank_response_direction,
     projected_functional_geoflow_direction,
 )
 from .navigation import conjugate_gradient, geometric_step
@@ -35,6 +38,7 @@ __all__ = [
     "GeometricRotation",
     "FunctionalMap",
     "FunctionalGeometry",
+    "FunctionalJTJOperator",
     "GeoMLP",
     "GeoCNN",
     "GeoConv2D",
@@ -48,6 +52,8 @@ __all__ = [
     "hutchinson_trace",
     "functional_projectors",
     "functional_response_operator",
+    "implicit_cg_response_direction",
+    "low_rank_response_direction",
     "projected_functional_geoflow_direction",
     "phase_diagram_scanner",
     "phase_diagram_scanner_2d",

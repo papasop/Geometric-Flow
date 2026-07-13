@@ -54,6 +54,11 @@ class RawResult:
     accuracy_gain_vs_adam: float
     tangent_drift: float
     functional_output_drift: float
+    task_functional_progress: float
+    equivalent_branch_divergence: float
+    noise_induced_functional_error: float
+    tangent_parameter_motion: float
+    normal_parameter_motion: float
     gate_accept_rate: float
     fallback_rate: float
     mean_update_norm: float
@@ -117,7 +122,9 @@ def branch_metrics(
     optimizer,
     eval_set: TensorDataset,
     probe_x: torch.Tensor,
+    probe_y: torch.Tensor,
     warmup_phi: torch.Tensor,
+    warmup_probe_loss: float,
     adam_loss: float,
     adam_accuracy: float,
     batch_size: int,
@@ -128,6 +135,7 @@ def branch_metrics(
     final_phi = fmap.evaluate().detach()
     tangent_drift = 0.0
     output_drift = float(torch.linalg.vector_norm(final_phi - warmup_phi))
+    probe_loss = float(F.cross_entropy(model(probe_x), probe_y).detach())
     gate_accept_rate = 1.0
     fallback_rate = 0.0
     mean_update_norm = 0.0
@@ -138,6 +146,8 @@ def branch_metrics(
         mean_update_norm = statistics.mean(row.get("update_norm", 0.0) for row in rows)
         tangent_rows = [row.get("functional_tangent_norm", 0.0) for row in rows]
         tangent_drift = statistics.mean(tangent_rows) if tangent_rows else 0.0
+    tangent_parameter_motion = tangent_drift
+    normal_parameter_motion = mean_update_norm
     return RawResult(
         seed=seed,
         optimizer=name,
@@ -147,6 +157,11 @@ def branch_metrics(
         accuracy_gain_vs_adam=accuracy - adam_accuracy,
         tangent_drift=tangent_drift,
         functional_output_drift=output_drift,
+        task_functional_progress=warmup_probe_loss - probe_loss,
+        equivalent_branch_divergence=0.0,
+        noise_induced_functional_error=0.0,
+        tangent_parameter_motion=tangent_parameter_motion,
+        normal_parameter_motion=normal_parameter_motion,
         gate_accept_rate=gate_accept_rate,
         fallback_rate=fallback_rate,
         mean_update_norm=mean_update_norm,
@@ -168,6 +183,7 @@ def run_seed(args, seed: int) -> list[RawResult]:
     warmup_steps = min(args.adam_warmup_steps, args.steps)
     remaining = batches[warmup_steps:]
     probe_x = batches[0][0][: args.probe_size].detach().clone()
+    probe_y = batches[0][1][: args.probe_size].detach().clone()
 
     base_model = SmallMLP(args.input_dim, args.hidden_dim, args.classes)
     warmup_optimizer = torch.optim.Adam(base_model.parameters(), lr=args.lr)
@@ -177,6 +193,7 @@ def run_seed(args, seed: int) -> list[RawResult]:
     model_state = copy.deepcopy(base_model.state_dict())
     adam_state = copy.deepcopy(warmup_optimizer.state_dict())
     warmup_phi = FunctionalMap(base_model, probe_x).evaluate().detach()
+    warmup_probe_loss = float(F.cross_entropy(base_model(probe_x), probe_y).detach())
 
     adam_model = SmallMLP(args.input_dim, args.hidden_dim, args.classes)
     adam_model.load_state_dict(model_state)
@@ -230,7 +247,9 @@ def run_seed(args, seed: int) -> list[RawResult]:
             adam_optimizer,
             eval_set,
             probe_x,
+            probe_y,
             warmup_phi,
+            warmup_probe_loss,
             adam_loss,
             adam_accuracy,
             args.batch_size,
@@ -243,7 +262,9 @@ def run_seed(args, seed: int) -> list[RawResult]:
             diagonal_optimizer,
             eval_set,
             probe_x,
+            probe_y,
             warmup_phi,
+            warmup_probe_loss,
             adam_loss,
             adam_accuracy,
             args.batch_size,
@@ -256,7 +277,9 @@ def run_seed(args, seed: int) -> list[RawResult]:
             functional_optimizer,
             eval_set,
             probe_x,
+            probe_y,
             warmup_phi,
+            warmup_probe_loss,
             adam_loss,
             adam_accuracy,
             args.batch_size,
@@ -265,21 +288,78 @@ def run_seed(args, seed: int) -> list[RawResult]:
     ]
 
 
+def bootstrap_ci(values: list[float], samples: int = 1000) -> tuple[float, float]:
+    if not values:
+        return 0.0, 0.0
+    generator = torch.Generator().manual_seed(12345)
+    means = []
+    tensor = torch.tensor(values, dtype=torch.float64)
+    for _ in range(samples):
+        idx = torch.randint(0, len(values), (len(values),), generator=generator)
+        means.append(float(tensor[idx].mean()))
+    means.sort()
+    return means[int(0.025 * samples)], means[int(0.975 * samples) - 1]
+
+
+def paired_stats(rows: list[RawResult], target: str, baseline: str) -> dict[str, float]:
+    by_seed = {}
+    for row in rows:
+        by_seed.setdefault(row.seed, {})[row.optimizer] = row
+    loss_diffs = []
+    accuracy_diffs = []
+    speed_ratios = []
+    for seed_rows in by_seed.values():
+        if target not in seed_rows or baseline not in seed_rows:
+            continue
+        target_row = seed_rows[target]
+        baseline_row = seed_rows[baseline]
+        loss_diffs.append(baseline_row.final_loss - target_row.final_loss)
+        accuracy_diffs.append(target_row.final_accuracy - baseline_row.final_accuracy)
+        speed_ratios.append(target_row.wall_clock / max(baseline_row.wall_clock, 1e-30))
+    loss_ci = bootstrap_ci(loss_diffs)
+    acc_ci = bootstrap_ci(accuracy_diffs)
+    return {
+        "loss_win_rate": sum(1 for value in loss_diffs if value > 0) / max(len(loss_diffs), 1),
+        "accuracy_win_rate": sum(1 for value in accuracy_diffs if value > 0) / max(len(accuracy_diffs), 1),
+        "paired_mean_loss_difference": statistics.mean(loss_diffs) if loss_diffs else 0.0,
+        "paired_median_loss_difference": statistics.median(loss_diffs) if loss_diffs else 0.0,
+        "paired_std_loss_difference": statistics.stdev(loss_diffs) if len(loss_diffs) > 1 else 0.0,
+        "loss_sign_test_wins": float(sum(1 for value in loss_diffs if value > 0)),
+        "loss_bootstrap_ci_low": loss_ci[0],
+        "loss_bootstrap_ci_high": loss_ci[1],
+        "paired_mean_accuracy_difference": statistics.mean(accuracy_diffs) if accuracy_diffs else 0.0,
+        "accuracy_bootstrap_ci_low": acc_ci[0],
+        "accuracy_bootstrap_ci_high": acc_ci[1],
+        "speed_ratio": statistics.mean(speed_ratios) if speed_ratios else 0.0,
+    }
+
+
 def print_summary(rows: list[RawResult]) -> None:
-    print("\noptimizer  mean_acc  std_acc  mean_loss  win_rate  mean_gain  mean_time")
-    print("---------  --------  -------  ---------  --------  ---------  ---------")
+    print("\noptimizer  mean_acc  std_acc  mean_loss  mean_progress  mean_time")
+    print("---------  --------  -------  ---------  -------------  ---------")
     for optimizer in ["adam_continue", "diagonal_grad_square", "functional_geoflow"]:
         group = [row for row in rows if row.optimizer == optimizer]
         accuracies = [row.final_accuracy for row in group]
         losses = [row.final_loss for row in group]
-        gains = [row.accuracy_gain_vs_adam for row in group]
         times = [row.wall_clock for row in group]
-        win_rate = sum(1 for gain in gains if gain > 0) / max(len(gains), 1)
+        progress = [row.task_functional_progress for row in group]
         print(
             f"{optimizer:<24} {statistics.mean(accuracies):>8.3f} "
             f"{(statistics.stdev(accuracies) if len(accuracies) > 1 else 0.0):>7.3f} "
-            f"{statistics.mean(losses):>9.4f} {win_rate:>8.3f} "
-            f"{statistics.mean(gains):>9.4f} {statistics.mean(times):>9.2f}"
+            f"{statistics.mean(losses):>9.4f} {statistics.mean(progress):>13.4f} {statistics.mean(times):>9.2f}"
+        )
+    for baseline in ["adam_continue", "diagonal_grad_square"]:
+        stats = paired_stats(rows, "functional_geoflow", baseline)
+        label = "adam" if baseline == "adam_continue" else "diagonal"
+        print(
+            f"functional_vs_{label}: loss_win_rate={stats['loss_win_rate']:.3f} "
+            f"accuracy_win_rate={stats['accuracy_win_rate']:.3f} "
+            f"mean_loss_diff={stats['paired_mean_loss_difference']:.6f} "
+            f"median_loss_diff={stats['paired_median_loss_difference']:.6f} "
+            f"std_loss_diff={stats['paired_std_loss_difference']:.6f} "
+            f"sign_wins={int(stats['loss_sign_test_wins'])} "
+            f"loss_ci=[{stats['loss_bootstrap_ci_low']:.6f},{stats['loss_bootstrap_ci_high']:.6f}] "
+            f"speed_ratio={stats['speed_ratio']:.3f}"
         )
 
 

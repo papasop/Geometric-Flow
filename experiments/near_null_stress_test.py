@@ -32,6 +32,7 @@ from experiments.reparameterization_stress_test import (
 
 @dataclass
 class NearNullRun:
+    seed: int
     epsilon: float
     optimizer: str
     null_threshold_mode: str
@@ -201,6 +202,7 @@ def run_branch(args, epsilon: float, optimizer_name: str, mode: str, null_tol: f
     if singular_values.numel() > 1:
         spectral_gap = float((singular_values[:-1] / singular_values[1:].clamp_min(torch.finfo(singular_values.dtype).tiny)).max())
     return NearNullRun(
+        seed=args.seed,
         epsilon=epsilon,
         optimizer=optimizer_name,
         null_threshold_mode=mode,
@@ -226,6 +228,7 @@ def parse_floats(value: str) -> list[float]:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--seed", type=int, default=91)
+    parser.add_argument("--trials", type=int, default=1)
     parser.add_argument("--steps", type=int, default=80)
     parser.add_argument("--train-samples", type=int, default=192)
     parser.add_argument("--eval-samples", type=int, default=192)
@@ -238,19 +241,22 @@ def main() -> None:
     parser.add_argument("--damping", type=float, default=1e-3)
     parser.add_argument("--max-update-norm", type=float, default=0.5)
     parser.add_argument("--epsilons", type=parse_floats, default=parse_floats("0,1e-5,1e-4,1e-3,1e-2,1e-1"))
-    parser.add_argument("--threshold-modes", default="absolute,relative,spectral_gap,energy_fraction")
-    parser.add_argument("--null-tols", type=parse_floats, default=parse_floats("1e-7,1e-6,1e-5"))
+    parser.add_argument("--threshold-modes", default="spectral_gap")
+    parser.add_argument("--null-tols", type=parse_floats, default=parse_floats("1e-6"))
     parser.add_argument("--out", type=Path, default=Path("artifacts/near_null_stress_test.csv"))
     args = parser.parse_args()
 
     modes = [part.strip() for part in args.threshold_modes.split(",") if part.strip()]
     rows = []
-    for epsilon in args.epsilons:
-        for mode in modes:
-            for null_tol in args.null_tols:
-                for optimizer_name in ["adam", "diagonal_grad_square", "functional_geoflow"]:
-                    rows.append(run_branch(args, epsilon, optimizer_name, mode, null_tol))
-        print(f"finished epsilon={epsilon}")
+    for trial in range(args.trials):
+        trial_args = argparse.Namespace(**vars(args))
+        trial_args.seed = args.seed + trial
+        for epsilon in args.epsilons:
+            for mode in modes:
+                for null_tol in args.null_tols:
+                    for optimizer_name in ["adam", "diagonal_grad_square", "functional_geoflow"]:
+                        rows.append(run_branch(trial_args, epsilon, optimizer_name, mode, null_tol))
+            print(f"finished seed={trial_args.seed} epsilon={epsilon}")
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
     with args.out.open("w", newline="", encoding="utf-8") as handle:

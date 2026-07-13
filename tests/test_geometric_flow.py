@@ -10,6 +10,7 @@ from geometric_flow import (
     GeoMLP,
     GeometricOptimizer,
     FunctionalMap,
+    FunctionalJTJOperator,
     compute_curvature,
     conjugate_gradient,
     functional_projectors,
@@ -25,6 +26,14 @@ from experiments.cifar10_configs import get_config
 from experiments.plot_comparison import ratio_time_rows
 from experiments.normal_projection_toy import run_toy
 from experiments.functional_projection_toy import TwoLayerLinear, known_tangent_vector, run_toy as run_functional_toy
+from experiments.reparameterization_stress_test import (
+    diagonal_scaling,
+    model_representations,
+    parse_optimizers as parse_reparam_optimizers,
+    reparameterize_model,
+    run as run_reparameterization_stress,
+    orthogonal_rotation,
+)
 
 
 class GeometricFlowTests(unittest.TestCase):
@@ -440,6 +449,26 @@ class GeometricFlowTests(unittest.TestCase):
         self.assertTrue(torch.allclose(projectors.tangent + projectors.normal, identity, atol=1e-5))
         self.assertEqual(projectors.tangent_rank + projectors.normal_rank, identity.shape[0])
 
+    def test_equivalent_reparameterizations_keep_logits_and_tangents(self):
+        torch.manual_seed(17)
+        model = TwoLayerLinear(input_dim=3, hidden_dim=3, output_dim=2)
+        x = torch.randn(5, 3)
+        base_logits = model(x)
+        for transform in [diagonal_scaling(3), orthogonal_rotation(3)]:
+            rep = reparameterize_model(model, transform)
+            self.assertTrue(torch.allclose(rep(x), base_logits, atol=1e-6))
+            fjac = FunctionalMap(rep, x).jacobian()
+            projectors = functional_projectors(fjac.jacobian)
+            if torch.allclose(transform, torch.diag(torch.diag(transform))):
+                generator = torch.diag(torch.ones(3))
+            else:
+                generator = torch.zeros(3, 3)
+                generator[0, 1] = 1.0
+                generator[1, 0] = -1.0
+            tangent = torch.cat([(generator @ rep.w1.weight.detach()).reshape(-1), (-rep.w2.weight.detach() @ generator).reshape(-1)])
+            self.assertLess(float(torch.linalg.vector_norm(fjac.jacobian @ tangent)), 1e-5)
+            self.assertLess(float(torch.linalg.vector_norm(projectors.normal @ tangent)), 1e-5)
+
     def test_functional_projectors_adaptive_threshold_diagnostics(self):
         jacobian = torch.diag(torch.tensor([10.0, 1.0, 1e-4, 1e-8]))
         spectral = functional_projectors(jacobian, null_threshold_mode="spectral_gap", null_tol=1e-6)
@@ -470,6 +499,52 @@ class GeometricFlowTests(unittest.TestCase):
         after = float(F.mse_loss(model(x), y).detach())
         self.assertLessEqual(after, before + 1e-6)
 
+    def test_low_rank_and_implicit_match_dense_functional_direction(self):
+        torch.manual_seed(18)
+        model = TwoLayerLinear(input_dim=2, hidden_dim=2, output_dim=1)
+        x = torch.randn(5, 2)
+        y = torch.randn(5, 1)
+        loss = F.mse_loss(model(x), y)
+        dense = projected_functional_geoflow_direction(model, loss, x, damping=1e-3, response_solver="dense")
+        low_rank = projected_functional_geoflow_direction(
+            model,
+            loss,
+            x,
+            damping=1e-3,
+            response_solver="low_rank",
+            functional_energy_fraction=1.0,
+        )
+        implicit = projected_functional_geoflow_direction(
+            model,
+            loss,
+            x,
+            damping=1e-3,
+            response_solver="implicit_cg",
+            cg_max_iter=64,
+            cg_tolerance=1e-8,
+        )
+        for candidate in [low_rank, implicit]:
+            cosine = torch.dot(candidate.direction, dense.direction) / (
+                torch.linalg.vector_norm(candidate.direction) * torch.linalg.vector_norm(dense.direction)
+            ).clamp_min(1e-30)
+            self.assertGreater(float(cosine), 0.99)
+            self.assertLess(candidate.solver_residual, 1e-4)
+            self.assertLess(candidate.tangent_norm, 1e-5)
+            self.assertLess(candidate.g_dot_d, 0.0)
+
+    def test_implicit_operator_matvec_matches_dense_jtj(self):
+        torch.manual_seed(19)
+        model = TwoLayerLinear(input_dim=2, hidden_dim=2, output_dim=1)
+        x = torch.randn(4, 2)
+        fmap = FunctionalMap(model, x)
+        fjac = fmap.jacobian()
+        projectors = functional_projectors(fjac.jacobian)
+        damping = 1e-3
+        operator = FunctionalJTJOperator(fmap, fmap.flatten_params(), projectors.normal, damping)
+        v = torch.randn(fjac.theta.numel())
+        dense_matvec = projectors.normal @ (fjac.jacobian.T @ (fjac.jacobian @ (projectors.normal @ v))) + damping * (projectors.normal @ v)
+        self.assertTrue(torch.allclose(operator.matvec(v), dense_matvec, atol=1e-5))
+
     def test_functional_optimizer_mode_logs_projection(self):
         torch.manual_seed(15)
         model = TwoLayerLinear(input_dim=2, hidden_dim=2, output_dim=1)
@@ -497,6 +572,7 @@ class GeometricFlowTests(unittest.TestCase):
     def test_functional_projection_toy_reports_required_fields(self):
         row = run_functional_toy(seed=3, input_dim=2, hidden_dim=2, output_dim=1, samples=4)
         self.assertIn("known_tangent_residual", row)
+        self.assertIn("direction_cosine_vs_dense", row)
         self.assertLess(row["functional_geoflow_tangent_norm"], 1e-5)
         self.assertLess(row["g_dot_d"], 0.0)
 
@@ -516,6 +592,30 @@ class GeometricFlowTests(unittest.TestCase):
         right.load_state_dict(state)
         for left_value, right_value in zip(left.state_dict().values(), right.state_dict().values()):
             self.assertTrue(torch.allclose(left_value, right_value))
+
+    def test_reparameterization_benchmark_keeps_per_seed_representation_rows(self):
+        args = type("Args", (), {})()
+        args.seed = 21
+        args.trials = 1
+        args.steps = 1
+        args.representations = 2
+        args.train_samples = 24
+        args.eval_samples = 24
+        args.batch_size = 8
+        args.probe_size = 4
+        args.input_dim = 3
+        args.hidden_dim = 3
+        args.output_dim = 2
+        args.lr = 1e-3
+        args.max_update_norm = 0.2
+        args.null_threshold_mode = "spectral_gap"
+        args.null_tol = 1e-6
+        args.optimizers = parse_reparam_optimizers("adam,diagonal_grad_square,functional_geoflow")
+        rows, aggregates = run_reparameterization_stress(args)
+        self.assertEqual(len(rows), 6)
+        self.assertTrue(all(row.seed == 21 for row in rows))
+        self.assertIn("final_phi", rows[0].__dataclass_fields__)
+        self.assertIn("loss_win_rate_vs_adam", aggregates[0])
 
     def test_phase_diagram_scanner_2d_writes_csv(self):
         torch.manual_seed(9)

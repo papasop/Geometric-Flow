@@ -19,10 +19,12 @@ except ImportError:  # pragma: no cover - older PyTorch compatibility
     from torch.nn.utils.stateless import functional_call
 
 from ._tensor import flatten_grads, flatten_tensors, trainable_params
+from .navigation import conjugate_gradient
 
 FunctionalRepresentation = Literal["logits", "probabilities", "hidden"]
 ResponseKind = Literal["gauss_newton", "empirical_response"]
 NullThresholdMode = Literal["absolute", "relative", "spectral_gap", "energy_fraction"]
+ResponseSolver = Literal["dense", "low_rank", "implicit_cg"]
 
 
 @dataclass
@@ -80,6 +82,11 @@ class FunctionalGeoFlowResult:
     response_eigenvalues: torch.Tensor
     tangent_norm: float
     projected_gradient_tangent_norm: float
+    response_solver: str = "dense"
+    retained_rank: int = 0
+    retained_spectral_energy: float = 1.0
+    solver_residual: float = 0.0
+    memory_estimate_bytes: int = 0
 
 
 class FunctionalMap:
@@ -349,6 +356,103 @@ def functional_response_operator(
     return 0.5 * (response + response.T)
 
 
+def low_rank_response_direction(
+    jacobian: torch.Tensor,
+    gradient: torch.Tensor,
+    p_normal: torch.Tensor,
+    damping: float,
+    functional_rank: Optional[int] = None,
+    functional_energy_fraction: float = 0.99,
+) -> tuple[torch.Tensor, dict[str, float]]:
+    """Solve in top singular vector subspace without building A_resp."""
+
+    _, singular_values, vh = torch.linalg.svd(jacobian, full_matrices=False)
+    total_energy = float(singular_values.pow(2).sum())
+    if singular_values.numel() == 0 or total_energy <= 1e-30:
+        return torch.zeros_like(gradient), {
+            "retained_rank": 0.0,
+            "retained_spectral_energy": 0.0,
+            "solver_residual": 0.0,
+            "memory_estimate_bytes": 0.0,
+        }
+    if functional_rank is None:
+        cumulative = torch.cumsum(singular_values.pow(2), dim=0) / total_energy
+        rank = int((cumulative < functional_energy_fraction).sum().item() + 1)
+    else:
+        rank = int(functional_rank)
+    rank = max(1, min(rank, singular_values.numel()))
+    v = vh[:rank].T
+    values = singular_values[:rank].pow(2)
+    g_normal = p_normal @ gradient
+    coeff = v.T @ g_normal
+    direction = -(v @ (coeff / (values + damping)))
+    direction = p_normal @ direction
+    retained = float(values.sum() / max(total_energy, 1e-30))
+    residual = float(torch.linalg.vector_norm((jacobian.T @ (jacobian @ direction)) + damping * direction + g_normal))
+    bytes_per = jacobian.element_size()
+    memory = int((v.numel() + values.numel()) * bytes_per)
+    return direction, {
+        "retained_rank": float(rank),
+        "retained_spectral_energy": retained,
+        "solver_residual": residual,
+        "memory_estimate_bytes": float(memory),
+    }
+
+
+class FunctionalJTJOperator:
+    """Prototype JVP/VJP operator for v -> J^T(Jv) + damping P_N v.
+
+    The operator itself does not build ``J`` or ``J^T J``. The current toy
+    implementation still receives ``P_N`` from dense SVD projectors.
+    """
+
+    def __init__(
+        self,
+        functional_map: FunctionalMap,
+        theta: torch.Tensor,
+        p_normal: torch.Tensor,
+        damping: float,
+    ) -> None:
+        self.functional_map = functional_map
+        self.theta = theta.detach().clone().requires_grad_(True)
+        self.p_normal = p_normal
+        self.damping = damping
+
+    def matvec(self, vector: torch.Tensor) -> torch.Tensor:
+        vector = vector.to(self.theta)
+        p_vector = self.p_normal @ vector
+
+        def phi(flat_theta: torch.Tensor) -> torch.Tensor:
+            return self.functional_map.evaluate(flat_theta)
+
+        _, jv = torch.autograd.functional.jvp(phi, (self.theta,), (p_vector,), create_graph=False)
+        _, vjp = torch.autograd.functional.vjp(phi, self.theta, v=jv, create_graph=False)
+        return self.p_normal @ vjp + self.damping * p_vector
+
+
+def implicit_cg_response_direction(
+    functional_map: FunctionalMap,
+    gradient: torch.Tensor,
+    p_normal: torch.Tensor,
+    damping: float,
+    cg_max_iter: int = 64,
+    cg_tolerance: float = 1e-6,
+) -> tuple[torch.Tensor, dict[str, float]]:
+    g_normal = p_normal @ gradient
+    operator = FunctionalJTJOperator(functional_map, functional_map.flatten_params(), p_normal, damping)
+    result = conjugate_gradient(operator.matvec, -g_normal, max_iter=cg_max_iter, tolerance=cg_tolerance)
+    direction = p_normal @ result.solution
+    p_tangent = torch.eye(p_normal.shape[0], dtype=p_normal.dtype, device=p_normal.device) - p_normal
+    direction = direction - p_tangent @ direction
+    residual = float(torch.linalg.vector_norm(operator.matvec(direction) + g_normal))
+    return direction, {
+        "retained_rank": float(p_normal.shape[0]),
+        "retained_spectral_energy": 1.0,
+        "solver_residual": residual,
+        "memory_estimate_bytes": float((functional_map.flatten_params().numel() + p_normal.numel()) * gradient.element_size()),
+    }
+
+
 def projected_functional_geoflow_direction(
     model: torch.nn.Module,
     loss: torch.Tensor,
@@ -363,6 +467,11 @@ def projected_functional_geoflow_direction(
     null_tol: float = 1e-6,
     max_tangent_fraction: float = 0.9,
     energy_fraction: float = 0.999,
+    response_solver: ResponseSolver = "dense",
+    functional_rank: Optional[int] = None,
+    functional_energy_fraction: float = 0.99,
+    cg_max_iter: int = 64,
+    cg_tolerance: float = 1e-6,
 ) -> FunctionalGeoFlowResult:
     """Compute d = -pinv(P_N A_resp P_N + damping P_N) P_N g."""
 
@@ -384,12 +493,46 @@ def projected_functional_geoflow_direction(
     p_normal = projectors.normal.to(device=gradient.device, dtype=gradient.dtype)
     p_tangent = projectors.tangent.to(device=gradient.device, dtype=gradient.dtype)
     g_normal = p_normal @ gradient
-    response = functional_response_operator(fjac.jacobian.to(dtype=gradient.dtype), response_kind=response_kind)
-    response = response.to(device=gradient.device, dtype=gradient.dtype)
-    projected_response = p_normal @ response @ p_normal + damping * p_normal
-    rhs = -g_normal
-    direction = torch.linalg.pinv(projected_response) @ rhs
-    direction = p_normal @ direction
+    if response_solver == "dense":
+        response = functional_response_operator(fjac.jacobian.to(dtype=gradient.dtype), response_kind=response_kind)
+        response = response.to(device=gradient.device, dtype=gradient.dtype)
+        projected_response = p_normal @ response @ p_normal + damping * p_normal
+        rhs = -g_normal
+        direction = torch.linalg.pinv(projected_response) @ rhs
+        direction = p_normal @ direction
+        eigvals = torch.linalg.eigvalsh(0.5 * (projected_response + projected_response.T))
+        solver_info = {
+            "retained_rank": float(projectors.normal_rank),
+            "retained_spectral_energy": 1.0,
+            "solver_residual": float(torch.linalg.vector_norm(projected_response @ direction + g_normal)),
+            "memory_estimate_bytes": float((response.numel() + projected_response.numel()) * gradient.element_size()),
+        }
+    elif response_solver == "low_rank":
+        direction, solver_info = low_rank_response_direction(
+            fjac.jacobian.to(device=gradient.device, dtype=gradient.dtype),
+            gradient,
+            p_normal,
+            damping,
+            functional_rank=functional_rank,
+            functional_energy_fraction=functional_energy_fraction,
+        )
+        response = torch.empty(0, device=gradient.device, dtype=gradient.dtype)
+        projected_response = torch.empty(0, device=gradient.device, dtype=gradient.dtype)
+        eigvals = fjac.singular_values.to(device=gradient.device, dtype=gradient.dtype).pow(2) + damping
+    elif response_solver == "implicit_cg":
+        direction, solver_info = implicit_cg_response_direction(
+            fmap,
+            gradient,
+            p_normal,
+            damping,
+            cg_max_iter=cg_max_iter,
+            cg_tolerance=cg_tolerance,
+        )
+        response = torch.empty(0, device=gradient.device, dtype=gradient.dtype)
+        projected_response = torch.empty(0, device=gradient.device, dtype=gradient.dtype)
+        eigvals = torch.empty(0, device=gradient.device, dtype=gradient.dtype)
+    else:
+        raise ValueError(f"unknown response_solver: {response_solver}")
     if max_update_norm is not None:
         norm = torch.linalg.vector_norm(direction)
         if float(norm) > max_update_norm:
@@ -404,7 +547,6 @@ def projected_functional_geoflow_direction(
             if float(norm) > max_update_norm:
                 direction = direction * (max_update_norm / norm.clamp_min(1e-30))
         g_dot_d = float(torch.dot(gradient, direction)) if gradient.numel() else 0.0
-    eigvals = torch.linalg.eigvalsh(0.5 * (projected_response + projected_response.T))
     return FunctionalGeoFlowResult(
         direction=direction.detach(),
         gradient=gradient.detach(),
@@ -418,4 +560,9 @@ def projected_functional_geoflow_direction(
         response_eigenvalues=eigvals.detach(),
         tangent_norm=float(torch.linalg.vector_norm(p_tangent @ direction.detach())),
         projected_gradient_tangent_norm=float(torch.linalg.vector_norm(p_tangent @ g_normal.detach())),
+        response_solver=response_solver,
+        retained_rank=int(solver_info["retained_rank"]),
+        retained_spectral_energy=float(solver_info["retained_spectral_energy"]),
+        solver_residual=float(solver_info["solver_residual"]),
+        memory_estimate_bytes=int(solver_info["memory_estimate_bytes"]),
     )

@@ -87,6 +87,10 @@ replacement for Adam.
 Null-space selection supports `absolute`, `relative`, `spectral_gap`, and
 `energy_fraction` modes, with diagnostics for selected threshold, spectral-gap
 index, normal condition number, and retained energy fraction.
+Functional response solving supports `dense`, `low_rank`, and `implicit_cg`.
+The low-rank path uses truncated SVD of dense `J_phi` as a first prototype and
+avoids materializing full `A_resp`; the implicit path is a toy JVP/VJP CG
+operator that still relies on dense projectors for `P_N`.
 
 Each optimizer step records a topography row with `trace_estimate`,
 `rayleigh_grad`, `update_norm`, and cumulative `geodesic_distance`, which acts as
@@ -131,7 +135,9 @@ python experiments/run_cifar10_benchmark.py --download --precond-scales 0.35,0.5
 python experiments/plot_comparison.py artifacts/cifar10_benchmark.csv --out artifacts/adam_vs_hybrid.svg
 python experiments/plot_comparison.py artifacts/cifar10_geo_diagnostics.csv --ratio-out artifacts/ratio_over_time.svg
 python experiments/normal_projection_toy.py --out artifacts/normal_projection_toy.csv
-python experiments/functional_projection_toy.py
+python experiments/functional_projection_toy.py --response-solver dense
+python experiments/functional_projection_toy.py --response-solver low_rank
+python experiments/functional_projection_toy.py --response-solver implicit_cg
 python experiments/run_functional_switch_validation.py --trials 5 --steps 200
 python experiments/reparameterization_stress_test.py
 python experiments/noisy_redundancy_validation.py

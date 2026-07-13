@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import csv
 import sys
+import time
 from pathlib import Path
 
 import torch
@@ -56,6 +58,9 @@ def run_toy(
     samples: int = 8,
     lr: float = 0.05,
     damping: float = 1e-3,
+    response_solver: str = "dense",
+    functional_rank: int | None = None,
+    functional_energy_fraction: float = 0.99,
 ):
     torch.manual_seed(seed)
     x = torch.randn(samples, input_dim)
@@ -65,6 +70,7 @@ def run_toy(
     with torch.no_grad():
         model.w1.weight.mul_(0.2)
         model.w2.weight.mul_(0.2)
+    initial_state = copy.deepcopy(model.state_dict())
 
     fmap = FunctionalMap(model, x, representation="logits")
     fjac = fmap.jacobian()
@@ -77,19 +83,44 @@ def run_toy(
     raw_grad = flatten_grads(grads, list(model.parameters())).detach()
     raw_gradient_tangent_norm = float(torch.linalg.vector_norm(projectors.tangent @ raw_grad))
 
+    dense_start = time.perf_counter()
+    dense_result = projected_functional_geoflow_direction(
+        model,
+        loss_before,
+        x,
+        damping=damping,
+        max_update_norm=1.0,
+        response_solver="dense",
+    )
+    dense_seconds = time.perf_counter() - dense_start
+    start = time.perf_counter()
     result = projected_functional_geoflow_direction(
         model,
         loss_before,
         x,
         damping=damping,
         max_update_norm=1.0,
+        response_solver=response_solver,
+        functional_rank=functional_rank,
+        functional_energy_fraction=functional_energy_fraction,
     )
+    solver_seconds = time.perf_counter() - start
     params = [param for param in model.parameters() if param.requires_grad]
     assign_flat_update(params, result.direction, scale=lr)
     loss_after = evaluate_loss(model, x, y)
+    dense_model = TwoLayerLinear(input_dim, hidden_dim, output_dim)
+    dense_model.load_state_dict(initial_state)
+    dense_params = [param for param in dense_model.parameters() if param.requires_grad]
+    assign_flat_update(dense_params, dense_result.direction, scale=lr)
+    dense_loss_after = evaluate_loss(dense_model, x, y)
     eigvals = result.response_eigenvalues
+    cosine = float(
+        torch.dot(result.direction, dense_result.direction)
+        / (torch.linalg.vector_norm(result.direction) * torch.linalg.vector_norm(dense_result.direction)).clamp_min(1e-30)
+    )
 
     return {
+        "response_solver": response_solver,
         "total_params": int(fjac.theta.numel()),
         "functional_jacobian_rank": fjac.rank,
         "tangent_rank": projectors.tangent_rank,
@@ -105,9 +136,19 @@ def run_toy(
         "functional_geoflow_tangent_norm": result.tangent_norm,
         "loss_before": float(loss_before.detach()),
         "loss_after": float(loss_after.detach()),
+        "dense_loss_after": float(dense_loss_after.detach()),
+        "one_step_loss_difference_vs_dense": float(loss_after.detach() - dense_loss_after.detach()),
         "g_dot_d": result.g_dot_d,
         "response_min_eigenvalue": float(eigvals.min()) if eigvals.numel() else 0.0,
         "response_max_eigenvalue": float(eigvals.max()) if eigvals.numel() else 0.0,
+        "direction_cosine_vs_dense": cosine,
+        "solver_residual": result.solver_residual,
+        "retained_rank": result.retained_rank,
+        "retained_spectral_energy": result.retained_spectral_energy,
+        "memory_estimate_bytes": result.memory_estimate_bytes,
+        "dense_seconds": dense_seconds,
+        "solver_seconds": solver_seconds,
+        "speedup_vs_dense": dense_seconds / max(solver_seconds, 1e-30),
         "descent_gate_passed": result.descent_gate_passed,
         "fallback": result.fallback,
     }
@@ -122,6 +163,9 @@ def main() -> None:
     parser.add_argument("--samples", type=int, default=8)
     parser.add_argument("--lr", type=float, default=0.05)
     parser.add_argument("--damping", type=float, default=1e-3)
+    parser.add_argument("--response-solver", choices=["dense", "low_rank", "implicit_cg"], default="dense")
+    parser.add_argument("--functional-rank", type=int, default=None)
+    parser.add_argument("--functional-energy-fraction", type=float, default=0.99)
     parser.add_argument("--out", type=Path, default=Path("artifacts/functional_projection_toy.csv"))
     args = parser.parse_args()
 
@@ -133,6 +177,9 @@ def main() -> None:
         samples=args.samples,
         lr=args.lr,
         damping=args.damping,
+        response_solver=args.response_solver,
+        functional_rank=args.functional_rank,
+        functional_energy_fraction=args.functional_energy_fraction,
     )
     args.out.parent.mkdir(parents=True, exist_ok=True)
     with args.out.open("w", newline="", encoding="utf-8") as handle:

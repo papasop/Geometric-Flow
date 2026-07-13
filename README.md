@@ -227,7 +227,9 @@ python experiments/normal_projection_toy.py --out artifacts/normal_projection_to
 Run the functional stable-neutral toy benchmark:
 
 ```bash
-python experiments/functional_projection_toy.py
+python experiments/functional_projection_toy.py --response-solver dense
+python experiments/functional_projection_toy.py --response-solver low_rank
+python experiments/functional_projection_toy.py --response-solver implicit_cg
 ```
 
 Run a matched small-MLP validation that forks from the same Adam warm-up state
@@ -276,6 +278,11 @@ python experiments/near_null_stress_test.py
 - `geometric_flow.functional_geometry` constructs `J_phi`, SVD projectors
   `P_T/P_N`, the Gauss-Newton response `J_phi^T J_phi`, and the projected
   direction `d = -pinv(P_N A_resp P_N + damping P_N) P_N g`.
+- `response_solver="low_rank"` uses a truncated SVD of dense `J_phi` and solves
+  in retained right-singular directions without constructing full `A_resp`.
+- `response_solver="implicit_cg"` is a small-model JVP/VJP operator prototype for
+  `v -> J^T(Jv) + damping * P_N v`; it still uses dense projectors in this
+  repository and should not be read as full large-model support.
 - `experiments/run_functional_switch_validation.py` saves raw per-seed rows and
   reports win rate, gate accept rate, fallback rate, functional drift, update
   norm, and wall-clock time. Current output should be read as diagnostics, not a

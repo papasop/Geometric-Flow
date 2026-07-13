@@ -45,7 +45,13 @@ class StressRun:
     parameter_distance: float
     final_loss: float
     final_accuracy: float
+    final_phi: str
     functional_output_drift: float
+    task_functional_progress: float
+    equivalent_branch_divergence: float
+    noise_induced_functional_error: float
+    tangent_parameter_motion: float
+    normal_parameter_motion: float
     tangent_drift: float
     normal_update_norm: float
     gate_accept_rate: float
@@ -93,13 +99,18 @@ def orthogonal_rotation(hidden_dim: int, epsilon: float = 0.35) -> torch.Tensor:
     return torch.matrix_exp(epsilon * generator)
 
 
-def model_representations(base: RedundantLinearNet) -> dict[str, RedundantLinearNet]:
+def model_representations(base: RedundantLinearNet, count: int = 3) -> dict[str, RedundantLinearNet]:
     hidden_dim = base.w1.weight.shape[0]
-    return {
+    reps = {
         "identity": reparameterize_model(base, torch.eye(hidden_dim)),
         "diagonal_scaling": reparameterize_model(base, diagonal_scaling(hidden_dim)),
         "orthogonal_rotation": reparameterize_model(base, orthogonal_rotation(hidden_dim)),
     }
+    for idx in range(max(0, count - len(reps))):
+        scale = 0.25 + 0.1 * idx
+        transform = orthogonal_rotation(hidden_dim, epsilon=scale) @ diagonal_scaling(hidden_dim, scale=0.3 + 0.05 * idx)
+        reps[f"mixed_{idx + 1}"] = reparameterize_model(base, transform)
+    return dict(list(reps.items())[:count])
 
 
 def collect_batches(loader: DataLoader, steps: int):
@@ -190,25 +201,26 @@ def pairwise_mean(vectors: list[torch.Tensor]) -> float:
     return statistics.mean(distances)
 
 
-def run(args) -> tuple[list[StressRun], list[dict[str, float | str]]]:
-    torch.manual_seed(args.seed)
-    train_set = make_classification(args.train_samples, args.input_dim, args.output_dim, args.seed)
-    eval_set = make_classification(args.eval_samples, args.input_dim, args.output_dim, args.seed + 2000)
+def run_seed(args, seed: int) -> tuple[list[StressRun], list[dict[str, float | str]]]:
+    torch.manual_seed(seed)
+    train_set = make_classification(args.train_samples, args.input_dim, args.output_dim, seed)
+    eval_set = make_classification(args.eval_samples, args.input_dim, args.output_dim, seed + 2000)
     loader = DataLoader(
         train_set,
         batch_size=args.batch_size,
         shuffle=True,
-        generator=torch.Generator().manual_seed(args.seed),
+        generator=torch.Generator().manual_seed(seed),
     )
     batches = collect_batches(loader, args.steps)
     probe_x = train_set.tensors[0][: args.probe_size].detach().clone()
-    base = init_base_model(args.input_dim, args.hidden_dim, args.output_dim, args.seed)
+    probe_y = train_set.tensors[1][: args.probe_size].detach().clone()
+    base = init_base_model(args.input_dim, args.hidden_dim, args.output_dim, seed)
     base_phi = FunctionalMap(base, probe_x).evaluate().detach()
     base_theta = get_flat_params(list(base.parameters()))
+    base_probe_loss = float(F.cross_entropy(base(probe_x), probe_y).detach())
     rows = []
-    final_phi_by_optimizer = {name: [] for name in args.optimizers}
 
-    for rep_name, rep_model in model_representations(base).items():
+    for rep_name, rep_model in model_representations(base, count=args.representations).items():
         initial_phi = FunctionalMap(rep_model, probe_x).evaluate().detach()
         initial_residual = float(torch.linalg.vector_norm(initial_phi - base_phi))
         parameter_distance = float(torch.linalg.vector_norm(get_flat_params(list(rep_model.parameters())) - base_theta))
@@ -226,22 +238,28 @@ def run(args) -> tuple[list[StressRun], list[dict[str, float | str]]]:
             )
             loss, accuracy = evaluate(model, eval_set, args.batch_size)
             final_phi = trajectory[-1]
-            final_phi_by_optimizer[optimizer_name].append(final_phi)
             logs = getattr(optimizer, "topography_log", [])
             tangent_drift = statistics.mean(row.get("functional_tangent_norm", 0.0) for row in logs) if logs else 0.0
             normal_update_norm = statistics.mean(row.get("update_norm", 0.0) for row in logs) if logs else 0.0
             gate = statistics.mean(1.0 if row.get("descent_gate_passed", True) else 0.0 for row in logs) if logs else 1.0
             fallback = statistics.mean(1.0 if "fallback" in row.get("mode", "") else 0.0 for row in logs) if logs else 0.0
+            final_probe_loss = float(F.cross_entropy(model(probe_x), probe_y).detach())
             rows.append(
                 StressRun(
-                    seed=args.seed,
+                    seed=seed,
                     representation=rep_name,
                     optimizer=optimizer_name,
                     initial_functional_residual=initial_residual,
                     parameter_distance=parameter_distance,
                     final_loss=loss,
                     final_accuracy=accuracy,
+                    final_phi="|".join(f"{float(value):.9g}" for value in final_phi.reshape(-1)),
                     functional_output_drift=float(torch.linalg.vector_norm(final_phi - initial_phi)),
+                    task_functional_progress=base_probe_loss - final_probe_loss,
+                    equivalent_branch_divergence=0.0,
+                    noise_induced_functional_error=0.0,
+                    tangent_parameter_motion=tangent_drift,
+                    normal_parameter_motion=normal_update_norm,
                     tangent_drift=tangent_drift,
                     normal_update_norm=normal_update_norm,
                     gate_accept_rate=gate,
@@ -249,22 +267,61 @@ def run(args) -> tuple[list[StressRun], list[dict[str, float | str]]]:
                     wall_clock=seconds,
                 )
             )
+    return rows, []
+
+
+def run(args) -> tuple[list[StressRun], list[dict[str, float | str]]]:
+    all_rows = []
+    for trial in range(args.trials):
+        seed_rows, _ = run_seed(args, args.seed + trial)
+        all_rows.extend(seed_rows)
+        print(f"finished seed={args.seed + trial}")
+    aggregates = aggregate_rows(all_rows, args.optimizers)
+    return all_rows, aggregates
+
+
+def aggregate_rows(rows: list[StressRun], optimizers: list[str]) -> list[dict[str, float | str]]:
     aggregates = []
-    for optimizer_name, finals in final_phi_by_optimizer.items():
+    for optimizer_name in optimizers:
         group = [row for row in rows if row.optimizer == optimizer_name]
-        losses = [row.final_loss for row in group]
-        accuracies = [row.final_accuracy for row in group]
+        loss_vs_adam = []
+        acc_vs_adam = []
+        loss_vs_diag = []
+        acc_vs_diag = []
+        speed_vs_diag = []
+        for row in group:
+            adam_row = next((candidate for candidate in rows if candidate.seed == row.seed and candidate.representation == row.representation and candidate.optimizer == "adam"), None)
+            diag_row = next((candidate for candidate in rows if candidate.seed == row.seed and candidate.representation == row.representation and candidate.optimizer == "diagonal_grad_square"), None)
+            if adam_row is not None:
+                loss_vs_adam.append(adam_row.final_loss - row.final_loss)
+                acc_vs_adam.append(row.final_accuracy - adam_row.final_accuracy)
+            if diag_row is not None:
+                loss_vs_diag.append(diag_row.final_loss - row.final_loss)
+                acc_vs_diag.append(row.final_accuracy - diag_row.final_accuracy)
+                speed_vs_diag.append(row.wall_clock / max(diag_row.wall_clock, 1e-30))
+        by_seed = {}
+        for row in group:
+            by_seed.setdefault(row.seed, []).append(row)
+        sensitivity = statistics.mean(
+            pairwise_mean([torch.tensor([float(value) for value in row.final_phi.split("|")]) for row in seed_rows])
+            for seed_rows in by_seed.values()
+        )
         aggregates.append(
             {
                 "optimizer": optimizer_name,
-                "reparameterization_sensitivity": pairwise_mean(finals),
-                "final_loss_dispersion": statistics.pstdev(losses),
-                "final_accuracy_dispersion": statistics.pstdev(accuracies),
-                "mean_wall_clock": statistics.mean(row.wall_clock for row in group),
-                "mean_tangent_drift": statistics.mean(row.tangent_drift for row in group),
+                "reparameterization_sensitivity": sensitivity,
+                "final_loss_dispersion": statistics.pstdev([row.final_loss for row in group]) if group else 0.0,
+                "final_accuracy_dispersion": statistics.pstdev([row.final_accuracy for row in group]) if group else 0.0,
+                "loss_win_rate_vs_adam": sum(1 for value in loss_vs_adam if value > 0) / max(len(loss_vs_adam), 1),
+                "accuracy_win_rate_vs_adam": sum(1 for value in acc_vs_adam if value > 0) / max(len(acc_vs_adam), 1),
+                "loss_win_rate_vs_diagonal": sum(1 for value in loss_vs_diag if value > 0) / max(len(loss_vs_diag), 1),
+                "accuracy_win_rate_vs_diagonal": sum(1 for value in acc_vs_diag if value > 0) / max(len(acc_vs_diag), 1),
+                "mean_wall_clock": statistics.mean(row.wall_clock for row in group) if group else 0.0,
+                "speed_ratio_vs_diagonal": statistics.mean(speed_vs_diag) if speed_vs_diag else 0.0,
+                "mean_tangent_drift": statistics.mean(row.tangent_drift for row in group) if group else 0.0,
             }
         )
-    return rows, aggregates
+    return aggregates
 
 
 def parse_optimizers(value: str) -> list[str]:
@@ -274,7 +331,9 @@ def parse_optimizers(value: str) -> list[str]:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--seed", type=int, default=51)
+    parser.add_argument("--trials", type=int, default=1)
     parser.add_argument("--steps", type=int, default=80)
+    parser.add_argument("--representations", type=int, default=3)
     parser.add_argument("--train-samples", type=int, default=192)
     parser.add_argument("--eval-samples", type=int, default=192)
     parser.add_argument("--batch-size", type=int, default=16)

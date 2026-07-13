@@ -66,6 +66,9 @@ class GeometricOptimizer(Optimizer):
         functional_probe: Optional[torch.Tensor] = None,
         functional_representation: str = "logits",
         response_kind: str = "gauss_newton",
+        response_solver: str = "dense",
+        functional_rank: Optional[int] = None,
+        functional_energy_fraction: float = 0.99,
         null_threshold_mode: str = "relative",
         null_tol: float = 1e-6,
         max_tangent_fraction: float = 0.9,
@@ -173,6 +176,9 @@ class GeometricOptimizer(Optimizer):
         self.functional_probe = functional_probe
         self.functional_representation = functional_representation
         self.response_kind = response_kind
+        self.response_solver = response_solver
+        self.functional_rank = functional_rank
+        self.functional_energy_fraction = functional_energy_fraction
         self.null_threshold_mode = null_threshold_mode
         self.null_tol = null_tol
         self.max_tangent_fraction = max_tangent_fraction
@@ -382,6 +388,11 @@ class GeometricOptimizer(Optimizer):
                 null_tol=self.null_tol,
                 max_tangent_fraction=self.max_tangent_fraction,
                 energy_fraction=self.energy_fraction,
+                response_solver=self.response_solver,
+                functional_rank=self.functional_rank,
+                functional_energy_fraction=self.functional_energy_fraction,
+                cg_max_iter=self.cg_max_iter,
+                cg_tolerance=self.cg_tolerance,
             )
         self._assign_flat_grad(params, result.gradient)
         raw_grad_norm = float(torch.linalg.vector_norm(result.gradient))
@@ -429,6 +440,11 @@ class GeometricOptimizer(Optimizer):
             "spectral_gap_index": result.projectors.spectral_gap_index,
             "condition_number_normal": result.projectors.condition_number_normal,
             "retained_energy_fraction": result.projectors.retained_energy_fraction,
+            "response_solver": result.response_solver,
+            "retained_rank": result.retained_rank,
+            "retained_spectral_energy": result.retained_spectral_energy,
+            "solver_residual": result.solver_residual,
+            "memory_estimate_bytes": result.memory_estimate_bytes,
         }
         self.topography_log.append(entry)
         self._maybe_emit_diagnostics(entry, verbose=verbose)
