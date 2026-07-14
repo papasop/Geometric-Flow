@@ -186,6 +186,232 @@ class SubsteppedQuotientFlow(Optimizer):
         return collected
 
 
+class CapacityAdaptiveQuotientFlow(Optimizer):
+    """Experimental capacity-adaptive quotient-flow integrator.
+
+    The optimizer is opt-in and separate from ``SubsteppedQuotientFlow``. It
+    keeps the same LoRA convention ``M = B A`` but replaces the user-selected
+    fixed substep count with a product-space capacity controller. On the
+    full-rank ordinary-inverse branch, the factor directions are gauge
+    equivariant in exact arithmetic; the Moore-Penrose pseudoinverse fallback is
+    a numerical safeguard and does not generally preserve exact covariance under
+    arbitrary non-orthogonal gauges.
+    """
+
+    def __init__(
+        self,
+        params=None,
+        *,
+        factor_modules=None,
+        macro_flow_time: float,
+        local_function_tolerance: float,
+        max_auto_substeps: int = 128,
+        max_flow_dt: Optional[float] = None,
+        balance_after_substep: bool = True,
+        gram_condition_limit: float = 1e10,
+    ) -> None:
+        modules = factor_modules if factor_modules is not None else params
+        self.factor_modules = SubsteppedQuotientFlow._collect_factor_modules(modules)
+        if macro_flow_time <= 0:
+            raise ValueError("macro_flow_time must be positive")
+        if local_function_tolerance <= 0:
+            raise ValueError("local_function_tolerance must be positive")
+        if not isinstance(max_auto_substeps, int) or max_auto_substeps < 1:
+            raise ValueError("max_auto_substeps must be an integer >= 1")
+        if max_flow_dt is not None and max_flow_dt <= 0:
+            raise ValueError("max_flow_dt must be None or positive")
+        if gram_condition_limit <= 1:
+            raise ValueError("gram_condition_limit must be > 1")
+        self.macro_flow_time = float(macro_flow_time)
+        self.local_function_tolerance = float(local_function_tolerance)
+        self.max_auto_substeps = int(max_auto_substeps)
+        self.max_flow_dt = None if max_flow_dt is None else float(max_flow_dt)
+        self.balance_after_substep = bool(balance_after_substep)
+        self.gram_condition_limit = float(gram_condition_limit)
+
+        self.condition_max = 0.0
+        self.fallback_count = 0
+        self.balance_residual_max = 0.0
+        self.last_update_norm = 0.0
+        self.last_auto_substeps = 0
+        self.total_auto_substeps = 0
+        self._macro_steps = 0
+        self.last_capacity = 0.0
+        self._capacity_sum = 0.0
+        self.max_capacity = 0.0
+        self.last_flow_dt = 0.0
+        self._flow_dt_sum = 0.0
+        self.max_flow_dt_used = 0.0
+        self.flow_dt_cap_hits = 0
+        self.last_predicted_local_dphi = 0.0
+        self._predicted_local_dphi_sum = 0.0
+        self.max_predicted_local_dphi = 0.0
+        self.last_diagnostics = self._diagnostics()
+
+        optimizer_params = []
+        for module in self.factor_modules:
+            optimizer_params.extend([module.A, module.B])
+        super().__init__(
+            optimizer_params,
+            dict(
+                macro_flow_time=self.macro_flow_time,
+                local_function_tolerance=self.local_function_tolerance,
+                max_auto_substeps=self.max_auto_substeps,
+                max_flow_dt=self.max_flow_dt,
+                balance_after_substep=self.balance_after_substep,
+                gram_condition_limit=self.gram_condition_limit,
+            ),
+        )
+
+    def macro_step(self, closure: Callable[[], torch.Tensor]):
+        """Run one macro flow step, recomputing gradients at every local step."""
+
+        if closure is None:
+            raise RuntimeError("macro_step requires a closure")
+        remaining = self.macro_flow_time
+        tiny = torch.finfo(self.factor_modules[0].A.dtype).tiny
+        loss = None
+        local_steps = 0
+        last_update_norm = 0.0
+        while remaining > max(tiny, 1e-15):
+            if local_steps >= self.max_auto_substeps:
+                raise RuntimeError("CapacityAdaptiveQuotientFlow exceeded max_auto_substeps")
+            loss = closure()
+            directions, capacity = self._directions_and_capacity()
+            capacity_value = float(capacity.detach().cpu())
+            if capacity_value <= max(tiny, 1e-30):
+                flow_dt = remaining
+            else:
+                flow_dt = min(remaining, self.local_function_tolerance / capacity_value)
+                if self.max_flow_dt is not None and flow_dt > self.max_flow_dt:
+                    flow_dt = self.max_flow_dt
+                    self.flow_dt_cap_hits += 1
+            predicted = capacity_value * flow_dt
+            last_update_norm = self._apply_directions(directions, flow_dt)
+            remaining = max(0.0, remaining - flow_dt)
+            local_steps += 1
+            self.last_capacity = capacity_value
+            self._capacity_sum += capacity_value
+            self.max_capacity = max(self.max_capacity, capacity_value)
+            self.last_flow_dt = flow_dt
+            self._flow_dt_sum += flow_dt
+            self.max_flow_dt_used = max(self.max_flow_dt_used, flow_dt)
+            self.last_predicted_local_dphi = predicted
+            self._predicted_local_dphi_sum += predicted
+            self.max_predicted_local_dphi = max(self.max_predicted_local_dphi, predicted)
+        self.last_auto_substeps = local_steps
+        self.total_auto_substeps += local_steps
+        self._macro_steps += 1
+        self.last_update_norm = last_update_norm
+        self.last_diagnostics = self._diagnostics()
+        return loss
+
+    def step(self, closure: Callable[[], torch.Tensor] | None = None):
+        if closure is None:
+            raise RuntimeError("CapacityAdaptiveQuotientFlow.step requires a closure; use macro_step")
+        return self.macro_step(closure)
+
+    def load_state_dict(self, state_dict):
+        result = super().load_state_dict(state_dict)
+        group = self.param_groups[0]
+        self.macro_flow_time = float(group["macro_flow_time"])
+        self.local_function_tolerance = float(group["local_function_tolerance"])
+        self.max_auto_substeps = int(group["max_auto_substeps"])
+        self.max_flow_dt = group.get("max_flow_dt")
+        self.balance_after_substep = bool(group.get("balance_after_substep", self.balance_after_substep))
+        self.gram_condition_limit = float(group.get("gram_condition_limit", self.gram_condition_limit))
+        group["max_flow_dt"] = self.max_flow_dt
+        group["balance_after_substep"] = self.balance_after_substep
+        group["gram_condition_limit"] = self.gram_condition_limit
+        self.last_diagnostics = self._diagnostics()
+        return result
+
+    def _directions_and_capacity(self) -> tuple[list[tuple[object, torch.Tensor, torch.Tensor]], torch.Tensor]:
+        directions = []
+        capacity_sq = None
+        for module in self.factor_modules:
+            if module.A.grad is None or module.B.grad is None:
+                raise RuntimeError("CapacityAdaptiveQuotientFlow requires gradients for every A and B factor")
+            inv_b = self._stable_inverse(module.B.transpose(-2, -1) @ module.B)
+            inv_a = self._stable_inverse(module.A @ module.A.transpose(-2, -1))
+            v_a = -(inv_b @ module.A.grad)
+            v_b = -(module.B.grad @ inv_a)
+            v_m = v_b @ module.A + module.B @ v_a
+            term = v_m.pow(2).sum()
+            capacity_sq = term if capacity_sq is None else capacity_sq + term
+            directions.append((module, v_a, v_b))
+        if capacity_sq is None:
+            first = self.factor_modules[0].A
+            capacity_sq = torch.zeros((), dtype=first.dtype, device=first.device)
+        return directions, torch.sqrt(capacity_sq)
+
+    @torch.no_grad()
+    def _apply_directions(self, directions: list[tuple[object, torch.Tensor, torch.Tensor]], flow_dt: float) -> float:
+        squared_norm = None
+        for module, v_a, v_b in directions:
+            d_a = flow_dt * v_a
+            d_b = flow_dt * v_b
+            term = d_a.pow(2).sum() + d_b.pow(2).sum()
+            squared_norm = term if squared_norm is None else squared_norm + term
+            module.A.add_(d_a)
+            module.B.add_(d_b)
+            if self.balance_after_substep:
+                self._balance_(module)
+        if squared_norm is None:
+            return 0.0
+        return float(torch.sqrt(squared_norm).detach().cpu())
+
+    def _stable_inverse(self, gram: torch.Tensor) -> torch.Tensor:
+        condition = torch.linalg.cond(gram.detach())
+        condition_value = float(condition.cpu())
+        self.condition_max = max(self.condition_max, condition_value)
+        if condition_value < self.gram_condition_limit:
+            return torch.linalg.inv(gram)
+        self.fallback_count += 1
+        return torch.linalg.pinv(gram, rtol=1.0 / self.gram_condition_limit)
+
+    @torch.no_grad()
+    def _balance_(self, module) -> None:
+        before = module.B @ module.A
+        q_b, r_b = torch.linalg.qr(module.B, mode="reduced")
+        a_mid = r_b @ module.A
+        q_a, r_a = torch.linalg.qr(a_mid.transpose(-2, -1), mode="reduced")
+        module.B.copy_(q_b @ r_a.transpose(-2, -1))
+        module.A.copy_(q_a.transpose(-2, -1))
+        after = module.B @ module.A
+        residual = (after - before).norm() / before.norm().clamp_min(torch.finfo(before.dtype).tiny)
+        self.balance_residual_max = max(self.balance_residual_max, float(residual.cpu()))
+
+    def _diagnostics(self) -> dict[str, float | int | bool | None]:
+        local_count = max(self.total_auto_substeps, 1)
+        macro_count = max(self._macro_steps, 1)
+        return {
+            "macro_flow_time": self.macro_flow_time,
+            "local_function_tolerance": self.local_function_tolerance,
+            "last_auto_substeps": self.last_auto_substeps,
+            "total_auto_substeps": self.total_auto_substeps,
+            "mean_auto_substeps": self.total_auto_substeps / macro_count,
+            "last_capacity": self.last_capacity,
+            "mean_capacity": self._capacity_sum / local_count,
+            "max_capacity": self.max_capacity,
+            "last_flow_dt": self.last_flow_dt,
+            "mean_flow_dt": self._flow_dt_sum / local_count,
+            "max_flow_dt_used": self.max_flow_dt_used,
+            "flow_dt_cap_hits": self.flow_dt_cap_hits,
+            "last_predicted_local_dphi": self.last_predicted_local_dphi,
+            "mean_predicted_local_dphi": self._predicted_local_dphi_sum / local_count,
+            "max_predicted_local_dphi": self.max_predicted_local_dphi,
+            "condition_max": self.condition_max,
+            "fallback_count": self.fallback_count,
+            "balance_residual_max": self.balance_residual_max,
+            "last_update_norm": self.last_update_norm,
+            "max_auto_substeps": self.max_auto_substeps,
+            "max_flow_dt": self.max_flow_dt,
+            "balance_after_substep": self.balance_after_substep,
+            "gram_condition_limit": self.gram_condition_limit,
+        }
+
+
 class FixedRankFunctionalAdam(Optimizer):
     """Adam in invariant product coordinates with fixed-rank retraction.
 

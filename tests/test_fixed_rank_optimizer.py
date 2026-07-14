@@ -4,6 +4,7 @@ import copy
 import torch
 
 from geometric_flow import (
+    CapacityAdaptiveQuotientFlow,
     FixedRankFunctionalAdam,
     FixedRankManifold,
     HeldOutTrustRegion,
@@ -353,6 +354,234 @@ class SubsteppedQuotientFlowTests(unittest.TestCase):
         quotient_gap = (q_a - q_b).norm()
         adam_gap = (adam_a - adam_b).norm()
         self.assertLess(quotient_gap, 0.5 * adam_gap)
+
+
+class CapacityAdaptiveQuotientFlowTests(unittest.TestCase):
+    def test_constructor_validation(self):
+        a, b, _ = make_product(dtype=torch.float64)
+        module = FactorModule(a, b)
+        with self.assertRaises(ValueError):
+            CapacityAdaptiveQuotientFlow([module], macro_flow_time=0.0, local_function_tolerance=0.1)
+        with self.assertRaises(ValueError):
+            CapacityAdaptiveQuotientFlow([module], macro_flow_time=1.0, local_function_tolerance=0.0)
+        with self.assertRaises(ValueError):
+            CapacityAdaptiveQuotientFlow([module], macro_flow_time=1.0, local_function_tolerance=0.1, max_auto_substeps=0)
+        with self.assertRaises(ValueError):
+            CapacityAdaptiveQuotientFlow([module], macro_flow_time=1.0, local_function_tolerance=0.1, max_flow_dt=0.0)
+        with self.assertRaises(ValueError):
+            CapacityAdaptiveQuotientFlow(
+                [module], macro_flow_time=1.0, local_function_tolerance=0.1, gram_condition_limit=1.0
+            )
+        optimizer = CapacityAdaptiveQuotientFlow([module], macro_flow_time=1.0, local_function_tolerance=0.1)
+        self.assertEqual(optimizer.last_diagnostics["macro_flow_time"], 1.0)
+
+    def test_single_step_direction_capacity_and_dt_match_explicit_formula(self):
+        torch.manual_seed(31)
+        a, b, _ = make_product(dtype=torch.float64)
+        module = FactorModule(a, b)
+        target = torch.randn_like(module.product())
+        loss = (module.product() - target).pow(2).sum()
+        loss.backward()
+        grad_a = module.A.grad.detach().clone()
+        grad_b = module.B.grad.detach().clone()
+        inv_b = torch.linalg.inv(module.B.detach().T @ module.B.detach())
+        inv_a = torch.linalg.inv(module.A.detach() @ module.A.detach().T)
+        v_a = -(inv_b @ grad_a)
+        v_b = -(grad_b @ inv_a)
+        capacity = torch.linalg.vector_norm(v_b @ module.A.detach() + module.B.detach() @ v_a)
+        flow_dt = min(0.07, 1e9 / float(capacity))
+        expected_a = module.A.detach() + flow_dt * v_a
+        expected_b = module.B.detach() + flow_dt * v_b
+
+        optimizer = CapacityAdaptiveQuotientFlow(
+            [module],
+            macro_flow_time=0.07,
+            local_function_tolerance=1e9,
+            max_auto_substeps=1,
+            balance_after_substep=False,
+        )
+        optimizer.macro_step(lambda: loss)
+        self.assertTrue(torch.allclose(module.A.detach(), expected_a, atol=1e-12, rtol=1e-10))
+        self.assertTrue(torch.allclose(module.B.detach(), expected_b, atol=1e-12, rtol=1e-10))
+        self.assertAlmostEqual(optimizer.last_capacity, float(capacity), places=10)
+        self.assertAlmostEqual(optimizer.last_flow_dt, flow_dt, places=12)
+
+    def test_local_product_displacement_tolerance_is_respected(self):
+        torch.manual_seed(32)
+        a, b, _ = make_product(dtype=torch.float64)
+        module = FactorModule(a, b)
+        target = torch.randn_like(module.product())
+        optimizer = CapacityAdaptiveQuotientFlow(
+            [module],
+            macro_flow_time=0.03,
+            local_function_tolerance=0.01,
+            max_auto_substeps=128,
+            balance_after_substep=False,
+        )
+
+        def closure():
+            optimizer.zero_grad()
+            loss = (module.product() - target).pow(2).sum()
+            loss.backward()
+            return loss
+
+        optimizer.macro_step(closure)
+        self.assertLessEqual(optimizer.max_predicted_local_dphi, 0.01 * (1.0 + 1e-10) + 1e-12)
+        self.assertGreater(optimizer.last_auto_substeps, 1)
+
+    def test_dynamic_substep_count_changes_with_capacity(self):
+        torch.manual_seed(33)
+        a, b, _ = make_product(dtype=torch.float64)
+        module = FactorModule(a, b)
+        target = torch.zeros_like(module.product())
+        optimizer = CapacityAdaptiveQuotientFlow(
+            [module],
+            macro_flow_time=0.16,
+            local_function_tolerance=0.02,
+            max_auto_substeps=256,
+            balance_after_substep=False,
+        )
+        counts = []
+
+        def closure():
+            optimizer.zero_grad()
+            loss = (module.product() - target).pow(2).sum()
+            loss.backward()
+            return loss
+
+        for _ in range(3):
+            optimizer.macro_step(closure)
+            counts.append(optimizer.last_auto_substeps)
+        self.assertGreater(max(counts), 1)
+        self.assertGreater(len(set(counts)), 1)
+
+    def test_fresh_gradient_closure_called_for_each_auto_substep(self):
+        torch.manual_seed(34)
+        a, b, _ = make_product(dtype=torch.float64)
+        module = FactorModule(a, b)
+        target = torch.randn_like(module.product())
+        optimizer = CapacityAdaptiveQuotientFlow(
+            [module],
+            macro_flow_time=0.12,
+            local_function_tolerance=0.02,
+            max_auto_substeps=128,
+            balance_after_substep=False,
+        )
+        grad_snapshots = []
+
+        def closure():
+            optimizer.zero_grad()
+            loss = (module.product() - target).pow(2).sum()
+            loss.backward()
+            grad_snapshots.append(module.A.grad.detach().clone())
+            return loss
+
+        optimizer.macro_step(closure)
+        self.assertEqual(len(grad_snapshots), optimizer.last_auto_substeps)
+        self.assertFalse(torch.allclose(grad_snapshots[0], grad_snapshots[-1]))
+
+    def test_full_rank_inverse_branch_is_near_machine_gauge_equivariant(self):
+        torch.manual_seed(35)
+        a, b, _ = make_product(dtype=torch.float64)
+        gauge = torch.tensor([[1.25, 0.3], [0.15, 0.85]], dtype=torch.float64)
+        a_gauge = gauge @ a
+        b_gauge = b @ torch.linalg.inv(gauge)
+        target = torch.randn_like(b @ a)
+
+        def run_once(a0, b0):
+            module = FactorModule(a0, b0)
+            optimizer = CapacityAdaptiveQuotientFlow(
+                [module],
+                macro_flow_time=0.03,
+                local_function_tolerance=1.0,
+                max_auto_substeps=4,
+                balance_after_substep=False,
+                gram_condition_limit=1e12,
+            )
+
+            def closure():
+                optimizer.zero_grad()
+                loss = (module.product() - target).pow(2).sum()
+                loss.backward()
+                return loss
+
+            optimizer.macro_step(closure)
+            return module.product().detach(), optimizer
+
+        product_a, opt_a = run_once(a, b)
+        product_b, opt_b = run_once(a_gauge, b_gauge)
+        relative_gap = (product_a - product_b).norm() / product_a.norm().clamp_min(torch.finfo(product_a.dtype).tiny)
+        self.assertLess(float(relative_gap), 1e-10)
+        self.assertEqual(opt_a.fallback_count, 0)
+        self.assertEqual(opt_b.fallback_count, 0)
+
+    def test_qr_canonicalization_preserves_product(self):
+        a, b, _ = make_product(dtype=torch.float64)
+        module = FactorModule(a, b)
+        optimizer = CapacityAdaptiveQuotientFlow([module], macro_flow_time=0.1, local_function_tolerance=0.1)
+        before = module.product().detach().clone()
+        with torch.no_grad():
+            optimizer._balance_(module)
+        after = module.product().detach()
+        self.assertTrue(torch.allclose(after, before, atol=1e-12, rtol=1e-10))
+
+    def test_pseudoinverse_fallback_activates_for_ill_conditioned_gram(self):
+        a = torch.tensor([[1.0, 0.0, 0.0, 0.0], [0.0, 1e-8, 0.0, 0.0]], dtype=torch.float64)
+        b = torch.tensor([[1.0, 0.0], [0.0, 1e-8], [0.0, 0.0], [0.0, 0.0], [0.0, 0.0]], dtype=torch.float64)
+        module = FactorModule(a, b)
+        optimizer = CapacityAdaptiveQuotientFlow(
+            [module], macro_flow_time=0.01, local_function_tolerance=0.1, gram_condition_limit=10.0
+        )
+
+        def closure():
+            optimizer.zero_grad()
+            loss = module.product().pow(2).sum()
+            loss.backward()
+            return loss
+
+        optimizer.macro_step(closure)
+        self.assertGreaterEqual(optimizer.fallback_count, 1)
+        self.assertGreater(optimizer.condition_max, 10.0)
+
+    def test_no_adam_moment_state(self):
+        a, b, _ = make_product(dtype=torch.float64)
+        module = FactorModule(a, b)
+        optimizer = CapacityAdaptiveQuotientFlow([module], macro_flow_time=0.1, local_function_tolerance=0.1)
+        self.assertEqual(len(optimizer.state), 0)
+
+    def test_state_dict_roundtrip_syncs_custom_hyperparameters(self):
+        a, b, _ = make_product(dtype=torch.float64)
+        source = CapacityAdaptiveQuotientFlow(
+            [FactorModule(a, b)],
+            macro_flow_time=2.0,
+            local_function_tolerance=0.3,
+            max_auto_substeps=17,
+            max_flow_dt=0.25,
+            balance_after_substep=False,
+            gram_condition_limit=1234.0,
+        )
+        state = copy.deepcopy(source.state_dict())
+        target = CapacityAdaptiveQuotientFlow(
+            [FactorModule(a, b)],
+            macro_flow_time=1.0,
+            local_function_tolerance=0.1,
+            max_auto_substeps=5,
+            max_flow_dt=None,
+            balance_after_substep=True,
+            gram_condition_limit=1e10,
+        )
+        target.load_state_dict(state)
+        self.assertEqual(target.macro_flow_time, 2.0)
+        self.assertEqual(target.local_function_tolerance, 0.3)
+        self.assertEqual(target.max_auto_substeps, 17)
+        self.assertEqual(target.max_flow_dt, 0.25)
+        self.assertFalse(target.balance_after_substep)
+        self.assertEqual(target.gram_condition_limit, 1234.0)
+
+    def test_public_export(self):
+        from geometric_flow import CapacityAdaptiveQuotientFlow as Exported
+
+        self.assertIs(Exported, CapacityAdaptiveQuotientFlow)
 
 
 if __name__ == "__main__":

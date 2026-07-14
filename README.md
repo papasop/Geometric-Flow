@@ -68,6 +68,7 @@ reparameterizations.
 | `functional_geoflow` | `J_Phi`-based stable-neutral response directions | Research reference |
 | `FixedRankFunctionalAdam` | Product-coordinate Adam, tangent projection, rank-`r` retraction | Experimental backend |
 | `SubsteppedQuotientFlow` | Gauge-equivariant Gram-preconditioned factor flow with fresh-gradient substeps | Experimental integrator |
+| `CapacityAdaptiveQuotientFlow` | Quotient flow with product-space capacity-controlled local step size | Experimental integrator |
 
 ### FixedRankFunctionalAdam
 
@@ -224,6 +225,69 @@ standard fixed-rank quotient-manifold optimizer.
 `experiments/h10_progress_budget_benchmark.py` is a tiny GPT-style regression
 benchmark for mechanism and gate checks. It does not instantiate Hugging Face
 GPT-2 and does not exactly reproduce the GPT-2 H10.6/H10.7 runs above.
+
+### CapacityAdaptiveQuotientFlow
+
+`CapacityAdaptiveQuotientFlow` replaces the manually selected substep count with
+a local product-space capacity controller. It uses the same LoRA convention
+`M = B A`, with `A: rank x input_dim` and `B: output_dim x rank`.
+
+The quotient direction is:
+
+```math
+V_A = -(B^\top B)^{-1}\nabla_A L,
+\qquad
+V_B = -\nabla_B L(AA^\top)^{-1}.
+```
+
+The represented product-space velocity is:
+
+```math
+V_M = V_B A + B V_A.
+```
+
+Across LoRA modules, the local capacity is the Frobenius norm of these product
+velocities. The local flow time is chosen as:
+
+```text
+flow_dt = min(remaining_macro_time, local_function_tolerance / capacity)
+```
+
+so geometry determines direction, capacity determines local step size, and
+`macro_flow_time` determines total macro progress. The realized substep count is
+a runtime diagnostic, not a user hyperparameter.
+
+Usage:
+
+```python
+from geometric_flow import CapacityAdaptiveQuotientFlow
+
+optimizer = CapacityAdaptiveQuotientFlow(
+    factor_modules,
+    macro_flow_time=2.6,
+    local_function_tolerance=0.05,
+    max_flow_dt=None,
+    balance_after_substep=True,
+)
+
+loss = optimizer.macro_step(closure)
+```
+
+The two primary controls are `macro_flow_time` and
+`local_function_tolerance`. Other arguments, such as `max_auto_substeps`,
+`max_flow_dt`, `balance_after_substep`, and `gram_condition_limit`, are
+numerical safeguards or representation-management options.
+
+On the ordinary-inverse branch with full-rank factors, the direction is
+gauge-equivariant in exact arithmetic. As with `SubsteppedQuotientFlow`,
+Moore-Penrose pseudoinverse fallback is a numerical safeguard and should not be
+interpreted as exact covariance under arbitrary non-orthogonal gauges.
+
+Bounded H10.10 evidence: in a five-seed GPT-2 LoRA experiment, the controller
+produced dynamic substep counts, matched Adam-scale progress on all seeds, and
+obtained approximately `11.47x` geometric-mean gauge suppression. The bootstrap
+95% interval still included values below `10x`. This is experimental evidence,
+not a broad optimizer claim.
 
 ## Functional Geometry Tools
 
