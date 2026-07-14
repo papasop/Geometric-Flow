@@ -1,13 +1,16 @@
 """H10 progress-budgeted quotient-flow benchmark.
 
-This script is a small scientific regression benchmark for
+This script is a tiny GPT-style scientific regression benchmark for
 ``SubsteppedQuotientFlow``. It compares factor-space Adam with the quotient
-integrator at comparable loss progress, then measures how much final functional
-trajectories diverge across gauge-equivalent LoRA representations.
+integrator at comparable progress, then measures how much final product and
+logit trajectories diverge across gauge-equivalent LoRA representations.
 
 The default ``macro_lr=2.6`` and ``substeps=16`` match the H10.6/H10.7
-progress-budgeted configuration documented in the README. This is not a
-production benchmark and not a large-language-model claim.
+progress-budgeted configuration documented in the README, but this script does
+not instantiate Hugging Face GPT-2 and does not exactly reproduce the reported
+GPT-2 H10.6/H10.7 runs. It is a lightweight regression for the mechanism and
+gate definitions, not a production benchmark and not a large-language-model
+claim.
 """
 
 from __future__ import annotations
@@ -63,6 +66,14 @@ class SeedSummary:
     quotient_gauge_divergence: float
     gauge_divergence_ratio: float
     gauge_suppression: float
+    adam_product_gauge_divergence: float
+    quotient_product_gauge_divergence: float
+    product_gauge_divergence_ratio: float
+    product_gauge_suppression: float
+    adam_logit_gauge_divergence: float
+    quotient_logit_gauge_divergence: float
+    logit_gauge_divergence_ratio: float
+    logit_gauge_suppression: float
     matched_progress_pass: bool
     fallback_count: int
     no_fallback_pass: bool
@@ -318,6 +329,8 @@ def run_seed(seed: int, args) -> tuple[list[RunResult], SeedSummary]:
     rows: list[RunResult] = []
     adam_logits: list[torch.Tensor] = []
     quotient_logits: list[torch.Tensor] = []
+    adam_products: list[torch.Tensor] = []
+    quotient_products: list[torch.Tensor] = []
     adam_progress: list[float] = []
     quotient_progress: list[float] = []
     adam_displacements: list[float] = []
@@ -331,10 +344,10 @@ def run_seed(seed: int, args) -> tuple[list[RunResult], SeedSummary]:
         adam_model.apply_gauge(transform)
         quotient_model = deepcopy(base)
         quotient_model.apply_gauge(transform)
-        adam_result, adam_phi, _ = train_factor_adam(
+        adam_result, adam_phi, adam_product = train_factor_adam(
             adam_model, train_x, train_y, eval_x, eval_y, batches, args, seed, representation
         )
-        quotient_result, quotient_phi, _ = train_quotient_flow(
+        quotient_result, quotient_phi, quotient_product = train_quotient_flow(
             quotient_model,
             train_x,
             train_y,
@@ -349,6 +362,8 @@ def run_seed(seed: int, args) -> tuple[list[RunResult], SeedSummary]:
         rows.extend([adam_result, quotient_result])
         adam_logits.append(adam_phi)
         quotient_logits.append(quotient_phi)
+        adam_products.append(adam_product)
+        quotient_products.append(quotient_product)
         adam_progress.append(adam_result.loss_progress)
         quotient_progress.append(quotient_result.loss_progress)
         adam_displacements.append(adam_result.product_displacement)
@@ -356,11 +371,18 @@ def run_seed(seed: int, args) -> tuple[list[RunResult], SeedSummary]:
         fallback_count += quotient_result.fallback_count
         balance_residual = max(balance_residual, quotient_result.balance_residual_max)
 
-    adam_divergence = mean_pairwise_distance(adam_logits)
-    quotient_divergence = mean_pairwise_distance(quotient_logits)
-    gauge_ratio = quotient_divergence / max(adam_divergence, 1e-30)
+    adam_product_divergence = mean_pairwise_distance(adam_products)
+    quotient_product_divergence = mean_pairwise_distance(quotient_products)
+    product_gauge_ratio = quotient_product_divergence / max(adam_product_divergence, 1e-30)
+    adam_logit_divergence = mean_pairwise_distance(adam_logits)
+    quotient_logit_divergence = mean_pairwise_distance(quotient_logits)
+    logit_gauge_ratio = quotient_logit_divergence / max(adam_logit_divergence, 1e-30)
     loss_ratio = finite_mean(quotient_progress) / max(finite_mean(adam_progress), 1e-30)
     displacement_ratio = finite_mean(quotient_displacements) / max(finite_mean(adam_displacements), 1e-30)
+    matched_progress = (
+        args.loss_match_low <= loss_ratio <= args.loss_match_high
+        and args.move_match_low <= displacement_ratio <= args.move_match_high
+    )
     summary = SeedSummary(
         seed=seed,
         adam_mean_loss_progress=finite_mean(adam_progress),
@@ -369,11 +391,19 @@ def run_seed(seed: int, args) -> tuple[list[RunResult], SeedSummary]:
         adam_mean_product_displacement=finite_mean(adam_displacements),
         quotient_mean_product_displacement=finite_mean(quotient_displacements),
         product_displacement_ratio=displacement_ratio,
-        adam_gauge_divergence=adam_divergence,
-        quotient_gauge_divergence=quotient_divergence,
-        gauge_divergence_ratio=gauge_ratio,
-        gauge_suppression=1.0 / max(gauge_ratio, 1e-30),
-        matched_progress_pass=loss_ratio >= args.progress_fraction,
+        adam_gauge_divergence=adam_product_divergence,
+        quotient_gauge_divergence=quotient_product_divergence,
+        gauge_divergence_ratio=product_gauge_ratio,
+        gauge_suppression=1.0 / max(product_gauge_ratio, 1e-30),
+        adam_product_gauge_divergence=adam_product_divergence,
+        quotient_product_gauge_divergence=quotient_product_divergence,
+        product_gauge_divergence_ratio=product_gauge_ratio,
+        product_gauge_suppression=1.0 / max(product_gauge_ratio, 1e-30),
+        adam_logit_gauge_divergence=adam_logit_divergence,
+        quotient_logit_gauge_divergence=quotient_logit_divergence,
+        logit_gauge_divergence_ratio=logit_gauge_ratio,
+        logit_gauge_suppression=1.0 / max(logit_gauge_ratio, 1e-30),
+        matched_progress_pass=matched_progress,
         fallback_count=fallback_count,
         no_fallback_pass=fallback_count == 0,
         balance_residual_max=balance_residual,
@@ -404,6 +434,10 @@ def main() -> None:
     parser.add_argument("--max-quotient-steps", type=int, default=40)
     parser.add_argument("--min-quotient-steps", type=int, default=1)
     parser.add_argument("--progress-fraction", type=float, default=0.95)
+    parser.add_argument("--loss-match-low", type=float, default=0.8)
+    parser.add_argument("--loss-match-high", type=float, default=2.0)
+    parser.add_argument("--move-match-low", type=float, default=0.5)
+    parser.add_argument("--move-match-high", type=float, default=1.2)
     parser.add_argument("--macro-lr", type=float, default=2.6)
     parser.add_argument("--substeps", type=int, default=16)
     parser.add_argument("--factor-lr", type=float, default=0.03)
@@ -431,6 +465,8 @@ def main() -> None:
         seed_summaries.append(summary)
 
     gauge_ratios = [row.gauge_divergence_ratio for row in seed_summaries]
+    product_gauge_ratios = [row.product_gauge_divergence_ratio for row in seed_summaries]
+    logit_gauge_ratios = [row.logit_gauge_divergence_ratio for row in seed_summaries]
     loss_ratios = [row.loss_progress_ratio for row in seed_summaries]
     displacement_ratios = [row.product_displacement_ratio for row in seed_summaries]
     fallback_counts = [row.fallback_count for row in seed_summaries]
@@ -443,8 +479,16 @@ def main() -> None:
         "substeps": args.substeps,
         "mean_loss_progress_ratio": finite_mean(loss_ratios),
         "mean_product_displacement_ratio": finite_mean(displacement_ratios),
+        "loss_match_low": args.loss_match_low,
+        "loss_match_high": args.loss_match_high,
+        "move_match_low": args.move_match_low,
+        "move_match_high": args.move_match_high,
         "geomean_gauge_divergence_ratio": geometric_mean(gauge_ratios),
         "geomean_gauge_suppression": 1.0 / max(geometric_mean(gauge_ratios), 1e-30),
+        "geomean_product_gauge_divergence_ratio": geometric_mean(product_gauge_ratios),
+        "geomean_product_gauge_suppression": 1.0 / max(geometric_mean(product_gauge_ratios), 1e-30),
+        "geomean_logit_gauge_divergence_ratio": geometric_mean(logit_gauge_ratios),
+        "geomean_logit_gauge_suppression": 1.0 / max(geometric_mean(logit_gauge_ratios), 1e-30),
         "per_seed_gauge_suppression_10x_fraction": finite_mean(
             [1.0 if value >= 10.0 else 0.0 for value in suppressions]
         ),

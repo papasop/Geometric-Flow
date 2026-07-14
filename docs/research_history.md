@@ -242,3 +242,8 @@ python experiments/h10_progress_budget_benchmark.py \
   --substeps 16 \
   --out-dir artifacts/h10_progress_budget
 ```
+
+This repository script uses a tiny GPT-style LoRA model and validates the
+mechanism, matched-progress gate, product/logit gauge metrics, and summary
+format. It does not instantiate Hugging Face GPT-2 and should not be described
+as an exact reproduction of the GPT-2 H10.6/H10.7 runs above.

@@ -245,6 +245,11 @@ factor-flow integrator; the repository does not prove it is the unique
 quotient-Riemannian gradient, a strict horizontal lift, or the standard
 fixed-rank quotient-manifold optimizer.
 
+The repository script `experiments/h10_progress_budget_benchmark.py` is a tiny
+GPT-style regression benchmark for the mechanism and gate definitions. It does
+not instantiate Hugging Face GPT-2 and does not exactly reproduce the GPT-2
+H10.6/H10.7 runs reported above.
+
 ## Functional Geometry Tools
 
 The theory-aligned functional path builds a configurable functional map
@@ -345,7 +350,7 @@ Not established:
 | benchmark | command |
 | :--- | :--- |
 | D7 fixed-rank tangent benchmark | `python experiments/d7_fixed_rank_tangent_benchmark.py --seeds 101,211,307 --representations 4 --steps 80 --out-dir artifacts/d7_fixed_rank` |
-| H10 progress-budget benchmark | `python experiments/h10_progress_budget_benchmark.py --macro-lr 2.6 --substeps 16 --out-dir artifacts/h10_progress_budget` |
+| H10 tiny-model regression | `python experiments/h10_progress_budget_benchmark.py --macro-lr 2.6 --substeps 16 --out-dir artifacts/h10_progress_budget` |
 | Phase G matched-step benchmark | `python experiments/lora_matched_step_benchmark.py --trials 5 --steps 200 --representations 5 --train-scope lora_only --functional-map hidden --out artifacts/lora_matched_step.csv` |
 | CIFAR legacy benchmark | `python experiments/run_cifar10_benchmark.py --config hybrid_diagonal_500 --download --out artifacts/cifar10_benchmark_results.csv` |
 | Functional solver toy | `python experiments/functional_projection_toy.py --response-solver implicit_cg` |
