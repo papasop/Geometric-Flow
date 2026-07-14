@@ -120,7 +120,8 @@ not part of the public optimizer API. In a fixed ten-seed held-out GPT-2 LoRA
 confirmation, the controller generated between 5 and 13 local substeps,
 matched Adam-scale progress on all seeds, reduced gauge divergence on all
 seeds, and obtained 11.07x geometric-mean gauge suppression. Every seed
-exceeded 7.44x, while the bootstrap 95% interval was approximately
+achieved approximately at least 7.45x suppression, while the bootstrap 95%
+interval was approximately
 `[9.09x, 13.97x]`.
 
 This is bounded experimental evidence. It does not establish universal task
