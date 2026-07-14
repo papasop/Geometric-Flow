@@ -480,6 +480,38 @@ class CapacityAdaptiveQuotientFlowTests(unittest.TestCase):
         self.assertEqual(len(grad_snapshots), optimizer.last_auto_substeps)
         self.assertFalse(torch.allclose(grad_snapshots[0], grad_snapshots[-1]))
 
+    def test_zero_capacity_consumes_remaining_time_without_looping(self):
+        torch.manual_seed(341)
+        a, b, _ = make_product(dtype=torch.float64)
+        module = FactorModule(a, b)
+        optimizer = CapacityAdaptiveQuotientFlow(
+            [module],
+            macro_flow_time=1.25,
+            local_function_tolerance=0.01,
+            max_auto_substeps=1,
+            balance_after_substep=False,
+        )
+        before_a = module.A.detach().clone()
+        before_b = module.B.detach().clone()
+        calls = 0
+
+        def closure():
+            nonlocal calls
+            calls += 1
+            optimizer.zero_grad()
+            loss = (module.product() * 0.0).sum()
+            loss.backward()
+            return loss
+
+        optimizer.macro_step(closure)
+        self.assertEqual(calls, 1)
+        self.assertEqual(optimizer.last_auto_substeps, 1)
+        self.assertEqual(optimizer.last_capacity, 0.0)
+        self.assertEqual(optimizer.last_predicted_local_dphi, 0.0)
+        self.assertAlmostEqual(optimizer.last_flow_dt, 1.25, places=12)
+        self.assertTrue(torch.equal(module.A.detach(), before_a))
+        self.assertTrue(torch.equal(module.B.detach(), before_b))
+
     def test_full_rank_inverse_branch_is_near_machine_gauge_equivariant(self):
         torch.manual_seed(35)
         a, b, _ = make_product(dtype=torch.float64)

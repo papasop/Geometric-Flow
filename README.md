@@ -18,6 +18,8 @@ The library currently includes:
   fixed-rank tangent projection and rank-preserving retraction;
 - `SubsteppedQuotientFlow`: a factorized, quotient-compatible integrator with
   fresh gradients at each local substep and no Adam-style moments;
+- `CapacityAdaptiveQuotientFlow`: the same quotient-flow vector field with a
+  product-space capacity controller that chooses local substeps at runtime;
 - dense, low-rank, and matrix-free functional-geometry research tools;
 - legacy CIFAR and diagonal `grad_square` baselines retained for comparison.
 
@@ -307,6 +309,9 @@ the controller:
 This is bounded experimental evidence, not a claim of universal optimizer
 superiority or per-seed `10x` suppression.
 
+See [docs/capacity_adaptive_flow.md](docs/capacity_adaptive_flow.md) for shape
+conventions, numerical safeguards, and the evidence boundary.
+
 ## Functional Geometry Tools
 
 The functional path defines
@@ -334,6 +339,7 @@ See [docs/functional_geometry.md](docs/functional_geometry.md).
 | Transformer layerwise projection | Projection did not harm controlled training | Small mean improvement | Bounded evidence |
 | D7 fixed-rank backend | Near-exact gauge invariance and rank preservation | Task parity | Experimental |
 | H10 quotient flow | H10.7 reached `12.84x` geometric-mean suppression at matched progress | Mean `10x` reproduced; stricter gates failed | Experimental |
+| Capacity-adaptive quotient flow | Ten-seed held-out GPT-2 LoRA run reached `11.07x` geometric-mean suppression | Adam-scale progress matched; per-seed `10x` not established | Experimental |
 
 Established in controlled tests:
 
@@ -341,7 +347,9 @@ Established in controlled tests:
 - reduced LoRA gauge sensitivity and tangent/near-null motion;
 - agreement between matrix-free and dense small-toy response directions;
 - machine-precision ordinary-inverse covariance and fresh-gradient substep tests
-  for `SubsteppedQuotientFlow`.
+  for `SubsteppedQuotientFlow`;
+- runtime capacity control for quotient flow with zero-capacity and dynamic
+  substep regression tests.
 
 Not established:
 
@@ -358,6 +366,7 @@ Not established:
 | :--- | :--- |
 | D7 fixed-rank benchmark | `python experiments/d7_fixed_rank_tangent_benchmark.py --seeds 101,211,307 --representations 4 --steps 80 --out-dir artifacts/d7_fixed_rank` |
 | H10 tiny-model regression | `python experiments/h10_progress_budget_benchmark.py --macro-lr 2.6 --substeps 16 --out-dir artifacts/h10_progress_budget` |
+| Capacity-adaptive smoke | `python experiments/capacity_adaptive_quotient_smoke.py --seeds 101,211,307 --macro-flow-time 2.6 --local-function-tolerance 0.05 --out-dir artifacts/capacity_adaptive_smoke` |
 | Phase G matched-step benchmark | `python experiments/lora_matched_step_benchmark.py --trials 5 --steps 200 --representations 5 --train-scope lora_only --functional-map hidden --out artifacts/lora_matched_step.csv` |
 | Functional solver toy | `python experiments/functional_projection_toy.py --response-solver implicit_cg` |
 | CIFAR legacy benchmark | `python experiments/run_cifar10_benchmark.py --config hybrid_diagonal_500 --download --out artifacts/cifar10_benchmark_results.csv` |
@@ -367,6 +376,7 @@ Longer commands and archived results:
 - [docs/research_history.md](docs/research_history.md)
 - [docs/cifar_benchmarks.md](docs/cifar_benchmarks.md)
 - [docs/functional_geometry.md](docs/functional_geometry.md)
+- [docs/capacity_adaptive_flow.md](docs/capacity_adaptive_flow.md)
 
 ## Testing
 

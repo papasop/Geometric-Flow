@@ -233,6 +233,8 @@ class CapacityAdaptiveQuotientFlow(Optimizer):
         self.fallback_count = 0
         self.balance_residual_max = 0.0
         self.last_update_norm = 0.0
+        self.last_factor_update_norm = 0.0
+        self.last_predicted_product_motion = 0.0
         self.last_auto_substeps = 0
         self.total_auto_substeps = 0
         self._macro_steps = 0
@@ -303,6 +305,8 @@ class CapacityAdaptiveQuotientFlow(Optimizer):
         self.total_auto_substeps += local_steps
         self._macro_steps += 1
         self.last_update_norm = last_update_norm
+        self.last_factor_update_norm = last_update_norm
+        self.last_predicted_product_motion = self.last_predicted_local_dphi
         self.last_diagnostics = self._diagnostics()
         return loss
 
@@ -332,11 +336,7 @@ class CapacityAdaptiveQuotientFlow(Optimizer):
         for module in self.factor_modules:
             if module.A.grad is None or module.B.grad is None:
                 raise RuntimeError("CapacityAdaptiveQuotientFlow requires gradients for every A and B factor")
-            inv_b = self._stable_inverse(module.B.transpose(-2, -1) @ module.B)
-            inv_a = self._stable_inverse(module.A @ module.A.transpose(-2, -1))
-            v_a = -(inv_b @ module.A.grad)
-            v_b = -(module.B.grad @ inv_a)
-            v_m = v_b @ module.A + module.B @ v_a
+            v_a, v_b, v_m = self._unit_quotient_direction(module)
             term = v_m.pow(2).sum()
             capacity_sq = term if capacity_sq is None else capacity_sq + term
             directions.append((module, v_a, v_b))
@@ -344,6 +344,14 @@ class CapacityAdaptiveQuotientFlow(Optimizer):
             first = self.factor_modules[0].A
             capacity_sq = torch.zeros((), dtype=first.dtype, device=first.device)
         return directions, torch.sqrt(capacity_sq)
+
+    def _unit_quotient_direction(self, module) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+        inv_b = self._stable_inverse(module.B.transpose(-2, -1) @ module.B)
+        inv_a = self._stable_inverse(module.A @ module.A.transpose(-2, -1))
+        v_a = -(inv_b @ module.A.grad)
+        v_b = -(module.B.grad @ inv_a)
+        v_m = v_b @ module.A + module.B @ v_a
+        return v_a, v_b, v_m
 
     @torch.no_grad()
     def _apply_directions(self, directions: list[tuple[object, torch.Tensor, torch.Tensor]], flow_dt: float) -> float:
@@ -405,6 +413,8 @@ class CapacityAdaptiveQuotientFlow(Optimizer):
             "fallback_count": self.fallback_count,
             "balance_residual_max": self.balance_residual_max,
             "last_update_norm": self.last_update_norm,
+            "last_factor_update_norm": self.last_factor_update_norm,
+            "last_predicted_product_motion": self.last_predicted_product_motion,
             "max_auto_substeps": self.max_auto_substeps,
             "max_flow_dt": self.max_flow_dt,
             "balance_after_substep": self.balance_after_substep,
