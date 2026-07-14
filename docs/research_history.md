@@ -235,8 +235,8 @@ Thus the mean `10x` gate was confirmed, but the stricter per-seed and
 bootstrap-CI confirmation gates were not passed.
 
 H10.10 introduced `CapacityAdaptiveQuotientFlow`, replacing fixed `K` with a
-product-space capacity controller. In a fixed held-out ten-seed GPT-2 LoRA
-confirmation, the controller:
+product-space capacity controller. H10.11 then ran a fixed ten-seed held-out
+GPT-2 LoRA confirmation, where the controller:
 
 - generated between `5` and `13` substeps per macro step;
 - matched Adam-scale progress on all ten seeds;

@@ -297,8 +297,9 @@ gauge-equivariant in exact arithmetic. As with `SubsteppedQuotientFlow`,
 Moore-Penrose pseudoinverse fallback is a numerical safeguard and should not be
 interpreted as exact covariance under arbitrary non-orthogonal gauges.
 
-Bounded H10.10 evidence: in a fixed held-out ten-seed GPT-2 LoRA confirmation,
-the controller:
+#### H10.11 Held-Out Confirmation
+
+In a fixed ten-seed held-out GPT-2 LoRA confirmation, the controller:
 
 - generated between `5` and `13` substeps per macro step;
 - matched Adam-scale progress on all ten seeds;
