@@ -221,3 +221,12 @@ obtained:
 This is the first fast H10 configuration to pass the strict `10x`
 gauge-suppression gate. The method remains experimental and opt-in, and the
 result requires held-out-seed confirmation before broader claims.
+
+Reproduce the progress-budgeted screen:
+
+```bash
+python experiments/h10_progress_budget_benchmark.py \
+  --macro-lr 2.6 \
+  --substeps 16 \
+  --out-dir artifacts/h10_progress_budget
+```

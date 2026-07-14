@@ -181,7 +181,7 @@ optimizer = SubsteppedQuotientFlow(
     factor_modules,
     macro_lr=2.6,
     substeps=16,
-    clip_norm=1.0,
+    clip_norm=None,
     balance_after_substep=True,
 )
 
@@ -194,6 +194,9 @@ def closure():
 loss = optimizer.macro_step(closure)
 ```
 
+These values reproduce the H10.6 fast-screening configuration and are not
+universal defaults.
+
 The integrator has no Adam-style first or second moments. It stores scalar
 runtime diagnostics such as `condition_max`, `fallback_count`,
 `balance_residual_max`, `last_update_norm`, and `last_clip_scale`; these
@@ -204,22 +207,30 @@ The optional canonicalization step is product-preserving QR normalization: it
 keeps `B_new A_new = B A`, but it does not explicitly guarantee
 `B^T B = A A^T`.
 
-H10.6 evidence on a small GPT-2 LoRA benchmark used progress-budgeted stopping
-so quotient-flow and factor-Adam trajectories were compared at comparable
-functional progress. With fixed `macro_lr=2.6` and `substeps=16` across three
-seeds, the fast benchmark obtained:
+H10 evidence on a small GPT-2 LoRA benchmark:
 
+- H10.4/H10.5 reached Adam-scale progress with approximately `7.29x` best fast
+  gauge reduction.
+- Increasing macro LR above `3` did not improve the progress-versus-gauge
+  trade-off.
+- H10.6 introduced progress-budgeted stopping and expanded substeps to `K=8`
+  and `K=16`.
+- With fixed `macro_lr=2.6`, `K=16` across three seeds, H10.6 obtained
+  mean loss-progress ratio `1.846`, mean product-displacement ratio `0.773`,
+  and geometric-mean gauge suppression `15.23x`.
+- The strict `10x` fast-benchmark gate passed on all aggregate criteria, with
+  no pseudoinverse fallback and product-preserving balance passing.
+- This remains a small fast benchmark and requires held-out-seed confirmation.
+
+Detailed H10.6 metrics:
+
+- geometric-mean gauge-divergence ratio: `0.0656`;
 - mean loss-progress ratio: `1.846`;
 - mean product-displacement ratio: `0.773`;
-- geometric-mean gauge-divergence ratio: `0.0656`;
-- geometric-mean gauge suppression: `15.23x`;
 - matched-progress pass on all three seeds;
-- no pseudoinverse fallback;
-- product-preserving balance pass.
-
-This is the first fast H10 configuration to pass the strict `10x`
-gauge-suppression gate. It remains a small GPT-2 LoRA benchmark and requires
-held-out-seed confirmation before broader claims.
+- `H106_MEAN_GAUGE_SUPPRESSION_10X_PASS=True`;
+- `H106_NO_FALLBACK_PASS=True`;
+- `H106_BALANCE_PASS=True`.
 
 These settings are diagnostics, not universal defaults. The method is best
 described as a gauge-equivariant, quotient-compatible Gram-preconditioned
@@ -319,14 +330,15 @@ Not established:
 - production large-model scalability;
 - GPT-2 or LLM performance claims;
 - a universal recommendation to replace existing optimizers;
-- held-out-seed confirmation for the H10.6 quotient-flow fast result.
+- held-out-seed confirmation of the H10.6 strict `10x` result;
+- broad robustness across models, ranks, datasets, and LoRA target modules.
 
 ## Reproduce Key Benchmarks
 
 | benchmark | command |
 | :--- | :--- |
 | D7 fixed-rank tangent benchmark | `python experiments/d7_fixed_rank_tangent_benchmark.py --seeds 101,211,307 --representations 4 --steps 80 --out-dir artifacts/d7_fixed_rank` |
-| H10 quotient-flow tests | `python -m pytest -q tests/test_fixed_rank_optimizer.py` |
+| H10 progress-budget benchmark | `python experiments/h10_progress_budget_benchmark.py --macro-lr 2.6 --substeps 16 --out-dir artifacts/h10_progress_budget` |
 | Phase G matched-step benchmark | `python experiments/lora_matched_step_benchmark.py --trials 5 --steps 200 --representations 5 --train-scope lora_only --functional-map hidden --out artifacts/lora_matched_step.csv` |
 | CIFAR legacy benchmark | `python experiments/run_cifar10_benchmark.py --config hybrid_diagonal_500 --download --out artifacts/cifar10_benchmark_results.csv` |
 | Functional solver toy | `python experiments/functional_projection_toy.py --response-solver implicit_cg` |
