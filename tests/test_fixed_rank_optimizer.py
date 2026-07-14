@@ -9,6 +9,7 @@ from geometric_flow import (
     HeldOutTrustRegion,
     ProductParameter,
     ProductState,
+    SubsteppedQuotientFlow,
 )
 
 
@@ -21,6 +22,19 @@ def make_product(rank=2, dtype=torch.float32, device="cpu"):
 
 def state_from_matrix(matrix, rank=2, name="lora"):
     return ProductState([ProductParameter(name, torch.nn.Parameter(matrix.clone()), rank)])
+
+
+class FactorModule(torch.nn.Module):
+    def __init__(self, a: torch.Tensor, b: torch.Tensor):
+        super().__init__()
+        self.A = torch.nn.Parameter(a.clone())
+        self.B = torch.nn.Parameter(b.clone())
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        return x @ (self.B @ self.A).T
+
+    def product(self) -> torch.Tensor:
+        return self.B @ self.A
 
 
 class FixedRankFunctionalAdamTests(unittest.TestCase):
@@ -133,6 +147,147 @@ class FixedRankFunctionalAdamTests(unittest.TestCase):
         state.products[0].tensor.grad = torch.randn_like(state.products[0].tensor)
         opt.step()
         self.assertLessEqual(FixedRankManifold(rank=2).numerical_rank(state.products[0].tensor.detach()), 2)
+
+
+class SubsteppedQuotientFlowTests(unittest.TestCase):
+    def test_constructor_validation_and_local_lr(self):
+        a, b, _ = make_product(dtype=torch.float64)
+        module = FactorModule(a, b)
+        with self.assertRaises(ValueError):
+            SubsteppedQuotientFlow([module], macro_lr=0.0)
+        with self.assertRaises(ValueError):
+            SubsteppedQuotientFlow([module], macro_lr=1.0, substeps=0)
+        with self.assertRaises(ValueError):
+            SubsteppedQuotientFlow([module], macro_lr=1.0, clip_norm=0.0)
+        with self.assertRaises(ValueError):
+            SubsteppedQuotientFlow([module], macro_lr=1.0, gram_condition_limit=1.0)
+        with self.assertRaisesRegex(ValueError, "A and B"):
+            SubsteppedQuotientFlow([torch.nn.Linear(2, 2)], macro_lr=1.0)
+        optimizer = SubsteppedQuotientFlow([module], macro_lr=3.0, substeps=4)
+        self.assertEqual(optimizer.local_lr, 0.75)
+        self.assertEqual(optimizer.last_diagnostics["local_lr"], 0.75)
+
+    def test_shape_device_dtype_preserved_and_no_moment_tensors(self):
+        a, b, _ = make_product(dtype=torch.float64)
+        module = FactorModule(a, b)
+        optimizer = SubsteppedQuotientFlow([module], macro_lr=0.1, substeps=2, balance_after_substep=False)
+        target = torch.randn_like(module.product())
+        loss = (module.product() - target).pow(2).sum()
+        loss.backward()
+        a_shape, b_shape = module.A.shape, module.B.shape
+        optimizer.step()
+        self.assertEqual(module.A.shape, a_shape)
+        self.assertEqual(module.B.shape, b_shape)
+        self.assertEqual(module.A.dtype, torch.float64)
+        self.assertEqual(module.B.dtype, torch.float64)
+        self.assertEqual(len(optimizer.state), 0)
+
+    def test_balance_preserves_product(self):
+        a, b, _ = make_product(dtype=torch.float64)
+        module = FactorModule(a, b)
+        optimizer = SubsteppedQuotientFlow([module], macro_lr=0.1)
+        before = module.product().detach().clone()
+        with torch.no_grad():
+            optimizer._balance_(module)
+        after = module.product().detach()
+        self.assertTrue(torch.allclose(after, before, atol=1e-12, rtol=1e-10))
+        self.assertLess(optimizer.balance_residual_max, 1e-10)
+
+    def test_substeps_one_matches_single_step_quotient_update(self):
+        a, b, _ = make_product(dtype=torch.float64)
+        module = FactorModule(a, b)
+        target = torch.randn_like(module.product())
+        loss = (module.product() - target).pow(2).sum()
+        loss.backward()
+        grad_a = module.A.grad.detach().clone()
+        grad_b = module.B.grad.detach().clone()
+        inv_b = torch.linalg.inv(module.B.detach().T @ module.B.detach())
+        inv_a = torch.linalg.inv(module.A.detach() @ module.A.detach().T)
+        expected_a = module.A.detach() - 0.05 * (inv_b @ grad_a)
+        expected_b = module.B.detach() - 0.05 * (grad_b @ inv_a)
+        optimizer = SubsteppedQuotientFlow([module], macro_lr=0.05, substeps=1, balance_after_substep=False)
+        optimizer.step()
+        self.assertTrue(torch.allclose(module.A.detach(), expected_a, atol=1e-12, rtol=1e-10))
+        self.assertTrue(torch.allclose(module.B.detach(), expected_b, atol=1e-12, rtol=1e-10))
+
+    def test_macro_step_calls_closure_and_recomputes_gradients(self):
+        a, b, _ = make_product(dtype=torch.float64)
+        module = FactorModule(a, b)
+        target = torch.randn_like(module.product())
+        optimizer = SubsteppedQuotientFlow([module], macro_lr=0.03, substeps=3, balance_after_substep=False)
+        calls = []
+        grad_snapshots = []
+
+        def closure():
+            optimizer.zero_grad()
+            loss = (module.product() - target).pow(2).sum()
+            loss.backward()
+            calls.append(loss.item())
+            grad_snapshots.append(module.A.grad.detach().clone())
+            return loss
+
+        optimizer.macro_step(closure)
+        self.assertEqual(len(calls), 3)
+        self.assertFalse(torch.allclose(grad_snapshots[0], grad_snapshots[-1]))
+
+    def test_pseudoinverse_fallback_activates_for_ill_conditioned_gram(self):
+        a = torch.tensor([[1.0, 0.0, 0.0, 0.0], [0.0, 1e-8, 0.0, 0.0]], dtype=torch.float64)
+        b = torch.tensor([[1.0, 0.0], [0.0, 1e-8], [0.0, 0.0], [0.0, 0.0], [0.0, 0.0]], dtype=torch.float64)
+        module = FactorModule(a, b)
+        optimizer = SubsteppedQuotientFlow([module], macro_lr=0.01, gram_condition_limit=10.0, balance_after_substep=False)
+        loss = module.product().pow(2).sum()
+        loss.backward()
+        optimizer.step()
+        self.assertGreaterEqual(optimizer.fallback_count, 1)
+        self.assertGreater(optimizer.condition_max, 10.0)
+
+    def test_clipping_reports_scale_and_bounds_update_norm(self):
+        a, b, _ = make_product(dtype=torch.float64)
+        module = FactorModule(a, b)
+        optimizer = SubsteppedQuotientFlow([module], macro_lr=10.0, clip_norm=0.01, balance_after_substep=False)
+        loss = module.product().pow(2).sum()
+        loss.backward()
+        optimizer.step()
+        self.assertLessEqual(optimizer.last_clip_scale, 1.0)
+        self.assertLessEqual(optimizer.last_update_norm, 0.01001)
+
+    def test_gauge_equivalent_factors_stay_closer_than_naive_factor_adam(self):
+        torch.manual_seed(21)
+        a, b, _ = make_product(dtype=torch.float64)
+        scale = torch.diag(torch.tensor([3.0, 0.25], dtype=torch.float64))
+        target = torch.randn_like(b @ a)
+
+        def quotient_run(a0, b0):
+            module = FactorModule(a0, b0)
+            optimizer = SubsteppedQuotientFlow([module], macro_lr=0.02, substeps=2)
+
+            def closure():
+                optimizer.zero_grad()
+                loss = (module.product() - target).pow(2).sum()
+                loss.backward()
+                return loss
+
+            for _ in range(8):
+                optimizer.macro_step(closure)
+            return module.product().detach()
+
+        def adam_run(a0, b0):
+            module = FactorModule(a0, b0)
+            optimizer = torch.optim.Adam([module.A, module.B], lr=0.02)
+            for _ in range(16):
+                optimizer.zero_grad()
+                loss = (module.product() - target).pow(2).sum()
+                loss.backward()
+                optimizer.step()
+            return module.product().detach()
+
+        q_a = quotient_run(a, b)
+        q_b = quotient_run(scale @ a, b @ torch.linalg.inv(scale))
+        adam_a = adam_run(a, b)
+        adam_b = adam_run(scale @ a, b @ torch.linalg.inv(scale))
+        quotient_gap = (q_a - q_b).norm()
+        adam_gap = (adam_a - adam_b).norm()
+        self.assertLess(quotient_gap, 0.5 * adam_gap)
 
 
 if __name__ == "__main__":
