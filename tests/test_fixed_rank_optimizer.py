@@ -406,6 +406,36 @@ class CapacityAdaptiveQuotientFlowTests(unittest.TestCase):
         self.assertAlmostEqual(optimizer.last_capacity, float(capacity), places=10)
         self.assertAlmostEqual(optimizer.last_flow_dt, flow_dt, places=12)
 
+    def test_exact_product_increment_contains_expected_second_order_term(self):
+        torch.manual_seed(315)
+        a, b, _ = make_product(dtype=torch.float64)
+        module = FactorModule(a, b)
+        target = torch.randn_like(module.product())
+        loss = (module.product() - target).pow(2).sum()
+        loss.backward()
+        grad_a = module.A.grad.detach().clone()
+        grad_b = module.B.grad.detach().clone()
+        a0 = module.A.detach().clone()
+        b0 = module.B.detach().clone()
+        inv_b = torch.linalg.inv(b0.T @ b0)
+        inv_a = torch.linalg.inv(a0 @ a0.T)
+        v_a = -(inv_b @ grad_a)
+        v_b = -(grad_b @ inv_a)
+        flow_dt = 0.013
+
+        exact_increment = (b0 + flow_dt * v_b) @ (a0 + flow_dt * v_a) - b0 @ a0
+        first_order_increment = flow_dt * (v_b @ a0 + b0 @ v_a)
+        second_order_increment = (flow_dt**2) * (v_b @ v_a)
+
+        self.assertTrue(
+            torch.allclose(
+                exact_increment - first_order_increment,
+                second_order_increment,
+                atol=1e-13,
+                rtol=1e-11,
+            )
+        )
+
     def test_local_product_displacement_tolerance_is_respected(self):
         torch.manual_seed(32)
         a, b, _ = make_product(dtype=torch.float64)
