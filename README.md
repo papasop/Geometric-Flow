@@ -240,22 +240,31 @@ V_A = -(B^\top B)^{-1}\nabla_A L,
 V_B = -\nabla_B L(AA^\top)^{-1}.
 ```
 
-The represented product-space velocity is:
+The product-space capacity is:
 
 ```math
-V_M = V_B A + B V_A.
+H_{\mathrm{opt}}
+=
+\sqrt{
+\sum_\ell
+\|V_{B,\ell}A_\ell+B_\ell V_{A,\ell}\|_F^2
+}.
 ```
 
-Across LoRA modules, the local capacity is the Frobenius norm of these product
-velocities. The local flow time is chosen as:
+Each local flow step uses:
 
-```text
-flow_dt = min(remaining_macro_time, local_function_tolerance / capacity)
+```math
+d\tau
+=
+\min\left(
+T_{\mathrm{remaining}},
+\frac{\varepsilon_\Phi}{H_{\mathrm{opt}}}
+\right).
 ```
 
-so geometry determines direction, capacity determines local step size, and
+Thus geometry determines direction, capacity determines local step size, and
 `macro_flow_time` determines total macro progress. The realized substep count is
-a runtime diagnostic, not a user hyperparameter.
+generated at runtime rather than provided as a user hyperparameter.
 
 Usage:
 
@@ -283,11 +292,20 @@ gauge-equivariant in exact arithmetic. As with `SubsteppedQuotientFlow`,
 Moore-Penrose pseudoinverse fallback is a numerical safeguard and should not be
 interpreted as exact covariance under arbitrary non-orthogonal gauges.
 
-Bounded H10.10 evidence: in a five-seed GPT-2 LoRA experiment, the controller
-produced dynamic substep counts, matched Adam-scale progress on all seeds, and
-obtained approximately `11.47x` geometric-mean gauge suppression. The bootstrap
-95% interval still included values below `10x`. This is experimental evidence,
-not a broad optimizer claim.
+Bounded H10.10 evidence: in a fixed held-out ten-seed GPT-2 LoRA confirmation,
+the controller:
+
+- generated between `5` and `13` substeps per macro step;
+- matched Adam-scale progress on all ten seeds;
+- reduced gauge divergence relative to factor Adam on all ten seeds;
+- obtained `11.07x` geometric-mean gauge suppression;
+- obtained at least `7.45x` suppression on every seed;
+- produced a bootstrap 95% suppression interval of approximately
+  `[9.09x, 13.97x]`;
+- used no pseudoinverse fallback and no flow-step cap.
+
+This is bounded experimental evidence, not a claim of universal optimizer
+superiority or per-seed `10x` suppression.
 
 ## Functional Geometry Tools
 

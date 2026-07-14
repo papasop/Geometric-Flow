@@ -234,6 +234,22 @@ H10.7 held-out confirmation used the same fixed configuration
 Thus the mean `10x` gate was confirmed, but the stricter per-seed and
 bootstrap-CI confirmation gates were not passed.
 
+H10.10 introduced `CapacityAdaptiveQuotientFlow`, replacing fixed `K` with a
+product-space capacity controller. In a fixed held-out ten-seed GPT-2 LoRA
+confirmation, the controller:
+
+- generated between `5` and `13` substeps per macro step;
+- matched Adam-scale progress on all ten seeds;
+- reduced gauge divergence relative to factor Adam on all ten seeds;
+- obtained `11.07x` geometric-mean gauge suppression;
+- obtained at least `7.45x` suppression on every seed;
+- produced a bootstrap 95% suppression interval of approximately
+  `[9.09x, 13.97x]`;
+- used no pseudoinverse fallback and no flow-step cap.
+
+This supports bounded capacity-controller evidence. It does not establish
+universal optimizer superiority or per-seed `10x` suppression.
+
 Reproduce the progress-budgeted screen:
 
 ```bash
