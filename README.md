@@ -265,8 +265,11 @@ T_{\mathrm{remaining}},
 ```
 
 Thus geometry determines direction, capacity determines local step size, and
-`macro_flow_time` determines total macro progress. The realized substep count is
-generated at runtime rather than provided as a user hyperparameter.
+`macro_flow_time` determines total macro progress. Here
+`H_opt * d_tau` is the first-order predicted product-space displacement; since
+both factors are updated simultaneously, the exact finite product increment
+also contains the second-order term `d_tau^2 * V_B @ V_A`. The realized substep
+count is generated at runtime rather than provided as a user hyperparameter.
 
 Usage:
 

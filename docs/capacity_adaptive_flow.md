@@ -57,6 +57,18 @@ T_{\mathrm{remaining}},
 with an optional `max_flow_dt` cap. Directions are computed for all modules
 before any module is mutated, and every module shares the same `d_tau`.
 
+Here, `H_opt * d_tau` is the first-order predicted product-space displacement.
+Because both factors are updated simultaneously,
+
+```math
+(B + d\tau V_B)(A + d\tau V_A) - BA
+=
+d\tau(V_BA + BV_A) + d\tau^2 V_BV_A.
+```
+
+The capacity controller bounds the first-order term; smaller local steps reduce
+the second-order residual.
+
 If `H_opt` is numerically zero, the controller consumes the remaining macro
 flow time in one no-op local step.
 
