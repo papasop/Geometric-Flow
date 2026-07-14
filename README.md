@@ -367,6 +367,7 @@ Not established:
 | D7 fixed-rank benchmark | `python experiments/d7_fixed_rank_tangent_benchmark.py --seeds 101,211,307 --representations 4 --steps 80 --out-dir artifacts/d7_fixed_rank` |
 | H10 tiny-model regression | `python experiments/h10_progress_budget_benchmark.py --macro-lr 2.6 --substeps 16 --out-dir artifacts/h10_progress_budget` |
 | Capacity-adaptive smoke | `python experiments/capacity_adaptive_quotient_smoke.py --seeds 101,211,307 --macro-flow-time 2.6 --local-function-tolerance 0.05 --out-dir artifacts/capacity_adaptive_smoke` |
+| H10.11/H10.12 research archive | `experiments/archive/` contains non-API GPT-2 LoRA confirmation scripts |
 | Phase G matched-step benchmark | `python experiments/lora_matched_step_benchmark.py --trials 5 --steps 200 --representations 5 --train-scope lora_only --functional-map hidden --out artifacts/lora_matched_step.csv` |
 | Functional solver toy | `python experiments/functional_projection_toy.py --response-solver implicit_cg` |
 | CIFAR legacy benchmark | `python experiments/run_cifar10_benchmark.py --config hybrid_diagonal_500 --download --out artifacts/cifar10_benchmark_results.csv` |
