@@ -5,9 +5,9 @@ This script is a small scientific regression benchmark for
 integrator at comparable loss progress, then measures how much final functional
 trajectories diverge across gauge-equivalent LoRA representations.
 
-The default ``macro_lr=2.6`` and ``substeps=16`` match the H10.6 fast-screening
-configuration documented in the README. This is not a production benchmark and
-not a large-language-model claim.
+The default ``macro_lr=2.6`` and ``substeps=16`` match the H10.6/H10.7
+progress-budgeted configuration documented in the README. This is not a
+production benchmark and not a large-language-model claim.
 """
 
 from __future__ import annotations
@@ -295,6 +295,21 @@ def geometric_mean(values: list[float]) -> float:
     return float(math.exp(sum(math.log(value) for value in positive) / len(positive)))
 
 
+def bootstrap_ci(values: list[float], samples: int, seed: int) -> tuple[float, float]:
+    finite = [value for value in values if math.isfinite(value)]
+    if not finite or samples <= 0:
+        return float("nan"), float("nan")
+    generator = random.Random(seed)
+    estimates = []
+    for _ in range(samples):
+        draw = [finite[generator.randrange(len(finite))] for _ in finite]
+        estimates.append(geometric_mean(draw))
+    estimates.sort()
+    lo = estimates[min(int(0.025 * samples), samples - 1)]
+    hi = estimates[min(int(0.975 * samples), samples - 1)]
+    return lo, hi
+
+
 def run_seed(seed: int, args) -> tuple[list[RunResult], SeedSummary]:
     seed_everything(seed)
     base = TinyLoRANextToken(args.vocab_size, args.seq_len, args.d_model, args.d_hidden, args.rank, seed)
@@ -395,6 +410,8 @@ def main() -> None:
     parser.add_argument("--clip-norm", type=float, default=None)
     parser.add_argument("--gram-condition-limit", type=float, default=1e10)
     parser.add_argument("--balance-tol", type=float, default=1e-5)
+    parser.add_argument("--bootstrap-samples", type=int, default=2000)
+    parser.add_argument("--bootstrap-seed", type=int, default=17)
     parser.add_argument("--vocab-size", type=int, default=29)
     parser.add_argument("--seq-len", type=int, default=8)
     parser.add_argument("--train-samples", type=int, default=160)
@@ -418,6 +435,8 @@ def main() -> None:
     displacement_ratios = [row.product_displacement_ratio for row in seed_summaries]
     fallback_counts = [row.fallback_count for row in seed_summaries]
     balance_residuals = [row.balance_residual_max for row in seed_summaries]
+    suppressions = [row.gauge_suppression for row in seed_summaries]
+    suppression_ci = bootstrap_ci(suppressions, args.bootstrap_samples, args.bootstrap_seed)
     aggregate = {
         "seeds": parse_seeds(args.seeds),
         "macro_lr": args.macro_lr,
@@ -426,6 +445,11 @@ def main() -> None:
         "mean_product_displacement_ratio": finite_mean(displacement_ratios),
         "geomean_gauge_divergence_ratio": geometric_mean(gauge_ratios),
         "geomean_gauge_suppression": 1.0 / max(geometric_mean(gauge_ratios), 1e-30),
+        "per_seed_gauge_suppression_10x_fraction": finite_mean(
+            [1.0 if value >= 10.0 else 0.0 for value in suppressions]
+        ),
+        "bootstrap_gauge_suppression_95ci_low": suppression_ci[0],
+        "bootstrap_gauge_suppression_95ci_high": suppression_ci[1],
         "matched_progress_pass_all_seeds": all(row.matched_progress_pass for row in seed_summaries),
         "no_fallback_pass": sum(fallback_counts) == 0,
         "balance_pass": max(balance_residuals) <= args.balance_tol if balance_residuals else True,
@@ -434,6 +458,12 @@ def main() -> None:
     aggregate["H106_MEAN_GAUGE_SUPPRESSION_10X_PASS"] = aggregate["geomean_gauge_suppression"] >= 10.0
     aggregate["H106_NO_FALLBACK_PASS"] = aggregate["no_fallback_pass"]
     aggregate["H106_BALANCE_PASS"] = aggregate["balance_pass"]
+    aggregate["H107_ALL_SEEDS_MATCHED_PROGRESS"] = aggregate["matched_progress_pass_all_seeds"]
+    aggregate["H107_MEAN_GAUGE_SUPPRESSION_10X_PASS"] = aggregate["geomean_gauge_suppression"] >= 10.0
+    aggregate["H107_ALL_SEEDS_GAUGE_SUPPRESSION_10X_PASS"] = (
+        aggregate["per_seed_gauge_suppression_10x_fraction"] >= 1.0
+    )
+    aggregate["H107_BOOTSTRAP_CI_EXCLUDES_10X_PASS"] = aggregate["bootstrap_gauge_suppression_95ci_low"] >= 10.0
 
     args.out_dir.mkdir(parents=True, exist_ok=True)
     write_csv(args.out_dir / "per_run.csv", [asdict(row) for row in all_rows])
@@ -447,6 +477,7 @@ def main() -> None:
         f"disp_ratio={aggregate['mean_product_displacement_ratio']:.4g} "
         f"gauge_ratio={aggregate['geomean_gauge_divergence_ratio']:.4g} "
         f"suppression={aggregate['geomean_gauge_suppression']:.4g} "
+        f"per_seed_10x={aggregate['per_seed_gauge_suppression_10x_fraction']:.2f} "
         f"matched={aggregate['H106_ALL_SEEDS_MATCHED_PROGRESS']} "
         f"fallback_free={aggregate['H106_NO_FALLBACK_PASS']} "
         f"balance={aggregate['H106_BALANCE_PASS']}"

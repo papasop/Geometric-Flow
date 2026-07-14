@@ -220,7 +220,14 @@ H10 evidence on a small GPT-2 LoRA benchmark:
   and geometric-mean gauge suppression `15.23x`.
 - The strict `10x` fast-benchmark gate passed on all aggregate criteria, with
   no pseudoinverse fallback and product-preserving balance passing.
-- This remains a small fast benchmark and requires held-out-seed confirmation.
+- H10.7 then tested the same fixed configuration on five previously unseen
+  seeds. It matched progress on all five seeds, reduced gauge divergence
+  relative to factor Adam on all five seeds, and obtained geometric-mean gauge
+  suppression `12.84x`.
+- The H10.7 mean `10x` gate was confirmed, but the stricter per-seed and
+  bootstrap-CI confirmation gates were not passed: `60%` of seeds individually
+  exceeded `10x`, and the bootstrap 95% CI was approximately `[8.21x, 20.08x]`.
+- This remains a small GPT-2 LoRA benchmark, not a broad optimizer claim.
 
 Detailed H10.6 metrics:
 
@@ -311,7 +318,7 @@ Open the historical CIFAR notebook:
 | Phase G matched step | Strong corrected structural CI in B2 | Task gap worsened in controlled setting | Archived |
 | Transformer layerwise projection | Small controlled LoRA projection did not harm training | Slight mean loss/accuracy improvement | Bounded evidence |
 | D7 fixed-rank backend | Near-exact gauge invariance and rank preservation | Task parity in small synthetic Transformer | Experimental |
-| H10 quotient flow | H10.6 progress-budgeted fast run reached `15.23x` geometric-mean gauge suppression | Small GPT-2 LoRA benchmark; held-out seeds still needed | Experimental |
+| H10 quotient flow | H10.7 held-out run reached `12.84x` geometric-mean gauge suppression at matched progress | Mean `10x` gate confirmed; per-seed and bootstrap-CI gates not passed | Experimental |
 
 Established:
 
@@ -330,7 +337,7 @@ Not established:
 - production large-model scalability;
 - GPT-2 or LLM performance claims;
 - a universal recommendation to replace existing optimizers;
-- held-out-seed confirmation of the H10.6 strict `10x` result;
+- per-seed and bootstrap-CI confirmation of the H10.7 strict `10x` result;
 - broad robustness across models, ranks, datasets, and LoRA target modules.
 
 ## Reproduce Key Benchmarks

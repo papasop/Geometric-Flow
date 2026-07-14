@@ -220,7 +220,19 @@ obtained:
 
 This is the first fast H10 configuration to pass the strict `10x`
 gauge-suppression gate. The method remains experimental and opt-in, and the
-result requires held-out-seed confirmation before broader claims.
+result required held-out-seed confirmation before broader claims.
+
+H10.7 held-out confirmation used the same fixed configuration
+(`macro_lr=2.6`, `substeps=16`) on five previously unseen seeds. It obtained:
+
+- matched progress on all five seeds;
+- lower gauge divergence than factor Adam on all five seeds;
+- geometric-mean gauge suppression of `12.84x`;
+- `60%` of seeds individually exceeding `10x`;
+- bootstrap 95% CI for suppression of approximately `[8.21x, 20.08x]`.
+
+Thus the mean `10x` gate was confirmed, but the stricter per-seed and
+bootstrap-CI confirmation gates were not passed.
 
 Reproduce the progress-budgeted screen:
 
