@@ -111,6 +111,7 @@ returned to rank `r` by a rank-preserving SVD retraction.
 | `factor_adam` / `adam_raw` | No | Baseline | Fastest | Good control baseline. |
 | Euclidean factor-space projection | Removes an explicit tangent component but is not gauge invariant | Slight mean task improvement in one controlled benchmark; not established as a general advantage | Moderate | Historical baseline. |
 | `FixedRankFunctionalAdam` | Stronger by construction | D7 showed task parity only in a small synthetic Transformer benchmark | Experimental | Opt-in backend for fixed-rank product-coordinate experiments. |
+| `SubsteppedQuotientFlow` | Factorized quotient vector field with gradient recomputation per substep | H10.4 reached Adam-scale progress but missed the strict 10x gauge-suppression gate | Experimental | Opt-in integrator; no Adam moments. |
 | Full quotient-space methods | Strong | Not yet | Slower | Research reference, not a production default. |
 
 This path is experimental and opt-in. It does not change the default behavior
@@ -119,6 +120,56 @@ factor modules to consume explicit product states. The model forward pass must
 explicitly consume the same product tensor `M` whose gradient is passed to the
 optimizer. See `experiments/d7_fixed_rank_tangent_benchmark.py` for a complete
 runnable example.
+
+## Experimental: Substepped Quotient Flow [Status: Opt-In]
+
+`SubsteppedQuotientFlow` integrates the factorized quotient vector field using
+repeated small factor-space substeps. It is intended for LoRA-style modules that
+expose trainable `A` and `B` parameters with shapes `(rank, input_dim)` and
+`(output_dim, rank)`.
+
+For a macro step with `K` substeps, the local learning rate is:
+
+```text
+local_lr = macro_lr / K
+```
+
+Each substep uses freshly supplied factor gradients, applies the quotient
+preconditioned directions, optionally clips the global quotient update, updates
+the factors, and optionally rebalances the factorization without changing the
+represented product `B A`.
+
+This optimizer has **no Adam-style persistent first or second moments**.
+It stores scalar diagnostics only, such as `condition_max`, `fallback_count`,
+`balance_residual_max`, `last_update_norm`, and `last_clip_scale`. Temporary
+rank-by-rank Gram matrices are used to compute the quotient direction.
+
+Example using benchmark-scale values from H10.4, not universal defaults:
+
+```python
+optimizer = SubsteppedQuotientFlow(
+    factor_modules,
+    macro_lr=3.0,
+    substeps=4,
+    clip_norm=1.0,
+    balance_after_substep=True,
+)
+
+def closure():
+    optimizer.zero_grad()
+    loss = model(batch)
+    loss.backward()
+    return loss
+
+loss = optimizer.macro_step(closure)
+```
+
+H10.4 on a small GPT-2 LoRA benchmark obtained Adam-scale loss progress and
+product displacement. Mean gauge divergence was approximately 6-7x lower than
+factor Adam, but the strict 10x gauge-suppression gate was not passed. The best
+configurations were often at the macro-LR search boundary. This feature is
+therefore experimental and opt-in; no production or generalization claim is
+made.
 
 ## Transformer-Ready Geometry [Status: Small Controlled Evidence]
 
@@ -183,6 +234,9 @@ Key takeaways:
 - **D7 general task superiority:** the fixed-rank backend has not established
   universal superiority; D7 demonstrated task parity only in a small synthetic
   Transformer benchmark.
+- **H10.4 strict gauge gate:** `SubsteppedQuotientFlow` reached Adam-scale
+  progress in a small GPT-2 LoRA benchmark, but did not pass the strict 10x
+  gauge-suppression gate.
 - **Strict Transformer structural pass:** the Transformer layerwise projection
   path has task evidence, but not a strict Phase G structural CI pass.
 
@@ -270,6 +324,7 @@ hardware.
 | Theory-aligned reference | `functional_geoflow` + `response_solver="dense"` | Dense small-model implementation of `J_phi`, `P_T/P_N`, and `P_N A_resp P_N` |
 | Matrix-free prototype | `functional_geoflow` + `response_solver="implicit_cg"` | JVP/VJP normal-space solve with randomized VJP basis, Q cache, warm-start CG, and explicit per-step budgets |
 | Experimental invariant backend | `FixedRankFunctionalAdam` | Adam moments in explicit product coordinates, followed by fixed-rank tangent projection, final candidate bounding, and rank-preserving retraction |
+| Experimental quotient integrator | `SubsteppedQuotientFlow` | Repeated quotient-flow substeps over LoRA factors with closure-based gradient recomputation, optional clipping, and no Adam moments |
 
 `functional_geoflow` is experimental. The dense solver is the correctness
 reference for small MLPs and toy networks. The implicit solver is the
@@ -279,6 +334,10 @@ claims.
 
 `FixedRankFunctionalAdam` is a validated research backend. It is opt-in and is
 not a default production optimizer.
+
+`SubsteppedQuotientFlow` is an experimental H10.4 integrator. It is opt-in,
+does not replace existing optimizers, and should not be interpreted as
+production-ready.
 
 ## Legacy CIFAR Smoke Benchmark [Status: Historical Baseline]
 
