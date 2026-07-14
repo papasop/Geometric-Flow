@@ -122,7 +122,7 @@ class SubsteppedQuotientFlow(Optimizer):
         if condition_value < self.gram_condition_limit:
             return torch.linalg.inv(gram)
         self.fallback_count += 1
-        return torch.linalg.pinv(gram)
+        return torch.linalg.pinv(gram, rtol=1.0 / self.gram_condition_limit)
 
     @torch.no_grad()
     def _balance_(self, module) -> None:

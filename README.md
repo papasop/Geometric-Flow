@@ -136,6 +136,40 @@ For a macro step with `K` substeps, the local learning rate is:
 local_lr = macro_lr / K
 ```
 
+For the LoRA convention `M = B A`, where `A` has shape
+`rank x input_dim` and `B` has shape `output_dim x rank`, each local
+quotient-preconditioned step is:
+
+```math
+\Delta A =
+-\eta_{\mathrm{local}}
+(B^\top B)^{-1}\nabla_A L,
+\qquad
+\Delta B =
+-\eta_{\mathrm{local}}
+\nabla_B L(AA^\top)^{-1}.
+```
+
+Under the gauge transformation
+
+```math
+A \mapsto S A,
+\qquad
+B \mapsto B S^{-1},
+```
+
+the directions transform covariantly:
+
+```math
+\Delta A \mapsto S\Delta A,
+\qquad
+\Delta B \mapsto \Delta B S^{-1}.
+```
+
+Thus the represented product trajectory is gauge-equivariant in exact
+arithmetic. In finite precision, diagnostics such as `condition_max`,
+`fallback_count`, and `balance_residual_max` should still be monitored.
+
 Each substep uses freshly supplied factor gradients, applies the quotient
 preconditioned directions, optionally clips the global quotient update, updates
 the factors, and optionally rebalances the factorization without changing the
@@ -172,6 +206,11 @@ factor Adam, but the strict 10x gauge-suppression gate was not passed. The best
 configurations were often at the macro-LR search boundary. This feature is
 therefore experimental and opt-in; no production or generalization claim is
 made.
+
+Terminology boundary: this is a gauge-equivariant, quotient-compatible
+Gram-preconditioned factor-flow integrator. The repository does not yet prove
+that it is the unique quotient-Riemannian gradient, a strict horizontal lift, or
+the standard fixed-rank quotient-manifold optimizer.
 
 ## Transformer-Ready Geometry [Status: Small Controlled Evidence]
 
