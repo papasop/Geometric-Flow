@@ -64,6 +64,8 @@ class SubsteppedQuotientFlow(Optimizer):
                 local_lr=self.local_lr,
                 substeps=self.substeps,
                 clip_norm=self.clip_norm,
+                balance_after_substep=self.balance_after_substep,
+                gram_condition_limit=self.gram_condition_limit,
             ),
         )
 
@@ -105,6 +107,21 @@ class SubsteppedQuotientFlow(Optimizer):
             loss = closure()
             self.step()
         return loss
+
+    def load_state_dict(self, state_dict):
+        result = super().load_state_dict(state_dict)
+        group = self.param_groups[0]
+        self.macro_lr = float(group["macro_lr"])
+        self.substeps = int(group["substeps"])
+        self.local_lr = self.macro_lr / self.substeps
+        self.clip_norm = group.get("clip_norm")
+        self.balance_after_substep = bool(group.get("balance_after_substep", self.balance_after_substep))
+        self.gram_condition_limit = float(group.get("gram_condition_limit", self.gram_condition_limit))
+        group["local_lr"] = self.local_lr
+        group["balance_after_substep"] = self.balance_after_substep
+        group["gram_condition_limit"] = self.gram_condition_limit
+        self.last_diagnostics = self._diagnostics()
+        return result
 
     def _quotient_direction(self, module) -> tuple[torch.Tensor, torch.Tensor]:
         a = module.A

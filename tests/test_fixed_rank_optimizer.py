@@ -210,6 +210,38 @@ class SubsteppedQuotientFlowTests(unittest.TestCase):
         self.assertTrue(torch.allclose(module.A.detach(), expected_a, atol=1e-12, rtol=1e-10))
         self.assertTrue(torch.allclose(module.B.detach(), expected_b, atol=1e-12, rtol=1e-10))
 
+    def test_full_rank_inverse_branch_is_near_machine_gauge_equivariant(self):
+        torch.manual_seed(22)
+        a, b, _ = make_product(dtype=torch.float64)
+        gauge = torch.tensor([[1.4, 0.2], [0.1, 0.8]], dtype=torch.float64)
+        a_gauge = gauge @ a
+        b_gauge = b @ torch.linalg.inv(gauge)
+        target = torch.randn_like(b @ a)
+        self.assertTrue(torch.allclose(b @ a, b_gauge @ a_gauge, atol=1e-12, rtol=1e-12))
+
+        def run_once(a0, b0):
+            module = FactorModule(a0, b0)
+            optimizer = SubsteppedQuotientFlow(
+                [module],
+                macro_lr=0.01,
+                substeps=1,
+                balance_after_substep=False,
+                gram_condition_limit=1e12,
+            )
+            loss = (module.product() - target).pow(2).sum()
+            loss.backward()
+            optimizer.step()
+            return module.product().detach(), optimizer
+
+        product_a, opt_a = run_once(a, b)
+        product_b, opt_b = run_once(a_gauge, b_gauge)
+        relative_product_gap = (product_a - product_b).norm() / product_a.norm().clamp_min(
+            torch.finfo(product_a.dtype).tiny
+        )
+        self.assertLess(float(relative_product_gap), 1e-10)
+        self.assertEqual(opt_a.fallback_count, 0)
+        self.assertEqual(opt_b.fallback_count, 0)
+
     def test_macro_step_calls_closure_and_recomputes_gradients(self):
         a, b, _ = make_product(dtype=torch.float64)
         module = FactorModule(a, b)
@@ -250,6 +282,39 @@ class SubsteppedQuotientFlowTests(unittest.TestCase):
         optimizer.step()
         self.assertLessEqual(optimizer.last_clip_scale, 1.0)
         self.assertLessEqual(optimizer.last_update_norm, 0.01001)
+
+    def test_state_dict_roundtrip_syncs_custom_hyperparameters(self):
+        a, b, _ = make_product(dtype=torch.float64)
+        source_module = FactorModule(a, b)
+        source = SubsteppedQuotientFlow(
+            [source_module],
+            macro_lr=2.0,
+            substeps=5,
+            clip_norm=0.7,
+            balance_after_substep=False,
+            gram_condition_limit=1234.0,
+        )
+        state = copy.deepcopy(source.state_dict())
+
+        target_module = FactorModule(a, b)
+        target = SubsteppedQuotientFlow(
+            [target_module],
+            macro_lr=1.0,
+            substeps=2,
+            clip_norm=None,
+            balance_after_substep=True,
+            gram_condition_limit=1e10,
+        )
+        target.load_state_dict(state)
+
+        self.assertEqual(target.macro_lr, 2.0)
+        self.assertEqual(target.substeps, 5)
+        self.assertEqual(target.local_lr, 0.4)
+        self.assertEqual(target.clip_norm, 0.7)
+        self.assertFalse(target.balance_after_substep)
+        self.assertEqual(target.gram_condition_limit, 1234.0)
+        self.assertEqual(target.param_groups[0]["local_lr"], 0.4)
+        self.assertEqual(target.last_diagnostics["local_lr"], 0.4)
 
     def test_gauge_equivalent_factors_stay_closer_than_naive_factor_adam(self):
         torch.manual_seed(21)

@@ -166,9 +166,12 @@ the directions transform covariantly:
 \Delta B \mapsto \Delta B S^{-1}.
 ```
 
-Thus the represented product trajectory is gauge-equivariant in exact
-arithmetic. In finite precision, diagnostics such as `condition_max`,
-`fallback_count`, and `balance_residual_max` should still be monitored.
+For full-rank factors on the ordinary-inverse branch, the represented product
+trajectory is gauge-equivariant in exact arithmetic. When an ill-conditioned
+Gram matrix triggers the Moore-Penrose pseudoinverse fallback, exact covariance
+is not generally guaranteed under arbitrary non-orthogonal gauge transforms.
+In finite precision, diagnostics such as `condition_max`, `fallback_count`,
+and `balance_residual_max` should still be monitored.
 
 Each substep uses freshly supplied factor gradients, applies the quotient
 preconditioned directions, optionally clips the global quotient update, updates
