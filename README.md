@@ -230,9 +230,11 @@ GPT-2 and does not exactly reproduce the GPT-2 H10.6/H10.7 runs above.
 
 ### CapacityAdaptiveQuotientFlow
 
-`CapacityAdaptiveQuotientFlow` replaces the manually selected substep count with
-a local product-space capacity controller. It uses the same LoRA convention
-`M = B A`, with `A: rank x input_dim` and `B: output_dim x rank`.
+To avoid manually tuning the substep-count hyperparameter,
+`CapacityAdaptiveQuotientFlow` adds a product-space capacity controller that
+chooses the number of local steps at runtime from the current quotient-flow
+geometry. It uses the same LoRA convention `M = B A`, with
+`A: rank x input_dim` and `B: output_dim x rank`.
 
 The quotient direction is:
 
@@ -241,6 +243,9 @@ V_A = -(B^\top B)^{-1}\nabla_A L,
 \qquad
 V_B = -\nabla_B L(AA^\top)^{-1}.
 ```
+
+Interpretation: the optimizer first builds a gauge-aware local vector field for
+the two LoRA factors, rather than stepping directly in raw factor coordinates.
 
 The product-space capacity is:
 
@@ -253,6 +258,10 @@ H_{\mathrm{opt}}
 }.
 ```
 
+Interpretation: `H_opt` measures the first-order size of the represented
+product motion produced by simultaneously changing `A` and `B` across all
+target modules.
+
 Each local flow step uses:
 
 ```math
@@ -264,6 +273,9 @@ T_{\mathrm{remaining}},
 \right).
 ```
 
+Interpretation: `d_tau` is the local flow time chosen so that the first-order
+product-space motion stays within the configured tolerance.
+
 Thus geometry determines direction, capacity determines local step size, and
 `macro_flow_time` determines total macro progress. Here
 `H_opt * d_tau` is the first-order predicted product-space displacement; since
@@ -271,7 +283,18 @@ both factors are updated simultaneously, the exact finite product increment
 also contains the second-order term `d_tau^2 * V_B @ V_A`. The realized substep
 count is generated at runtime rather than provided as a user hyperparameter.
 
-Usage:
+The two primary controls are:
+
+| parameter | meaning |
+| :--- | :--- |
+| `macro_flow_time` | total quotient-flow time per macro step |
+| `local_function_tolerance` | first-order product-motion budget per local step |
+
+Other arguments, such as `max_auto_substeps`, `max_flow_dt`,
+`balance_after_substep`, and `gram_condition_limit`, are numerical safeguards or
+representation-management options.
+
+#### Usage
 
 ```python
 from geometric_flow import CapacityAdaptiveQuotientFlow
@@ -287,11 +310,6 @@ optimizer = CapacityAdaptiveQuotientFlow(
 loss = optimizer.macro_step(closure)
 ```
 
-The two primary controls are `macro_flow_time` and
-`local_function_tolerance`. Other arguments, such as `max_auto_substeps`,
-`max_flow_dt`, `balance_after_substep`, and `gram_condition_limit`, are
-numerical safeguards or representation-management options.
-
 On the ordinary-inverse branch with full-rank factors, the direction is
 gauge-equivariant in exact arithmetic. As with `SubsteppedQuotientFlow`,
 Moore-Penrose pseudoinverse fallback is a numerical safeguard and should not be
@@ -299,7 +317,12 @@ interpreted as exact covariance under arbitrary non-orthogonal gauges.
 
 #### H10.11 Held-Out Confirmation
 
-In a fixed ten-seed held-out GPT-2 LoRA confirmation, the controller:
+Core finding: in a fixed ten-seed held-out GPT-2 LoRA confirmation, the
+controller matched Adam-scale progress on every seed while reaching `11.07x`
+geometric-mean gauge suppression.
+
+<details>
+<summary>Detailed H10.11 statistics</summary>
 
 - generated between `5` and `13` substeps per macro step;
 - matched Adam-scale progress on all ten seeds;
@@ -309,6 +332,8 @@ In a fixed ten-seed held-out GPT-2 LoRA confirmation, the controller:
 - produced a bootstrap 95% suppression interval of approximately
   `[9.09x, 13.97x]`;
 - used no pseudoinverse fallback and no flow-step cap.
+
+</details>
 
 This is bounded experimental evidence, not a claim of universal optimizer
 superiority or per-seed `10x` suppression.
@@ -343,7 +368,7 @@ See [docs/functional_geometry.md](docs/functional_geometry.md).
 | Transformer layerwise projection | Projection did not harm controlled training | Small mean improvement | Bounded evidence |
 | D7 fixed-rank backend | Near-exact gauge invariance and rank preservation | Task parity | Experimental |
 | H10 quotient flow | H10.7 reached `12.84x` geometric-mean suppression at matched progress | Mean `10x` reproduced; stricter gates failed | Experimental |
-| Capacity-adaptive quotient flow | Ten-seed held-out GPT-2 LoRA run reached `11.07x` geometric-mean suppression | Adam-scale progress matched; per-seed `10x` not established | Experimental |
+| Capacity-adaptive quotient flow | Ten-seed held-out GPT-2 LoRA run reached `11.07x` geometric-mean suppression | Mean `10x` suppression reproduced; per-seed confirmation not strict | Experimental |
 
 Established in controlled tests:
 
