@@ -11,7 +11,9 @@ automatically an admissible functional update. The library contains:
 - matrix-free research solvers for projected response directions;
 - an opt-in fixed-rank backend that performs Adam updates in invariant product
   coordinates, projects them into the fixed-rank tangent space, and applies
-  rank-preserving retraction.
+  rank-preserving retraction;
+- an experimental substepped quotient-flow integrator that recomputes gradients
+  across local LoRA factor updates without Adam-style moment tensors.
 
 The fixed-rank backend has demonstrated near-exact LoRA gauge invariance and
 task parity in a small synthetic Transformer benchmark. It is experimental, not
