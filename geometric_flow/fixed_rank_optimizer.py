@@ -1,8 +1,8 @@
-"""Fixed-rank product-coordinate Adam optimizer."""
+"""Experimental fixed-rank and quotient-flow optimizers."""
 
 from __future__ import annotations
 
-from typing import Callable
+from typing import Callable, Optional
 
 import torch
 from torch.optim import Optimizer
@@ -10,6 +10,163 @@ from torch.optim import Optimizer
 from .fixed_rank import FixedRankManifold
 from .product_state import ProductState
 from .trust_region import HeldOutTrustRegion, TrustRegionResult
+
+
+class SubsteppedQuotientFlow(Optimizer):
+    """Experimental quotient-flow integrator for LoRA factor modules.
+
+    The optimizer has no Adam-style persistent moment tensors. Each ``step``
+    consumes the currently available factor gradients and applies one quotient
+    substep. ``macro_step`` calls a user closure once per substep so gradients
+    can be recomputed after every factor update.
+    """
+
+    def __init__(
+        self,
+        params=None,
+        *,
+        factor_modules=None,
+        macro_lr: float,
+        substeps: int = 2,
+        clip_norm: Optional[float] = None,
+        balance_after_substep: bool = True,
+        gram_condition_limit: float = 1e10,
+    ) -> None:
+        modules = factor_modules if factor_modules is not None else params
+        self.factor_modules = self._collect_factor_modules(modules)
+        if macro_lr <= 0:
+            raise ValueError("macro_lr must be positive")
+        if not isinstance(substeps, int) or substeps < 1:
+            raise ValueError("substeps must be an integer >= 1")
+        if clip_norm is not None and clip_norm <= 0:
+            raise ValueError("clip_norm must be None or positive")
+        if gram_condition_limit <= 1:
+            raise ValueError("gram_condition_limit must be > 1")
+        self.macro_lr = float(macro_lr)
+        self.substeps = int(substeps)
+        self.local_lr = self.macro_lr / self.substeps
+        self.clip_norm = clip_norm
+        self.balance_after_substep = bool(balance_after_substep)
+        self.gram_condition_limit = float(gram_condition_limit)
+        self.condition_max = 0.0
+        self.fallback_count = 0
+        self.balance_residual_max = 0.0
+        self.last_update_norm = 0.0
+        self.last_clip_scale = 1.0
+        self.last_diagnostics = self._diagnostics()
+        optimizer_params = []
+        for module in self.factor_modules:
+            optimizer_params.extend([module.A, module.B])
+        super().__init__(
+            optimizer_params,
+            dict(
+                macro_lr=self.macro_lr,
+                local_lr=self.local_lr,
+                substeps=self.substeps,
+                clip_norm=self.clip_norm,
+            ),
+        )
+
+    def step(self, closure: Callable[[], torch.Tensor] | None = None):
+        """Execute one quotient substep using current gradients."""
+
+        loss = closure() if closure is not None else None
+        updates = []
+        squared_norm = None
+        for module in self.factor_modules:
+            if module.A.grad is None or module.B.grad is None:
+                raise RuntimeError("SubsteppedQuotientFlow.step requires gradients for every A and B factor")
+            d_a, d_b = self._quotient_direction(module)
+            updates.append((module, d_a, d_b))
+            term = d_a.pow(2).sum() + d_b.pow(2).sum()
+            squared_norm = term if squared_norm is None else squared_norm + term
+        update_norm = torch.sqrt(squared_norm) if squared_norm is not None else torch.tensor(0.0)
+        clip_scale = 1.0
+        if self.clip_norm is not None and float(update_norm.detach().cpu()) > self.clip_norm:
+            clip_scale = float(self.clip_norm / update_norm.clamp_min(torch.finfo(update_norm.dtype).tiny).detach().cpu())
+        with torch.no_grad():
+            for module, d_a, d_b in updates:
+                module.A.add_(d_a, alpha=clip_scale)
+                module.B.add_(d_b, alpha=clip_scale)
+                if self.balance_after_substep:
+                    self._balance_(module)
+        self.last_update_norm = float((update_norm * clip_scale).detach().cpu())
+        self.last_clip_scale = float(clip_scale)
+        self.last_diagnostics = self._diagnostics()
+        return loss
+
+    def macro_step(self, closure: Callable[[], torch.Tensor]):
+        """Run one macro step with fresh gradients at each quotient substep."""
+
+        if closure is None:
+            raise RuntimeError("macro_step requires a closure")
+        loss = None
+        for _ in range(self.substeps):
+            loss = closure()
+            self.step()
+        return loss
+
+    def _quotient_direction(self, module) -> tuple[torch.Tensor, torch.Tensor]:
+        a = module.A
+        b = module.B
+        inv_b = self._stable_inverse(b.transpose(-2, -1) @ b)
+        inv_a = self._stable_inverse(a @ a.transpose(-2, -1))
+        d_a = -self.local_lr * (inv_b @ a.grad)
+        d_b = -self.local_lr * (b.grad @ inv_a)
+        return d_a, d_b
+
+    def _stable_inverse(self, gram: torch.Tensor) -> torch.Tensor:
+        condition = torch.linalg.cond(gram.detach())
+        condition_value = float(condition.cpu())
+        self.condition_max = max(self.condition_max, condition_value)
+        if condition_value < self.gram_condition_limit:
+            return torch.linalg.inv(gram)
+        self.fallback_count += 1
+        return torch.linalg.pinv(gram)
+
+    @torch.no_grad()
+    def _balance_(self, module) -> None:
+        before = module.B @ module.A
+        q_b, r_b = torch.linalg.qr(module.B, mode="reduced")
+        a_mid = r_b @ module.A
+        q_a, r_a = torch.linalg.qr(a_mid.transpose(-2, -1), mode="reduced")
+        module.B.copy_(q_b @ r_a.transpose(-2, -1))
+        module.A.copy_(q_a.transpose(-2, -1))
+        after = module.B @ module.A
+        residual = (after - before).norm() / before.norm().clamp_min(torch.finfo(before.dtype).tiny)
+        self.balance_residual_max = max(self.balance_residual_max, float(residual.cpu()))
+
+    def _diagnostics(self) -> dict[str, float | int | bool | None]:
+        return {
+            "condition_max": self.condition_max,
+            "fallback_count": self.fallback_count,
+            "balance_residual_max": self.balance_residual_max,
+            "last_update_norm": self.last_update_norm,
+            "last_clip_scale": self.last_clip_scale,
+            "substeps": self.substeps,
+            "macro_lr": self.macro_lr,
+            "local_lr": self.local_lr,
+            "clip_norm": self.clip_norm,
+            "balance_after_substep": self.balance_after_substep,
+        }
+
+    @staticmethod
+    def _collect_factor_modules(modules) -> list:
+        if modules is None:
+            raise ValueError("SubsteppedQuotientFlow requires params or factor_modules")
+        if isinstance(modules, torch.nn.Module):
+            modules = [modules]
+        collected = list(modules)
+        if not collected:
+            raise ValueError("SubsteppedQuotientFlow requires at least one factor module")
+        for module in collected:
+            if not hasattr(module, "A") or not hasattr(module, "B"):
+                raise ValueError("factor modules must expose A and B parameters")
+            if not isinstance(module.A, torch.nn.Parameter) or not isinstance(module.B, torch.nn.Parameter):
+                raise ValueError("factor module A and B attributes must be torch.nn.Parameter instances")
+            if module.A.ndim != 2 or module.B.ndim != 2 or module.B.shape[1] != module.A.shape[0]:
+                raise ValueError("factor module shapes must satisfy A=(rank,in), B=(out,rank)")
+        return collected
 
 
 class FixedRankFunctionalAdam(Optimizer):

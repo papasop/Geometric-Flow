@@ -9,7 +9,7 @@ The package exposes three layers:
 
 from .curvature import CurvatureOperator, compute_curvature, hutchinson_trace
 from .fixed_rank import FixedRankDiagnostics, FixedRankManifold
-from .fixed_rank_optimizer import FixedRankFunctionalAdam
+from .fixed_rank_optimizer import FixedRankFunctionalAdam, SubsteppedQuotientFlow
 from .functional_geometry import (
     FunctionalMap,
     FunctionalGeometry,
@@ -43,6 +43,7 @@ __all__ = [
     "FixedRankDiagnostics",
     "FixedRankFunctionalAdam",
     "FixedRankManifold",
+    "SubsteppedQuotientFlow",
     "GeometricOptimizer",
     "GeometricRotation",
     "FunctionalMap",
