@@ -175,13 +175,15 @@ and `balance_residual_max` should still be monitored.
 
 Each substep uses freshly supplied factor gradients, applies the quotient
 preconditioned directions, optionally clips the global quotient update, updates
-the factors, and optionally rebalances the factorization without changing the
-represented product `B A`.
+the factors, and optionally applies product-preserving QR canonicalization
+without changing the represented product `B A`.
 
 This optimizer has **no Adam-style persistent first or second moments**.
 It stores scalar diagnostics only, such as `condition_max`, `fallback_count`,
 `balance_residual_max`, `last_update_norm`, and `last_clip_scale`. Temporary
-rank-by-rank Gram matrices are used to compute the quotient direction.
+rank-by-rank Gram matrices are used to compute the quotient direction. Scalar
+diagnostics are runtime counters and are not guaranteed to persist across
+optimizer checkpoint restoration.
 
 Example using benchmark-scale values from H10.4, not universal defaults:
 
@@ -209,6 +211,13 @@ factor Adam, but the strict 10x gauge-suppression gate was not passed. The best
 configurations were often at the macro-LR search boundary. This feature is
 therefore experimental and opt-in; no production or generalization claim is
 made.
+
+Subsequent H10.5 tuning refined, but did not overturn, that status. Increasing
+macro learning rates above 3 did not remove the progress-versus-gauge trade-off;
+`K=4` substeps were more favorable for gauge suppression than `K=2`; the best
+fast aggregate remained approximately 7.29x gauge reduction; and higher LR
+usually improved product-space progress while worsening gauge suppression.
+These settings are benchmark diagnostics, not universal defaults.
 
 Terminology boundary: this is a gauge-equivariant, quotient-compatible
 Gram-preconditioned factor-flow integrator. The repository does not yet prove
@@ -278,9 +287,9 @@ Key takeaways:
 - **D7 general task superiority:** the fixed-rank backend has not established
   universal superiority; D7 demonstrated task parity only in a small synthetic
   Transformer benchmark.
-- **H10.4 strict gauge gate:** `SubsteppedQuotientFlow` reached Adam-scale
-  progress in a small GPT-2 LoRA benchmark, but did not pass the strict 10x
-  gauge-suppression gate.
+- **H10.4/H10.5 strict gauge gate:** `SubsteppedQuotientFlow` reached
+  Adam-scale progress in a small GPT-2 LoRA benchmark and H10.5 tuning improved
+  the trade-off map, but the strict 10x gauge-suppression gate remains unmet.
 - **Strict Transformer structural pass:** the Transformer layerwise projection
   path has task evidence, but not a strict Phase G structural CI pass.
 
