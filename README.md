@@ -179,8 +179,8 @@ from geometric_flow import SubsteppedQuotientFlow
 
 optimizer = SubsteppedQuotientFlow(
     factor_modules,
-    macro_lr=3.0,
-    substeps=4,
+    macro_lr=2.6,
+    substeps=16,
     clip_norm=1.0,
     balance_after_substep=True,
 )
@@ -204,14 +204,22 @@ The optional canonicalization step is product-preserving QR normalization: it
 keeps `B_new A_new = B A`, but it does not explicitly guarantee
 `B^T B = A A^T`.
 
-H10.4/H10.5 evidence on a small GPT-2 LoRA benchmark:
+H10.6 evidence on a small GPT-2 LoRA benchmark used progress-budgeted stopping
+so quotient-flow and factor-Adam trajectories were compared at comparable
+functional progress. With fixed `macro_lr=2.6` and `substeps=16` across three
+seeds, the fast benchmark obtained:
 
-- Adam-scale functional progress was reached.
-- Best fast aggregate gauge reduction was about `7.29x`.
-- Increasing macro LR above `3` did not remove the progress-versus-gauge
-  trade-off.
-- `K=4` substeps were more favorable for gauge suppression than `K=2`.
-- The strict `10x` gauge-suppression gate remains unmet.
+- mean loss-progress ratio: `1.846`;
+- mean product-displacement ratio: `0.773`;
+- geometric-mean gauge-divergence ratio: `0.0656`;
+- geometric-mean gauge suppression: `15.23x`;
+- matched-progress pass on all three seeds;
+- no pseudoinverse fallback;
+- product-preserving balance pass.
+
+This is the first fast H10 configuration to pass the strict `10x`
+gauge-suppression gate. It remains a small GPT-2 LoRA benchmark and requires
+held-out-seed confirmation before broader claims.
 
 These settings are diagnostics, not universal defaults. The method is best
 described as a gauge-equivariant, quotient-compatible Gram-preconditioned
@@ -292,7 +300,7 @@ Open the historical CIFAR notebook:
 | Phase G matched step | Strong corrected structural CI in B2 | Task gap worsened in controlled setting | Archived |
 | Transformer layerwise projection | Small controlled LoRA projection did not harm training | Slight mean loss/accuracy improvement | Bounded evidence |
 | D7 fixed-rank backend | Near-exact gauge invariance and rank preservation | Task parity in small synthetic Transformer | Experimental |
-| H10 quotient flow | About `7.29x` best fast gauge reduction | Strict `10x` gate failed | Experimental |
+| H10 quotient flow | H10.6 progress-budgeted fast run reached `15.23x` geometric-mean gauge suppression | Small GPT-2 LoRA benchmark; held-out seeds still needed | Experimental |
 
 Established:
 
@@ -311,7 +319,7 @@ Not established:
 - production large-model scalability;
 - GPT-2 or LLM performance claims;
 - a universal recommendation to replace existing optimizers;
-- strict `10x` gauge suppression for the H10 quotient-flow path.
+- held-out-seed confirmation for the H10.6 quotient-flow fast result.
 
 ## Reproduce Key Benchmarks
 

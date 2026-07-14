@@ -199,14 +199,25 @@ python experiments/d7_fixed_rank_tangent_benchmark.py \
 H10 introduced `SubsteppedQuotientFlow`, a gauge-equivariant
 Gram-preconditioned factor flow with fresh-gradient substep integration.
 
-Current status:
+H10.4/H10.5 established Adam-scale progress and mapped the early
+progress-versus-gauge trade-off. Before progress-budgeted stopping, the best
+fast aggregate gauge reduction was about `7.29x`; `K=4` was more favorable than
+`K=2`; and higher LR often improved product-space progress while worsening
+gauge suppression.
 
-- Adam-scale functional progress was reached.
-- Best fast aggregate gauge reduction was about `7.29x`.
-- `K=4` was more favorable than `K=2`.
-- Macro LR above `3` did not solve the progress-versus-gauge trade-off.
-- Higher LR often improved product-space progress while worsening gauge
-  suppression.
-- The strict `10x` gauge-suppression gate remains unmet.
+H10.6 introduced progress-budgeted stopping so quotient-flow and factor-Adam
+trajectories were compared at comparable functional progress. With fixed
+`macro_lr=2.6` and `substeps=16` across three seeds, the fast benchmark
+obtained:
 
-The method is experimental and opt-in.
+- mean loss-progress ratio: `1.846`;
+- mean product-displacement ratio: `0.773`;
+- geometric-mean gauge-divergence ratio: `0.0656`;
+- geometric-mean gauge suppression: `15.23x`;
+- matched-progress pass on all three seeds;
+- no pseudoinverse fallback;
+- product-preserving balance pass.
+
+This is the first fast H10 configuration to pass the strict `10x`
+gauge-suppression gate. The method remains experimental and opt-in, and the
+result requires held-out-seed confirmation before broader claims.
