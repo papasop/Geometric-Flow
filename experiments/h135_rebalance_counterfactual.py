@@ -1,5 +1,5 @@
 # ============================================================
-# GeoFlow H13.4 — Full-product gauge-dynamics audit
+# GeoFlow H13.5 — Naive rebalancing counterfactual audit
 #
 # This experiment:
 #   1. installs dependencies;
@@ -7,20 +7,21 @@
 #   3. loads a real WikiText train/validation/test split;
 #   4. loads GPT-2;
 #   5. injects LoRA factors into selected c_attn layers;
-#   6. compares balanced and gauge-equivalent LoRA branches;
+#   6. compares AdamW, SGD, naive rebalance counterfactuals, and Capacity;
 #   7. measures complete B@A product-space update direction, magnitude,
 #      and trajectory gaps;
-#   8. compares AdamW with CapacityAdaptiveQuotientFlow across kappa values;
+#   8. tests whether product-preserving factor rebalancing alone explains
+#      Capacity's gauge robustness;
 #   9. writes JSON/CSV outputs.
 #
 # Colab:
 #   Upload this file and run:
 #
-#   %run /content/h134_full_product_audit.py
+#   %run /content/h135_rebalance_counterfactual.py
 #
 # Scientific scope:
-#   Empirical full-product gauge-dynamics audit under locked batches.
-#   This is not a formal proof of exact mathematical gauge invariance.
+#   Empirical counterfactual audit. Naive rebalancing intentionally does not
+#   transport AdamW moment state, so it is not a covariant AdamW construction.
 # ============================================================
 
 from __future__ import annotations
@@ -93,7 +94,7 @@ def prepare_repo(repo_dir: Path, force_reclone: bool) -> None:
     shell([sys.executable, "-m", "pip", "install", "-q", "-e", str(repo_dir)])
 
 
-_SKIP_BOOTSTRAP = os.environ.get("GEOFLOW_H134_SKIP_BOOTSTRAP") == "1"
+_SKIP_BOOTSTRAP = os.environ.get("GEOFLOW_H135_SKIP_BOOTSTRAP") == "1"
 if not _SKIP_BOOTSTRAP:
     ensure_packages()
 
@@ -1058,6 +1059,8 @@ def run_training(
     eval_batches: int,
     adamw_lr: float,
     adamw_weight_decay: float,
+    sgd_lr: float,
+    sgd_momentum: float,
     macro_flow_time: float,
     local_function_tolerance: float,
     epsilon_schedule: list[tuple[int, float]] | None,
@@ -1279,7 +1282,7 @@ def run_training(
         if device.type == "cuda" and cuda_rng_live is not None:
             torch.cuda.set_rng_state_all(cuda_rng_live)
 
-        if optimizer_name == "capacity":
+        if base_optimizer == "capacity":
             progress_diag = capacity_stepper.progress_feedback(
                 loss_before=train_loss,
                 loss_after=post_step_train_loss,
@@ -1710,6 +1713,20 @@ def main() -> None:
 
     parser.add_argument("--adamw-lr", type=float, default=1e-3)
     parser.add_argument("--adamw-weight-decay", type=float, default=0.0)
+    parser.add_argument(
+        "--sgd-lr",
+        type=float,
+        default=1e-2,
+        help="Learning rate for SGD counterfactual variants.",
+    )
+    parser.add_argument(
+        "--sgd-momentum",
+        type=float,
+        default=0.0,
+        help="Momentum for SGD counterfactual variants.",
+    )
+    parser.add_argument("--sgd-lr", type=float, default=1e-2)
+    parser.add_argument("--sgd-momentum", type=float, default=0.0)
 
     # Locked from H11.4; no validation selection is performed here.
     parser.add_argument(
@@ -1985,7 +2002,15 @@ def main() -> None:
                 f"seed={seed} hash={schedule.schedule_hash}"
             )
 
-            for optimizer_name in ["adamw", "capacity"]:
+            optimizer_variants = [
+            "adamw",
+            "adamw_rebalance_1",
+            "adamw_rebalance_10",
+            "sgd",
+            "sgd_rebalance_1",
+            "capacity",
+        ]
+        for optimizer_name in optimizer_variants:
                 for representation, gauge_condition in representations:
                     result, initial_sig, final_sig, curve = run_training(
                         optimizer_name=optimizer_name,
@@ -3330,17 +3355,17 @@ def h132_main() -> None:
 
 
 # =====================================================================
-# H13.4 — PRODUCT-SPACE GAUGE-DYNAMICS AUDIT
+# H13.5 — PRODUCT-SPACE GAUGE-DYNAMICS AUDIT
 # =====================================================================
 
-def _h134_parse_ints(raw: str) -> list[int]:
+def _h135_parse_ints(raw: str) -> list[int]:
     values = [int(x.strip()) for x in raw.split(",") if x.strip()]
     if not values:
         raise ValueError("Expected at least one integer.")
     return values
 
 
-def _h134_parse_floats(raw: str) -> list[float]:
+def _h135_parse_floats(raw: str) -> list[float]:
     values = [float(x.strip()) for x in raw.split(",") if x.strip()]
     if not values:
         raise ValueError("Expected at least one float.")
@@ -3348,16 +3373,16 @@ def _h134_parse_floats(raw: str) -> list[float]:
 
 
 @torch.no_grad()
-def _h134_make_sample_plan(
+def _h135_make_sample_plan(
     adapters: list[LoRAConv1DAdapter],
     *,
     samples_per_adapter: int,
     seed: int,
 ) -> None:
     """
-    H13.4 compatibility stub.
+    H13.5 compatibility stub.
 
-    H13.4 computes the complete product B@A for every adapted module.
+    H13.5 computes the complete product B@A for every adapted module.
     The sampling arguments are retained only so the inherited call sites
     remain stable.
     """
@@ -3366,7 +3391,7 @@ def _h134_make_sample_plan(
 
 
 @torch.no_grad()
-def _h134_product_sketch(
+def _h135_product_sketch(
     adapters: list[LoRAConv1DAdapter],
     plans: None = None,
 ) -> torch.Tensor:
@@ -3386,7 +3411,7 @@ def _h134_product_sketch(
     return torch.cat(pieces, dim=0)
 
 
-def _h134_cosine(x: torch.Tensor, y: torch.Tensor) -> float:
+def _h135_cosine(x: torch.Tensor, y: torch.Tensor) -> float:
     nx = float(torch.linalg.vector_norm(x))
     ny = float(torch.linalg.vector_norm(y))
     if nx <= 1e-30 or ny <= 1e-30:
@@ -3395,34 +3420,128 @@ def _h134_cosine(x: torch.Tensor, y: torch.Tensor) -> float:
     return min(1.0, max(-1.0, value))
 
 
-def _h134_relative_gap(x: torch.Tensor, y: torch.Tensor) -> float:
+def _h135_relative_gap(x: torch.Tensor, y: torch.Tensor) -> float:
     denom = max(float(torch.linalg.vector_norm(x)), 1e-30)
     return float(torch.linalg.vector_norm(y - x)) / denom
 
 
-def _h134_make_optimizer(
+@torch.no_grad()
+def _h135_rebalance_adapters(
+    adapters: list[LoRAConv1DAdapter],
+) -> dict[str, float]:
+    """Balance LoRA factors while preserving each complete product B@A.
+
+    For B in R^{m x r} and A in R^{r x n}, use thin QR factorizations
+
+        B = Q_b R_b,          A^T = Q_a R_a,
+
+    followed by an SVD of the small r x r core
+
+        R_b R_a^T = U Sigma V^T.
+
+    Then set
+
+        B_new = Q_b U Sigma^{1/2},
+        A_new = Sigma^{1/2} V^T Q_a^T.
+
+    This preserves B@A up to floating-point roundoff and enforces
+    B_new^T B_new = A_new A_new^T = Sigma.
+
+    Optimizer moments are intentionally NOT transported. Therefore the
+    AdamW variants in H13.5 test naive factor rebalancing as an engineering
+    counterfactual, not a fully covariant state transformation.
+    """
+    max_product_gap = 0.0
+    max_balance_gap = 0.0
+
+    for adapter in adapters:
+        B0 = adapter.B.detach()
+        A0 = adapter.A.detach()
+        product0 = B0 @ A0
+
+        Qb, Rb = torch.linalg.qr(B0, mode="reduced")
+        Qa, Ra = torch.linalg.qr(A0.T, mode="reduced")
+        core = Rb @ Ra.T
+        U, singular_values, Vh = torch.linalg.svd(
+            core,
+            full_matrices=False,
+        )
+        sqrt_s = singular_values.clamp_min(0).sqrt()
+        B1 = (Qb @ U) * sqrt_s.unsqueeze(0)
+        A1 = sqrt_s.unsqueeze(1) * (Vh @ Qa.T)
+
+        adapter.B.copy_(B1)
+        adapter.A.copy_(A1)
+
+        product1 = adapter.B @ adapter.A
+        denom = max(float(torch.linalg.vector_norm(product0)), 1e-30)
+        product_gap = float(
+            torch.linalg.vector_norm(product1 - product0)
+        ) / denom
+
+        gram_b = adapter.B.T @ adapter.B
+        gram_a = adapter.A @ adapter.A.T
+        gram_denom = max(float(torch.linalg.vector_norm(gram_a)), 1e-30)
+        balance_gap = float(
+            torch.linalg.vector_norm(gram_b - gram_a)
+        ) / gram_denom
+
+        max_product_gap = max(max_product_gap, product_gap)
+        max_balance_gap = max(max_balance_gap, balance_gap)
+
+    return {
+        "rebalance_product_gap": max_product_gap,
+        "rebalance_gram_gap": max_balance_gap,
+    }
+
+
+def _h135_optimizer_spec(optimizer_name: str) -> tuple[str, int]:
+    """Return base optimizer and naive rebalance interval."""
+    specs = {
+        "adamw": ("adamw", 0),
+        "adamw_rebalance_1": ("adamw", 1),
+        "adamw_rebalance_10": ("adamw", 10),
+        "sgd": ("sgd", 0),
+        "sgd_rebalance_1": ("sgd", 1),
+        "capacity": ("capacity", 0),
+    }
+    if optimizer_name not in specs:
+        raise ValueError(f"Unknown optimizer variant: {optimizer_name}")
+    return specs[optimizer_name]
+
+
+def _h135_make_optimizer(
     *,
     optimizer_name: str,
     adapters: list[LoRAConv1DAdapter],
     adamw_lr: float,
     adamw_weight_decay: float,
+    sgd_lr: float,
+    sgd_momentum: float,
     macro_flow_time: float,
     local_function_tolerance: float,
     max_auto_substeps: int,
     max_flow_dt: float | None,
 ):
-    if optimizer_name == "adamw":
-        return (
-            torch.optim.AdamW(
-                trainable_parameters(adapters),
-                lr=adamw_lr,
-                weight_decay=adamw_weight_decay,
-            ),
-            None,
-        )
+    base_optimizer, rebalance_interval = _h135_optimizer_spec(
+        optimizer_name
+    )
 
-    if optimizer_name != "capacity":
-        raise ValueError(optimizer_name)
+    if base_optimizer == "adamw":
+        optimizer = torch.optim.AdamW(
+            trainable_parameters(adapters),
+            lr=adamw_lr,
+            weight_decay=adamw_weight_decay,
+        )
+        return optimizer, None, rebalance_interval
+
+    if base_optimizer == "sgd":
+        optimizer = torch.optim.SGD(
+            trainable_parameters(adapters),
+            lr=sgd_lr,
+            momentum=sgd_momentum,
+        )
+        return optimizer, None, rebalance_interval
 
     optimizer = CapacityAdaptiveQuotientFlow(
         adapters,
@@ -3457,10 +3576,10 @@ def _h134_make_optimizer(
         flow_time_max=0.80,
         utilization_target=0.85,
     )
-    return optimizer, stepper
+    return optimizer, stepper, 0
 
 
-def _h134_run_branch(
+def _h135_run_branch(
     *,
     optimizer_name: str,
     representation: str,
@@ -3478,6 +3597,8 @@ def _h134_run_branch(
     probe_seed: int,
     adamw_lr: float,
     adamw_weight_decay: float,
+    sgd_lr: float,
+    sgd_momentum: float,
     macro_flow_time: float,
     local_function_tolerance: float,
     max_auto_substeps: int,
@@ -3493,23 +3614,25 @@ def _h134_run_branch(
         actual_kappa,
         device,
     )
-    optimizer, stepper = _h134_make_optimizer(
+    optimizer, stepper, rebalance_interval = _h135_make_optimizer(
         optimizer_name=optimizer_name,
         adapters=adapters,
         adamw_lr=adamw_lr,
         adamw_weight_decay=adamw_weight_decay,
+        sgd_lr=sgd_lr,
+        sgd_momentum=sgd_momentum,
         macro_flow_time=macro_flow_time,
         local_function_tolerance=local_function_tolerance,
         max_auto_substeps=max_auto_substeps,
         max_flow_dt=max_flow_dt,
     )
 
-    plans = _h134_make_sample_plan(
+    plans = _h135_make_sample_plan(
         adapters,
         samples_per_adapter=samples_per_adapter,
         seed=probe_seed,
     )
-    initial_product = _h134_product_sketch(adapters, plans)
+    initial_product = _h135_product_sketch(adapters, plans)
     current_product = initial_product.clone()
     initial_condition = factor_condition_diagnostics(adapters)
 
@@ -3539,13 +3662,28 @@ def _h134_run_branch(
 
         product_before = current_product.clone()
 
-        if optimizer_name == "adamw":
+        base_optimizer, _ = _h135_optimizer_spec(optimizer_name)
+        rebalance_diag = {
+            "rebalance_applied": False,
+            "rebalance_product_gap": float("nan"),
+            "rebalance_gram_gap": float("nan"),
+        }
+
+        if base_optimizer in {"adamw", "sgd"}:
             optimizer.step()
             step_diag = {}
+            if (
+                rebalance_interval > 0
+                and (step_index + 1) % rebalance_interval == 0
+            ):
+                rebalance_diag = {
+                    "rebalance_applied": True,
+                    **_h135_rebalance_adapters(adapters),
+                }
         else:
             step_diag = stepper.step_after_backward()
 
-        product_after = _h134_product_sketch(adapters, plans)
+        product_after = _h135_product_sketch(adapters, plans)
         delta_product = product_after - product_before
 
         # Same-mask post-step loss, without perturbing the live RNG stream.
@@ -3607,6 +3745,16 @@ def _h134_run_branch(
                 "active_epsilon": active_epsilon,
                 "realized_dphi": realized_dphi,
                 "predicted_dphi": predicted_dphi,
+                "rebalance_interval": int(rebalance_interval),
+                "rebalance_applied": bool(
+                    rebalance_diag["rebalance_applied"]
+                ),
+                "rebalance_product_gap": float(
+                    rebalance_diag["rebalance_product_gap"]
+                ),
+                "rebalance_gram_gap": float(
+                    rebalance_diag["rebalance_gram_gap"]
+                ),
                 "_product": product_after,
                 "_delta_product": delta_product,
             }
@@ -3628,14 +3776,14 @@ def _h134_run_branch(
     }
 
 
-def _h134_pair_metrics(
+def _h135_pair_metrics(
     balanced: dict,
     gauge: dict,
 ) -> list[dict]:
     if len(balanced["rows"]) != len(gauge["rows"]):
         raise RuntimeError("Paired branches have different lengths.")
 
-    initial_gap = _h134_relative_gap(
+    initial_gap = _h135_relative_gap(
         balanced["initial_product"],
         gauge["initial_product"],
     )
@@ -3653,7 +3801,7 @@ def _h134_pair_metrics(
         norm_b = float(torch.linalg.vector_norm(db))
         norm_g = float(torch.linalg.vector_norm(dg))
         magnitude_ratio = norm_g / max(norm_b, 1e-30)
-        cosine = _h134_cosine(db, dg)
+        cosine = _h135_cosine(db, dg)
 
         out.append(
             {
@@ -3677,7 +3825,7 @@ def _h134_pair_metrics(
                     if math.isfinite(cosine)
                     else float("nan")
                 ),
-                "trajectory_relative_gap": _h134_relative_gap(pb, pg),
+                "trajectory_relative_gap": _h135_relative_gap(pb, pg),
                 "balanced_loss_before": b["loss_before"],
                 "gauge_loss_before": g["loss_before"],
                 "loss_before_abs_gap": abs(
@@ -3702,7 +3850,7 @@ def _h134_pair_metrics(
     return out
 
 
-def _h134_bootstrap_mean_ci(
+def _h135_bootstrap_mean_ci(
     values: list[float],
     *,
     seed: int,
@@ -3720,7 +3868,7 @@ def _h134_bootstrap_mean_ci(
     )
 
 
-def _h134_summarize(
+def _h135_summarize(
     pair_rows: list[dict],
     *,
     steps: int,
@@ -3785,8 +3933,13 @@ def _h134_summarize(
                     }
                 )
 
+            base_optimizer, rebalance_interval = (
+                _h135_optimizer_spec(optimizer_name)
+            )
             summary = {
                 "optimizer": optimizer_name,
+                "base_optimizer": base_optimizer,
+                "rebalance_interval": rebalance_interval,
                 "kappa": kappa,
                 "n_seeds": len(seeds),
                 "steps": steps,
@@ -3811,7 +3964,7 @@ def _h134_summarize(
                     float(row[source_field])
                     for row in per_seed
                 ]
-                ci_low, ci_high = _h134_bootstrap_mean_ci(
+                ci_low, ci_high = _h135_bootstrap_mean_ci(
                     values,
                     seed=(
                         133000
@@ -3840,7 +3993,7 @@ def _h134_summarize(
     return summaries
 
 
-def _h134_full_product_optimizer_contrast(
+def _h135_counterfactual_contrast(
     summaries: list[dict],
 ) -> list[dict]:
     out: list[dict] = []
@@ -3859,34 +4012,46 @@ def _h134_full_product_optimizer_contrast(
             for row in summaries
             if float(row["kappa"]) == kappa
         }
-        if "adamw" not in by_optimizer or "capacity" not in by_optimizer:
+        if "capacity" not in by_optimizer:
             continue
+        capacity = by_optimizer["capacity"]
 
-        row = {"kappa": kappa}
-        for metric in metrics:
-            adam = float(by_optimizer["adamw"][metric])
-            cap = float(by_optimizer["capacity"][metric])
-            row[f"adamw_{metric}"] = adam
-            row[f"capacity_{metric}"] = cap
-            row[f"adamw_minus_capacity_{metric}"] = adam - cap
-            row[f"adamw_over_capacity_{metric}"] = (
-                adam / max(cap, 1e-30)
-            )
-        out.append(row)
+        for optimizer_name, candidate in sorted(by_optimizer.items()):
+            if optimizer_name == "capacity":
+                continue
+            row = {
+                "kappa": kappa,
+                "candidate": optimizer_name,
+                "reference": "capacity",
+                "candidate_base_optimizer": candidate["base_optimizer"],
+                "candidate_rebalance_interval": candidate[
+                    "rebalance_interval"
+                ],
+            }
+            for metric in metrics:
+                value = float(candidate[metric])
+                cap = float(capacity[metric])
+                row[f"candidate_{metric}"] = value
+                row[f"capacity_{metric}"] = cap
+                row[f"candidate_minus_capacity_{metric}"] = value - cap
+                row[f"candidate_over_capacity_{metric}"] = (
+                    value / max(cap, 1e-30)
+                )
+            out.append(row)
     return out
 
 
-def h134_main() -> None:
+def h135_main() -> None:
     parser = argparse.ArgumentParser(
         description=(
-            "H13.4 product-space gauge-dynamics audit. "
+            "H13.5 product-space gauge-dynamics audit. "
             "Compares balanced and gauge-equivalent LoRA branches under "
             "identical seeds and locked mini-batches."
         )
     )
     parser.add_argument(
         "--repo-dir",
-        default="/content/Geometric-Flow-h134-full-product-audit",
+        default="/content/Geometric-Flow-h135-rebalance-counterfactual",
     )
     parser.add_argument("--force-reclone", action="store_true")
     parser.add_argument("--model-name", default="gpt2")
@@ -3909,15 +4074,15 @@ def h134_main() -> None:
     )
     parser.add_argument(
         "--kappas",
-        default="5,10,100,1000",
+        default="5,100,1000",
     )
-    parser.add_argument("--steps", type=int, default=40)
+    parser.add_argument("--steps", type=int, default=30)
     parser.add_argument(
         "--samples-per-adapter",
         type=int,
         default=0,
         help=(
-            "Deprecated compatibility argument; H13.4 always uses "
+            "Deprecated compatibility argument; H13.5 always uses "
             "the complete B@A matrices."
         ),
     )
@@ -3930,6 +4095,18 @@ def h134_main() -> None:
     parser.add_argument("--eval-blocks", type=int, default=300)
     parser.add_argument("--adamw-lr", type=float, default=1e-3)
     parser.add_argument("--adamw-weight-decay", type=float, default=0.0)
+    parser.add_argument(
+        "--sgd-lr",
+        type=float,
+        default=1e-2,
+        help="Learning rate for SGD counterfactual variants.",
+    )
+    parser.add_argument(
+        "--sgd-momentum",
+        type=float,
+        default=0.0,
+        help="Momentum for SGD counterfactual variants.",
+    )
     parser.add_argument("--macro-flow-time", type=float, default=0.4)
     parser.add_argument(
         "--local-function-tolerance",
@@ -3940,28 +4117,35 @@ def h134_main() -> None:
     parser.add_argument("--max-flow-dt", type=float, default=0.0)
     parser.add_argument(
         "--out-dir",
-        default="/content/geoflow_h134_full_product_audit_results",
+        default="/content/geoflow_h135_rebalance_counterfactual_results",
     )
     args, unknown = parser.parse_known_args()
     if unknown:
-        print("[H13.4] ignored notebook/kernel arguments:", unknown)
+        print("[H13.5] ignored notebook/kernel arguments:", unknown)
 
-    seeds = _h134_parse_ints(args.seeds)
-    kappas = _h134_parse_floats(args.kappas)
+    seeds = _h135_parse_ints(args.seeds)
+    kappas = _h135_parse_floats(args.kappas)
     if any(k <= 1.0 for k in kappas):
-        raise ValueError("H13.4 kappas must be > 1.")
+        raise ValueError("H13.5 kappas must be > 1.")
     if args.steps < 1:
         raise ValueError("--steps must be positive.")
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print("=" * 120)
-    print("H13.4 FULL-PRODUCT GAUGE-DYNAMICS AUDIT")
+    print("H13.5-v5 REBALANCE COUNTERFACTUAL FULL-PRODUCT AUDIT")
     print("=" * 120)
     print("device =", device)
     print("seeds =", seeds)
     print("kappas =", kappas)
     print("steps =", args.steps)
     print("product_mode = full exact B@A")
+    print("adamw_lr =", args.adamw_lr)
+    print("sgd_lr =", args.sgd_lr)
+    print("sgd_momentum =", args.sgd_momentum)
+    print(
+        "counterfactual = naive product-preserving factor rebalance; "
+        "optimizer moments are not transported"
+    )
     print(
         "memory_note = balanced full-product trajectories are cached on CPU "
         "and reused across kappa values"
@@ -4032,13 +4216,36 @@ def h134_main() -> None:
             f"\n[seed {seed}] schedule_hash={schedule.schedule_hash}"
         )
 
-        for optimizer_name in ["adamw", "capacity"]:
+        optimizer_variants = [
+            "adamw",
+            "adamw_rebalance_1",
+            "adamw_rebalance_10",
+            "sgd",
+            "sgd_rebalance_1",
+            "capacity",
+        ]
+        expected_variants = {
+            "adamw",
+            "adamw_rebalance_1",
+            "adamw_rebalance_10",
+            "sgd",
+            "sgd_rebalance_1",
+            "capacity",
+        }
+        if set(optimizer_variants) != expected_variants:
+            raise RuntimeError(
+                "H13.5 optimizer plan is incomplete: "
+                f"{optimizer_variants}"
+            )
+        print("optimizer_variants =", optimizer_variants)
+
+        for optimizer_name in optimizer_variants:
             # The balanced branch is identical across kappa, so run it once.
             print(
                 f"[run] optimizer={optimizer_name} "
                 f"seed={seed} representation=balanced"
             )
-            balanced = _h134_run_branch(
+            balanced = _h135_run_branch(
                 optimizer_name=optimizer_name,
                 representation="balanced",
                 kappa=1.0,
@@ -4055,6 +4262,8 @@ def h134_main() -> None:
                 probe_seed=1337,
                 adamw_lr=args.adamw_lr,
                 adamw_weight_decay=args.adamw_weight_decay,
+                sgd_lr=args.sgd_lr,
+                sgd_momentum=args.sgd_momentum,
                 macro_flow_time=args.macro_flow_time,
                 local_function_tolerance=(
                     args.local_function_tolerance
@@ -4078,7 +4287,7 @@ def h134_main() -> None:
                     f"[run] optimizer={optimizer_name} seed={seed} "
                     f"representation=gauge kappa={kappa:g}"
                 )
-                gauge = _h134_run_branch(
+                gauge = _h135_run_branch(
                     optimizer_name=optimizer_name,
                     representation="gauge",
                     kappa=kappa,
@@ -4095,6 +4304,8 @@ def h134_main() -> None:
                     probe_seed=1337,
                     adamw_lr=args.adamw_lr,
                     adamw_weight_decay=args.adamw_weight_decay,
+                    sgd_lr=args.sgd_lr,
+                    sgd_momentum=args.sgd_momentum,
                     macro_flow_time=args.macro_flow_time,
                     local_function_tolerance=(
                         args.local_function_tolerance
@@ -4111,7 +4322,7 @@ def h134_main() -> None:
                         **gauge["initial_condition"],
                     }
                 )
-                rows = _h134_pair_metrics(balanced, gauge)
+                rows = _h135_pair_metrics(balanced, gauge)
                 pair_rows.extend(rows)
 
                 last = rows[-1]
@@ -4147,8 +4358,8 @@ def h134_main() -> None:
                     )
                 )
 
-    summaries = _h134_summarize(pair_rows, steps=args.steps)
-    contrasts = _h134_full_product_optimizer_contrast(summaries)
+    summaries = _h135_summarize(pair_rows, steps=args.steps)
+    contrasts = _h135_counterfactual_contrast(summaries)
 
     clean_pair_rows = [
         {
@@ -4160,46 +4371,58 @@ def h134_main() -> None:
     ]
 
     _h132_write_csv(
-        out_dir / "h134_stepwise_full_product_metrics.csv",
+        out_dir / "h135_stepwise_counterfactual_metrics.csv",
         clean_pair_rows,
     )
     _h132_write_csv(
-        out_dir / "h134_full_product_summary.csv",
+        out_dir / "h135_counterfactual_summary.csv",
         summaries,
     )
     _h132_write_csv(
-        out_dir / "h134_full_product_optimizer_contrast.csv",
+        out_dir / "h135_counterfactual_contrast.csv",
         contrasts,
     )
     _h132_write_csv(
-        out_dir / "h134_full_product_branch_conditions.csv",
+        out_dir / "h135_counterfactual_branch_conditions.csv",
         branch_metadata,
     )
 
-    (out_dir / "h134_stepwise_full_product_metrics.json").write_text(
+    (out_dir / "h135_stepwise_counterfactual_metrics.json").write_text(
         json.dumps(clean_pair_rows, indent=2),
         encoding="utf-8",
     )
-    (out_dir / "h134_full_product_summary.json").write_text(
+    (out_dir / "h135_counterfactual_summary.json").write_text(
         json.dumps(summaries, indent=2),
         encoding="utf-8",
     )
-    (out_dir / "h134_full_product_optimizer_contrast.json").write_text(
+    (out_dir / "h135_counterfactual_contrast.json").write_text(
         json.dumps(contrasts, indent=2),
         encoding="utf-8",
     )
-    (out_dir / "h134_config.json").write_text(
+    (out_dir / "h135_config.json").write_text(
         json.dumps(
             {
-                "experiment": "H13.4",
+                "experiment": "H13.5",
                 "product_mode": "complete exact B@A",
-                "role": "exact full-product gauge-dynamics mechanism audit",
+                "role": "naive-rebalance counterfactual full-product audit",
                 "model_name": args.model_name,
                 "dataset_config": args.dataset_config,
                 "target_modules": target_modules,
                 "rank": args.rank,
                 "seeds": seeds,
                 "kappas": kappas,
+                "optimizer_variants": [
+                    "adamw",
+                    "adamw_rebalance_1",
+                    "adamw_rebalance_10",
+                    "sgd",
+                    "sgd_rebalance_1",
+                    "capacity",
+                ],
+                "rebalance_definition": (
+                    "product-preserving thin-QR plus rank-r core SVD; "
+                    "optimizer moments are not transported"
+                ),
                 "steps": args.steps,
                 "samples_per_adapter": None,
                 "schedule": "locked paired batches",
@@ -4209,8 +4432,10 @@ def h134_main() -> None:
                     "trajectory_relative_gap",
                 ],
                 "prediction": (
-                    "AdamW full-product errors grow with gauge conditioning "
-                    "while Capacity remains approximately gauge-equivariant."
+                    "Naive factor rebalancing may reduce but need not eliminate "
+                    "gauge-dependent product dynamics because optimizer state is "
+                    "not transported; Capacity should remain the strongest "
+                    "near-equivariant reference."
                 ),
                 "important_note": (
                     "Product metrics use the complete B@A matrices. "
@@ -4223,12 +4448,12 @@ def h134_main() -> None:
     )
 
     print("\n" + "=" * 120)
-    print("H13.4 SUMMARY")
+    print("H13.5 SUMMARY")
     print("=" * 120)
     for row in summaries:
         print(json.dumps(row))
 
-    print("\nAdamW versus Capacity mechanism contrast:")
+    print("\nCounterfactual variants versus Capacity mechanism contrast:")
     for row in contrasts:
         print(json.dumps(row))
 
@@ -4236,4 +4461,4 @@ def h134_main() -> None:
 
 
 if __name__ == "__main__":
-    h134_main()
+    h135_main()

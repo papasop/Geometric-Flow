@@ -379,6 +379,47 @@ Actual machine-readable Colab outputs should be imported with
 `tools/import_h134_results.py`; result CSV/JSON files are not reconstructed from
 console prose.
 
+### H13.5 Naive Rebalancing Counterfactual
+
+H13.5 asks whether Capacity's full-product gauge robustness can be explained by
+product-preserving factor rebalancing alone.
+
+The audit compares six methods under identical seeds, locked mini-batches, and
+complete LoRA products:
+
+- AdamW;
+- AdamW with rebalancing after every step;
+- AdamW with rebalancing every ten steps;
+- SGD;
+- SGD with rebalancing after every step;
+- `CapacityAdaptiveQuotientFlow`.
+
+The counterfactual rebalance uses thin QR factorizations and a rank-by-rank
+core SVD to preserve each represented product `B A` while balancing factor
+Gramians. AdamW moment states are intentionally not transported, so this is a
+naive factor-canonicalization counterfactual rather than a covariant AdamW
+state transformation.
+
+Across three seeds, thirty steps, and `kappa in {5,100,1000}`, naive
+rebalancing reduced some coordinate-optimizer trajectory errors but did not
+restore Capacity-like full-product gauge dynamics. Per-step AdamW rebalancing
+retained mean final trajectory gaps from approximately `0.495` to `1.772`.
+Per-step SGD rebalancing was stronger but still grew from approximately
+`8.88e-4` at `kappa=5` to `0.212` at `kappa=1000`. Capacity remained near
+`1e-5` at every tested condition number.
+
+These results rule out naive factor rebalancing as a sufficient explanation
+for Capacity's observed full-product gauge robustness. They do not prove that
+Capacity is mathematically unique or exactly gauge invariant.
+
+Reproduce:
+
+```bash
+python experiments/h135_rebalance_counterfactual.py
+```
+
+Import genuine Colab output files with `tools/import_h135_results.py`.
+
 ## Functional Geometry Tools
 
 The functional path defines
@@ -408,6 +449,7 @@ See [docs/functional_geometry.md](docs/functional_geometry.md).
 | H10 quotient flow | H10.7 reached `12.84x` geometric-mean suppression at matched progress | Mean `10x` reproduced; stricter gates failed | Experimental |
 | Capacity-adaptive quotient flow | Ten-seed held-out GPT-2 LoRA run reached `11.07x` geometric-mean suppression | Mean `10x` suppression reproduced; per-seed confirmation not strict | Experimental |
 | H13.4 full-product audit | Capacity full-product trajectory gaps stayed near `1e-5` across `kappa=5..1000` | Mechanism audit; not a task-superiority claim | Empirical audit |
+| H13.5 rebalance counterfactual | Naive rebalancing reduced coordinate-optimizer divergence but did not match Capacity | Mechanism audit; not a task-superiority claim | Empirical audit |
 
 Established in controlled tests:
 
@@ -447,6 +489,7 @@ Longer commands and archived results:
 - [docs/functional_geometry.md](docs/functional_geometry.md)
 - [docs/capacity_adaptive_flow.md](docs/capacity_adaptive_flow.md)
 - [docs/PAPER_H134_UPDATE.md](docs/PAPER_H134_UPDATE.md)
+- [docs/PAPER_H135_UPDATE.md](docs/PAPER_H135_UPDATE.md)
 
 ## Testing
 
