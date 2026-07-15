@@ -341,6 +341,44 @@ superiority or per-seed `10x` suppression.
 See [docs/capacity_adaptive_flow.md](docs/capacity_adaptive_flow.md) for shape
 conventions, numerical safeguards, and the evidence boundary.
 
+### H13.4 Full-Product Gauge-Dynamics Audit
+
+H13.4 tests whether gauge-equivalent LoRA factorizations that represent the
+same initial product `M = B A` produce the same learning dynamics in the
+complete adapted product space.
+
+For the transformation
+
+```math
+(A,B)\mapsto(SA,BS^{-1}),
+\qquad
+(BS^{-1})(SA)=BA,
+```
+
+the audit measures update-direction error, log-magnitude error, and trajectory
+gap using the full `B @ A` product of every adapted module, not sampled
+coordinates.
+
+Across three locked-batch seeds and `kappa in {5,10,100,1000}`, the initial
+product mismatch stayed below `6.7e-8`. Capacity kept full-product update
+direction numerically indistinguishable and final trajectory errors near
+`1e-5`; AdamW showed monotone product-space divergence, with mean final
+trajectory gap increasing from approximately `0.538` at `kappa=5` to `4.901`
+at `kappa=1000`.
+
+This is empirical full-product gauge-equivariance evidence under the tested
+GPT-2 LoRA conditions, not a proof of exact mathematical gauge invariance.
+
+Reproduce:
+
+```bash
+python experiments/h134_full_product_audit.py
+```
+
+Actual machine-readable Colab outputs should be imported with
+`tools/import_h134_results.py`; result CSV/JSON files are not reconstructed from
+console prose.
+
 ## Functional Geometry Tools
 
 The functional path defines
@@ -369,6 +407,7 @@ See [docs/functional_geometry.md](docs/functional_geometry.md).
 | D7 fixed-rank backend | Near-exact gauge invariance and rank preservation | Task parity | Experimental |
 | H10 quotient flow | H10.7 reached `12.84x` geometric-mean suppression at matched progress | Mean `10x` reproduced; stricter gates failed | Experimental |
 | Capacity-adaptive quotient flow | Ten-seed held-out GPT-2 LoRA run reached `11.07x` geometric-mean suppression | Mean `10x` suppression reproduced; per-seed confirmation not strict | Experimental |
+| H13.4 full-product audit | Capacity full-product trajectory gaps stayed near `1e-5` across `kappa=5..1000` | Mechanism audit; not a task-superiority claim | Empirical audit |
 
 Established in controlled tests:
 
@@ -407,6 +446,7 @@ Longer commands and archived results:
 - [docs/cifar_benchmarks.md](docs/cifar_benchmarks.md)
 - [docs/functional_geometry.md](docs/functional_geometry.md)
 - [docs/capacity_adaptive_flow.md](docs/capacity_adaptive_flow.md)
+- [docs/PAPER_H134_UPDATE.md](docs/PAPER_H134_UPDATE.md)
 
 ## Testing
 
