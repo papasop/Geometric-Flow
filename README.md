@@ -150,6 +150,15 @@ A \mapsto S A,
 B \mapsto B S^{-1},
 ```
 
+and for losses depending on the represented product, `L = L(BA)`, the
+factor gradients transform as:
+
+```math
+\nabla_{A'} L = S^{-\top}\nabla_A L,
+\qquad
+\nabla_{B'} L = \nabla_B L\,S^\top.
+```
+
 the ordinary-inverse, full-rank directions transform covariantly:
 
 ```math
