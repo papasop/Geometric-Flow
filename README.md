@@ -69,8 +69,8 @@ reparameterizations.
 | `diagonal_grad_square` | Legacy diagonal preconditioner | Historical diagnostic |
 | `functional_geoflow` | `J_Phi`-based stable-neutral response directions | Research reference |
 | `FixedRankFunctionalAdam` | Product-coordinate Adam, tangent projection, rank-`r` retraction | Experimental backend |
-| `SubsteppedQuotientFlow` | Gauge-equivariant Gram-preconditioned factor flow with fresh-gradient substeps | Experimental integrator |
-| `CapacityAdaptiveQuotientFlow` | Quotient flow with product-space capacity-controlled local step size | Experimental integrator |
+| `SubsteppedQuotientFlow` | Ordinary-inverse gauge-equivariant Gram-preconditioned factor flow with fresh-gradient substeps | Experimental integrator |
+| `CapacityAdaptiveQuotientFlow` | Capacity-controlled quotient flow; exact covariance on the full-rank ordinary-inverse branch | Experimental integrator |
 
 ### FixedRankFunctionalAdam
 
@@ -414,8 +414,11 @@ rebalancing reduced some coordinate-optimizer trajectory errors but did not
 restore Capacity-like full-product gauge dynamics. Per-step AdamW rebalancing
 retained mean final trajectory gaps from approximately `0.495` to `1.772`.
 Per-step SGD rebalancing was stronger but still grew from approximately
-`8.88e-4` at `kappa=5` to `0.212` at `kappa=1000`. Capacity remained near
-`1e-5` at every tested condition number.
+`8.88e-4` at `kappa=5` to `0.212` at `kappa=1000`.
+`CapacityAdaptiveQuotientFlow`, executed through the K1-enabled resumable
+capacity stepper used in the H13 series, remained near `1e-5` at every tested
+condition number. The K1 controller adapts the active local product-motion
+tolerance but does not alter the underlying quotient-preconditioned direction.
 
 These results rule out naive factor rebalancing as a sufficient explanation
 for Capacity's observed full-product gauge robustness. They do not prove that

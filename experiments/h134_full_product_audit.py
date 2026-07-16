@@ -4192,8 +4192,8 @@ def h134_main() -> None:
         json.dumps(
             {
                 "experiment": "H13.4",
-                "product_mode": "complete exact B@A",
-                "role": "exact full-product gauge-dynamics mechanism audit",
+                "product_mode": "complete-coordinate B@A after common float32 transfer",
+                "role": "complete-coordinate full-product gauge-dynamics mechanism audit",
                 "model_name": args.model_name,
                 "dataset_config": args.dataset_config,
                 "target_modules": target_modules,
