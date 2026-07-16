@@ -263,3 +263,33 @@ This repository script uses a tiny GPT-style LoRA model and validates the
 mechanism, matched-progress gate, product/logit gauge metrics, and summary
 format. It does not instantiate Hugging Face GPT-2 and should not be described
 as an exact reproduction of the GPT-2 H10.6/H10.7 runs above.
+
+## H13.8-H13.9 Variational Foundation
+
+H13.8 separated balancing, fixed Capacity, and K1 into distinct mechanisms.
+Per-step balancing was not the main task-performance bottleneck: no-balance
+runs were nearly task-equivalent and about `3%`-`4%` faster, while fixed
+Capacity retained strong long-horizon gauge robustness. Legacy K1 improved
+some target-quality efficiency but increased long-horizon gauge drift,
+revealing an efficiency-equivariance tradeoff.
+
+H13.9 then clarified the direction theory. The inverse-Gram factor direction is
+the exact local steepest-descent direction under the split
+executed-information metric, not merely a heuristic preconditioner. Relative to
+the different net product Frobenius metric, the same direction is uniformly
+near-optimal with sharp efficiency floor `2*sqrt(2)/3`.
+
+H13.9C tested the exact net-product Frobenius tangent correction in completed
+GPT-2/LoRA runs. The correction was nontrivial but did not improve
+long-horizon validation progress and added overhead, showing that local
+net-displacement steepest descent and long-horizon stochastic training
+optimality are not equivalent objectives.
+
+H13.9D directly audited the split-metric variational theorem:
+
+- full-rank trials: `12000`;
+- rank-deficient trials: `200`;
+- all Riesz, KKT, unit-budget, gauge-covariance, and pseudoinverse gates passed.
+
+See [variational_foundation.md](variational_foundation.md) for the theorem,
+proof sketch, metric distinction, and audit details.

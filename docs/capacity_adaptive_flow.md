@@ -26,15 +26,28 @@ The corresponding first-order product velocity is
 V_M = V_B A + B V_A.
 ```
 
-This product velocity is the quantity used by the capacity controller. The
-public implementation intentionally does not use the transposed GPT-2 Conv1D
-layout found in some research scripts.
+H13.9D identifies this same inverse-Gram direction as the exact local
+steepest-descent direction under the split executed-information metric
+
+```math
+\|V\|_{\mathrm{split}}^2
+=
+\|BV_A\|_F^2+\|V_BA\|_F^2.
+```
+
+The public capacity controller below uses the net product velocity `V_M` to
+bound first-order product displacement. Thus the variational direction metric
+and the finite-step controller metric are related but distinct. The public
+implementation intentionally does not use the transposed GPT-2 Conv1D layout
+found in some research scripts.
 
 ## Capacity Controller
 
 For multiple LoRA targets, capacity is the joint product-space speed
 
 ```math
+H_{\mathrm{product}}
+=
 H_{\mathrm{opt}}
 =
 \sqrt{
@@ -42,6 +55,11 @@ H_{\mathrm{opt}}
 \|V_{B,\ell}A_\ell+B_\ell V_{A,\ell}\|_F^2
 }.
 ```
+
+This is `H_product`, not the split executed-information norm
+`\|V\|_split`. It is exposed in diagnostics as `H_opt` and is the controller
+quantity currently used by
+`CapacityAdaptiveQuotientFlow`.
 
 Each local step advances by
 

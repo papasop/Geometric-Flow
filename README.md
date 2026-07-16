@@ -1,10 +1,19 @@
 # GeoFlow for PyTorch
 
 Geometric-Flow studies optimization when model parameters are redundant:
-different parameter coordinates may represent the same functional model.
+different parameter coordinates may represent the same functional model. The
+current low-rank direction is a gauge-covariant local steepest descent per unit
+channel-resolved executed functional information, and it is uniformly
+near-optimal relative to net product-space Frobenius displacement with a sharp
+local efficiency floor of `2*sqrt(2)/3`.
+
+These are local variational results. They do not prove a globally shortest
+training path, universal optimizer superiority, or guaranteed long-horizon
+advantage over AdamW.
+
 Instead of defining direction and step size only in parameter space, the
-framework introduces a functional map, a quotient-aware direction, a functional
-capacity, and a functional-time controller.
+framework introduces a functional map, a quotient-aware direction, executed
+functional information, and a functional-time controller.
 
 > Optimizer outputs are proposals, not automatically final updates.
 
@@ -81,12 +90,12 @@ prediction error, and limiter state. K1 is one such controller; it is not the
 framework itself and should not be read as a conventional learning-rate
 scheduler.
 
-## Variational Motivation
+## Variational Foundation: Executed-Information Steepest Descent
 
 Geometric-Flow is motivated by a functional steepest-descent principle:
-optimization should maximize task improvement per unit motion of the realized
-model function, rather than per unit motion of an arbitrary parameter
-representation.
+optimization should maximize task improvement per unit motion actually executed
+by the represented model function, rather than per unit motion of an arbitrary
+parameter representation.
 
 Let
 
@@ -117,30 +126,193 @@ V^\star
 where `H_theta` excludes directions that move only along a
 representation-equivalence orbit.
 
-For a chosen quotient-aware direction `V_Q`, GeoFlow defines
+For low-rank factors
 
 ```math
-H_\Phi(V_Q)=\|D\pi_\theta[V_Q]\|_\Phi,
+M=BA,
 \qquad
-d\tau=\frac{\epsilon_\Phi}{H_\Phi(V_Q)}.
+B\in\mathbb R^{m\times r},
+\qquad
+A\in\mathbb R^{r\times n},
 ```
 
-Thus, `epsilon_Phi` specifies an allowed functional-displacement budget, while
-`H_Phi` measures the rate at which the current direction consumes that budget.
-
-In the current low-rank realization,
+a factor tangent vector `V=(V_A,V_B)` has two executed functional channels:
 
 ```math
-\pi(A,B)=BA,
+\delta M_A = BV_A,
 \qquad
-D\pi_{(A,B)}[V_A,V_B]=V_BA+BV_A.
+\delta M_B = V_BA.
 ```
 
-The implemented full-rank quotient direction is gauge covariant, but it has not
-yet been proven to be the exact optimizer of the full product-space
-variational problem above. Determining the precise functional metric and
-horizontal constraint under which the implemented direction is a true
-steepest-descent direction remains an open theoretical objective.
+H13.9D identifies the channel-resolved executed-information metric
+
+```math
+g_{\mathrm{split}}(V,W)
+=
+\langle BV_A,BW_A\rangle_F
++
+\langle V_BA,W_BA\rangle_F,
+```
+
+with norm
+
+```math
+\|V\|_{\mathrm{split}}^2
+=
+\|BV_A\|_F^2+\|V_BA\|_F^2.
+```
+
+This metric counts the functional motion executed by each factor channel. If
+`BV_A` is nearly cancelled by `V_BA`, the net product displacement can be small,
+but both channels still moved; the split metric does not erase that internal
+execution cost.
+
+> **Theorem-style statement.** For full-rank `A` and `B`, the implemented
+> inverse-Gram GeoFlow direction
+>
+> ```math
+> V_A=-(B^\top B)^{-1}\nabla_A L,
+> \qquad
+> V_B=-\nabla_B L(AA^\top)^{-1}
+> ```
+>
+> is the unique normalized solution of
+>
+> ```math
+> \max_V -\mathrm dL[V]
+> \quad\text{subject to}\quad
+> \|BV_A\|_F^2+\|V_BA\|_F^2\le1.
+> ```
+>
+> Equivalently, it is the negative split-metric gradient direction:
+>
+> ```math
+> V^\star
+> =
+> -\frac{\operatorname{grad}_{\mathrm{split}}L}
+> {\|\operatorname{grad}_{\mathrm{split}}L\|_{\mathrm{split}}},
+> \qquad
+> \operatorname{grad}_{\mathrm{split}}L
+> =
+> \left(
+> (B^\top B)^{-1}\nabla_A L,\,
+> \nabla_B L(AA^\top)^{-1}
+> \right).
+> ```
+
+Proof structure: Riesz representation under `g_split` defines the split-metric
+gradient; expanding `g_split(grad L,V)=dL[V]` yields the two Gram equations;
+Cauchy-Schwarz, or equivalently KKT stationarity on the unit information ball,
+gives the unique full-rank optimum.
+
+For a chosen quotient-aware direction `V_Q`, the executed-information capacity
+is
+
+```math
+H_{\mathrm{split}}(V_Q)
+=
+\|V_Q\|_{\mathrm{split}},
+\qquad
+d\tau
+=
+\frac{\epsilon_\Phi}{H_{\mathrm{split}}(V_Q)}.
+```
+
+Thus, `epsilon_Phi` specifies an allowed executed-information budget, while
+`H_split` measures the rate at which the current direction consumes that
+budget. This is a local variational result. It is not a proof of a globally
+optimal information brachistochrone or a shortest nonlinear training path.
+
+### Gauge Covariance
+
+For any invertible `S in GL(r)`, define
+
+```math
+A'=SA,
+\qquad
+B'=BS^{-1},
+```
+
+and transform tangent vectors by
+
+```math
+V_A'=SV_A,
+\qquad
+V_B'=V_BS^{-1}.
+```
+
+Then
+
+```math
+B'V_A'=BV_A,
+\qquad
+V_B'A'=V_BA,
+```
+
+so
+
+```math
+g'_{\mathrm{split}}(V',W')=g_{\mathrm{split}}(V,W).
+```
+
+The executed-information metric and induced low-rank flow are therefore
+invariant under internal full-rank gauge changes. With rank-deficient factors,
+the Moore-Penrose pseudoinverse exposes a visible quotient direction, but the
+factor lift can add zero-cost null directions and is no longer unique.
+
+### Split Executed Information vs Net Product Displacement
+
+The net product velocity is
+
+```math
+D=V_BA+BV_A.
+```
+
+If the metric is the net Frobenius displacement `||D||_F`, the rank-`r`
+tangent-space steepest direction for a product gradient `G = \nabla_M L` is
+
+```math
+D_\star
+=
+-\left(P_BG+GP_A-P_BGP_A\right),
+```
+
+where
+
+```math
+P_B=B(B^\top B)^{-1}B^\top,
+\qquad
+P_A=A^\top(AA^\top)^{-1}A.
+```
+
+The current inverse-Gram GeoFlow direction induces
+
+```math
+D_{\mathrm{cur}}
+=
+-\left(P_BG+GP_A\right).
+```
+
+Therefore the current direction is not the exact steepest direction under the
+net full-product Frobenius metric. H13.9 shows the sharper statement: it is
+exact under the split executed-information metric, and uniformly near-optimal
+under the net product metric:
+
+```math
+\frac{\eta(D_{\mathrm{cur}})}{\eta(D_\star)}
+\ge
+\frac{2\sqrt2}{3}
+\approx 0.942809,
+\qquad
+\eta(D)=\frac{-\langle G,D\rangle_F}{\|D\|_F}.
+```
+
+This bound is independent of dimension, rank, and factor conditioning; a
+constructive worst case can approach equality.
+
+See [docs/variational_foundation.md](docs/variational_foundation.md) for the
+Riesz proof, gauge-covariance derivation, rank-deficient pseudoinverse boundary,
+and H13.9/H13.9D audit details.
 
 ## Low-Rank Quotient Instance
 
@@ -161,8 +333,8 @@ tangent component, but it does not generally make Adam gauge-invariant because
 Adam and Euclidean normal spaces are coordinate-dependent under non-orthogonal
 reparameterizations.
 
-In this low-rank instance, the quotient direction, functional capacity, and
-functional time become concrete:
+In this low-rank instance, the quotient direction, executed-information
+capacity, and functional time become concrete:
 
 ```math
 V_A = -(B^\top B)^{-1}\nabla_A L,
@@ -175,7 +347,9 @@ H_{\Phi}
 =
 \left(
 \sum_\ell
-\|V_{B,\ell}A_\ell+B_\ell V_{A,\ell}\|_F^2
+\|B_\ell V_{A,\ell}\|_F^2
++
+\|V_{B,\ell}A_\ell\|_F^2
 \right)^{1/2},
 ```
 
@@ -188,10 +362,12 @@ T_{\mathrm{remaining}},
 \right).
 ```
 
-`H_Phi` is not a coordinate gradient norm. It measures how fast the represented
-product moves in functional space. Geometric-Flow therefore does not merely
-choose a coordinate learning rate; it reparameterizes optimization time by
-functional motion.
+`H_Phi` is not a coordinate gradient norm. It measures the channel-resolved
+functional information executed by the quotient direction. Some audit and
+controller code also records the net product displacement
+`||V_BA+B V_A||_F`; that is a different diagnostic from the split metric above.
+Geometric-Flow therefore does not merely choose a coordinate learning rate; it
+reparameterizes optimization time by functional motion.
 
 ## Optimizers
 
@@ -201,8 +377,8 @@ functional motion.
 | `diagonal_grad_square` | Legacy diagonal preconditioner | Historical diagnostic |
 | `functional_geoflow` | `J_Phi`-based stable-neutral response directions | Research reference |
 | `FixedRankFunctionalAdam` | Product-coordinate Adam, tangent projection, rank-`r` retraction | Experimental backend |
-| `SubsteppedQuotientFlow` | Ordinary-inverse gauge-equivariant Gram-preconditioned factor flow with fresh-gradient substeps | Experimental integrator |
-| `CapacityAdaptiveQuotientFlow` | Quotient flow with adaptive functional-time capacity control; direction covariance still belongs to the full-rank ordinary-inverse quotient field | Experimental integrator |
+| `SubsteppedQuotientFlow` | Full-rank inverse-Gram direction is exact split executed-information steepest flow | Experimental integrator |
+| `CapacityAdaptiveQuotientFlow` | Same split-steepest direction with a net product-displacement capacity controller | Experimental integrator |
 
 ### FixedRankFunctionalAdam
 
@@ -361,9 +537,10 @@ Therefore, the mean `10x` effect was reproduced, while stricter per-seed and
 bootstrap-CI confirmation gates were not passed.
 
 The method is best described as a gauge-equivariant, quotient-compatible,
-Gram-preconditioned factor-flow integrator. The repository does not prove that
-it is the unique quotient-Riemannian gradient, a strict horizontal lift, or the
-standard fixed-rank quotient-manifold optimizer.
+Gram-preconditioned factor-flow integrator. H13.9D gives it an exact local
+steepest-descent characterization under the split executed-information metric;
+that does not make it the standard fixed-rank quotient-manifold optimizer or a
+global shortest-path training method.
 
 `experiments/h10_progress_budget_benchmark.py` is a tiny GPT-style regression
 benchmark for mechanism and gate checks. It does not instantiate Hugging Face
@@ -388,9 +565,12 @@ V_B = -\nabla_B L(AA^\top)^{-1}.
 Interpretation: the optimizer first builds a gauge-aware local vector field for
 the two LoRA factors, rather than stepping directly in raw factor coordinates.
 
-The product-space capacity is:
+The current finite-step capacity controller uses the net product-displacement
+capacity:
 
 ```math
+H_{\mathrm{product}}
+=
 H_{\mathrm{opt}}
 =
 \sqrt{
@@ -399,9 +579,9 @@ H_{\mathrm{opt}}
 }.
 ```
 
-Interpretation: `H_opt` measures the first-order size of the represented
-product motion produced by simultaneously changing `A` and `B` across all
-target modules.
+Interpretation: `H_product`, exposed in the code as `H_opt`, measures the
+first-order size of the net represented product motion produced by
+simultaneously changing `A` and `B` across all target modules.
 
 Each local flow step uses:
 
@@ -423,6 +603,13 @@ Thus geometry determines direction, capacity determines local step size, and
 both factors are updated simultaneously, the exact finite product increment
 also contains the second-order term `d_tau^2 * V_B @ V_A`. The realized substep
 count is generated at runtime rather than provided as a user hyperparameter.
+
+The variational direction metric and the current finite-step capacity
+controller are related but distinct objects: direction geometry uses the split
+executed-information metric, while the public `CapacityAdaptiveQuotientFlow`
+controller currently bounds first-order net product displacement. Whether these
+should be unified into one executed-information time functional remains an open
+research question.
 
 The two primary controls are:
 
@@ -573,6 +760,90 @@ python experiments/h135_rebalance_counterfactual.py
 
 Import genuine Colab output files with `tools/import_h135_results.py`.
 
+### H13.8-H13.9: Direction Theory and Controller Tradeoffs
+
+H13.8 reframed balancing and K1 as separate mechanisms. In the tested GPT-2
+LoRA setting:
+
+- per-step balancing was not the main task-performance bottleneck;
+- no-balance saved about `3%`-`4%` wall time relative to balance;
+- fixed no-balance Capacity retained an approximately `8.35e-5` gauge
+  trajectory gap at `1000` backward calls;
+- legacy K1 reduced backward calls for the deep `0.40` target relative to fixed
+  Capacity, but its long-horizon trajectory gap grew to about `9.15e-2`;
+- invariant K1 kept a lower gauge gap but did not improve training efficiency;
+- AdamW reached stronger long-horizon validation improvement in the benchmark,
+  while remaining strongly gauge dependent.
+
+The supported conclusion is: GeoFlow provides strong representation covariance
+and competitive short-budget efficiency, while AdamW remains stronger at long
+horizon in the current benchmark.
+
+H13.9 and H13.9D clarified the local direction theory. The implemented
+inverse-Gram direction is not merely a heuristic preconditioner: under the
+split executed-information metric it is the exact local steepest-descent
+direction in the full-rank branch. Under the different net full-product
+Frobenius metric, it is not exact but has a sharp uniform efficiency guarantee.
+
+Numerical H13.9 audit:
+
+- random audit mean `eta(D_cur)/eta(D_star) ~= 0.9795`;
+- median `~= 0.9810`;
+- constructive worst case `0.942809115`, matching the theoretical
+  `2*sqrt(2)/3` floor.
+
+H13.9D theorem audit:
+
+- full-rank trials: `12,000`;
+- rank-deficient trials: `200`;
+- ranks: `1, 2, 4, 8`;
+- factor condition scales: `1, 10, 100, 1000, 10000`;
+- gauge condition scales: `1, 10, 1000`.
+
+Key audit flags:
+
+```text
+PASS_RIESZ_REPRESENTATION = true
+PASS_KKT_STATIONARITY = true
+PASS_UNIT_INFORMATION_BUDGET = true
+PASS_CAUCHY_SCHWARZ_EQUALITY = true
+PASS_RANDOM_FEASIBLE_OPTIMALITY = true
+PASS_FULL_RANK_UNIQUENESS_PROBES = true
+PASS_GAUGE_METRIC_TYPICAL = true
+PASS_GAUGE_METRIC_P99 = true
+PASS_GAUGE_METRIC_EXTREME = true
+PASS_GAUGE_PRODUCT_COVARIANCE = true
+PASS_GAUGE_DIRECTION_COVARIANCE = true
+PASS_RANK_DEFICIENT_VISIBLE_RIESZ = true
+PASS_RANK_DEFICIENT_NULL_COST = true
+PASS_RANK_DEFICIENT_PSEUDOINVERSE = true
+PASS_ALL = true
+```
+
+Representative residuals:
+
+- max Riesz residual: `2.81e-12`;
+- max KKT residual: `7.62e-15`;
+- max unit-budget residual: `5.55e-16`;
+- gauge metric median: `3.66e-15`;
+- gauge metric p99: `2.55e-8`;
+- gauge metric max: `6.16e-7`.
+
+The larger gauge residuals occur in extreme ill-conditioned floating-point
+settings; they are numerical audit residuals, not an analytic failure of gauge
+invariance.
+
+H13.9C tested the exact net-product Frobenius tangent correction in a real
+GPT-2/LoRA setting. The correction was nontrivial: direction cosine was about
+`0.991`, and correction fraction was about `0.13`-`0.14`. However, replacing the
+channel-resolved split direction with the exact net-product Frobenius tangent
+direction did not improve long-horizon validation improvement in the completed
+tests and added wall-time overhead. Full-product correction combined with the
+legacy K1 controller also did not outperform the original legacy K1 path.
+
+This supports a useful boundary: local net-displacement steepest descent and
+long-horizon stochastic optimization are not equivalent objectives.
+
 ## Functional Geometry Tools
 
 The functional path defines
@@ -603,6 +874,10 @@ See [docs/functional_geometry.md](docs/functional_geometry.md).
 | Capacity-adaptive quotient flow | Ten-seed held-out GPT-2 LoRA run reached `11.07x` geometric-mean suppression | Mean `10x` suppression reproduced; per-seed confirmation not strict | Experimental |
 | H13.4 full-product audit | Capacity full-product trajectory gaps stayed near `1e-5` across `kappa=5..1000` | Mechanism audit; not a task-superiority claim | Empirical audit |
 | H13.5 rebalance counterfactual | Naive rebalancing reduced coordinate-optimizer divergence but did not match Capacity | Mechanism audit; not a task-superiority claim | Empirical audit |
+| H13.8 controller audit | Fixed Capacity strongest structurally; K1 exposes efficiency-equivariance tradeoff | AdamW stronger at long horizon in current benchmark | Empirical audit |
+| H13.9 direction audit | Split executed-information steepest descent proven and numerically audited | Local theorem; not a global training optimum | Theorem audit |
+| H13.9C full-product correction | Net-product tangent correction is nontrivial but costly | No long-horizon improvement in completed GPT-2/LoRA tests | Empirical observation |
+| H13.9D variational audit | `PASS_ALL=true` across full-rank and rank-deficient theorem checks | Numerical verification of local theorem | Theorem audit |
 
 Confirmed in controlled tests:
 
@@ -618,7 +893,13 @@ Confirmed in controlled tests:
 - K1 improves target-quality efficiency relative to fixed Capacity on reached
   targets in the reported H13 series, while increasing long-horizon gauge gap;
 - no-balance and balance task behavior was close in the tested H13 setup, while
-  balancing mainly improved structural precision.
+  balancing mainly improved structural precision;
+- the inverse-Gram low-rank direction is the exact split executed-information
+  steepest direction on the full-rank ordinary-inverse branch;
+- relative to the net full-product Frobenius metric, the same direction has a
+  sharp local efficiency floor of `2*sqrt(2)/3`;
+- H13.9C found that the exact net-product tangent correction did not improve
+  long-horizon GPT-2/LoRA validation improvement in the completed tests.
 
 Open claims and limits:
 
@@ -634,7 +915,11 @@ Open claims and limits:
 - full-parameter pretraining applicability;
 - a checked-in H13.6 matched-resource efficiency frontier; current H13.4/H13.5
   scripts audit gauge dynamics and mechanism counterfactuals, not equal-cost
-  training efficiency.
+  training efficiency;
+- a global information brachistochrone or shortest nonlinear training path;
+- history-aware quotient momentum or gauge-covariant second-moment estimation;
+- an invariant K1 controller that preserves fixed-Capacity-style long-horizon
+  gauge robustness while retaining K1's efficiency gains.
 
 Engineering status:
 
@@ -646,6 +931,36 @@ Engineering status:
 - Continuous integration runs syntax and unit-test checks, but heavyweight
   GPT-2/WikiText audits remain manual or scheduled experiments.
 
+## Current Research Priorities
+
+The main open question is no longer whether the inverse-Gram direction has a
+local variational basis. H13.9D supplies that basis under the split
+executed-information metric. The next question is:
+
+> Why does an exact local executed-information steepest flow still underperform
+> history-aware optimizers at long horizon?
+
+Priority directions:
+
+1. Stochastic variance decomposition
+   - functional variance;
+   - gauge variance;
+   - functional-gauge coupling.
+
+2. History-aware geometric flow
+   - momentum in quotient space;
+   - functional EMA;
+   - gauge-covariant second-moment estimation.
+
+3. Finite-step and curvature corrections
+   - local truncation error;
+   - multi-layer coupling;
+   - adaptive functional time.
+
+4. Noncommutative path effects
+   - update-order dependence;
+   - commutator and path-area diagnostics.
+
 ## Reproduce Key Benchmarks
 
 | benchmark | command |
@@ -654,15 +969,21 @@ Engineering status:
 | H10 tiny-model regression | `python experiments/h10_progress_budget_benchmark.py --macro-lr 2.6 --substeps 16 --out-dir artifacts/h10_progress_budget` |
 | Capacity-adaptive smoke | `python experiments/capacity_adaptive_quotient_smoke.py --seeds 101,211,307 --macro-flow-time 2.6 --local-function-tolerance 0.05 --out-dir artifacts/capacity_adaptive_smoke` |
 | H10.11/H10.12 research archive | `experiments/archive/` contains non-API GPT-2 LoRA confirmation scripts |
+| H13.9D variational theorem audit | `python experiments/h139d_direct_variational_proof.py --trials-per-setting 50 --random-feasible-samples 50 --no-plots --out-dir artifacts/h139d_variational_proof` |
 | Phase G matched-step benchmark | `python experiments/lora_matched_step_benchmark.py --trials 5 --steps 200 --representations 5 --train-scope lora_only --functional-map hidden --out artifacts/lora_matched_step.csv` |
 | Functional solver toy | `python experiments/functional_projection_toy.py --response-solver implicit_cg` |
 | CIFAR legacy benchmark | `python experiments/run_cifar10_benchmark.py --config hybrid_diagonal_500 --download --out artifacts/cifar10_benchmark_results.csv` |
+
+H13.9D is now included as a runnable theorem audit. H13.9 and H13.9C scripts are
+not currently checked into this repository; their results are summarized above
+as numerical and empirical observations rather than listed as runnable commands.
 
 Longer commands and archived results:
 
 - [docs/research_history.md](docs/research_history.md)
 - [docs/cifar_benchmarks.md](docs/cifar_benchmarks.md)
 - [docs/functional_geometry.md](docs/functional_geometry.md)
+- [docs/variational_foundation.md](docs/variational_foundation.md)
 - [docs/capacity_adaptive_flow.md](docs/capacity_adaptive_flow.md)
 - [docs/PAPER_H134_UPDATE.md](docs/PAPER_H134_UPDATE.md)
 - [docs/PAPER_H135_UPDATE.md](docs/PAPER_H135_UPDATE.md)
