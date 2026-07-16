@@ -1118,6 +1118,71 @@ did not come from lower functional variance or higher mean full-batch
 alignment; it appears to come from improved cross-channel allocation. This is
 not a claim of universal optimizer superiority or production LLM validation.
 
+### H13.13A: Tiny Transformer/LoRA Smoke Transfer
+
+H13.13 transfers the H13.12 coupled executed-channel covariance mechanism from
+single low-rank matrix regression into a genuine multi-layer causal Transformer
+with frozen base weights and LoRA-only training. The audit is an offline
+teacher-student task, not GPT-2, WikiText, a pretrained language model, or a
+production LLM validation.
+
+The H13.13A smoke used a two-layer causal Transformer, LoRA rank 4, all-linear
+LoRA scope, two trials, shared represented LoRA-product initialization, shared
+minibatch schedules, and matched global realized LoRA-product displacement.
+
+| method | mean validation loss |
+| :--- | ---: |
+| AdamW LoRA | 0.1111003 |
+| Fixed split | 0.1089613 |
+| Factor EMA | 0.0927855 |
+| Channel momentum | 0.0914212 |
+| Scalar channel adaptive | 0.0908687 |
+| Coupled channel covariance | 0.0881435 |
+
+The coupled method beat channel momentum in `2/2` smoke trials while preserving
+layerwise product-gauge covariance near machine precision.
+
+### H13.13B: Six-Seed Transformer/LoRA Formal Validation
+
+H13.13B repeated the transfer on six seeds with 200 training steps, 1024
+training samples, 256 validation samples, hidden size 96, four attention heads,
+LoRA rank 4, and all-linear LoRA scope. All methods used the same represented
+initial LoRA products, shared batch schedules, and matched global realized
+LoRA-product displacement.
+
+Structural gates passed:
+
+```text
+PASS_SAME_INITIAL_PRODUCT = true
+PASS_SAME_BATCH_SCHEDULE = true
+PASS_MATCHED_PRODUCT_STEP = true
+PASS_COUPLED_GAUGE_COVARIANCE = true
+PASS_FINITE_TRAINING = true
+PASS_NO_LAYER_SKIPS = true
+PASS_CORE = true
+```
+
+| method | mean validation loss | product gauge p99 | mean `|rho_AB|` | wall time |
+| :--- | ---: | ---: | ---: | ---: |
+| AdamW LoRA | 0.06413484 | 0.9670 | 0.206 | 23.8 s |
+| Fixed split | 0.07986790 | `3.763e-14` | 0.284 | 24.3 s |
+| Factor EMA | 0.05023424 | `3.132e-13` | 0.209 | 24.4 s |
+| Channel momentum | 0.04852739 | `6.157e-14` | 0.215 | 26.0 s |
+| Scalar channel adaptive | 0.04783990 | `5.970e-14` | 0.207 | 26.2 s |
+| Coupled channel covariance | 0.04542299 | `1.810e-13` | 0.185 | 26.7 s |
+
+Against channel momentum, coupled covariance won `6/6` trials, improved mean
+validation loss by about `6.40%`, had paired mean advantage `0.00310439`,
+paired median advantage `0.00248071`, and paired standardized effect `1.45862`.
+The product gauge residual stayed near `1e-13`.
+
+This is the first controlled multi-layer Transformer/LoRA transfer of the
+H13.12 mechanism. The lower mean channel correlation and covariance condition
+are suggestive of dynamic channel decorrelation, but the experiment does not
+prove causality or general task superiority. Scalar channel adaptation also
+improved over channel momentum in this Transformer setting, so it should not be
+described as universally harmful.
+
 ## Functional Geometry Tools
 
 The functional path defines
@@ -1156,6 +1221,8 @@ See [docs/functional_geometry.md](docs/functional_geometry.md).
 | H13.11 channel-history momentum | Gauge-invariant optimizer history stored in executed channels | Mean loss slightly below factor EMA, but only 2/6 seed wins | Experimental optimizer mechanism |
 | H13.11 scalar channel adaptation | Gauge-covariant scalar channel second moments | No benefit; functional variance increased | Negative result |
 | H13.12 coupled channel covariance | 2x2 executed-channel covariance preserved product/channel covariance near `1e-12` | Lower mean loss than channel momentum, scalar adaptive, and factor EMA in 6/6 trials | Controlled mechanism audit |
+| H13.13A tiny Transformer transfer | Coupled channel covariance preserved layerwise gauge covariance near machine precision | Lowest validation loss in 2/2 smoke trials | Controlled transfer smoke |
+| H13.13B six-seed Transformer validation | Same initialization, shared batches, matched global LoRA-product displacement | Coupled beat channel momentum in 6/6 trials; paired effect about 1.46 | Controlled multi-layer validation |
 
 Confirmed in controlled tests:
 
@@ -1193,6 +1260,13 @@ Confirmed in controlled tests:
 - coupled 2x2 channel covariance improves final loss in the controlled
   matched-product-budget audit without reducing functional variance or
   increasing mean alignment.
+- coupled channel covariance transfers beyond single-matrix regression to a
+  controlled tiny causal Transformer/LoRA setting;
+- exact layerwise LoRA-product gauge covariance remains near `1e-13` in the
+  six-seed H13.13B audit;
+- coupled channel covariance beat channel momentum in `6/6` all-linear tiny
+  Transformer trials;
+- scalar channel adaptation is task-dependent rather than universally harmful.
 
 Open claims and limits:
 
@@ -1217,7 +1291,11 @@ Open claims and limits:
   operator-valued second moments beyond the tested 2x2 channel construction;
 - a gauge-covariant practical regularizer replacing isotropic ridge;
 - production validation of coupled channel covariance beyond controlled
-  low-rank regression;
+  low-rank regression and tiny Transformer teacher-student audits;
+- GPT-2, WikiText, pretrained-model, or production LLM validation of H13.13;
+- statistical finality from the six-seed H13.13B audit;
+- a causal proof that lower channel correlation or covariance condition caused
+  the H13.13B validation-loss improvement;
 - an invariant K1 controller that preserves fixed-Capacity-style long-horizon
   gauge robustness while retaining K1's efficiency gains.
 
@@ -1235,19 +1313,21 @@ Engineering status:
 
 The main open question is no longer whether the inverse-Gram direction has a
 local variational basis. H13.9D supplies that basis under the split
-executed-information metric, and H13.11 shows that optimizer history can be
-stored in gauge-invariant executed channels. H13.12 gives bounded evidence
-that a coupled 2x2 channel covariance can improve loss in the controlled
-low-rank regression audit.
+executed-information metric, H13.11 shows that optimizer history can be stored
+in gauge-invariant executed channels, H13.12 gives bounded evidence that a
+coupled 2x2 channel covariance can improve loss in controlled low-rank
+regression, and H13.13B transfers that mechanism to a tiny multi-layer
+Transformer/LoRA teacher-student audit.
 
 Priority directions now are:
 
-1. Test coupled channel covariance in Transformer/LoRA settings.
-2. Understand why H13.12 improves loss without reducing functional variance or
-   increasing mean alignment.
-3. Design a gauge-covariant practical regularizer to replace isotropic ridge.
-4. Measure memory and wall-clock cost of channel covariance states.
-5. Extend from 2-channel scalar covariance to richer operator-valued moments.
+1. Run a six-seed `attention_only` Transformer/LoRA ablation.
+2. Run a six-seed `qkv_only` Transformer/LoRA ablation.
+3. Sweep LoRA ranks `2,4,8`.
+4. Add checkpoint-wise channel correlation, condition-number, and progress
+   analysis.
+5. Move to GPT-2 small / WikiText-2 only after the controlled ablations are
+   complete.
 
 ## Reproduce Key Benchmarks
 
@@ -1263,6 +1343,9 @@ Priority directions now are:
 | H13.11 gauge-covariant channel momentum | `python experiments/h1311_gauge_covariant_momentum.py --trials 2 --steps 30 --probe-batches 6 --probe-gauges 4 --probe-steps 0,10,20,29 --no-plots --output-dir artifacts/h1311_smoke` |
 | H13.12 coupled channel covariance audit | `python experiments/h1312_coupled_channel_covariance.py --trials 6 --steps 120 --probe-batches 12 --probe-gauges 6 --output-dir artifacts/h1312_results` |
 | H13.12 coupled channel covariance smoke | `python experiments/h1312_coupled_channel_covariance.py --trials 2 --steps 30 --probe-batches 6 --probe-gauges 4 --probe-steps 0,10,20,29 --no-plots --output-dir artifacts/h1312_smoke` |
+| H13.13A tiny Transformer/LoRA smoke transfer | `python experiments/h1313a_tiny_transformer_lora_coupled.py --trials 2 --steps 80 --train-samples 512 --val-samples 128 --batch-size 16 --probe-steps 0,20,40,79 --output-dir artifacts/h1313a_results` |
+| H13.13B tiny Transformer/LoRA validation | `python experiments/h1313b_tiny_transformer_lora_validation.py --trials 6 --steps 200 --train-samples 1024 --val-samples 256 --batch-size 16 --probe-steps 0,50,100,150,199 --target-scope all_linear --output-dir artifacts/h1313b_results` |
+| H13.13B smoke | `python experiments/h1313b_tiny_transformer_lora_validation.py --trials 1 --steps 10 --train-samples 128 --val-samples 32 --batch-size 8 --seq-len 16 --d-model 48 --n-heads 4 --n-layers 1 --d-ff 96 --probe-steps 0,9 --probe-gauges 2 --no-plots --output-dir artifacts/h1313b_smoke` |
 | Phase G matched-step benchmark | `python experiments/lora_matched_step_benchmark.py --trials 5 --steps 200 --representations 5 --train-scope lora_only --functional-map hidden --out artifacts/lora_matched_step.csv` |
 | Functional solver toy | `python experiments/functional_projection_toy.py --response-solver implicit_cg` |
 | CIFAR legacy benchmark | `python experiments/run_cifar10_benchmark.py --config hybrid_diagonal_500 --download --out artifacts/cifar10_benchmark_results.csv` |
@@ -1279,6 +1362,7 @@ Longer commands and archived results:
 - [docs/variational_foundation.md](docs/variational_foundation.md)
 - [docs/stochastic_history.md](docs/stochastic_history.md)
 - [docs/h1312_results.md](docs/h1312_results.md)
+- [docs/h1313_transformer_lora_results.md](docs/h1313_transformer_lora_results.md)
 - [docs/capacity_adaptive_flow.md](docs/capacity_adaptive_flow.md)
 - [docs/PAPER_H134_UPDATE.md](docs/PAPER_H134_UPDATE.md)
 - [docs/PAPER_H135_UPDATE.md](docs/PAPER_H135_UPDATE.md)
