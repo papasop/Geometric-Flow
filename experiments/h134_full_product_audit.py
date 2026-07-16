@@ -21,6 +21,14 @@
 # Scientific scope:
 #   Empirical full-product gauge-dynamics audit under locked batches.
 #   This is not a formal proof of exact mathematical gauge invariance.
+#
+# Engineering note:
+#   This Colab-oriented audit script vendors archived H12.7/H13.2 helper
+#   routines for continuity with the original notebook lineage. The script
+#   entrypoint is h134_main(); older main()/h132_main() helpers are retained as
+#   archived compatibility code and should not be read as the active H13.4
+#   experimental design. Future cleanup should move shared LoRA audit utilities
+#   into experiments/common/.
 # ============================================================
 
 from __future__ import annotations

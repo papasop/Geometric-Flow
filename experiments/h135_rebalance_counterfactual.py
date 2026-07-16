@@ -22,6 +22,14 @@
 # Scientific scope:
 #   Empirical counterfactual audit. Naive rebalancing intentionally does not
 #   transport AdamW moment state, so it is not a covariant AdamW construction.
+#
+# Engineering note:
+#   This Colab-oriented audit script vendors archived H12.7/H13.2 helper
+#   routines for continuity with the original notebook lineage. The script
+#   entrypoint is h135_main(); older main()/h132_main() helpers are retained as
+#   archived compatibility code and should not be read as the active H13.5
+#   experimental design. Future cleanup should move shared LoRA audit utilities
+#   into experiments/common/.
 # ============================================================
 
 from __future__ import annotations

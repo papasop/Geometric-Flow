@@ -159,7 +159,7 @@ factor gradients transform as:
 \nabla_{B'} L = \nabla_B L\,S^\top.
 ```
 
-the ordinary-inverse, full-rank directions transform covariantly:
+The ordinary-inverse, full-rank directions transform covariantly:
 
 ```math
 \Delta A \mapsto S\Delta A,
@@ -481,6 +481,19 @@ Not established:
 - a universal recommendation to replace existing optimizers;
 - per-seed and bootstrap-CI confirmation of strict `10x` H10 suppression;
 - robustness across models, ranks, datasets, and LoRA target modules.
+- a checked-in H13.6 matched-resource efficiency frontier; current H13.4/H13.5
+  scripts audit gauge dynamics and mechanism counterfactuals, not equal-cost
+  training efficiency.
+
+Engineering status:
+
+- H13.4/H13.5 experiment files are Colab-oriented audit scripts that still
+  vendor archived H12/H13.2 helper routines. Their active script entrypoints are
+  `h134_main()` and `h135_main()`, but the files should be split into shared
+  `experiments/common/` utilities before being treated as clean experiment
+  templates.
+- Continuous integration runs syntax and unit-test checks, but heavyweight
+  GPT-2/WikiText audits remain manual or scheduled experiments.
 
 ## Reproduce Key Benchmarks
 
