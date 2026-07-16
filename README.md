@@ -82,8 +82,8 @@ GeoFlow organizes optimization around four components:
 | :--- | :--- |
 | functional state `Phi = pi(theta)` | the represented model state |
 | quotient-aware direction `V_Q` | a proposal direction compatible with the equivalence class |
-| functional capacity `H_Phi = ||D pi_theta[V_Q]||` | the speed of actual functional motion |
-| functional time `d_tau = epsilon_Phi / H_Phi` | a local time step bounded by functional displacement |
+| chosen capacity `H_func(V_Q)` | the selected measure of functional motion for a controller |
+| functional time `d_tau = epsilon_func / H_func` | a local time step bounded by the chosen functional-displacement budget |
 
 An optional controller adapts `epsilon_Phi` from functional progress,
 prediction error, and limiter state. K1 is one such controller; it is not the
@@ -205,23 +205,26 @@ gradient; expanding `g_split(grad L,V)=dL[V]` yields the two Gram equations;
 Cauchy-Schwarz, or equivalently KKT stationarity on the unit information ball,
 gives the unique full-rank optimum.
 
-For a chosen quotient-aware direction `V_Q`, the executed-information capacity
-is
+A theoretically aligned split-information clock for a chosen quotient-aware
+direction `V_Q` would use
 
 ```math
 H_{\mathrm{split}}(V_Q)
 =
 \|V_Q\|_{\mathrm{split}},
 \qquad
-d\tau
+d\tau_{\mathrm{split}}
 =
-\frac{\epsilon_\Phi}{H_{\mathrm{split}}(V_Q)}.
+\frac{\epsilon_{\mathrm{split}}}{H_{\mathrm{split}}(V_Q)}.
 ```
 
-Thus, `epsilon_Phi` specifies an allowed executed-information budget, while
-`H_split` measures the rate at which the current direction consumes that
-budget. This is a local variational result. It is not a proof of a globally
-optimal information brachistochrone or a shortest nonlinear training path.
+Thus, `epsilon_split` would specify an allowed executed-information budget,
+while `H_split` measures the rate at which the current direction consumes that
+budget. The public `CapacityAdaptiveQuotientFlow` controller instead uses the
+net product-displacement clock `d_tau_product = epsilon_product / H_product`
+defined below. This is a local variational result. It is not a proof of a
+globally optimal information brachistochrone or a shortest nonlinear training
+path.
 
 ### Gauge Covariance
 
@@ -255,10 +258,12 @@ so
 g'_{\mathrm{split}}(V',W')=g_{\mathrm{split}}(V,W).
 ```
 
-The executed-information metric and induced low-rank flow are therefore
-invariant under internal full-rank gauge changes. With rank-deficient factors,
-the Moore-Penrose pseudoinverse exposes a visible quotient direction, but the
-factor lift can add zero-cost null directions and is no longer unique.
+The executed-information metric is therefore invariant under internal
+full-rank gauge changes. Direction covariance additionally assumes that the
+loss is gauge invariant, as in `L = L(BA)`, so that factor gradients transform
+covariantly. With rank-deficient factors, the Moore-Penrose pseudoinverse
+exposes a visible quotient direction, but the factor lift can add zero-cost null
+directions and is no longer unique.
 
 ### Split Executed Information vs Net Product Displacement
 
@@ -343,7 +348,7 @@ V_B = -\nabla_B L(AA^\top)^{-1},
 ```
 
 ```math
-H_{\Phi}
+H_{\mathrm{split}}
 =
 \left(
 \sum_\ell
@@ -358,16 +363,16 @@ d\tau
 =
 \min\left(
 T_{\mathrm{remaining}},
-\frac{\epsilon_\Phi}{H_\Phi}
+\frac{\epsilon_{\mathrm{split}}}{H_{\mathrm{split}}}
 \right).
 ```
 
-`H_Phi` is not a coordinate gradient norm. It measures the channel-resolved
-functional information executed by the quotient direction. Some audit and
-controller code also records the net product displacement
-`||V_BA+B V_A||_F`; that is a different diagnostic from the split metric above.
-Geometric-Flow therefore does not merely choose a coordinate learning rate; it
-reparameterizes optimization time by functional motion.
+This is the theory-level split-information clock. The current public capacity
+controller does not use this exact clock; it uses `H_product`, the net first-
+order product-displacement capacity in the `CapacityAdaptiveQuotientFlow`
+section. Geometric-Flow therefore does not merely choose a coordinate learning
+rate, but the present implementation still distinguishes the variational
+direction metric from the finite-step controller metric.
 
 ## Optimizers
 

@@ -235,10 +235,13 @@ Thus
 g'_{\mathrm{split}}(V',W')=g_{\mathrm{split}}(V,W).
 ```
 
-The split metric, quotient direction, and induced product velocity are
-gauge-covariant on the full-rank ordinary-inverse branch. Floating-point audits
-under extreme condition numbers measure numerical residuals, not analytic
-failure of this identity.
+The split metric is gauge invariant independently of the loss. Direction
+covariance additionally assumes a gauge-invariant objective, as in `L = L(BA)`,
+so that factor gradients transform covariantly. Under this condition, the
+quotient direction and induced product velocity are gauge-covariant on the
+full-rank ordinary-inverse branch. Floating-point audits under extreme
+condition numbers measure numerical residuals, not analytic failure of this
+identity.
 
 ## Rank-Deficient Extension
 
