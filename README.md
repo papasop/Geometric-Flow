@@ -1,25 +1,35 @@
 # GeoFlow for PyTorch
 
-GeoFlow is a research toolkit for geometry-aware optimization under redundant
-neural-network parameterizations.
+Geometric-Flow studies optimization when model parameters are redundant:
+different parameter coordinates may represent the same functional model.
+Instead of defining direction and step size only in parameter space, the
+framework introduces a functional map, a quotient-aware direction, a functional
+capacity, and a functional-time controller.
 
 > Optimizer outputs are proposals, not automatically final updates.
 
-For LoRA-style factors, many parameter pairs represent the same functional
-matrix:
+The current implementation specializes this functional-time framework to
+low-rank products and LoRA adapters. In this setting, the functional state is
+the product
 
 ```text
 M = B A
 ```
 
-The library currently includes:
+and the local functional velocity is
 
-- `FixedRankFunctionalAdam`: Adam in explicit product coordinates, followed by
-  fixed-rank tangent projection and rank-preserving retraction;
-- `SubsteppedQuotientFlow`: a factorized, quotient-compatible integrator with
-  fresh gradients at each local substep and no Adam-style moments;
-- `CapacityAdaptiveQuotientFlow`: the same quotient-flow vector field with a
-  product-space capacity controller that chooses local substeps at runtime;
+```text
+dM = V_B A + B V_A.
+```
+
+LoRA is therefore the first complete realization, not the boundary of the
+theory.
+
+The library currently contains:
+
+- fixed-rank product-state optimization;
+- quotient-compatible low-rank factor flow;
+- fixed and adaptive functional-time capacity controllers;
 - dense, low-rank, and matrix-free functional-geometry research tools;
 - legacy CIFAR and diagonal `grad_square` baselines retained for comparison.
 
@@ -43,23 +53,84 @@ python -m pytest -q
 python -m compileall -q geometric_flow experiments tests
 ```
 
-## Core Geometry
+## Functional-Time Framework
 
-For any invertible matrix `S`, the LoRA transformation
+The general object is a functional map:
+
+```math
+\Phi = \pi(\theta).
+```
+
+If two parameter states satisfy `pi(theta) = pi(theta')`, they belong to the
+same functional equivalence class. The guiding question is:
+
+> Should optimization depend on arbitrary parameter coordinates, or on
+> functional state?
+
+GeoFlow organizes optimization around four components:
+
+| component | role |
+| :--- | :--- |
+| functional state `Phi = pi(theta)` | the represented model state |
+| quotient-aware direction `V_Q` | a proposal direction compatible with the equivalence class |
+| functional capacity `H_Phi = ||D pi_theta[V_Q]||` | the speed of actual functional motion |
+| functional time `d_tau = epsilon_Phi / H_Phi` | a local time step bounded by functional displacement |
+
+An optional controller adapts `epsilon_Phi` from functional progress,
+prediction error, and limiter state. K1 is one such controller; it is not the
+framework itself and should not be read as a conventional learning-rate
+scheduler.
+
+## Low-Rank Quotient Instance
+
+The current implementation targets low-rank products and LoRA adapters. For any
+invertible matrix `S`, the transformation
 
 ```text
 A -> S A
 B -> B S^{-1}
 ```
 
-leaves `B A` unchanged. Motions along this gauge orbit alter the parameter
-representation without changing the represented update.
+leaves the functional state `B A` unchanged. Motions along this gauge orbit
+alter the parameter representation without changing the represented product.
 
 A geometry-aware optimizer should therefore distinguish functional motion from
 redundant coordinate motion. A Euclidean projection can remove one explicit
 tangent component, but it does not generally make Adam gauge-invariant because
 Adam and Euclidean normal spaces are coordinate-dependent under non-orthogonal
 reparameterizations.
+
+In this low-rank instance, the quotient direction, functional capacity, and
+functional time become concrete:
+
+```math
+V_A = -(B^\top B)^{-1}\nabla_A L,
+\qquad
+V_B = -\nabla_B L(AA^\top)^{-1},
+```
+
+```math
+H_{\Phi}
+=
+\left(
+\sum_\ell
+\|V_{B,\ell}A_\ell+B_\ell V_{A,\ell}\|_F^2
+\right)^{1/2},
+```
+
+```math
+d\tau
+=
+\min\left(
+T_{\mathrm{remaining}},
+\frac{\epsilon_\Phi}{H_\Phi}
+\right).
+```
+
+`H_Phi` is not a coordinate gradient norm. It measures how fast the represented
+product moves in functional space. Geometric-Flow therefore does not merely
+choose a coordinate learning rate; it reparameterizes optimization time by
+functional motion.
 
 ## Optimizers
 
@@ -70,7 +141,7 @@ reparameterizations.
 | `functional_geoflow` | `J_Phi`-based stable-neutral response directions | Research reference |
 | `FixedRankFunctionalAdam` | Product-coordinate Adam, tangent projection, rank-`r` retraction | Experimental backend |
 | `SubsteppedQuotientFlow` | Ordinary-inverse gauge-equivariant Gram-preconditioned factor flow with fresh-gradient substeps | Experimental integrator |
-| `CapacityAdaptiveQuotientFlow` | Capacity-controlled quotient flow; exact covariance on the full-rank ordinary-inverse branch | Experimental integrator |
+| `CapacityAdaptiveQuotientFlow` | Quotient flow with adaptive functional-time capacity control; direction covariance still belongs to the full-rank ordinary-inverse quotient field | Experimental integrator |
 
 ### FixedRankFunctionalAdam
 
@@ -303,6 +374,15 @@ Other arguments, such as `max_auto_substeps`, `max_flow_dt`,
 `balance_after_substep`, and `gram_condition_limit`, are numerical safeguards or
 representation-management options.
 
+Controller interpretation:
+
+- fixed Capacity uses a fixed `epsilon_Phi` and is the strongest current
+  structural mode for long-horizon gauge robustness;
+- K1 adapts the active `epsilon_Phi` from functional progress and prediction
+  feedback, improving early target-quality efficiency in tested runs;
+- K1 exposes an efficiency-equivariance tradeoff: it should not be described as
+  preserving exact long-horizon gauge equivariance.
+
 #### Usage
 
 ```python
@@ -463,7 +543,7 @@ See [docs/functional_geometry.md](docs/functional_geometry.md).
 | H13.4 full-product audit | Capacity full-product trajectory gaps stayed near `1e-5` across `kappa=5..1000` | Mechanism audit; not a task-superiority claim | Empirical audit |
 | H13.5 rebalance counterfactual | Naive rebalancing reduced coordinate-optimizer divergence but did not match Capacity | Mechanism audit; not a task-superiority claim | Empirical audit |
 
-Established in controlled tests:
+Confirmed in controlled tests:
 
 - product-coordinate tangent projection and rank-preserving retraction;
 - reduced LoRA gauge sensitivity and tangent/near-null motion;
@@ -471,16 +551,26 @@ Established in controlled tests:
 - machine-precision ordinary-inverse covariance and fresh-gradient substep tests
   for `SubsteppedQuotientFlow`;
 - runtime capacity control for quotient flow with zero-capacity and dynamic
-  substep regression tests.
+  substep regression tests;
+- fixed-tolerance Capacity can preserve near-`1e-5` full-product trajectory gaps
+  in the tested full-rank GPT-2 LoRA audit conditions;
+- K1 improves target-quality efficiency relative to fixed Capacity on reached
+  targets in the reported H13 series, while increasing long-horizon gauge gap;
+- no-balance and balance task behavior was close in the tested H13 setup, while
+  balancing mainly improved structural precision.
 
-Not established:
+Open claims and limits:
 
 - broad superiority over Adam or AdamW;
 - production large-model scalability;
-- GPT-2 or LLM task-performance gains;
+- robust GPT-2 or LLM task-performance gains;
 - a universal recommendation to replace existing optimizers;
 - per-seed and bootstrap-CI confirmation of strict `10x` H10 suppression;
-- robustness across models, ranks, datasets, and LoRA target modules.
+- strict long-horizon gauge equivariance for K1;
+- strict arbitrary non-orthogonal gauge covariance on the pseudoinverse branch;
+- robustness across models, ranks, datasets, and LoRA target modules;
+- total cloud-cost, energy-cost, or distributed-training advantage;
+- full-parameter pretraining applicability;
 - a checked-in H13.6 matched-resource efficiency frontier; current H13.4/H13.5
   scripts audit gauge dynamics and mechanism counterfactuals, not equal-cost
   training efficiency.

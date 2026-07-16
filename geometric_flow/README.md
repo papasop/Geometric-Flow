@@ -1,5 +1,10 @@
 # GeoFlow Codex
 
+This package-level README documents legacy import paths and early optimizer
+APIs. For the current project positioning, functional-time framework, quotient
+capacity flow, and evidence boundaries, see the repository-level
+[`README.md`](../README.md).
+
 `geometric_flow` is the import-compatible Python package for GeoFlow, a
 geometry-first PyTorch optimization layer. It treats the
 loss landscape as a local differentiable manifold:
