@@ -849,6 +849,185 @@ legacy K1 controller also did not outperform the original legacy K1 path.
 This supports a useful boundary: local net-displacement steepest descent and
 long-horizon stochastic optimization are not equivalent objectives.
 
+### H13.10: Matched-Budget Stochastic Variance Decomposition
+
+H13.10 tested whether the local covariance theorem survives stochastic
+minibatch probing under a matched first-order product-displacement budget. The
+final audit used six trials, 100 training steps, rank 4, batch size 64, and a
+batch x gauge two-way decomposition. Exact covariance probes used the full-rank
+ordinary-inverse branch with zero ridge; the practical ridge branch was reported
+separately.
+
+For product-space directions indexed by minibatch `b` and gauge representation
+`s`, the decomposition was
+
+```math
+D_{b,s}=\mu+F_b+G_s+C_{b,s},
+```
+
+with
+
+```math
+V_F=\mathbb E_b\|F_b\|_F^2,
+\qquad
+V_G=\mathbb E_s\|G_s\|_F^2,
+\qquad
+V_C=\mathbb E_{b,s}\|C_{b,s}\|_F^2.
+```
+
+Here `F_b` is the minibatch functional main effect, `G_s` is the gauge
+representation main effect, and `C_{b,s}` is the batch-gauge interaction.
+
+| method | final loss | `V_F` | `V_G` | `V_C` | product gauge p99 | alignment |
+| :--- | ---: | ---: | ---: | ---: | ---: | ---: |
+| AdamW factor | 9.8968 | `2.40e4` | `1.33e5` | `8.31e4` | 0.973 | 0.9745 |
+| Fixed split | 8.6235 | 0.3927 | `1.52e-23` | `3.81e-24` | `2.66e-12` | 0.9038 |
+| Legacy K1, matched budget | 8.6200 | 0.3822 | `4.67e-23` | `1.44e-23` | `2.84e-12` | 0.9049 |
+| Full-product corrected | 8.5053 | 0.2819 | `1.35e-24` | `6.48e-25` | `1.89e-12` | 0.8613 |
+| Factor EMA split | 8.3236 | 0.01611 | `6.66e-24` | `3.12e-26` | `1.78e-12` | 0.9901 |
+
+Core H13.10 gates passed:
+
+```text
+PASS_MATCHED_PRODUCT_STEP = true
+PASS_SPLIT_CHANNEL_A_COVARIANCE = true
+PASS_SPLIT_CHANNEL_B_COVARIANCE = true
+PASS_SPLIT_PRODUCT_COVARIANCE = true
+PASS_FULL_PRODUCT_COVARIANCE = true
+PASS_TWO_WAY_DECOMPOSITION = true
+PASS_NO_EXACT_PROBE_SKIPS = true
+PASS_ALL_METHODS_IMPROVE_LOSS = true
+PASS_FINITE_RESULTS = true
+PASS_CORE = true
+```
+
+Under the matched budget, exact split GeoFlow remained gauge covariant to
+approximately `1e-12`; gauge main-effect and batch-by-gauge interaction
+variance were numerically negligible for the GeoFlow directions. The practical
+ridge branch showed product-gauge residuals around `1e-4`, dominated by the
+non-covariant isotropic factor-coordinate ridge `lambda I`, not by failure of
+the exact inverse-Gram direction.
+
+Factor EMA split, which stores temporal averaging in factor-gradient
+coordinates and explicitly transports history during probes, reduced
+functional direction variance from about `0.393` to `0.0161`, improved
+full-batch alignment from about `0.904` to `0.990`, and lowered final loss in
+all six trials relative to the memoryless split flow. The exact full-product
+tangent correction gave moderate variance and loss improvement, but
+substantially less than temporal averaging. With the realized product-step
+budget strictly matched, legacy K1 was nearly identical to fixed split flow;
+its larger advantage in earlier unmatched audits came primarily from allocating
+a larger functional displacement budget, not from changing the underlying local
+direction.
+
+### H13.11: Gauge-Covariant Channel-History Momentum
+
+H13.11 moved optimizer first-moment history out of raw factor coordinates and
+into executed split channels:
+
+```math
+C_{A,t}=B_tV_{A,t},
+\qquad
+C_{B,t}=V_{B,t}A_t.
+```
+
+The intrinsic channel moments are
+
+```math
+U_{A,t}
+=
+\beta_1 U_{A,t-1}
++
+(1-\beta_1)C_{A,t},
+\qquad
+U_{B,t}
+=
+\beta_1 U_{B,t-1}
++
+(1-\beta_1)C_{B,t}.
+```
+
+Because `B'V_A'=BV_A` and `V_B'A'=V_BA` on the full-rank ordinary-inverse
+branch for gauge-invariant losses, `(U_A,U_B)` is a gauge-visible,
+gauge-invariant history state. It is lifted back to factor velocities by
+
+```math
+V_A=B^+U_A,
+\qquad
+V_B=U_BA^+,
+```
+
+or, on the full-rank ordinary-inverse branch,
+
+```math
+V_A=(B^\top B)^{-1}B^\top U_A,
+\qquad
+V_B=U_BA^\top(AA^\top)^{-1}.
+```
+
+The compared methods were `adamw_factor`, `fixed_capacity_split`,
+`factor_ema_split`, `channel_momentum_geoflow`,
+`channel_adaptive_geoflow`, and `full_product_corrected`.
+
+| method | final loss | `V_F` | product gauge p99 | alignment |
+| :--- | ---: | ---: | ---: | ---: |
+| AdamW factor | 9.2839 | `2.21e4` | 0.969 | 0.9746 |
+| Fixed split | 7.8189 | 0.3869 | `2.09e-12` | 0.9039 |
+| Factor EMA split | 7.5226 | 0.01597 | `2.35e-12` | 0.9905 |
+| Channel momentum GeoFlow | 7.5048 | 0.01557 | `3.51e-12` | 0.9910 |
+| Channel-adaptive GeoFlow | 7.5107 | 0.03756 | `3.89e-12` | 0.9902 |
+| Full-product corrected | 7.7056 | 0.2789 | `1.02e-12` | 0.8597 |
+
+Core H13.11 gates passed:
+
+```text
+PASS_MATCHED_PRODUCT_STEP = true
+PASS_CHANNEL_MOMENTUM_PRODUCT_COVARIANCE = true
+PASS_CHANNEL_ADAPTIVE_PRODUCT_COVARIANCE = true
+PASS_CHANNEL_MOMENTUM_CHANNEL_COVARIANCE = true
+PASS_CHANNEL_ADAPTIVE_CHANNEL_COVARIANCE = true
+PASS_TWO_WAY_DECOMPOSITION = true
+PASS_ALL_METHODS_IMPROVE = true
+PASS_FINITE = true
+PASS_CORE = true
+```
+
+Channel-space momentum preserved product and individual channel covariance to
+approximately `1e-12` while reducing functional direction variance by about
+`96%` relative to the memoryless split flow:
+
+```math
+1-\frac{0.01557}{0.3869}\approx95.98\%.
+```
+
+Under the matched product-displacement budget, channel momentum improved mean
+final loss from `7.8189` to `7.5048` and increased full-batch alignment from
+`0.9039` to `0.9910`. It also matched factor EMA and was slightly better on
+the six-trial mean, but it was lower loss in only two of six trials; the main
+advance is intrinsic gauge-invariant representation of optimizer history, not
+statistically established task superiority over factor EMA.
+
+The channel-adaptive variant used scalar channel second moments
+
+```math
+q_{A,t}
+=
+\beta_2q_{A,t-1}
++
+(1-\beta_2)\|C_{A,t}\|_F^2,
+\qquad
+q_{B,t}
+=
+\beta_2q_{B,t-1}
++
+(1-\beta_2)\|C_{B,t}\|_F^2.
+```
+
+This did not improve the momentum method: `V_F` increased from `0.01557` to
+`0.03756`, and mean loss increased from `7.5048` to `7.5107`. Gauge invariance
+alone is therefore insufficient to define a geometry-compatible adaptive
+second moment.
+
 ## Functional Geometry Tools
 
 The functional path defines
@@ -883,6 +1062,9 @@ See [docs/functional_geometry.md](docs/functional_geometry.md).
 | H13.9 direction audit | Split executed-information steepest descent proven and numerically audited | Local theorem; not a global training optimum | Theorem audit |
 | H13.9C full-product correction | Net-product tangent correction is nontrivial but costly | No long-horizon improvement in completed GPT-2/LoRA tests | Empirical observation |
 | H13.9D variational audit | `PASS_ALL=true` across full-rank and rank-deficient theorem checks | Numerical verification of local theorem | Theorem audit |
+| H13.10 stochastic decomposition | Exact stochastic covariance and batch x gauge decomposition under matched product budget | Factor EMA reduced `V_F` by about `96%`; full-product correction was weaker | Controlled mechanism audit |
+| H13.11 channel-history momentum | Gauge-invariant optimizer history stored in executed channels | Mean loss slightly below factor EMA, but only 2/6 seed wins | Experimental optimizer mechanism |
+| H13.11 scalar channel adaptation | Gauge-covariant scalar channel second moments | No benefit; functional variance increased | Negative result |
 
 Confirmed in controlled tests:
 
@@ -905,6 +1087,18 @@ Confirmed in controlled tests:
   sharp local efficiency floor of `2*sqrt(2)/3`;
 - H13.9C found that the exact net-product tangent correction did not improve
   long-horizon GPT-2/LoRA validation improvement in the completed tests.
+- exact split and full-product directions retain approximately `1e-12` product
+  covariance under stochastic minibatch and multi-gauge probing;
+- batch-by-gauge interaction variance is numerically negligible for the tested
+  GeoFlow directions;
+- temporal averaging is substantially more effective than the instantaneous
+  full-product tangent correction in the controlled matched-budget benchmark;
+- optimizer first-moment history can be stored intrinsically in the two
+  gauge-invariant executed channels;
+- channel-space momentum reduces functional direction variance by about `96%`
+  relative to the memoryless split flow;
+- independent scalar second-moment normalization of the two channels does not
+  improve the tested momentum method.
 
 Open claims and limits:
 
@@ -922,7 +1116,12 @@ Open claims and limits:
   scripts audit gauge dynamics and mechanism counterfactuals, not equal-cost
   training efficiency;
 - a global information brachistochrone or shortest nonlinear training path;
-- history-aware quotient momentum or gauge-covariant second-moment estimation;
+- statistically significant superiority of channel momentum over factor EMA;
+- production Transformer or LLM validation of channel momentum;
+- global optimality of the channel first-moment construction;
+- a geometry-compatible operator-valued second moment;
+- a gauge-covariant practical regularizer replacing isotropic ridge;
+- gauge-covariant second-moment estimation that improves over channel momentum;
 - an invariant K1 controller that preserves fixed-Capacity-style long-horizon
   gauge robustness while retaining K1's efficiency gains.
 
@@ -936,35 +1135,46 @@ Engineering status:
 - Continuous integration runs syntax and unit-test checks, but heavyweight
   GPT-2/WikiText audits remain manual or scheduled experiments.
 
-## Current Research Priorities
+## Next Research Direction: Coupled Channel Covariance
 
 The main open question is no longer whether the inverse-Gram direction has a
 local variational basis. H13.9D supplies that basis under the split
-executed-information metric. The next question is:
+executed-information metric, and H13.11 shows that optimizer history can be
+stored in gauge-invariant executed channels. The next question is:
 
-> Why does an exact local executed-information steepest flow still underperform
-> history-aware optimizers at long horizon?
+> What is the geometry-compatible second moment for coupled executed channels?
 
-Priority directions:
+A proposed H13.12 direction is to estimate the coupled channel covariance
 
-1. Stochastic variance decomposition
-   - functional variance;
-   - gauge variance;
-   - functional-gauge coupling.
+```math
+\Sigma_t
+=
+\begin{pmatrix}
+\langle C_A,C_A\rangle_F &
+\langle C_A,C_B\rangle_F\\
+\langle C_B,C_A\rangle_F &
+\langle C_B,C_B\rangle_F
+\end{pmatrix},
+```
 
-2. History-aware geometric flow
-   - momentum in quotient space;
-   - functional EMA;
-   - gauge-covariant second-moment estimation.
+and use a joint preconditioner
 
-3. Finite-step and curvature corrections
-   - local truncation error;
-   - multi-layer coupling;
-   - adaptive functional time.
+```math
+\begin{pmatrix}
+\widetilde U_A\\
+\widetilde U_B
+\end{pmatrix}
+=
+(\Sigma_t+\epsilon I)^{-1/2}
+\begin{pmatrix}
+U_A\\
+U_B
+\end{pmatrix}.
+```
 
-4. Noncommutative path effects
-   - update-order dependence;
-   - commutator and path-area diagnostics.
+This is a proposed next experiment, not yet validated. It should be evaluated
+against channel momentum, factor EMA, and the negative scalar-channel
+normalization result from H13.11.
 
 ## Reproduce Key Benchmarks
 
@@ -976,6 +1186,8 @@ Priority directions:
 | H10.11/H10.12 research archive | `experiments/archive/` contains non-API GPT-2 LoRA confirmation scripts |
 | H13.9 split-vs-product direction audit | `python experiments/h139_functional_steepest_descent.py --trials-per-setting 50 --out-dir artifacts/h139_functional_steepest` |
 | H13.9D variational theorem audit | `python experiments/h139d_direct_variational_proof.py --trials-per-setting 50 --random-feasible-samples 50 --no-plots --out-dir artifacts/h139d_variational_proof` |
+| H13.10 matched-budget stochastic decomposition | `python experiments/h1310_final_matched_budget_two_way.py --trials 2 --steps 30 --probe-batches 6 --probe-gauges 4 --probe-steps 0,10,20,29 --no-plots --output-dir artifacts/h1310_smoke` |
+| H13.11 gauge-covariant channel momentum | `python experiments/h1311_gauge_covariant_momentum.py --trials 2 --steps 30 --probe-batches 6 --probe-gauges 4 --probe-steps 0,10,20,29 --no-plots --output-dir artifacts/h1311_smoke` |
 | Phase G matched-step benchmark | `python experiments/lora_matched_step_benchmark.py --trials 5 --steps 200 --representations 5 --train-scope lora_only --functional-map hidden --out artifacts/lora_matched_step.csv` |
 | Functional solver toy | `python experiments/functional_projection_toy.py --response-solver implicit_cg` |
 | CIFAR legacy benchmark | `python experiments/run_cifar10_benchmark.py --config hybrid_diagonal_500 --download --out artifacts/cifar10_benchmark_results.csv` |
@@ -990,6 +1202,7 @@ Longer commands and archived results:
 - [docs/cifar_benchmarks.md](docs/cifar_benchmarks.md)
 - [docs/functional_geometry.md](docs/functional_geometry.md)
 - [docs/variational_foundation.md](docs/variational_foundation.md)
+- [docs/stochastic_history.md](docs/stochastic_history.md)
 - [docs/capacity_adaptive_flow.md](docs/capacity_adaptive_flow.md)
 - [docs/PAPER_H134_UPDATE.md](docs/PAPER_H134_UPDATE.md)
 - [docs/PAPER_H135_UPDATE.md](docs/PAPER_H135_UPDATE.md)
