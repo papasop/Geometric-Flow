@@ -81,6 +81,67 @@ prediction error, and limiter state. K1 is one such controller; it is not the
 framework itself and should not be read as a conventional learning-rate
 scheduler.
 
+## Variational Motivation
+
+Geometric-Flow is motivated by a functional steepest-descent principle:
+optimization should maximize task improvement per unit motion of the realized
+model function, rather than per unit motion of an arbitrary parameter
+representation.
+
+Let
+
+```math
+\pi:\Theta\rightarrow\mathcal F
+```
+
+map parameters `theta` to a functional state `Phi = pi(theta)`. A
+parameter-space direction `V` induces the functional velocity
+
+```math
+\dot\Phi = D\pi_\theta[V].
+```
+
+A natural local variational problem is
+
+```math
+V^\star
+=
+\arg\max_{V\in\mathcal H_\theta}
+\left\{
+-\mathrm dL_\theta[V]
+:
+\|D\pi_\theta[V]\|_\Phi\le1
+\right\},
+```
+
+where `H_theta` excludes directions that move only along a
+representation-equivalence orbit.
+
+For a chosen quotient-aware direction `V_Q`, GeoFlow defines
+
+```math
+H_\Phi(V_Q)=\|D\pi_\theta[V_Q]\|_\Phi,
+\qquad
+d\tau=\frac{\epsilon_\Phi}{H_\Phi(V_Q)}.
+```
+
+Thus, `epsilon_Phi` specifies an allowed functional-displacement budget, while
+`H_Phi` measures the rate at which the current direction consumes that budget.
+
+In the current low-rank realization,
+
+```math
+\pi(A,B)=BA,
+\qquad
+D\pi_{(A,B)}[V_A,V_B]=V_BA+BV_A.
+```
+
+The implemented full-rank quotient direction is gauge covariant, but it has not
+yet been proven to be the exact optimizer of the full product-space
+variational problem above. Determining the precise functional metric and
+horizontal constraint under which the implemented direction is a true
+steepest-descent direction remains an open theoretical objective.
+
 ## Low-Rank Quotient Instance
 
 The current implementation targets low-rank products and LoRA adapters. For any
