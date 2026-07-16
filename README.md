@@ -1237,6 +1237,35 @@ appear, although including it increased seed-wise consistency in this tested
 setting (`6/6` for attention-only versus `5/6` for QKV-only). This is evidence
 of association, not proof of a causal stabilization mechanism.
 
+### H13.14: GPT-2 Full-Depth LoRA Validation
+
+H13.14 transfers coupled executed-channel covariance to pretrained GPT-2 small
+on WikiText-2 with LoRA on all 12 attention `c_attn` modules. The external
+experiment asserts the exact target set
+`model.transformer.h.{0..11}.attn.c_attn`, uses frozen base weights, shared
+represented initialization, shared minibatch schedules, and matched realized
+LoRA-product displacement.
+
+At 200 steps over two paired seeds, mean validation loss was `4.133092` for
+channel momentum and `4.124508` for coupled covariance. Mean covariance
+condition was `4.27` for channel momentum versus `2.86` for coupled covariance.
+
+At 1000 steps over three paired seeds, coupled covariance beat factor EMA and
+channel momentum in `3/3` seeds. Mean validation losses were:
+
+| method | mean validation loss | mean `|rho_AB|` | mean condition |
+| :--- | ---: | ---: | ---: |
+| Factor EMA | 3.894558 | 0.151 | 31.6 |
+| Channel momentum | 3.896769 | 0.156 | 27.8 |
+| Coupled channel covariance | 3.892090 | 0.085 | 1.68 |
+
+These are controlled GPT-2-small results, not production-scale LLM validation
+or universal optimizer superiority. One long-run float32 seed exceeded the
+strict per-seed gauge threshold (`1e-5`), so H13.14 reports both mean and
+maximum gauge residuals and does not retroactively relax the threshold.
+
+See [docs/h1314_gpt2_full_depth_results.md](docs/h1314_gpt2_full_depth_results.md).
+
 ## Functional Geometry Tools
 
 The functional path defines
@@ -1279,6 +1308,7 @@ See [docs/functional_geometry.md](docs/functional_geometry.md).
 | H13.13B six-seed Transformer validation | Same initialization, shared batches, matched global LoRA-product displacement | Coupled beat channel momentum in 6/6 trials; paired effect about 1.46 | Controlled multi-layer validation |
 | H13.13C attention-only ablation | Exact attention-layer gauge covariance near `1e-13` | Coupled beat channel momentum in 6/6 trials; about 10.0% mean improvement | Controlled scope ablation |
 | H13.13D-FIX qkv-only ablation | Exactly two active QKV LoRA layers; product covariance near `1e-13` | Coupled beat channel momentum in 5/6 trials; about 12.1% mean improvement | Controlled scope ablation |
+| H13.14 GPT-2 full-depth LoRA | All 12 GPT-2-small `c_attn` LoRA modules are targeted and audited | Coupled beat factor EMA and channel momentum in 3/3 long-run seeds | Controlled GPT-2-small validation |
 
 Confirmed in controlled tests:
 
@@ -1329,6 +1359,11 @@ Confirmed in controlled tests:
   `6/6` in the tested setting;
 - the scope-ablation evidence is association evidence, not proof that output
   projection causally stabilizes the method.
+- coupled covariance transfers to pretrained GPT-2 small with all 12 attention
+  `c_attn` LoRA modules active;
+- in the three-seed 1000-step H13.14F run, coupled covariance had lower mean
+  validation loss than factor EMA and channel momentum and lower mean channel
+  condition.
 
 Open claims and limits:
 
@@ -1360,6 +1395,9 @@ Open claims and limits:
 - a causal proof that lower channel correlation or covariance condition caused
   the H13.13B validation-loss improvement;
 - a causal proof that attention output projection stabilizes coupled covariance;
+- production-scale LLM validation of H13.14;
+- a six-seed H13.14E claim without the final sixth coupled row and gates;
+- strict per-seed float32 gauge-threshold success for every H13.14F seed;
 - an invariant K1 controller that preserves fixed-Capacity-style long-horizon
   gauge robustness while retaining K1's efficiency gains.
 
@@ -1380,8 +1418,9 @@ local variational basis. H13.9D supplies that basis under the split
 executed-information metric, H13.11 shows that optimizer history can be stored
 in gauge-invariant executed channels, H13.12 gives bounded evidence that a
 coupled 2x2 channel covariance can improve loss in controlled low-rank
-regression, and H13.13B/C/D transfer that mechanism to tiny multi-layer
-Transformer/LoRA teacher-student audits.
+regression, H13.13B/C/D transfer that mechanism to tiny multi-layer
+Transformer/LoRA teacher-student audits, and H13.14 gives the first checked-in
+GPT-2-small full-depth validation path.
 
 Priority directions now are:
 
@@ -1389,8 +1428,8 @@ Priority directions now are:
 2. Add checkpoint-wise `rho_AB(t)`, `kappa(Sigma_t)`, and loss-progress
    analysis.
 3. Add stochastic variance and full-batch alignment probes in Transformer.
-4. Move to GPT-2 small / WikiText-2 only after controlled rank and time-series
-   audits are complete.
+4. Extend H13.14 to more seeds and longer horizons before making production
+   LLM claims.
 
 ## Reproduce Key Benchmarks
 
@@ -1411,6 +1450,9 @@ Priority directions now are:
 | H13.13B smoke | `python experiments/h1313b_tiny_transformer_lora_validation.py --trials 1 --steps 10 --train-samples 128 --val-samples 32 --batch-size 8 --seq-len 16 --d-model 48 --n-heads 4 --n-layers 1 --d-ff 96 --probe-steps 0,9 --probe-gauges 2 --no-plots --output-dir artifacts/h1313b_smoke` |
 | H13.13C attention-only ablation | `python experiments/h1313c_attention_only_ablation.py --trials 6 --steps 200 --train-samples 1024 --val-samples 256 --batch-size 16 --probe-steps 0,50,100,150,199 --probe-gauges 4 --output-dir artifacts/h1313c_attention_only_results` |
 | H13.13D-FIX qkv-only ablation | `python experiments/h1313d_fix_qkv_only_ablation.py --trials 6 --steps 200 --train-samples 1024 --val-samples 256 --batch-size 16 --probe-steps 0,50,100,150,199 --probe-gauges 4 --output-dir artifacts/h1313d_qkv_only_results` |
+| H13.14 GPT-2 full-depth smoke | `python scripts/run_external_gpt2_validation.py --mode smoke --install-deps` |
+| H13.14 GPT-2 full-depth formal | `python scripts/run_external_gpt2_validation.py --mode formal` |
+| H13.14 GPT-2 full-depth long | `python scripts/run_external_gpt2_validation.py --mode long` |
 | Phase G matched-step benchmark | `python experiments/lora_matched_step_benchmark.py --trials 5 --steps 200 --representations 5 --train-scope lora_only --functional-map hidden --out artifacts/lora_matched_step.csv` |
 | Functional solver toy | `python experiments/functional_projection_toy.py --response-solver implicit_cg` |
 | CIFAR legacy benchmark | `python experiments/run_cifar10_benchmark.py --config hybrid_diagonal_500 --download --out artifacts/cifar10_benchmark_results.csv` |
@@ -1429,6 +1471,7 @@ Longer commands and archived results:
 - [docs/h1312_results.md](docs/h1312_results.md)
 - [docs/h1313_transformer_lora_results.md](docs/h1313_transformer_lora_results.md)
 - [docs/h1313_scope_ablation_results.md](docs/h1313_scope_ablation_results.md)
+- [docs/h1314_gpt2_full_depth_results.md](docs/h1314_gpt2_full_depth_results.md)
 - [docs/capacity_adaptive_flow.md](docs/capacity_adaptive_flow.md)
 - [docs/PAPER_H134_UPDATE.md](docs/PAPER_H134_UPDATE.md)
 - [docs/PAPER_H135_UPDATE.md](docs/PAPER_H135_UPDATE.md)

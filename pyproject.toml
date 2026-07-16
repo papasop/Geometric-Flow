@@ -16,6 +16,12 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest"]
+gpt2 = [
+  "transformers>=4.40",
+  "datasets>=2.18",
+  "huggingface_hub>=0.23",
+  "matplotlib>=3.7",
+]
 
 [tool.setuptools.packages.find]
 where = ["."]
