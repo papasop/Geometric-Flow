@@ -1028,6 +1028,96 @@ This did not improve the momentum method: `V_F` increased from `0.01557` to
 alone is therefore insufficient to define a geometry-compatible adaptive
 second moment.
 
+### H13.12: Coupled Channel Covariance
+
+H13.12 tested the next step after scalar channel adaptation: keep the two
+executed channels coupled and whiten their joint 2x2 covariance. The channel
+covariance state is
+
+```math
+\Sigma_t
+=
+\beta_2\Sigma_{t-1}
++
+(1-\beta_2)
+\begin{pmatrix}
+\langle C_A,C_A\rangle_F &
+\langle C_A,C_B\rangle_F\\
+\langle C_B,C_A\rangle_F &
+\langle C_B,C_B\rangle_F
+\end{pmatrix}.
+```
+
+The channel first moments are preconditioned by
+
+```math
+\begin{pmatrix}
+\widetilde U_A\\
+\widetilde U_B
+\end{pmatrix}
+=
+(\widehat\Sigma_t+\epsilon I)^{-1/2}
+\begin{pmatrix}
+U_A\\
+U_B
+\end{pmatrix}.
+```
+
+The full-product corrected baseline uses a stable tangent lift:
+
+```math
+V_A=B^+D_\star,\qquad
+R=D_\star-BV_A,\qquad
+V_B=RA^+,
+```
+
+with a reconstruction guard for `B V_A + V_B A ~= D_star`. The active H13.12
+script does not use a large Kronecker tangent-map pseudoinverse.
+
+| method | final loss | matched step | `V_F` | product gauge p99 | alignment | mean `|rho_AB|` | mean covariance condition |
+| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| AdamW factor | 9.283884 | 0.050116 | `2.208e4` | 0.9687 | 0.9746 | 0.423 | 3.01 |
+| Fixed split | 7.818892 | 0.050266 | 0.3869 | `2.087e-12` | 0.9039 | 0.540 | 4.23 |
+| Factor EMA split | 7.522583 | 0.050218 | 0.01597 | `2.348e-12` | 0.9905 | 0.549 | 4.31 |
+| Channel momentum | 7.504751 | 0.050226 | 0.01557 | `3.513e-12` | 0.9910 | 0.547 | 4.34 |
+| Scalar channel adaptive | 7.510665 | 0.050229 | 0.03756 | `3.889e-12` | 0.9902 | 0.543 | 4.31 |
+| Coupled channel covariance | 7.290806 | 0.050237 | 0.03487 | `1.036e-12` | 0.9903 | 0.597 | 5.61 |
+| Full-product corrected | 7.716226 | 0.050104 | 0.2836 | `6.571e-12` | 0.8587 | 0.633 | 6.68 |
+
+Core H13.12 gates passed:
+
+```text
+PASS_MATCHED_PRODUCT_STEP = true
+PASS_COUPLED_PRODUCT_COVARIANCE = true
+PASS_COUPLED_CHANNEL_COVARIANCE = true
+PASS_TWO_WAY_DECOMPOSITION = true
+PASS_COVARIANCE_CONDITION_FINITE = true
+PASS_ALL_METHODS_IMPROVE = true
+PASS_FINITE = true
+PASS_CORE = true
+```
+
+Empirical hypothesis results:
+
+```text
+HYPOTHESIS_COUPLED_REDUCES_VARIANCE = false
+HYPOTHESIS_COUPLED_IMPROVES_ALIGNMENT = false
+HYPOTHESIS_COUPLED_IMPROVES_LOSS = true
+HYPOTHESIS_COUPLED_BEATS_SCALAR_ADAPTIVE = true
+HYPOTHESIS_COUPLED_BEATS_FACTOR_EMA = true
+COUPLED_WINS_VS_MOMENTUM = 6
+COUPLED_WINS_VS_SCALAR = 6
+HYPOTHESIS_COUPLED_MAJORITY_SEED_WINS = true
+```
+
+In the controlled matched-product-budget low-rank regression audit, the
+coupled 2x2 executed-channel covariance preserved product and channel gauge
+covariance to approximately `1e-12` and achieved lower final loss than channel
+momentum, scalar channel adaptation, and factor EMA in all six trials. The gain
+did not come from lower functional variance or higher mean full-batch
+alignment; it appears to come from improved cross-channel allocation. This is
+not a claim of universal optimizer superiority or production LLM validation.
+
 ## Functional Geometry Tools
 
 The functional path defines
@@ -1065,6 +1155,7 @@ See [docs/functional_geometry.md](docs/functional_geometry.md).
 | H13.10 stochastic decomposition | Exact stochastic covariance and batch x gauge decomposition under matched product budget | Factor EMA reduced `V_F` by about `96%`; full-product correction was weaker | Controlled mechanism audit |
 | H13.11 channel-history momentum | Gauge-invariant optimizer history stored in executed channels | Mean loss slightly below factor EMA, but only 2/6 seed wins | Experimental optimizer mechanism |
 | H13.11 scalar channel adaptation | Gauge-covariant scalar channel second moments | No benefit; functional variance increased | Negative result |
+| H13.12 coupled channel covariance | 2x2 executed-channel covariance preserved product/channel covariance near `1e-12` | Lower mean loss than channel momentum, scalar adaptive, and factor EMA in 6/6 trials | Controlled mechanism audit |
 
 Confirmed in controlled tests:
 
@@ -1099,6 +1190,9 @@ Confirmed in controlled tests:
   relative to the memoryless split flow;
 - independent scalar second-moment normalization of the two channels does not
   improve the tested momentum method.
+- coupled 2x2 channel covariance improves final loss in the controlled
+  matched-product-budget audit without reducing functional variance or
+  increasing mean alignment.
 
 Open claims and limits:
 
@@ -1121,7 +1215,8 @@ Open claims and limits:
 - global optimality of the channel first-moment construction;
 - a geometry-compatible operator-valued second moment;
 - a gauge-covariant practical regularizer replacing isotropic ridge;
-- gauge-covariant second-moment estimation that improves over channel momentum;
+- production validation of coupled channel covariance beyond controlled
+  low-rank regression;
 - an invariant K1 controller that preserves fixed-Capacity-style long-horizon
   gauge robustness while retaining K1's efficiency gains.
 
@@ -1135,46 +1230,23 @@ Engineering status:
 - Continuous integration runs syntax and unit-test checks, but heavyweight
   GPT-2/WikiText audits remain manual or scheduled experiments.
 
-## Next Research Direction: Coupled Channel Covariance
+## Current Research Priorities
 
 The main open question is no longer whether the inverse-Gram direction has a
 local variational basis. H13.9D supplies that basis under the split
 executed-information metric, and H13.11 shows that optimizer history can be
-stored in gauge-invariant executed channels. The next question is:
+stored in gauge-invariant executed channels. H13.12 gives bounded evidence
+that a coupled 2x2 channel covariance can improve loss in the controlled
+low-rank regression audit.
 
-> What is the geometry-compatible second moment for coupled executed channels?
+Priority directions now are:
 
-A proposed H13.12 direction is to estimate the coupled channel covariance
-
-```math
-\Sigma_t
-=
-\begin{pmatrix}
-\langle C_A,C_A\rangle_F &
-\langle C_A,C_B\rangle_F\\
-\langle C_B,C_A\rangle_F &
-\langle C_B,C_B\rangle_F
-\end{pmatrix},
-```
-
-and use a joint preconditioner
-
-```math
-\begin{pmatrix}
-\widetilde U_A\\
-\widetilde U_B
-\end{pmatrix}
-=
-(\Sigma_t+\epsilon I)^{-1/2}
-\begin{pmatrix}
-U_A\\
-U_B
-\end{pmatrix}.
-```
-
-This is a proposed next experiment, not yet validated. It should be evaluated
-against channel momentum, factor EMA, and the negative scalar-channel
-normalization result from H13.11.
+1. Test coupled channel covariance in Transformer/LoRA settings.
+2. Understand why H13.12 improves loss without reducing functional variance or
+   increasing mean alignment.
+3. Design a gauge-covariant practical regularizer to replace isotropic ridge.
+4. Measure memory and wall-clock cost of channel covariance states.
+5. Extend from 2-channel scalar covariance to richer operator-valued moments.
 
 ## Reproduce Key Benchmarks
 
@@ -1188,6 +1260,8 @@ normalization result from H13.11.
 | H13.9D variational theorem audit | `python experiments/h139d_direct_variational_proof.py --trials-per-setting 50 --random-feasible-samples 50 --no-plots --out-dir artifacts/h139d_variational_proof` |
 | H13.10 matched-budget stochastic decomposition | `python experiments/h1310_final_matched_budget_two_way.py --trials 2 --steps 30 --probe-batches 6 --probe-gauges 4 --probe-steps 0,10,20,29 --no-plots --output-dir artifacts/h1310_smoke` |
 | H13.11 gauge-covariant channel momentum | `python experiments/h1311_gauge_covariant_momentum.py --trials 2 --steps 30 --probe-batches 6 --probe-gauges 4 --probe-steps 0,10,20,29 --no-plots --output-dir artifacts/h1311_smoke` |
+| H13.12 coupled channel covariance audit | `python experiments/h1312_coupled_channel_covariance.py --trials 6 --steps 120 --probe-batches 12 --probe-gauges 6 --output-dir artifacts/h1312_results` |
+| H13.12 coupled channel covariance smoke | `python experiments/h1312_coupled_channel_covariance.py --trials 2 --steps 30 --probe-batches 6 --probe-gauges 4 --probe-steps 0,10,20,29 --no-plots --output-dir artifacts/h1312_smoke` |
 | Phase G matched-step benchmark | `python experiments/lora_matched_step_benchmark.py --trials 5 --steps 200 --representations 5 --train-scope lora_only --functional-map hidden --out artifacts/lora_matched_step.csv` |
 | Functional solver toy | `python experiments/functional_projection_toy.py --response-solver implicit_cg` |
 | CIFAR legacy benchmark | `python experiments/run_cifar10_benchmark.py --config hybrid_diagonal_500 --download --out artifacts/cifar10_benchmark_results.csv` |
@@ -1203,6 +1277,7 @@ Longer commands and archived results:
 - [docs/functional_geometry.md](docs/functional_geometry.md)
 - [docs/variational_foundation.md](docs/variational_foundation.md)
 - [docs/stochastic_history.md](docs/stochastic_history.md)
+- [docs/h1312_results.md](docs/h1312_results.md)
 - [docs/capacity_adaptive_flow.md](docs/capacity_adaptive_flow.md)
 - [docs/PAPER_H134_UPDATE.md](docs/PAPER_H134_UPDATE.md)
 - [docs/PAPER_H135_UPDATE.md](docs/PAPER_H135_UPDATE.md)

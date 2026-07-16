@@ -248,22 +248,25 @@ geometry-compatible adaptive second moment.
 - No full-parameter pretraining validation.
 - No distributed or memory-cost analysis.
 
-## H13.12 Proposed Coupled Covariance
+## H13.12 Coupled Channel Covariance
 
-A proposed next experiment is to estimate the coupled channel covariance
+H13.12 tested a coupled 2x2 executed-channel covariance:
 
 ```math
 \Sigma_t
 =
+\beta_2\Sigma_{t-1}
++
+(1-\beta_2)
 \begin{pmatrix}
 \langle C_A,C_A\rangle_F &
 \langle C_A,C_B\rangle_F\\
 \langle C_B,C_A\rangle_F &
 \langle C_B,C_B\rangle_F
-\end{pmatrix},
+\end{pmatrix}.
 ```
 
-and apply
+It applies
 
 ```math
 \begin{pmatrix}
@@ -271,11 +274,61 @@ and apply
 \widetilde U_B
 \end{pmatrix}
 =
-(\Sigma_t+\epsilon I)^{-1/2}
+(\widehat\Sigma_t+\epsilon I)^{-1/2}
 \begin{pmatrix}
 U_A\\
 U_B
 \end{pmatrix}.
 ```
 
-This is proposed next work and has not been validated.
+The final H13.12 script is:
+
+```bash
+python experiments/h1312_coupled_channel_covariance.py
+```
+
+| method | final loss | matched step | `V_F` | product gauge p99 | alignment | mean `|rho_AB|` | mean covariance condition |
+| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| AdamW factor | 9.283884 | 0.050116 | `2.208e4` | 0.9687 | 0.9746 | 0.423 | 3.01 |
+| Fixed split | 7.818892 | 0.050266 | 0.3869 | `2.087e-12` | 0.9039 | 0.540 | 4.23 |
+| Factor EMA split | 7.522583 | 0.050218 | 0.01597 | `2.348e-12` | 0.9905 | 0.549 | 4.31 |
+| Channel momentum | 7.504751 | 0.050226 | 0.01557 | `3.513e-12` | 0.9910 | 0.547 | 4.34 |
+| Scalar channel adaptive | 7.510665 | 0.050229 | 0.03756 | `3.889e-12` | 0.9902 | 0.543 | 4.31 |
+| Coupled channel covariance | 7.290806 | 0.050237 | 0.03487 | `1.036e-12` | 0.9903 | 0.597 | 5.61 |
+| Full-product corrected | 7.716226 | 0.050104 | 0.2836 | `6.571e-12` | 0.8587 | 0.633 | 6.68 |
+
+Core gates:
+
+```text
+PASS_MATCHED_PRODUCT_STEP = true
+PASS_COUPLED_PRODUCT_COVARIANCE = true
+PASS_COUPLED_CHANNEL_COVARIANCE = true
+PASS_TWO_WAY_DECOMPOSITION = true
+PASS_COVARIANCE_CONDITION_FINITE = true
+PASS_ALL_METHODS_IMPROVE = true
+PASS_FINITE = true
+PASS_CORE = true
+```
+
+Empirical hypothesis gates:
+
+```text
+HYPOTHESIS_COUPLED_REDUCES_VARIANCE = false
+HYPOTHESIS_COUPLED_IMPROVES_ALIGNMENT = false
+HYPOTHESIS_COUPLED_IMPROVES_LOSS = true
+HYPOTHESIS_COUPLED_BEATS_SCALAR_ADAPTIVE = true
+HYPOTHESIS_COUPLED_BEATS_FACTOR_EMA = true
+COUPLED_WINS_VS_MOMENTUM = 6
+COUPLED_WINS_VS_SCALAR = 6
+HYPOTHESIS_COUPLED_MAJORITY_SEED_WINS = true
+```
+
+The coupled method preserved product and channel gauge covariance to
+approximately `1e-12`, beat channel momentum and scalar channel adaptation in
+all six trials, and reached the lowest mean final loss. The gain did not come
+from lower functional variance or higher mean alignment, suggesting improved
+cross-channel allocation rather than simple variance suppression.
+
+This remains a controlled low-rank regression mechanism audit. It is not a
+universal optimizer result, not a production LLM validation, and not a global
+optimality theorem.
