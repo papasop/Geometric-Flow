@@ -974,14 +974,15 @@ Priority directions:
 | H10 tiny-model regression | `python experiments/h10_progress_budget_benchmark.py --macro-lr 2.6 --substeps 16 --out-dir artifacts/h10_progress_budget` |
 | Capacity-adaptive smoke | `python experiments/capacity_adaptive_quotient_smoke.py --seeds 101,211,307 --macro-flow-time 2.6 --local-function-tolerance 0.05 --out-dir artifacts/capacity_adaptive_smoke` |
 | H10.11/H10.12 research archive | `experiments/archive/` contains non-API GPT-2 LoRA confirmation scripts |
+| H13.9 split-vs-product direction audit | `python experiments/h139_functional_steepest_descent.py --trials-per-setting 50 --out-dir artifacts/h139_functional_steepest` |
 | H13.9D variational theorem audit | `python experiments/h139d_direct_variational_proof.py --trials-per-setting 50 --random-feasible-samples 50 --no-plots --out-dir artifacts/h139d_variational_proof` |
 | Phase G matched-step benchmark | `python experiments/lora_matched_step_benchmark.py --trials 5 --steps 200 --representations 5 --train-scope lora_only --functional-map hidden --out artifacts/lora_matched_step.csv` |
 | Functional solver toy | `python experiments/functional_projection_toy.py --response-solver implicit_cg` |
 | CIFAR legacy benchmark | `python experiments/run_cifar10_benchmark.py --config hybrid_diagonal_500 --download --out artifacts/cifar10_benchmark_results.csv` |
 
-H13.9D is now included as a runnable theorem audit. H13.9 and H13.9C scripts are
-not currently checked into this repository; their results are summarized above
-as numerical and empirical observations rather than listed as runnable commands.
+H13.9 and H13.9D are included as runnable local theorem/direction audits.
+H13.9C remains a bounded GPT-2/LoRA empirical observation rather than a
+production example.
 
 Longer commands and archived results:
 
