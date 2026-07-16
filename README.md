@@ -1213,7 +1213,8 @@ Open claims and limits:
 - statistically significant superiority of channel momentum over factor EMA;
 - production Transformer or LLM validation of channel momentum;
 - global optimality of the channel first-moment construction;
-- a geometry-compatible operator-valued second moment;
+- a general theory or proof of optimality for geometry-compatible
+  operator-valued second moments beyond the tested 2x2 channel construction;
 - a gauge-covariant practical regularizer replacing isotropic ridge;
 - production validation of coupled channel covariance beyond controlled
   low-rank regression;

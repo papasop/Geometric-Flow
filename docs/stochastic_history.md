@@ -241,7 +241,8 @@ geometry-compatible adaptive second moment.
 - No production Transformer or LLM validation of channel momentum yet.
 - No statistically significant superiority of channel momentum over factor EMA.
 - No proof that channel first-moment history is globally optimal.
-- No geometry-compatible operator-valued second moment yet.
+- No general theory or proof of optimality for geometry-compatible
+  operator-valued second moments beyond the tested 2x2 channel construction.
 - No gauge-covariant practical regularizer replacing isotropic ridge.
 - No global convergence theorem.
 - No globally shortest functional-time path.

@@ -54,7 +54,7 @@ Main questions
 
 Coupled second moment
 ---------------------
-The proposed H13.12 state is
+The tested H13.12 state is
 
     Sigma_t = beta2 Sigma_{t-1} + (1-beta2)
               [[<C_A,C_A>, <C_A,C_B>],
