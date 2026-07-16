@@ -1,51 +1,97 @@
 # GeoFlow for PyTorch
 
-Geometric-Flow studies optimization when model parameters are redundant:
-different parameter coordinates may represent the same functional model. The
-current low-rank direction is a gauge-covariant local steepest descent per unit
-channel-resolved executed functional information, and it is uniformly
-near-optimal relative to net product-space Frobenius displacement with a sharp
-local efficiency floor of `2*sqrt(2)/3`.
+GeoFlow is a research framework for functional-space optimization under
+redundant parameterizations, with a first complete realization for low-rank
+products and LoRA.
 
-These are local variational results. They do not prove a globally shortest
-training path, universal optimizer superiority, or guaranteed long-horizon
-advantage over AdamW.
+It is best read as the intersection of:
 
-Instead of defining direction and step size only in parameter space, the
-framework introduces a functional map, a quotient-aware direction, executed
-functional information, and a functional-time controller.
+- a research framework;
+- a reference implementation;
+- a reproducible experimental suite.
+
+It is not a universal optimizer, a next-generation Adam replacement, a generic
+geometry-first PyTorch library, an information-brachistochrone solver, or a
+production LLM optimizer.
+
+## Why GeoFlow?
+
+LoRA has redundant internal coordinates. With the convention
+
+```text
+M = B A,
+```
+
+the gauge transformation
+
+```text
+A -> S A,
+B -> B S^{-1}
+```
+
+leaves the represented product `M` unchanged. Conventional coordinate
+optimizers can therefore produce different training dynamics for different
+factorizations of the same functional model.
+
+GeoFlow constructs directions, finite-step controllers, and experimental
+optimizer-history states from quantities visible in product/function space.
 
 > Optimizer outputs are proposals, not automatically final updates.
 
-The current implementation specializes this functional-time framework to
-low-rank products and LoRA adapters. In this setting, the functional state is
-the product
+## Theory-To-Code Chain
 
 ```text
-M = B A
+local executed-information steepest descent
+        ↓
+split functional metric
+        ↓
+inverse-Gram gauge-covariant direction
+        ↓
+functional-time capacity controller
+        ↓
+quotient-flow integrators
+        ↓
+PyTorch / LoRA implementation
 ```
 
-and the local functional velocity is
+| concept | mathematical object | code |
+| :--- | :--- | :--- |
+| functional state | `M = B A` | `ProductState` |
+| split metric | `||B V_A||_F^2 + ||V_B A||_F^2` | `split_metric_norm` |
+| steepest direction | inverse-Gram quotient direction | `inverse_gram_direction` |
+| fixed integrator | fixed fresh-gradient substeps | `SubsteppedQuotientFlow` |
+| capacity controller | `d_tau = epsilon / H` | `CapacityAdaptiveQuotientFlow` |
+| stochastic history | channel momentum / coupled covariance | experimental scripts |
 
-```text
-dM = V_B A + B V_A.
-```
+Variational geometry determines the direction. A capacity controller determines
+the finite integration step. The current public capacity controller uses net
+product displacement, while split-information time remains an active research
+direction.
 
-LoRA is therefore the first complete realization, not the boundary of the
-theory.
+## What Is Implemented?
 
-The library currently contains:
+**Core geometry**
 
-- fixed-rank product-state optimization;
-- quotient-compatible low-rank factor flow;
-- fixed and adaptive functional-time capacity controllers;
-- dense, low-rank, and matrix-free functional-geometry research tools;
-- legacy CIFAR and diagonal `grad_square` baselines retained for comparison.
+- split executed-information metric;
+- inverse-Gram quotient direction;
+- product-motion and gauge diagnostics.
 
-GeoFlow is experimental. The strongest evidence is structural: improved LoRA
-gauge robustness, tangent suppression, rank preservation, and task parity or
-small task improvements in controlled settings. It is not a production
-large-model optimizer and does not establish universal superiority over Adam.
+**Experimental public APIs**
+
+- `SubsteppedQuotientFlow`;
+- `CapacityAdaptiveQuotientFlow`;
+- fixed-rank product-state optimizers.
+
+**Reproduction implementations**
+
+- channel momentum;
+- coupled executed-channel covariance;
+- matrix-regression, tiny-Transformer, and GPT-2-small LoRA audits.
+
+**Legacy / research tools**
+
+- dense, low-rank, and matrix-free functional-geometry tools;
+- CIFAR and diagonal `grad_square` baselines retained for comparison.
 
 ## Installation
 
@@ -61,6 +107,41 @@ Run the tests:
 python -m pytest -q
 python -m compileall -q geometric_flow experiments tests
 ```
+
+## Minimal Quickstart
+
+For LoRA-like modules exposing trainable factors `A` and `B`, one macro step
+with fresh gradients per quotient substep looks like:
+
+```python
+from geometric_flow import SubsteppedQuotientFlow
+
+optimizer = SubsteppedQuotientFlow(
+    factor_modules=lora_modules,
+    macro_lr=2.6,
+    substeps=16,
+)
+
+def closure():
+    optimizer.zero_grad()
+    loss = model(**batch).loss
+    loss.backward()
+    return loss
+
+loss = optimizer.macro_step(closure)
+```
+
+The stateless direction API can be used independently of any optimizer:
+
+```python
+from geometric_flow import inverse_gram_direction, split_metric_norm
+
+direction = inverse_gram_direction(A, B, A.grad, B.grad)
+capacity = split_metric_norm(A, B, direction.velocity_A, direction.velocity_B)
+```
+
+The values above reproduce one research configuration; they are not universal
+defaults.
 
 ## Functional-Time Framework
 

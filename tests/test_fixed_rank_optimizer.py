@@ -11,6 +11,10 @@ from geometric_flow import (
     ProductParameter,
     ProductState,
     SubsteppedQuotientFlow,
+    inverse_gram_direction,
+    product_capacity,
+    product_velocity,
+    split_metric_norm,
 )
 
 
@@ -36,6 +40,35 @@ class FactorModule(torch.nn.Module):
 
     def product(self) -> torch.Tensor:
         return self.B @ self.A
+
+
+class SplitMetricCoreTests(unittest.TestCase):
+    def test_inverse_gram_direction_matches_formula(self):
+        torch.manual_seed(101)
+        a, b, _ = make_product(dtype=torch.float64)
+        grad_a = torch.randn_like(a)
+        grad_b = torch.randn_like(b)
+        direction = inverse_gram_direction(a, b, grad_a, grad_b, condition_limit=1e12)
+        expected_a = -(torch.linalg.inv(b.T @ b) @ grad_a)
+        expected_b = -(grad_b @ torch.linalg.inv(a @ a.T))
+        self.assertTrue(torch.allclose(direction.velocity_A, expected_a, atol=1e-12, rtol=1e-10))
+        self.assertTrue(torch.allclose(direction.velocity_B, expected_b, atol=1e-12, rtol=1e-10))
+        self.assertEqual(direction.diagnostics.fallback_count, 0)
+
+    def test_split_metric_norm_differs_from_net_product_capacity(self):
+        a = torch.eye(2, dtype=torch.float64)
+        b = torch.eye(2, dtype=torch.float64)
+        velocity_a = torch.eye(2, dtype=torch.float64)
+        velocity_b = -torch.eye(2, dtype=torch.float64)
+        self.assertGreater(float(split_metric_norm(a, b, velocity_a, velocity_b)), 0.0)
+        self.assertLess(float(product_capacity(a, b, velocity_a, velocity_b)), 1e-12)
+        self.assertTrue(torch.allclose(product_velocity(a, b, velocity_a, velocity_b), torch.zeros_like(a)))
+
+    def test_inverse_gram_direction_is_public_api(self):
+        import geometric_flow
+
+        self.assertIs(geometric_flow.inverse_gram_direction, inverse_gram_direction)
+        self.assertIs(geometric_flow.split_metric_norm, split_metric_norm)
 
 
 class FixedRankFunctionalAdamTests(unittest.TestCase):

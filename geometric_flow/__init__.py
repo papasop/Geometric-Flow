@@ -1,11 +1,4 @@
-"""Geometry-first optimization tools for PyTorch.
-
-The package exposes three layers:
-
-* measure: build an implicit Hessian/grad-square-like curvature operator.
-* navigate: solve A * step = -grad with conjugate gradients.
-* scan: probe a parameter ray and emit a phase/topography map.
-"""
+"""Functional-space optimization tools for redundant parameterizations."""
 
 from .curvature import CurvatureOperator, compute_curvature, hutchinson_trace
 from .fixed_rank import FixedRankDiagnostics, FixedRankManifold
@@ -25,6 +18,14 @@ from .functional_geometry import (
 from .navigation import conjugate_gradient, geometric_step
 from .optimizer import GeometricOptimizer
 from .product_state import ProductParameter, ProductState
+from .split_metric import (
+    InverseGramDiagnostics,
+    InverseGramDirection,
+    inverse_gram_direction,
+    product_capacity,
+    product_velocity,
+    split_metric_norm,
+)
 from .trust_region import HeldOutTrustRegion, TrustRegionResult
 from .phase import (
     PhaseGridPoint,
@@ -44,6 +45,8 @@ __all__ = [
     "CapacityAdaptiveQuotientFlow",
     "FixedRankFunctionalAdam",
     "FixedRankManifold",
+    "InverseGramDiagnostics",
+    "InverseGramDirection",
     "SubsteppedQuotientFlow",
     "GeometricOptimizer",
     "GeometricRotation",
@@ -66,6 +69,10 @@ __all__ = [
     "conjugate_gradient",
     "geometric_step",
     "hutchinson_trace",
+    "inverse_gram_direction",
+    "product_capacity",
+    "product_velocity",
+    "split_metric_norm",
     "functional_projectors",
     "functional_response_operator",
     "implicit_cg_response_direction",

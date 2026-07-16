@@ -9,6 +9,7 @@ from torch.optim import Optimizer
 
 from .fixed_rank import FixedRankManifold
 from .product_state import ProductState
+from .split_metric import inverse_gram_direction, product_velocity
 from .trust_region import HeldOutTrustRegion, TrustRegionResult
 
 
@@ -124,22 +125,17 @@ class SubsteppedQuotientFlow(Optimizer):
         return result
 
     def _quotient_direction(self, module) -> tuple[torch.Tensor, torch.Tensor]:
-        a = module.A
-        b = module.B
-        inv_b = self._stable_inverse(b.transpose(-2, -1) @ b)
-        inv_a = self._stable_inverse(a @ a.transpose(-2, -1))
-        d_a = -self.local_lr * (inv_b @ a.grad)
-        d_b = -self.local_lr * (b.grad @ inv_a)
-        return d_a, d_b
-
-    def _stable_inverse(self, gram: torch.Tensor) -> torch.Tensor:
-        condition = torch.linalg.cond(gram.detach())
-        condition_value = float(condition.cpu())
-        self.condition_max = max(self.condition_max, condition_value)
-        if condition_value < self.gram_condition_limit:
-            return torch.linalg.inv(gram)
-        self.fallback_count += 1
-        return torch.linalg.pinv(gram, rtol=1.0 / self.gram_condition_limit)
+        direction = inverse_gram_direction(
+            module.A,
+            module.B,
+            module.A.grad,
+            module.B.grad,
+            scale=self.local_lr,
+            condition_limit=self.gram_condition_limit,
+        )
+        self.condition_max = max(self.condition_max, direction.diagnostics.condition_max)
+        self.fallback_count += direction.diagnostics.fallback_count
+        return direction.velocity_A, direction.velocity_B
 
     @torch.no_grad()
     def _balance_(self, module) -> None:
@@ -346,12 +342,17 @@ class CapacityAdaptiveQuotientFlow(Optimizer):
         return directions, torch.sqrt(capacity_sq)
 
     def _unit_quotient_direction(self, module) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
-        inv_b = self._stable_inverse(module.B.transpose(-2, -1) @ module.B)
-        inv_a = self._stable_inverse(module.A @ module.A.transpose(-2, -1))
-        v_a = -(inv_b @ module.A.grad)
-        v_b = -(module.B.grad @ inv_a)
-        v_m = v_b @ module.A + module.B @ v_a
-        return v_a, v_b, v_m
+        direction = inverse_gram_direction(
+            module.A,
+            module.B,
+            module.A.grad,
+            module.B.grad,
+            condition_limit=self.gram_condition_limit,
+        )
+        self.condition_max = max(self.condition_max, direction.diagnostics.condition_max)
+        self.fallback_count += direction.diagnostics.fallback_count
+        v_m = product_velocity(module.A, module.B, direction.velocity_A, direction.velocity_B)
+        return direction.velocity_A, direction.velocity_B, v_m
 
     @torch.no_grad()
     def _apply_directions(self, directions: list[tuple[object, torch.Tensor, torch.Tensor]], flow_dt: float) -> float:
@@ -368,15 +369,6 @@ class CapacityAdaptiveQuotientFlow(Optimizer):
         if squared_norm is None:
             return 0.0
         return float(torch.sqrt(squared_norm).detach().cpu())
-
-    def _stable_inverse(self, gram: torch.Tensor) -> torch.Tensor:
-        condition = torch.linalg.cond(gram.detach())
-        condition_value = float(condition.cpu())
-        self.condition_max = max(self.condition_max, condition_value)
-        if condition_value < self.gram_condition_limit:
-            return torch.linalg.inv(gram)
-        self.fallback_count += 1
-        return torch.linalg.pinv(gram, rtol=1.0 / self.gram_condition_limit)
 
     @torch.no_grad()
     def _balance_(self, module) -> None:
