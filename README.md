@@ -1183,6 +1183,60 @@ prove causality or general task superiority. Scalar channel adaptation also
 improved over channel momentum in this Transformer setting, so it should not be
 described as universally harmful.
 
+### H13.13C: Attention-Only Scope Ablation
+
+H13.13C localized the coupled-channel effect to the attention stack by training
+only attention `qkv` and attention output `proj` LoRA modules. The audit kept
+the H13.13 matched conditions: six paired seeds, shared represented
+initialization, shared minibatch schedules, and matched global realized
+LoRA-product displacement.
+
+| method | mean validation loss | product gauge p99 | mean `|rho_AB|` | wall time |
+| :--- | ---: | ---: | ---: | ---: |
+| AdamW LoRA | 0.02335560 | 0.9670 | 0.198 | 13.2 s |
+| Fixed split | 0.03548125 | `2.855e-14` | 0.245 | 13.3 s |
+| Factor EMA | 0.01535773 | `3.415e-13` | 0.210 | 13.7 s |
+| Channel momentum | 0.01541905 | `7.315e-14` | 0.200 | 14.2 s |
+| Scalar channel adaptive | 0.01507937 | `7.921e-14` | 0.201 | 14.0 s |
+| Coupled channel covariance | 0.01387520 | `9.127e-14` | 0.191 | 14.2 s |
+
+Coupled covariance beat channel momentum in `6/6` trials, improved mean
+validation loss by about `10.01%`, had paired mean advantage `0.0015438482`,
+paired median advantage `0.0016068902`, and paired standardized effect
+`2.23060`. This shows the effect is present without MLP or output-head LoRA.
+
+### H13.13D-FIX: QKV-Only Scope Ablation
+
+The corrected H13.13D-FIX audit trained only the attention `qkv` LoRA modules.
+The first attempted H13.13D script was invalid because a global replacement
+duplicated the attention-only branch; those duplicated results are not cited.
+The fixed script asserts the exact active layer set:
+
+```text
+ACTIVE_LORA_LAYERS:
+  blocks.0.qkv
+  blocks.1.qkv
+N_ACTIVE_LORA_LAYERS = 2
+PASS_QKV_SCOPE_EXACT = true
+```
+
+| method | mean validation loss | product gauge p99 | mean `|rho_AB|` | wall time |
+| :--- | ---: | ---: | ---: | ---: |
+| AdamW LoRA | 0.01116509 | 0.9564 | 0.193 | 9.3 s |
+| Fixed split | 0.01494303 | `2.439e-14` | 0.278 | 9.4 s |
+| Factor EMA | 0.005239425 | `3.882e-14` | 0.240 | 9.4 s |
+| Channel momentum | 0.005061230 | `2.540e-14` | 0.251 | 9.9 s |
+| Scalar channel adaptive | 0.005350084 | `3.288e-14` | 0.232 | 9.7 s |
+| Coupled channel covariance | 0.004449028 | `8.841e-14` | 0.229 | 9.8 s |
+
+Coupled covariance beat channel momentum in `5/6` trials, improved mean
+validation loss by about `12.10%`, had paired mean advantage `0.0006122018`,
+paired median advantage `0.0004828157`, and paired standardized effect
+`0.94589`. The output projection is therefore not necessary for the effect to
+appear, although including it increased seed-wise consistency in this tested
+setting (`6/6` for attention-only versus `5/6` for QKV-only). This is evidence
+of association, not proof of a causal stabilization mechanism.
+
 ## Functional Geometry Tools
 
 The functional path defines
@@ -1223,6 +1277,8 @@ See [docs/functional_geometry.md](docs/functional_geometry.md).
 | H13.12 coupled channel covariance | 2x2 executed-channel covariance preserved product/channel covariance near `1e-12` | Lower mean loss than channel momentum, scalar adaptive, and factor EMA in 6/6 trials | Controlled mechanism audit |
 | H13.13A tiny Transformer transfer | Coupled channel covariance preserved layerwise gauge covariance near machine precision | Lowest validation loss in 2/2 smoke trials | Controlled transfer smoke |
 | H13.13B six-seed Transformer validation | Same initialization, shared batches, matched global LoRA-product displacement | Coupled beat channel momentum in 6/6 trials; paired effect about 1.46 | Controlled multi-layer validation |
+| H13.13C attention-only ablation | Exact attention-layer gauge covariance near `1e-13` | Coupled beat channel momentum in 6/6 trials; about 10.0% mean improvement | Controlled scope ablation |
+| H13.13D-FIX qkv-only ablation | Exactly two active QKV LoRA layers; product covariance near `1e-13` | Coupled beat channel momentum in 5/6 trials; about 12.1% mean improvement | Controlled scope ablation |
 
 Confirmed in controlled tests:
 
@@ -1267,6 +1323,12 @@ Confirmed in controlled tests:
 - coupled channel covariance beat channel momentum in `6/6` all-linear tiny
   Transformer trials;
 - scalar channel adaptation is task-dependent rather than universally harmful.
+- the coupled-channel advantage is present without MLP or output-head LoRA;
+- QKV-only adaptation is sufficient for a majority-seed advantage;
+- adding attention output projection increased seed consistency from `5/6` to
+  `6/6` in the tested setting;
+- the scope-ablation evidence is association evidence, not proof that output
+  projection causally stabilizes the method.
 
 Open claims and limits:
 
@@ -1294,8 +1356,10 @@ Open claims and limits:
   low-rank regression and tiny Transformer teacher-student audits;
 - GPT-2, WikiText, pretrained-model, or production LLM validation of H13.13;
 - statistical finality from the six-seed H13.13B audit;
+- rank independence or broad target-module robustness for H13.13;
 - a causal proof that lower channel correlation or covariance condition caused
   the H13.13B validation-loss improvement;
+- a causal proof that attention output projection stabilizes coupled covariance;
 - an invariant K1 controller that preserves fixed-Capacity-style long-horizon
   gauge robustness while retaining K1's efficiency gains.
 
@@ -1316,18 +1380,17 @@ local variational basis. H13.9D supplies that basis under the split
 executed-information metric, H13.11 shows that optimizer history can be stored
 in gauge-invariant executed channels, H13.12 gives bounded evidence that a
 coupled 2x2 channel covariance can improve loss in controlled low-rank
-regression, and H13.13B transfers that mechanism to a tiny multi-layer
-Transformer/LoRA teacher-student audit.
+regression, and H13.13B/C/D transfer that mechanism to tiny multi-layer
+Transformer/LoRA teacher-student audits.
 
 Priority directions now are:
 
-1. Run a six-seed `attention_only` Transformer/LoRA ablation.
-2. Run a six-seed `qkv_only` Transformer/LoRA ablation.
-3. Sweep LoRA ranks `2,4,8`.
-4. Add checkpoint-wise channel correlation, condition-number, and progress
+1. Run an attention-only LoRA rank sweep at ranks `2,4,8`.
+2. Add checkpoint-wise `rho_AB(t)`, `kappa(Sigma_t)`, and loss-progress
    analysis.
-5. Move to GPT-2 small / WikiText-2 only after the controlled ablations are
-   complete.
+3. Add stochastic variance and full-batch alignment probes in Transformer.
+4. Move to GPT-2 small / WikiText-2 only after controlled rank and time-series
+   audits are complete.
 
 ## Reproduce Key Benchmarks
 
@@ -1346,6 +1409,8 @@ Priority directions now are:
 | H13.13A tiny Transformer/LoRA smoke transfer | `python experiments/h1313a_tiny_transformer_lora_coupled.py --trials 2 --steps 80 --train-samples 512 --val-samples 128 --batch-size 16 --probe-steps 0,20,40,79 --output-dir artifacts/h1313a_results` |
 | H13.13B tiny Transformer/LoRA validation | `python experiments/h1313b_tiny_transformer_lora_validation.py --trials 6 --steps 200 --train-samples 1024 --val-samples 256 --batch-size 16 --probe-steps 0,50,100,150,199 --target-scope all_linear --output-dir artifacts/h1313b_results` |
 | H13.13B smoke | `python experiments/h1313b_tiny_transformer_lora_validation.py --trials 1 --steps 10 --train-samples 128 --val-samples 32 --batch-size 8 --seq-len 16 --d-model 48 --n-heads 4 --n-layers 1 --d-ff 96 --probe-steps 0,9 --probe-gauges 2 --no-plots --output-dir artifacts/h1313b_smoke` |
+| H13.13C attention-only ablation | `python experiments/h1313c_attention_only_ablation.py --trials 6 --steps 200 --train-samples 1024 --val-samples 256 --batch-size 16 --probe-steps 0,50,100,150,199 --probe-gauges 4 --output-dir artifacts/h1313c_attention_only_results` |
+| H13.13D-FIX qkv-only ablation | `python experiments/h1313d_fix_qkv_only_ablation.py --trials 6 --steps 200 --train-samples 1024 --val-samples 256 --batch-size 16 --probe-steps 0,50,100,150,199 --probe-gauges 4 --output-dir artifacts/h1313d_qkv_only_results` |
 | Phase G matched-step benchmark | `python experiments/lora_matched_step_benchmark.py --trials 5 --steps 200 --representations 5 --train-scope lora_only --functional-map hidden --out artifacts/lora_matched_step.csv` |
 | Functional solver toy | `python experiments/functional_projection_toy.py --response-solver implicit_cg` |
 | CIFAR legacy benchmark | `python experiments/run_cifar10_benchmark.py --config hybrid_diagonal_500 --download --out artifacts/cifar10_benchmark_results.csv` |
@@ -1363,6 +1428,7 @@ Longer commands and archived results:
 - [docs/stochastic_history.md](docs/stochastic_history.md)
 - [docs/h1312_results.md](docs/h1312_results.md)
 - [docs/h1313_transformer_lora_results.md](docs/h1313_transformer_lora_results.md)
+- [docs/h1313_scope_ablation_results.md](docs/h1313_scope_ablation_results.md)
 - [docs/capacity_adaptive_flow.md](docs/capacity_adaptive_flow.md)
 - [docs/PAPER_H134_UPDATE.md](docs/PAPER_H134_UPDATE.md)
 - [docs/PAPER_H135_UPDATE.md](docs/PAPER_H135_UPDATE.md)
