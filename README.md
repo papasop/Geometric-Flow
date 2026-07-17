@@ -1393,10 +1393,15 @@ the diagonal and full-core response variants improved the mean final validation
 loss of the plain compact Hamiltonian. The diagonal variant reduced the
 cross-condition mean gap to tuned AdamW by approximately `80.9%`.
 
-The raw aggregate gate is preserved:
+The raw aggregate gate is preserved separately from the derived interpretation:
 
 ```text
 PASS_RESPONSE_MECHANISM_ACTIVE = false
+```
+
+Derived interpretation:
+
+```text
 DERIVED_MAGNITUDE_RESPONSE_ACTIVE = true
 DERIVED_FULL_CORE_DIRECTION_ACTIVE = true
 ```

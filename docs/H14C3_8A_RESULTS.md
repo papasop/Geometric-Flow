@@ -53,9 +53,11 @@ The diagonal response closes approximately 80.9% of the measured plain-compact g
 
 The diagonal response primarily changes effective magnitude. The full-core response genuinely changes direction.
 
-## Raw gate interpretation
+## Raw gates and derived interpretation
 
-The raw run returned `PASS_RESPONSE_MECHANISM_ACTIVE=false`. This aggregate gate required both magnitude and directional activation for every response variant. Preserve this raw result. The derived interpretation is:
+The raw run returned `PASS_RESPONSE_MECHANISM_ACTIVE=false`. This aggregate gate required both magnitude and directional activation for every response variant. Preserve this raw result in `experiments/h14c3_8a/verified/raw_gates.json`.
+
+The derived interpretation is stored separately in `experiments/h14c3_8a/verified/derived_verdict.json`:
 
 ```text
 DERIVED_MAGNITUDE_RESPONSE_ACTIVE = true

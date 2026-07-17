@@ -548,12 +548,13 @@ def build_response_operator(
     fit_num = torch.tensor(0.0, device=u.device, dtype=u.dtype)
     fit_den = torch.tensor(0.0, device=u.device, dtype=u.dtype)
 
-    for st, yt, w_linear in transported:
+    for index, (st, yt, w_linear) in enumerate(transported):
         sn = float(klr_norm(st).detach().cpu())
         if sn < cfg.response_min_secant_norm:
             continue
 
-        age_weight = cfg.response_beta ** max(0, len(transported) - used - 1)
+        age = len(transported) - index - 1
+        age_weight = cfg.response_beta ** max(0, age)
         w = float(age_weight * w_linear)
 
         sk = st.k.reshape(-1)
@@ -1302,7 +1303,7 @@ def main() -> int:
         if r["method"] == "diagonal_response_8a"
     ]
 
-    gates = {
+    raw_gates = {
         "PASS_RESPONSE_MECHANISM_ACTIVE": all(
             r["response_active_steps"] > 0
             and r["max_relative_direction_change"] > 1e-3
@@ -1367,6 +1368,18 @@ def main() -> int:
             for r in response_rows
         ),
     }
+    derived_verdict = {
+        "DERIVED_MAGNITUDE_RESPONSE_ACTIVE": bool(
+            raw_gates["PASS_DIAGONAL_BEATS_PLAIN_ON_MEAN"]
+            and raw_gates["MAX_FLOOR_FRACTION"] > 0.0
+        ),
+        "DERIVED_FULL_CORE_DIRECTION_ACTIVE": bool(
+            raw_gates["PASS_FULL_CORE_BEATS_PLAIN_ON_MEAN"]
+            and raw_gates["MAX_RELATIVE_DIRECTION_CHANGE"] > 1e-3
+            and raw_gates["MIN_COSINE_RAW_PRE"] < 0.999999
+        ),
+    }
+    gates = {**raw_gates, **derived_verdict}
 
     write_csv(out / "summary.csv", rows)
     write_csv(out / "traces.csv", traces)
@@ -1376,6 +1389,14 @@ def main() -> int:
     )
     (out / "gates.json").write_text(
         json.dumps(gates, indent=2),
+        encoding="utf-8",
+    )
+    (out / "raw_gates.json").write_text(
+        json.dumps(raw_gates, indent=2),
+        encoding="utf-8",
+    )
+    (out / "derived_verdict.json").write_text(
+        json.dumps(derived_verdict, indent=2),
         encoding="utf-8",
     )
     (out / "config.json").write_text(
