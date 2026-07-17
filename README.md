@@ -1347,6 +1347,36 @@ maximum gauge residuals and does not retroactively relax the threshold.
 
 See [docs/h1314_gpt2_full_depth_results.md](docs/h1314_gpt2_full_depth_results.md).
 
+### H14C3-6: Compact USV-KLR Intrinsic Hamiltonian
+
+H14C3-6 replaces the persistent dense product/momentum state in the intrinsic
+Hamiltonian audit with the compact representation
+
+```math
+M = U\operatorname{diag}(S)V^T,
+\qquad
+P = UKV^T + LV^T + UR,
+```
+
+with KLR constraints `U.T @ L = 0` and `R @ V = 0`. The compact implementation
+reproduces the dense intrinsic Hamiltonian trajectory to machine precision.
+
+Verified six-trial results:
+
+```text
+MAX_COMPACT_DENSE_TRAJECTORY_RESIDUAL = 8.2594e-14
+COMPACT_OVER_DENSE_STATE_RATIO = 0.1374
+COMPACT_OVER_ADAMW_STATE_RATIO = 0.5056
+PASS_CORE = true
+```
+
+This is persistent-state element accounting, not measured peak GPU-memory,
+FLOP, wall-time, or validation-loss superiority over tuned AdamW. The current
+implementation still constructs transient dense matrices during information
+velocity and vector transport.
+
+See [docs/H14C3_6_RESULTS.md](docs/H14C3_6_RESULTS.md).
+
 ## Functional Geometry Tools
 
 The functional path defines
@@ -1390,6 +1420,7 @@ See [docs/functional_geometry.md](docs/functional_geometry.md).
 | H13.13C attention-only ablation | Exact attention-layer gauge covariance near `1e-13` | Coupled beat channel momentum in 6/6 trials; about 10.0% mean improvement | Controlled scope ablation |
 | H13.13D-FIX qkv-only ablation | Exactly two active QKV LoRA layers; product covariance near `1e-13` | Coupled beat channel momentum in 5/6 trials; about 12.1% mean improvement | Controlled scope ablation |
 | H13.14 GPT-2 full-depth LoRA | All 12 GPT-2-small `c_attn` LoRA modules are targeted and audited | Coupled beat factor EMA and channel momentum in 3/3 long-run seeds | Controlled GPT-2-small validation |
+| H14C3-6 compact USV-KLR Hamiltonian | Compact state reproduces dense intrinsic trajectory with max residual `8.2594e-14` | Persistent state is `13.74%` of dense and `50.56%` of estimated AdamW state | Storage-accounting audit |
 
 Confirmed in controlled tests:
 
@@ -1445,6 +1476,11 @@ Confirmed in controlled tests:
 - in the three-seed 1000-step H13.14F run, coupled covariance had lower mean
   validation loss than factor EMA and channel momentum and lower mean channel
   condition.
+- compact USV-KLR state reproduces the dense intrinsic Hamiltonian trajectory
+  to `8.2594e-14` while preserving KLR constraints, rank, and gauge
+  initialization;
+- under the H14C3-6 persistent-state counting convention, compact state is
+  `13.74%` of dense intrinsic state and `50.56%` of estimated AdamW state.
 
 Open claims and limits:
 
@@ -1479,6 +1515,8 @@ Open claims and limits:
 - production-scale LLM validation of H13.14;
 - a six-seed H13.14E claim without the final sixth coupled row and gates;
 - strict per-seed float32 gauge-threshold success for every H13.14F seed;
+- lower peak GPU memory, lower FLOPs, faster wall time, or better validation
+  loss for H14C3-6 versus tuned AdamW;
 - an invariant K1 controller that preserves fixed-Capacity-style long-horizon
   gauge robustness while retaining K1's efficiency gains.
 
@@ -1509,7 +1547,11 @@ Priority directions now are:
 2. Add checkpoint-wise `rho_AB(t)`, `kappa(Sigma_t)`, and loss-progress
    analysis.
 3. Add stochastic variance and full-batch alignment probes in Transformer.
-4. Extend H13.14 to more seeds and longer horizons before making production
+4. Complete H14C3-7: fully compact information velocity and vector transport,
+   then measure `torch.cuda.max_memory_allocated()`,
+   `torch.cuda.max_memory_reserved()`, milliseconds per step, and steps per
+   second.
+5. Extend H13.14 to more seeds and longer horizons before making production
    LLM claims.
 
 ## Reproduce Key Benchmarks
@@ -1534,6 +1576,7 @@ Priority directions now are:
 | H13.14 GPT-2 full-depth smoke | `python scripts/run_external_gpt2_validation.py --mode smoke --install-deps` |
 | H13.14 GPT-2 full-depth formal | `python scripts/run_external_gpt2_validation.py --mode formal` |
 | H13.14 GPT-2 full-depth long | `python scripts/run_external_gpt2_validation.py --mode long` |
+| H14C3-6 compact USV-KLR audit | `python experiments/h14c3_6/h14c3_6_compact_usv_klr_audit.py` |
 | Phase G matched-step benchmark | `python experiments/lora_matched_step_benchmark.py --trials 5 --steps 200 --representations 5 --train-scope lora_only --functional-map hidden --out artifacts/lora_matched_step.csv` |
 | Functional solver toy | `python experiments/functional_projection_toy.py --response-solver implicit_cg` |
 | CIFAR legacy benchmark | `python experiments/run_cifar10_benchmark.py --config hybrid_diagonal_500 --download --out artifacts/cifar10_benchmark_results.csv` |
@@ -1553,6 +1596,7 @@ Longer commands and archived results:
 - [docs/h1313_transformer_lora_results.md](docs/h1313_transformer_lora_results.md)
 - [docs/h1313_scope_ablation_results.md](docs/h1313_scope_ablation_results.md)
 - [docs/h1314_gpt2_full_depth_results.md](docs/h1314_gpt2_full_depth_results.md)
+- [docs/H14C3_6_RESULTS.md](docs/H14C3_6_RESULTS.md)
 - [docs/capacity_adaptive_flow.md](docs/capacity_adaptive_flow.md)
 - [docs/PAPER_H134_UPDATE.md](docs/PAPER_H134_UPDATE.md)
 - [docs/PAPER_H135_UPDATE.md](docs/PAPER_H135_UPDATE.md)
