@@ -822,6 +822,10 @@ def run_intrinsic(
     min_cosine = 1.0
     max_floor_fraction = 0.0
     max_negative_fraction = 0.0
+    max_abs_log_norm_ratio = 0.0
+    sum_abs_log_norm_ratio = 0.0
+    norm_ratio_changed_count = 0
+    norm_ratio_count = 0
     active_steps = 0
     traces = []
     start = time.perf_counter()
@@ -870,6 +874,17 @@ def run_intrinsic(
                 max_negative_fraction,
                 response_diag.negative_eigen_fraction,
             )
+            abs_log_norm_ratio = abs(
+                math.log(max(response_diag.raw_to_pre_norm_ratio, 1e-300))
+            )
+            max_abs_log_norm_ratio = max(
+                max_abs_log_norm_ratio,
+                abs_log_norm_ratio,
+            )
+            sum_abs_log_norm_ratio += abs_log_norm_ratio
+            norm_ratio_count += 1
+            if abs_log_norm_ratio > 1e-3:
+                norm_ratio_changed_count += 1
 
         old_energy = old_loss + klr_kinetic(
             u, v, p, c_inv, cfg.ham_mass
@@ -1044,6 +1059,13 @@ def run_intrinsic(
         "max_response_condition": max_response_cond,
         "max_relative_direction_change": max_direction_change,
         "min_cosine_raw_pre": min_cosine,
+        "max_abs_log_norm_ratio": max_abs_log_norm_ratio,
+        "mean_abs_log_norm_ratio": (
+            sum_abs_log_norm_ratio / max(norm_ratio_count, 1)
+        ),
+        "fraction_norm_ratio_changed": (
+            norm_ratio_changed_count / max(norm_ratio_count, 1)
+        ),
         "max_floor_fraction": max_floor_fraction,
         "max_negative_eigen_fraction": max_negative_fraction,
         "final_history_size": len(history),
@@ -1134,6 +1156,28 @@ def mean_ci(values: List[float]) -> Tuple[float, float]:
         return mean, 0.0
     std = float(arr.std(ddof=1))
     return mean, 1.96 * std / math.sqrt(len(arr))
+
+
+def derive_response_verdict(
+    raw_gates: Dict[str, Any],
+    *,
+    norm_ratio_threshold: float = 1e-3,
+    direction_threshold: float = 1e-3,
+) -> Dict[str, bool]:
+    """Separate post-hoc mechanism interpretation from raw audit gates."""
+    return {
+        "DERIVED_MAGNITUDE_RESPONSE_ACTIVE": bool(
+            raw_gates["PASS_DIAGONAL_BEATS_PLAIN_ON_MEAN"]
+            and raw_gates.get("MAX_ABS_LOG_NORM_RATIO", 0.0)
+            > norm_ratio_threshold
+        ),
+        "DERIVED_FULL_CORE_DIRECTION_ACTIVE": bool(
+            raw_gates["PASS_FULL_CORE_BEATS_PLAIN_ON_MEAN"]
+            and raw_gates["MAX_RELATIVE_DIRECTION_CHANGE"]
+            > direction_threshold
+            and raw_gates["MIN_COSINE_RAW_PRE"] < 0.999999
+        ),
+    }
 
 
 def main() -> int:
@@ -1354,6 +1398,18 @@ def main() -> int:
             r["max_floor_fraction"]
             for r in response_rows
         ),
+        "MAX_ABS_LOG_NORM_RATIO": max(
+            r["max_abs_log_norm_ratio"]
+            for r in response_rows
+        ),
+        "MEAN_ABS_LOG_NORM_RATIO": float(np.mean([
+            r["mean_abs_log_norm_ratio"]
+            for r in response_rows
+        ])),
+        "FRACTION_NORM_RATIO_CHANGED": float(np.mean([
+            r["fraction_norm_ratio_changed"]
+            for r in response_rows
+        ])),
         "MAX_NEGATIVE_EIGEN_FRACTION": max(
             r["max_negative_eigen_fraction"]
             for r in response_rows
@@ -1368,17 +1424,7 @@ def main() -> int:
             for r in response_rows
         ),
     }
-    derived_verdict = {
-        "DERIVED_MAGNITUDE_RESPONSE_ACTIVE": bool(
-            raw_gates["PASS_DIAGONAL_BEATS_PLAIN_ON_MEAN"]
-            and raw_gates["MAX_FLOOR_FRACTION"] > 0.0
-        ),
-        "DERIVED_FULL_CORE_DIRECTION_ACTIVE": bool(
-            raw_gates["PASS_FULL_CORE_BEATS_PLAIN_ON_MEAN"]
-            and raw_gates["MAX_RELATIVE_DIRECTION_CHANGE"] > 1e-3
-            and raw_gates["MIN_COSINE_RAW_PRE"] < 0.999999
-        ),
-    }
+    derived_verdict = derive_response_verdict(raw_gates)
     gates = {**raw_gates, **derived_verdict}
 
     write_csv(out / "summary.csv", rows)
