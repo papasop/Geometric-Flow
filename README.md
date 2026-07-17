@@ -1377,6 +1377,38 @@ velocity and vector transport.
 
 See [docs/H14C3_6_RESULTS.md](docs/H14C3_6_RESULTS.md).
 
+### H14C3-8A: Transported Accepted-Secant Response
+
+H14C3-8A constructs intrinsic response secants only from accepted steps and
+transports both executed displacement and gradients between tangent frames:
+
+```math
+s_t=\mathcal T_{t\to t+1}(\Delta\tau_t v_t),
+\qquad
+y_t=g_{t+1}-\mathcal T_{t\to t+1}(g_t).
+```
+
+Across six trials at each of condition numbers `1`, `100`, and `10000`, both
+the diagonal and full-core response variants improved the mean final validation
+loss of the plain compact Hamiltonian. The diagonal variant reduced the
+cross-condition mean gap to tuned AdamW by approximately `80.9%`.
+
+The raw aggregate gate is preserved:
+
+```text
+PASS_RESPONSE_MECHANISM_ACTIVE = false
+DERIVED_MAGNITUDE_RESPONSE_ACTIVE = true
+DERIVED_FULL_CORE_DIRECTION_ACTIVE = true
+```
+
+The raw gate required both magnitude and directional activation for every
+response variant. The derived interpretation is that magnitude response is
+active and full-core direction change is active. This is a mechanism milestone,
+not an AdamW-superiority result: AdamW remained better in all `18/18` paired
+cases.
+
+See [docs/H14C3_8A_RESULTS.md](docs/H14C3_8A_RESULTS.md).
+
 ## Functional Geometry Tools
 
 The functional path defines
@@ -1421,6 +1453,7 @@ See [docs/functional_geometry.md](docs/functional_geometry.md).
 | H13.13D-FIX qkv-only ablation | Exactly two active QKV LoRA layers; product covariance near `1e-13` | Coupled beat channel momentum in 5/6 trials; about 12.1% mean improvement | Controlled scope ablation |
 | H13.14 GPT-2 full-depth LoRA | All 12 GPT-2-small `c_attn` LoRA modules are targeted and audited | Coupled beat factor EMA and channel momentum in 3/3 long-run seeds | Controlled GPT-2-small validation |
 | H14C3-6 compact USV-KLR Hamiltonian | Compact state reproduces dense intrinsic trajectory with max residual `8.2594e-14` | Persistent state is `13.74%` of dense and `50.56%` of estimated AdamW state | Storage-accounting audit |
+| H14C3-8A transported accepted-secant response | Accepted secants are transported between intrinsic tangent frames; full-core direction change is active | Both response variants improve plain compact mean loss at cond=1,100,10000; mean AdamW gap reduced by about 81%, but AdamW wins 18/18 | Mechanism milestone |
 
 Confirmed in controlled tests:
 
@@ -1481,6 +1514,11 @@ Confirmed in controlled tests:
   initialization;
 - under the H14C3-6 persistent-state counting convention, compact state is
   `13.74%` of dense intrinsic state and `50.56%` of estimated AdamW state.
+- transported accepted secants provide an active intrinsic response signal;
+- H14C3-8A diagonal and full-core response variants improve plain compact mean
+  loss at condition numbers `1`, `100`, and `10000`;
+- H14C3-8A preserves KLR constraints near numerical precision while reducing
+  the measured plain-compact-to-AdamW mean gap by about `80.9%`.
 
 Open claims and limits:
 
@@ -1517,6 +1555,10 @@ Open claims and limits:
 - strict per-seed float32 gauge-threshold success for every H13.14F seed;
 - lower peak GPU memory, lower FLOPs, faster wall time, or better validation
   loss for H14C3-6 versus tuned AdamW;
+- AdamW superiority reversal for H14C3-8A; AdamW remained better in all `18/18`
+  paired cases;
+- a claim that H14C3-8A estimates the full Hessian reliably or generalizes
+  beyond controlled low-rank regression;
 - an invariant K1 controller that preserves fixed-Capacity-style long-horizon
   gauge robustness while retaining K1's efficiency gains.
 
@@ -1577,6 +1619,7 @@ Priority directions now are:
 | H13.14 GPT-2 full-depth formal | `python scripts/run_external_gpt2_validation.py --mode formal` |
 | H13.14 GPT-2 full-depth long | `python scripts/run_external_gpt2_validation.py --mode long` |
 | H14C3-6 compact USV-KLR audit | `python experiments/h14c3_6/h14c3_6_compact_usv_klr_audit.py` |
+| H14C3-8A response audit | `python experiments/h14c3_8a/h14c3_8a_transported_accepted_secant_response_audit.py` |
 | Phase G matched-step benchmark | `python experiments/lora_matched_step_benchmark.py --trials 5 --steps 200 --representations 5 --train-scope lora_only --functional-map hidden --out artifacts/lora_matched_step.csv` |
 | Functional solver toy | `python experiments/functional_projection_toy.py --response-solver implicit_cg` |
 | CIFAR legacy benchmark | `python experiments/run_cifar10_benchmark.py --config hybrid_diagonal_500 --download --out artifacts/cifar10_benchmark_results.csv` |
@@ -1597,6 +1640,7 @@ Longer commands and archived results:
 - [docs/h1313_scope_ablation_results.md](docs/h1313_scope_ablation_results.md)
 - [docs/h1314_gpt2_full_depth_results.md](docs/h1314_gpt2_full_depth_results.md)
 - [docs/H14C3_6_RESULTS.md](docs/H14C3_6_RESULTS.md)
+- [docs/H14C3_8A_RESULTS.md](docs/H14C3_8A_RESULTS.md)
 - [docs/capacity_adaptive_flow.md](docs/capacity_adaptive_flow.md)
 - [docs/PAPER_H134_UPDATE.md](docs/PAPER_H134_UPDATE.md)
 - [docs/PAPER_H135_UPDATE.md](docs/PAPER_H135_UPDATE.md)
