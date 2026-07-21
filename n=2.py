@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-pulser_n2_path_order_minimal.py
+pulser_n2_path_order_minimal_clock4.py
 
-N=2 Pulser/Qutip minimal path-ordering memory diagnostic.
+N=2 Pulser/Qutip minimal path-ordering memory diagnostic, with explicit
+4 ns clock quantization.
 
 Question tested
 ---------------
@@ -20,6 +21,13 @@ model, can miss the BCH commutator contribution
 
     [H(Delta_1), H(Delta_2)] = (Delta_1 - Delta_2) [H_X, N].
 
+What changed in this clock4 version
+-----------------------------------
+Pulser DigitalAnalogDevice uses a 4 ns channel clock. This version quantizes
+all durations before building the sequence, so printed durations, average
+detuning, pulse-area proxy, and the actually executed Pulser sequence agree.
+No Pulser duration-rounding warnings should appear.
+
 Scope
 -----
 - Local Pulser/Qutip exact-state simulation only.
@@ -35,15 +43,15 @@ Colab install
 
 Run
 ---
-%run pulser_n2_path_order_minimal.py
+%run pulser_n2_path_order_minimal_clock4.py
 
 Outputs
 -------
-pulser_n2_path_order_minimal/
-  n2_pair_metrics.csv
-  n2_schedule_metrics.csv
-  n2_certificate.json
-  n2_distribution_plot.png
+pulser_n2_path_order_minimal_clock4/
+  n2_pair_metrics_clock4.csv
+  n2_schedule_metrics_clock4.csv
+  n2_certificate_clock4.json
+  n2_distribution_plot_clock4.png
 """
 
 from __future__ import annotations
@@ -67,7 +75,7 @@ from pulser_simulation import QutipEmulator
 # CONFIG
 # =============================================================================
 
-OUTDIR = Path("pulser_n2_path_order_minimal")
+OUTDIR = Path("pulser_n2_path_order_minimal_clock4")
 OUTDIR.mkdir(exist_ok=True)
 
 N = 2
@@ -82,17 +90,75 @@ DELTA_1 = -0.38
 DELTA_2 = -0.25
 FRAC_1 = 0.35
 
+CLOCK_NS = 4
 MIN_DURATION_NS = 16
 MAX_DURATION_NS = 10000
 
-PAIR_CSV = OUTDIR / "n2_pair_metrics.csv"
-SCHEDULE_CSV = OUTDIR / "n2_schedule_metrics.csv"
-CERT_JSON = OUTDIR / "n2_certificate.json"
-PLOT_PATH = OUTDIR / "n2_distribution_plot.png"
+PAIR_CSV = OUTDIR / "n2_pair_metrics_clock4.csv"
+SCHEDULE_CSV = OUTDIR / "n2_schedule_metrics_clock4.csv"
+CERT_JSON = OUTDIR / "n2_certificate_clock4.json"
+PLOT_PATH = OUTDIR / "n2_distribution_plot_clock4.png"
 
 
 # =============================================================================
-# HELPERS
+# CLOCK / DURATION HELPERS
+# =============================================================================
+
+def ceil_to_clock_ns(duration_ns: int, clock_ns: int = CLOCK_NS) -> int:
+    """Round up to the device clock period."""
+    return int(math.ceil(int(duration_ns) / clock_ns) * clock_ns)
+
+
+def clamp_to_clock_duration(duration_ns: int) -> int:
+    """Clamp duration and round up to clock. Assumes min/max are clock-compatible."""
+    duration_ns = max(MIN_DURATION_NS, min(MAX_DURATION_NS, int(duration_ns)))
+    return ceil_to_clock_ns(duration_ns, CLOCK_NS)
+
+
+def raw_duration_from_loop_ns(n: int = N, omega: float = OMEGA, loop: float = TOTAL_LOOP) -> int:
+    # Same convention as the larger scan:
+    # Phi_model = 0.5 * sqrt(N) * Omega * T_us
+    t_us = 2 * math.pi * loop / (math.sqrt(n) * omega)
+    return int(round(1000 * t_us))
+
+
+def duration_from_loop_ns(n: int = N, omega: float = OMEGA, loop: float = TOTAL_LOOP) -> int:
+    return clamp_to_clock_duration(raw_duration_from_loop_ns(n, omega, loop))
+
+
+def forward_segment_durations(frac1: float = FRAC_1) -> tuple[int, int, int]:
+    """
+    Return clock-aligned forward durations d1, d2, total.
+
+    Important: total is clock-aligned first; d1 is then rounded up to clock;
+    d2 = total - d1 is automatically clock-aligned because total and d1 are.
+    """
+    total = duration_from_loop_ns()
+    raw_d1 = int(round(total * frac1))
+    d1 = ceil_to_clock_ns(raw_d1, CLOCK_NS)
+    d1 = max(MIN_DURATION_NS, min(total - MIN_DURATION_NS, d1))
+    # Keep d1 a clock multiple after clamping.
+    d1 = ceil_to_clock_ns(d1, CLOCK_NS)
+    if d1 >= total:
+        d1 = total - MIN_DURATION_NS
+    d2 = total - d1
+    if d2 < MIN_DURATION_NS:
+        d2 = MIN_DURATION_NS
+        d1 = total - d2
+    assert d1 % CLOCK_NS == 0
+    assert d2 % CLOCK_NS == 0
+    assert total % CLOCK_NS == 0
+    assert d1 + d2 == total
+    return int(d1), int(d2), int(total)
+
+
+def weighted_avg_detuning(delta1: float, delta2: float, duration1_ns: int, duration2_ns: int) -> float:
+    total = duration1_ns + duration2_ns
+    return float((delta1 * duration1_ns + delta2 * duration2_ns) / total)
+
+
+# =============================================================================
+# BASIC HELPERS
 # =============================================================================
 
 def header(text: str) -> None:
@@ -147,27 +213,6 @@ def probs_from_state(psi: np.ndarray) -> np.ndarray:
     return normalize_prob(np.abs(normalize_state(psi)) ** 2)
 
 
-def duration_from_loop_ns(n: int = N, omega: float = OMEGA, loop: float = TOTAL_LOOP) -> int:
-    # Same convention as the larger scan:
-    # Phi_model = 0.5 * sqrt(N) * Omega * T_us
-    t_us = 2 * math.pi * loop / (math.sqrt(n) * omega)
-    t_ns = int(round(1000 * t_us))
-    return max(MIN_DURATION_NS, min(MAX_DURATION_NS, t_ns))
-
-
-def two_segment_durations(frac1: float = FRAC_1) -> tuple[int, int, int]:
-    total = duration_from_loop_ns()
-    d1 = int(round(total * frac1))
-    d1 = max(MIN_DURATION_NS, min(total - MIN_DURATION_NS, d1))
-    d2 = total - d1
-    return d1, d2, total
-
-
-def weighted_avg_detuning(delta1: float = DELTA_1, delta2: float = DELTA_2, frac1: float = FRAC_1) -> float:
-    d1, d2, total = two_segment_durations(frac1)
-    return float((delta1 * d1 + delta2 * d2) / total)
-
-
 def nominal_coords(n: int = N, spacing: float = SPACING_UM) -> np.ndarray:
     return np.array(
         [[(i - (n - 1) / 2) * spacing, 0.0] for i in range(n)],
@@ -180,59 +225,77 @@ def make_register(coords: np.ndarray) -> Register:
 
 
 def add_constant_pulse(seq: Sequence, omega: float, detuning: float, duration_ns: int, phase: float = 0.0) -> None:
+    if duration_ns % CLOCK_NS != 0:
+        raise ValueError(f"duration_ns={duration_ns} is not a multiple of CLOCK_NS={CLOCK_NS}")
     omega_wf = ConstantWaveform(duration_ns, omega)
     det_wf = ConstantWaveform(duration_ns, detuning)
     seq.add(Pulse(omega_wf, det_wf, phase), "rydberg_global")
 
 
-def build_constant_sequence(detuning: float, coords: np.ndarray | None = None):
+# =============================================================================
+# SEQUENCE BUILDERS
+# =============================================================================
+
+def build_constant_sequence(detuning: float, duration_total_ns: int, coords: np.ndarray | None = None):
     if coords is None:
         coords = nominal_coords()
 
-    total = duration_from_loop_ns()
-    reg = make_register(coords)
+    if duration_total_ns % CLOCK_NS != 0:
+        raise ValueError("duration_total_ns must be clock-aligned")
 
+    reg = make_register(coords)
     seq = Sequence(reg, DigitalAnalogDevice)
     seq.declare_channel("rydberg_global", "rydberg_global")
-    add_constant_pulse(seq, OMEGA, detuning, total)
+    add_constant_pulse(seq, OMEGA, detuning, duration_total_ns)
 
     meta = {
         "family": "constant",
         "detuning_1": float(detuning),
         "detuning_2": np.nan,
-        "duration_1_ns": total,
+        "duration_1_ns": int(duration_total_ns),
         "duration_2_ns": 0,
-        "duration_total_ns": total,
+        "duration_total_ns": int(duration_total_ns),
         "frac_1": 1.0,
         "avg_detuning": float(detuning),
-        "pulse_area_proxy": float(OMEGA * total / 1000.0),
+        "pulse_area_proxy": float(OMEGA * duration_total_ns / 1000.0),
+        "clock_ns": CLOCK_NS,
     }
     return seq, meta
 
 
-def build_two_segment_sequence(delta1: float, delta2: float, frac1: float, coords: np.ndarray | None = None):
+def build_two_segment_sequence(
+    delta1: float,
+    delta2: float,
+    duration1_ns: int,
+    duration2_ns: int,
+    coords: np.ndarray | None = None,
+):
     if coords is None:
         coords = nominal_coords()
 
-    d1, d2, total = two_segment_durations(frac1)
-    avg = (delta1 * d1 + delta2 * d2) / total
+    if duration1_ns % CLOCK_NS != 0 or duration2_ns % CLOCK_NS != 0:
+        raise ValueError("segment durations must be clock-aligned")
+
+    total = duration1_ns + duration2_ns
+    avg = weighted_avg_detuning(delta1, delta2, duration1_ns, duration2_ns)
 
     reg = make_register(coords)
     seq = Sequence(reg, DigitalAnalogDevice)
     seq.declare_channel("rydberg_global", "rydberg_global")
-    add_constant_pulse(seq, OMEGA, delta1, d1)
-    add_constant_pulse(seq, OMEGA, delta2, d2)
+    add_constant_pulse(seq, OMEGA, delta1, duration1_ns)
+    add_constant_pulse(seq, OMEGA, delta2, duration2_ns)
 
     meta = {
         "family": "two_segment",
         "detuning_1": float(delta1),
         "detuning_2": float(delta2),
-        "duration_1_ns": int(d1),
-        "duration_2_ns": int(d2),
+        "duration_1_ns": int(duration1_ns),
+        "duration_2_ns": int(duration2_ns),
         "duration_total_ns": int(total),
-        "frac_1": float(frac1),
+        "frac_1": float(duration1_ns / total),
         "avg_detuning": float(avg),
         "pulse_area_proxy": float(OMEGA * total / 1000.0),
+        "clock_ns": CLOCK_NS,
     }
     return seq, meta
 
@@ -277,13 +340,18 @@ def final_statevector_from_sequence(seq: Sequence, n: int = N) -> np.ndarray:
 
 
 def build_all_schedules():
-    avg_det = weighted_avg_detuning()
+    coords = nominal_coords()
+    d1, d2, total = forward_segment_durations()
+
+    avg_det = weighted_avg_detuning(DELTA_1, DELTA_2, d1, d2)
 
     builders = {
-        "base": lambda: build_constant_sequence(BASE_DETUNING),
-        "avg": lambda: build_constant_sequence(avg_det),
-        "forward": lambda: build_two_segment_sequence(DELTA_1, DELTA_2, FRAC_1),
-        "reverse": lambda: build_two_segment_sequence(DELTA_2, DELTA_1, 1.0 - FRAC_1),
+        "base": lambda: build_constant_sequence(BASE_DETUNING, total, coords),
+        "avg": lambda: build_constant_sequence(avg_det, total, coords),
+        # forward uses d1, d2
+        "forward": lambda: build_two_segment_sequence(DELTA_1, DELTA_2, d1, d2, coords),
+        # reverse uses exactly d2, d1, not a separately rounded 1-FRAC_1 duration.
+        "reverse": lambda: build_two_segment_sequence(DELTA_2, DELTA_1, d2, d1, coords),
     }
 
     states = {}
@@ -403,24 +471,30 @@ def schedule_metrics(label: str, psi: np.ndarray, meta: dict) -> dict:
 def main() -> None:
     t0 = time.time()
 
-    header("N=2 PULSER PATH-ORDERING MEMORY DIAGNOSTIC")
+    header("N=2 PULSER PATH-ORDERING MEMORY DIAGNOSTIC — CLOCK4")
 
-    d1, d2, total = two_segment_durations()
-    avg_det = weighted_avg_detuning()
+    raw_total = raw_duration_from_loop_ns()
+    d1, d2, total = forward_segment_durations()
+    avg_det = weighted_avg_detuning(DELTA_1, DELTA_2, d1, d2)
 
     print("N:", N)
     print("spacing_um:", SPACING_UM)
     print("Omega:", OMEGA)
-    print("duration total ns:", total)
+    print("clock_ns:", CLOCK_NS)
+    print("raw duration total ns:", raw_total)
+    print("clock-aligned duration total ns:", total)
     print("forward:", DELTA_1, "for", d1, "ns ->", DELTA_2, "for", d2, "ns")
     print("reverse:", DELTA_2, "for", d2, "ns ->", DELTA_1, "for", d1, "ns")
-    print("weighted avg detuning:", avg_det)
+    print("weighted avg detuning, clock-aligned:", avg_det)
     print("base detuning:", BASE_DETUNING)
     print("pulse area proxy Omega*T_us:", OMEGA * total / 1000.0)
 
     states, metas = build_all_schedules()
 
-    schedule_rows = [schedule_metrics(label, states[label], metas[label]) for label in ["base", "avg", "forward", "reverse"]]
+    schedule_rows = [
+        schedule_metrics(label, states[label], metas[label])
+        for label in ["base", "avg", "forward", "reverse"]
+    ]
 
     pair_list = [
         ("forward", "reverse"),
@@ -457,6 +531,8 @@ def main() -> None:
     print("  Same total duration:", metas["forward"]["duration_total_ns"] == metas["reverse"]["duration_total_ns"])
     print("  Same pulse area proxy:", abs(metas["forward"]["pulse_area_proxy"] - metas["reverse"]["pulse_area_proxy"]) < 1e-12)
     print("  Same weighted avg detuning:", abs(metas["forward"]["avg_detuning"] - metas["reverse"]["avg_detuning"]) < 1e-12)
+    print("  Forward avg detuning:", metas["forward"]["avg_detuning"])
+    print("  Reverse avg detuning:", metas["reverse"]["avg_detuning"])
     print("  Fidelity:", core["fidelity"])
     print("  Pure-state trace distance:", core["pure_trace_distance"])
     print("  Distribution TVD:", core["TVD_distribution"])
@@ -475,24 +551,26 @@ def main() -> None:
         plt.bar(x + (k - 1.5) * width, p, width=width, label=label)
     plt.xticks(x, labels)
     plt.ylabel("Probability")
-    plt.title("N=2 output distributions: path-ordering memory")
+    plt.title("N=2 output distributions: path-ordering memory, 4 ns clock-aligned")
     plt.legend()
     plt.tight_layout()
     plt.savefig(PLOT_PATH, dpi=180)
     plt.show()
 
     cert = {
-        "experiment_name": "N=2 Pulser path-ordering memory diagnostic",
+        "experiment_name": "N=2 Pulser path-ordering memory diagnostic, 4 ns clock-aligned",
         "N": N,
         "spacing_um": SPACING_UM,
         "Omega": OMEGA,
+        "clock_ns": CLOCK_NS,
+        "raw_duration_total_ns": raw_total,
         "duration_total_ns": total,
         "forward": {
             "detuning_1": DELTA_1,
             "detuning_2": DELTA_2,
             "duration_1_ns": d1,
             "duration_2_ns": d2,
-            "frac_1": FRAC_1,
+            "frac_1_actual": d1 / total,
             "avg_detuning": metas["forward"]["avg_detuning"],
             "pulse_area_proxy": metas["forward"]["pulse_area_proxy"],
         },
@@ -501,15 +579,16 @@ def main() -> None:
             "detuning_2": DELTA_1,
             "duration_1_ns": d2,
             "duration_2_ns": d1,
-            "frac_1": 1.0 - FRAC_1,
+            "frac_1_actual": d2 / total,
             "avg_detuning": metas["reverse"]["avg_detuning"],
             "pulse_area_proxy": metas["reverse"]["pulse_area_proxy"],
         },
         "important_scope": (
             "Local Pulser/Qutip exact-state simulation only. Designed as a two-qubit minimal adaptation "
-            "for Hamiltonian-learning diagnostics. It tests whether forward/reverse piecewise schedules "
-            "with equal duration, pulse area, and average detuning are distinguishable at statevector and "
-            "probability levels."
+            "for Hamiltonian-learning diagnostics. All pulse durations are pre-quantized to the Pulser "
+            "DigitalAnalogDevice 4 ns channel clock, so printed control parameters equal executed controls. "
+            "It tests whether forward/reverse piecewise schedules with equal duration, pulse area, and average "
+            "detuning are distinguishable at statevector and probability levels."
         ),
         "pair_metrics": pair_df.to_dict(orient="records"),
         "schedule_metrics": sched_df.to_dict(orient="records"),
