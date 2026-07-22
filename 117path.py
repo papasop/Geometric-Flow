@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-fixedH_plus_117_path_area_v3.py
+fixedH_plus_117_path_area_v4.py
 
 Single-file extension for Y.Y.N. Li's neutral-atom pulse path-ordering work.
 
@@ -21,7 +21,7 @@ Not PASQAL QPU. Not tomography. Not direct detG signature switching.
 Colab install:
     !pip install -q -U pulser==1.8.0 pulser-simulation==1.8.0 pandas numpy matplotlib scipy
 Run:
-    python fixedH_plus_117_path_area_v3.py
+    python fixedH_plus_117_path_area_v4.py
 """
 
 import math
@@ -32,6 +32,33 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+
+def json_sanitize(obj):
+    """
+    Convert numpy scalars/arrays and non-finite floats into strict JSON-safe values.
+    In particular, NaN/Inf become None so strict JSON parsers do not fail.
+    """
+    import math
+    import numpy as _np
+
+    if isinstance(obj, dict):
+        return {str(k): json_sanitize(v) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return [json_sanitize(v) for v in obj]
+    if isinstance(obj, _np.ndarray):
+        return json_sanitize(obj.tolist())
+    if isinstance(obj, (_np.integer,)):
+        return int(obj)
+    if isinstance(obj, (_np.floating,)):
+        obj = float(obj)
+    if isinstance(obj, float):
+        if not math.isfinite(obj):
+            return None
+        return obj
+    if isinstance(obj, (_np.bool_,)):
+        return bool(obj)
+    return obj
+
 
 try:
     from scipy import stats
@@ -48,7 +75,7 @@ from pulser_simulation import QutipEmulator
 # CONFIG
 # ============================================================
 
-OUTDIR = Path("fixedH_plus_117_path_area_v3")
+OUTDIR = Path("fixedH_plus_117_path_area_v4")
 OUTDIR.mkdir(exist_ok=True)
 
 RUN_N2_FIXEDH = True
@@ -191,6 +218,11 @@ def add_constant_pulse(seq, omega, detuning, duration_ns, phase=0.0):
     duration_ns = int(duration_ns)
     if duration_ns <= 0:
         raise ValueError("duration_ns must be positive")
+    if duration_ns % CLOCK_NS != 0:
+        raise ValueError(
+            f"duration_ns={duration_ns} is not aligned to CLOCK_NS={CLOCK_NS}; "
+            "pre-align durations before building the Pulser sequence."
+        )
     omega_wf = ConstantWaveform(duration_ns, float(omega))
     det_wf = ConstantWaveform(duration_ns, float(detuning))
     seq.add(Pulse(omega_wf, det_wf, phase), "rydberg_global")
@@ -442,7 +474,7 @@ def run_n2_fixedH():
     cert_json = OUTDIR / "n2_fixedH_certificate.json"
     pair_df.to_csv(pair_csv, index=False)
     with open(cert_json, "w") as f:
-        json.dump(cert, f, indent=2)
+        json.dump(json_sanitize(cert), f, indent=2, allow_nan=False)
 
     if SAVE_STATES_N2:
         np.savez_compressed(OUTDIR / "n2_target_states_clock4.npz",
@@ -695,7 +727,7 @@ def run_117_scan():
         ),
     }
     with open(summary_json, "w") as f:
-        json.dump(cert, f, indent=2)
+        json.dump(json_sanitize(cert), f, indent=2, allow_nan=False)
 
     for ycol, name in [("pure_trace_distance", "D_pure"),
                        ("phase_gap_BC_minus_overlap", "Gamma_coh"),
