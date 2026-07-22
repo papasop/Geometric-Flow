@@ -1,12 +1,19 @@
 # -*- coding: utf-8 -*-
 """
-fixedH_plus_117_path_area.py
+fixedH_plus_117_path_area_v3.py
 
 Single-file extension for Y.Y.N. Li's neutral-atom pulse path-ordering work.
 
-Adds two missing pieces:
+Adds two missing pieces, with v3 audit fixes:
 A) N=2 shared fixed-H simultaneous-fit certificate.
 B) 117-point statevector path-area scan, default N=8, 9 gaps x 13 fractions.
+
+V2/V3 audit fixes:
+   - prints nonzero_gap_only correlations alongside all_117 correlations.
+   - quotes rho by witness; TVD is not folded into rho>0.97 headline.
+   - explicitly marks N=2 and 117 scan as sister experiments.
+   - recomputes matching flags from metadata and labels analytic fixed-H assertions.
+   - v3: run command matches filename; headline citation note is generated dynamically.
 
 Backend: local Pulser/Qutip exact-state simulation only.
 Not PASQAL QPU. Not tomography. Not direct detG signature switching.
@@ -14,7 +21,7 @@ Not PASQAL QPU. Not tomography. Not direct detG signature switching.
 Colab install:
     !pip install -q -U pulser==1.8.0 pulser-simulation==1.8.0 pandas numpy matplotlib scipy
 Run:
-    python fixedH_plus_117_path_area.py
+    python fixedH_plus_117_path_area_v3.py
 """
 
 import math
@@ -41,7 +48,7 @@ from pulser_simulation import QutipEmulator
 # CONFIG
 # ============================================================
 
-OUTDIR = Path("fixedH_plus_117_path_area")
+OUTDIR = Path("fixedH_plus_117_path_area_v3")
 OUTDIR.mkdir(exist_ok=True)
 
 RUN_N2_FIXEDH = True
@@ -334,7 +341,18 @@ def best_shared_output_certificate(psi_f, psi_r):
         "shared_best_fidelity_each_analytic": float((1.0 + s) / 2.0),
         "shared_best_fidelity_to_forward_numeric": state_fidelity(psi_f, phi_best),
         "shared_best_fidelity_to_reverse_numeric": state_fidelity(psi_r, phi_best),
-        "separate_fixedH_lower_bound_total_loss": 0.0,
+        # Analytic assertion, not a numerical optimizer result: if separate schedule-dependent
+        # generators H_f and H_r are allowed, each target can be matched in principle.
+        # The restriction being tested is ONE shared fixed H for both schedules.
+        "separate_schedule_dependent_fixedH_lower_bound_total_loss_analytic": 0.0,
+        "separate_schedule_dependent_fixedH_note": (
+            "Analytic assertion, not an optimizer result: allowing separate H_f/H_r removes "
+            "the shared-output constraint. The tested restriction is one shared time-independent H."
+        ),
+        "shared_fixedH_note": (
+            "Optimizer-independent certificate: a single shared time-independent H with the same "
+            "initial state and same T has one output state. It cannot exactly fit two non-identical targets."
+        ),
         "interpretation": (
             "A single shared time-independent H with the same initial state and same T "
             "has one output state. It cannot exactly fit two non-identical targets. "
@@ -380,6 +398,16 @@ def run_n2_fixedH():
     print()
     print(pair_df.to_string(index=False))
 
+    # Recompute all matching flags from metadata instead of hard-coding True.
+    forward_total_ns = int(sum(d for _, d in forward_segments))
+    reverse_total_ns = int(sum(d for _, d in reverse_segments))
+    forward_pulse_area_proxy = float(OMEGA * (forward_total_ns / 1000.0))
+    reverse_pulse_area_proxy = float(OMEGA * (reverse_total_ns / 1000.0))
+    forward_avg_detuning = weighted_avg(forward_segments[0][0], forward_segments[1][0],
+                                        forward_segments[0][1], forward_segments[1][1])
+    reverse_avg_detuning = weighted_avg(reverse_segments[0][0], reverse_segments[1][0],
+                                        reverse_segments[0][1], reverse_segments[1][1])
+
     cert = best_shared_output_certificate(psi_f, psi_r)
     cert.update({
         "N": N2,
@@ -389,10 +417,20 @@ def run_n2_fixedH():
         "pulse_area_proxy": pulse_area_proxy,
         "forward_segments": forward_segments,
         "reverse_segments": reverse_segments,
-        "same_total_duration": True,
-        "same_pulse_area_proxy": True,
-        "same_weighted_avg_detuning": True,
+        "forward_total_duration_ns": forward_total_ns,
+        "reverse_total_duration_ns": reverse_total_ns,
+        "forward_pulse_area_proxy": forward_pulse_area_proxy,
+        "reverse_pulse_area_proxy": reverse_pulse_area_proxy,
+        "forward_weighted_avg_detuning": forward_avg_detuning,
+        "reverse_weighted_avg_detuning": reverse_avg_detuning,
+        "same_total_duration": bool(forward_total_ns == reverse_total_ns),
+        "same_pulse_area_proxy": bool(np.isclose(forward_pulse_area_proxy, reverse_pulse_area_proxy, rtol=0.0, atol=1e-12)),
+        "same_weighted_avg_detuning": bool(np.isclose(forward_avg_detuning, reverse_avg_detuning, rtol=0.0, atol=1e-12)),
         "weighted_avg_detuning": avg_det,
+        "n2_vs_117_relation_note": (
+            "The N=2 CLOCK4 target is a minimal Hamiltonian-learning interface. "
+            "It is a sister experiment to the N=8 117-point scan, not a point contained inside that scan grid."
+        ),
     })
 
     print()
@@ -473,6 +511,51 @@ def fit_summary_for_witness(df, xcol, ycol):
     }
 
 
+def _rho_lookup(summary_df, subset, y, x="C_nc_simple"):
+    rows = summary_df[
+        (summary_df["subset"] == subset)
+        & (summary_df["x"] == x)
+        & (summary_df["y"] == y)
+    ]
+    if len(rows) != 1:
+        return None
+    return float(rows.iloc[0]["spearman_rho"])
+
+
+def make_headline_citation_note(summary_df):
+    """Generate the headline/citation note from actual results."""
+    labels = {
+        "pure_trace_distance": "D_pure",
+        "phase_gap_BC_minus_overlap": "Gamma_coh",
+        "TVD_distribution": "TVD",
+    }
+    subset_parts = []
+    for subset in ["all_117_including_zero_gap", "nonzero_gap_only"]:
+        entries = []
+        for y, label in labels.items():
+            rho = _rho_lookup(summary_df, subset, y)
+            entries.append(f"{label}={rho:.3f}" if rho is not None else f"{label}=NA")
+        subset_parts.append(f"{subset}: " + ", ".join(entries))
+
+    all_rhos = {
+        label: _rho_lookup(summary_df, "all_117_including_zero_gap", y)
+        for y, label in labels.items()
+    }
+    above_097 = [label for label, rho in all_rhos.items() if rho is not None and rho > 0.97]
+    not_above_097 = [label for label, rho in all_rhos.items() if rho is not None and rho <= 0.97]
+
+    if not_above_097:
+        headline_rule = (
+            "Do not state that all witnesses have rho > 0.97. "
+            f"In this run, rho > 0.97 holds for {', '.join(above_097) or 'none'}, "
+            f"but not for {', '.join(not_above_097)}."
+        )
+    else:
+        headline_rule = "In this run, rho > 0.97 holds for all listed witnesses."
+
+    return "Quote correlations by witness. " + " | ".join(subset_parts) + ". " + headline_rule
+
+
 def run_117_scan():
     header("B) 117-POINT STATEVECTOR PATH-AREA SCAN")
 
@@ -517,6 +600,16 @@ def run_117_scan():
             Cnc = abs(delta2 - delta1) * (d1_ns / 1000.0) * (d2_ns / 1000.0) * comm_norm
             Cnc_simple = abs(delta2 - delta1) * f_actual * (1.0 - f_actual)
 
+            # Recompute schedule-matching flags from metadata instead of hard-coding.
+            forward_total_ns = int(sum(d for _, d in forward_segments))
+            reverse_total_ns = int(sum(d for _, d in reverse_segments))
+            forward_area = float(OMEGA * (forward_total_ns / 1000.0))
+            reverse_area = float(OMEGA * (reverse_total_ns / 1000.0))
+            forward_avg = weighted_avg(forward_segments[0][0], forward_segments[1][0],
+                                       forward_segments[0][1], forward_segments[1][1])
+            reverse_avg = weighted_avg(reverse_segments[0][0], reverse_segments[1][0],
+                                       reverse_segments[0][1], reverse_segments[1][1])
+
             row = {
                 "idx": idx,
                 "N": n,
@@ -530,10 +623,17 @@ def run_117_scan():
                 "duration_total_ns": int(T_ns),
                 "T_us": T_ns / 1000.0,
                 "weighted_avg_detuning": float(avg_actual),
+                "forward_weighted_avg_detuning": float(forward_avg),
+                "reverse_weighted_avg_detuning": float(reverse_avg),
                 "avg_target": AVG_DETUNING,
-                "same_total_duration": True,
-                "same_pulse_area_proxy": True,
-                "same_weighted_avg_detuning": abs(avg_actual - AVG_DETUNING) < 1e-12,
+                "forward_total_duration_ns": forward_total_ns,
+                "reverse_total_duration_ns": reverse_total_ns,
+                "forward_pulse_area_proxy": forward_area,
+                "reverse_pulse_area_proxy": reverse_area,
+                "same_total_duration": bool(forward_total_ns == reverse_total_ns),
+                "same_pulse_area_proxy": bool(np.isclose(forward_area, reverse_area, rtol=0.0, atol=1e-12)),
+                "same_weighted_avg_detuning": bool(np.isclose(forward_avg, reverse_avg, rtol=0.0, atol=1e-12)),
+                "same_avg_target_after_clock_alignment": bool(np.isclose(avg_actual, AVG_DETUNING, rtol=0.0, atol=1e-12)),
                 "commutator_norm_proxy": comm_norm,
                 "C_nc": float(Cnc),
                 "C_nc_simple": float(Cnc_simple),
@@ -576,11 +676,19 @@ def run_117_scan():
         "N": n,
         "points": int(len(df)),
         "grid": {"gaps": [float(x) for x in SCAN_GAPS], "fracs": [float(x) for x in SCAN_FRACS]},
+        "zero_gap_control_points": int((df["gap"] == 0).sum()),
+        "nonzero_gap_points": int((df["gap"] > 0).sum()),
         "total_duration_ns": int(total_ns),
         "Omega": OMEGA,
         "avg_detuning_target": AVG_DETUNING,
         "commutator_norm_proxy": comm_norm,
         "correlations": summary_df.to_dict(orient="records"),
+        "headline_citation_note": make_headline_citation_note(summary_df),
+        "n2_vs_117_relation_note": (
+            "The N=2 CLOCK4 diagnostic and this N=8 117-point scan are sister experiments. "
+            "The scan validates the same C_nc ∝ |Delta2-Delta1| f(1-f) law in a different N, "
+            "duration, average-detuning window, and parameter grid; it does not contain the N=2 point."
+        ),
         "important_limit": (
             "Local Pulser/Qutip statevector simulation only. This is not PASQAL QPU tomography. "
             "Correlation strength depends on the chosen perturbative scan window and backend details."
@@ -603,11 +711,18 @@ def run_117_scan():
         plt.close()
 
     print()
-    print("CORRELATION SUMMARY")
-    show = summary_df[(summary_df["subset"] == "all_117_including_zero_gap")
-                      & (summary_df["x"] == "C_nc_simple")
+    print("CORRELATION SUMMARY — C_nc_simple")
+    show = summary_df[(summary_df["x"] == "C_nc_simple")
+                      & (summary_df["subset"].isin(["all_117_including_zero_gap", "nonzero_gap_only"]))
                       & (summary_df["y"].isin(["pure_trace_distance", "phase_gap_BC_minus_overlap", "TVD_distribution"]))]
+    show = show[["subset", "x", "y", "n", "spearman_rho", "spearman_p_scipy", "pearson_R2", "permutation_p_one_sided"]]
     print(show.to_string(index=False))
+    print()
+    print("HEADLINE CITATION NOTE")
+    print(make_headline_citation_note(summary_df))
+    print()
+    print("RELATION NOTE")
+    print("  N=2 and 117-scan are sister experiments, not an inclusion relationship.")
 
     print("saved:", scan_csv)
     print("saved:", summary_csv)
