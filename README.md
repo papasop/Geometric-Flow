@@ -91,6 +91,21 @@ a complete-parent-box result.
 See [`docs/CLAIM_SCOPE.md`](docs/CLAIM_SCOPE.md) and
 [`docs/PAPER_WORDING.md`](docs/PAPER_WORDING.md).
 
+## Isolated neural-response experiments
+
+The directory
+[`experiments/neural_response_fibres/`](experiments/neural_response_fibres/)
+contains a separate floating-point residual-CNN experiment chain. Its frozen
+v0.12.0--v0.14.1 records include both negative and positive prospective
+audits. In particular, v0.14.1 reports a prospective task-advantage result on
+a small synthetic model after the non-geometric comparator architecture was
+qualified in v0.14.0.
+
+This extension is **not** part of the v0.9.3 Arb theorem: it is not interval
+certified, is not a continuous neural ODE theorem, and makes no real-data or
+large-model claim. The theorem-bearing quantum-control sources, inputs,
+certificates, requirements and reproduction workflows remain unchanged.
+
 ## Repository layout
 
 ```text
@@ -114,6 +129,12 @@ docs/
   CLAIM_SCOPE.md
   NEURAL_NETWORK_RESPONSE_FIBRES.md
   PAPER_WORDING.md
+experiments/
+  neural_response_fibres/
+    README.md
+    verify_neural_artifacts.py
+    src/
+    results/
 notebooks/
   reproduce_joint_v093.ipynb
   reproduce_v093.ipynb

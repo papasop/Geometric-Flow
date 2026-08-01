@@ -1,8 +1,10 @@
 # Neural-Network Response Fibres
 
-This note records a possible research direction suggested by the
-response-level viewpoint. It is not a result of the v0.7.4 or v0.7.4-r1
-release.
+This note records the theoretical motivation for a neural response-fibre
+extension. It is not a result of the theorem-bearing v0.7.4 or v0.9.3
+quantum-control release. The separate floating-point experiment chain and its
+frozen positive and negative outcomes are documented in
+[`../experiments/neural_response_fibres/README.md`](../experiments/neural_response_fibres/README.md).
 
 For a parameterized model, let $R_{\mathrm{train}}(\theta)$ represent a
 declared collection of training responses, such as logits, predictions, or
@@ -45,7 +47,9 @@ equivalence. A future theory would also need to specify the metric $g$, such
 as a Fisher-type or declared response metric, and prove regularity,
 stability, and computable certification conditions.
 
-No neural-network theorem is claimed here. The projective-jet no-go theorem,
-the Arb certificate, and the local descent result have not been transferred to
-neural networks or to the NTK regime. There is also no scalable Arb
+No neural-network theorem is claimed here. The numerical experiments support
+specific finite-dimensional mechanism and task-advantage statements under
+their declared synthetic protocols, but they do not transfer the
+projective-jet no-go theorem, the Arb certificate, or the validated local ODE
+theorem to neural networks or to the NTK regime. There is also no scalable Arb
 certification method here for high-dimensional neural networks.

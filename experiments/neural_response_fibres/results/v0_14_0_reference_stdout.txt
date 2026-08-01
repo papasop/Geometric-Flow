@@ -1,0 +1,185 @@
+[notice] ignored notebook arguments: ['-f', '/root/.local/share/jupyter/runtime/kernel-9a383624-85e8-4ed5-95b3-07823b81c932.json']
+================================================================================================================
+RESPONSE-FIBRE FAIR BASELINE / PARETO QUALIFICATION AUDIT v0.14.0
+================================================================================================================
+{
+  "title": "RESPONSE-FIBRE FAIR NON-GEOMETRIC BASELINE / PARETO QUALIFICATION AUDIT",
+  "version": "0.14.0",
+  "formal_interval_arithmetic": false,
+  "purpose": "qualify declared-response-backtracking and augmented-Lagrangian non-geometric comparators before a new prospective task-advantage audit",
+  "model": "teacher-trained residual CNN on a no-download synthetic 8x8 bar-orientation task",
+  "response_levels": {
+    "R_value72": "72 probe logits",
+    "R_jet72": "24 logits plus two analytic input-direction derivatives per probe"
+  },
+  "methods": [
+    "unconstrained_backtracking",
+    "soft_penalty_backtracking_lambda_1e02",
+    "soft_penalty_backtracking_lambda_1e03",
+    "soft_penalty_backtracking_lambda_1e04",
+    "soft_penalty_backtracking_lambda_1e05",
+    "augmented_lagrangian_backtracking_rho_1e02",
+    "augmented_lagrangian_backtracking_rho_1e04",
+    "hard_retract",
+    "intrinsic"
+  ],
+  "soft_penalty_lambda_grid": [
+    100.0,
+    1000.0,
+    10000.0,
+    100000.0
+  ],
+  "augmented_lagrangian_rho_grid": [
+    100.0,
+    10000.0
+  ],
+  "line_search_policy": "backtrack the non-geometric direction until declared response remains within budget and the secondary objective strictly decreases",
+  "heldout_firewall": "held-out responses and labels are recorded only after step acceptance and never enter the line search",
+  "comparison_unit": "best task-feasible checkpoint on each method trajectory",
+  "development_only": true,
+  "development_seeds_reused_from_v0_13": [
+    20270307,
+    20270319,
+    20270403
+  ],
+  "new_task_advantage_claim_permitted": false,
+  "gates": {
+    "minimum_teacher_clean_accuracy": 0.95,
+    "minimum_teacher_noisy_accuracy": 0.85,
+    "maximum_declared_response_relative_drift": 0.001,
+    "maximum_heldout_response_relative_drift": 0.001,
+    "minimum_secondary_objective_reduction": 0.0001,
+    "minimum_diagnostic_advantage_ratio": 1.25,
+    "maximum_clean_accuracy_drop": 0.01,
+    "minimum_noisy_accuracy_gain": 0.0,
+    "minimum_qualified_seed_fraction": 0.6666666666666666
+  },
+  "quick_mode": false,
+  "seeds": [
+    20270307,
+    20270319,
+    20270403
+  ],
+  "arguments": {
+    "quick": false,
+    "seeds": "20270307,20270319,20270403",
+    "width": 8,
+    "train_size": 512,
+    "test_size": 512,
+    "heldout_size": 96,
+    "robust_size": 128,
+    "teacher_epochs": 300,
+    "teacher_lr": 0.02,
+    "steps": 40,
+    "step_radius": 0.002,
+    "maximum_step_multiplier": 4.0,
+    "noise_sigma": 0.12,
+    "retract_iterations": 5,
+    "response_absolute_tolerance": 1e-11,
+    "backtracking_factor": 0.5,
+    "maximum_backtracking_trials": 20,
+    "minimum_objective_decrease": 1e-14
+  },
+  "uses_cloud_or_qpu": false
+}
+protocol_sha256 = 83e88e44fd207be14950c9005f93a0ef2bb7cc97549dd38967e24a0cce44ffc4
+
+[seed 01/03] 20270307
+  [20270307] level=R_value72 method=unconstrained_backtracking
+  [20270307] level=R_value72 method=soft_penalty_backtracking_lambda_1e02
+  [20270307] level=R_value72 method=soft_penalty_backtracking_lambda_1e03
+  [20270307] level=R_value72 method=soft_penalty_backtracking_lambda_1e04
+  [20270307] level=R_value72 method=soft_penalty_backtracking_lambda_1e05
+  [20270307] level=R_value72 method=augmented_lagrangian_backtracking_rho_1e02
+  [20270307] level=R_value72 method=augmented_lagrangian_backtracking_rho_1e04
+  [20270307] level=R_value72 method=hard_retract
+  [20270307] level=R_value72 method=intrinsic
+/tmp/ipykernel_824/691488880.py:278: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  if not bool(torch.isfinite(norm)) or float(norm) == 0.0:
+  [20270307] level=R_jet72 method=unconstrained_backtracking
+  [20270307] level=R_jet72 method=soft_penalty_backtracking_lambda_1e02
+  [20270307] level=R_jet72 method=soft_penalty_backtracking_lambda_1e03
+  [20270307] level=R_jet72 method=soft_penalty_backtracking_lambda_1e04
+  [20270307] level=R_jet72 method=soft_penalty_backtracking_lambda_1e05
+  [20270307] level=R_jet72 method=augmented_lagrangian_backtracking_rho_1e02
+  [20270307] level=R_jet72 method=augmented_lagrangian_backtracking_rho_1e04
+  [20270307] level=R_jet72 method=hard_retract
+  [20270307] level=R_jet72 method=intrinsic
+  both_levels_qualified=True
+    R_value72: qualified=True eligible=['unconstrained_backtracking', 'soft_penalty_backtracking_lambda_1e02', 'soft_penalty_backtracking_lambda_1e03', 'soft_penalty_backtracking_lambda_1e04', 'soft_penalty_backtracking_lambda_1e05', 'augmented_lagrangian_backtracking_rho_1e02', 'augmented_lagrangian_backtracking_rho_1e04'] ratio=9.64862561124615
+    R_jet72: qualified=True eligible=['unconstrained_backtracking', 'soft_penalty_backtracking_lambda_1e02', 'soft_penalty_backtracking_lambda_1e03', 'soft_penalty_backtracking_lambda_1e04', 'soft_penalty_backtracking_lambda_1e05', 'augmented_lagrangian_backtracking_rho_1e02', 'augmented_lagrangian_backtracking_rho_1e04'] ratio=12.161555910843028
+
+[seed 02/03] 20270319
+  [20270319] level=R_value72 method=unconstrained_backtracking
+  [20270319] level=R_value72 method=soft_penalty_backtracking_lambda_1e02
+  [20270319] level=R_value72 method=soft_penalty_backtracking_lambda_1e03
+  [20270319] level=R_value72 method=soft_penalty_backtracking_lambda_1e04
+  [20270319] level=R_value72 method=soft_penalty_backtracking_lambda_1e05
+  [20270319] level=R_value72 method=augmented_lagrangian_backtracking_rho_1e02
+  [20270319] level=R_value72 method=augmented_lagrangian_backtracking_rho_1e04
+  [20270319] level=R_value72 method=hard_retract
+  [20270319] level=R_value72 method=intrinsic
+  [20270319] level=R_jet72 method=unconstrained_backtracking
+  [20270319] level=R_jet72 method=soft_penalty_backtracking_lambda_1e02
+  [20270319] level=R_jet72 method=soft_penalty_backtracking_lambda_1e03
+  [20270319] level=R_jet72 method=soft_penalty_backtracking_lambda_1e04
+  [20270319] level=R_jet72 method=soft_penalty_backtracking_lambda_1e05
+  [20270319] level=R_jet72 method=augmented_lagrangian_backtracking_rho_1e02
+  [20270319] level=R_jet72 method=augmented_lagrangian_backtracking_rho_1e04
+  [20270319] level=R_jet72 method=hard_retract
+  [20270319] level=R_jet72 method=intrinsic
+  both_levels_qualified=True
+    R_value72: qualified=True eligible=['unconstrained_backtracking', 'soft_penalty_backtracking_lambda_1e02', 'soft_penalty_backtracking_lambda_1e03', 'soft_penalty_backtracking_lambda_1e04', 'soft_penalty_backtracking_lambda_1e05', 'augmented_lagrangian_backtracking_rho_1e02', 'augmented_lagrangian_backtracking_rho_1e04'] ratio=3.887529543297947
+    R_jet72: qualified=True eligible=['unconstrained_backtracking', 'soft_penalty_backtracking_lambda_1e02', 'soft_penalty_backtracking_lambda_1e03', 'soft_penalty_backtracking_lambda_1e04', 'soft_penalty_backtracking_lambda_1e05', 'augmented_lagrangian_backtracking_rho_1e02', 'augmented_lagrangian_backtracking_rho_1e04'] ratio=4.605380753594529
+
+[seed 03/03] 20270403
+  [20270403] level=R_value72 method=unconstrained_backtracking
+  [20270403] level=R_value72 method=soft_penalty_backtracking_lambda_1e02
+  [20270403] level=R_value72 method=soft_penalty_backtracking_lambda_1e03
+  [20270403] level=R_value72 method=soft_penalty_backtracking_lambda_1e04
+  [20270403] level=R_value72 method=soft_penalty_backtracking_lambda_1e05
+  [20270403] level=R_value72 method=augmented_lagrangian_backtracking_rho_1e02
+  [20270403] level=R_value72 method=augmented_lagrangian_backtracking_rho_1e04
+  [20270403] level=R_value72 method=hard_retract
+  [20270403] level=R_value72 method=intrinsic
+  [20270403] level=R_jet72 method=unconstrained_backtracking
+  [20270403] level=R_jet72 method=soft_penalty_backtracking_lambda_1e02
+  [20270403] level=R_jet72 method=soft_penalty_backtracking_lambda_1e03
+  [20270403] level=R_jet72 method=soft_penalty_backtracking_lambda_1e04
+  [20270403] level=R_jet72 method=soft_penalty_backtracking_lambda_1e05
+  [20270403] level=R_jet72 method=augmented_lagrangian_backtracking_rho_1e02
+  [20270403] level=R_jet72 method=augmented_lagrangian_backtracking_rho_1e04
+  [20270403] level=R_jet72 method=hard_retract
+  [20270403] level=R_jet72 method=intrinsic
+  both_levels_qualified=True
+    R_value72: qualified=True eligible=['unconstrained_backtracking', 'soft_penalty_backtracking_lambda_1e02', 'soft_penalty_backtracking_lambda_1e03', 'soft_penalty_backtracking_lambda_1e04', 'soft_penalty_backtracking_lambda_1e05', 'augmented_lagrangian_backtracking_rho_1e02', 'augmented_lagrangian_backtracking_rho_1e04'] ratio=8.461095007979827
+    R_jet72: qualified=True eligible=['unconstrained_backtracking', 'soft_penalty_backtracking_lambda_1e02', 'soft_penalty_backtracking_lambda_1e03', 'soft_penalty_backtracking_lambda_1e04', 'soft_penalty_backtracking_lambda_1e05', 'augmented_lagrangian_backtracking_rho_1e02', 'augmented_lagrangian_backtracking_rho_1e04'] ratio=12.941580714025427
+
+================================================================================================================
+FINAL RESULT
+================================================================================================================
+{
+  "scientific_status": "FAIR_NON_GEOMETRIC_BASELINE_ARCHITECTURE_QUALIFIED_FOR_PROSPECTIVE_AUDIT",
+  "all_baseline_qualification_gates_pass": true,
+  "formal_interval_arithmetic": false,
+  "development_only": true,
+  "new_task_advantage_claimed": false,
+  "protocol_sha256": "83e88e44fd207be14950c9005f93a0ef2bb7cc97549dd38967e24a0cce44ffc4",
+  "seeds_declared": 3,
+  "seeds_qualifying_both_response_levels": 3,
+  "qualified_seed_fraction": 1.0,
+  "qualification_cohort_gate_pass": true,
+  "elapsed_seconds": 729.291312456131,
+  "software": {
+    "python": "3.12.13",
+    "torch": "2.11.0+cpu",
+    "numpy": "2.0.2",
+    "platform": "Linux-6.6.122+-x86_64-with-glibc2.35"
+  },
+  "next_required_step": "Freeze this exact baseline architecture and gates, then assign entirely new prospective seeds in v0.14.1.",
+  "scope": "development-only small synthetic residual-CNN baseline qualification; not a theorem, task-advantage claim, real-data result, or large-model result",
+  "certificate_sha256_before_self_field": "ad71c665c30dd8e697da125c06c9e79cbf356be7ca8b59b00a7fbc288ee7908e"
+}
+
+PASS: fair non-geometric comparators now exist; freeze them before v0.14.1.
